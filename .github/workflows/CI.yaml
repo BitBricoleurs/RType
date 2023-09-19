@@ -42,7 +42,7 @@ jobs:
         uses: actions/github/wait-for-review@v1
         with:
           permissions: read
-          reviewers: "HarryTheoBartAlexClemDev/Reviewers" # Replace with your organization and team name
+          reviewers: "HarryTheoBartAlexClemDev/Reviewers"
       - name: Check if review was approved
         run: |
           if [ "${{ steps.review.outputs.approved }}" != "true" ]; then
