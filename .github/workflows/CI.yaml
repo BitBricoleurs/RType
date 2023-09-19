@@ -33,6 +33,23 @@ jobs:
           cmake ..
           make
 
+  validate_pull_request:
+    needs: check_repository_cleanliness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for review
+        id: review
+        uses: actions/github/wait-for-review@v1
+        with:
+          permissions: read
+          reviewers: "HarryTheoBartAlexClemDev/Reviewers" # Replace with your organization and team name
+      - name: Check if review was approved
+        run: |
+          if [ "${{ steps.review.outputs.approved }}" != "true" ]; then
+            echo "PR review not approved by any organization member. Exiting workflow."
+            exit 1
+          fi
+
   push_to_mirror:
     needs: check_program_compilation_linux
     runs-on: ubuntu-latest
