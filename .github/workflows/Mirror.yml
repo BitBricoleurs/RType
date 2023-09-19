@@ -1,4 +1,4 @@
-name: Check approved review and push to mirror
+name: Push to mirror
 
 on:
   pull_request:
