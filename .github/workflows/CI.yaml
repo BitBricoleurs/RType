@@ -21,11 +21,11 @@ jobs:
             exit 1
           fi
 
-    check_program_compilation_linux:
+  check_program_compilation_linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-          
+
       - name: Compile Program
         run: |
           mkdir build
