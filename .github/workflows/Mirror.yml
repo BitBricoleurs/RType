@@ -11,7 +11,35 @@ concurrency:
   group: push_to_mirror
 
 jobs:
+  check_repository_cleanliness:
+    name: Check Repository Cleanliness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: check good files & folders
+        run: |
+          paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
+          if [[ ! -z "$path" ]]; then
+            IFS=$'\n'
+            for FILE in "${paths[@]}"; do echo "::error title=Unwanted file detected,file=$FILE::$FILE"; done
+            unset IFS
+            exit 1
+          fi
+
+  check_program_compilation_linux:
+    name: Check Program Compilation (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Program
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
   validate_pull_request:
+    needs: [check_repository_cleanliness, check_program_compilation_linux]
     name: Validate pull request
     runs-on: ubuntu-latest
     steps:
