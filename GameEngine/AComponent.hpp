@@ -14,11 +14,7 @@ namespace GameEngine {
             ~AComponent();
 
             size_t getComponentType() override { return componentType;}
-            void incrementBindedEntities() override { bindedEntities++; }
-            void decrementBindedEntities() override { bindedEntities--; }
-            int getBindedEntities() override { return bindedEntities; }
         private:
             size_t componentType;
-            int bindedEntities;
     };
 } // namespace GameEngine

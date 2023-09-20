@@ -11,6 +11,7 @@
 #include <any>
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "IComponent.hpp"
 
 
 namespace GameEngine {
@@ -23,7 +24,7 @@ namespace GameEngine {
                 return eventHandler;
             }
 
-            void bindSceneInitiation(std::string sceneName, std::function<void(Registry)> sceneInitiation) {
+            void bindSceneInitiation(std::string sceneName, std::function<void(Registry&)> sceneInitiation) {
                 sceneMap[sceneName] = sceneInitiation;
             }
             void changeScene(std::string sceneName) {
@@ -40,10 +41,10 @@ namespace GameEngine {
                 }
             }
 
-            std::vector<std::optional<std::any>> getComponents(size_t componentType) {
+            std::vector<std::optional<IComponent>> getComponents(size_t componentType) {
                 return componentsContainer[componentType];
             }
-            std::optional<std::any> getComponent(size_t entityID, size_t componentType) {
+            std::optional<IComponent> getComponent(size_t entityID, size_t componentType) {
                 return componentsContainer[componentType][entityID];
             }
             std::vector<size_t> getEntitiesWithComponent(size_t componentType) {
@@ -53,15 +54,17 @@ namespace GameEngine {
                         entities.push_back(i);
                     }
                 }
+                return entities;
             }
-            std::vector<std::optional<std::any>> getComponentsFromEntity(size_t entityID) {
-                std::vector<std::optional<std::any>> components;
+            std::vector<std::optional<IComponent>> getComponentsFromEntity(size_t entityID) {
+                std::vector<std::optional<IComponent>> components;
                 for (auto componentType : componentsContainer) {
                     components.push_back(componentType.second[entityID]);
                 }
+                return components;
             }
 
-            void bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::any> component) {
+            void bindComponentToEntity(size_t entityID, size_t componentType, std::optional<IComponent> component) {
                 if(entityID >= componentsContainer[componentType].size()) {
                     componentsContainer[componentType].resize(entityID + 1);
                 }
@@ -102,7 +105,7 @@ namespace GameEngine {
                 return entityID;
 
             }
-            size_t createEntity(std::vector<std::optional<std::any>> components) {
+            size_t createEntity(std::vector<std::optional<IComponent>> components) {
                 size_t entityID = createEntity();
                 for (size_t i = 0; i < components.size(); i++) {
                     bindComponentToEntity(entityID, i, components[i]);
@@ -111,30 +114,42 @@ namespace GameEngine {
             }
 
             void addSystem(std::string systemName, std::shared_ptr<ISystem> system) {
-                systemMap[systemName] = system;
+                systemMap[systemName] = {system, 1};
             }
             void addSystem(std::string systemName, std::string systemPath) {
                 SharedLibrary lib(systemPath);
                 std::shared_ptr<ISystem> system = lib.getFunction<ISystem*()>("createSystem")();
-                systemMap[systemName] = system;
+                systemMap[systemName] = {system, 1};
             }
-            void addSystem(std::string systemName, std::shared_ptr<ISystem> system, std::string priority) {
-                systemMap[systemName] = system;
+            void addSystem(std::string systemName, std::shared_ptr<ISystem> system, int priority) {
+                systemMap[systemName] = {system, priority};
             }
-            void addSystem(std::string systemName, std::string systemPath, std::string priority) {
+            void addSystem(std::string systemName, std::string systemPath, int priority) {
                 SharedLibrary lib(systemPath);
                 std::shared_ptr<ISystem> system = lib.getFunction<ISystem*()>("createSystem")();
-                systemMap[systemName] = system;
+                systemMap[systemName] = {system, priority};
             }
             void deleteSystem(std::string systemName) {
                 systemMap.erase(systemName);
             }
 
+            void updateSystems() {
+                std::vector<std::pair<std::string, std::pair<std::shared_ptr<ISystem>, int>>> sortedSystems(systemMap.begin(), systemMap.end());
+
+                std::sort(sortedSystems.begin(), sortedSystems.end(), [](const auto& a, const auto& b) {
+                    return a.second.second < b.second.second; // Sort by priority values
+                });
+
+                for (auto& [name, systemPair] : sortedSystems) {
+                    systemPair.first->update();
+                }
+            }
+
         private:
             std::vector<size_t> freeMemorySlots;
-            std::unordered_map<size_t, std::vector<std::optional<std::any>>> componentsContainer;
-            std::map<std::string, std::shared_ptr<ISystem>> systemMap;
-            std::unordered_map<std::string, std::function<void(Registry)>> sceneMap;
+            std::unordered_map<size_t, std::vector<std::optional<IComponent>>> componentsContainer;
+            std::map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
+            std::unordered_map<std::string, std::function<void(Registry&)>> sceneMap;
             std::unique_ptr<EventHandler> eventHandler;
     };
 } // namespace GameEngine
