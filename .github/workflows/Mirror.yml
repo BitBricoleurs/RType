@@ -1,8 +1,8 @@
 name: Push to mirror
 
 on:
-  pull_request:
-    types: [review_requested]
+  push:
+    branches: main
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-clement.lagasse.git
@@ -38,20 +38,8 @@ jobs:
           cmake ..
           make
 
-  validate_pull_request:
-    needs: [check_repository_cleanliness, check_program_compilation_linux]
-    name: Validate pull request
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if review was approved
-        run: |
-          if [ "${{ steps.review.outputs.approved }}" != "true" ]; then
-            echo "PR review not approved by any organization member. Exiting workflow."
-            exit 1
-          fi
-
   push_to_mirror:
-    needs: validate_pull_request
+    needs: [check_repository_cleanliness, check_program_compilation_linux]
     name: Push to mirror repository
     runs-on: ubuntu-latest
     steps:
