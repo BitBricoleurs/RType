@@ -61,15 +61,15 @@ This memo describes how to secure R-TYPE game connections over the Internet usin
 
 Upon establishing a connection, the client will send a packet with the `INIT_CONNECT` action to introduce itself to the server.
 
-| Action       | ID            | Args |
-|--------------|---------------|------|
-| INIT_CONNECT | None          | None |
+| Action       | Args |
+|--------------|------|
+| INIT_CONNECT | None |
 
 The server will respond with a `CREATE_USER` action, with entity ID that is the client id. This ensures that both sides use the same entity ID for the session.
 
-| Action      | ID            | Args            |
-|-------------|---------------|-----------------|
-| CREATE_USER | Client ID     | Assigned Entity ID|
+| Action      | Args            |
+|-------------|-----------------|
+| CREATE_USER | Assigned Entity ID|
 
 #### 2.2. Connection Closure
 
