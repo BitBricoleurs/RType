@@ -16,10 +16,16 @@
   - [**Example 1: Creating a Simple Game Entity**](#example-1-creating-a-simple-game-entity)
   - [**Example 2: Implementing a Custom System**](#example-2-implementing-a-custom-system)
   - [**Example 3: Scene Management**](#example-3-scene-management)
+- [Layers in Renderable Components](#layers-in-renderable-components)
+  - [LayerType Class](#layertype-class)
+    - [Public Methods:](#public-methods)
+    - [Private Members:](#private-members)
+  - [Example Usage:](#example-usage-1)
+  - [Recommendation:](#recommendation)
     - [Entities and Components](#entities-and-components-1)
   - [Entities](#entities)
   - [Components](#components)
-    - [Example Usage:](#example-usage-1)
+    - [Example Usage:](#example-usage-2)
       - [Defining Components:](#defining-components)
     - [Using Components:](#using-components)
     - [Systems](#systems-1)
@@ -28,7 +34,7 @@
     - [Attributes:](#attributes)
     - [Methods:](#methods)
       - [update:](#update)
-    - [Example Usage:](#example-usage-2)
+    - [Example Usage:](#example-usage-3)
   - [Recommendations:](#recommendations)
   - [Advanced Usage](#advanced-usage)
   - [API Reference](#api-reference)
@@ -157,6 +163,60 @@ registry.bindSceneInitiation("MainMenu", [](GameEngine::Registry& reg) {
 registry.changeScene("MainMenu");
 ```
 
+# Layers in Renderable Components
+
+In graphical applications, managing the rendering order of visual elements is paramount. The concept of layers provides an efficient way to determine the sequence in which different elements, specifically renderable components like Text, Sprites, etc., are drawn on the screen. By associating these components with distinct layers, developers can dictate the z-order or sequence in which they are rendered.
+
+The `LayerType` class facilitates this by generating and managing unique identifiers (IDs) for layers associated with these renderable components.
+
+## LayerType Class
+
+### Public Methods:
+
+- **Constructor (`LayerType()`) and Destructor (`~LayerType()`):**
+  - Responsible for the initialization and cleanup of resources tied to the `LayerType` class.
+
+- **getNewLayerType():**
+  - Produces and returns a new unique layer identifier for an unnamed renderable component.
+
+- **getNewLayerType(std::string componentName):**
+  - Creates and returns a unique layer ID tailored to the specified renderable component name (`componentName`).
+
+- **getLayerType(std::string componentName):**
+  - Retrieves the unique layer ID associated with a named renderable component.
+
+### Private Members:
+
+- **layerTypeCounter:**
+  - A static counter ensuring that each layer ID remains distinct.
+
+- **layerTypeMap:**
+  - An unordered_map linking the names of renderable components to their individual layer IDs, enabling easy retrieval of named layers.
+
+## Example Usage:
+
+```cpp
+// Assign a new layer for a Sprite component named "BackgroundSprite"
+size_t backgroundSpriteLayer = GameEngine::LayerType::getNewLayerType("BackgroundSprite");
+
+// Sprite component with a layer value
+backgroundSprite.layer = backgroundSpriteLayer;
+
+// Retrieve the layer ID for the named Sprite component
+size_t fetchedLayer = GameEngine::LayerType::getLayerType("BackgroundSprite");
+
+// Verify if the two IDs are identical (they should be)
+if (backgroundSpriteLayer == fetchedLayer) {
+    std::cout << "Layer IDs are consistent!" << std::endl;
+}
+```
+
+With the LayerType class, it becomes straightforward to manage the rendering hierarchy of components like Text, Sprites, and other visual elements that can be layered.
+
+## Recommendation:
+
+- Layers can be utilized to manage game objects' rendering order and update priority. For instance, background elements can be placed on a background layer (drawn first), gameplay elements on a gameplay layer, and UI elements on a UI layer (drawn last). This way, the game's visual elements stack correctly on the screen.
+
 ### Entities and Components
 
 - Entities and Components form the core of GameEngine's ECS architecture. The principle is to have entities represent game objects or actors, and components represent their data or behaviors. Systems then use these to define game logic.
@@ -242,8 +302,6 @@ registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType(
 
 - This structure allows for efficient management, scalability, and customization in GameEngine.
 
-
-
 ### Systems
 
 - Systems are responsible for game logic. You can:
@@ -264,7 +322,7 @@ registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType(
 
 #### update:
 
-- **Description**: This method is called every frame or tick of the game loop and is intended for updating game entities based on their components and reacting to events. When creating a custom system, you should override this method to define the specific behavior of that system.
+- **Description**: This method is called whenever the event associated with the system is called  and is intended for updating game entities based on their components. When creating a custom system, you should override this method to define the specific behavior of that system.
 - **Parameters**:
     - `componentsContainer`: This parameter is an unordered map where each key represents an entity's unique ID, and the associated value is a vector of optional components. The optional `std::any` type allows for flexibility, meaning that systems can process different types of components without knowing their exact type at compile time. This design choice promotes a decoupled and extensible architecture.
     - `eventHandler`: A shared pointer to the `EventHandler` class, allowing systems to react to or dispatch specific game events.
@@ -317,3 +375,5 @@ GameEngine is licensed under the [License Name] License. See the [LICENSE](LICEN
 ---
 
 Thank you for choosing GameEngine! If you have any questions or need assistance, please [contact us](mailto:your@email.com).
+
+
