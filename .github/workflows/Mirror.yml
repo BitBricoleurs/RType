@@ -2,7 +2,8 @@ name: Push to mirror
 
 on:
   push:
-    branches: main
+    branches:
+      - main
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-clement.lagasse.git
