@@ -9,7 +9,9 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmak
         execute_process(COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/setup/setup_vcpkg.bat
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     elseif(UNIX OR APPLE)
-        execute_process(COMMAND bash setup/setup_vcpkg.sh
+        execute_process(COMMAND bash setup/clone_vcpkg.sh
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+                execute_process(COMMAND bash setup/setup_vcpkg.sh
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     endif()
 
