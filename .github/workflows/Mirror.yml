@@ -14,9 +14,9 @@ jobs:
 
     steps:
       - name: Mirror repository
-        uses: wearerequired/git-mirror-action@v2
+        uses: wearerequired/git-mirror-action@v1
         with:
-          source-repository: "https://github.com/YourUsername/YourTeamsRepo"
+          source-repository: ${{ github.repository }}
           destination-repository: ${{ env.MIRROR_URL }}
           ssh-private-key: ${{ secrets.MIRROR_SSH_KEY }}
           source-github-token: ${{ secrets.PERSONAL_TOKEN }}
