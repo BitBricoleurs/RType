@@ -65,11 +65,11 @@ Upon establishing a connection, the client will send a packet with the `INIT_CON
 |--------------|------|
 | INIT_CONNECT | None |
 
-The server will respond with a `CREATE_USER` action, with entity ID that is the client id. This ensures that both sides use the same entity ID for the session.
+The server will respond with a `ACCEPT_CLIENT` action, with entity ID that is the client id. This ensures that both sides use the same entity ID for the session.
 
-| Action      | Args            |
-|-------------|-----------------|
-| CREATE_USER | Assigned Entity ID|
+| Action        | Args            |
+|---------------|-----------------|
+| ACCEPT_CLIENT | Assigned Entity ID|
 
 #### 2.2. Connection Closure
 
