@@ -10,12 +10,24 @@
 namespace GameEngine {
     class LayerType {
     public:
-        LayerType();
-        ~LayerType();
+        LayerType() = default;
+        ~LayerType() = default;
 
-        static size_t getNewLayerType();
-        static size_t getNewLayerType(std::string componentName);
-        size_t getLayerType(std::string componentName);
+        static size_t getNewLayerType() {
+            return layerTypeCounter++;
+        }
+
+        static size_t getLayerTypeCounter() {
+            return layerTypeCounter;
+        }
+
+        static size_t getNewLayerType(std::string componentName) {
+            return layerTypeMap[componentName] = layerTypeCounter++;
+        }
+
+        size_t getLayerType(std::string componentName) {
+            return layerTypeMap[componentName];
+        }
     private:
         static size_t layerTypeCounter;
         std::unordered_map<std::string, size_t> layerTypeMap;
