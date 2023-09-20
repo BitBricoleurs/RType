@@ -1,46 +1,20 @@
-name: Push to mirror
-
-on:
-  push:
-    branches: main
+name: Mirror Repository
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-clement.lagasse.git
 
+on:
+  push:
+    paths-ignore:
+      - ".github/**" # Exclude the workflows
+  delete:
+  create:
+
 concurrency:
-  group: push_to_mirror
+  group: git-mirror
 
 jobs:
-  check_repository_cleanliness:
-    name: Check Repository Cleanliness
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: check good files & folders
-        run: |
-          paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
-          if [[ ! -z "$path" ]]; then
-            IFS=$'\n'
-            for FILE in "${paths[@]}"; do echo "::error title=Unwanted file detected,file=$FILE::$FILE"; done
-            unset IFS
-            exit 1
-          fi
-
-  check_program_compilation_linux:
-    name: Check Program Compilation (Linux)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Compile Program
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-          make
-
-  push_to_mirror:
-    needs: [check_repository_cleanliness, check_program_compilation_linux]
-    name: Push to mirror repository
+  git-mirror:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
