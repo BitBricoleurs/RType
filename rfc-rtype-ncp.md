@@ -55,13 +55,53 @@ This memo describes how to secure R-TYPE game connections over the Internet usin
 
 ## 2. Netcode Protocol Overview
 
-### 2.1. Connection Initiation
+### 2. Netcode Protocol Overview
 
-Describes how the connection between the client and server is initiated.
+#### 2.1. Connection Initiation
 
-### 2.2. Connection Closure
+Upon establishing a connection, the client will send a packet with the `INIT_CONNECT` action to introduce itself to the server.
 
-Describes how the connection between the client and server is closed.
+| Action       | ID            | Args |
+|--------------|---------------|------|
+| INIT_CONNECT | Client-side ID| None |
+
+The server will respond with a `CREATE_USER` action, using the same entity ID that the client used initially. This ensures that both sides use the same entity ID for the session.
+
+| Action      | ID            | Args            |
+|-------------|---------------|-----------------|
+| CREATE_USER | Same Entity ID| Assigned Entity ID|
+
+#### 2.2. Connection Closure
+
+##### 2.2.1. Server-side Timeout
+
+If the client takes more than 30 seconds without sending an `IAMALIVE` action, and no other packets are being transmitted to the server, the server will take the initiative to disconnect the client. All other clients will be informed through a `USER_DISCONNECTED` action.
+
+| Action           | ID            | Args           |
+|------------------|---------------|----------------|
+| USER_DISCONNECTED| Server-side ID| Disconnected ID|
+
+##### 2.2.2. Client-side Disconnection
+
+The client can also request its disconnection by sending a `REQUEST_DISCONNECT` action to the server.
+
+| Action            | ID           | Args |
+|-------------------|--------------|------|
+| REQUEST_DISCONNECT| Client-side ID| None |
+
+The server will confirm the disconnection with a `USER_DISCONNECTED` action, informing all other clients.
+
+| Action           | ID            | Args           |
+|------------------|---------------|----------------|
+| USER_DISCONNECTED| Server-side ID| Disconnected ID|
+
+#### 2.3. Client Ready Signal
+
+Once the client is successfully connected and is ready to receive game data, it should send a `USER_READY` action to the server, along with its chosen username or pseudo.
+
+| Action      | ID            | Args       |
+|-------------|---------------|------------|
+| USER_READY  | Client-side ID| Username   |
 
 ---
 
@@ -94,7 +134,6 @@ A 2-byte field representing a bitmask that gives the status of the last 16 packe
 
 A 2-byte field that specifies the size of the Body.
 
-
 ### 3.2. Body
 
 The body contains the data payload and the relevant metadata. Below is the layout of the body.
@@ -104,6 +143,7 @@ The body contains the data payload and the relevant metadata. Below is the layou
 | Action       | 1            | Describes the type of action (e.g., move, shoot, etc.).             |
 | Num IDs      | 2            | The number of IDs affected by this action.                          |
 | IDs          | Variable     | The IDs affected by this action.                                    |
+| Num Args     | 1            | The number of arguments related to the action.                      |
 | Size Arg     | 1            | Indicates the size/type of each argument.                           |
 | Arguments    | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.).     |
 
@@ -121,7 +161,7 @@ A list of IDs involved in the action. The size is variable and depends on `Num I
 
 #### Num Args
 
-A 1-byte value indicating the number of arguments related to the action.
+A 1-byte value indicating the number of arguments related to the action. This is particularly useful for managing string arguments.
 
 #### Size Arg
 
