@@ -1,7 +1,5 @@
 # R-TYPE Game Netcode Protocol Specification
 
-# R-TYPE Game Netcode Protocol Specification
-
 ## Table of Contents
 1. [Status of this Memo](#status-of-this-memo)
 2. [Copyright Notice](#copyright-notice)
@@ -106,7 +104,6 @@ The body contains the data payload and the relevant metadata. Below is the layou
 | Action       | 1            | Describes the type of action (e.g., move, shoot, etc.).             |
 | Num IDs      | 2            | The number of IDs affected by this action.                          |
 | IDs          | Variable     | The IDs affected by this action.                                    |
-| Num Args     | 1            | The number of arguments associated with the action.                 |
 | Size Arg     | 1            | Indicates the size/type of each argument.                           |
 | Arguments    | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.).     |
 
