@@ -6,17 +6,20 @@ env:
 on:
   push:
     paths-ignore:
-      - ".github/workflows/**" # Exclude the workflows
+      - ".github/**" # Exclude the workflows
+  delete:
+  create:
+
+concurrency:
+  group: git-mirror
 
 jobs:
-  mirror:
+  git-mirror:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Mirror repository
-        uses: wearerequired/git-mirror-action@v1
+      - uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_MIRROR_KEY }}
         with:
-          source-repository: ${{ github.repository }}
-          destination-repository: ${{ env.MIRROR_URL }}
-          ssh-private-key: ${{ secrets.MIRROR_SSH_KEY }}
-          source-github-token: ${{ secrets.PERSONAL_TOKEN }}
+          source-repo: "git@github.com:HarryTheoBartAlexClemDev/RType.git"
+          destination-repo: "git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-clement.lagasse.git"
