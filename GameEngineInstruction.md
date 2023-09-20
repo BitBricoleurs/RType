@@ -322,7 +322,7 @@ registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType(
 
 #### update:
 
-- **Description**: This method is called whenever the event associated with the system is called  and is intended for updating game entities based on their components. When creating a custom system, you should override this method to define the specific behavior of that system.
+- **Description**: This method is called whenever the game developper specifies it or every frame by default and is intended for updating game entities based on their components. When creating a custom system, you should override this method to define the specific behavior of that system.
 - **Parameters**:
     - `componentsContainer`: This parameter is an unordered map where each key represents an entity's unique ID, and the associated value is a vector of optional components. The optional `std::any` type allows for flexibility, meaning that systems can process different types of components without knowing their exact type at compile time. This design choice promotes a decoupled and extensible architecture.
     - `eventHandler`: A shared pointer to the `EventHandler` class, allowing systems to react to or dispatch specific game events.
