@@ -63,13 +63,13 @@ Upon establishing a connection, the client will send a packet with the `INIT_CON
 
 | Action       | ID            | Args |
 |--------------|---------------|------|
-| INIT_CONNECT | Client-side ID| None |
+| INIT_CONNECT | None          | None |
 
-The server will respond with a `CREATE_USER` action, using the same entity ID that the client used initially. This ensures that both sides use the same entity ID for the session.
+The server will respond with a `CREATE_USER` action, with entity ID that is the client id. This ensures that both sides use the same entity ID for the session.
 
 | Action      | ID            | Args            |
 |-------------|---------------|-----------------|
-| CREATE_USER | Same Entity ID| Assigned Entity ID|
+| CREATE_USER | Client ID     | Assigned Entity ID|
 
 #### 2.2. Connection Closure
 
@@ -77,31 +77,31 @@ The server will respond with a `CREATE_USER` action, using the same entity ID th
 
 If the client takes more than 30 seconds without sending an `IAMALIVE` action, and no other packets are being transmitted to the server, the server will take the initiative to disconnect the client. All other clients will be informed through a `USER_DISCONNECTED` action.
 
-| Action           | ID            | Args           |
-|------------------|---------------|----------------|
-| USER_DISCONNECTED| Server-side ID| Disconnected ID|
+| Action           | Args            |
+|------------------|-----------------|
+| USER_DISCONNECTED| Disconnected ID |
 
 ##### 2.2.2. Client-side Disconnection
 
 The client can also request its disconnection by sending a `REQUEST_DISCONNECT` action to the server.
 
-| Action            | ID           | Args |
-|-------------------|--------------|------|
-| REQUEST_DISCONNECT| Client-side ID| None |
+| Action            | Args |
+|-------------------|------|
+| REQUEST_DISCONNECT| None |
 
 The server will confirm the disconnection with a `USER_DISCONNECTED` action, informing all other clients.
 
-| Action           | ID            | Args           |
-|------------------|---------------|----------------|
-| USER_DISCONNECTED| Server-side ID| Disconnected ID|
+| Action           | Args            |
+|------------------|-----------------|
+| USER_DISCONNECTED| Disconnected ID |
 
 #### 2.3. Client Ready Signal
 
 Once the client is successfully connected and is ready to receive game data, it should send a `USER_READY` action to the server, along with its chosen username or pseudo.
 
-| Action      | ID            | Args       |
-|-------------|---------------|------------|
-| USER_READY  | Client-side ID| Username   |
+| Action      | Args       |
+|-------------|------------|
+| USER_READY  | Username   |
 
 ---
 
