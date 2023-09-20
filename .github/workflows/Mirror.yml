@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Remove .github/workflows directory
+        run: rm -rf .github/workflows
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url: ${{ env.MIRROR_URL }}
