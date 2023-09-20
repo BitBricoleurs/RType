@@ -17,6 +17,8 @@ jobs:
   git-mirror:
     runs-on: ubuntu-latest
     steps:
+      - name: Remove .github/workflows directory
+        run: rm -rf .github/workflows
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
