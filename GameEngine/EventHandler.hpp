@@ -38,12 +38,17 @@ namespace GameEngine {
             }
 
             void update() {
-                for (auto eventName : eventList) {
-                    for (auto system : eventMap[eventName]) {
-                        system->update();
+                std::vector<std::string> processingList;
+                eventList.swap(processingList);
+
+                for (auto& eventName : processingList) {
+                    if (eventMap.find(eventName) != eventMap.end()) {
+                        for (auto& system : eventMap[eventName]) {
+                            system->update();
+                        }
+                        eventMap.erase(eventName);
                     }
                 }
-                eventList.clear();
             }
 
             void deleteEvent(std::string eventName) {
