@@ -266,26 +266,19 @@ namespace GameEngine {
 
 class Position : public IComponent {
     float x, y;
-    
+    componentType = ComponentsType::getNewComponentType("Position");
     // Other methods...
-    size_t getComponentType() override {
-        return ComponentsType::getNewComponentType("Position");
-    }
     // Remaining implementation
 };
 
 class Velocity : public IComponent {
     float dx, dy;
-
+    componentType = ComponentsType::getNewComponentType("Velocity");
     // Other methods...
-    size_t getComponentType() override {
-        return ComponentsType::getNewComponentType("Velocity");
-    }
     // Remaining implementation
 };
 } // namespace GameEngine
 ```
-
 
 ### Using Components:
 
