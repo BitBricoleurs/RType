@@ -6,6 +6,7 @@
 
 #include <vector>
 #include "Registry.hpp"
+#include "EventHandler.hpp"
 
 
 namespace GameEngine {
@@ -15,7 +16,9 @@ namespace GameEngine {
             GameEngine();
             ~GameEngine();
 
-            void update();
+            void update() {
+                registry->getEventHandler()->update();
+            }
         private:
             std::unique_ptr<Registry> registry;
     };

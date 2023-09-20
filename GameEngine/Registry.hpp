@@ -10,6 +10,7 @@
 #include <optional>
 #include <any>
 #include "ISystem.hpp"
+#include "EventHandler.hpp"
 
 
 namespace GameEngine {
@@ -17,6 +18,8 @@ namespace GameEngine {
         public:
             Registry();
             ~Registry();
+
+            std::unique_ptr<EventHandler> getEventHandler();
 
             void bindSceneInitiation(std::string sceneName, std::function<void(Registry)> sceneInitiation);
             void changeScene(std::string sceneName);
@@ -46,5 +49,6 @@ namespace GameEngine {
             std::unordered_map<size_t, std::vector<std::optional<std::any>>> componentsContainer;
             std::map<std::string, std::shared_ptr<ISystem>> systemMap;
             std::unordered_map<std::string, std::function<void(Registry)>> sceneMap;
+            std::unique_ptr<EventHandler> eventHandler;
     };
 } // namespace GameEngine
