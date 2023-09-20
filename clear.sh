@@ -9,6 +9,7 @@ rm -rf CMakeFiles
 rm -f CMakeCache.txt
 rm -f cmake_install.cmake
 rm -f SDL2d.dll
+rm -f Rtype
 
 echo "Nettoyage récursif des fichiers CMake..."
 
