@@ -114,13 +114,17 @@ namespace GameEngine {
                 systemMap[systemName] = system;
             }
             void addSystem(std::string systemName, std::string systemPath) {
-                // TODO: Add system from path (Load Shared Library -> DLL or SO)
+                SharedLibrary lib(systemPath);
+                std::shared_ptr<ISystem> system = lib.getFunction<ISystem*()>("createSystem")();
+                systemMap[systemName] = system;
             }
             void addSystem(std::string systemName, std::shared_ptr<ISystem> system, std::string priority) {
                 systemMap[systemName] = system;
             }
             void addSystem(std::string systemName, std::string systemPath, std::string priority) {
-                // TODO: Add system from path (Load Shared Library -> DLL or SO)
+                SharedLibrary lib(systemPath);
+                std::shared_ptr<ISystem> system = lib.getFunction<ISystem*()>("createSystem")();
+                systemMap[systemName] = system;
             }
             void deleteSystem(std::string systemName) {
                 systemMap.erase(systemName);

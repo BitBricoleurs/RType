@@ -8,7 +8,6 @@
 #include "Registry.hpp"
 #include "EventHandler.hpp"
 
-
 namespace GameEngine {
     class GameEngine
     {
@@ -17,6 +16,7 @@ namespace GameEngine {
             ~GameEngine();
 
             void update() {
+
                 registry->getEventHandler()->update();
             }
         private:
