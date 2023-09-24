@@ -6,12 +6,11 @@
 
 #include "IComponent.hpp"
 
-
 namespace GameEngine {
     class AComponent : public IComponent {
         public:
-            AComponent();
-            ~AComponent();
+            AComponent() = default;
+            ~AComponent() override = default;
 
             size_t getComponentType() override { return componentType;}
         private:

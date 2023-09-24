@@ -7,7 +7,6 @@
 #include <iostream>
 #include <unordered_map>
 
-
 namespace GameEngine {
     class ComponentsType {
         public:
@@ -18,16 +17,16 @@ namespace GameEngine {
                 return componentTypeCounter++;
             }
 
-            static size_t getNewComponentType(std::string componentName) {
+            static size_t getNewComponentType(const std::string& componentName) {
                 return componentTypeMap[componentName] = componentTypeCounter++;
             }
 
-            size_t getComponentType(std::string componentName) {
+            size_t getComponentType(const std::string& componentName) {
                 return componentTypeMap[componentName];
             }
 
         private:
             static size_t componentTypeCounter;
-            std::unordered_map<std::string, size_t> componentTypeMap;
+            static std::unordered_map<std::string, size_t> componentTypeMap;
     };
 } // namespace GameEngine

@@ -30,6 +30,6 @@ namespace GameEngine {
         }
     private:
         static size_t layerTypeCounter;
-        std::unordered_map<std::string, size_t> layerTypeMap;
+        static std::unordered_map<std::string, size_t> layerTypeMap;
     };
 } // namespace GameEngine
