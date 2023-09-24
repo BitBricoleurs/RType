@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="RTYPE"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\POCProgram\;CMake Files\GameEngine\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GameEngine">
+				<Option output="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/libGameEngine.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType/GameEngine"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Utilities"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Misc"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 GameEngine"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GameEngine/fast">
+				<Option output="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/libGameEngine.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType/GameEngine"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Utilities"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Misc"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 GameEngine/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="POCProgram">
+				<Option output="/Users/theophilushomawoo/Documents/y3/RType/POCProgram/POCProgram" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType/POCProgram"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Utilities"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Misc"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 POCProgram"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="POCProgram/fast">
+				<Option output="/Users/theophilushomawoo/Documents/y3/RType/POCProgram/POCProgram" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/theophilushomawoo/Documents/y3/RType/POCProgram"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Utilities"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event"/>
+					<Add directory="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Misc"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 POCProgram/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/Users/theophilushomawoo/Documents/y3/RType/POCProgram/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components/ComponentsType.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/GameEngine.cpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/GameEngine.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/Registry.cpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/Registry.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Dummy.cpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event/EventHandler.cpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Event/EventHandler.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Misc/LayerType.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Utilities/Timer.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/POCProgram/TestPOC.cpp">
+			<Option target="POCProgram"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/POCProgram/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\POCProgram\"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\GameEngine\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
