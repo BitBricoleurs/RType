@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/RType.dir/main.cpp.o -o ../RType  ../vcpkg/installed/x64-linux/debug/lib/libSDL2d.a ../vcpkg/installed/x64-linux/debug/lib/libSDL2maind.a -lm -ldl -pthread 
