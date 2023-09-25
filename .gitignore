@@ -6,3 +6,4 @@ CMakeFiles
 .vs
 vcpkg
 node_modules
+*.a
