@@ -29,7 +29,7 @@ namespace GameEngine {
         eventQueue.push(eventName);
     }
 
-    void EventHandler::processEventQueue(std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer) {
+    void EventHandler::processEventQueue(const ComponentsContainer& componentsContainer) {
         std::lock_guard<std::mutex> lock(eventMutex);
         while (!eventQueue.empty()) {
             auto eventName = eventQueue.front();
@@ -38,7 +38,7 @@ namespace GameEngine {
         }
     }
 
-    void EventHandler::triggerEvent(const std::string& eventName, std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer) {
+    void EventHandler::triggerEvent(const std::string& eventName, const ComponentsContainer& componentsContainer) {
         if (eventMap.find(eventName) != eventMap.end()) {
             for (auto& system : eventMap[eventName]) {
                 system->update(componentsContainer, *this);
