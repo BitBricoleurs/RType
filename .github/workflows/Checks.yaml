@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Check repository tree
-        run: tree
       - name: check good files & folders
         run: |
           paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
@@ -20,6 +18,28 @@ jobs:
             exit 1
           fi
 
+  check_norm:
+    name: Check with clang-tidy and clang-format
+    needs: check_repository_cleanliness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install clang-tidy and clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy clang-format
+
+      - name: Run clang-tidy
+        run: |
+          find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy
+
+      - name: Check clang-format
+        run: |
+          find . -name '*.cpp' -or -name '*.h' | xargs clang-format -i --style=file
+          git diff --exit-code
+
   check_program_compilation_linux:
     name: Check Program Compilation (Linux)
     runs-on: ubuntu-latest
@@ -29,3 +49,23 @@ jobs:
         run: |
           cmake .
           make
+
+  check_program_compilation_macos:
+    name: Check Program Compilation (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Program
+        run: |
+          cmake .
+          make
+
+  check_program_compilation_windows:
+    name: Check Program Compilation (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Program
+        run: |
+          cmake .
+          cmake --build .
