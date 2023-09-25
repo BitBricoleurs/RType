@@ -121,6 +121,12 @@
 		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Components/ComponentsType.hpp">
 			<Option target="GameEngine"/>
 		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/ComponentContainer.cpp">
+			<Option target="GameEngine"/>
+		</Unit>
+		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/ComponentContainer.hpp">
+			<Option target="GameEngine"/>
+		</Unit>
 		<Unit filename="/Users/theophilushomawoo/Documents/y3/RType/GameEngine/Core/GameEngine.cpp">
 			<Option target="GameEngine"/>
 		</Unit>
