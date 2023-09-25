@@ -1,4 +1,10 @@
 .idea
 cmake-build-debug
+CMakeCache.txt
+out
+CMakeFiles
+.vs
+vcpkg
 node_modules
+*.a
 compile_commands.json
