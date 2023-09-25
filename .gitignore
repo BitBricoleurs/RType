@@ -7,3 +7,4 @@ CMakeFiles
 vcpkg
 node_modules
 *.a
+compile_commands.json
