@@ -1,6 +1,7 @@
 add_library(GameEngine STATIC
         Dummy.cpp
         Core/GameEngine.cpp
+        Core/ComponentContainer.cpp
         Core/Registry.cpp
         Event/EventHandler.cpp
         Utilities/Timer.hpp
