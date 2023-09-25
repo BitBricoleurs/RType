@@ -1,4 +1,4 @@
-name: Build, Package, and Release
+name: Package, and Release
 
 on:
   push:
@@ -27,21 +27,16 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew install cmake
-          brew install boost
 
-      - name: Build and Package
+      - name: Package
         run: |
-          mkdir build
-          cd build
-          cmake ..
-          make
-          tar czvf MyBoostApp-${{ matrix.os }}.tar.gz ./MyBoostApp
+          tar czvf RType-${{ matrix.os }}.tar.gz .
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: MyBoostApp-${{ matrix.os }}
-          path: ./build/MyBoostApp-${{ matrix.os }}.tar.gz
+          path: ./RType-${{ matrix.os }}.tar.gz
 
   release:
     needs: build-and-package
