@@ -20,10 +20,24 @@ if(NOT EXISTS "${VCPKG_PATH}")
 
 
     message(STATUS "Current directory: ${CMAKE_CURRENT_SOURCE_DIR}")
-    if(NOT EXISTS "${VCPKG_PATH}")
-        message(FATAL_ERROR "Failed to setup vcpkg!")
+
+    execute_process(
+    COMMAND "${CMAKE_SOURCE_DIR}/vcpkg/vcpkg" list
+    RESULT_VARIABLE result
+    OUTPUT_VARIABLE output
+    ERROR_VARIABLE error_output
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
+    if(result EQUAL 0)
+        message(STATUS "Installed libraries:\n${output}")
+    else()
+        message(WARNING "Failed to retrieve installed libraries. Error:\n${error_output}")
     endif()
-endif()
+        if(NOT EXISTS "${VCPKG_PATH}")
+            message(FATAL_ERROR "Failed to setup vcpkg!")
+        endif()
+    endif()
 
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_PATH}" CACHE STRING "")
 
