@@ -1,26 +1,23 @@
-/*
-** EPITECH PROJECT, 2023
-** RType
-** File description:
-** SpriteComponent
-*/
+//
+// Created by Bartosz on 9/25/23.
+//
 
 #pragma once
 
 #include "../Components/AComponent.hpp"
-#include <string>
 
 namespace GameEngine {
-    class SpriteComponent : public AComponent {
+    class ParallaxComponent : public AComponent {
     public:
-        SpriteComponent(const std::string& imagePath, int x, int y, int width, int height) {
+        ParallaxComponent(const std::string& imagePath, int x, int y, int width, int height, int speed) {
             this->imagePath = imagePath;
             this->x = x;
             this->y = y;
             this->width = width;
             this->height = height;
+            this->speed = speed;
         }
-        ~SpriteComponent();
+        ~ParallaxComponent();
 
         std::string getImagePath() const { return imagePath; }
         void setImagePath(const std::string& imagePath) { this->imagePath = imagePath; }
@@ -32,10 +29,14 @@ namespace GameEngine {
         void setWidth(int width) { this->width = width; }
         int getHeight() const { return height; }
         void setHeight(int height) { this->height = height; }
-
+        int getSpeed() const { return speed; }
+        void setSpeed(int speed) { this->speed = speed; }
+        int getOrientation() const { return orientation; }
+        void setOrientation(int orientation) { this->orientation = orientation; }
     private:
         size_t layer;
+        int orientation;
         std::string imagePath;
-        int x, y, width, height;
+        int x, y, width, height, speed;
     };
 }

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../../AComponent.hpp"
+#include "../Components/AComponent.hpp"
 #include <string>
 
 namespace GameEngine {
@@ -31,6 +31,7 @@ namespace GameEngine {
         void setFontSize(int fontSize) { this->fontSize = fontSize; }
 
     private:
+        size_t layer;
         std::string text;
         int x, y;
         int fontSize;
