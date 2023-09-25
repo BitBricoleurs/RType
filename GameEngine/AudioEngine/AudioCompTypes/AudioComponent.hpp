@@ -20,8 +20,10 @@ namespace GameEngine {
 
         std::string getAudioPath() const { return audioPath; }
         void setAudioPath(const std::string& audioPath) { this->audioPath = audioPath; }
+        void setAudioTimer(size_t audioTimer) { this->audioTimer = audioTimer; }
 
     private:
         std::string audioPath;
+        size_t audioTimer;
     };
 }

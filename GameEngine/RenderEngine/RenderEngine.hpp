@@ -10,6 +10,8 @@
 #include "raylib.h"
 #include "RenderCompTypes/TextComponent.hpp"
 #include "RenderCompTypes/SpriteComponent.hpp"
+#include "RenderCompTypes/ParallaxComponent.hpp"
+#include "../Event/EventHandler.hpp"
 #include <unordered_map>
 #include <string>
 
@@ -22,9 +24,13 @@ namespace GameEngine {
         void Initialize(int screenWidth, int screenHeight, const char* windowTitle);
         void Draw(const TextComponent& textComponent);
         void Draw(const SpriteComponent& spriteComponent);
+        void Draw(ParallaxComponent& parallaxComponent);
+        void PollEvents(GameEngine::EventHandler& eventHandler);
         void Shutdown();
 
     private:
+        int screenWidth;
+        int screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
     };
 }

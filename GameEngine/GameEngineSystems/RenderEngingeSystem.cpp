@@ -22,8 +22,12 @@ namespace GameEngine {
                                 std::shared_ptr<EventHandler> eventHandler) {
     size_t textComponentTypeId = ComponentsType::getComponentType("TextComponent");
     size_t spriteComponentTypeId = ComponentsType::getComponentType("SpriteComponent");
+    size_t parallaxComponentTypeId = ComponentsType::getComponentType("ParallaxComponent");
+    renderEngine->PollEvents(*eventHandler);
 
     auto textComponents = componentsContainer[textComponentTypeId];
+    auto spriteComponents = componentsContainer[spriteComponentTypeId];
+    auto parallaxComponents = componentsContainer[parallaxComponentTypeId];
     for (const auto& component : textComponents) {
         if (component.has_value()) {
             auto text = std::any_cast<std::shared_ptr<AComponent>>(component.value());
@@ -31,11 +35,17 @@ namespace GameEngine {
         }
     }
 
-    auto spriteComponents = componentsContainer[spriteComponentTypeId];
+
     for (const auto& component : spriteComponents) {
         if (component.has_value()) {
             auto sprite = std::any_cast<std::shared_ptr<AComponent>>(component.value());
             renderEngine->Draw(dynamic_cast<SpriteComponent&>(*sprite));
+        }
+    }
+    for (const auto& component : parallaxComponents) {
+        if (component.has_value()) {
+            auto parallax = std::any_cast<std::shared_ptr<AComponent>>(component.value());
+            renderEngine->Draw(dynamic_cast<ParallaxComponent&>(*parallax));
         }
     }
 }
