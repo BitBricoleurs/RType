@@ -18,6 +18,8 @@ if(NOT EXISTS "${VCPKG_PATH}")
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif()
 
+
+    message(STATUS "Current directory: ${CMAKE_CURRENT_SOURCE_DIR}")
     if(NOT EXISTS "${VCPKG_PATH}")
         message(FATAL_ERROR "Failed to setup vcpkg!")
     endif()
