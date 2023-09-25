@@ -1,12 +1,11 @@
-echo Debut de l'installation des bibliotheques...
+@echo off
+
+echo Début de l'installation des bibliothèques...
 set LIBRARIES=sdl2-net
+set VCPKG_DIR="vcpkg"
 
 for %%L in (%LIBRARIES%) do (
-    echo Telechargement et installation de la bibliotheque: %%L
-    ./vcpkg/vcpkg install %%L
+    %VCPKG_DIR%\vcpkg install %%L
 )
 
-echo Fin de l'installation des bibliotheques.
-
-
-echo Installation terminee!
+echo Installation terminée !
