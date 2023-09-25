@@ -29,8 +29,8 @@ namespace GameEngine {
             std::string key = audioPath;
 
             audioEngine->PlaySound(key, audioPath);
+            }
         }
     }
-}
 
 }
