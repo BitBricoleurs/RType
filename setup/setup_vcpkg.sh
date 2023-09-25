@@ -3,7 +3,7 @@ LIBRARIES=(
 )
 
 for LIB in "${LIBRARIES[@]}"; do
-  vcpkg install $LIB
+  ./vcpkg/vcpkg install $LIB
 done
 
 echo "Installation terminée !"
