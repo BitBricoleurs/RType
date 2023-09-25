@@ -20,7 +20,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Remove .github/workflows directory
+        run: rm -rf .github/workflows
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url: ${{ env.MIRROR_URL }}
-          ssh_private_key: ${{ secrets.SSH_MIRROR_KEY }}
+          ssh_private_key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
