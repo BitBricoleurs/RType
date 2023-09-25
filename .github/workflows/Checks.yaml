@@ -10,8 +10,24 @@ jobs:
       - uses: actions/checkout@v3
       - name: check good files & folders
         run: |
-          paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
-          if [[ ! -z "$path" ]]; then
+          paths=($(find . \
+              -name '#*#' \
+              -o -name '*-' \
+              -o -name '*.tmp' \
+              -o -name '*.o' \
+              -o -name '*.a' \
+              -o -name '*.so' \
+              -o -name '*.gcno' \
+              -o -name '*.gcda' \
+              -o -name '*.gcov' \
+              -o -name 'CMakeCache.txt' \
+              -o -name '*.cmake' \
+              -o -type d -name 'CMakeFiles' \
+              -o -name '*.log' \
+              -o -type d -name 'tmp' \
+              -o -type d -name 'vcpkg' \))
+
+          if [[ ${#paths[@]} -ne 0 ]]; then
             IFS=$'\n'
             for FILE in "${paths[@]}"; do echo "::error title=Unwanted file detected,file=$FILE::$FILE"; done
             unset IFS
@@ -20,7 +36,6 @@ jobs:
 
   check_norm:
     name: Check with clang-tidy and clang-format
-    needs: check_repository_cleanliness
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
