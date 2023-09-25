@@ -11,3 +11,5 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p .
 
 echo "Tidy completed."
+
+./clear.sh
