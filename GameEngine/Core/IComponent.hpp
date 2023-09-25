@@ -11,8 +11,5 @@ namespace GameEngine {
         public:
             virtual ~IComponent() = default;
             virtual size_t getComponentType() = 0;
-            virtual void incrementBindedEntities() = 0;
-            virtual void decrementBindedEntities() = 0;
-            virtual int getBindedEntities() = 0;
     };
 } // namespace GameEngine
