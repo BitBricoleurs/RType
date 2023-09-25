@@ -21,16 +21,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake
-          sudo apt-get install -y libboost-all-dev
 
       - name: Get dependencies (macOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew install cmake
 
-      - name: Package
+      - name: Build & Package
         run: |
-          tar czvf RType-${{ matrix.os }}.tar.gz .
+          cmake .
+          make
+          tar czvf RType-${{ matrix.os }}.tar.gz POCProgram
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
