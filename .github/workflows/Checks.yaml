@@ -61,7 +61,7 @@ jobs:
           brew install cmake
       - name: Compile Program
         run: |
-          cmake .
+          cmake -DCMAKE_CXX_STANDARD=20 .
           make
   check_program_compilation_windows:
     name: Check Program Compilation (Windows)
@@ -75,5 +75,5 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
-          cmake .
+          cmake -DCMAKE_CXX_STANDARD=20 .
           cmake --build .
