@@ -16,23 +16,21 @@ namespace GameEngine {
         TransformComponent(float x, float y) : x(x), y(y) {}
 
         size_t getComponentType() override {
-            return 0; // Let's say type 0 is for TransformComponent
+            return 0;
         }
     };
 
     class RenderSystem : public ISystem {
     public:
-        void update(std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer,
-                    const EventHandler& eventHandler) override {
-            // Draw entities here
+        void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+
             std::cout << "Rendering entities" << std::endl;
         }
     };
 
     class PhysicsSystem : public ISystem {
     public:
-        void update(std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer,
-                    const EventHandler& eventHandler) override {
+        void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
             // Update positions here
             std::cout << "Updating physics" << std::endl;
         }
