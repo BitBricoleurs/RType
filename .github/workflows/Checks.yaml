@@ -33,7 +33,8 @@ jobs:
 
       - name: Run clang-tidy
         run: |
-          find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy
+          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
+          find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p
 
       - name: Check clang-format
         run: |
@@ -45,8 +46,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - run: tree
       - name: Compile Program
         run: |
           cmake .
@@ -57,16 +56,23 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          brew install cmake
       - name: Compile Program
         run: |
           cmake .
           make
-
   check_program_compilation_windows:
     name: Check Program Compilation (Windows)
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
           cmake .
