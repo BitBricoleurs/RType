@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Check repository tree
+        run: tree
       - name: check good files & folders
         run: |
           paths=($(find . -name '#*#' -o -name '*-' -o -name '*.tmp' -o -name '*.o' -o -name '*.a' -o -name '*.so' -o -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' -o -type d -name 'tmp'))
