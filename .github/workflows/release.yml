@@ -1,4 +1,4 @@
-name: Build, Package, and Release
+name: Package, and Release
 
 on:
   push:
@@ -21,27 +21,23 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake
-          sudo apt-get install -y libboost-all-dev
 
       - name: Get dependencies (macOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew install cmake
-          brew install boost
 
-      - name: Build and Package
+      - name: Build & Package
         run: |
-          mkdir build
-          cd build
-          cmake ..
+          cmake .
           make
-          tar czvf MyBoostApp-${{ matrix.os }}.tar.gz ./MyBoostApp
+          tar czvf RType-${{ matrix.os }}.tar.gz POCProgram
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: MyBoostApp-${{ matrix.os }}
-          path: ./build/MyBoostApp-${{ matrix.os }}.tar.gz
+          path: ./RType-${{ matrix.os }}.tar.gz
 
   release:
     needs: build-and-package
