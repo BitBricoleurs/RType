@@ -8,29 +8,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: check good files & folders
+      - name: check unwanted files & folders
         run: |
-          paths=($(find . \
-              -name '#*#' \
-              -o -name '*-' \
-              -o -name '*.tmp' \
-              -o -name '*.o' \
-              -o -name '*.a' \
-              -o -name '*.so' \
-              -o -name '*.gcno' \
-              -o -name '*.gcda' \
-              -o -name '*.gcov' \
-              -o -name 'CMakeCache.txt' \
-              -o -name '*.cmake' \
-              -o -type d -name 'CMakeFiles' \
-              -o -name '*.log' \
-              -o -type d -name 'tmp' \
-              -o -type d -name 'vcpkg' \))
+          declare -a patterns=(
+            '#*#'
+            '*-'
+            '*.tmp'
+            '*.o'
+            '*.a'
+            '*.so'
+            '*.gcno'
+            '*.gcda'
+            '*.gcov'
+            'CMakeCache.txt'
+            '*.cmake'
+            'CMakeFiles'
+            '*.log'
+            'tmp'
+            'vcpkg'
+          )
 
-          if [[ ${#paths[@]} -ne 0 ]]; then
-            IFS=$'\n'
-            for FILE in "${paths[@]}"; do echo "::error title=Unwanted file detected,file=$FILE::$FILE"; done
-            unset IFS
+          found=0
+          for pattern in "${patterns[@]}"; do
+            if [[ -d "$pattern" || -f "$pattern" ]]; then
+              find . -name "$pattern" | while read -r FILE; do
+                echo "::error title=Unwanted file detected,file=$FILE::$FILE"
+                found=1
+              done
+            fi
+          done
+
+          if [[ $found -eq 1 ]]; then
             exit 1
           fi
 
