@@ -10,6 +10,7 @@
 #include <any>
 #include <memory>
 #include "IComponent.hpp"
+#include "ComponentContainer.hpp"
 
 namespace GameEngine {
     class EventHandler;
@@ -17,7 +18,7 @@ namespace GameEngine {
     class ISystem
     {
         public:
-            virtual void update(std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer, const EventHandler& eventHandler) = 0;
+            virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) = 0;
         private:
     };
 } // namespace GameEngine

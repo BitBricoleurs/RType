@@ -4,12 +4,10 @@
 
 #include <iostream>
 #include "ComponentsType.hpp"
-#include "LayerType.hpp"
 
 namespace GameEngine {
-    size_t ComponentsType::componentTypeCounter = 0;
-    std::unordered_map<std::string, size_t> ComponentsType::componentTypeMap;
-
-    size_t LayerType::layerTypeCounter = 0;
-    std::unordered_map<std::string, size_t> LayerType::layerTypeMap;
+    size_t spriteComponentType = ComponentsType::getNewComponentType("SpriteComponent");
+    size_t textComponentType = ComponentsType::getNewComponentType("TextComponent");
+    size_t parallaxComponentType = ComponentsType::getNewComponentType("ParallaxComponent");
+    size_t animationComponentType = ComponentsType::getNewComponentType("AudioComponent");
 }

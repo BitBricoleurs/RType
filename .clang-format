@@ -1,0 +1,49 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+
+# Use 4 spaces for indentation.
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+BreakBeforeBraces: Attach
+NamespaceIndentation: All
+
+# Indent case labels by default.
+IndentCaseLabels: true
+
+# Column limit, for wrapping lines.
+ColumnLimit: 80
+
+# Ensures that the pointer alignment is left.
+PointerAlignment: Left
+
+# Allows short functions in a single line.
+AllowShortFunctionsOnASingleLine: All
+
+# Always break before multiline strings.
+AlwaysBreakTemplateDeclarations: Yes
+
+# Make sure to break before binary operators.
+BreakBeforeBinaryOperators: All
+
+# Sort includes.
+SortIncludes: true
+
+# Continuation indent width for line breaks.
+ContinuationIndentWidth: 4
+
+# Space before assignment operators.
+SpaceBeforeAssignmentOperators: false
+
+# Use spaces in parentheses.
+SpacesInParentheses: true
+
+# Use spaces in square brackets.
+SpacesInSquareBrackets: true
+
+# Max consecutive empty lines kept.
+MaxEmptyLinesToKeep: 1
+
+# Penalty for breaking before first call parameter.
+PenaltyBreakBeforeFirstCallParameter: 2000
