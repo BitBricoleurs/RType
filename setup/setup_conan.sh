@@ -1,8 +1,7 @@
 #!/bin/bash
 
 LIBRARIES=(
-  "raylib/3.7.0"  # Remplacez par la version désirée
-  "glfw3/3.3.2"   # Remplacez par la version désirée
+  "raylib/4.0.0"
 )
 
 for LIB in "${LIBRARIES[@]}"; do
