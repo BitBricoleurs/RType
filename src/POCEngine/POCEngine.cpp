@@ -12,7 +12,7 @@ int main() {
     // Create entities and attach components for testing
     auto textEntity = engine.createEntity();
 
-    engine.bindComponentToEntity(textEntity, GameEngine::ComponentsType::getComponentType("TextComponent"),std::make_shared<GameEngine::TextComponent>("Hello WorldASDDDDDDDDDDDDDD!", 100, 100, 50));
+    engine.bindComponentToEntity(textEntity, GameEngine::ComponentsType::getComponentType("TextComponent"),std::make_shared<GameEngine::TextComponent>("Hello WorldASDDDDDDDDDDDDDD!", 100, 100, 50, 1));
 
     // Pretend to run an update loop for the engine
 

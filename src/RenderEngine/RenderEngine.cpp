@@ -29,30 +29,44 @@ namespace GameEngine {
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
         BeginDrawing();
+
         std::string path = spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
             Texture2D texture = LoadTexture(path.c_str());
             textureCache[path] = texture;
-        } 
+        }
 
-        DrawTexture(textureCache[path], spriteComponent.getX(), spriteComponent.getY(), RAYWHITE);
+        // Convert GameEngine::Rectangle and Vector2 to Raylib's Rectangle and Vector2
+        rect gameRect = spriteComponent.getRect();
+        ::Rectangle raylibRect = { gameRect.x, gameRect.y, gameRect.width, gameRect.height };
+
+        GameEngine::Vector2 gamePos = spriteComponent.getPos();
+        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
+
+        DrawTextureRec(textureCache[path], raylibRect, raylibPos, RAYWHITE);
+
         EndDrawing();
     }
 
     void RenderEngine::Draw(ParallaxComponent& parallaxComponent) {
         BeginDrawing();
+
         std::string path = parallaxComponent.getImagePath();
+        GameEngine::Vector2 gamePos = parallaxComponent.getPos();
+
         if (parallaxComponent.getOrientation() == 0) {
-            parallaxComponent.setX(parallaxComponent.getX() - parallaxComponent.getSpeed());
-            if (parallaxComponent.getX() <= -screenWidth)
-                parallaxComponent.setX(screenWidth);
+            gamePos.x -= parallaxComponent.getSpeed();
+            if (gamePos.x <= -screenWidth)
+                gamePos.x = screenWidth;
         } else {
-            parallaxComponent.setY(parallaxComponent.getY() - parallaxComponent.getSpeed());
-            if (parallaxComponent.getY() <= -screenHeight)
-                parallaxComponent.setY(screenHeight);
+            gamePos.y -= parallaxComponent.getSpeed();
+            if (gamePos.y <= -screenHeight)
+                gamePos.y = screenHeight;
         }
+
+        parallaxComponent.setPos(gamePos);
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
@@ -60,11 +74,16 @@ namespace GameEngine {
             textureCache[path] = texture;
         }
 
-        DrawTexture(textureCache[path], parallaxComponent.getX(), parallaxComponent.getY(), RAYWHITE);
+        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
+
+        DrawTextureRec(textureCache[path], {0, 0, static_cast<float>(textureCache[path].width), static_cast<float>(textureCache[path].height)}, raylibPos, RAYWHITE);
+
         EndDrawing();
     }
 
-void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
+
+
+    void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))
             eventHandler.queueEvent("SPACE_KEY_PRESSED");
         if (IsKeyPressed(KEY_UP))
@@ -83,6 +102,8 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
             eventHandler.queueEvent("MouseLeftButtonPressed");
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
             eventHandler.queueEvent("MouseRightButtonPressed");
+        if (IsKeyReleased(KEY_SPACE))
+            eventHandler.queueEvent("SPACE_KEY_RELEASED");
     }
 
     void RenderEngine::Shutdown() {

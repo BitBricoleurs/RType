@@ -7,17 +7,18 @@
 
 #pragma once
 
-#include "../../GameEngine/Components/AComponent.hpp"
+#include "AComponent.hpp"
 #include <string>
 
 namespace GameEngine {
     class TextComponent : public AComponent {
     public:
-        TextComponent(const std::string& text, int x, int y, int fontSize) {
+        TextComponent(const std::string& text, int x, int y, int fontSize, size_t layer) {
             this->text = text;
             this->x = x;
             this->y = y;
             this->fontSize = fontSize;
+            this->layer = layer;
         }
         ~TextComponent() = default;
 
