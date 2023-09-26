@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake xinerama xcursor xorg libglu1-mesa pkg-config
+          sudo apt-get install -y cmake
       - name: Compile Program
         run: |
           cmake .
@@ -98,7 +98,6 @@ jobs:
       - name: Install dependencies
         run: |
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-          choco install xinerama xcursor xorg libglu1-mesa pkg-config
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
