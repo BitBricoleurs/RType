@@ -25,8 +25,8 @@ namespace GameEngine {
         void addEvent(const std::string& eventName, std::function<void()> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
         void queueEvent(const std::string& eventName);
-        void processEventQueue(const ComponentsContainer& componentsContainer);
-        void triggerEvent(const std::string& eventName, const ComponentsContainer& componentsContainer);
+        void processEventQueue(ComponentsContainer& componentsContainer);
+        void triggerEvent(const std::string& eventName, ComponentsContainer& componentsContainer);
         void deleteEvent(const std::string& eventName);
 
     private:

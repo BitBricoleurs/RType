@@ -1,3 +1,7 @@
+#include <string>
+#include <unordered_map>
+
+
 namespace GameEngine {
     class ComponentsType {
     public:

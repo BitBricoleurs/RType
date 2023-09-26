@@ -1,2 +1,0 @@
-/home/Bartosz/delivery/TECH3/RType/build/CMakeFiles/rebuild_cache.dir
-/home/Bartosz/delivery/TECH3/RType/build/CMakeFiles/edit_cache.dir

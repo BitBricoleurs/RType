@@ -70,12 +70,12 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for GameEngine
 
-build cmake_object_order_depends_target_GameEngine: phony || GameEngine/CMakeFiles/GameEngine.dir
+build cmake_object_order_depends_target_GameEngine: phony || cmake_object_order_depends_target_AudioEngineLib cmake_object_order_depends_target_RenderEngineLib
 
 build GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Dummy.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -84,7 +84,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o: CXX_COMPILER__GameEngine
 build GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/GameEngine.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -93,7 +93,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o: CXX_COMPILER__
 build GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/ComponentContainer.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -102,7 +102,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o: CXX_CO
 build GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/Registry.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -111,7 +111,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o: CXX_COMPILER__Ga
 build GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Event/EventHandler.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Event
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -125,7 +125,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o: CXX_COMPILE
 #############################################
 # Link the static library GameEngine/libGameEngine.a
 
-build GameEngine/libGameEngine.a: CXX_STATIC_LIBRARY_LINKER__GameEngine_ GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o
+build GameEngine/libGameEngine.a: CXX_STATIC_LIBRARY_LINKER__GameEngine_ GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o || AudioEngine/libAudioEngineLib.a RenderEngine/libRenderEngineLib.a
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -168,12 +168,12 @@ build GameEngine/rebuild_cache: phony GameEngine/CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for POCProgram
 
-build cmake_object_order_depends_target_POCProgram: phony || cmake_object_order_depends_target_GameEngine
+build cmake_object_order_depends_target_POCProgram: phony || cmake_object_order_depends_target_AudioEngineLib cmake_object_order_depends_target_GameEngine cmake_object_order_depends_target_RenderEngineLib
 
 build POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o: CXX_COMPILER__POCProgram_ /home/Bartosz/delivery/TECH3/RType/POCProgram/TestPOC.cpp || cmake_object_order_depends_target_POCProgram
   DEP_FILE = POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
   OBJECT_DIR = POCProgram/CMakeFiles/POCProgram.dir
   OBJECT_FILE_DIR = POCProgram/CMakeFiles/POCProgram.dir
   TARGET_COMPILE_PDB = POCProgram/CMakeFiles/POCProgram.dir/
@@ -187,8 +187,8 @@ build POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o: CXX_COMPILER__POCProgr
 #############################################
 # Link the executable POCProgram/POCProgram
 
-build POCProgram/POCProgram: CXX_EXECUTABLE_LINKER__POCProgram_ POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o | GameEngine/libGameEngine.a || GameEngine/libGameEngine.a
-  LINK_LIBRARIES = GameEngine/libGameEngine.a
+build POCProgram/POCProgram: CXX_EXECUTABLE_LINKER__POCProgram_ POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o | GameEngine/libGameEngine.a RenderEngine/libRenderEngineLib.a AudioEngine/libAudioEngineLib.a || AudioEngine/libAudioEngineLib.a GameEngine/libGameEngine.a RenderEngine/libRenderEngineLib.a
+  LINK_LIBRARIES = GameEngine/libGameEngine.a  RenderEngine/libRenderEngineLib.a  AudioEngine/libAudioEngineLib.a  -lraylib
   OBJECT_DIR = POCProgram/CMakeFiles/POCProgram.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -220,13 +220,163 @@ build POCProgram/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
 build POCProgram/rebuild_cache: phony POCProgram/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/Bartosz/delivery/TECH3/RType/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target RenderEngineLib
+
+
+#############################################
+# Order-only phony target for RenderEngineLib
+
+build cmake_object_order_depends_target_RenderEngineLib: phony || RenderEngine/CMakeFiles/RenderEngineLib.dir
+
+build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o: CXX_COMPILER__RenderEngineLib_ /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngine.cpp || cmake_object_order_depends_target_RenderEngineLib
+  DEP_FILE = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o.d
+  FLAGS = -fdiagnostics-color=always -std=gnu++17
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType
+  OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
+  OBJECT_FILE_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
+  TARGET_COMPILE_PDB = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineLib.pdb
+  TARGET_PDB = RenderEngine/libRenderEngineLib.pdb
+
+build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o: CXX_COMPILER__RenderEngineLib_ /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngineSystem.cpp || cmake_object_order_depends_target_RenderEngineLib
+  DEP_FILE = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o.d
+  FLAGS = -fdiagnostics-color=always -std=gnu++17
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType
+  OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
+  OBJECT_FILE_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
+  TARGET_COMPILE_PDB = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineLib.pdb
+  TARGET_PDB = RenderEngine/libRenderEngineLib.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target RenderEngineLib
+
+
+#############################################
+# Link the static library RenderEngine/libRenderEngineLib.a
+
+build RenderEngine/libRenderEngineLib.a: CXX_STATIC_LIBRARY_LINKER__RenderEngineLib_ RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o
+  OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_COMPILE_PDB = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineLib.pdb
+  TARGET_FILE = RenderEngine/libRenderEngineLib.a
+  TARGET_PDB = RenderEngine/libRenderEngineLib.pdb
+
+
+#############################################
+# Utility command for edit_cache
+
+build RenderEngine/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/Bartosz/delivery/TECH3/RType/RenderEngine && /opt/clion-2023.1.1/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build RenderEngine/edit_cache: phony RenderEngine/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build RenderEngine/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/Bartosz/delivery/TECH3/RType/RenderEngine && /opt/clion-2023.1.1/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/Bartosz/delivery/TECH3/RType -B/home/Bartosz/delivery/TECH3/RType
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build RenderEngine/rebuild_cache: phony RenderEngine/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/Bartosz/delivery/TECH3/RType/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target AudioEngineLib
+
+
+#############################################
+# Order-only phony target for AudioEngineLib
+
+build cmake_object_order_depends_target_AudioEngineLib: phony || AudioEngine/CMakeFiles/AudioEngineLib.dir
+
+build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o: CXX_COMPILER__AudioEngineLib_ /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngine.cpp || cmake_object_order_depends_target_AudioEngineLib
+  DEP_FILE = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o.d
+  FLAGS = -fdiagnostics-color=always -std=gnu++17
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/Components
+  OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
+  OBJECT_FILE_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
+  TARGET_COMPILE_PDB = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineLib.pdb
+  TARGET_PDB = AudioEngine/libAudioEngineLib.pdb
+
+build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o: CXX_COMPILER__AudioEngineLib_ /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngineSystem.cpp || cmake_object_order_depends_target_AudioEngineLib
+  DEP_FILE = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o.d
+  FLAGS = -fdiagnostics-color=always -std=gnu++17
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/Components
+  OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
+  OBJECT_FILE_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
+  TARGET_COMPILE_PDB = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineLib.pdb
+  TARGET_PDB = AudioEngine/libAudioEngineLib.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target AudioEngineLib
+
+
+#############################################
+# Link the static library AudioEngine/libAudioEngineLib.a
+
+build AudioEngine/libAudioEngineLib.a: CXX_STATIC_LIBRARY_LINKER__AudioEngineLib_ AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o
+  OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_COMPILE_PDB = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineLib.pdb
+  TARGET_FILE = AudioEngine/libAudioEngineLib.a
+  TARGET_PDB = AudioEngine/libAudioEngineLib.pdb
+
+
+#############################################
+# Utility command for edit_cache
+
+build AudioEngine/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/Bartosz/delivery/TECH3/RType/AudioEngine && /opt/clion-2023.1.1/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build AudioEngine/edit_cache: phony AudioEngine/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build AudioEngine/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/Bartosz/delivery/TECH3/RType/AudioEngine && /opt/clion-2023.1.1/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/Bartosz/delivery/TECH3/RType -B/home/Bartosz/delivery/TECH3/RType
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build AudioEngine/rebuild_cache: phony AudioEngine/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
 # Target aliases.
+
+build AudioEngineLib: phony AudioEngine/libAudioEngineLib.a
 
 build GameEngine: phony GameEngine/libGameEngine.a
 
 build POCProgram: phony POCProgram/POCProgram
 
+build RenderEngineLib: phony RenderEngine/libRenderEngineLib.a
+
+build libAudioEngineLib.a: phony AudioEngine/libAudioEngineLib.a
+
 build libGameEngine.a: phony GameEngine/libGameEngine.a
+
+build libRenderEngineLib.a: phony RenderEngine/libRenderEngineLib.a
 
 # =============================================================================
 # Folder targets.
@@ -236,7 +386,14 @@ build libGameEngine.a: phony GameEngine/libGameEngine.a
 #############################################
 # Folder: /home/Bartosz/delivery/TECH3/RType
 
-build all: phony GameEngine/all POCProgram/all
+build all: phony GameEngine/all POCProgram/all RenderEngine/all AudioEngine/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/Bartosz/delivery/TECH3/RType/AudioEngine
+
+build AudioEngine/all: phony AudioEngine/libAudioEngineLib.a
 
 # =============================================================================
 
@@ -253,20 +410,27 @@ build GameEngine/all: phony GameEngine/libGameEngine.a
 build POCProgram/all: phony POCProgram/POCProgram
 
 # =============================================================================
+
+#############################################
+# Folder: /home/Bartosz/delivery/TECH3/RType/RenderEngine
+
+build RenderEngine/all: phony RenderEngine/libRenderEngineLib.a
+
+# =============================================================================
 # Built-in targets
 
 
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCompilerIdDetection.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompileFeatures.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerABI.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerId.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeFindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitIncludeInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitLinkInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseLibraryArchitecture.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystem.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCompilerCommon.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ADSP-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMCC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/AppleClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Borland-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Bruce-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Cray-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GHS-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-FindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IAR-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Intel-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/MSVC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVHPC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PGI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PathScale-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SCO-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SDCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Tasking-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Watcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Internal/FeatureTesting.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-Determine-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake CMakeLists.txt GameEngine/CMakeLists.txt POCProgram/CMakeLists.txt
+build build.ninja: RERUN_CMAKE | /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCompilerIdDetection.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompileFeatures.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerABI.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerId.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeFindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitIncludeInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitLinkInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseLibraryArchitecture.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystem.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCompilerCommon.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ADSP-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMCC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/AppleClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Borland-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Bruce-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Cray-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GHS-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-FindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IAR-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Intel-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/MSVC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVHPC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PGI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PathScale-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SCO-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SDCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Tasking-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Watcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Internal/FeatureTesting.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-Determine-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/UnixPaths.cmake AudioEngine/CMakeLists.txt CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake CMakeLists.txt GameEngine/CMakeLists.txt POCProgram/CMakeLists.txt RenderEngine/CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCompilerIdDetection.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompileFeatures.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerABI.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerId.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeFindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitIncludeInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitLinkInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseLibraryArchitecture.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystem.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCompilerCommon.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ADSP-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMCC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/AppleClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Borland-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Bruce-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Cray-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GHS-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-FindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IAR-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Intel-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/MSVC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVHPC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PGI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PathScale-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SCO-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SDCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Tasking-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Watcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Internal/FeatureTesting.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-Determine-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake CMakeLists.txt GameEngine/CMakeLists.txt POCProgram/CMakeLists.txt: phony
+build /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompiler.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCXXInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeCompilerIdDetection.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompileFeatures.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerABI.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineCompilerId.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeDetermineSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeFindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeGenericSystem.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitIncludeInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseImplicitLinkInfo.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeParseLibraryArchitecture.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystem.cmake.in /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCXXCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/CMakeTestCompilerCommon.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ADSP-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMCC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/ARMClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/AppleClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Borland-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Bruce-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Cray-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GHS-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU-FindBinUtils.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IAR-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Intel-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/MSVC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVHPC-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PGI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/PathScale-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SCO-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SDCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TI-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Tasking-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/Watcom-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-C-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Internal/FeatureTesting.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-Determine-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-C.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU-CXX.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux-GNU.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/Linux.cmake /opt/clion-2023.1.1/bin/cmake/linux/x64/share/cmake-3.25/Modules/Platform/UnixPaths.cmake AudioEngine/CMakeLists.txt CMakeCache.txt CMakeFiles/3.25.2/CMakeCCompiler.cmake CMakeFiles/3.25.2/CMakeCXXCompiler.cmake CMakeFiles/3.25.2/CMakeSystem.cmake CMakeLists.txt GameEngine/CMakeLists.txt POCProgram/CMakeLists.txt RenderEngine/CMakeLists.txt: phony
 
 
 #############################################

@@ -23,7 +23,7 @@ namespace GameEngine {
         AudioEngineSystem();
         ~AudioEngineSystem();
 
-        virtual void update(ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override;
+        virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
 
     private:
         std::shared_ptr<AudioEngine> audioEngine;
