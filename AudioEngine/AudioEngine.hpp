@@ -18,7 +18,6 @@ namespace GameEngine {
         AudioEngine();
         ~AudioEngine();
 
-        void Initialize();
         void PlaySound(const AudioComponent& audioComponent);
         void StopSound(const AudioComponent& audioComponent);
     private:

@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "AudioEngine/libAudioEngineLib.a"
+			"path" : "RenderEngine/libRenderEngineLib.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,12 +12,12 @@
 		"commands" : 
 		[
 			"add_library",
-			"include_directories",
-			"target_include_directories"
+			"target_link_libraries",
+			"include_directories"
 		],
 		"files" : 
 		[
-			"AudioEngine/CMakeLists.txt"
+			"RenderEngine/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -27,19 +27,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 16,
+				"line" : 13,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 8,
+				"line" : 14,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 17,
+				"line" : 6,
 				"parent" : 0
 			}
 		]
@@ -56,12 +56,28 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"path" : "/home/Bartosz/delivery/TECH3/RType"
 				},
 				{
-					"backtrace" : 3,
-					"path" : "/Components"
+					"backtrace" : 2,
+					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Core"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Components"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Event"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc"
 				}
 			],
 			"language" : "CXX",
@@ -80,13 +96,20 @@
 			]
 		}
 	],
-	"id" : "AudioEngineLib::@898d5ace43999a4aaaf7",
-	"name" : "AudioEngineLib",
-	"nameOnDisk" : "libAudioEngineLib.a",
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "GameEngine::@3f1430db303f85cff844"
+		}
+	],
+	"id" : "RenderEngineLib::@143fd27f18b610c4c08e",
+	"name" : "RenderEngineLib",
+	"nameOnDisk" : "libRenderEngineLib.a",
 	"paths" : 
 	{
-		"build" : "AudioEngine",
-		"source" : "AudioEngine"
+		"build" : "RenderEngine",
+		"source" : "RenderEngine"
 	},
 	"sourceGroups" : 
 	[
@@ -104,13 +127,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "AudioEngine/AudioEngine.cpp",
+			"path" : "RenderEngine/RenderEngine.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "AudioEngine/AudioEngineSystem.cpp",
+			"path" : "RenderEngine/RenderEngineSystem.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

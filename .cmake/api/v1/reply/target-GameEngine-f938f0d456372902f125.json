@@ -12,7 +12,6 @@
 		"commands" : 
 		[
 			"add_library",
-			"target_link_libraries",
 			"target_include_directories"
 		],
 		"files" : 
@@ -33,35 +32,29 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 17,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 0,
 				"line" : 12,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 1,
 				"file" : 0,
 				"line" : 13,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 1,
 				"file" : 0,
 				"line" : 14,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 1,
 				"file" : 0,
 				"line" : 15,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 1,
 				"file" : 0,
 				"line" : 16,
 				"parent" : 0
@@ -83,28 +76,24 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 2,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Core"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Components"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 4,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities"
 				},
 				{
-					"backtrace" : 6,
+					"backtrace" : 5,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Event"
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 6,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc"
-				},
-				{
-					"backtrace" : 2,
-					"path" : "/Components"
 				}
 			],
 			"language" : "CXX",
@@ -124,17 +113,6 @@
 				3,
 				4
 			]
-		}
-	],
-	"dependencies" : 
-	[
-		{
-			"backtrace" : 2,
-			"id" : "RenderEngineLib::@143fd27f18b610c4c08e"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "AudioEngineLib::@898d5ace43999a4aaaf7"
 		}
 	],
 	"id" : "GameEngine::@3f1430db303f85cff844",

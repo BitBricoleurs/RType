@@ -11,11 +11,9 @@ namespace GameEngine {
 
     AudioEngineSystem::AudioEngineSystem() {
         audioEngine = std::make_shared<AudioEngine>();
-        audioEngine->Initialize();
     }
 
-    AudioEngineSystem::~AudioEngineSystem() {
-    }
+    AudioEngineSystem::~AudioEngineSystem() = default;
 
     void AudioEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
         std::vector<std::optional<std::shared_ptr<IComponent>>> audioComponents = componentsContainer.getComponents(ComponentsType::getComponentType("AudioComponent"));
