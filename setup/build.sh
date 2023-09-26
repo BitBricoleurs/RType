@@ -23,7 +23,7 @@ else
         sudo apt update
         sudo apt install -y libgl1-mesa-dev libx11-dev libxcursor-dev libxinerama-dev libxrandr-dev libasound2-dev xinerama xcursor xorg libglu1-mesa-dev pkg-config
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
-        sudo dnf install -y mesa-libGL-devel libX11-devel libXcursor-devel libXinerama-devel libXrandr-devel alsa-lib-devel xinerama xcursor xorg-x11-server libGLU pkg-config
+        sudo dnf install -y mesa-libGL-devel libX11-devel libXcursor-devel libXinerama-devel libXrandr-devel alsa-lib-devel xinerama xcursor xorg-x11-server libXi-devel libGLU pkg-config
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -Syu --needed mesa libx11 libxcursor libxinerama libxrandr alsa-lib xorg-xineramaproto xorg-xcursor xorg-server libglu pkg-config
     fi
