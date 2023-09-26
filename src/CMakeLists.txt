@@ -1,0 +1,4 @@
+add_subdirectory(GameEngine)
+add_subdirectory(POCProgram)
+add_subdirectory(AudioEngine)
+add_subdirectory(RenderEngine)
