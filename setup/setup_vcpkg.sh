@@ -1,5 +1,5 @@
 LIBRARIES=(
-  "sdl2-net"
+  "vcpkg-tool-ninja"
   "raylib"
 )
 
