@@ -21,7 +21,7 @@ jobs:
 
       - name: Prepare directory on AWS EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com "mkdir -p ~/my-project"
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com "rm -rf ~/my-project && mkdir -p ~/my-project"
 
       - name: Transfer files to AWS EC2
         run: |
@@ -31,6 +31,5 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com <<'ENDSSH'
             cd ~/my-project
-            make
-            ./your-program
+            cmake .
           ENDSSH
