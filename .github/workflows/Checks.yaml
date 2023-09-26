@@ -73,6 +73,7 @@ jobs:
       - name: Compile Program
         run: |
           sudo ./setup/build.sh
+          cd build
           make
 
 
