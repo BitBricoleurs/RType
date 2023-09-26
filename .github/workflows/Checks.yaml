@@ -75,7 +75,7 @@ jobs:
           sudo apt-get install -y cmake
       - name: Compile Program
         run: |
-          cmake .
+          sudo ./setup/build.sh
           make
 
   # check_program_compilation_macos:
