@@ -11,6 +11,8 @@ rm -f SDL2d.dll
 rm -f Rtype
 rm -f *.cbp
 rm -f POCProgram
+rm -rf vcpkg
+rm -rf build
 
 echo "Nettoyage récursif des fichiers CMake..."
 

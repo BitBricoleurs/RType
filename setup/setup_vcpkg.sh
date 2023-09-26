@@ -1,5 +1,6 @@
 LIBRARIES=(
   "sdl2-net"
+  "raylib"
 )
 
 for LIB in "${LIBRARIES[@]}"; do
