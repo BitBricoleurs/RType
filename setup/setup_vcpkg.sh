@@ -1,5 +1,6 @@
 LIBRARIES=(
   "vcpkg-tool-ninja"
+  "glfw3"
   "raylib"
 )
 
