@@ -49,7 +49,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
-          find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p
+          find src/ -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p --header-filter='(src/Entities)|(src/GameEngine)|(src/POCProgram)'
 
       - name: Check clang-format
         run: |
