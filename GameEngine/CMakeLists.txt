@@ -1,6 +1,3 @@
-add_subdirectory(../RenderEngine)
-add_subdirectory(../AudioEngine)
-
 add_library(GameEngine STATIC
         Dummy.cpp
         Core/GameEngine.cpp

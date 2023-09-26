@@ -17,8 +17,8 @@ namespace GameEngine {
     AudioEngineSystem::~AudioEngineSystem() {
     }
 
-    void AudioEngineSystem::update(ComponentsContainer& componentsContainer, const EventHandler& eventHandler) {
-        std::vector<std::optional<std::shared_ptr<IComponent>>> const audioComponents = componentsContainer.getComponents(ComponentsType::getComponentType("AudioComponent"));
+    void AudioEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
+        std::vector<std::optional<std::shared_ptr<IComponent>>> audioComponents = componentsContainer.getComponents(ComponentsType::getComponentType("AudioComponent"));
 
         for (const auto &component: audioComponents) {
             if (component.has_value()) {

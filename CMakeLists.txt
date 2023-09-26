@@ -7,3 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(GameEngine)
 add_subdirectory(POCProgram)
+add_subdirectory(RenderEngine)
+add_subdirectory(AudioEngine)

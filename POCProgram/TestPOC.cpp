@@ -22,7 +22,7 @@ namespace GameEngine {
 
     class RenderSystem : public ISystem {
     public:
-        void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
 
             std::cout << "Rendering entities" << std::endl;
         }
@@ -30,7 +30,7 @@ namespace GameEngine {
 
     class PhysicsSystem : public ISystem {
     public:
-        void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
             // Update positions here
             std::cout << "Updating physics" << std::endl;
         }
