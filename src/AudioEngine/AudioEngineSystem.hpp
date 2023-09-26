@@ -9,7 +9,7 @@
 
 #include "ISystem.hpp"
 #include "AudioEngine.hpp"
-#include "src/AudioEngine/AudioCompTypes/AudioComponent.hpp"
+#include "AudioCompTypes/AudioComponent.hpp"
 #include "ComponentsType.hpp"
 #include <memory>
 #include <unordered_map>

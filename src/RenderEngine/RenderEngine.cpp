@@ -22,10 +22,13 @@ namespace GameEngine {
     }
 
     void RenderEngine::Draw(const TextComponent& textComponent) {
+        BeginDrawing();
         DrawText(textComponent.getText().c_str(), textComponent.getX(), textComponent.getY(), textComponent.getFontSize(), RAYWHITE);
+        EndDrawing();
     }
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
+        BeginDrawing();
         std::string path = spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
@@ -35,9 +38,11 @@ namespace GameEngine {
         } 
 
         DrawTexture(textureCache[path], spriteComponent.getX(), spriteComponent.getY(), RAYWHITE);
+        EndDrawing();
     }
 
     void RenderEngine::Draw(ParallaxComponent& parallaxComponent) {
+        BeginDrawing();
         std::string path = parallaxComponent.getImagePath();
         if (parallaxComponent.getOrientation() == 0) {
             parallaxComponent.setX(parallaxComponent.getX() - parallaxComponent.getSpeed());
@@ -56,6 +61,7 @@ namespace GameEngine {
         }
 
         DrawTexture(textureCache[path], parallaxComponent.getX(), parallaxComponent.getY(), RAYWHITE);
+        EndDrawing();
     }
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
