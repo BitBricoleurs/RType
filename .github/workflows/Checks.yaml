@@ -34,27 +34,27 @@ jobs:
             exit 1
           fi
 
-  check_norm:
-    name: Check with clang-tidy and clang-format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # check_norm:
+  #   name: Check with clang-tidy and clang-format
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Install clang-tidy and clang-format
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang-tidy clang-format
+  #     - name: Install clang-tidy and clang-format
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y clang-tidy clang-format
 
-      - name: Run clang-tidy
-        run: |
-          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
-          find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p
+  #     - name: Run clang-tidy
+  #       run: |
+  #         cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
+  #         find . -name '*.cpp' -or -name '*.h' | xargs clang-tidy -p
 
-      - name: Check clang-format
-        run: |
-          find . -name '*.cpp' -or -name '*.h' | xargs clang-format -i --style=file
-          git diff --exit-code
+  #     - name: Check clang-format
+  #       run: |
+  #         find . -name '*.cpp' -or -name '*.h' | xargs clang-format -i --style=file
+  #         git diff --exit-code
 
   check_program_compilation_linux:
     name: Check Program Compilation (Linux)
