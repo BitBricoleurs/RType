@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "IComponent.hpp"
+#include "../Core/IComponent.hpp"
 
 namespace GameEngine {
     class AComponent : public IComponent {

@@ -10,8 +10,9 @@
 #include <memory>
 #include <queue>
 #include <mutex>
-#include "IComponent.hpp"
-#include "ISystem.hpp"
+#include "../Core/IComponent.hpp"
+#include "../Core/ISystem.hpp"
+#include "../Core/ComponentContainer.hpp"
 
 namespace GameEngine {
 
@@ -24,8 +25,8 @@ namespace GameEngine {
         void addEvent(const std::string& eventName, std::function<void()> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
         void queueEvent(const std::string& eventName);
-        void processEventQueue(std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer);
-        void triggerEvent(const std::string& eventName, std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer);
+        void processEventQueue(const ComponentsContainer& componentsContainer);
+        void triggerEvent(const std::string& eventName, const ComponentsContainer& componentsContainer);
         void deleteEvent(const std::string& eventName);
 
     private:
