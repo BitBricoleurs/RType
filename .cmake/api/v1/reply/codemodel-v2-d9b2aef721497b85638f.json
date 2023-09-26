@@ -59,7 +59,7 @@
 						"string" : "3.20"
 					},
 					"parentIndex" : 0,
-					"projectIndex" : 2,
+					"projectIndex" : 0,
 					"source" : "RenderEngine",
 					"targetIndexes" : 
 					[
@@ -71,10 +71,10 @@
 					"jsonFile" : "directory-AudioEngine-1848a98d072eb3ed63b6.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.10"
+						"string" : "3.20"
 					},
 					"parentIndex" : 0,
-					"projectIndex" : 3,
+					"projectIndex" : 0,
 					"source" : "AudioEngine",
 					"targetIndexes" : 
 					[
@@ -88,19 +88,21 @@
 				{
 					"childIndexes" : 
 					[
-						1,
-						2,
-						3
+						1
 					],
 					"directoryIndexes" : 
 					[
 						0,
-						1
+						1,
+						3,
+						4
 					],
 					"name" : "RTYPE",
 					"targetIndexes" : 
 					[
-						1
+						0,
+						1,
+						3
 					]
 				},
 				{
@@ -113,30 +115,6 @@
 					"targetIndexes" : 
 					[
 						2
-					]
-				},
-				{
-					"directoryIndexes" : 
-					[
-						3
-					],
-					"name" : "RenderEngine",
-					"parentIndex" : 0,
-					"targetIndexes" : 
-					[
-						3
-					]
-				},
-				{
-					"directoryIndexes" : 
-					[
-						4
-					],
-					"name" : "AudioEngine",
-					"parentIndex" : 0,
-					"targetIndexes" : 
-					[
-						0
 					]
 				}
 			],
@@ -145,30 +123,30 @@
 				{
 					"directoryIndex" : 4,
 					"id" : "AudioEngineLib::@898d5ace43999a4aaaf7",
-					"jsonFile" : "target-AudioEngineLib-ee3c56f9b0663bb9fdd5.json",
+					"jsonFile" : "target-AudioEngineLib-57fb827d3618457e10be.json",
 					"name" : "AudioEngineLib",
-					"projectIndex" : 3
+					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "GameEngine::@3f1430db303f85cff844",
-					"jsonFile" : "target-GameEngine-34c760a71846a35ddc51.json",
+					"jsonFile" : "target-GameEngine-f938f0d456372902f125.json",
 					"name" : "GameEngine",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "POCProgram::@27289f0c83b80c5e4b97",
-					"jsonFile" : "target-POCProgram-0c9214b341f7eb037d39.json",
+					"jsonFile" : "target-POCProgram-619def03d486f238d813.json",
 					"name" : "POCProgram",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "RenderEngineLib::@143fd27f18b610c4c08e",
-					"jsonFile" : "target-RenderEngineLib-e10c316febd61b72c54b.json",
+					"jsonFile" : "target-RenderEngineLib-0c379773ecec50929773.json",
 					"name" : "RenderEngineLib",
-					"projectIndex" : 2
+					"projectIndex" : 0
 				}
 			]
 		}

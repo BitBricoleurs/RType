@@ -2,18 +2,6 @@
 	"entries" : 
 	[
 		{
-			"name" : "AudioEngineLib_LIB_DEPENDS",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Dependencies for the target"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "general;raylib;"
-		},
-		{
 			"name" : "AudioEngine_BINARY_DIR",
 			"properties" : 
 			[
@@ -1208,18 +1196,6 @@
 			],
 			"type" : "BOOL",
 			"value" : "FALSE"
-		},
-		{
-			"name" : "GameEngine_LIB_DEPENDS",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Dependencies for the target"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "general;RenderEngineLib;general;AudioEngineLib;"
 		},
 		{
 			"name" : "POCProgram_BINARY_DIR",

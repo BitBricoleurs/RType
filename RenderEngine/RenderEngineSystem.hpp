@@ -8,12 +8,12 @@
 // RenderEngineSystem.hpp
 #pragma once
 
-#include "../GameEngine/Core/ISystem.hpp"
+#include "ISystem.hpp"
 #include "../RenderEngine/RenderCompTypes/TextComponent.hpp"
 #include "../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
 #include "../RenderEngine/RenderCompTypes/ParallaxComponent.hpp"
-#include "../RenderEngine/RenderEngine.hpp"
-#include "../GameEngine/Components/ComponentsType.hpp"
+#include "RenderEngine.hpp"
+#include "ComponentsType.hpp"
 #include <memory>
 
 namespace GameEngine {

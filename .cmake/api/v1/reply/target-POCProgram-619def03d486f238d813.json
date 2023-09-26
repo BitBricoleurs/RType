@@ -15,9 +15,7 @@
 		],
 		"files" : 
 		[
-			"POCProgram/CMakeLists.txt",
-			"GameEngine/CMakeLists.txt",
-			"RenderEngine/CMakeLists.txt"
+			"POCProgram/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -35,24 +33,6 @@
 				"file" : 0,
 				"line" : 10,
 				"parent" : 0
-			},
-			{
-				"file" : 1
-			},
-			{
-				"command" : 1,
-				"file" : 1,
-				"line" : 17,
-				"parent" : 3
-			},
-			{
-				"file" : 2
-			},
-			{
-				"command" : 1,
-				"file" : 2,
-				"line" : 17,
-				"parent" : 5
 			}
 		]
 	},
@@ -89,10 +69,6 @@
 				{
 					"backtrace" : 2,
 					"path" : "/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc"
-				},
-				{
-					"backtrace" : 2,
-					"path" : "/Components"
 				}
 			],
 			"language" : "CXX",
@@ -114,15 +90,7 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "RenderEngineLib::@143fd27f18b610c4c08e"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "GameEngine::@3f1430db303f85cff844"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "AudioEngineLib::@898d5ace43999a4aaaf7"
 		}
 	],
 	"id" : "POCProgram::@27289f0c83b80c5e4b97",
@@ -137,21 +105,6 @@
 			{
 				"backtrace" : 2,
 				"fragment" : "GameEngine/libGameEngine.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 4,
-				"fragment" : "RenderEngine/libRenderEngineLib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 4,
-				"fragment" : "AudioEngine/libAudioEngineLib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 6,
-				"fragment" : "-lraylib",
 				"role" : "libraries"
 			}
 		],

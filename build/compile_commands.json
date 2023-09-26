@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++20 -o GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o -c /home/Bartosz/delivery/TECH3/RType/GameEngine/Dummy.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/GameEngine/Dummy.cpp",
+  "output": "GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++20 -o GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o -c /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/GameEngine.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/GameEngine/Core/GameEngine.cpp",
+  "output": "GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++20 -o GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o -c /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/ComponentContainer.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/GameEngine/Core/ComponentContainer.cpp",
+  "output": "GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++20 -o GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o -c /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/Registry.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/GameEngine/Core/Registry.cpp",
+  "output": "GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++20 -o GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o -c /home/Bartosz/delivery/TECH3/RType/GameEngine/Event/EventHandler.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/GameEngine/Event/EventHandler.cpp",
+  "output": "GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -g -std=gnu++17 -o POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o -c /home/Bartosz/delivery/TECH3/RType/POCProgram/TestPOC.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/POCProgram/TestPOC.cpp",
+  "output": "POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType -g -std=gnu++17 -o RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o -c /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngine.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngine.cpp",
+  "output": "RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType -g -std=gnu++17 -o RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o -c /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngineSystem.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngineSystem.cpp",
+  "output": "RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType -I/Components -g -std=gnu++17 -o AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o -c /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngine.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngine.cpp",
+  "output": "AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o"
+},
+{
+  "directory": "/home/Bartosz/delivery/TECH3/RType/build",
+  "command": "/usr/bin/clang++ -I/home/Bartosz/delivery/TECH3/RType -I/Components -g -std=gnu++17 -o AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o -c /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngineSystem.cpp",
+  "file": "/home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngineSystem.cpp",
+  "output": "AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o"
+}
+]

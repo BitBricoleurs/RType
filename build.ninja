@@ -70,12 +70,12 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for GameEngine
 
-build cmake_object_order_depends_target_GameEngine: phony || cmake_object_order_depends_target_AudioEngineLib cmake_object_order_depends_target_RenderEngineLib
+build cmake_object_order_depends_target_GameEngine: phony || GameEngine/CMakeFiles/GameEngine.dir
 
 build GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Dummy.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -84,7 +84,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o: CXX_COMPILER__GameEngine
 build GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/GameEngine.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -93,7 +93,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o: CXX_COMPILER__
 build GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/ComponentContainer.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -102,7 +102,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o: CXX_CO
 build GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Core/Registry.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Core
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -111,7 +111,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o: CXX_COMPILER__Ga
 build GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o: CXX_COMPILER__GameEngine_ /home/Bartosz/delivery/TECH3/RType/GameEngine/Event/EventHandler.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++20
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = GameEngine/CMakeFiles/GameEngine.dir/Event
   TARGET_COMPILE_PDB = GameEngine/CMakeFiles/GameEngine.dir/GameEngine.pdb
@@ -125,7 +125,7 @@ build GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o: CXX_COMPILE
 #############################################
 # Link the static library GameEngine/libGameEngine.a
 
-build GameEngine/libGameEngine.a: CXX_STATIC_LIBRARY_LINKER__GameEngine_ GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o || AudioEngine/libAudioEngineLib.a RenderEngine/libRenderEngineLib.a
+build GameEngine/libGameEngine.a: CXX_STATIC_LIBRARY_LINKER__GameEngine_ GameEngine/CMakeFiles/GameEngine.dir/Dummy.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/GameEngine.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/ComponentContainer.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Core/Registry.cpp.o GameEngine/CMakeFiles/GameEngine.dir/Event/EventHandler.cpp.o
   OBJECT_DIR = GameEngine/CMakeFiles/GameEngine.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -168,12 +168,12 @@ build GameEngine/rebuild_cache: phony GameEngine/CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for POCProgram
 
-build cmake_object_order_depends_target_POCProgram: phony || cmake_object_order_depends_target_AudioEngineLib cmake_object_order_depends_target_GameEngine cmake_object_order_depends_target_RenderEngineLib
+build cmake_object_order_depends_target_POCProgram: phony || cmake_object_order_depends_target_GameEngine
 
 build POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o: CXX_COMPILER__POCProgram_ /home/Bartosz/delivery/TECH3/RType/POCProgram/TestPOC.cpp || cmake_object_order_depends_target_POCProgram
   DEP_FILE = POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = POCProgram/CMakeFiles/POCProgram.dir
   OBJECT_FILE_DIR = POCProgram/CMakeFiles/POCProgram.dir
   TARGET_COMPILE_PDB = POCProgram/CMakeFiles/POCProgram.dir/
@@ -187,8 +187,8 @@ build POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o: CXX_COMPILER__POCProgr
 #############################################
 # Link the executable POCProgram/POCProgram
 
-build POCProgram/POCProgram: CXX_EXECUTABLE_LINKER__POCProgram_ POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o | GameEngine/libGameEngine.a RenderEngine/libRenderEngineLib.a AudioEngine/libAudioEngineLib.a || AudioEngine/libAudioEngineLib.a GameEngine/libGameEngine.a RenderEngine/libRenderEngineLib.a
-  LINK_LIBRARIES = GameEngine/libGameEngine.a  RenderEngine/libRenderEngineLib.a  AudioEngine/libAudioEngineLib.a  -lraylib
+build POCProgram/POCProgram: CXX_EXECUTABLE_LINKER__POCProgram_ POCProgram/CMakeFiles/POCProgram.dir/TestPOC.cpp.o | GameEngine/libGameEngine.a || GameEngine/libGameEngine.a
+  LINK_LIBRARIES = GameEngine/libGameEngine.a
   OBJECT_DIR = POCProgram/CMakeFiles/POCProgram.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -231,12 +231,12 @@ build POCProgram/rebuild_cache: phony POCProgram/CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for RenderEngineLib
 
-build cmake_object_order_depends_target_RenderEngineLib: phony || RenderEngine/CMakeFiles/RenderEngineLib.dir
+build cmake_object_order_depends_target_RenderEngineLib: phony || cmake_object_order_depends_target_GameEngine
 
 build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o: CXX_COMPILER__RenderEngineLib_ /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngine.cpp || cmake_object_order_depends_target_RenderEngineLib
   DEP_FILE = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
   OBJECT_FILE_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
   TARGET_COMPILE_PDB = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineLib.pdb
@@ -245,7 +245,7 @@ build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o: CXX_COMPIL
 build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o: CXX_COMPILER__RenderEngineLib_ /home/Bartosz/delivery/TECH3/RType/RenderEngine/RenderEngineSystem.cpp || cmake_object_order_depends_target_RenderEngineLib
   DEP_FILE = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
   OBJECT_FILE_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
   TARGET_COMPILE_PDB = RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineLib.pdb
@@ -259,7 +259,7 @@ build RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o: CXX_
 #############################################
 # Link the static library RenderEngine/libRenderEngineLib.a
 
-build RenderEngine/libRenderEngineLib.a: CXX_STATIC_LIBRARY_LINKER__RenderEngineLib_ RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o
+build RenderEngine/libRenderEngineLib.a: CXX_STATIC_LIBRARY_LINKER__RenderEngineLib_ RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngine.cpp.o RenderEngine/CMakeFiles/RenderEngineLib.dir/RenderEngineSystem.cpp.o || GameEngine/libGameEngine.a
   OBJECT_DIR = RenderEngine/CMakeFiles/RenderEngineLib.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -302,12 +302,12 @@ build RenderEngine/rebuild_cache: phony RenderEngine/CMakeFiles/rebuild_cache.ut
 #############################################
 # Order-only phony target for AudioEngineLib
 
-build cmake_object_order_depends_target_AudioEngineLib: phony || AudioEngine/CMakeFiles/AudioEngineLib.dir
+build cmake_object_order_depends_target_AudioEngineLib: phony || cmake_object_order_depends_target_GameEngine
 
 build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o: CXX_COMPILER__AudioEngineLib_ /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngine.cpp || cmake_object_order_depends_target_AudioEngineLib
   DEP_FILE = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
   OBJECT_FILE_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
   TARGET_COMPILE_PDB = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineLib.pdb
@@ -316,7 +316,7 @@ build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o: CXX_COMPILER_
 build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o: CXX_COMPILER__AudioEngineLib_ /home/Bartosz/delivery/TECH3/RType/AudioEngine/AudioEngineSystem.cpp || cmake_object_order_depends_target_AudioEngineLib
   DEP_FILE = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o.d
   FLAGS = -fdiagnostics-color=always -std=gnu++17
-  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/Components
+  INCLUDES = -I/home/Bartosz/delivery/TECH3/RType -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Core -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Components -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Utilities -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Event -I/home/Bartosz/delivery/TECH3/RType/GameEngine/Misc
   OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
   OBJECT_FILE_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
   TARGET_COMPILE_PDB = AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineLib.pdb
@@ -330,7 +330,7 @@ build AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o: CXX_COM
 #############################################
 # Link the static library AudioEngine/libAudioEngineLib.a
 
-build AudioEngine/libAudioEngineLib.a: CXX_STATIC_LIBRARY_LINKER__AudioEngineLib_ AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o
+build AudioEngine/libAudioEngineLib.a: CXX_STATIC_LIBRARY_LINKER__AudioEngineLib_ AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngine.cpp.o AudioEngine/CMakeFiles/AudioEngineLib.dir/AudioEngineSystem.cpp.o || GameEngine/libGameEngine.a
   OBJECT_DIR = AudioEngine/CMakeFiles/AudioEngineLib.dir
   POST_BUILD = :
   PRE_LINK = :

@@ -2,54 +2,6 @@
 	"entries" : 
 	[
 		{
-			"name" : "AudioEngineLib_LIB_DEPENDS",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Dependencies for the target"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "general;raylib;"
-		},
-		{
-			"name" : "AudioEngine_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/Bartosz/delivery/TECH3/RType/AudioEngine"
-		},
-		{
-			"name" : "AudioEngine_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "OFF"
-		},
-		{
-			"name" : "AudioEngine_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/Bartosz/delivery/TECH3/RType/AudioEngine"
-		},
-		{
 			"name" : "CMAKE_ADDR2LINE",
 			"properties" : 
 			[
@@ -1174,18 +1126,6 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "GameEngine_LIB_DEPENDS",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Dependencies for the target"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "general;RenderEngineLib;general;AudioEngineLib;"
-		},
-		{
 			"name" : "POCProgram_BINARY_DIR",
 			"properties" : 
 			[
@@ -1256,42 +1196,6 @@
 			],
 			"type" : "STATIC",
 			"value" : "/home/Bartosz/delivery/TECH3/RType"
-		},
-		{
-			"name" : "RenderEngine_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/Bartosz/delivery/TECH3/RType/RenderEngine"
-		},
-		{
-			"name" : "RenderEngine_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "OFF"
-		},
-		{
-			"name" : "RenderEngine_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/Bartosz/delivery/TECH3/RType/RenderEngine"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

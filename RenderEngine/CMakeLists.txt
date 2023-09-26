@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(RenderEngine)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -13,5 +11,4 @@ set(SOURCES
         )
 
 add_library(RenderEngineLib STATIC ${SOURCES})
-
-target_link_libraries(RenderEngineLib PUBLIC raylib)
+target_link_libraries(RenderEngineLib PUBLIC raylib GameEngine)

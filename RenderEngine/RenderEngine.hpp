@@ -11,7 +11,7 @@
 #include "RenderCompTypes/TextComponent.hpp"
 #include "RenderCompTypes/SpriteComponent.hpp"
 #include "RenderCompTypes/ParallaxComponent.hpp"
-#include "../GameEngine/Event/EventHandler.hpp"
+#include "EventHandler.hpp"
 #include <unordered_map>
 #include <string>
 
