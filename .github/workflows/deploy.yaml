@@ -19,6 +19,10 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY_BASE64 }}" | base64 -d > ssh_key.pem
           chmod 600 ssh_key.pem
 
+      - name: Prepare directory on AWS EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com "mkdir -p ~/my-project"
+
       - name: Transfer files to AWS EC2
         run: |
           scp -o StrictHostKeyChecking=no -i ssh_key.pem -r * ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com:~/my-project
