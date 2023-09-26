@@ -1,0 +1,31 @@
+name: Build and Run on AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Decode SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY_BASE64 }}" | base64 -d > ssh_key.pem
+          chmod 600 ssh_key.pem
+
+      - name: Transfer files to AWS EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ssh_key.pem -r ./ ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com:~/my-project
+
+      - name: Compile and Run on AWS EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com <<'ENDSSH'
+            cd ~/my-project
+            make
+            ./your-program
+          ENDSSH
