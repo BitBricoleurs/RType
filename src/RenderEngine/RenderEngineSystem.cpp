@@ -10,6 +10,26 @@
 
 namespace GameEngine {
 
+    size_t& spriteComponentType() {
+        static size_t type = ComponentsType::getNewComponentType("SpriteComponent");
+        return type;
+    }
+
+    size_t& textComponentType() {
+        static size_t type = ComponentsType::getNewComponentType("TextComponent");
+        return type;
+    }
+
+    size_t& parallaxComponentType() {
+        static size_t type = ComponentsType::getNewComponentType("ParallaxComponent");
+        return type;
+    }
+
+    size_t& audioComponentType() {
+        static size_t type = ComponentsType::getNewComponentType("AudioComponentType");
+        return type;
+    }
+
     RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName) {
         renderEngine = std::make_shared<RenderEngine>();
         renderEngine->Initialize(width, height, windowName);
@@ -20,21 +40,16 @@ namespace GameEngine {
     }
 
     void RenderEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
-        std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(
-                ComponentsType::getComponentType("TextComponent"));
-        std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(
-                ComponentsType::getComponentType("SpriteComponent"));
-        std::vector<std::optional<std::shared_ptr<IComponent>>> parallaxComponents = componentsContainer.getComponents(
-                ComponentsType::getComponentType("ParallaxComponent"));
-
+        std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(textComponentType());
+        std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(spriteComponentType());
+        std::vector<std::optional<std::shared_ptr<IComponent>>> parallaxComponents = componentsContainer.getComponents(parallaxComponentType());
         renderEngine->PollEvents(eventHandler);
 
         auto sortAndDrawText = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
             std::vector<TextComponent> sortedComponents;
-
             for (const auto &component: components) {
                 if (component.has_value()) {
-                    auto text = std::dynamic_pointer_cast<TextComponent>(std::any_cast<std::shared_ptr<AComponent>>(component.value()));
+                    auto text = std::dynamic_pointer_cast<TextComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
                     if (text) {
                         sortedComponents.push_back(*text);
                     }
@@ -99,5 +114,7 @@ namespace GameEngine {
         sortAndDrawSprite(spriteComponents);
         sortAndDrawParallax(parallaxComponents);
     }
+
+
 
 }

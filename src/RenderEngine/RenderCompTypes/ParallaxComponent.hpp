@@ -17,7 +17,7 @@ namespace GameEngine {
             this->height = height;
             this->speed = speed;
         }
-        ~ParallaxComponent();
+        ~ParallaxComponent() = default;
 
         std::string getImagePath() const { return imagePath; }
         void setImagePath(const std::string& imagePath) { this->imagePath = imagePath; }

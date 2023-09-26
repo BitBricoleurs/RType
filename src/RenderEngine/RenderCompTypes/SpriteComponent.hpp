@@ -20,7 +20,7 @@ namespace GameEngine {
             this->width = width;
             this->height = height;
         }
-        ~SpriteComponent();
+        ~SpriteComponent() = default;
 
         std::string getImagePath() const { return imagePath; }
         void setImagePath(const std::string& imagePath) { this->imagePath = imagePath; }

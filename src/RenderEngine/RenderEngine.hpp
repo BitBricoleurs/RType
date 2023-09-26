@@ -8,9 +8,9 @@
 #pragma once
 
 #include "raylib.h"
-#include "src/RenderEngine/RenderCompTypes/TextComponent.hpp"
-#include "src/RenderEngine/RenderCompTypes/SpriteComponent.hpp"
-#include "src/RenderEngine/RenderCompTypes/ParallaxComponent.hpp"
+#include "RenderCompTypes/TextComponent.hpp"
+#include "RenderCompTypes/SpriteComponent.hpp"
+#include "RenderCompTypes/ParallaxComponent.hpp"
 #include "EventHandler.hpp"
 #include <unordered_map>
 #include <string>
@@ -25,7 +25,7 @@ namespace GameEngine {
         void Draw(const TextComponent& textComponent);
         void Draw(const SpriteComponent& spriteComponent);
         void Draw(ParallaxComponent& parallaxComponent);
-        void PollEvents(GameEngine::EventHandler& eventHandler);
+        void PollEvents(EventHandler& eventHandler);
         void Shutdown();
 
     private:

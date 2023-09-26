@@ -19,7 +19,7 @@ namespace GameEngine {
             this->y = y;
             this->fontSize = fontSize;
         }
-        ~TextComponent();
+        ~TextComponent() = default;
 
         std::string getText() const { return text; }
         void setText(const std::string& text) { this->text = text; }

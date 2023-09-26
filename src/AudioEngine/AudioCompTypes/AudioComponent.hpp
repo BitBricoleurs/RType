@@ -16,7 +16,7 @@ namespace GameEngine {
         AudioComponent(const std::string& audioPath) {
             this->audioPath = audioPath;
         }
-        ~AudioComponent();
+        ~AudioComponent() = default;
 
         std::string getAudioPath() const { return audioPath; }
         void setAudioPath(const std::string& audioPath) { this->audioPath = audioPath; }
