@@ -4,6 +4,7 @@ echo "Nettoyage des fichiers et dossiers générés..."
 rm -rf .idea
 rm -rf cmake-build-debug
 rm -rf CMakeFiles
+rm -rf vcpkg
 
 rm -f CMakeCache.txt
 rm -f cmake_install.cmake
@@ -11,6 +12,7 @@ rm -f SDL2d.dll
 rm -f Rtype
 rm -f *.cbp
 rm -f POCProgram
+
 
 echo "Nettoyage récursif des fichiers CMake..."
 
