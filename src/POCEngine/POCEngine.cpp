@@ -11,7 +11,7 @@ int main() {
     auto textEntity = engine.createEntity();
     auto textComponent = std::make_shared<GameEngine::TextComponent>("Hello World!", 100, 100, 20, 1);
     textComponent->setComponentType(GameEngine::ComponentsType::getComponentType("TextComponent"));
-    engine.bindComponentToEntity(textEntity, GameEngine::ComponentsType::getComponentType("TextComponent"),std::make_shared<GameEngine::TextComponent>("Hello WorldASDDDDDDDDDDDDDD!", 100, 100, 20, 1));
+    engine.bindComponentToEntity(textEntity, std::make_shared<GameEngine::TextComponent>("Hello WorldASDDDDDDDDDDDDDD!", 100, 100, 20, 1));
 
     engine.run();
 
