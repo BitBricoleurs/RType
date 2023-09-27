@@ -28,6 +28,7 @@ namespace GameEngine {
         void processEventQueue(ComponentsContainer& componentsContainer);
         void triggerEvent(const std::string& eventName, ComponentsContainer& componentsContainer);
         void deleteEvent(const std::string& eventName);
+        std::string getTriggeredEvent() const { return eventQueue.front(); }
 
     private:
         std::unordered_map<std::string, std::vector<std::shared_ptr<ISystem>>> eventMap;

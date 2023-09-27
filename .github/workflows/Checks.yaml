@@ -95,6 +95,7 @@ jobs:
           make
 
   check_program_compilation_windows:
+    if: github.ref == 'refs/heads/dev'
     name: Check Program Compilation (Windows)
     runs-on: windows-latest
     steps:
