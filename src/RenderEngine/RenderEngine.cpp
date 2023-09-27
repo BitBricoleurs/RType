@@ -23,7 +23,7 @@ namespace GameEngine {
 
     void RenderEngine::Draw(const TextComponent& textComponent) {
         BeginDrawing();
-        DrawText(textComponent.getText().c_str(), textComponent.getX(), textComponent.getY(), textComponent.getFontSize(), RAYWHITE);
+        DrawText(textComponent.getText().c_str(), textComponent.getX(), textComponent.getY(), textComponent.getFontSize(), BLACK);
         EndDrawing();
     }
 

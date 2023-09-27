@@ -13,6 +13,7 @@ namespace GameEngine {
             ~AComponent() override = default;
 
             size_t getComponentType() override { return componentType;}
+            void setComponentType(size_t componentType) { this->componentType = componentType; }
         private:
             size_t componentType;
     };
