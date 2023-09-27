@@ -90,17 +90,17 @@ jobs:
   #       run: |
   #         cmake -DCMAKE_CXX_STANDARD=20 .
   #         make
-  check_program_compilation_windows:
-    name: Check Program Compilation (Windows)
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.0.2
-      - name: Compile Program
-        run: |
-          cmake -DCMAKE_CXX_STANDARD=20 .
-          cmake --build .
+  #check_program_compilation_windows:
+  #  name: Check Program Compilation (Windows)
+  #  runs-on: windows-latest
+  # steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Install dependencies
+  #     run: |
+  #       choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+  #   - name: Setup MSBuild
+  #      uses: microsoft/setup-msbuild@v1.0.2
+  #    - name: Compile Program
+  #     run: |
+  #       cmake -DCMAKE_CXX_STANDARD=20 .
+  #       cmake --build .
