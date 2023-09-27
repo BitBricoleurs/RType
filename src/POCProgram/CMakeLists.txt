@@ -7,4 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(POCProgram TestPOC.cpp)
 
-target_link_libraries(POCProgram GameEngine)
+target_link_libraries(POCProgram GameEngine raylib)
