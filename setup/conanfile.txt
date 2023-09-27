@@ -1,0 +1,6 @@
+[requires]
+raylib/4.0.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
