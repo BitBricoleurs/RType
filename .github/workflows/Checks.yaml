@@ -75,8 +75,10 @@ jobs:
             tree
       - name: Compile Program
         run: |
-          sudo ./dependencies.sh
-          ./build.sh
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
 
   # check_program_compilation_macos:
   #   name: Check Program Compilation (macOS)
@@ -102,4 +104,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
-          ./build.bat
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
