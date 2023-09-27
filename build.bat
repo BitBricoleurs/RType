@@ -1,16 +1,15 @@
-# Script.ps1
+@echo off
 
-# Vérifier si le dossier "build" n'existe pas
-if (-not (Test-Path build)) {
-    # Créer le dossier "build"
-    New-Item -Type Directory -Path build
+REM Vérifie si le dossier "build" n'existe pas
+if not exist "build\" (
+    REM Crée le dossier "build"
+    mkdir build
 
-    # Exécuter les scripts
-    & '.\setup\clone_conan.sh'
-    & '.\setup\setup_conan.sh'
-}
+    REM Exécute les scripts de configuration de Conan
+    powershell -ExecutionPolicy Bypass -File setup\clone_conan.ps1
+    call setup\setup_conan.bat
+)
 
-# Se déplacer dans le dossier "build" et exécuter CMake
 cd build
-& 'cmake' .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-& 'cmake' --build .
+call cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+call cmake --build .
