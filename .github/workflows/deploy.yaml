@@ -31,5 +31,6 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@ec2-16-170-148-67.eu-north-1.compute.amazonaws.com <<'ENDSSH'
             cd ~/my-project
-            cmake .
+            ls
+            # cmake .
           ENDSSH

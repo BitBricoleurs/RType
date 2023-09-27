@@ -66,17 +66,17 @@ jobs:
   check_program_compilation_linux:
     name: Check Program Compilation (Linux)
     runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake
       - name: Compile Program
         run: |
-          cmake .
-          make
+            tree
+      - name: Compile Program
+        run: |
+          sudo ./dependencies.sh
+          ./build.sh
 
   # check_program_compilation_macos:
   #   name: Check Program Compilation (macOS)
@@ -102,5 +102,4 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
-          cmake -DCMAKE_CXX_STANDARD=20 .
-          cmake --build .
+          ./build.bat
