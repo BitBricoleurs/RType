@@ -4,7 +4,6 @@
 if [ ! -d "build" ]; then
     # Créer le dossier "build"
     mkdir build
-
     ./setup/clone_conan.sh
     ./setup/setup_conan.sh
 fi

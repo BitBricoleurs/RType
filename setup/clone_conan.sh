@@ -1,4 +1,4 @@
-#!/bin/bashw
+#!/bin/bash
 
 if ! command -v python &> /dev/null; then
     echo "Python is required but not installed. Please install Python."
