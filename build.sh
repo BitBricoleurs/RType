@@ -7,3 +7,4 @@ fi
 cd build
 
 cmake ..
+cmake --build .

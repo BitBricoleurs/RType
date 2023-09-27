@@ -40,5 +40,3 @@ elseif(APPLE)
 else()
     set(CPACK_GENERATOR "DEB;RPM")
 endif()
-
-include(CPack)
