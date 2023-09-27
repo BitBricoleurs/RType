@@ -75,8 +75,10 @@ jobs:
             tree
       - name: Compile Program
         run: |
-          sudo ./dependencies.sh
-          ./build.sh
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
 
   check_program_compilation_macos:
     if: github.ref == 'refs/heads/dev'
@@ -91,6 +93,7 @@ jobs:
         run: |
           cmake -DCMAKE_CXX_STANDARD=20 .
           make
+
   check_program_compilation_windows:
     if: github.ref == 'refs/heads/dev'
     name: Check Program Compilation (Windows)
@@ -104,5 +107,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
-          ./build.bat
-
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .

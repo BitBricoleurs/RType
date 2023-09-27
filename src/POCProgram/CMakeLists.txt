@@ -1,10 +1,6 @@
-# POCProgram/CMakeLists.txt
 
-project(POCProgram)
+target_link_libraries(${PROJECT_NAME_POCPROGRAM} GameEngine)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(POCProgram TestPOC.cpp)
-
-target_link_libraries(POCProgram GameEngine raylib)
+target_sources(${PROJECT_NAME_POCPROGRAM}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestPOC.cpp)
