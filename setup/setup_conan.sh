@@ -3,7 +3,7 @@
 # Mettre à jour le profil par défaut avec la détection automatique
 conan profile detect --force
 
-conan config set general.tools.system.package_manager:mode=install
+conan profile update general.tools.system.package_manager:mode=install default
 # Vérifiez si la commande précédente a réussi
 if [ $? -ne 0 ]; then
     echo "Erreur lors de la détection du profil Conan."
