@@ -72,8 +72,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Compile Program
         run: |
+            tree
+      - name: Compile Program
+        run: |
           ./build.sh
-
 
   # check_program_compilation_macos:
   #   name: Check Program Compilation (macOS)
