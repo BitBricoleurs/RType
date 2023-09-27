@@ -43,6 +43,7 @@ namespace GameEngine {
         std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(textComponentType());
         std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(spriteComponentType());
         std::vector<std::optional<std::shared_ptr<IComponent>>> parallaxComponents = componentsContainer.getComponents(parallaxComponentType());
+        printf("textComponents size: %zu\n", spriteComponentType());
         renderEngine->PollEvents(eventHandler);
 
         auto sortAndDrawText = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
