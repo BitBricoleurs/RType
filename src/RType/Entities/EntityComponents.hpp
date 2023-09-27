@@ -6,13 +6,49 @@
 */
 
 #include "GameEngine.hpp"
-#include "IComponent.hpp"
+#include "AComponent.hpp"
 #include "Vec2f.hpp"
 #include <string>
 
 namespace GameEngine {
 
-    class RectComponent : public IComponent {
+    class BulletsComponent : public AComponent {
+    public:
+        BulletsComponent() = default;
+        void addBulletEntity(size_t id) {
+            bullets.push_back(id);
+        }
+        std::vector<size_t> bullets;
+    };
+
+    class PowerUpsComponent : public AComponent {
+    public:
+        PowerUpsComponent() = default;
+        void addPowerUpEntity(size_t id) {
+            powerUps.push_back(id);
+        }
+        std::vector<size_t> powerUps;
+    };
+
+    class MobsComponent : public AComponent {
+    public:
+        MobsComponent() = default;
+        void addMobEntity(size_t id) {
+            mobss.push_back(id);
+        }
+        std::vector<size_t> mobss;
+    };
+
+    class CollideComponent : public AComponent {
+    public:
+        CollideComponent() = default;
+        void addCollision(size_t id) {
+            collide.push_back(id);
+        }
+        std::vector<size_t> collide;
+    };
+
+    class RectComponent : public AComponent {
     public:
         RectComponent(int x, int y, int width, int height, const std::string& spriteSheetPath) 
             : spriteStartPos(x, y), width(width), height(height), spriteSheetPath(spriteSheetPath) {}
@@ -22,7 +58,7 @@ namespace GameEngine {
         std::string spriteSheetPath;
     };
 
-    class HealthComponent : public IComponent {
+    class HealthComponent : public AComponent {
     public:
         HealthComponent(int maxHealth) 
             : maxHealth(maxHealth), currentHealth(maxHealth) {}
@@ -31,14 +67,14 @@ namespace GameEngine {
         int currentHealth;
     };
 
-    class PositionComponent : public IComponent {
+    class PositionComponent : public AComponent {
     public:
         PositionComponent(float x, float y) : position(x, y) {}
 
         Vec2f position;
     };
 
-    class VelocityComponent : public IComponent {
+    class VelocityComponent : public AComponent {
     public:
         VelocityComponent(float dx, float dy) 
             : dx(dx), dy(dy) {}
@@ -46,7 +82,7 @@ namespace GameEngine {
         float dx, dy;
     };
 
-    class DirectionComponent : public IComponent {
+    class DirectionComponent : public AComponent {
     public:
         DirectionComponent(float dx, float dy) 
             : dx(dx), dy(dy) {}
@@ -54,7 +90,7 @@ namespace GameEngine {
         float dx, dy;
     };
 
-    class BulletStartPositionComponent : public IComponent {
+    class BulletStartPositionComponent : public AComponent {
     public:
         BulletStartPositionComponent(float startX, float startY)
             : startX(startX), startY(startY) {}
@@ -62,7 +98,7 @@ namespace GameEngine {
         float startX, startY;
     };
 
-    class HitboxComponent : public IComponent {
+    class HitboxComponent : public AComponent {
     public:
         HitboxComponent(float width, float height)
             : width(width), height(height) {}
@@ -70,7 +106,7 @@ namespace GameEngine {
         float width, height; 
     };
 
-    class DamageComponent : public IComponent {
+    class DamageComponent : public AComponent {
     public:
         DamageComponent(int damageValue) 
             : damageValue(damageValue) {}
@@ -78,7 +114,7 @@ namespace GameEngine {
         int damageValue; 
     };
 
-    class BossStageComponent : public IComponent {
+    class BossStageComponent : public AComponent {
     public:
         BossStageComponent(int stage) 
             : stage(stage) {}
@@ -87,4 +123,3 @@ namespace GameEngine {
     };
 
 }
-
