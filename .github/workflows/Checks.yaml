@@ -102,5 +102,4 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Compile Program
         run: |
-          cmake -DCMAKE_CXX_STANDARD=20 .
-          cmake --build .
+          ./build.bat
