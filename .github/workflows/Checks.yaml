@@ -75,7 +75,7 @@ jobs:
             tree
       - name: Compile Program
         run: |
-          ./dependencies.sh
+          sudo ./dependencies.sh
           ./build.sh
 
   # check_program_compilation_macos:
