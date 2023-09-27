@@ -44,8 +44,8 @@ int main() {
     size_t entity1 = engine.createEntity();
     size_t entity2 = engine.createEntity();
 
-    engine.bindComponentToEntity(entity1, 0, std::make_optional(std::make_shared<GameEngine::TransformComponent>(1.0f, 2.0f)));
-    engine.bindComponentToEntity(entity2, 0, std::make_optional(std::make_shared<GameEngine::TransformComponent>(3.0f, 4.0f)));
+    engine.bindComponentToEntity(entity1, std::make_optional(std::make_shared<GameEngine::TransformComponent>(1.0f, 2.0f)));
+    engine.bindComponentToEntity(entity2, std::make_optional(std::make_shared<GameEngine::TransformComponent>(3.0f, 4.0f)));
 
     auto renderSystem = std::make_shared<GameEngine::RenderSystem>();
     auto physicsSystem = std::make_shared<GameEngine::PhysicsSystem>();

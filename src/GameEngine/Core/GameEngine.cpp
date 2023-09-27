@@ -19,8 +19,8 @@ namespace GameEngine {
         return registry.createEntity(std::move(components));
     }
 
-    void GameEngine::bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::shared_ptr<IComponent>> component) {
-        registry.bindComponentToEntity(entityID, componentType, std::move(component));
+    void GameEngine::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
+        registry.bindComponentToEntity(entityID, std::move(component));
     }
 
     void GameEngine::unbindComponentFromEntity(size_t entityID, size_t componentType) {
@@ -45,6 +45,13 @@ namespace GameEngine {
 
     void GameEngine::scheduleEvent(const std::string& eventName, size_t interval) {
         scheduledEvents.emplace_back(eventName, interval, 0);
+    }
+
+    void GameEngine::unscheduleEvent(const std::string& eventName) {
+        scheduledEvents.erase(std::remove_if(scheduledEvents.begin(), scheduledEvents.end(), [&eventName](auto& event) {
+            auto& [name, interval, counter] = event;
+            return name == eventName;
+        }), scheduledEvents.end());
     }
 
     void GameEngine::run() {
