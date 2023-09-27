@@ -66,17 +66,17 @@ jobs:
   check_program_compilation_linux:
     name: Check Program Compilation (Linux)
     runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake
       - name: Compile Program
         run: |
-          cmake .
-          make
+            tree
+      - name: Compile Program
+        run: |
+          sudo ./dependencies.sh
+          ./build.sh
 
   # check_program_compilation_macos:
   #   name: Check Program Compilation (macOS)
@@ -90,17 +90,16 @@ jobs:
   #       run: |
   #         cmake -DCMAKE_CXX_STANDARD=20 .
   #         make
-  #check_program_compilation_windows:
-  #  name: Check Program Compilation (Windows)
-  #  runs-on: windows-latest
-  # steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Install dependencies
-  #     run: |
-  #       choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-  #   - name: Setup MSBuild
-  #      uses: microsoft/setup-msbuild@v1.0.2
-  #    - name: Compile Program
-  #     run: |
-  #       cmake -DCMAKE_CXX_STANDARD=20 .
-  #       cmake --build .
+  check_program_compilation_windows:
+    name: Check Program Compilation (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Compile Program
+        run: |
+          ./build.bat
