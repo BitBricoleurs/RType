@@ -1,0 +1,1 @@
+. "/home/Bartosz/delivery/TECH3/RType/build/deactivate_conanrunenv-release-x86_64.sh"
