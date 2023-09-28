@@ -1,4 +1,4 @@
-# RType# Rtype
+# Rtype
 
 ![Image de Rtype](Assets/Doc/Illustartiion.jpg)
 
@@ -25,8 +25,8 @@ Des installateurs précompilés (setup) sont disponibles pour tous les systèmes
 
 Pour une compréhension approfondie de Rtype et de ses mécanismes internes, consultez nos documentations détaillées :
 
-- [Game Engine Documentation](doc/GameEngineInstruction.md)
-- [RFC Documentation](doc/rfc-rtype-ncp.md)
+- [Game Engine Documentation](docs/GameEngineInstruction.md)
+- [RFC Documentation](docs/rfc-rtype-ncp.md)
 
 ## Collaborateurs
 
