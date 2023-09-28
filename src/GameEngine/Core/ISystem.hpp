@@ -8,13 +8,17 @@
 #include <unordered_map>
 #include <optional>
 #include <any>
-#include "EventHandler.hpp"
+#include <memory>
+#include "IComponent.hpp"
+#include "ComponentContainer.hpp"
 
 namespace GameEngine {
+    class EventHandler;
+
     class ISystem
     {
         public:
-            virtual void update(std::unordered_map<size_t, std::vector<std::optional<std::any>>> componentsContainer, std::shared_ptr<EventHandler> eventHandler) = 0;
+            virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) = 0;
         private:
     };
 } // namespace GameEngine

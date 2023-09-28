@@ -1,5 +1,17 @@
-set(SOURCES main.cpp)
+add_subdirectory(GameEngine)
+add_subdirectory(AudioEngine)
+add_subdirectory(RenderEngine)
+add_subdirectory(POCEngine)
+add_subdirectory(POCProgram)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+target_sources(
+        ${PROJECT_NAME_CLIENT}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
+)
 
-target_link_libraries(RType PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_sources(
+        ${PROJECT_NAME_SERVER}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
+)
