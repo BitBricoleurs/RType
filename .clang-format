@@ -1,49 +1,44 @@
----
-Language: Cpp
-BasedOnStyle: LLVM
+﻿---
+Language:        Cpp
+BasedOnStyle:    LLVM
 
-# Use 4 spaces for indentation.
-IndentWidth: 4
-TabWidth: 4
-UseTab: Never
+# Indentation
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+
+# Line breaking
+ColumnLimit:     120
 BreakBeforeBraces: Attach
-NamespaceIndentation: All
-
-# Indent case labels by default.
-IndentCaseLabels: true
-
-# Column limit, for wrapping lines.
-ColumnLimit: 80
-
-# Ensures that the pointer alignment is left.
-PointerAlignment: Left
-
-# Allows short functions in a single line.
-AllowShortFunctionsOnASingleLine: All
-
-# Always break before multiline strings.
+AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: true
+BinPackParameters: true
+AllowShortFunctionsOnASingleLine: Inline
 
-# Make sure to break before binary operators.
-BreakBeforeBinaryOperators: All
+# Spaces
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpaceAfterCStyleCast: false
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: false
 
-# Sort includes.
-SortIncludes: true
+# Alignment
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: true
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
 
-# Continuation indent width for line breaks.
+# Miscellaneous 
+PointerAlignment: Left
 ContinuationIndentWidth: 4
+CommentPragmas:  '^ IWYU pragma:'
+KeepEmptyLinesAtTheStartOfBlocks: false
 
-# Space before assignment operators.
-SpaceBeforeAssignmentOperators: false
+# Sorting includes
+IncludeBlocks: Preserve
 
-# Use spaces in parentheses.
-SpacesInParentheses: true
-
-# Use spaces in square brackets.
-SpacesInSquareBrackets: true
-
-# Max consecutive empty lines kept.
-MaxEmptyLinesToKeep: 1
-
-# Penalty for breaking before first call parameter.
-PenaltyBreakBeforeFirstCallParameter: 2000
+---
