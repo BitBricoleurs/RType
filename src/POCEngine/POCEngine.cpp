@@ -3,6 +3,7 @@
 #include "RenderEngineSystem.hpp"
 #include <iostream>
 #include "Utils.hpp"
+#include "../RenderEngine/RenderCompTypes/TextComponent.hpp"
 
 namespace GameEngine {
 
@@ -28,10 +29,13 @@ int main() {
     rect1.x = 0;
     rect1.y = 0;
     auto textEntity = engine.createEntity();
-    engine.bindComponentToEntity(textEntity, std::make_shared<GameEngine::TextComponent>("Hello WorldASDDDDDDDDDDDDDD!", pos, 20, 1, BLUE));
+    auto textcompoennt = std::make_shared<GameEngine::TextComponent>("Hello World!", pos, 20, 1, BLUE);
+    textcompoennt->setComponentType(GameEngine::ComponentsType::getNewComponentType("TextComponent"));
+    engine.bindComponentToEntity(textEntity, textcompoennt);
+    auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("../Assets/spaceship.png", pos, rect1, 1);
+    spritecompoennt->setComponentType(GameEngine::ComponentsType::getNewComponentType("SpriteComponent"));
+    engine.bindComponentToEntity(textEntity, spritecompoennt);
 
-    auto PlayerEntity = engine.createEntity();
-    engine.bindComponentToEntity(PlayerEntity, std::make_shared<GameEngine::SpriteComponent>("../Assets/spaceship.png", pos, rect1, 1));
     engine.run();
     return 0;
 }

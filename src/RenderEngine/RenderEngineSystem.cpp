@@ -9,27 +9,6 @@
 #include <algorithm>
 
 namespace GameEngine {
-
-    size_t& spriteComponentType() {
-        static size_t type = ComponentsType::getNewComponentType("SpriteComponent");
-        return type;
-    }
-
-    size_t& textComponentType() {
-        static size_t type = ComponentsType::getNewComponentType("TextComponent");
-        return type;
-    }
-
-    size_t& parallaxComponentType() {
-        static size_t type = ComponentsType::getNewComponentType("ParallaxComponent");
-        return type;
-    }
-
-    size_t& audioComponentType() {
-        static size_t type = ComponentsType::getNewComponentType("AudioComponentType");
-        return type;
-    }
-
     RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName, int numberFps) {
         renderEngine = std::make_shared<RenderEngine>();
         renderEngine->Initialize(width, height, windowName, numberFps);
@@ -40,8 +19,8 @@ namespace GameEngine {
     }
 
     void RenderEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
-        std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(textComponentType());
-        std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(spriteComponentType());
+        std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(ComponentsType::getComponentType("TextComponent"));
+        std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(ComponentsType::getComponentType("SpriteComponent"));
         renderEngine->PollEvents(eventHandler);
 
         auto sortAndDrawText = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
@@ -67,16 +46,15 @@ namespace GameEngine {
 
         auto sortAndDrawSprite = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
             std::vector<SpriteComponent> sortedComponents;
-
             for (const auto &component: components) {
                 if (component.has_value()) {
-                    auto sprite = std::dynamic_pointer_cast<SpriteComponent>(std::any_cast<std::shared_ptr<AComponent>>(component.value()));
+                    auto sprite = std::dynamic_pointer_cast<SpriteComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
+                    printf(sprite->getImagePath().c_str());
                     if (sprite) {
                         sortedComponents.push_back(*sprite);
                     }
                 }
             }
-
             std::sort(sortedComponents.begin(), sortedComponents.end(),
                       [](const SpriteComponent &a, const SpriteComponent &b) {
                           return a.getLayer() < b.getLayer();

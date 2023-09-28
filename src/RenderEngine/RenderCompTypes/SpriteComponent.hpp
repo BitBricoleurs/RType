@@ -10,6 +10,7 @@
 #include "AComponent.hpp"
 #include <string>
 #include "Utils.hpp"
+#include "ComponentsType.hpp"
 
 namespace GameEngine {
     class SpriteComponent : public AComponent {

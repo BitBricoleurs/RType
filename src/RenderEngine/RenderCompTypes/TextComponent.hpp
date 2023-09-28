@@ -11,6 +11,7 @@
 #include <string>
 #include "Utils.hpp"
 #include "raylib.h"
+#include "ComponentsType.hpp"
 
 namespace GameEngine {
     class TextComponent : public AComponent {

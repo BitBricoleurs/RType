@@ -27,9 +27,4 @@ namespace GameEngine {
     private:
         std::shared_ptr<RenderEngine> renderEngine;
     };
-
-    size_t& spriteComponentType();
-    size_t& textComponentType();
-    size_t& audioComponentType();
-
 }
