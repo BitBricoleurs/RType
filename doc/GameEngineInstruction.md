@@ -4,10 +4,7 @@
 - [GameEngine Documentation](#gameengine-documentation)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-  - [Usage](#usage)
+ - [Usage](#usage)
     - [Registry](#registry)
     - [**Scenes**](#scenes)
     - [**Entities and Components**](#entities-and-components)
@@ -44,23 +41,6 @@
 ## Introduction
 
 Welcome to the GameEngine documentation! This documentation provides comprehensive information on how to use our game engine to build interactive and engaging games.
-
-## Getting Started
-
-### Prerequisites
-
-Before you begin using GameEngine, make sure you have the following prerequisites installed:
-
-- C++ compiler (C++17 or higher)
-- [Dependency Name and Version]
-- [Other Dependencies]
-
-### Installation
-
-To install GameEngine, follow these steps:
-
-1. Clone the GameEngine repository from [GitHub URL].
-2. [Additional Installation Steps]
 
 ## Usage
 
@@ -347,23 +327,6 @@ namespace GameEngine {
 2. Systems can also communicate or interact with other systems if needed. However, make sure to manage dependencies between systems carefully to avoid tight coupling and circular dependencies.
 
 With this information, users of the GameEngine can better understand how to implement custom game systems and how they interact with entities and components.
-
-
-## Advanced Usage
-
-For advanced usage and optimization techniques, refer to [Advanced Usage Guide](advanced-usage.md).
-
-## API Reference
-
-For detailed information about classes, methods, and their parameters, see the [API Reference](api-reference.md).
-
-## Contributing
-
-We welcome contributions from the developer community. If you'd like to contribute to GameEngine, please follow our [Contribution Guidelines](CONTRIBUTING.md).
-
-## License
-
-GameEngine is licensed under the [License Name] License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
