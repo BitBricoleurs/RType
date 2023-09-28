@@ -5,121 +5,130 @@
 ** MobComponents
 */
 
-#include "GameEngine.hpp"
 #include "AComponent.hpp"
+#include "GameEngine.hpp"
 #include "Vec2f.hpp"
+#include <cstddef>
 #include <string>
 
 namespace GameEngine {
 
-    class BulletsComponent : public AComponent {
-    public:
-        BulletsComponent() = default;
-        void addBulletEntity(size_t id) {
-            bullets.push_back(id);
-        }
-        std::vector<size_t> bullets;
-    };
+class BulletsComponent : public AComponent {
+  public:
+    BulletsComponent() = default;
+    void addBulletEntity(size_t id) { bullets.push_back(id); }
+    std::vector<size_t> bullets;
+};
 
-    class PowerUpsComponent : public AComponent {
-    public:
-        PowerUpsComponent() = default;
-        void addPowerUpEntity(size_t id) {
-            powerUps.push_back(id);
-        }
-        std::vector<size_t> powerUps;
-    };
+class PowerUpsComponent : public AComponent {
+  public:
+    PowerUpsComponent() = default;
+    void addPowerUpEntity(size_t id) { powerUps.push_back(id); }
+    std::vector<size_t> powerUps;
+};
 
-    class MobsComponent : public AComponent {
-    public:
-        MobsComponent() = default;
-        void addMobEntity(size_t id) {
-            mobss.push_back(id);
-        }
-        std::vector<size_t> mobss;
-    };
+class MobsComponent : public AComponent {
+  public:
+    MobsComponent() = default;
+    void addMobEntity(size_t id) { mobs.push_back(id); }
+    std::vector<size_t> mobs;
+};
 
-    class CollideComponent : public AComponent {
-    public:
-        CollideComponent() = default;
-        void addCollision(size_t id) {
-            collide.push_back(id);
-        }
-        std::vector<size_t> collide;
-    };
+class CollideComponent : public AComponent {
+  public:
+    CollideComponent() = default;
+    std::vector<size_t> collide;
+};
 
-    class RectComponent : public AComponent {
-    public:
-        RectComponent(int x, int y, int width, int height, const std::string& spriteSheetPath) 
-            : spriteStartPos(x, y), width(width), height(height), spriteSheetPath(spriteSheetPath) {}
+class SpriteAnimationComponent : public AComponent {
+  public:
+    SpriteAnimationComponent() : currentFrameIndex(0), currentFrame(0, 0) {}
 
-        int width, height;
-        Vec2f spriteStartPos;
-        std::string spriteSheetPath;
-    };
+    int frameHeight, frameWidth;
+    bool twoDirections;
+    int currentFrameIndex;
+    int frames;
+    Vec2f currentFrame;
+    std::vector<Vec2f> spritePositionsLeft;
+    std::vector<Vec2f> spritePositionsRight;
+};
 
-    class HealthComponent : public AComponent {
-    public:
-        HealthComponent(int maxHealth) 
-            : maxHealth(maxHealth), currentHealth(maxHealth) {}
+class DeathAnimationComponent : public AComponent {
+  public:
+    DeathAnimationComponent() = default;
 
-        int maxHealth;
-        int currentHealth;
-    };
+    int frameHeight, frameWidth;
+    bool twoDirections;
+    std::vector<Vec2f> spritePositionsLeft;
+    std::vector<Vec2f> spritePositionsRight;
+};
 
-    class PositionComponent : public AComponent {
-    public:
-        PositionComponent(float x, float y) : position(x, y) {}
+class RectComponent : public AComponent {
+  public:
+    RectComponent(int x, int y, int width, int height, const std::string& spriteSheetPath, int frames)
+        : spriteStartPos(x, y), width(width), height(height), spriteSheetPath(spriteSheetPath), frames(frames) {}
 
-        Vec2f position;
-    };
+    int width, height;
+    int frames;
+    Vec2f spriteStartPos;
+    std::string spriteSheetPath;
+};
 
-    class VelocityComponent : public AComponent {
-    public:
-        VelocityComponent(float dx, float dy) 
-            : dx(dx), dy(dy) {}
+class HealthComponent : public AComponent {
+  public:
+    HealthComponent(int maxHealth) : maxHealth(maxHealth), currentHealth(maxHealth) {}
 
-        float dx, dy;
-    };
+    int maxHealth;
+    int currentHealth;
+};
 
-    class DirectionComponent : public AComponent {
-    public:
-        DirectionComponent(float dx, float dy) 
-            : dx(dx), dy(dy) {}
+class PositionComponent : public AComponent {
+  public:
+    PositionComponent(float x, float y) : position(x, y) {}
 
-        float dx, dy;
-    };
+    Vec2f position;
+};
 
-    class BulletStartPositionComponent : public AComponent {
-    public:
-        BulletStartPositionComponent(float startX, float startY)
-            : startX(startX), startY(startY) {}
+class VelocityComponent : public AComponent {
+  public:
+    VelocityComponent(float dx, float dy) : dx(dx), dy(dy) {}
 
-        float startX, startY;
-    };
+    float dx, dy;
+};
 
-    class HitboxComponent : public AComponent {
-    public:
-        HitboxComponent(float width, float height)
-            : width(width), height(height) {}
+class DirectionComponent : public AComponent {
+  public:
+    DirectionComponent(float dx, float dy) : dx(dx), dy(dy) {}
 
-        float width, height; 
-    };
+    float dx, dy;
+};
 
-    class DamageComponent : public AComponent {
-    public:
-        DamageComponent(int damageValue) 
-            : damageValue(damageValue) {}
+class BulletStartPositionComponent : public AComponent {
+  public:
+    BulletStartPositionComponent(float startX, float startY) : startX(startX), startY(startY) {}
 
-        int damageValue; 
-    };
+    float startX, startY;
+};
 
-    class BossStageComponent : public AComponent {
-    public:
-        BossStageComponent(int stage) 
-            : stage(stage) {}
+class HitboxComponent : public AComponent {
+  public:
+    HitboxComponent(float width, float height) : width(width), height(height) {}
 
-        int stage;
-    };
+    float width, height;
+};
 
-}
+class DamageComponent : public AComponent {
+  public:
+    DamageComponent(int damageValue) : damageValue(damageValue) {}
+
+    int damageValue;
+};
+
+class BossStageComponent : public AComponent {
+  public:
+    BossStageComponent(int stage) : stage(stage) {}
+
+    int stage;
+};
+
+} // namespace GameEngine
