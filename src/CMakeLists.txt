@@ -3,6 +3,7 @@ add_subdirectory(AudioEngine)
 add_subdirectory(RenderEngine)
 add_subdirectory(POCEngine)
 add_subdirectory(POCProgram)
+add_subdirectory(NetworkLib)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}
@@ -15,3 +16,6 @@ target_sources(
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
 )
+
+target_link_libraries(${PROJECT_NAME_CLIENT} NetworkLib)
+target_link_libraries(${PROJECT_NAME_SERVER} NetworkLib)

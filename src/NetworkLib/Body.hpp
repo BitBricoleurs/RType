@@ -13,17 +13,10 @@ namespace Network {
         Body() = default;
         ~Body() = default;
 
-        void addData(std::vector<std::uint8_t> &data) {
-            this->_data.insert(this->_data.end(), data.begin(), data.end());
-        }
+        void addData(std::vector<std::uint8_t> &data);
+        std::vector<std::uint8_t> &getData();
+        unsigned int getSize();
 
-        std::vector<std::uint8_t> &getData() {
-            return this->_data;
-        }
-
-        unsigned int getSize() {
-            return this->_data.size();
-        }
     private:
         std::vector<std::uint8_t> _data;
     } __attribute__((packed));

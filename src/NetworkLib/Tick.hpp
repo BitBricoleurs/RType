@@ -14,33 +14,10 @@
 namespace Network {
     struct Tick {
 
-        Tick(size_t tick)
-        {
-            changeTick(tick);
-        }
+        Tick(size_t tick);
 
 
-        void Start() {
-                lastWriteTimeMtx.lock();
-                auto localLastWriteTime = lastPacketSent;
-                lastWriteTimeMtx.unlock();
-
-                auto now = std::chrono::high_resolution_clock::now();
-                auto timeSinceLastWrite = now - localLastWriteTime;
-                auto timeToWait = std::chrono::milliseconds(_timeToWaitBetweenTick) - timeSinceLastWrite;
-
-                if (timeToWait > std::chrono::milliseconds(0)) {
-                    std::this_thread::sleep_for(timeToWait);
-                }
-                std::unique_lock<std::mutex> lock(_mtx);
-                _processIncoming = true;
-                _processOutgoing = true;
-                lock.unlock();
-
-                _cvIncoming.notify_one();
-                _cvOutgoing.notify_one();
-                Start();
-        }
+        void Start();
 
         size_t _tick;
         size_t _timeToWaitBetweenTick;
@@ -52,9 +29,6 @@ namespace Network {
         std::mutex lastWriteTimeMtx;
         std::chrono::high_resolution_clock::time_point lastPacketSent;
 
-        void changeTick(size_t newTick) {
-            _tick = newTick;
-            _timeToWaitBetweenTick = 1/_tick;
-        }
+        void changeTick(size_t newTick);
     };
 }
