@@ -36,6 +36,7 @@ namespace GameEngine {
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
+            std::cout << "yes" << std::endl;
             Texture2D texture = LoadTexture(path.c_str());
             textureCache[path] = texture;
         }

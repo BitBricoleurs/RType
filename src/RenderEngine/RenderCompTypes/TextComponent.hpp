@@ -35,6 +35,7 @@ namespace GameEngine {
         void setColor(Color color) { this->color = color; }
         Vect2 getPos() const { return pos; }
         void setPos(Vect2 pos) { this->pos = pos; }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("TextComponent"); }
 
     private:
         size_t layer;

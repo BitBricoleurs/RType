@@ -31,6 +31,7 @@ namespace GameEngine {
         void setRect(rect rect1) { this->rect1 = rect1; }
         int getLayer() const { return layer; }
         void setLayer(int layer) { this->layer = layer; }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("SpriteComponent"); }
 
     private:
         size_t layer;

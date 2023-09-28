@@ -49,7 +49,6 @@ namespace GameEngine {
             for (const auto &component: components) {
                 if (component.has_value()) {
                     auto sprite = std::dynamic_pointer_cast<SpriteComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
-                    printf(sprite->getImagePath().c_str());
                     if (sprite) {
                         sortedComponents.push_back(*sprite);
                     }
