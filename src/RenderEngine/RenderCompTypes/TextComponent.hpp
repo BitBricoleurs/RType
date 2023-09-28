@@ -9,34 +9,37 @@
 
 #include "AComponent.hpp"
 #include <string>
+#include "Utils.hpp"
+#include "raylib.h"
 
 namespace GameEngine {
     class TextComponent : public AComponent {
     public:
-        TextComponent(const std::string& text, int x, int y, int fontSize, size_t layer) {
+        TextComponent(const std::string& text, Vect2 pos, int fontSize, size_t layer, Color color) {
             this->text = text;
-            this->x = x;
-            this->y = y;
             this->fontSize = fontSize;
             this->layer = layer;
+            this->color = color;
+            this->pos = pos;
         }
         ~TextComponent() = default;
 
         std::string getText() const { return text; }
         void setText(const std::string& text) { this->text = text; }
-        int getX() const { return x; }
-        void setX(int x) { this->x = x; }
-        int getY() const { return y; }
-        void setY(int y) { this->y = y; }
         int getFontSize() const { return fontSize; }
         void setFontSize(int fontSize) { this->fontSize = fontSize; }
         int getLayer() const { return layer; }
         void setLayer(int layer) { this->layer = layer; }
+        Color getColor() const { return color;}
+        void setColor(Color color) { this->color = color; }
+        Vect2 getPos() const { return pos; }
+        void setPos(Vect2 pos) { this->pos = pos; }
 
     private:
         size_t layer;
         std::string text;
-        int x, y;
+        Vect2 pos;
         int fontSize;
+        Color color;
     };
 }

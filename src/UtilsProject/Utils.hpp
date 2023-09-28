@@ -12,12 +12,12 @@ namespace GameEngine {
         float height;
     };
 
-    struct Vector2 {
+    struct Vect2 {
         float x;
         float y;
     };
 
-    struct Vector3 {
+    struct Vect3 {
         float x;
         float y;
         float z;

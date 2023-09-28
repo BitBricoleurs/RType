@@ -8,22 +8,24 @@
 #include "RenderEngine.hpp"
 
 namespace GameEngine {
+
+
     RenderEngine::~RenderEngine() {
         for (auto& pair : textureCache) {
             UnloadTexture(pair.second);
         }
     }
 
-    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
+    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, int numberFps) {
         InitWindow(screenWidth, screenHeight, windowTitle);
-        SetTargetFPS(60);
+        SetTargetFPS(numberFps);
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
 
     void RenderEngine::Draw(const TextComponent& textComponent) {
         BeginDrawing();
-        DrawText(textComponent.getText().c_str(), textComponent.getX(), textComponent.getY(), textComponent.getFontSize(), BLACK);
+        DrawText(textComponent.getText().c_str(), textComponent.getPos().x, textComponent.getPos().y, textComponent.getFontSize(), textComponent.getColor());
         EndDrawing();
     }
 
@@ -38,50 +40,10 @@ namespace GameEngine {
             textureCache[path] = texture;
         }
 
-        // Convert GameEngine::Rectangle and Vector2 to Raylib's Rectangle and Vector2
-        rect gameRect = spriteComponent.getRect();
-        ::Rectangle raylibRect = { gameRect.x, gameRect.y, gameRect.width, gameRect.height };
-
-        GameEngine::Vector2 gamePos = spriteComponent.getPos();
-        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
-
-        DrawTextureRec(textureCache[path], raylibRect, raylibPos, RAYWHITE);
+        DrawTextureRec(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().width, spriteComponent.getRect().height }, { spriteComponent.getPos().x, spriteComponent.getPos().y }, RAYWHITE);
 
         EndDrawing();
     }
-
-    void RenderEngine::Draw(ParallaxComponent& parallaxComponent) {
-        BeginDrawing();
-
-        std::string path = parallaxComponent.getImagePath();
-        GameEngine::Vector2 gamePos = parallaxComponent.getPos();
-
-        if (parallaxComponent.getOrientation() == 0) {
-            gamePos.x -= parallaxComponent.getSpeed();
-            if (gamePos.x <= -screenWidth)
-                gamePos.x = screenWidth;
-        } else {
-            gamePos.y -= parallaxComponent.getSpeed();
-            if (gamePos.y <= -screenHeight)
-                gamePos.y = screenHeight;
-        }
-
-        parallaxComponent.setPos(gamePos);
-
-        auto it = textureCache.find(path);
-        if (it == textureCache.end()) {
-            Texture2D texture = LoadTexture(path.c_str());
-            textureCache[path] = texture;
-        }
-
-        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
-
-        DrawTextureRec(textureCache[path], {0, 0, static_cast<float>(textureCache[path].width), static_cast<float>(textureCache[path].height)}, raylibPos, RAYWHITE);
-
-        EndDrawing();
-    }
-
-
 
     void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))

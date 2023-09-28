@@ -30,9 +30,9 @@ namespace GameEngine {
         return type;
     }
 
-    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName) {
+    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName, int numberFps) {
         renderEngine = std::make_shared<RenderEngine>();
-        renderEngine->Initialize(width, height, windowName);
+        renderEngine->Initialize(width, height, windowName, numberFps);
     }
 
     RenderEngineSystem::~RenderEngineSystem() {
@@ -42,8 +42,6 @@ namespace GameEngine {
     void RenderEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
         std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(textComponentType());
         std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(spriteComponentType());
-        std::vector<std::optional<std::shared_ptr<IComponent>>> parallaxComponents = componentsContainer.getComponents(parallaxComponentType());
-        printf("textComponents size: %zu\n", spriteComponentType());
         renderEngine->PollEvents(eventHandler);
 
         auto sortAndDrawText = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
@@ -89,33 +87,7 @@ namespace GameEngine {
             }
         };
 
-        auto sortAndDrawParallax = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
-            std::vector<ParallaxComponent> sortedComponents;
-
-            for (const auto &component: components) {
-                if (component.has_value()) {
-                    auto parallax = std::dynamic_pointer_cast<ParallaxComponent>(std::any_cast<std::shared_ptr<AComponent>>(component.value()));
-                    if (parallax) {
-                        sortedComponents.push_back(*parallax);
-                    }
-                }
-            }
-
-            std::sort(sortedComponents.begin(), sortedComponents.end(),
-                      [](const ParallaxComponent &a, const ParallaxComponent &b) {
-                          return a.getLayer() < b.getLayer();
-                      });
-
-            for (auto &component: sortedComponents) {
-                renderEngine->Draw(component);
-            }
-        };
-
         sortAndDrawText(textComponents);
         sortAndDrawSprite(spriteComponents);
-        sortAndDrawParallax(parallaxComponents);
     }
-
-
-
 }
