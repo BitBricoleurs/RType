@@ -6,6 +6,7 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
+#include "src/UtilsProject/Utils.hpp"
 
 namespace GameEngine {
     class AccelerationComponent : public AComponent {
@@ -17,6 +18,8 @@ namespace GameEngine {
         size_t getComponentType() override { return componentType; }
         Vector2 getAcceleration() const { return acceleration; }
         void setAcceleration(const Vector2& acceleration) { this->acceleration = acceleration; }
-        pr
+    private:
+        size_t componentType = ComponentsType::getNewComponentType("AccelerationComponent");
+        Vector2 acceleration;
     };
 }

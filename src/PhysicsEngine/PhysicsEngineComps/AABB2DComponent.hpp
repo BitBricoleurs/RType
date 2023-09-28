@@ -5,7 +5,7 @@
 #pragma once
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "../../UtilsProject/Utils.hpp"
+#include "src/UtilsProject/Utils.hpp"
 
 namespace GameEngine {
     class AABB2DComponent : public AComponent {

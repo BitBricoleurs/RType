@@ -5,7 +5,7 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "../../UtilsProject/Utils.hpp"
+#include "src/UtilsProject/Utils.hpp"
 #include "ComponentsType.hpp"
 
 namespace GameEngine {
