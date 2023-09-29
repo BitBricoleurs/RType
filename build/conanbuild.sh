@@ -1,1 +1,0 @@
-. "/Users/theophilushomawoo/Documents/y3/RType/build/conanbuildenv-release-x86_64.sh"
