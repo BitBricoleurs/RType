@@ -12,11 +12,12 @@
 #include "ComponentsType.hpp"
 #include "EntityComponents.hpp"
 #include "EventHandler.hpp"
+#include "ISystem.hpp"
 
 namespace GameEngine {
-class updateEntitySpriteSystem {
+class updateEntitySpriteSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) {
+    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteComponent"));
 
@@ -43,9 +44,9 @@ class updateEntitySpriteSystem {
     }
 };
 
-class updatePositionSystem {
+class updatePositionSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) {
+    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("PositionComponent"));
 
@@ -65,9 +66,9 @@ class updatePositionSystem {
     }
 };
 
-class updateHealthSystem {
+class updateHealthSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) {
+    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
 
@@ -81,9 +82,30 @@ class updateHealthSystem {
             if (damage) {
                 health->currentHealth -= damage->damageValue;
                 if (health->currentHealth <= 0) {
-                    eventHandler.queueEvent("death " + std::to_string(id));
+                    eventHandler.queueEvent("MobDeath " + std::to_string(id));
                 }
             }
+        }
+    }
+};
+
+class MobDeathSystem : public ISystem {
+    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+        // TODO: start mob death animation, how to do it over multiple frames after trigger?
+        std::string event = eventHandler.getTriggeredEvent();
+        size_t id = std::stoi(event.substr(1, event.find(" ")));
+
+        auto deathAnimation =
+            componentsContainer.getComponent(id, ComponentsType::getComponentType("DeathAnimationComponent"));
+        auto sprite = componentsContainer.getComponent(id, ComponentsType::getComponentType("SpriteComponent"));
+        auto rect = componentsContainer.getComponent(id, ComponentsType::getComponentType("RectComponent"));
+
+        if (deathAnimation && sprite && rect) {
+            sprite->spriteSheetPath = "path/to/deathSpriteSheet.png";
+            sprite->spriteStartPos = Vec2f(0, 0);
+            sprite->frames = deathAnimation->frames;
+            rect->width = deathAnimation->frameWidth;
+            rect->height = deathAnimation->frameHeight;
         }
     }
 };
@@ -91,3 +113,8 @@ class updateHealthSystem {
 } // namespace GameEngine
 
 #endif /* !ENTITYSYSTEMS_HPP_ */
+
+// interval de tir pour les mobs, chaque mobs ont leur interal? ou un seul pour tous?
+// quand un mob meurt, comment gerer lanimation = comment faire pour que le sprite change
+// a chaque frame (lancer le systeme chaque 1/2s mais seulement quand un mob meurt)? composant bool mort?
+// mob meurt == destruction, ou deplacement hors de lecran?
