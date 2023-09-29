@@ -25,7 +25,8 @@ namespace GameEngine {
     }
 
     void EventHandler::queueEvent(const std::string& eventName) {
-        std::lock_guard<std::mutex> lock(eventMutex);
+
+        std::cout << eventName << std::endl;
         eventQueue.push(eventName);
 
         if (continuousEvents.find(eventName) != continuousEvents.end()) {
@@ -39,7 +40,6 @@ namespace GameEngine {
     }
 
     void EventHandler::processEventQueue(ComponentsContainer& componentsContainer) {
-        std::lock_guard<std::mutex> lock(eventMutex);
         while (!eventQueue.empty()) {
             auto eventName = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
