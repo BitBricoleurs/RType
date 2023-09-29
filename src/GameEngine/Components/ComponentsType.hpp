@@ -8,25 +8,21 @@
 #include <unordered_map>
 
 namespace GameEngine {
-    class ComponentsType {
-        public:
-            ComponentsType() = default;
-            ~ComponentsType() = default;
+class ComponentsType {
+  public:
+    ComponentsType() = default;
+    ~ComponentsType() = default;
 
-            static size_t getNewComponentType() {
-                return componentTypeCounter++;
-            }
+    static size_t getNewComponentType() { return componentTypeCounter++; }
 
-            static size_t getNewComponentType(const std::string& componentName) {
-                return componentTypeMap[componentName] = componentTypeCounter++;
-            }
+    static size_t getNewComponentType(const std::string& componentName) {
+        return componentTypeMap[componentName] = componentTypeCounter++;
+    }
 
-            size_t getComponentType(const std::string& componentName) {
-                return componentTypeMap[componentName];
-            }
+    static size_t getComponentType(const std::string& componentName) { return componentTypeMap[componentName]; }
 
-        private:
-            static size_t componentTypeCounter;
-            static std::unordered_map<std::string, size_t> componentTypeMap;
-    };
+  private:
+    static size_t componentTypeCounter;
+    static std::unordered_map<std::string, size_t> componentTypeMap;
+};
 } // namespace GameEngine
