@@ -28,6 +28,10 @@ void Network::Interface::disconnect()
 void Network::Interface::connectToServer(const std::string &host, unsigned short port)
 {
     _endpoint = *_resolver.resolve(host, std::to_string(port)).begin();
+    if (_endpoint.address().is_v4())
+        _socket.open(asio::ip::udp::v4());
+    else
+        _socket.open(asio::ip::udp::v6());
     readHeader();
 }
 
@@ -49,10 +53,13 @@ void Network::Interface::processOutgoingMessages()
             _outMessages.popFront();
             _tempBody.addData(message->getMessage());
             size += message->getSize();
-            std::cout << "Message sent : " << message->getSize() << std::endl;
         }
         _tempHeader.bodySize = size;
-        WriteHeader();
+        _tempHeader.sequenceNumber = 0;
+        _tempHeader.ackMask = 0;
+        _tempHeader.lastPacketSeq = 0;
+        if (_tempHeader.bodySize > 0)
+            WriteHeader();
         _tick._processOutgoing = false;
         processOutgoingMessages();
     });
@@ -73,24 +80,22 @@ void Network::Interface::processReceivedHeader(const PacketHeader& header, const
         });
     }
 }
-
 void Network::Interface::readHeader()
 {
     _socket.async_receive_from(
-            asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _endpoint,
-            [this](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    std::cout << "Header received : " << _tempHeader.bodySize << std::endl;
-                    if (_tempHeader.bodySize > 0) {
-                        readBody([this]() {
-                            readHeader();
-                        });
-                    }
-                } else {
-                    std::cout << "Error reading header" << std::endl;
-                    _socket.close();
+        asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _endpoint,
+        [this](std::error_code ec, std::size_t length) {
+            if (!ec) {
+                std::cout << "Header received : " << _tempHeader.bodySize << std::endl;
+                if (_tempHeader.bodySize > 0) {
+                    readBody([this]() {
+                        readHeader();
+                    });
                 }
-            });
+            } else {
+                std::cout << "Error reading header" << std::endl;
+            }
+        });
 }
 
 void Network::Interface::readBody(const std::function<void()>& callbackAfterRead) {
@@ -114,7 +119,6 @@ void Network::Interface::readBody(const std::function<void()>& callbackAfterRead
 
                 } else {
                     std::cout << "Error reading body" << std::endl;
-                    _socket.close();
                 }
             });
 }
@@ -122,16 +126,16 @@ void Network::Interface::readBody(const std::function<void()>& callbackAfterRead
 
 void Network::Interface::WriteHeader()
 {
+    std::cout << "Header sent : " << sizeof(Network::PacketHeader) << std::endl;
     _socket.async_send_to(
             asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _endpoint,
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
                     if (_tempHeader.bodySize > 0) {
-                        WriteBody();
+                       WriteBody();
                     }
                 } else {
-                    std::cout << "Error writing header" << std::endl;
-                    _socket.close();
+                    std::cout << "Error writing header" << ec.message() << std::endl;
                 }
             });
 }
@@ -145,9 +149,9 @@ void Network::Interface::WriteBody()
                     _tick.lastWriteTimeMtx.lock();
                     _tick.lastPacketSent = std::chrono::high_resolution_clock::now();
                     _tick.lastWriteTimeMtx.unlock();
+                    std::cout << "Body sent : " << _tempHeader.bodySize << std::endl;
                 } else {
                     std::cout << "Error writing body" << std::endl;
-                    _socket.close();
                 }
             });
 }

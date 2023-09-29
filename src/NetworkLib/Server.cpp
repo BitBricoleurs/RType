@@ -13,10 +13,18 @@ namespace Network {
     class Server::Impl {
     public:
         Impl(unsigned short port, size_t maxClients, size_t Tick)
-                : _context(), _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)), _port(port), _maxClients(maxClients), _running(false), _tick(Tick) {
+                : _context(), _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)), _port(port), _maxClients(maxClients), _running(false), _tick(Tick),
+            _idleWork(std::make_unique<asio::io_context::work>(_context))
+      {
             for (size_t i = 0; i < maxClients; i++) {
                 _pool.push_back(std::thread([&]() { _context.run(); }));
             }
+            asio::ip::udp::endpoint local_ep = _socket.local_endpoint();
+            std::string listening_ip = local_ep.address().to_string();
+            unsigned short listening_port = local_ep.port();
+
+            std::cout << "Listening on IP: " << listening_ip << ", Port: " << listening_port << std::endl;
+
         }
 
         ~Impl() {
@@ -26,10 +34,20 @@ namespace Network {
         void start() {
             _tickThread = std::thread([this]() {_tick.Start();});
             ListenForNewCon();
+            for (auto &client_interface : _clients)
+                client_interface->processOutgoingMessages();
+            while (true) {
+                if (_context.stopped()) {
+                    std::cout << "io_context is stopped!" << std::endl;
+                }
+            }
         }
 
         void stop() {
+            _idleWork.reset();
             _context.stop();
+            if (_tickThread.joinable())
+                _tickThread.join();
             for (auto &thread: _pool) {
                 if (thread.joinable()) {
                     thread.join();
@@ -81,17 +99,17 @@ namespace Network {
                                 _clients.push_back(clientInterface);
                                 std::cout << "New client connected : " << _remoteEndpoint.address().to_string() << ":" << _remoteEndpoint.port() << std::endl;
                             }
-
+                            std::cout << "Header received : " << _tempHeader.bodySize << std::endl;
                             clientInterface->processReceivedHeader(_tempHeader, [this]() { ListenForNewCon(); });
                         } else {
                             std::cout << "Error on receive : " << ec.message() << std::endl;
-                            ListenForNewCon();
                         }
                     }
             );
         }
 
         asio::io_context _context;
+        std::unique_ptr<asio::io_context::work> _idleWork;
         Network::Tick _tick;
 
         std::thread _tickThread;
@@ -110,12 +128,14 @@ namespace Network {
     Server::Server(unsigned short port, size_t maxClients, size_t Tick)
             : pimpl(std::make_unique<Impl>(port, maxClients, Tick)) {}
 
-    Server::~Server() = default;
+    Server::~Server()
+    {
+        std::cout << "Server stopped" << std::endl;
+    }
 
     void Server::start() {
         pimpl->start();
         _isRunning = true;
-        while (_isRunning);
     }
 
     void Server::stop() {

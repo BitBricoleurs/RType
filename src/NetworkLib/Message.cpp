@@ -2,6 +2,8 @@
 // Created by Clément Lagasse on 28/09/2023.
 //
 
+#include <iostream>
+#include <typeindex>
 #include "Message.hpp"
 
 std::vector <std::uint8_t> Network::Serializer::serialize(const std::vector <std::any> &data)
@@ -20,33 +22,41 @@ std::vector<std::uint8_t> Network::Serializer::serializeItem(const std::any &ite
 {
     std::stringstream ss;
 
-    if (item.type() == typeid(int)) {
-        ss << std::any_cast<int>(item);
-    } else if (item.type() == typeid(float)) {
-        ss << std::fixed << std::any_cast<float>(item);
-    } else if (item.type() == typeid(std::string)) {
-        ss << std::any_cast<std::string>(item);
+    static const std::map<std::type_index, void(*)(const std::any&, std::stringstream&)> serializers = {
+        { typeid(int), [](const std::any& item, std::stringstream& ss) { ss << std::any_cast<int>(item); } },
+        { typeid(float), [](const std::any& item, std::stringstream& ss) { ss << std::fixed << std::any_cast<float>(item); } },
+        { typeid(std::string), [](const std::any& item, std::stringstream& ss) { ss << std::any_cast<std::string>(item); } },
+        { typeid(const std::string&), [](const std::any& item, std::stringstream& ss) { ss << std::any_cast<const std::string&>(item); } },
+        { typeid(char), [](const std::any& item, std::stringstream& ss) { ss << std::any_cast<char>(item); } }
+    };
+
+    auto it = serializers.find(item.type());
+    if (it != serializers.end()) {
+        it->second(item, ss);
     } else {
+        std::cout << item.type().name() << std::endl;
         throw std::runtime_error("Unsupported data type for serialization check Message.hpp file");
     }
 
     std::string serialized = ss.str();
-    return std::vector<std::uint8_t>(serialized.begin(), serialized.end());
+    return {serialized.begin(), serialized.end()};
 }
+
+
 
 Network::Message::Message(std::vector <std::uint8_t> &message): _message(message), _ArgType(), _args()
 {
     getDataMessage();
 }
 
-Network::Message::Message(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args)
+Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
 : _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size())
 {
     std::vector<std::uint8_t> serializedArgs = Serializer::serialize(_args);
     initializeMessage(IDs, serializedArgs);
 }
 
-Network::Message::Message(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::any arg)
+Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg)
         : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1)
 {
     std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);

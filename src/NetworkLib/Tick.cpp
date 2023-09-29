@@ -2,11 +2,15 @@
 // Created by Clément Lagasse on 28/09/2023.
 //
 
+#include <iostream>
 #include "Tick.hpp"
 
 Network::Tick::Tick(size_t tick)
-: _tick(tick), _timeToWaitBetweenTick(1/_tick), _processIncoming(false), _processOutgoing(false)
+: _tick(tick), _timeToWaitBetweenTick(1000/_tick), _processIncoming(false), _processOutgoing(false)
 {
+    lastWriteTimeMtx.lock();
+    lastPacketSent = std::chrono::high_resolution_clock::now();
+    lastWriteTimeMtx.unlock();
 }
 
 void Network::Tick::Start()
@@ -19,6 +23,9 @@ void Network::Tick::Start()
     auto timeSinceLastWrite = now - localLastWriteTime;
     auto timeToWait = std::chrono::milliseconds(_timeToWaitBetweenTick) - timeSinceLastWrite;
 
+    if (timeToWait <= std::chrono::milliseconds(0)) {
+        timeToWait = std::chrono::milliseconds(_timeToWaitBetweenTick);
+    }
     if (timeToWait > std::chrono::milliseconds(0)) {
         std::this_thread::sleep_for(timeToWait);
     }
@@ -28,6 +35,7 @@ void Network::Tick::Start()
     lock.unlock();
 
     _cvIncoming.notify_one();
+;
     _cvOutgoing.notify_one();
     Start();
 }
@@ -35,5 +43,5 @@ void Network::Tick::Start()
 void Network::Tick::changeTick(size_t newTick)
 {
     _tick = newTick;
-    _timeToWaitBetweenTick = 1/_tick;
+    _timeToWaitBetweenTick = 1000/_tick;
 }

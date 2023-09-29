@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <asio.hpp>
+#include <utility>
 #include "Client.hpp"
 #include "Tick.hpp"
 #include "Message.hpp"
@@ -17,7 +18,8 @@ public:
     void connect(const std::string &host, unsigned short port);
     void disconnect();
     bool isConnected() const;
-    void send(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args);
+    void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
+    void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
     void processIncomingMessages();
 
     asio::io_context _context;
@@ -32,7 +34,7 @@ public:
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
     _interface = std::make_unique<Network::Interface>(_context, _inMessages, _tick, Network::Interface::Type::CLIENT);
-    _interface->connectToServer(host, port);
+     _interface->connectToServer(host, port);
 
     processIncomingMessages();
     _interface->processOutgoingMessages();
@@ -60,13 +62,22 @@ bool Network::Client::Impl::isConnected() const {
     return _interface->isConnected();
 }
 
-void Network::Client::Impl::send(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args) {
+void Network::Client::Impl::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args) {
     if (!isConnected()) {
         return;
     }
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, args);
     _interface->send(message);
 }
+
+void Network::Client::Impl::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg) {
+    if (!isConnected()) {
+        return;
+    }
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, arg);
+    _interface->send(message);
+}
+
 
 void Network::Client::Impl::processIncomingMessages() {
     asio::post(_context, [this]() {
@@ -96,8 +107,12 @@ bool Network::Client::isConnected() const {
     return pimpl->isConnected();
 }
 
-void Network::Client::send(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args) {
-    pimpl->send(action, IDs, typeArg, args);
+void Network::Client::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args) {
+    pimpl->send(action, std::move(IDs), typeArg, std::move(args));
+}
+
+void Network::Client::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg) {
+    pimpl->send(action, std::move(IDs), typeArg, std::move(arg));
 }
 
 Network::Client::~Client() = default;

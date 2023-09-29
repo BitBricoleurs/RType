@@ -41,9 +41,9 @@ namespace Network {
         };
 
     public:
-            Message(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args);
+            Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
 
-            Message(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::any arg);
+            Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
 
             Message(std::vector<std::uint8_t> &message);
             ~Message() = default;

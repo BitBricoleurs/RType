@@ -19,7 +19,8 @@ namespace Network {
         void connect(const std::string &host, unsigned short port);
         void disconnect();
         bool isConnected() const;
-        void send(std::string &action, std::vector<unsigned int> IDs, std::string &typeArg, std::vector<std::any> args);
+        void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
+        void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
 
     private:
         class Impl;
