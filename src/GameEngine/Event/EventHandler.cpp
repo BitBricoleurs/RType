@@ -28,6 +28,15 @@ namespace GameEngine {
 
         std::cout << eventName << std::endl;
         eventQueue.push(eventName);
+
+        if (continuousEvents.find(eventName) != continuousEvents.end()) {
+            activeContinuousEvents.insert(eventName);
+        }
+        for (const auto& pair : continuousEvents) {
+            if (pair.second == eventName) {
+                activeContinuousEvents.erase(pair.first);
+            }
+        }
     }
 
     void EventHandler::processEventQueue(ComponentsContainer& componentsContainer) {
@@ -35,6 +44,10 @@ namespace GameEngine {
             auto eventName = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
             eventQueue.pop();
+        }
+
+        for (const auto& eventName : activeContinuousEvents) {
+            eventQueue.push(eventName);
         }
     }
 
@@ -52,6 +65,28 @@ namespace GameEngine {
     void EventHandler::deleteEvent(const std::string& eventName) {
         std::lock_guard<std::mutex> lock(eventMutex);
         eventMap.erase(eventName);
+    }
+
+    void EventHandler::scheduleEvent(const std::string& eventName, size_t interval) {
+        scheduledEvents.emplace_back(eventName, interval, 0);
+    }
+
+    void EventHandler::unscheduleEvent(const std::string& eventName) {
+        scheduledEvents.erase(std::remove_if(scheduledEvents.begin(), scheduledEvents.end(), [&eventName](auto& event) {
+            auto& [name, interval, counter] = event;
+            return name == eventName;
+        }), scheduledEvents.end());
+    }
+
+    void EventHandler::updateScheduledEvents() {
+        for (auto& event : scheduledEvents) {
+            auto& [eventName, interval, counter] = event;
+            counter++;
+            if (counter >= interval) {
+                queueEvent(eventName);
+                counter = 0;
+            }
+        }
     }
 
 }  // namespace GameEngine
