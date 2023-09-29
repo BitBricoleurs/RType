@@ -91,30 +91,24 @@ class updateHealthSystem : public ISystem {
 
 class MobDeathSystem : public ISystem {
     void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
-        // TODO: start mob death animation, how to do it over multiple frames after trigger?
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
+        eventHandler.deleteEvent(event);
 
         auto deathAnimation =
             componentsContainer.getComponent(id, ComponentsType::getComponentType("DeathAnimationComponent"));
-        auto sprite = componentsContainer.getComponent(id, ComponentsType::getComponentType("SpriteComponent"));
-        auto rect = componentsContainer.getComponent(id, ComponentsType::getComponentType("RectComponent"));
 
-        if (deathAnimation && sprite && rect) {
-            sprite->spriteSheetPath = "path/to/deathSpriteSheet.png";
-            sprite->spriteStartPos = Vec2f(0, 0);
-            sprite->frames = deathAnimation->frames;
-            rect->width = deathAnimation->frameWidth;
-            rect->height = deathAnimation->frameHeight;
+        if (deathAnimation) {
+            if (deathAnimation->currentFrameIndex >= deathAnimation->frames) {
+                componentsContainer.deleteEntity(id);
+            } else {
+                eventHandler.scheduleEvent("MobDeath " + std::to_string(id), 30);
+            }
+            deathAnimation->currentFrame = deathAnimation->spritePositions[deathAnimation->currentFrameIndex++];
         }
-    }
+    };
 };
 
 } // namespace GameEngine
 
 #endif /* !ENTITYSYSTEMS_HPP_ */
-
-// interval de tir pour les mobs, chaque mobs ont leur interal? ou un seul pour tous?
-// quand un mob meurt, comment gerer lanimation = comment faire pour que le sprite change
-// a chaque frame (lancer le systeme chaque 1/2s mais seulement quand un mob meurt)? composant bool mort?
-// mob meurt == destruction, ou deplacement hors de lecran?
