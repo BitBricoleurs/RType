@@ -9,12 +9,14 @@
 #include <iostream>
 #include <memory>
 
-size_t EntityFactory::createBaseMob(GameEngine::GameEngine& engine, const std::string& spriteSheetPath, int rectX,
-                                    int rectY, int rectWidth, int rectHeight, float posX, float posY, float velX,
+size_t EntityFactory::createBaseMob(GameEngine::GameEngine& engine, const std::string& spriteSheetPath,
+                                    int spriteSheetHeight, int spriteSheetWidth, int frames, bool twoDirections,
+                                    const std::string& deathSpriteSheetPath, int deathSpriteSheetHeight,
+                                    int deathSpriteSheetWidth, int deathFrames, float posX, float posY, float velX,
                                     float velY, float dirX, float dirY, float hitboxWidth, float hitboxHeight,
                                     int maxHealth, int damageValue, float bulletStartX, float bulletStartY) {
-    size_t entityId = createBaseEntity(engine, spriteSheetPath, rectX, rectY, rectWidth, rectHeight, posX, posY, velX,
-                                       velY, dirX, dirY, hitboxWidth, hitboxHeight);
+    size_t entityId = createBaseEntity(engine, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
+                                       twoDirections, posX, posY, velX, velY, dirX, dirY, hitboxHeight, hitboxWidth);
 
     auto healthComponent = std::make_shared<GameEngine::HealthComponent>(maxHealth);
     healthComponent->setComponentType(GameEngine::ComponentsType::getComponentType("HealthComponent"));
@@ -24,6 +26,8 @@ size_t EntityFactory::createBaseMob(GameEngine::GameEngine& engine, const std::s
         std::make_shared<GameEngine::BulletStartPositionComponent>(bulletStartX, bulletStartY);
     bulletStartPositionComponent->setComponentType(
         GameEngine::ComponentsType::getComponentType("BulletStartPositionComponent"));
+    auto deathSpriteComponent =
+        initDeathAnimation(deathSpriteSheetPath, deathFrames, deathSpriteSheetWidth, deathSpriteSheetHeight);
 
     engine.bindComponentToEntity(entityId, healthComponent);
     engine.bindComponentToEntity(entityId, damageComponent);
@@ -32,14 +36,17 @@ size_t EntityFactory::createBaseMob(GameEngine::GameEngine& engine, const std::s
     return entityId;
 }
 
-size_t EntityFactory::createBossMob(GameEngine::GameEngine& engine, const std::string& spriteSheetPath, int rectX,
-                                    int rectY, int rectWidth, int rectHeight, float posX, float posY, float velX,
+size_t EntityFactory::createBossMob(GameEngine::GameEngine& engine, const std::string& spriteSheetPath,
+                                    int spriteSheetHeight, int spriteSheetWidth, int frames, bool twoDirections,
+                                    const std::string& deathSpriteSheetPath, int deathSpriteSheetHeight,
+                                    int deathSpriteSheetWidth, int deathFrames, float posX, float posY, float velX,
                                     float velY, float dirX, float dirY, float hitboxWidth, float hitboxHeight,
                                     int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
                                     int stageValue) {
-    size_t entityId =
-        createBaseMob(engine, spriteSheetPath, rectX, rectY, rectWidth, rectHeight, posX, posY, velX, velY, dirX, dirY,
-                      hitboxWidth, hitboxHeight, maxHealth, damageValue, bulletStartX, bulletStartY);
+    size_t entityId = createBaseMob(engine, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames, twoDirections,
+                                    deathSpriteSheetPath, deathSpriteSheetHeight, deathSpriteSheetWidth, deathFrames,
+                                    posX, posY, velX, velY, dirX, dirY, hitboxWidth, hitboxHeight, maxHealth,
+                                    damageValue, bulletStartX, bulletStartY);
 
     auto stageComponent = std::make_shared<GameEngine::BossStageComponent>(stageValue);
     stageComponent->setComponentType(GameEngine::ComponentsType::getComponentType("BossStageComponent"));
@@ -97,6 +104,7 @@ size_t EntityFactory::createBaseEntity(GameEngine::GameEngine& engine, const std
                                        float hitboxWidth, float hitboxHeight) {
     std::vector<std::optional<std::shared_ptr<GameEngine::IComponent>>> components;
     auto spriteComponent = initAnimation(spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight, twoDirections);
+
     auto positionComponent = std::make_shared<GameEngine::PositionComponent>(posX, posY);
     auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velX, velY);
     auto directionComponent = std::make_shared<GameEngine::DirectionComponent>(dirX, dirY);
@@ -143,4 +151,22 @@ std::shared_ptr<GameEngine::SpriteAnimationComponent> EntityFactory::initAnimati
     }
 
     return spriteComponent;
+}
+
+std::shared_ptr<GameEngine::DeathAnimationComponent>
+EntityFactory::initDeathAnimation(const std::string& deathSpriteSheetPath, int deathFrames, int deathWidth,
+                                  int deathHeight) {
+    auto deathSpriteComponent = std::make_shared<GameEngine::DeathAnimationComponent>();
+    deathSpriteComponent->setComponentType(GameEngine::ComponentsType::getComponentType("DeathAnimationComponent"));
+
+    deathSpriteComponent->frameHeight = deathHeight;
+    deathSpriteComponent->frameWidth = static_cast<float>(deathWidth) / deathFrames;
+    deathSpriteComponent->frames = deathFrames;
+    int i = 0;
+
+    for (i = 0; i < deathFrames; i++) {
+        deathSpriteComponent->spritePositions.push_back(Vec2f(i * static_cast<float>(deathWidth) / deathFrames, 0));
+    }
+
+    return deathSpriteComponent;
 }
