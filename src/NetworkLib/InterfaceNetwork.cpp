@@ -4,9 +4,10 @@
 
 #include "InterfaceNetwork.hpp"
 
-Network::Interface::Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, Network::Tick &tick, Network::Interface::Type type) :
-        _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _tempHeader(),
-        _inMessages(inMessages), _type(type), _tick(tick) {
+Network::Interface::Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> inSocket,
+                               Network::Tick &tick, const std::optional<std::function<void()>>& callbackFunction, Network::Interface::Type type) :
+        _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _type(type), _tick(tick),
+        _packetIO(Context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, _tick, callbackFunction) {
     _id = 0;
 }
 
@@ -32,7 +33,7 @@ void Network::Interface::connectToServer(const std::string &host, unsigned short
         _socket.open(asio::ip::udp::v4());
     else
         _socket.open(asio::ip::udp::v6());
-    readHeader();
+    getIO().readHeader();
 }
 
 void Network::Interface::send(const std::shared_ptr<IMessage>& message)
@@ -42,116 +43,12 @@ void Network::Interface::send(const std::shared_ptr<IMessage>& message)
     }
 }
 
-void Network::Interface::processOutgoingMessages()
-{
-    asio::post(_context, [this]() {
-        std::unique_lock<std::mutex> lock(_tick._mtx);
-        _tick._cvOutgoing.wait(lock, [this]() { return _tick._processOutgoing; });
-        size_t size = 0;
-        while (!_outMessages.empty()) {
-            std::shared_ptr<IMessage> message = _outMessages.getFront();
-            _outMessages.popFront();
-            _tempBody.addData(message->getMessage());
-            size += message->getSize();
-        }
-        _tempHeader.bodySize = size;
-        _tempHeader.sequenceNumber = 0;
-        _tempHeader.ackMask = 0;
-        _tempHeader.lastPacketSeq = 0;
-        if (_tempHeader.bodySize > 0)
-            WriteHeader();
-        _tick._processOutgoing = false;
-        processOutgoingMessages();
-    });
-}
-
 asio::ip::udp::endpoint &Network::Interface::getEndpoint()
 {
     return _endpoint;
 }
 
-void Network::Interface::processReceivedHeader(const PacketHeader& header, const std::function<void()>& callbackAfterRead)
+Network::PacketIO &Network::Interface::getIO()
 {
-    _tempHeader = header;
-
-    if (_tempHeader.bodySize > 0) {
-        readBody([this, callbackAfterRead]() {
-            callbackAfterRead();
-        });
-    }
-}
-void Network::Interface::readHeader()
-{
-    _socket.async_receive_from(
-        asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _endpoint,
-        [this](std::error_code ec, std::size_t length) {
-            if (!ec) {
-                std::cout << "Header received : " << _tempHeader.bodySize << std::endl;
-                if (_tempHeader.bodySize > 0) {
-                    readBody([this]() {
-                        readHeader();
-                    });
-                }
-            } else {
-                std::cout << "Error reading header" << std::endl;
-            }
-        });
-}
-
-void Network::Interface::readBody(const std::function<void()>& callbackAfterRead) {
-    _socket.async_receive_from(
-            asio::buffer(_tempBody.getData(), _tempHeader.bodySize), _endpoint,
-            [this, callbackAfterRead](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    size_t index = 0;
-                    while (index < _tempBody.getSize()) {
-                        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(_tempBody.getData());
-                        if (_type == Network::Interface::Type::SERVER) {
-                            _inMessages.pushBack({this->shared_from_this(), message});
-                        } else {
-                            _inMessages.pushBack({nullptr, message});
-                        }
-                        index += message->getSize();
-                    }
-                    if (callbackAfterRead) {
-                        callbackAfterRead();
-                    }
-
-                } else {
-                    std::cout << "Error reading body" << std::endl;
-                }
-            });
-}
-
-
-void Network::Interface::WriteHeader()
-{
-    std::cout << "Header sent : " << sizeof(Network::PacketHeader) << std::endl;
-    _socket.async_send_to(
-            asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _endpoint,
-            [this](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    if (_tempHeader.bodySize > 0) {
-                       WriteBody();
-                    }
-                } else {
-                    std::cout << "Error writing header" << ec.message() << std::endl;
-                }
-            });
-}
-
-void Network::Interface::WriteBody()
-{
-    _socket.async_send_to(
-            asio::buffer(_tempBody.getData(), _tempHeader.bodySize), _endpoint,
-            [this](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    _tick.lastWriteTimeMtx.lock();
-                    _tick.lastPacketSent = std::chrono::high_resolution_clock::now();
-                    _tick.lastWriteTimeMtx.unlock();
-                    std::cout << "Body sent : " << _tempHeader.bodySize << std::endl;
-                } else {
-                    std::cout << "Error writing body" << std::endl;
-                }
-            });
+    return _packetIO;
 }

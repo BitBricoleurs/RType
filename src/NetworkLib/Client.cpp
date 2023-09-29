@@ -33,11 +33,11 @@ public:
 };
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
-    _interface = std::make_unique<Network::Interface>(_context, _inMessages, _tick, Network::Interface::Type::CLIENT);
+    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, std::nullopt, Network::Interface::Type::CLIENT);
      _interface->connectToServer(host, port);
 
     processIncomingMessages();
-    _interface->processOutgoingMessages();
+    _interface->getIO().processOutgoingMessages();
 
     _tickThread = std::thread([this]() {_tick.Start();});
     _listenThread = std::thread([this]() {_context.run(); });

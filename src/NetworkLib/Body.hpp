@@ -4,6 +4,8 @@
 
 #pragma once
 
+#pragma pack(1)
+
 #include <vector>
 #include <cstdint>
 

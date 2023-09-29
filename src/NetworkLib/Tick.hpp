@@ -18,6 +18,7 @@ namespace Network {
 
 
         void Start();
+        void updateLastWriteTime();
 
         size_t _tick;
         size_t _timeToWaitBetweenTick;

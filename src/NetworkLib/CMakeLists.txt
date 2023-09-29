@@ -8,6 +8,8 @@ add_library(NetworkLib STATIC
         Server.cpp
         Tick.cpp
         TSqueue.hpp
+        PacketIO.cpp
+        PacketIO.hpp
 )
 
 find_path(ASIO_INCLUDE_DIR NAMES asio.hpp PATHS /usr/local/include /opt/local/include)

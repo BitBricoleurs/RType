@@ -16,9 +16,9 @@ namespace Network {
         virtual unsigned int getSize() = 0;
     };
 
-    class Interface;
+    class PacketIO;
     struct OwnedMessage {
-        std::shared_ptr<Network::Interface> remote;
+        std::shared_ptr<Network::PacketIO> remote;
         std::shared_ptr<IMessage> message;
     };
 }

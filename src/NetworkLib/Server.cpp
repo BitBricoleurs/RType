@@ -35,7 +35,7 @@ namespace Network {
             _tickThread = std::thread([this]() {_tick.Start();});
             ListenForNewCon();
             for (auto &client_interface : _clients)
-                client_interface->processOutgoingMessages();
+                client_interface->getIO().readHeader();
             while (true) {
                 if (_context.stopped()) {
                     std::cout << "io_context is stopped!" << std::endl;
@@ -66,15 +66,21 @@ namespace Network {
 
         void processIncomingMessages() {
             asio::post(_context, [this]() {
-                std::unique_lock<std::mutex> lock(_tick._mtx);
-                _tick._cvIncoming.wait(lock, [this]() { return _tick._processIncoming; });
-                while (!_inMessages.empty()) {
-                    std::shared_ptr<IMessage> message = _inMessages.getFront().message;
-                    std::cout << "Message received : " << message->getSize() << std::endl;
-                    _inMessages.popFront();
+                while (1) {
+                    std::unique_lock<std::mutex> lock( _tick._mtx );
+                    _tick._cvIncoming.wait( lock, [ this ]() {
+                        return _tick._processIncoming;
+                    } );
+                    while ( !_inMessages.empty() ) {
+                        std::shared_ptr<IMessage> message
+                            = _inMessages.getFront().message;
+                        std::cout << "Message received : " << message->getSize()
+                                  << std::endl;
+                        _inMessages.popFront();
+                    }
+                    _tick._processIncoming= false;
+                    processIncomingMessages();
                 }
-                _tick._processIncoming = false;
-                processIncomingMessages();
             });
         }
 
@@ -89,23 +95,38 @@ namespace Network {
         }
 
         void ListenForNewCon() {
-            _socket.async_receive_from(
-                    asio::buffer(&_tempHeader, sizeof(Network::PacketHeader)), _remoteEndpoint,
-                    [this](std::error_code ec, std::size_t bytesReceived) {
-                        if (!ec) {
-                            auto clientInterface = getInterfaceByEndpoint(_remoteEndpoint);
-                            if (!clientInterface) {
-                                clientInterface = std::make_shared<Network::Interface>(_context, _inMessages, _tick);
-                                _clients.push_back(clientInterface);
-                                std::cout << "New client connected : " << _remoteEndpoint.address().to_string() << ":" << _remoteEndpoint.port() << std::endl;
+            {
+                _socket.async_receive_from(
+                    asio::buffer( &_tempHeader,
+                                  sizeof( Network::PacketHeader ) ),
+                    _remoteEndpoint,
+                    [ this ]( std::error_code ec, std::size_t bytesReceived ) {
+                        if ( !ec ) {
+                            auto clientInterface
+                                = getInterfaceByEndpoint( _remoteEndpoint );
+                            if ( !clientInterface ) {
+                                clientInterface= std::make_shared<
+                                    Network::Interface>(
+                                        _context, _inMessages, _socket, _tick, [this]() { ListenForNewCon(); }, Network::Interface::Type::SERVER
+                                        );
+                                _clients.push_back( clientInterface );
+                                std::cout
+                                    << "New client connected : "
+                                    << _remoteEndpoint.address().to_string()
+                                    << ":" << _remoteEndpoint.port()
+                                    << std::endl;
                             }
-                            std::cout << "Header received : " << _tempHeader.bodySize << std::endl;
-                            clientInterface->processReceivedHeader(_tempHeader, [this]() { ListenForNewCon(); });
+                            std::cout
+                                << "Header received : " << _tempHeader.bodySize
+                                << std::endl;
+                            clientInterface->getIO().setHeader( _tempHeader );
+                            clientInterface->getIO().readBody();
                         } else {
-                            std::cout << "Error on receive : " << ec.message() << std::endl;
+                            std::cout << "Error on receive : " << ec.message()
+                                      << std::endl;
                         }
-                    }
-            );
+                    } );
+            }
         }
 
         asio::io_context _context;
@@ -116,6 +137,7 @@ namespace Network {
 
         Network::PacketHeader _tempHeader;
         asio::ip::udp::socket _socket;
+        std::mutex _socketMutex;
         asio::ip::udp::endpoint _remoteEndpoint;
         std::vector<std::thread> _pool;
         std::vector<std::shared_ptr<Network::Interface> > _clients;

@@ -4,17 +4,7 @@
 
 #pragma once
 
-#include <asio.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
-#include <iostream>
-#include <functional>
-#include "Tick.hpp"
-#include "IMessage.hpp"
-#include "TSqueue.hpp"
-#include "PacketComponent.hpp"
-#include "Body.hpp"
-#include "Message.hpp"
+#include "PacketIO.hpp"
 
 namespace Network {
     class Interface : public  std::enable_shared_from_this<Interface> {
@@ -24,8 +14,8 @@ namespace Network {
             CLIENT
         };
 
-        Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, Network::Tick &tick,
-                  Network::Interface::Type type = Network::Interface::Type::CLIENT);
+        Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> _inSocket,
+                   Network::Tick &tick, const std::optional<std::function<void()>>& callbackFunction, Network::Interface::Type type = Network::Interface::Type::CLIENT);
 
         ~Interface();
 
@@ -37,41 +27,27 @@ namespace Network {
 
         void send(const std::shared_ptr<IMessage>& message);
 
-        void processOutgoingMessages();
 
         asio::ip::udp::endpoint &getEndpoint();
-
-        void processReceivedHeader(const PacketHeader& header, const std::function<void()>& callbackAfterRead);
+        PacketIO &getIO();
 
     private:
 
-        void readHeader();
-
-        void readBody(const std::function<void()>& callbackAfterRead);
-
-
-        void WriteHeader();
-
-        void WriteBody();
-
             asio::io_context &_context;
             asio::ip::udp::socket _socket;
+            std::mutex _socketMutex;
             asio::ip::udp::endpoint _endpoint;
             asio::ip::udp::resolver _resolver;
 
 
             TSQueue<std::shared_ptr<IMessage> > _outMessages;
-            TSQueue<OwnedMessage> &_inMessages;
-
-            Network::PacketHeader _tempHeader;
-            Network::Body _tempBody;
 
             unsigned int _id;
 
             Network::Interface::Type _type;
 
             Network::Tick &_tick;
-
+            Network::PacketIO _packetIO;
 
     };
 };
