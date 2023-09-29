@@ -17,9 +17,9 @@
 namespace GameEngine {
 class updateEntitySpriteSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+    void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
         auto entities =
-            componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteComponent"));
+            componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteAnimationComponent"));
 
         for (auto& entity : entities) {
             auto animation =
@@ -46,7 +46,7 @@ class updateEntitySpriteSystem : public ISystem {
 
 class updatePositionSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+    void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("PositionComponent"));
 
@@ -68,7 +68,7 @@ class updatePositionSystem : public ISystem {
 
 class updateHealthSystem : public ISystem {
   public:
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+    void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
 
@@ -90,7 +90,7 @@ class updateHealthSystem : public ISystem {
 };
 
 class MobDeathSystem : public ISystem {
-    void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override {
+    void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
         eventHandler.deleteEvent(event);
