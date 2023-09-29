@@ -1,10 +1,6 @@
 @echo off
-echo Nettoyage des fichiers et dossiers générés...
+echo Cleaning up CMake generated files and folders...
 
 rd /s /q build
-del /f /q conan-win-64.zip
-del /f /q POCProgram
-del /f /q POCProgram.exe
-del /f /q POCProgram.pdb
 
-echo Nettoyage terminé!
+echo Clean up completed.

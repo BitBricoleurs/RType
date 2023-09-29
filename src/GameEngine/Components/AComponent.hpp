@@ -7,14 +7,15 @@
 #include "IComponent.hpp"
 
 namespace GameEngine {
-    class AComponent : public IComponent {
-        public:
-            AComponent() = default;
-            ~AComponent() override = default;
+class AComponent : public IComponent {
+  public:
+    AComponent() = default;
+    ~AComponent() override = default;
 
-            size_t getComponentType() override { return componentType;}
-            void setComponentType(size_t newComponentType) { componentType = newComponentType; }
-        private:
-            size_t componentType;
-    };
+    size_t getComponentType() override { return componentType; }
+    void setComponentType(size_t componentType) { this->componentType = componentType; }
+
+  private:
+    size_t componentType;
+};
 } // namespace GameEngine
