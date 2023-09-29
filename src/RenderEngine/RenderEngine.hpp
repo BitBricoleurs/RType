@@ -20,11 +20,12 @@ namespace GameEngine {
         RenderEngine() = default;
         ~RenderEngine();
 
-        void Initialize(int screenWidth, int screenHeight, const char* windowTitle, int numberFps);
+        void Initialize(int screenWidth, int screenHeight, const char* windowTitle);
         void Draw(const TextComponent& textComponent);
         void Draw(const SpriteComponent& spriteComponent);
         void PollEvents(EventHandler& eventHandler);
         void Shutdown();
+        void ClearBackgroundRender(Color color);
 
     private:
         int screenWidth;

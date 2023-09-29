@@ -3,6 +3,7 @@
 //
 
 #include "ComponentContainer.hpp"
+#include "AComponent.hpp"
 
 namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponents(size_t componentType) {
@@ -23,7 +24,9 @@ namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponentsFromEntity(size_t entityID) {
         std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         for (auto componentType : componentsContainer) {
-            components.push_back(componentType.second[entityID]);
+            if (componentType.second.size() > entityID && componentType.second[entityID].has_value()) {
+                components.push_back(componentType.second[entityID]);
+            }
         }
         return components;
     }

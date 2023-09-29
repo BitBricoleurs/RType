@@ -9,9 +9,9 @@
 #include <algorithm>
 
 namespace GameEngine {
-    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName, int numberFps) {
+    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName) {
         renderEngine = std::make_shared<RenderEngine>();
-        renderEngine->Initialize(width, height, windowName, numberFps);
+        renderEngine->Initialize(width, height, windowName);
     }
 
     RenderEngineSystem::~RenderEngineSystem() {
@@ -19,52 +19,55 @@ namespace GameEngine {
     }
 
     void RenderEngineSystem::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
+
         std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents = componentsContainer.getComponents(ComponentsType::getComponentType("TextComponent"));
         std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents = componentsContainer.getComponents(ComponentsType::getComponentType("SpriteComponent"));
         renderEngine->PollEvents(eventHandler);
 
-        auto sortAndDrawText = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
-            std::vector<TextComponent> sortedComponents;
-            for (const auto &component: components) {
-                if (component.has_value()) {
-                    auto text = std::dynamic_pointer_cast<TextComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
-                    if (text) {
-                        sortedComponents.push_back(*text);
-                    }
+        std::vector<TextComponent> sortedTextComponents;
+        std::vector<SpriteComponent> sortedSpriteComponents;
+
+        for (const auto &component: textComponents) {
+            if (component.has_value()) {
+                auto text = std::dynamic_pointer_cast<TextComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
+                if (text) {
+                    sortedTextComponents.push_back(*text);
                 }
             }
+        }
+        std::sort(sortedTextComponents.begin(), sortedTextComponents.end(),
+                  [](const TextComponent &a, const TextComponent &b) {
+                      return a.getLayer() < b.getLayer();
+                  });
 
-            std::sort(sortedComponents.begin(), sortedComponents.end(),
-                      [](const TextComponent &a, const TextComponent &b) {
-                          return a.getLayer() < b.getLayer();
-                      });
-
-            for (const auto &component: sortedComponents) {
-                renderEngine->Draw(component);
-            }
-        };
-
-        auto sortAndDrawSprite = [this](std::vector<std::optional<std::shared_ptr<IComponent>>> &components) {
-            std::vector<SpriteComponent> sortedComponents;
-            for (const auto &component: components) {
-                if (component.has_value()) {
-                    auto sprite = std::dynamic_pointer_cast<SpriteComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
-                    if (sprite) {
-                        sortedComponents.push_back(*sprite);
-                    }
+        for (const auto &component: spriteComponents) {
+            if (component.has_value()) {
+                auto sprite = std::dynamic_pointer_cast<SpriteComponent>(std::any_cast<std::shared_ptr<IComponent>>(component.value()));
+                if (sprite) {
+                    sortedSpriteComponents.push_back(*sprite);
                 }
             }
-            std::sort(sortedComponents.begin(), sortedComponents.end(),
-                      [](const SpriteComponent &a, const SpriteComponent &b) {
-                          return a.getLayer() < b.getLayer();
-                      });
+        }
+        std::sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
+                  [](const SpriteComponent &a, const SpriteComponent &b) {
+                      return a.getLayer() < b.getLayer();
+                  });
 
-            for (const auto &component: sortedComponents) {
-                renderEngine->Draw(component);
-            }
-        };
 
-        sortAndDrawText(textComponents);
-        sortAndDrawSprite(spriteComponents);
+        renderEngine->ClearBackgroundRender(BLACK);
+
+        BeginDrawing();
+        for (const auto &component: sortedTextComponents) {
+            renderEngine->Draw(component);
+        }
+
+        for (const auto &component: sortedSpriteComponents) {
+            renderEngine->Draw(component);
+        }
+
+        EndDrawing();
+
+
     }
+
 }

@@ -22,4 +22,11 @@ namespace GameEngine {
         float y;
         float z;
     };
+
+    struct ColorR {
+        unsigned char r;
+        unsigned char g;
+        unsigned char b;
+        unsigned char a;
+    };
 }

@@ -16,34 +16,26 @@ namespace GameEngine {
         }
     }
 
-    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, int numberFps) {
+    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
         InitWindow(screenWidth, screenHeight, windowTitle);
-        SetTargetFPS(numberFps);
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
 
     void RenderEngine::Draw(const TextComponent& textComponent) {
-        BeginDrawing();
-        DrawText(textComponent.getText().c_str(), textComponent.getPos().x, textComponent.getPos().y, textComponent.getFontSize(), textComponent.getColor());
-        EndDrawing();
+        DrawText(textComponent.getText().c_str(), textComponent.getPos().x, textComponent.getPos().y, textComponent.getFontSize(), {textComponent.getColor().r, textComponent.getColor().g, textComponent.getColor().b, textComponent.getColor().a} );
     }
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
-        BeginDrawing();
-
         std::string path = spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
-            std::cout << "yes" << std::endl;
             Texture2D texture = LoadTexture(path.c_str());
             textureCache[path] = texture;
         }
 
         DrawTextureRec(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().width, spriteComponent.getRect().height }, { spriteComponent.getPos().x, spriteComponent.getPos().y }, RAYWHITE);
-
-        EndDrawing();
     }
 
     void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
@@ -67,6 +59,10 @@ namespace GameEngine {
             eventHandler.queueEvent("MouseRightButtonPressed");
         if (IsKeyReleased(KEY_SPACE))
             eventHandler.queueEvent("SPACE_KEY_RELEASED");
+    }
+
+    void RenderEngine::ClearBackgroundRender(Color color) {
+        ClearBackground(color);
     }
 
     void RenderEngine::Shutdown() {
