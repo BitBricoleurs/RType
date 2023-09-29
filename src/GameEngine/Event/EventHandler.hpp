@@ -6,13 +6,15 @@
 
 #include <functional>
 #include <unordered_map>
+#include <map>
 #include <vector>
 #include <memory>
 #include <queue>
 #include <mutex>
-#include "../Core/IComponent.hpp"
-#include "../Core/ISystem.hpp"
-#include "../Core/ComponentContainer.hpp"
+#include "IComponent.hpp"
+#include "ISystem.hpp"
+#include "ComponentContainer.hpp"
+#include <set>
 
 namespace GameEngine {
 
