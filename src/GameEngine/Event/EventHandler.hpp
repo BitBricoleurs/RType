@@ -28,12 +28,20 @@ namespace GameEngine {
         void processEventQueue(ComponentsContainer& componentsContainer);
         void triggerEvent(const std::string& eventName, ComponentsContainer& componentsContainer);
         void deleteEvent(const std::string& eventName);
+        void scheduleEvent(const std::string& eventName, size_t interval);
+        void unscheduleEvent(const std::string& eventName);
+        void updateScheduledEvents();
         std::string getTriggeredEvent() const { return eventQueue.front(); }
+        void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
+        void removeContinuousEvent(const std::string& eventName);
 
     private:
         std::unordered_map<std::string, std::vector<std::shared_ptr<ISystem>>> eventMap;
         std::unordered_map<std::string, std::function<void()>> eventFunctionMap;
+        std::map<std::string, std::string> continuousEvents;
+        std::set<std::string> activeContinuousEvents;
         std::queue<std::string> eventQueue;
+        std::vector<std::tuple<std::string, size_t, size_t>> scheduledEvents;
         std::mutex eventMutex;
     };
 
