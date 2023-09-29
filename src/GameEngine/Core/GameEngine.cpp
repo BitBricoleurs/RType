@@ -93,4 +93,12 @@ namespace GameEngine {
     void GameEngine::stop() {
         isRunning = false;
     }
+
+    void GameEngine::setContinuousEvent(const std::string& eventName, const std::string& continuousEventName) {
+        eventHandler.setContinuousEvent(eventName, continuousEventName);
+    }
+
+    void GameEngine::removeContinuousEvent(const std::string& eventName) {
+        eventHandler.removeContinuousEvent(eventName);
+    }
 }

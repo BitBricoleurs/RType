@@ -37,6 +37,9 @@ namespace GameEngine {
         void scheduleEvent(const std::string& eventName, size_t interval);
         void unscheduleEvent(const std::string& eventName);
 
+        void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
+        void removeContinuousEvent(const std::string& eventName);
+
         void run();
 
         void addEvent(const std::string& eventName, std::shared_ptr<ISystem> system);

@@ -63,6 +63,8 @@ namespace GameEngine {
                 spriteComp->setPos(currentPosition);
             }
         }
+    private:
+        bool done = false;
 
     };
 }
@@ -73,9 +75,13 @@ int main() {
     auto move = std::make_shared<GameEngine::MovementSystem>();
     engine.addSystem("RenderEngineSystem", std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "POC Engine"));
     engine.addEvent("UP_KEY_PRESSED", move);
+    engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
     engine.addEvent("DOWN_KEY_PRESSED", move);
+    engine.setContinuousEvent("DOWN_KEY_PRESSED", "DOWN_KEY_RELEASED");
     engine.addEvent("LEFT_KEY_PRESSED", move);
+    engine.setContinuousEvent("LEFT_KEY_PRESSED", "LEFT_KEY_RELEASED");
     engine.addEvent("RIGHT_KEY_PRESSED", move);
+    engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
     GameEngine::Vect2 pos;
     pos.x = 100;

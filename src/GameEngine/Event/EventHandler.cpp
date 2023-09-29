@@ -89,4 +89,12 @@ namespace GameEngine {
         }
     }
 
+    void EventHandler::setContinuousEvent(const std::string& continuousEvent, const std::string& stopEvent) {
+        continuousEvents[continuousEvent] = stopEvent;
+    }
+
+    void EventHandler::removeContinuousEvent(const std::string& eventName) {
+        continuousEvents.erase(eventName);
+    }
+
 }  // namespace GameEngine

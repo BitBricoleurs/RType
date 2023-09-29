@@ -43,12 +43,20 @@ namespace GameEngine {
             eventHandler.queueEvent("SPACE_KEY_PRESSED");
         if (IsKeyPressed(KEY_UP))
             eventHandler.queueEvent("UP_KEY_PRESSED");
+        if (IsKeyReleased(KEY_UP))
+            eventHandler.queueEvent("UP_KEY_RELEASED");
         if (IsKeyPressed(KEY_DOWN))
             eventHandler.queueEvent("DOWN_KEY_PRESSED");
+        if (IsKeyReleased(KEY_DOWN))
+            eventHandler.queueEvent("DOWN_KEY_RELEASED");
         if (IsKeyPressed(KEY_LEFT))
             eventHandler.queueEvent("LEFT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_LEFT))
+            eventHandler.queueEvent("LEFT_KEY_RELEASED");
         if (IsKeyPressed(KEY_RIGHT))
             eventHandler.queueEvent("RIGHT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_RIGHT))
+            eventHandler.queueEvent("RIGHT_KEY_RELEASED");
         if (IsKeyPressed(KEY_ENTER))
             eventHandler.queueEvent("ENTER_KEY_PRESSED");
         if (IsKeyPressed(KEY_ESCAPE))
