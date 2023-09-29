@@ -55,12 +55,13 @@ class SpriteAnimationComponent : public AComponent {
 
 class DeathAnimationComponent : public AComponent {
   public:
-    DeathAnimationComponent() = default;
+    DeathAnimationComponent() : currentFrameIndex(0), currentFrame(0, 0) {}
 
     int frameHeight, frameWidth;
-    bool twoDirections;
-    std::vector<Vec2f> spritePositionsLeft;
-    std::vector<Vec2f> spritePositionsRight;
+    int currentFrameIndex;
+    int frames;
+    Vec2f currentFrame;
+    std::vector<Vec2f> spritePositions;
 };
 
 class RectComponent : public AComponent {
