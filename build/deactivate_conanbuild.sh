@@ -1,0 +1,1 @@
+. "/Users/theophilushomawoo/Documents/y3/RType/build/deactivate_conanbuildenv-release-x86_64.sh"

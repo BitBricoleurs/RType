@@ -1,4 +1,4 @@
-# Install script for directory: /Users/theophilushomawoo/Documents/y3/RType/lib
+# Install script for directory: /Users/theophilushomawoo/Documents/y3/RType/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,6 +39,26 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/theophilushomawoo/Documents/y3/RType/lib/raylib/cmake_install.cmake")
+  include("/Users/theophilushomawoo/Documents/y3/RType/src/GameEngine/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/theophilushomawoo/Documents/y3/RType/src/AudioEngine/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/theophilushomawoo/Documents/y3/RType/src/RenderEngine/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/theophilushomawoo/Documents/y3/RType/src/POCEngine/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/theophilushomawoo/Documents/y3/RType/src/POCProgram/cmake_install.cmake")
 endif()
 

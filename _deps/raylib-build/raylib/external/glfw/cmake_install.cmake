@@ -1,4 +1,4 @@
-# Install script for directory: /Users/theophilushomawoo/Documents/y3/RType/lib
+# Install script for directory: /Users/theophilushomawoo/Documents/y3/RType/_deps/raylib-src/src/external/glfw
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,6 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/theophilushomawoo/Documents/y3/RType/lib/raylib/cmake_install.cmake")
+  include("/Users/theophilushomawoo/Documents/y3/RType/_deps/raylib-build/raylib/external/glfw/src/cmake_install.cmake")
 endif()
 
