@@ -1,6 +1,6 @@
 # Rtype
 
-![Image de Rtype](Assets/Doc/Illustartiion.jpg)
+![Image de Rtype](assets/Doc/Illustartiion.jpg)
 
 Rtype est un jeu d'action spatial qui vous met aux commandes d'un vaisseau spatial, naviguant à travers différents niveaux tout en combattant des ennemis et en esquivant les obstacles.
 

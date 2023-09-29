@@ -88,8 +88,8 @@ int main() {
     pos.y = 100;
 
     GameEngine::rect rect1;
-    rect1.width = 1280;
-    rect1.height = 720;
+    rect1.width = 240;
+    rect1.height = 135;
     rect1.x = 0;
     rect1.y = 0;
     GameEngine::ColorR color;
@@ -103,7 +103,7 @@ int main() {
     engine.bindComponentToEntity(textEntity, textcompoennt);
 
     auto Player = engine.createEntity();
-    auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("../Assets/spaceship.png", pos, rect1, 1);
+    auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("assets/spaceship.png", pos, rect1, 1);
     engine.bindComponentToEntity(Player, spritecompoennt);
     auto isPLayerComponent = std::make_shared<GameEngine::IsPlayer>();
     engine.bindComponentToEntity(Player, isPLayerComponent);
