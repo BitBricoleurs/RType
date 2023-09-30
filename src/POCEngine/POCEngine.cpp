@@ -113,11 +113,12 @@ namespace GameEngine {
                 std::cout << "Pos (x: " << spriteComp->getPos().x << ",y: " << spriteComp->getPos().y << ")" << std::endl;
 
                 auto currentRect = spriteComp->getRect();
+                auto spritePos = spriteComp->getPos();
 
                 // Coordonnées du point médian à droite du rectangle du vaisseau :
                 Vect2 shootingPosition;
-                shootingPosition.x = currentRect.x + currentRect.width;
-                shootingPosition.y = currentRect.y + (currentRect.height / 2.0);
+                shootingPosition.x = spritePos.x + currentRect.width;
+                shootingPosition.y = spritePos.y + (currentRect.height / 2.0);
 
                 rect rect1;
                 rect1.width = 125;
@@ -127,9 +128,10 @@ namespace GameEngine {
 
 
                 auto bullet = componentsContainer.createEntity();
+                std::cout << " New entitie id:" << bullet << std::endl;
                 auto spriteComponent = std::make_shared<SpriteComponent>("assets/11.png", shootingPosition, rect1, 1);
                 componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-                auto isBulletComponent = std::make_shared<IsBullet>(5);
+                auto isBulletComponent = std::make_shared<IsBullet>(1);
                 componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
 
             }
@@ -179,6 +181,8 @@ int main() {
 
     auto move = std::make_shared<GameEngine::MovementSystem>();
     auto shoot = std::make_shared<GameEngine::ShootSystem>();
+    auto moveShoot = std::make_shared<GameEngine::MovementBulletSystem>();
+
     engine.addSystem("RenderEngineSystem", std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "POC Engine"));
     engine.addEvent("UP_KEY_PRESSED", move);
     engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
@@ -189,8 +193,10 @@ int main() {
     engine.addEvent("RIGHT_KEY_PRESSED", move);
     engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
-    engine.addSystem("ShootSystem", shoot);
-    engine.scheduleEvent("ShootSystem", 1000000000000);
+    engine.addEvent("ShootSystem", shoot);
+    engine.scheduleEvent("ShootSystem", 200);
+    engine.addEvent("MovementShoot", moveShoot);
+    engine.scheduleEvent("MovementShoot", 1);
 
     GameEngine::Vect2 pos;
     pos.x = 100;
