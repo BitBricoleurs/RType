@@ -26,7 +26,6 @@ namespace GameEngine {
 
     void EventHandler::queueEvent(const std::string& eventName) {
 
-        std::cout << eventName << std::endl;
         eventQueue.push(eventName);
 
         if (continuousEvents.find(eventName) != continuousEvents.end()) {
