@@ -73,7 +73,7 @@ int main() {
     GameEngine::GameEngine engine;
 
     auto move = std::make_shared<GameEngine::MovementSystem>();
-    engine.addSystem("RenderEngineSystem", std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "POC Engine"));
+    engine.addSystem("RenderEngineSystem", std::make_shared<GameEngine::RenderEngineSystem>(1600, 1080, "POC Engine"));
     engine.addEvent("UP_KEY_PRESSED", move);
     engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
     engine.addEvent("DOWN_KEY_PRESSED", move);
