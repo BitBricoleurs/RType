@@ -15,6 +15,9 @@
 namespace GameEngine {
     class ComponentsContainer {
     public:
+        ComponentsContainer() : componentsContainer(), freeMemorySlots(), maxEntityID(0) {};
+        ~ComponentsContainer() = default;
+
         std::vector<std::optional<std::shared_ptr<IComponent>>> getComponents(size_t componentType);
         std::optional<std::shared_ptr<IComponent>> getComponent(size_t entityID, size_t componentType);
         std::vector<size_t> getEntitiesWithComponent(size_t componentType);
@@ -32,5 +35,6 @@ namespace GameEngine {
     private:
         std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer;
         std::vector<size_t> freeMemorySlots;
+        size_t maxEntityID = 0;
     };
 }

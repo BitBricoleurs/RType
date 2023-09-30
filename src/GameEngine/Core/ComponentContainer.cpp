@@ -71,15 +71,11 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
             entityID = freeMemorySlots.back();
             freeMemorySlots.pop_back();
         } else {
-            if (!componentsContainer.empty()) {
-                entityID = componentsContainer.begin()->second.size();
-            } else {
-                entityID = 0;
-            }
+            entityID = maxEntityID++;
         }
         return entityID;
-
     }
+
     size_t ComponentsContainer::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
         size_t entityID = createEntity();
         for (size_t i = 0; i < components.size(); i++) {
