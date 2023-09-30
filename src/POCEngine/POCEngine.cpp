@@ -118,7 +118,7 @@ namespace GameEngine {
                 // Coordonnées du point médian à droite du rectangle du vaisseau :
                 Vect2 shootingPosition;
                 shootingPosition.x = spritePos.x + currentRect.width;
-                shootingPosition.y = spritePos.y + (currentRect.height / 2.0);
+                shootingPosition.y = spritePos.y + (currentRect.height) - 60;
 
                 rect rect1;
                 rect1.width = 125;
@@ -131,7 +131,7 @@ namespace GameEngine {
                 std::cout << " New entitie id:" << bullet << std::endl;
                 auto spriteComponent = std::make_shared<SpriteComponent>("assets/11.png", shootingPosition, rect1, 1);
                 componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-                auto isBulletComponent = std::make_shared<IsBullet>(1);
+                auto isBulletComponent = std::make_shared<IsBullet>(5);
                 componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
 
             }
@@ -194,7 +194,7 @@ int main() {
     engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
     engine.addEvent("ShootSystem", shoot);
-    engine.scheduleEvent("ShootSystem", 200);
+    engine.scheduleEvent("ShootSystem", 50);
     engine.addEvent("MovementShoot", moveShoot);
     engine.scheduleEvent("MovementShoot", 1);
 
