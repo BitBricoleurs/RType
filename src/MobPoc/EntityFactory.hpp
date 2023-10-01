@@ -8,7 +8,6 @@
 #ifndef ENTITYFACTORY_HPP_
 #define ENTITYFACTORY_HPP_
 
-#include "ComponentsType.hpp"
 #include "EntityComponents.hpp"
 #include "GameEngine.hpp"
 #include "Vec2f.hpp"

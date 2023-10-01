@@ -6,11 +6,9 @@
 */
 
 #include "ComponentContainer.hpp"
-#include "EntityComponents.hpp"
 #include "EntityFactory.hpp"
 #include "EntitySystems.hpp"
-#include "GameEngine.hpp" // Assuming all your game engine components are in this header
-#include "RenderEngineSystem.hpp"
+#include "../RenderEngine/RenderEngineSystem.hpp"
 #include <iostream>
 
 int main() {

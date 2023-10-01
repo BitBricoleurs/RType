@@ -10,8 +10,6 @@
 
 #include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
 #include "ComponentContainer.hpp"
-#include "ComponentsType.hpp"
-#include "EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 
