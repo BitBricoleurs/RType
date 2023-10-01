@@ -6,6 +6,8 @@
 */
 
 #include "EntityFactory.hpp"
+#include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
+#include <cstddef>
 #include <iostream>
 #include <memory>
 
@@ -102,8 +104,8 @@ size_t EntityFactory::createBaseEntity(GameEngine::GameEngine& engine, const std
                                        int spriteSheetHeight, int spriteSheetWidth, int frames, bool twoDirections,
                                        float posX, float posY, float velX, float velY, float dirX, float dirY,
                                        float hitboxWidth, float hitboxHeight) {
-    std::vector<std::optional<std::shared_ptr<GameEngine::IComponent>>> components;
-    auto spriteComponent = initAnimation(spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight, twoDirections);
+    auto spriteAnimationComponent =
+        initAnimation(spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight, twoDirections, dirX);
 
     auto positionComponent = std::make_shared<GameEngine::PositionComponent>(posX, posY);
     auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velX, velY);
@@ -111,25 +113,34 @@ size_t EntityFactory::createBaseEntity(GameEngine::GameEngine& engine, const std
     auto hitboxComponent = std::make_shared<GameEngine::HitboxComponent>(hitboxWidth, hitboxHeight);
     auto collideComponent = std::make_shared<GameEngine::CollideComponent>();
 
-    positionComponent->setComponentType(GameEngine::ComponentsType::getComponentType("PositionComponent"));
-    velocityComponent->setComponentType(GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-    directionComponent->setComponentType(GameEngine::ComponentsType::getComponentType("DirectionComponent"));
-    hitboxComponent->setComponentType(GameEngine::ComponentsType::getComponentType("HitboxComponent"));
-    collideComponent->setComponentType(GameEngine::ComponentsType::getComponentType("CollideComponent"));
+    GameEngine::rect spriteRect;
+    spriteRect.width = spriteAnimationComponent->frameWidth;
+    spriteRect.height = spriteAnimationComponent->frameHeight;
+    spriteRect.x = spriteAnimationComponent->currentFrame.x;
+    spriteRect.y = spriteAnimationComponent->currentFrame.y;
 
-    components.push_back(positionComponent);
-    components.push_back(velocityComponent);
-    components.push_back(directionComponent);
-    components.push_back(hitboxComponent);
-    components.push_back(collideComponent);
-    components.push_back(spriteComponent);
+    GameEngine::Vector2 spritePos;
+    spritePos.x = positionComponent->position.x;
+    spritePos.y = positionComponent->position.y;
 
-    return engine.createEntity(components);
+    auto spriteComponent = std::shared_ptr<GameEngine::SpriteComponent>(spriteSheetPath, spritePos, spriteRect, 1);
+
+    size_t entityId = engine.createEntity();
+
+    engine.bindComponentToEntity(entityId, spriteAnimationComponent);
+    engine.bindComponentToEntity(entityId, spriteComponent);
+    engine.bindComponentToEntity(entityId, positionComponent);
+    engine.bindComponentToEntity(entityId, velocityComponent);
+    engine.bindComponentToEntity(entityId, directionComponent);
+    engine.bindComponentToEntity(entityId, hitboxComponent);
+    engine.bindComponentToEntity(entityId, collideComponent);
+
+    return entityId;
 }
 
 std::shared_ptr<GameEngine::SpriteAnimationComponent> EntityFactory::initAnimation(const std::string& spriteSheetPath,
                                                                                    int frames, int width, int height,
-                                                                                   bool twoDirections) {
+                                                                                   bool twoDirections, int direction) {
     auto spriteComponent = std::make_shared<GameEngine::SpriteAnimationComponent>();
     spriteComponent->setComponentType(GameEngine::ComponentsType::getComponentType("SpriteAnimationComponent"));
 
@@ -149,6 +160,14 @@ std::shared_ptr<GameEngine::SpriteAnimationComponent> EntityFactory::initAnimati
             spriteComponent->spritePositionsRight.push_back(Vec2f(i * static_cast<float>(width) / frames, 0));
         }
     }
+
+    if (direction > 1)
+        if (twoDirections)
+            spriteComponent->currentFrame = spriteComponent->spritePositionsRight[0];
+        else
+            spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[0];
+    else
+        spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[0];
 
     return spriteComponent;
 }

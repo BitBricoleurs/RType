@@ -56,7 +56,8 @@ class EntityFactory {
                             float velY, float dirX, float dirY, float hitboxWidth, float hitboxHeight);
 
     std::shared_ptr<GameEngine::SpriteAnimationComponent> initAnimation(const std::string& spriteSheetPath, int frames,
-                                                                        int width, int height, bool twoDirections);
+                                                                        int width, int height, bool twoDirections,
+                                                                        int direction);
 
     std::shared_ptr<GameEngine::DeathAnimationComponent>
     initDeathAnimation(const std::string& deathSpriteSheetPath, int deathFrames, int deathWidth, int deathHeight);
