@@ -8,6 +8,7 @@
 #ifndef ENTITYSYSTEMS_HPP_
 #define ENTITYSYSTEMS_HPP_
 
+#include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
 #include "ComponentContainer.hpp"
 #include "ComponentsType.hpp"
 #include "EntityComponents.hpp"
@@ -22,15 +23,22 @@ class updateEntitySpriteSystem : public ISystem {
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteAnimationComponent"));
 
         for (auto& entity : entities) {
-            auto animation =
+            auto animationOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("SpriteAnimationComponent"));
-            auto direction =
+            auto directionOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("DirectionComponent"));
+            auto spriteOpt =
+                componentsContainer.getComponent(entity, ComponentsType::getComponentType("SpriteComponent"));
+
+            auto animation = std::dynamic_pointer_cast<SpriteAnimationComponent>(animationOpt.value());
+            auto direction = std::dynamic_pointer_cast<DirectionComponent>(directionOpt.value());
+            auto sprite = std::dynamic_pointer_cast<SpriteComponent>(spriteOpt.value());
+
             if (animation) {
                 if (animation->twoDirections) {
                     if (animation->currentFrameIndex >= animation->frames / 2)
                         animation->currentFrameIndex = 0;
-                    if (direction->x > 1)
+                    if (direction->dx > 1)
                         animation->currentFrame = animation->spritePositionsRight[animation->currentFrameIndex++];
                     else
                         animation->currentFrame = animation->spritePositionsLeft[animation->currentFrameIndex++];
@@ -40,6 +48,8 @@ class updateEntitySpriteSystem : public ISystem {
                     animation->currentFrame = animation->spritePositionsLeft[animation->currentFrameIndex++];
                 }
             }
+            sprite->rect1.x = animation->currentFrame.x;
+            sprite->rect1.y = animation->currentFrame.y;
         }
     }
 };
@@ -51,16 +61,27 @@ class updatePositionSystem : public ISystem {
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("PositionComponent"));
 
         for (auto& entity : entities) {
-            auto position =
+            auto positionOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("PositionComponent"));
-            auto direction =
+            auto directionOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("DirectionComponent"));
-            auto velocity =
+            auto velocityOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("VelocityComponent"));
+            auto spriteOpt =
+                componentsContainer.getComponent(entity, ComponentsType::getComponentType("SpriteComponent"));
+
+            auto position = std::dynamic_pointer_cast<PositionComponent>(positionOpt.value());
+            auto direction = std::dynamic_pointer_cast<DirectionComponent>(directionOpt.value());
+            auto velocity = std::dynamic_pointer_cast<VelocityComponent>(velocityOpt.value());
+            auto sprite = std::dynamic_pointer_cast<SpriteComponent>(spriteOpt.value());
 
             if (velocity && position && direction) {
-                position->x += velocity->x * direction->x;
-                position->y += velocity->y * direction->y;
+                position->x += velocity->dx * direction->dx;
+                position->y += velocity->dy * direction->dy;
+            }
+            if (sprite) {
+                sprite->pos.x = position->x;
+                sprite->pos.y = position->y;
             }
         }
     }
@@ -72,13 +93,15 @@ class updateHealthSystem : public ISystem {
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
 
-        auto health = componentsContainer.getComponent(id, ComponentsType::getComponentType("HealthComponent"));
-        auto collisions =
-            componentsContainer.getComponent(id, ComponentsType::getComponentType("CollideComponent"))->collide;
+        auto healthOpt = componentsContainer.getComponent(id, ComponentsType::getComponentType("HealthComponent"));
+        auto health = std::dynamic_pointer_cast<HealthComponent>(healthOpt.value());
+        auto collisionsOpt = componentsContainer.getComponent(id, ComponentsType::getComponentType("CollideComponent"));
+        auto collisions = std::dynamic_pointer_cast<CollideComponent>(collisionsOpt.value())->collide;
 
         for (auto& collision : collisions) {
-            auto damage =
+            auto damageOpt =
                 componentsContainer.getComponent(collision, ComponentsType::getComponentType("DamageComponent"));
+            auto damage = std::dynamic_pointer_cast<DamageComponent>(damageOpt.value());
             if (damage) {
                 health->currentHealth -= damage->damageValue;
                 if (health->currentHealth <= 0) {
@@ -95,8 +118,9 @@ class MobDeathSystem : public ISystem {
         size_t id = std::stoi(event.substr(1, event.find(" ")));
         eventHandler.deleteEvent(event);
 
-        auto deathAnimation =
+        auto deathAnimationOpt =
             componentsContainer.getComponent(id, ComponentsType::getComponentType("DeathAnimationComponent"));
+        auto deathAnimation = std::dynamic_pointer_cast<DeathAnimationComponent>(deathAnimationOpt.value());
 
         if (deathAnimation) {
             if (deathAnimation->currentFrameIndex >= deathAnimation->frames) {
