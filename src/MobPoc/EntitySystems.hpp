@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
+#include "../RenderEngine/RenderEngine.hpp"
 #include "ComponentContainer.hpp"
 #include "EntityComponents.hpp"
 #include "EventHandler.hpp"
