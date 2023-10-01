@@ -7,9 +7,7 @@
 
 #include "RenderEngine.hpp"
 #include <filesystem>
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-#elif defined(__APPLE__)
+#if defined(__APPLE__)
 #include <mach-o/dyld.h>
 #else
 #include <unistd.h>
@@ -19,13 +17,9 @@
 
 namespace GameEngine {
 
-    // Fonctions pour obtenir le chemin de l'exécutable
     std::string getExecutablePath() {
 #if defined(_WIN32) || defined(_WIN64)
-        char buffer[MAX_PATH];
-            GetModuleFileName(NULL, buffer, MAX_PATH);
-            std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-            return std::string(buffer).substr(0, pos);
+        return "";
 #elif defined(__APPLE__)
         char path[1024];
             uint32_t size = sizeof(path);
@@ -33,13 +27,13 @@ namespace GameEngine {
                 std::string pathStr = std::string(path);
                 return pathStr.substr(0, pathStr.find_last_of("/"));
             } else {
-                return ""; // Erreur: le tampon est trop petit
+                return "";
             }
 #else
         char result[PATH_MAX];
         ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
         std::string path = std::string(dirname(result));
-        return path;
+        return path + "/";
 #endif
     }
 
@@ -51,7 +45,7 @@ namespace GameEngine {
 
     void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, char* argv[]) {
         InitWindow(screenWidth, screenHeight, windowTitle);
-        _baseAssetPath = getExecutablePath() + "/";
+        _baseAssetPath = getExecutablePath();
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
