@@ -57,7 +57,7 @@ Network::Message::Message(const std::string &action, std::vector<unsigned int> I
 }
 
 Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg)
-        : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1)
+        : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1), _NbrId(IDs.size())
 {
     std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);
     initializeMessage(IDs, serializedArgs);
@@ -92,19 +92,52 @@ std::string Network::Message::getTypeByCode(uint8_t code)
     throw std::runtime_error("Unknown type code");
 }
 
+uint8_t Network::Message::getCodeByAction(const std::string &action)
+{
+    for (auto& item : actionToCodeMap) {
+        if (item.first == action) {
+            return item.second;
+        }
+    }
+    throw std::runtime_error("Unknown action");
+}
+
+uint8_t Network::Message::getCodeByType(const std::string &type)
+{
+    for (auto& item : typeToCodeMap) {
+        if (item.first == type) {
+            return item.second;
+        }
+    }
+    throw std::runtime_error("Unknown type");
+}
+
+uint8_t Network::Message::getSizeByType(uint8_t code)
+{
+    for (auto& item : typeToSizeMap) {
+        if (item.first == code) {
+            return item.second;
+        }
+    }
+    throw std::runtime_error("Unknown type");
+}
+
 void Network::Message::getDataMessage()
 {
-    _action = _message.front();
-    memcpy(&_NbrId, &_message[1], sizeof(_NbrId));
+    _action = getActionByCode(_message.front());
+    memcpy(&_NbrId, _message.data() + 1, sizeof(_NbrId));
+    _NbrId = ntohs(_NbrId);
     _IDs.insert(_IDs.end(), _message.begin() + 2, _message.begin() + 2 + _NbrId);
     _ArgTypeCode = _message[3 + _NbrId];
     _NbrArgs = _message[4 + _NbrId];
 
+    _ArgType = getTypeByCode(_ArgTypeCode);
+    _sizeArg = getSizeByType(_ArgTypeCode);
     if (_ArgTypeCode == 0x03) {
-        _sizeArg = 1;
-    } else {
-        _sizeArg = typeToSizeMap[_ArgTypeCode];
+        _sizeArg = _NbrArgs;
+        _NbrArgs = 1;
     }
+    _args.resize(_NbrArgs);
     for (int i = 0; i < _NbrArgs; i++) {
         memcpy(&_args[i], &_message[5 + _NbrId + i * _sizeArg], _sizeArg);
     }
@@ -113,9 +146,13 @@ void Network::Message::getDataMessage()
 void Network::Message::initializeMessage(const std::vector<unsigned int>& IDs, const std::vector<std::uint8_t>& serializedArgs)
 {
     _message.push_back(actionToCodeMap[_action]);
-    _message.push_back(_NbrId);
+    _message.push_back(static_cast<uint8_t>(_NbrId >> 8));
+    _message.push_back(static_cast<uint8_t>(_NbrId));
     _message.insert(_message.end(), IDs.begin(), IDs.end());
-    _message.push_back(typeToCodeMap[_ArgType]);
+    uint8_t Type = typeToCodeMap[_ArgType];
+    if (Type == 0x03)
+        _NbrArgs = serializedArgs.size();
+    _message.push_back(Type);
     _message.push_back(_NbrArgs);
     _message.insert(_message.end(), serializedArgs.begin(), serializedArgs.end());
 }

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <deque>
 #include <mutex>
 #include <condition_variable>
@@ -13,7 +14,11 @@ namespace Network {
     template<typename T>
     class TSQueue {
     public:
-        TSQueue() = default;
+        TSQueue()
+      : muxQueue()
+      {
+            std::cout << "TSQueue created" << std::endl;
+        }
 
         TSQueue(const TSQueue<T> &) = delete;
 
@@ -70,6 +75,7 @@ namespace Network {
             std::scoped_lock lock(muxQueue);
             deqQueue.clear();
         }
+
 
     private:
         std::mutex muxQueue;

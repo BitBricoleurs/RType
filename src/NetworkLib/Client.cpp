@@ -33,11 +33,11 @@ public:
 };
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
-    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, std::nullopt, Network::Interface::Type::CLIENT);
-     _interface->connectToServer(host, port);
+    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, Network::Interface::Type::CLIENT);
+    _interface->connectToServer(host, port);
 
     processIncomingMessages();
-    _interface->getIO().processOutgoingMessages();
+    _interface->getIO()->processOutgoingMessages();
 
     _tickThread = std::thread([this]() {_tick.Start();});
     _listenThread = std::thread([this]() {_context.run(); });
@@ -81,15 +81,20 @@ void Network::Client::Impl::send(const std::string &action, std::vector<unsigned
 
 void Network::Client::Impl::processIncomingMessages() {
     asio::post(_context, [this]() {
-        std::unique_lock<std::mutex> lock(_tick._mtx);
-        _tick._cvIncoming.wait(lock, [this]() { return _tick._processIncoming; });
-        while (!_inMessages.empty()) {
-            std::shared_ptr<IMessage> message = _inMessages.getFront().message;
-            std::cout << "Message received : " << message->getSize() << std::endl;
-            _inMessages.popFront();
+        while (1) {
+            std::unique_lock<std::mutex> lock( _tick._mtx );
+            _tick._cvIncoming.wait( lock, [ this ]() {
+                return _tick._processIncoming;
+            } );
+            while ( !_inMessages.empty() ) {
+                std::shared_ptr<IMessage> message
+                    = _inMessages.getFront().message;
+                std::cout << "Message received : " << message->getSize()
+                          << std::endl;
+                _inMessages.popFront();
+            }
+            _tick._processIncoming= false;
         }
-        _tick._processIncoming = false;
-        processIncomingMessages();
     });
 }
 

@@ -4,8 +4,6 @@
 
 #pragma once
 
-#pragma pack(1)
-
 #include <vector>
 #include <cstdint>
 
@@ -18,6 +16,7 @@ namespace Network {
         void addData(std::vector<std::uint8_t> &data);
         std::vector<std::uint8_t> &getData();
         unsigned int getSize();
+        void clear() { _data.clear(); }
 
     private:
         std::vector<std::uint8_t> _data;

@@ -37,7 +37,6 @@ void Network::Tick::Start()
         lock.unlock();
 
         _cvIncoming.notify_one();
-        ;
         _cvOutgoing.notify_one();
     }
 }

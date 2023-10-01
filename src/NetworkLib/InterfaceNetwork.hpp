@@ -15,7 +15,7 @@ namespace Network {
         };
 
         Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> _inSocket,
-                   Network::Tick &tick, const std::optional<std::function<void()>>& callbackFunction, Network::Interface::Type type = Network::Interface::Type::CLIENT);
+                   Network::Tick &tick, Network::Interface::Type type = Network::Interface::Type::CLIENT);
 
         ~Interface();
 
@@ -29,7 +29,8 @@ namespace Network {
 
 
         asio::ip::udp::endpoint &getEndpoint();
-        PacketIO &getIO();
+        void setEndpoint(const asio::ip::udp::endpoint &endpoint);
+        std::shared_ptr<Network::PacketIO> getIO();
 
     private:
 
@@ -47,7 +48,7 @@ namespace Network {
             Network::Interface::Type _type;
 
             Network::Tick &_tick;
-            Network::PacketIO _packetIO;
+            std::shared_ptr<Network::PacketIO> _packetIO;
 
     };
 };

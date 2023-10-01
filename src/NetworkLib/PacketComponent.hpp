@@ -4,16 +4,15 @@
 
 #pragma once
 
-#pragma pack(1)
-
 #include <cstdint>
+#define MAX_PACKET_SIZE 4096
 
 namespace Network {
     struct PacketHeader {
         int sequenceNumber;
-        uint16_t ackMask;
         int lastPacketSeq;
-        unsigned int bodySize;
+        uint16_t ackMask;
+        uint16_t bodySize;
     }__attribute__((packed));
 
     struct Packet {

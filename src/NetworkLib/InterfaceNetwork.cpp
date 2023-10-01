@@ -5,9 +5,10 @@
 #include "InterfaceNetwork.hpp"
 
 Network::Interface::Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> inSocket,
-                               Network::Tick &tick, const std::optional<std::function<void()>>& callbackFunction, Network::Interface::Type type) :
-        _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _type(type), _tick(tick),
-        _packetIO(Context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, _tick, callbackFunction) {
+                               Network::Tick &tick, Network::Interface::Type type) :
+        _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _type(type), _tick(tick)
+{
+    _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, _tick);
     _id = 0;
 }
 
@@ -33,7 +34,7 @@ void Network::Interface::connectToServer(const std::string &host, unsigned short
         _socket.open(asio::ip::udp::v4());
     else
         _socket.open(asio::ip::udp::v6());
-    getIO().readHeader();
+    getIO()->readPacket();
 }
 
 void Network::Interface::send(const std::shared_ptr<IMessage>& message)
@@ -43,12 +44,17 @@ void Network::Interface::send(const std::shared_ptr<IMessage>& message)
     }
 }
 
+void Network::Interface::setEndpoint(const asio::ip::udp::endpoint &endpoint)
+{
+    _endpoint = endpoint;
+}
+
 asio::ip::udp::endpoint &Network::Interface::getEndpoint()
 {
     return _endpoint;
 }
 
-Network::PacketIO &Network::Interface::getIO()
+std::shared_ptr<Network::PacketIO> Network::Interface::getIO()
 {
     return _packetIO;
 }

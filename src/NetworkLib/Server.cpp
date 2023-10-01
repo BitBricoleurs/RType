@@ -12,11 +12,23 @@ namespace Network {
 
     class Server::Impl {
     public:
-        Impl(unsigned short port, size_t maxClients, size_t Tick)
-                : _context(), _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)), _port(port), _maxClients(maxClients), _running(false), _tick(Tick),
-            _idleWork(std::make_unique<asio::io_context::work>(_context))
+      Impl(unsigned short port, size_t maxClients, size_t Tick)
+          : _context(), _idleWork(std::make_unique<asio::io_context::work>(_context)), _tick(Tick), _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)), _running(true), _port(port), _maxClients(maxClients), _inMessages(),
+            _tempPacket(), _tempBuffer(MAX_PACKET_SIZE + sizeof(Network::PacketHeader))
       {
-            for (size_t i = 0; i < maxClients; i++) {
+          _packetIO = std::make_shared<Network::PacketIO>(_context, _remoteEndpoint, _socket, _socket, _inMessages, _tick,
+                                                          [this](asio::ip::udp::endpoint &endpoint) {
+                                                                registerNewCon(endpoint);
+                                                          });
+            std::cout << _inMessages.empty() << std::endl;
+            int maxThreads = std::thread::hardware_concurrency();
+            int ideaThread = 2 + 2 * maxClients;
+            if (ideaThread > maxThreads) {
+                ideaThread = maxThreads;
+            }
+            std::cout << "Allocated Threads: " << ideaThread << std::endl;
+            std::cout << "Max Threads: " << maxThreads << std::endl;
+            for (size_t i = 0; i < ideaThread; i++) {
                 _pool.push_back(std::thread([&]() { _context.run(); }));
             }
             asio::ip::udp::endpoint local_ep = _socket.local_endpoint();
@@ -33,9 +45,11 @@ namespace Network {
 
         void start() {
             _tickThread = std::thread([this]() {_tick.Start();});
-            ListenForNewCon();
-            for (auto &client_interface : _clients)
-                client_interface->getIO().readHeader();
+            _packetIO->readPacket();
+            processIncomingMessages();
+            for (auto &client_interface : _clients) {
+                client_interface->getIO()->processOutgoingMessages();
+            }
             while (true) {
                 if (_context.stopped()) {
                     std::cout << "io_context is stopped!" << std::endl;
@@ -71,6 +85,7 @@ namespace Network {
                     _tick._cvIncoming.wait( lock, [ this ]() {
                         return _tick._processIncoming;
                     } );
+                    lock.unlock();
                     while ( !_inMessages.empty() ) {
                         std::shared_ptr<IMessage> message
                             = _inMessages.getFront().message;
@@ -79,7 +94,6 @@ namespace Network {
                         _inMessages.popFront();
                     }
                     _tick._processIncoming= false;
-                    processIncomingMessages();
                 }
             });
         }
@@ -94,48 +108,36 @@ namespace Network {
             return nullptr;
         }
 
-        void ListenForNewCon() {
-            {
-                _socket.async_receive_from(
-                    asio::buffer( &_tempHeader,
-                                  sizeof( Network::PacketHeader ) ),
-                    _remoteEndpoint,
-                    [ this ]( std::error_code ec, std::size_t bytesReceived ) {
-                        if ( !ec ) {
-                            auto clientInterface
-                                = getInterfaceByEndpoint( _remoteEndpoint );
-                            if ( !clientInterface ) {
-                                clientInterface= std::make_shared<
-                                    Network::Interface>(
-                                        _context, _inMessages, _socket, _tick, [this]() { ListenForNewCon(); }, Network::Interface::Type::SERVER
-                                        );
-                                _clients.push_back( clientInterface );
-                                std::cout
-                                    << "New client connected : "
-                                    << _remoteEndpoint.address().to_string()
-                                    << ":" << _remoteEndpoint.port()
-                                    << std::endl;
-                            }
-                            std::cout
-                                << "Header received : " << _tempHeader.bodySize
-                                << std::endl;
-                            clientInterface->getIO().setHeader( _tempHeader );
-                            clientInterface->getIO().readBody();
-                        } else {
-                            std::cout << "Error on receive : " << ec.message()
-                                      << std::endl;
-                        }
-                    } );
+        void registerNewCon(asio::ip::udp::endpoint &remoteEndpoint)
+        {
+            auto clientInterface
+                = getInterfaceByEndpoint( remoteEndpoint );
+            if ( !clientInterface ) {
+                clientInterface = std::make_shared<
+                    Network::Interface>(
+                    _context, _inMessages, _socket, _tick, Network::Interface::Type::SERVER
+                );
+                clientInterface->setEndpoint(remoteEndpoint);
+                _clients.push_back( clientInterface );
+                std::cout
+                    << "New client connected : "
+                    << remoteEndpoint.address().to_string()
+                    << ":" << remoteEndpoint.port()
+                    << std::endl;
             }
         }
 
+        Network::TSQueue<Network::OwnedMessage> _inMessages;
         asio::io_context _context;
         std::unique_ptr<asio::io_context::work> _idleWork;
         Network::Tick _tick;
 
         std::thread _tickThread;
 
-        Network::PacketHeader _tempHeader;
+        std::shared_ptr<Network::PacketIO> _packetIO;
+        Network::Packet _tempPacket;
+        std::vector<unsigned char> _tempBuffer;
+
         asio::ip::udp::socket _socket;
         std::mutex _socketMutex;
         asio::ip::udp::endpoint _remoteEndpoint;
@@ -144,7 +146,6 @@ namespace Network {
         bool _running;
         unsigned short _port;
         size_t _maxClients;
-        Network::TSQueue<Network::OwnedMessage> _inMessages;
     };
 
     Server::Server(unsigned short port, size_t maxClients, size_t Tick)

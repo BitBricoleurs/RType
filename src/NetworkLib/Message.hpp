@@ -25,19 +25,21 @@ namespace Network {
     class Message : public IMessage {
 
         std::map<std::string, uint8_t> actionToCodeMap = {
-                {"action1", 0x01},
-                {"action2", 0x02},
+                {"HELLO", 0x01},
+                {"BYE", 0x02},
         };
 
         std::map<std::string, uint8_t> typeToCodeMap = {
                 { "INT", 0x01 },
                 { "FLOAT", 0x02 },
                 { "STRING", 0x03 },
+                { "CHAR", 0x03}
         };
 
         std::map<uint8_t, uint8_t> typeToSizeMap = {
                 { 0x01, sizeof(int) },
                 { 0x02, sizeof(float) },
+                { 0x03, sizeof(char) },
         };
 
     public:
@@ -57,6 +59,10 @@ namespace Network {
         std::string getActionByCode(uint8_t code);
 
         std::string getTypeByCode(uint8_t code);
+        uint8_t getSizeByType(uint8_t code);
+
+        uint8_t getCodeByAction(const std::string &action);
+        uint8_t getCodeByType(const std::string &type);
 
         void getDataMessage();
 
