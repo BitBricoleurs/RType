@@ -7,14 +7,14 @@
 #include "PacketIO.hpp"
 
 Network::PacketIO::PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn, asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages, Network::Tick& tick)
-: _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _outMessages(&outMessages), _inMessages(inMessages),_tick(tick), _header(), _body(), _socketMutex(), _packet(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _type(Type::CLIENT)
+: _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _outMessages(&outMessages), _inMessages(inMessages),_tick(tick), _header(), _body(), _socketMutex(), _packet(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _type(Type::CLIENT), _clients(nullptr)
 {
     _header.bodySize = 0;
 
 }
 
-Network::PacketIO::PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn, asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, Network::Tick& tick, std::function<void(asio::ip::udp::endpoint &endpoint)> onConnect)
-    : _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _header(), _body(), _socketMutex(), _packet(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _outMessages(nullptr)
+Network::PacketIO::PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn, asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, Network::Tick& tick, std::function<void(asio::ip::udp::endpoint &endpoint)> onConnect, std::vector<std::shared_ptr<Network::Interface> > &clients)
+    : _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _header(), _body(), _socketMutex(), _packet(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _outMessages(nullptr), _clients(&clients)
 {
     _header.bodySize = 0;
 }
@@ -31,6 +31,7 @@ void Network::PacketIO::setBody(const Network::Body &body)
 
 void Network::PacketIO::readPacket()
 {
+
     _socketIn.async_receive_from(
         asio::buffer(_tempBuffer), _endpoint,
         [&](std::error_code ec, std::size_t length) {
@@ -50,9 +51,10 @@ void Network::PacketIO::readPacket()
                         }
                         size_t index = 0;
                         while (index < _header.bodySize) {
-                            std::shared_ptr<Network::IMessage> message =
-                                std::make_unique<Network::Message>(_body.getData());
-                            _inMessages.pushBack({ nullptr, nullptr});
+                            std::vector<std::uint8_t> subData(_body.getData().begin() + index, _body.getData().end());
+                            std::shared_ptr<Network::Message> message =
+                                std::make_shared<Network::Message>(subData);
+                            _inMessages.pushBack({EndpointGetter::getIdByEndpoint(_endpoint, _clients), message});
                             index += message->getSize();
                         }
                         readPacket();
@@ -109,6 +111,7 @@ void Network::PacketIO::processOutgoingMessages()
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
                 _outMessages->popFront();
                 _body.addData( message->getMessage() );
+                std::cout << "Sending message : " << message->getSize() << std::endl;
                 size+= message->getSize();
             }
             _packet.header.bodySize= size;

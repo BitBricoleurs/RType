@@ -33,7 +33,7 @@ public:
 };
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
-    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, Network::Interface::Type::CLIENT);
+    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, 0, Network::Interface::Type::CLIENT);
     _interface->connectToServer(host, port);
 
     processIncomingMessages();

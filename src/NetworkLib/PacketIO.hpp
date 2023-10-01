@@ -16,8 +16,12 @@
 #include "TSqueue.hpp"
 #include "Message.hpp"
 #include "Tick.hpp"
+#include "EndpointGetter.hpp"
 
 namespace Network {
+
+    class Interface;
+
     class PacketIO : public std::enable_shared_from_this<PacketIO>{
       public:
         enum class Type {
@@ -30,7 +34,7 @@ namespace Network {
 
         PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn,
                   asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages,
-                  Network::Tick& tick, std::function<void(asio::ip::udp::endpoint &endpoint)>);
+                  Network::Tick& tick, std::function<void(asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client);
 
         ~PacketIO() = default;
 
@@ -44,6 +48,9 @@ namespace Network {
         void processOutgoingMessages();
 
       private:
+
+        unsigned int getIdByEndpoint(const asio::ip::udp::endpoint& endpoint);
+        asio::ip::udp::endpoint getEndpointById(unsigned int id);
 
         void serializePacket();
 
@@ -66,5 +73,7 @@ namespace Network {
 
         std::function<void(asio::ip::udp::endpoint &endpoint)> _onConnect;
         Network::PacketIO::Type _type;
+
+        std::vector<std::shared_ptr<Network::Interface>>* _clients;
     };
 }

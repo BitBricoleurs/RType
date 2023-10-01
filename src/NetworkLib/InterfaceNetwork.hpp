@@ -7,7 +7,7 @@
 #include "PacketIO.hpp"
 
 namespace Network {
-    class Interface : public  std::enable_shared_from_this<Interface> {
+    class Interface {
     public:
         enum class Type {
             SERVER,
@@ -15,7 +15,7 @@ namespace Network {
         };
 
         Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> _inSocket,
-                   Network::Tick &tick, Network::Interface::Type type = Network::Interface::Type::CLIENT);
+                   Network::Tick &tick, unsigned int id, Network::Interface::Type type = Network::Interface::Type::CLIENT);
 
         ~Interface();
 
@@ -31,6 +31,8 @@ namespace Network {
         asio::ip::udp::endpoint &getEndpoint();
         void setEndpoint(const asio::ip::udp::endpoint &endpoint);
         std::shared_ptr<Network::PacketIO> getIO();
+        unsigned int getId() const;
+
 
     private:
 

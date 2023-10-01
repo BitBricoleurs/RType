@@ -10,6 +10,8 @@ add_library(NetworkLib STATIC
         TSqueue.hpp
         PacketIO.cpp
         PacketIO.hpp
+        EndpointGetter.hpp
+        EndpointGetter.cpp
 )
 
 find_path(ASIO_INCLUDE_DIR NAMES asio.hpp PATHS /usr/local/include /opt/local/include)

@@ -19,6 +19,8 @@ namespace Network {
         static std::vector<std::uint8_t> serialize(const std::vector<std::any>& data);
 
         static std::vector<std::uint8_t> serializeItem(const std::any& item);
+
+        static std::vector<std::any> deserialize(const std::vector<std::uint8_t>& data, uint8_t typeCode, uint8_t size, uint8_t nbrArgs);
     };
 
 
@@ -54,7 +56,7 @@ namespace Network {
 
             unsigned int getSize() override;
 
-    private:
+
 
         std::string getActionByCode(uint8_t code);
 
@@ -78,5 +80,6 @@ namespace Network {
         std::vector<unsigned int> _IDs;
         std::vector<std::any> _args;
         std::vector<std::uint8_t> _message;
+      private:
     };
 }

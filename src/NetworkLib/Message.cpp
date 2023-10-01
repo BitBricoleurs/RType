@@ -42,9 +42,30 @@ std::vector<std::uint8_t> Network::Serializer::serializeItem(const std::any &ite
     return {serialized.begin(), serialized.end()};
 }
 
+std::vector<std::any> Network::Serializer::deserialize(const std::vector<std::uint8_t> &data, uint8_t typeCode, uint8_t size, uint8_t nbrArgs)
+{
+    std::stringstream ss;
+    ss.write(reinterpret_cast<const char*>(data.data()), size);
+    std::string serialized = ss.str();
 
+    static const std::map<uint8_t, std::function<std::any(const std::string&)>> deserializers = {
+        { 0x01, [](const std::string& serialized) -> std::any { return std::stoi(serialized); } },
+        { 0x02, [](const std::string& serialized) -> std::any { return std::stof(serialized); } },
+        { 0x03, [](const std::string& serialized) -> std::any { return serialized; } },
+    };
+    for (auto& item : deserializers) {
+        if (item.first == typeCode) {
+            std::vector<std::any> result;
+            for (int i = 0; i < nbrArgs; i++) {
+                result.push_back(item.second(serialized.substr(i * size, size)));
+            }
+            return result;
+        }
+    }
+    throw std::runtime_error("Unsupported data type for deserialization check Message.hpp file");
+}
 
-Network::Message::Message(std::vector <std::uint8_t> &message): _message(message), _ArgType(), _args()
+Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::move(message)), _ArgType(), _args()
 {
     getDataMessage();
 }
@@ -127,7 +148,8 @@ void Network::Message::getDataMessage()
     _action = getActionByCode(_message.front());
     memcpy(&_NbrId, _message.data() + 1, sizeof(_NbrId));
     _NbrId = ntohs(_NbrId);
-    _IDs.insert(_IDs.end(), _message.begin() + 2, _message.begin() + 2 + _NbrId);
+
+    _IDs.insert(_IDs.end(), _message.begin() + 3, _message.begin() + 3 + _NbrId);
     _ArgTypeCode = _message[3 + _NbrId];
     _NbrArgs = _message[4 + _NbrId];
 
@@ -138,9 +160,7 @@ void Network::Message::getDataMessage()
         _NbrArgs = 1;
     }
     _args.resize(_NbrArgs);
-    for (int i = 0; i < _NbrArgs; i++) {
-        memcpy(&_args[i], &_message[5 + _NbrId + i * _sizeArg], _sizeArg);
-    }
+    _args = Serializer::deserialize(std::vector<uint8_t>(_message.begin() + 5 + _NbrId, _message.end()), _ArgTypeCode, _sizeArg, _NbrArgs);
 }
 
 void Network::Message::initializeMessage(const std::vector<unsigned int>& IDs, const std::vector<std::uint8_t>& serializedArgs)
