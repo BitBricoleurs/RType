@@ -5,6 +5,8 @@
 ** MobComponents
 */
 
+#pragma once
+
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
 #include "GameEngine.hpp"

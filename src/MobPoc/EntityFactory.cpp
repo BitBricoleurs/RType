@@ -127,7 +127,7 @@ size_t EntityFactory::createBaseEntity(GameEngine::GameEngine& engine, const std
     spritePos.x = positionComponent->x;
     spritePos.y = positionComponent->y;
 
-    auto spriteComponent = std::shared_ptr<GameEngine::SpriteComponent>(spriteSheetPath, spritePos, spriteRect, 1);
+    auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(spriteSheetPath, spritePos, spriteRect, 1);
 
     size_t entityId = engine.createEntity();
 

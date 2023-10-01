@@ -5,11 +5,11 @@
 ** EntitySystems
 */
 
-#ifndef ENTITYSYSTEMS_HPP_
-#define ENTITYSYSTEMS_HPP_
+#pragma once
 
 #include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
 #include "ComponentContainer.hpp"
+#include "EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 
@@ -123,14 +123,13 @@ class MobDeathSystem : public ISystem {
         if (deathAnimation) {
             if (deathAnimation->currentFrameIndex >= deathAnimation->frames) {
                 componentsContainer.deleteEntity(id);
-            } else {
-                eventHandler.scheduleEvent("MobDeath " + std::to_string(id), 30);
             }
+            // else {
+            //     eventHandler.scheduleEvent("MobDeath " + std::to_string(id), 30);
+            // }
             deathAnimation->currentFrame = deathAnimation->spritePositions[deathAnimation->currentFrameIndex++];
         }
     };
 };
 
 } // namespace GameEngine
-
-#endif /* !ENTITYSYSTEMS_HPP_ */

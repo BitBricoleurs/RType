@@ -5,10 +5,10 @@
 ** main
 */
 
+#include "../RenderEngine/RenderEngineSystem.hpp"
 #include "ComponentContainer.hpp"
 #include "EntityFactory.hpp"
 #include "EntitySystems.hpp"
-#include "../RenderEngine/RenderEngineSystem.hpp"
 #include <iostream>
 
 int main() {

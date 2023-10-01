@@ -5,8 +5,7 @@
 ** EntityFactory
 */
 
-#ifndef ENTITYFACTORY_HPP_
-#define ENTITYFACTORY_HPP_
+#pragma once
 
 #include "EntityComponents.hpp"
 #include "GameEngine.hpp"
@@ -61,5 +60,3 @@ class EntityFactory {
     std::shared_ptr<GameEngine::DeathAnimationComponent>
     initDeathAnimation(const std::string& deathSpriteSheetPath, int deathFrames, int deathWidth, int deathHeight);
 };
-
-#endif /* !ENTITYFACTORY_HPP_ */
