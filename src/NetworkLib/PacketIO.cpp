@@ -50,9 +50,9 @@ void Network::PacketIO::readPacket()
                         }
                         size_t index = 0;
                         while (index < _header.bodySize) {
-                            std::shared_ptr<Network::Message> message =
-                                std::make_shared<Network::Message>(_body.getData());
-                            _inMessages.pushBack({this->shared_from_this(), message});
+                            std::shared_ptr<Network::IMessage> message =
+                                std::make_unique<Network::Message>(_body.getData());
+                            _inMessages.pushBack({ nullptr, nullptr});
                             index += message->getSize();
                         }
                         readPacket();

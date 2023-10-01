@@ -87,11 +87,11 @@ namespace Network {
                     } );
                     lock.unlock();
                     while ( !_inMessages.empty() ) {
-                        std::shared_ptr<IMessage> message
-                            = _inMessages.getFront().message;
-                        std::cout << "Message received : " << message->getSize()
+                        Network::OwnedMessage message
+                            = _inMessages.popFront();
+                        std::cout << "Message received : " << message.message->getSize()
                                   << std::endl;
-                        _inMessages.popFront();
+                        break;
                     }
                     _tick._processIncoming= false;
                 }
