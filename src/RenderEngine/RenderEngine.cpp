@@ -38,14 +38,23 @@ namespace GameEngine {
             textureCache[path] = texture;
         }
 
-        // Convert GameEngine::Rectangle and Vector2 to Raylib's Rectangle and Vector2
         rect gameRect = spriteComponent.getRect();
-        ::Rectangle raylibRect = { gameRect.x, gameRect.y, gameRect.width, gameRect.height };
+        ::Rectangle raylibRect = { gameRect.x, gameRect.y, gameRect.w, gameRect.h };
 
         GameEngine::Vector2 gamePos = spriteComponent.getPos();
         ::Vector2 raylibPos = { gamePos.x, gamePos.y };
 
-        DrawTextureRec(textureCache[path], raylibRect, raylibPos, RAYWHITE);
+        ::Vector2 origin = { 0, 0 };
+        float rotation = 0.0f;
+
+        ::Rectangle destRec = {
+                raylibPos.x,
+                raylibPos.y,
+                raylibRect.width * spriteComponent.getScale(),
+                raylibRect.height * spriteComponent.getScale()
+        };
+
+        DrawTexturePro(textureCache[path], raylibRect, destRec, origin, rotation, RAYWHITE);
 
         EndDrawing();
     }
