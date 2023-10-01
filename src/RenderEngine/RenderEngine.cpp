@@ -6,9 +6,42 @@
 */
 
 #include "RenderEngine.hpp"
+#include <filesystem>
+#if defined(_WIN32) || defined(_WIN64)
+#include <windows.h>
+#elif defined(__APPLE__)
+#include <mach-o/dyld.h>
+#else
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
+#endif
 
 namespace GameEngine {
 
+    // Fonctions pour obtenir le chemin de l'exécutable
+    std::string getExecutablePath() {
+#if defined(_WIN32) || defined(_WIN64)
+        char buffer[MAX_PATH];
+            GetModuleFileName(NULL, buffer, MAX_PATH);
+            std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+            return std::string(buffer).substr(0, pos);
+#elif defined(__APPLE__)
+        char path[1024];
+            uint32_t size = sizeof(path);
+            if (_NSGetExecutablePath(path, &size) == 0) {
+                std::string pathStr = std::string(path);
+                return pathStr.substr(0, pathStr.find_last_of("/"));
+            } else {
+                return ""; // Erreur: le tampon est trop petit
+            }
+#else
+        char result[PATH_MAX];
+        ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        std::string path = std::string(dirname(result));
+        return path;
+#endif
+    }
 
     RenderEngine::~RenderEngine() {
         for (auto& pair : textureCache) {
@@ -16,8 +49,9 @@ namespace GameEngine {
         }
     }
 
-    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
+    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, char* argv[]) {
         InitWindow(screenWidth, screenHeight, windowTitle);
+        _baseAssetPath = getExecutablePath() + "/";
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
@@ -27,7 +61,7 @@ namespace GameEngine {
     }
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
-        std::string path = spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {

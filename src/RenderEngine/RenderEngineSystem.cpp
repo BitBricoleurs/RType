@@ -9,9 +9,9 @@
 #include <algorithm>
 
 namespace GameEngine {
-    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName) {
+    RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName, char* argv[]) {
         renderEngine = std::make_shared<RenderEngine>();
-        renderEngine->Initialize(width, height, windowName);
+        renderEngine->Initialize(width, height, windowName, argv);
     }
 
     RenderEngineSystem::~RenderEngineSystem() {

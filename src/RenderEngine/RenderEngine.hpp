@@ -20,7 +20,7 @@ namespace GameEngine {
         RenderEngine() = default;
         ~RenderEngine();
 
-        void Initialize(int screenWidth, int screenHeight, const char* windowTitle);
+        void Initialize(int screenWidth, int screenHeight, const char* windowTitle, char* argv[]);
         void Draw(const TextComponent& textComponent);
         void Draw(const SpriteComponent& spriteComponent);
         void PollEvents(EventHandler& eventHandler);
@@ -31,5 +31,6 @@ namespace GameEngine {
         int screenWidth;
         int screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
+        std::string _baseAssetPath;
     };
 }

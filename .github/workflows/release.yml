@@ -29,15 +29,23 @@ jobs:
 
       - name: Build & Package
         run: |
-          cmake .
-          make
-          tar czvf RType-${{ matrix.os }}.tar.gz POCProgram
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          cpack
+
 
       - name: Upload Artifact
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v3
         with:
-          name: MyBoostApp-${{ matrix.os }}
-          path: ./RType-${{ matrix.os }}.tar.gz
+          name: RTYPE-${{ matrix.os }}
+          path: ./RTYPE*.deb
+
+      - name: Upload Artifact (macOS)
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: RTYPE-${{ matrix.os }}
+          path: ./RTYPE*.dmg
 
   release:
     needs: build-and-package
