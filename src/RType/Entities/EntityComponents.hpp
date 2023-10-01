@@ -14,31 +14,39 @@
 
 namespace GameEngine {
 
-class BulletsComponent : public AComponent {
+class isMob : public AComponent {
   public:
-    BulletsComponent() = default;
+    isMob() = default;
 
-    size_t getComponentType() override { return ComponentsType::getNewComponentType("BulletsComponent"); }
-    void addBulletEntity(size_t id) { bullets.push_back(id); }
-    std::vector<size_t> bullets;
+    size_t getComponentType() override { return ComponentsType::getNewComponentType("Mob"); }
 };
 
-class PowerUpsComponent : public AComponent {
+class isBoss : public AComponent {
   public:
-    PowerUpsComponent() = default;
+    isBoss() = default;
 
-    size_t getComponentType() override { return ComponentsType::getNewComponentType("PowerUpsComponent"); }
-    void addPowerUpEntity(size_t id) { powerUps.push_back(id); }
-    std::vector<size_t> powerUps;
+    size_t getComponentType() override { return ComponentsType::getNewComponentType("Boss"); }
 };
 
-class MobsComponent : public AComponent {
+class isPlayer : public AComponent {
   public:
-    MobsComponent() = default;
+    isPlayer() = default;
 
-    size_t getComponentType() override { return ComponentsType::getNewComponentType("MobsComponent"); }
-    void addMobEntity(size_t id) { mobs.push_back(id); }
-    std::vector<size_t> mobs;
+    size_t getComponentType() override { return ComponentsType::getNewComponentType("Player"); }
+};
+
+class isBullet : public AComponent {
+  public:
+    isBullet() = default;
+
+    size_t getComponentType() override { return ComponentsType::getNewComponentType("Bullet"); }
+};
+
+class isPowerUp : public AComponent {
+  public:
+    isPowerUp() = default;
+
+    size_t getComponentType() override { return ComponentsType::getNewComponentType("PowerUp"); }
 };
 
 class CollideComponent : public AComponent {
@@ -89,11 +97,11 @@ class HealthComponent : public AComponent {
 
 class PositionComponent : public AComponent {
   public:
-    PositionComponent(float x, float y) : position(x, y) {}
+    PositionComponent(float x, float y) : x(x), y(y) {}
 
     size_t getComponentType() override { return ComponentsType::getNewComponentType("PositionComponent"); }
 
-    Vec2f position;
+    float x, y;
 };
 
 class VelocityComponent : public AComponent {
