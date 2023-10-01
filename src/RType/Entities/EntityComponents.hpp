@@ -15,36 +15,36 @@
 namespace GameEngine {
 
 class BulletsComponent : public AComponent {
+  public:
     BulletsComponent() = default;
 
-  public:
     size_t getComponentType() override { return ComponentsType::getNewComponentType("BulletsComponent"); }
     void addBulletEntity(size_t id) { bullets.push_back(id); }
     std::vector<size_t> bullets;
 };
 
 class PowerUpsComponent : public AComponent {
+  public:
     PowerUpsComponent() = default;
 
-  public:
     size_t getComponentType() override { return ComponentsType::getNewComponentType("PowerUpsComponent"); }
     void addPowerUpEntity(size_t id) { powerUps.push_back(id); }
     std::vector<size_t> powerUps;
 };
 
 class MobsComponent : public AComponent {
+  public:
     MobsComponent() = default;
 
-  public:
     size_t getComponentType() override { return ComponentsType::getNewComponentType("MobsComponent"); }
     void addMobEntity(size_t id) { mobs.push_back(id); }
     std::vector<size_t> mobs;
 };
 
 class CollideComponent : public AComponent {
+  public:
     CollideComponent() = default;
 
-  public:
     size_t getComponentType() override { return ComponentsType::getNewComponentType("CollideComponent"); }
     std::vector<size_t> collide;
 };
