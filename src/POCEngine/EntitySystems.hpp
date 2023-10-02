@@ -13,6 +13,7 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "RenderEngine.hpp"
+#include "VelocityComponent.hpp"
 #include <iostream>
 #include <memory>
 
@@ -21,7 +22,6 @@ class updateEntitySpriteSystem : public ISystem {
 public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
-    // std::cout << "updateEntitySpriteSystem" << std::endl;
     auto entities = componentsContainer.getEntitiesWithComponent(
         ComponentsType::getComponentType("SpriteAnimationComponent"));
 
@@ -32,18 +32,6 @@ public:
           entity, ComponentsType::getComponentType("DirectionComponent"));
       auto spriteOpt = componentsContainer.getComponent(
           entity, ComponentsType::getComponentType("SpriteComponent"));
-
-      // // std::cout << "animationOpt " << animationOpt.has_value()
-      // << std::endl; auto aComp =
-      // std::dynamic_pointer_cast<AComponent>(animationOpt.value());
-      // std::cout << "aComp " << aComp->getComponentType() <<
-      // std::endl; auto dComp =
-      // std::dynamic_pointer_cast<AComponent>(directionOpt.value());
-      // std::cout << "dComp " << dComp->getComponentType() <<
-      // std::endl; auto sComp =
-      // std::dynamic_pointer_cast<AComponent>(spriteOpt.value());
-
-      // std::cout << "aComp " << aComp << std::endl;
 
       auto animation = std::dynamic_pointer_cast<SpriteAnimationComponent>(
           animationOpt.value());
@@ -103,8 +91,8 @@ public:
           std::dynamic_pointer_cast<SpriteComponent>(spriteOpt.value());
 
       if (velocity && position && direction) {
-        position->x += velocity->dx * direction->dx;
-        position->y += velocity->dy * direction->dy;
+        position->x += velocity->velocity.x * direction->dx;
+        position->y += velocity->velocity.y * direction->dy;
       }
       if (sprite) {
         sprite->pos.x = position->x;
@@ -160,11 +148,9 @@ class MobDeathSystem : public ISystem {
     if (deathAnimation) {
       if (deathAnimation->currentFrameIndex >= deathAnimation->frames) {
         componentsContainer.deleteEntity(id);
+      } else {
+        eventHandler.scheduleEvent("MobDeath " + std::to_string(id), 30);
       }
-      // else {
-      //     eventHandler.scheduleEvent("MobDeath " +
-      //     std::to_string(id), 30);
-      // }
       deathAnimation->currentFrame =
           deathAnimation->spritePositions[deathAnimation->currentFrameIndex++];
     }
