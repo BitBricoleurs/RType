@@ -329,8 +329,6 @@ int main() {
     auto shoot = std::make_shared<GameEngine::ShootSystem>();
     auto moveShoot = std::make_shared<GameEngine::MovementBulletSystem>();
 
-
-
     GameEngine::rect rect2(0, 0, 1920, 1080);
     GameEngine::Vect2 pos2(0, 0);
     GameEngine::Vect2 pos3(1920, 0);
@@ -342,7 +340,6 @@ int main() {
     engine.bindComponentToEntity(paralaxEntity, velocityComponent);
     auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos2, rect2, 2);
     engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
-
 
     auto paralaxEntity2 = engine.createEntity();
     auto isParalaxComponent1 = std::make_shared<GameEngine::IsParallaxComponent>();
@@ -412,9 +409,6 @@ int main() {
 
 
     auto textEntity = engine.createEntity();
-
-
-
 
     auto Player = engine.createEntity();
     auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("assets/spaceship.png", pos, rect1, 4);
