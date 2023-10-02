@@ -29,15 +29,38 @@ jobs:
 
       - name: Build & Package
         run: |
-          cmake .
-          make
-          tar czvf RType-${{ matrix.os }}.tar.gz POCProgram
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          cpack
+
 
       - name: Upload Artifact
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v3
         with:
-          name: MyBoostApp-${{ matrix.os }}
-          path: ./RType-${{ matrix.os }}.tar.gz
+          name: RTYPE-${{ matrix.os }}
+          path: ./RTYPE*.deb
+
+      - name: Upload Artifact (macOS)
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: RTYPE-${{ matrix.os }}
+          path: ./RTYPE*.dmg
+      - name: Upload Artifact (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: RTYPE-${{ matrix.os }}
+          path: ./*.exe
+
+      - name: Upload Artifact (Fedora)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: RTYPE-fedora-latest
+          path: ./*.rpm
+
+          
 
   release:
     needs: build-and-package
@@ -77,7 +100,10 @@ jobs:
 
       - name: Upload Release Asset via gh CLI
         run: |
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/MyBoostApp-ubuntu-latest/MyBoostApp-ubuntu-latest.tar.gz
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/MyBoostApp-macos-latest/MyBoostApp-macos-latest.tar.gz
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-ubuntu-latest/*.deb
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-macos-latest/*.dmg
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-windows-latest/*.exe
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora-latest/*.rpm
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

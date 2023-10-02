@@ -6,31 +6,56 @@
 */
 
 #include "RenderEngine.hpp"
+#include <filesystem>
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#else
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
+#endif
 
 namespace GameEngine {
+
+    std::string getExecutablePath() {
+#if defined(_WIN32) || defined(_WIN64)
+        return "";
+#elif defined(__APPLE__)
+        char path[1024];
+            uint32_t size = sizeof(path);
+            if (_NSGetExecutablePath(path, &size) == 0) {
+                std::string pathStr = std::string(path);
+                return pathStr.substr(0, pathStr.find_last_of("/"));
+            } else {
+                return "";
+            }
+#else
+        char result[PATH_MAX];
+        ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        std::string path = std::string(dirname(result));
+        return path + "/";
+#endif
+    }
+
     RenderEngine::~RenderEngine() {
         for (auto& pair : textureCache) {
             UnloadTexture(pair.second);
         }
     }
 
-    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
+    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, char* argv[]) {
         InitWindow(screenWidth, screenHeight, windowTitle);
-        SetTargetFPS(60);
+        _baseAssetPath = getExecutablePath();
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
 
     void RenderEngine::Draw(const TextComponent& textComponent) {
-        BeginDrawing();
-        DrawText(textComponent.getText().c_str(), textComponent.getX(), textComponent.getY(), textComponent.getFontSize(), BLACK);
-        EndDrawing();
+        DrawText(textComponent.getText().c_str(), textComponent.getPos().x, textComponent.getPos().y, textComponent.getFontSize(), {textComponent.getColor().r, textComponent.getColor().g, textComponent.getColor().b, textComponent.getColor().a} );
     }
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
-        BeginDrawing();
-
-        std::string path = spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
@@ -38,62 +63,28 @@ namespace GameEngine {
             textureCache[path] = texture;
         }
 
-        // Convert GameEngine::Rectangle and Vector2 to Raylib's Rectangle and Vector2
-        rect gameRect = spriteComponent.getRect();
-        ::Rectangle raylibRect = { gameRect.x, gameRect.y, gameRect.width, gameRect.height };
-
-        GameEngine::Vector2 gamePos = spriteComponent.getPos();
-        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
-
-        DrawTextureRec(textureCache[path], raylibRect, raylibPos, RAYWHITE);
-
-        EndDrawing();
+        DrawTextureRec(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().width, spriteComponent.getRect().height }, { spriteComponent.getPos().x, spriteComponent.getPos().y }, RAYWHITE);
     }
-
-    void RenderEngine::Draw(ParallaxComponent& parallaxComponent) {
-        BeginDrawing();
-
-        std::string path = parallaxComponent.getImagePath();
-        GameEngine::Vector2 gamePos = parallaxComponent.getPos();
-
-        if (parallaxComponent.getOrientation() == 0) {
-            gamePos.x -= parallaxComponent.getSpeed();
-            if (gamePos.x <= -screenWidth)
-                gamePos.x = screenWidth;
-        } else {
-            gamePos.y -= parallaxComponent.getSpeed();
-            if (gamePos.y <= -screenHeight)
-                gamePos.y = screenHeight;
-        }
-
-        parallaxComponent.setPos(gamePos);
-
-        auto it = textureCache.find(path);
-        if (it == textureCache.end()) {
-            Texture2D texture = LoadTexture(path.c_str());
-            textureCache[path] = texture;
-        }
-
-        ::Vector2 raylibPos = { gamePos.x, gamePos.y };
-
-        DrawTextureRec(textureCache[path], {0, 0, static_cast<float>(textureCache[path].width), static_cast<float>(textureCache[path].height)}, raylibPos, RAYWHITE);
-
-        EndDrawing();
-    }
-
-
 
     void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))
             eventHandler.queueEvent("SPACE_KEY_PRESSED");
         if (IsKeyPressed(KEY_UP))
             eventHandler.queueEvent("UP_KEY_PRESSED");
+        if (IsKeyReleased(KEY_UP))
+            eventHandler.queueEvent("UP_KEY_RELEASED");
         if (IsKeyPressed(KEY_DOWN))
             eventHandler.queueEvent("DOWN_KEY_PRESSED");
+        if (IsKeyReleased(KEY_DOWN))
+            eventHandler.queueEvent("DOWN_KEY_RELEASED");
         if (IsKeyPressed(KEY_LEFT))
             eventHandler.queueEvent("LEFT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_LEFT))
+            eventHandler.queueEvent("LEFT_KEY_RELEASED");
         if (IsKeyPressed(KEY_RIGHT))
             eventHandler.queueEvent("RIGHT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_RIGHT))
+            eventHandler.queueEvent("RIGHT_KEY_RELEASED");
         if (IsKeyPressed(KEY_ENTER))
             eventHandler.queueEvent("ENTER_KEY_PRESSED");
         if (IsKeyPressed(KEY_ESCAPE))
@@ -104,6 +95,10 @@ namespace GameEngine {
             eventHandler.queueEvent("MouseRightButtonPressed");
         if (IsKeyReleased(KEY_SPACE))
             eventHandler.queueEvent("SPACE_KEY_RELEASED");
+    }
+
+    void RenderEngine::ClearBackgroundRender(Color color) {
+        ClearBackground(color);
     }
 
     void RenderEngine::Shutdown() {
