@@ -37,7 +37,7 @@ jobs:
       - run: echo ${{ env.LATEST_VERSION }}
 
   build-and-package:
-  needs: create-release
+    needs: create-release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
