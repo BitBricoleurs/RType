@@ -11,47 +11,47 @@ namespace GameEngine {
         rect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
     };
 
-    struct Vector2 {
+    struct Vect2 {
         float x, y;
 
-        Vector2() : x(0.0f), y(0.0f) {}
-        Vector2(float x, float y) : x(x), y(y) {}
+        Vect2() : x(0.0f), y(0.0f) {}
+        Vect2(float x, float y) : x(x), y(y) {}
 
-        Vector2 operator+(const Vector2& v) const {
-            return Vector2(x + v.x, y + v.y);
+        Vect2 operator+(const Vect2& v) const {
+            return Vect2(x + v.x, y + v.y);
         }
 
-        Vector2 operator-(const Vector2& v) const {
-            return Vector2(x - v.x, y - v.y);
+        Vect2 operator-(const Vect2& v) const {
+            return Vect2(x - v.x, y - v.y);
         }
 
-        Vector2 operator*(float scalar) const {
-            return Vector2(x * scalar, y * scalar);
+        Vect2 operator*(float scalar) const {
+            return Vect2(x * scalar, y * scalar);
         }
 
-        Vector2& operator+=(const Vector2& v) {
+        Vect2& operator+=(const Vect2& v) {
             x += v.x;
             y += v.y;
             return *this;
         }
 
-        Vector2& operator-=(const Vector2& v) {
+        Vect2& operator-=(const Vect2& v) {
             x -= v.x;
             y -= v.y;
             return *this;
         }
 
-        Vector2& operator*=(float scalar) {
+        Vect2& operator*=(float scalar) {
             x *= scalar;
             y *= scalar;
             return *this;
         }
     };
 
-    struct Vector3 {
+    struct Vect3 {
         float x, y, z;
-        Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
-        Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+        Vect3() : x(0.0f), y(0.0f), z(0.0f) {}
+        Vect3(float x, float y, float z) : x(x), y(y), z(z) {}
     };
 
     struct ColorR {

@@ -11,20 +11,20 @@ namespace GameEngine {
     class AABB2DComponent : public AComponent {
     public:
         AABB2DComponent() = default;
-        AABB2DComponent(const Vector2& min, const Vector2& max) : minExtents(min), maxExtents(max) {}
+        AABB2DComponent(const Vect2& min, const Vect2& max) : minExtents(min), maxExtents(max) {}
         ~AABB2DComponent() override = default;
 
         size_t getComponentType() override { return componentType; }
 
-        Vector2 getMinExtents() const { return minExtents; }
-        Vector2 getMaxExtents() const { return maxExtents; }
-        void setMinExtents(const Vector2& min) { minExtents = min; }
-        void setMaxExtents(const Vector2& max) { maxExtents = max; }
+        Vect2 getMinExtents() const { return minExtents; }
+        Vect2 getMaxExtents() const { return maxExtents; }
+        void setMinExtents(const Vect2& min) { minExtents = min; }
+        void setMaxExtents(const Vect2& max) { maxExtents = max; }
 
     private:
         size_t componentType = ComponentsType::getNewComponentType("AABBComponent");
-        Vector2 minExtents;
-        Vector2 maxExtents;
+        Vect2 minExtents;
+        Vect2 maxExtents;
     };
 
 }

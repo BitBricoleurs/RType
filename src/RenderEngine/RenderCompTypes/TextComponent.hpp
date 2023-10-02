@@ -16,7 +16,7 @@
 namespace GameEngine {
     class TextComponent : public AComponent {
     public:
-        TextComponent(const std::string& text, Vector2 pos, int fontSize, size_t layer, ColorR color) {
+        TextComponent(const std::string& text, Vect2 pos, int fontSize, size_t layer, ColorR color) {
             this->text = text;
             this->fontSize = fontSize;
             this->layer = layer;
@@ -33,14 +33,14 @@ namespace GameEngine {
         void setLayer(int layer) { this->layer = layer; }
         ColorR getColor() const { return color;}
         void setColor(ColorR color) { this->color = color; }
-        Vector2 getPos() const { return pos; }
-        void setPos(Vector2 pos) { this->pos = pos; }
+        Vect2 getPos() const { return pos; }
+        void setPos(Vect2 pos) { this->pos = pos; }
         size_t getComponentType() override { return ComponentsType::getNewComponentType("TextComponent"); }
 
     private:
         size_t layer;
         std::string text;
-        Vector2 pos;
+        Vect2 pos;
         int fontSize;
         ColorR color;
     };

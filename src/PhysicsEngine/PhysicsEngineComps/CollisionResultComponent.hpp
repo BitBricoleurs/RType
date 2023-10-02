@@ -13,8 +13,8 @@ namespace GameEngine {
     class CollisionInfo {
     public:
         size_t collidingEntity;
-        Vector2 collisionPoint;
-        Vector2 collisionNormal;
+        Vect2 collisionPoint;
+        Vect2 collisionNormal;
         float penetrationDepth;
     };
 

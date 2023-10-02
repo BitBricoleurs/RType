@@ -10,14 +10,14 @@ namespace GameEngine {
     class GravityComponent : public AComponent {
     public:
         GravityComponent() = default;
-        GravityComponent(const Vector2& gravity) : gravity(gravity) {}
+        GravityComponent(const Vect2& gravity) : gravity(gravity) {}
         ~GravityComponent() override = default;
 
         size_t getComponentType() override { return componentType; }
-        Vector2 getGravity() const { return gravity; }
-        void setGravity(const Vector2& gravity) { this->gravity = gravity; }
+        Vect2 getGravity() const { return gravity; }
+        void setGravity(const Vect2& gravity) { this->gravity = gravity; }
     private:
         size_t componentType = ComponentsType::getNewComponentType("GravityComponent");
-        Vector2 gravity;
+        Vect2 gravity;
     };
 }

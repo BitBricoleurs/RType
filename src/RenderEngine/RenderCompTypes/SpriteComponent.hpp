@@ -15,7 +15,7 @@
 namespace GameEngine {
     class SpriteComponent : public AComponent {
     public:
-        SpriteComponent(const std::string& imagePath, Vector2 pos, rect rect1, size_t layer) {
+        SpriteComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer) {
             this->imagePath = imagePath;
             this->pos = pos;
             this->rect1 = rect1;
@@ -25,8 +25,8 @@ namespace GameEngine {
 
         std::string getImagePath() const { return imagePath; }
         void setImagePath(const std::string& imagePath) { this->imagePath = imagePath; }
-        Vector2 getPos() const { return pos; }
-        void setPos(Vector2 pos) { this->pos = pos; }
+        Vect2 getPos() const { return pos; }
+        void setPos(Vect2 pos) { this->pos = pos; }
         rect getRect() const { return rect1; }
         void setRect(rect rect1) { this->rect1 = rect1; }
         size_t getLayer() const { return layer; }
@@ -40,7 +40,7 @@ namespace GameEngine {
         float scale;
         size_t layer;
         std::string imagePath;
-        Vector2 pos;
+        Vect2 pos;
         rect rect1;
     };
 }

@@ -42,7 +42,7 @@ namespace GameEngine {
         void update(ComponentsContainer &componentsContainer, EventHandler &eventHandler) override {
             auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
                     ComponentsType::getNewComponentType("IsParallaxComponent"));
-            Vector2 Velocity(0.0f, 0);
+            Vect2 Velocity(0.0f, 0);
 
             for (auto entityID: parallaxEntities) {
                 auto components = componentsContainer.getComponentsFromEntity(entityID);
@@ -62,7 +62,7 @@ namespace GameEngine {
                         auto spriteComponent = std::dynamic_pointer_cast<SpriteComponent>(componentOpt.value());
 
                         if (spriteComponent) {
-                            Vector2 newPos = spriteComponent->getPos() - Vector2(0.1f * spriteComponent->getLayer() + Velocity.x , 0);
+                            Vect2 newPos = spriteComponent->getPos() - Vect2(0.1f * spriteComponent->getLayer() + Velocity.x , 0);
 
                             if (newPos.x + spriteComponent->getWidth() < 0) {
                                 newPos.x = 1920;
@@ -122,12 +122,12 @@ namespace GameEngine {
     class MovementSystem : public ISystem {
     public:
         void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
-            auto nbEntity = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("SpriteComponent"));
-            auto eses = componentsContainer.getComponentsFromEntity(nbEntity[0]);
+            auto nbEntity = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("PlayerComponent"));
+            auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
             auto event = eventHandler.getTriggeredEvent();
             std::shared_ptr<SpriteComponent> spriteComp;
 
-            for (const auto& optComp : eses) {
+            for (const auto& optComp : player) {
                 if (optComp.has_value()) {
                     auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
                     if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
@@ -139,14 +139,14 @@ namespace GameEngine {
                 }
             }
             if (spriteComp) {
-                Vector2 currentPosition = spriteComp->getPos();
-                if (event == "UP_KEY_PRESSED") {
+                Vect2 currentPosition = spriteComp->getPos();
+                if (event.first == "UP_KEY_PRESSED") {
                     currentPosition.y -= 5;
-                } else if (event == "DOWN_KEY_PRESSED") {
+                } else if (event.first == "DOWN_KEY_PRESSED") {
                     currentPosition.y += 5;
-                } else if (event == "LEFT_KEY_PRESSED") {
+                } else if (event.first == "LEFT_KEY_PRESSED") {
                     currentPosition.x -= 5;
-                } else if (event == "RIGHT_KEY_PRESSED") {
+                } else if (event.first == "RIGHT_KEY_PRESSED") {
                     currentPosition.x += 5;
                 }
                 spriteComp->setPos(currentPosition);
@@ -160,15 +160,15 @@ namespace GameEngine {
     class ShootSystem : public ISystem {
     public:
         void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
-            auto nbEntity = componentsContainer.getEntitiesWithComponent(2);
-            auto eses = componentsContainer.getComponentsFromEntity(nbEntity[0]);
+            auto nbEntity = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("PlayerComponent"));
+            auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
             auto event = eventHandler.getTriggeredEvent();
             std::shared_ptr<SpriteComponent> spriteComp;
 
-            for (const auto& optComp : eses) {
+            for (const auto& optComp : player) {
                 if (optComp.has_value()) {
                     auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
-                    if (aComp && aComp->getComponentType() == 1) {
+                    if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
                         spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
                         if (spriteComp) {
                             break;
@@ -178,13 +178,13 @@ namespace GameEngine {
             }
             if (spriteComp) {
                 std::cout << "SHOOT" << std::endl;
-                Vector2 currentPosition = spriteComp->getPos();
+                Vect2 currentPosition = spriteComp->getPos();
                 std::cout << "Pos (x: " << spriteComp->getPos().x << ",y: " << spriteComp->getPos().y << ")" << std::endl;
 
                 auto currentRect = spriteComp->getRect();
                 auto spritePos = spriteComp->getPos();
 
-                Vector2 shootingPosition;
+                Vect2 shootingPosition;
                 shootingPosition.x = spritePos.x + currentRect.w;
                 shootingPosition.y = spritePos.y + (currentRect.h) - 60;
 
@@ -212,7 +212,7 @@ namespace GameEngine {
     class MovementBulletSystem : public ISystem {
     public:
         void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
-            auto entities = componentsContainer.getEntitiesWithComponent(3);
+            auto entities = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("BulletComponent"));
             for (const auto &entity: entities) {
                 auto eses = componentsContainer.getComponentsFromEntity(entity);
                 auto event = eventHandler.getTriggeredEvent();
@@ -222,10 +222,10 @@ namespace GameEngine {
                 for (const auto& optComp : eses) {
                     if (optComp.has_value()) {
                         auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
-                        if (aComp && aComp->getComponentType() == 1) {
+                        if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
                             spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
                         }
-                        if (aComp && aComp->getComponentType() == 3) {
+                        if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("BulletComponent")) {
                             bulletComp = std::dynamic_pointer_cast<IsBullet>(aComp);
                         }
                     }
@@ -254,13 +254,13 @@ int main() {
 
 
     GameEngine::rect rect2(0, 0, 1920, 1080);
-    GameEngine::Vector2 pos2(0, 0);
-    GameEngine::Vector2 pos3(1920, 0);
+    GameEngine::Vect2 pos2(0, 0);
+    GameEngine::Vect2 pos3(1920, 0);
 
     auto paralaxEntity = engine.createEntity();
     auto isParalaxComponent = std::make_shared<GameEngine::IsParallaxComponent>();
     engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
-    auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vector2(1.0f, 0.0f));
+    auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(1.0f, 0.0f));
     engine.bindComponentToEntity(paralaxEntity, velocityComponent);
     auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos2, rect2, 2);
     engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
@@ -276,7 +276,7 @@ int main() {
     auto paralaxEntity3 = engine.createEntity();
     auto isParalaxComponent2 = std::make_shared<GameEngine::IsParallaxComponent>();
     engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
-    auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>("assets/Planets/Planet_Furnace_01_560x560.png", GameEngine::Vector2(300,300), GameEngine::rect(0,0,560,560), 3);
+    auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>("assets/Planets/Planet_Furnace_01_560x560.png", GameEngine::Vect2(300,300), GameEngine::rect(0,0,560,560), 3);
     engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
     engine.addSystem("ParallaxSystem", paralax);
@@ -295,7 +295,7 @@ int main() {
     engine.addEvent("MovementShoot", moveShoot);
     engine.scheduleEvent("MovementShoot", 1);
 
-    GameEngine::Vector2 pos;
+    GameEngine::Vect2 pos;
     pos.x = 100;
     pos.y = 100;
 

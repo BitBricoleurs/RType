@@ -24,15 +24,15 @@ namespace GameEngine {
         eventMap[eventName].insert(eventMap[eventName].end(), systems.begin(), systems.end());
     }
 
-    void EventHandler::queueEvent(const std::string& eventName) {
+    void EventHandler::queueEvent(const std::string& eventName, const std::any& eventData) {
 
-        eventQueue.push(eventName);
+        eventQueue.push({eventName, eventData});
 
         if (continuousEvents.find(eventName) != continuousEvents.end()) {
             activeContinuousEvents.insert(eventName);
         }
         for (const auto& pair : continuousEvents) {
-            if (pair.second == eventName) {
+            if (pair.second.first == eventName) {
                 activeContinuousEvents.erase(pair.first);
             }
         }
@@ -40,13 +40,13 @@ namespace GameEngine {
 
     void EventHandler::processEventQueue(ComponentsContainer& componentsContainer) {
         while (!eventQueue.empty()) {
-            auto eventName = eventQueue.front();
+            auto[eventName, eventData] = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
             eventQueue.pop();
         }
 
         for (const auto& eventName : activeContinuousEvents) {
-            eventQueue.push(eventName);
+            eventQueue.push({eventName, continuousEvents[eventName].second});
         }
     }
 
@@ -88,8 +88,8 @@ namespace GameEngine {
         }
     }
 
-    void EventHandler::setContinuousEvent(const std::string& continuousEvent, const std::string& stopEvent) {
-        continuousEvents[continuousEvent] = stopEvent;
+    void EventHandler::setContinuousEvent(const std::string& continuousEvent, const std::string& stopEvent, const std::any& eventData) {
+        continuousEvents[continuousEvent] = {stopEvent, eventData};
     }
 
     void EventHandler::removeContinuousEvent(const std::string& eventName) {
