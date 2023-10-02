@@ -67,11 +67,11 @@ void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
     textureCache[path] = texture;
   }
 
-  DrawTextureRec(
-      textureCache[path],
-      {spriteComponent.getRect().x, spriteComponent.getRect().y,
-       spriteComponent.getRect().width, spriteComponent.getRect().height},
-      {spriteComponent.getPos().x, spriteComponent.getPos().y}, RAYWHITE);
+  DrawTextureRec(textureCache[path],
+                 {spriteComponent.getRect().x, spriteComponent.getRect().y,
+                  spriteComponent.getRect().w, spriteComponent.getRect().h},
+                 {spriteComponent.getPos().x, spriteComponent.getPos().y},
+                 RAYWHITE);
 }
 
 void RenderEngine::PollEvents(GameEngine::EventHandler &eventHandler) {

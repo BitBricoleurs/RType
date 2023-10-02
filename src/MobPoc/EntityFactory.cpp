@@ -151,8 +151,9 @@ size_t EntityFactory::createBaseEntity(
   auto collideComponent = std::make_shared<GameEngine::CollideComponent>();
 
   GameEngine::rect spriteRect;
-  spriteRect.width = spriteAnimationComponent->frameWidth;
-  spriteRect.height = spriteAnimationComponent->frameHeight;
+
+  spriteRect.w = spriteAnimationComponent->frameWidth;
+  spriteRect.h = spriteAnimationComponent->frameHeight;
   spriteRect.x = spriteAnimationComponent->currentFrame.x;
   spriteRect.y = spriteAnimationComponent->currentFrame.y;
 
