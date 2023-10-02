@@ -6,20 +6,21 @@ on:
       - main
 
 jobs:
-
-  create-release:
+   create-release:
     runs-on: ubuntu-latest
     permissions: write-all
     steps: 
       - name: Checkout code
         uses: actions/checkout@v3
+      
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           cache: npm
           node-version: lts/*
+      
       - run: npm clean-install
-       - name: Semantic Release
+      - name: Semantic Release
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
