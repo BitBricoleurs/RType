@@ -86,7 +86,6 @@ jobs:
       - name: Install dependencies
         run: |
           brew install cmake
-          brew install boost
       - name: Compile Program
         run: |
           ./build.sh
