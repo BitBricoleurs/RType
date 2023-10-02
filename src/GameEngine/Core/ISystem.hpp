@@ -18,7 +18,7 @@ namespace GameEngine {
     class ISystem
     {
         public:
-            virtual void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) = 0;
+            virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) = 0;
         private:
     };
 } // namespace GameEngine

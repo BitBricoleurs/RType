@@ -1,56 +1,64 @@
-cmake_minimum_required(VERSION 3.10)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Define vcpkg's path
-set(VCPKG_PATH "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
-
-if(NOT EXISTS "${VCPKG_PATH}")
-    message(STATUS "vcpkg not found! Attempting to clone and setup...")
-
-    if(WIN32)
-        execute_process(COMMAND ${CMAKE_SOURCE_DIR}/setup/clone_vcpkg.bat
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-        execute_process(COMMAND ${CMAKE_SOURCE_DIR}/setup/setup_vcpkg.bat
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    elseif(UNIX OR APPLE)
-        execute_process(COMMAND bash ${CMAKE_SOURCE_DIR}/setup/clone_vcpkg.sh
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-        execute_process(COMMAND bash ${CMAKE_SOURCE_DIR}/setup/setup_vcpkg.sh
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    endif()
-
-
-    message(STATUS "Current directory: ${CMAKE_CURRENT_SOURCE_DIR}")
-
-    execute_process(
-    COMMAND "${CMAKE_SOURCE_DIR}/vcpkg/vcpkg" list
-    RESULT_VARIABLE result
-    OUTPUT_VARIABLE output
-    ERROR_VARIABLE error_output
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
-
-    if(result EQUAL 0)
-        message(STATUS "Installed libraries:\n${output}")
-    else()
-        message(WARNING "Failed to retrieve installed libraries. Error:\n${error_output}")
-    endif()
-        if(NOT EXISTS "${VCPKG_PATH}")
-            message(FATAL_ERROR "Failed to setup vcpkg!")
-        endif()
-    endif()
-
-set(CMAKE_TOOLCHAIN_FILE "${VCPKG_PATH}" CACHE STRING "")
+cmake_minimum_required(VERSION 3.15)
 
 project(RTYPE LANGUAGES CXX)
 
-find_package(SDL2 CONFIG REQUIRED)
+include(GNUInstallDirs)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR})
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+endif()
 
+set(PROJECT_NAME_CLIENT client)
+set(PROJECT_NAME_SERVER server)
+set(PROJECT_NAME_POCENGINE POCEngine)
+set(PROJECT_NAME_POCPROGRAM POCProgram)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(${PROJECT_NAME_CLIENT} )
+add_executable(${PROJECT_NAME_SERVER} )
+add_executable(${PROJECT_NAME_POCENGINE} )
+add_executable(${PROJECT_NAME_POCPROGRAM})
+
+add_subdirectory(lib)
 add_subdirectory(src)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
+
 message(STATUS "Configured to compile the RType project.")
+
+install(TARGETS ${PROJECT_NAME_CLIENT} ${PROJECT_NAME_SERVER} ${PROJECT_NAME_POCENGINE} ${PROJECT_NAME_POCPROGRAM}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+# Installer le répertoire assets entier dans le même répertoire que l'exécutable
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+include(InstallRequiredSystemLibraries)
+
+set(CPACK_PACKAGE_NAME "RTYPE")
+set(CPACK_PACKAGE_VENDOR "T-H-C-A")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "RTYPE - Oui")
+if(NOT DEFINED CPACK_PACKAGE_VERSION)
+    set(CPACK_PACKAGE_VERSION "1.0.0")
+endif()
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "RTYPE")
+set(CPACK_PACKAGE_CONTACT "alexandre@email.com")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
+
+if(WIN32)
+    set(CPACK_GENERATOR "NSIS")
+elseif(APPLE)
+    set(CPACK_GENERATOR "DragNDrop")
+else()
+    set(CPACK_GENERATOR "DEB;RPM")
+endif()
+
+include(CPack)

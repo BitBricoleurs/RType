@@ -3,6 +3,7 @@
 //
 
 #include "ComponentContainer.hpp"
+#include "AComponent.hpp"
 
 namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponents(size_t componentType) {
@@ -23,18 +24,28 @@ namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponentsFromEntity(size_t entityID) {
         std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         for (auto componentType : componentsContainer) {
-            components.push_back(componentType.second[entityID]);
+            if (componentType.second.size() > entityID && componentType.second[entityID].has_value()) {
+                components.push_back(componentType.second[entityID]);
+            }
         }
         return components;
     }
 
-    void ComponentsContainer::bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::shared_ptr<IComponent>> component) {
-        if(entityID >= componentsContainer[componentType].size()) {
-            componentsContainer[componentType].resize(entityID + 1);
+    void ComponentsContainer::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
+        if (!component) {
+            return;
         }
-        componentsContainer[componentType][entityID] = component;
-    }
-    void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t componentType) {
+        size_t componentType = component.value()->getComponentType();
+
+        std::vector<std::optional<std::shared_ptr<IComponent>>>& entityComponents = componentsContainer[componentType];
+
+        if(entityID >= entityComponents.size()) {
+            entityComponents.resize(entityID + 1, std::nullopt);
+        }
+        entityComponents[entityID] = component;
+}
+
+void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t componentType) {
         if(entityID < componentsContainer[componentType].size()) {
             componentsContainer[componentType][entityID] = std::nullopt;
 
@@ -60,19 +71,15 @@ namespace GameEngine {
             entityID = freeMemorySlots.back();
             freeMemorySlots.pop_back();
         } else {
-            if (!componentsContainer.empty()) {
-                entityID = componentsContainer.begin()->second.size();
-            } else {
-                entityID = 0;
-            }
+            entityID = maxEntityID++;
         }
         return entityID;
-
     }
+
     size_t ComponentsContainer::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
         size_t entityID = createEntity();
         for (size_t i = 0; i < components.size(); i++) {
-            bindComponentToEntity(entityID, i, components[i]);
+            bindComponentToEntity(entityID, components[i]);
         }
         return entityID;
     }
