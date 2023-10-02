@@ -13,13 +13,51 @@ namespace GameEngine {
 
     struct Vector2 {
         float x, y;
+
         Vector2() : x(0.0f), y(0.0f) {}
         Vector2(float x, float y) : x(x), y(y) {}
+
+        Vector2 operator+(const Vector2& v) const {
+            return Vector2(x + v.x, y + v.y);
+        }
+
+        Vector2 operator-(const Vector2& v) const {
+            return Vector2(x - v.x, y - v.y);
+        }
+
+        Vector2 operator*(float scalar) const {
+            return Vector2(x * scalar, y * scalar);
+        }
+
+        Vector2& operator+=(const Vector2& v) {
+            x += v.x;
+            y += v.y;
+            return *this;
+        }
+
+        Vector2& operator-=(const Vector2& v) {
+            x -= v.x;
+            y -= v.y;
+            return *this;
+        }
+
+        Vector2& operator*=(float scalar) {
+            x *= scalar;
+            y *= scalar;
+            return *this;
+        }
     };
 
     struct Vector3 {
         float x, y, z;
         Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
         Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+    };
+
+    struct ColorR {
+        unsigned char r;
+        unsigned char g;
+        unsigned char b;
+        unsigned char a;
     };
 }

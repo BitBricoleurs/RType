@@ -9,7 +9,7 @@
 
 #include "AComponent.hpp"
 #include <string>
-#include "../../UtilsProject/Utils.hpp"
+#include "Utils.hpp"
 #include "ComponentsType.hpp"
 
 namespace GameEngine {
@@ -34,6 +34,7 @@ namespace GameEngine {
         size_t getComponentType() override { return ComponentsType::getNewComponentType("SpriteComponent"); }
         float getScale() const { return scale; }
         void setScale(float scale) { this->scale = scale; }
+        int getWidth() const { return rect1.w; }
 
     private:
         float scale;
