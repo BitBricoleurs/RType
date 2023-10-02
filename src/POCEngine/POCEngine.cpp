@@ -71,13 +71,13 @@ namespace GameEngine {
             }
             if (spriteComp) {
                 Vect2 currentPosition = spriteComp->getPos();
-                if (event == "UP_KEY_PRESSED") {
+                if (event.first == "UP_KEY_PRESSED") {
                     currentPosition.y -= 5;
-                } else if (event == "DOWN_KEY_PRESSED") {
+                } else if (event.first == "DOWN_KEY_PRESSED") {
                     currentPosition.y += 5;
-                } else if (event == "LEFT_KEY_PRESSED") {
+                } else if (event.first == "LEFT_KEY_PRESSED") {
                     currentPosition.x -= 5;
-                } else if (event == "RIGHT_KEY_PRESSED") {
+                } else if (event.first == "RIGHT_KEY_PRESSED") {
                     currentPosition.x += 5;
                 }
                 spriteComp->setPos(currentPosition);
