@@ -7,6 +7,7 @@
 #include "Tick.hpp"
 #include "InterfaceNetwork.hpp"
 #include "Server.hpp"
+#include<unistd.h>
 
 namespace Network {
 
@@ -47,11 +48,14 @@ namespace Network {
             _tickThread = std::thread([this]() {_tick.Start();});
             _packetIO->readPacket();
             processIncomingMessages();
+            sleep(3);
+            bool isSend = false;
             while (true) {
                 if (_context.stopped()) {
                     std::cout << "io_context is stopped!" << std::endl;
                 }
-                sendAllClients("HELLO", {}, "", {});
+                sendAllClients( "HELLO", {}, "", {} );
+                usleep(50000);
             }
         }
 
@@ -168,15 +172,15 @@ namespace Network {
                     Network::Interface>(
                     _context, _inMessages, _socket, _tick, _indexId, Network::Interface::Type::SERVER
                 );
-                _indexId++;
                 clientInterface->setEndpoint(remoteEndpoint);
                 _clients.push_back( clientInterface );
                 std::cout
                     << "New client connected : "
                     << remoteEndpoint.address().to_string()
                     << ":" << remoteEndpoint.port()
-                    << std::endl;
+                    << " id is :" << _indexId << std::endl;
                 clientInterface->getIO()->processOutgoingMessages();
+                _indexId++;
             }
         }
 

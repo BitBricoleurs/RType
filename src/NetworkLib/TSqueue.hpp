@@ -76,6 +76,13 @@ namespace Network {
             deqQueue.clear();
         }
 
+        void lock () {
+            muxQueue.lock();
+        }
+
+        void unlock () {
+            muxQueue.unlock();
+        }
 
     private:
         std::mutex muxQueue;

@@ -67,21 +67,33 @@ std::vector<std::any> Network::Serializer::deserialize(const std::vector<std::ui
 
 Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::move(message)), _ArgType(), _args()
 {
-    getDataMessage();
+    try {
+        getDataMessage();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
 : _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size())
 {
-    std::vector<std::uint8_t> serializedArgs = Serializer::serialize(_args);
-    initializeMessage(IDs, serializedArgs);
+    try {
+        std::vector<std::uint8_t> serializedArgs = Serializer::serialize(_args);
+        initializeMessage(IDs, serializedArgs);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg)
         : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1), _NbrId(IDs.size())
 {
-    std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);
-    initializeMessage(IDs, serializedArgs);
+    try {
+        std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);
+        initializeMessage(IDs, serializedArgs);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 std::vector<std::uint8_t> &Network::Message::getMessage()
@@ -154,6 +166,11 @@ void Network::Message::getDataMessage()
     _NbrArgs = _message[4 + _NbrId];
 
     _ArgType = getTypeByCode(_ArgTypeCode);
+    if (_ArgType == "IGNORE") {
+        _sizeArg = 0;
+        _args = {};
+        return;
+    }
     _sizeArg = getSizeByType(_ArgTypeCode);
     if (_ArgTypeCode == 0x03) {
         _sizeArg = _NbrArgs;

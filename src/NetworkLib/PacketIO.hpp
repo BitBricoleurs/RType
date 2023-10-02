@@ -38,9 +38,6 @@ namespace Network {
 
         ~PacketIO() = default;
 
-        void setHeader( const Network::PacketHeader& header );
-        void setBody( const Network::Body& body );
-
         void readPacket();
 
         void writePacket();
@@ -63,9 +60,14 @@ namespace Network {
         asio::ip::udp::socket& _socketIn;
         asio::ip::udp::socket& _socketOut;
 
-        Network::PacketHeader _header;
-        Network::Body _body;
-        Network::Packet _packet;
+        Network::PacketHeader _headerIn;
+        Network::Body _bodyIn;
+        Network::Packet _packetIn;
+
+        Network::PacketHeader _headerOut;
+        Network::Body _bodyOut;
+        Network::Packet _packetOut;
+
         std::vector<unsigned char> _serializedPacket;
         std::mutex _socketMutex;
 

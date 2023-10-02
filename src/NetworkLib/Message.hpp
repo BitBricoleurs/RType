@@ -32,10 +32,11 @@ namespace Network {
         };
 
         std::map<std::string, uint8_t> typeToCodeMap = {
-                { "INT", 0x01 },
-                { "FLOAT", 0x02 },
-                { "STRING", 0x03 },
-                { "CHAR", 0x03}
+            {"IGNORE", 0x00},
+            { "INT", 0x01 },
+            { "FLOAT", 0x02 },
+            { "STRING", 0x03 },
+            { "CHAR", 0x03}
         };
 
         std::map<uint8_t, uint8_t> typeToSizeMap = {
