@@ -7,12 +7,12 @@
 
 #pragma once
 
-#include "../RenderEngine/RenderEngine.hpp"
 #include "AComponent.hpp"
 #include "ComponentContainer.hpp"
 #include "EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
+#include "RenderEngine.hpp"
 #include <iostream>
 #include <memory>
 

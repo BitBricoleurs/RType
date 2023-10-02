@@ -5,17 +5,17 @@
 ** main
 */
 
-#include "../RenderEngine/RenderEngineSystem.hpp"
 #include "ComponentContainer.hpp"
 #include "EntityFactory.hpp"
 #include "EntitySystems.hpp"
+#include "RenderEngineSystem.hpp"
 #include <iostream>
 
 int main(int argc, char *argv[]) {
   GameEngine::GameEngine engine;
   engine.addSystem(
       "RenderEngineSystem",
-      std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "MobPoc"));
+      std::make_shared<GameEngine::RenderEngineSystem>(1512, 982, "MobPoc"));
 
   auto updateSprite = std::make_shared<GameEngine::updateEntitySpriteSystem>();
   // engine.addSystem("updateSpriteSystem", updateSprite);
