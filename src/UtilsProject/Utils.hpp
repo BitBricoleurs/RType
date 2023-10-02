@@ -6,21 +6,52 @@
 
 namespace GameEngine {
     struct rect {
-        float x;
-        float y;
-        float width;
-        float height;
+        float x, y, w, h;
+        rect() : x(0.0f), y(0.0f), w(0.0f), h(0.0f) {}
+        rect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
     };
 
     struct Vect2 {
-        float x;
-        float y;
+        float x, y;
+
+        Vect2() : x(0.0f), y(0.0f) {}
+        Vect2(float x, float y) : x(x), y(y) {}
+
+        Vect2 operator+(const Vect2& v) const {
+            return Vect2(x + v.x, y + v.y);
+        }
+
+        Vect2 operator-(const Vect2& v) const {
+            return Vect2(x - v.x, y - v.y);
+        }
+
+        Vect2 operator*(float scalar) const {
+            return Vect2(x * scalar, y * scalar);
+        }
+
+        Vect2& operator+=(const Vect2& v) {
+            x += v.x;
+            y += v.y;
+            return *this;
+        }
+
+        Vect2& operator-=(const Vect2& v) {
+            x -= v.x;
+            y -= v.y;
+            return *this;
+        }
+
+        Vect2& operator*=(float scalar) {
+            x *= scalar;
+            y *= scalar;
+            return *this;
+        }
     };
 
     struct Vect3 {
-        float x;
-        float y;
-        float z;
+        float x, y, z;
+        Vect3() : x(0.0f), y(0.0f), z(0.0f) {}
+        Vect3(float x, float y, float z) : x(x), y(y), z(z) {}
     };
 
     struct ColorR {

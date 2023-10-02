@@ -1,39 +1,46 @@
-# Rtype
+# **Rtype**
+![Rtype Image](assets/Doc/Illustartiion.jpg)
 
-![Image de Rtype](assets/Doc/Illustartiion.jpg)
+---
 
-Rtype est un jeu d'action spatial qui vous met aux commandes d'un vaisseau spatial, naviguant à travers différents niveaux tout en combattant des ennemis et en esquivant les obstacles.
+> **Rtype** is a space action game that puts you in command of a spaceship. Navigate through diverse levels, combat enemies, and dodge obstacles on your journey.
 
-## Installation
+## 🚀 **Installation**
 
-Des installateurs précompilés (setup) sont disponibles pour tous les systèmes d'exploitation : macOS, Windows et Linux. Vous pouvez les télécharger dans la section [Releases](https://github.com/VOTRE_NOM_DUTILISATEUR/Rtype/releases) de ce dépôt.
+Precompiled installers (setup) are available for:
 
-### Compilation et installation sous Linux & macOS
+- 🍏 macOS
+- 🖼️ Windows
+- 🐧 Linux
 
-1. Assurez-vous d'avoir cloné le dépôt ou téléchargé le code source.
-2. Ouvrez un terminal dans le dossier du projet.
-3. Exécutez le script pour installer les dépendances :
+🔗 [Download from the Releases section](https://github.com/HarryTheoBartAlexClemDev/Rtype/releases/latest).
+
+### **Compilation and installation on Linux & macOS**
+
+1. Ensure you've cloned the repository or downloaded the source code.
+2. Open a terminal in the project folder.
+3. Run the script to install the dependencies:
    ```bash
    ./dependencies.sh
-    ```
-4. Excuter le script pour build le projet :
+
+4. Run the script to build the project:
     ```bash
    ./build.sh
-   ```
+## 📚 **Documentation**
 
-## Documentation
+Dive deeper into **Rtype** and its core mechanisms:
 
-Pour une compréhension approfondie de Rtype et de ses mécanismes internes, consultez nos documentations détaillées :
+- [🕹️ Game Engine Documentation](docs/GameEngineInstruction.md)
+- [📡 RFC Documentation](docs/rfc-rtype-ncp.md)
 
-- [Game Engine Documentation](docs/GameEngineInstruction.md)
-- [RFC Documentation](docs/rfc-rtype-ncp.md)
+## 🌟 **Contributors**
 
-## Collaborateurs
+A heartfelt thank you to our contributors. Your dedication and hard work have made Rtype possible!
 
-Nous tenons à remercier tous nos collaborateurs pour leur dévouement et leur travail acharné pour rendre Rtype possible.
+- [👤 Théophilus Homawoo](https://github.com/theohmwoa)
+- [👤 Harry Viennot](https://github.com/harryviennot)
+- [👤 Clément Lagasse](https://github.com/ClementLagasse)
+- [👤 Alexandre Lagasse](https://github.com/alexandrelagasse)
+- [👤 Bartosz Michalak](https://github.com/Bartoszkk)
 
-- [Théophilus Homawoo](https://github.com/theohmwoa)
-- [Harry Viennot](https://github.com/harryviennot)
-- [Clément Lagasse](https://github.com/ClementLagasse)
-- [Alexandre Lagasse](https://github.com/alexandrelagasse)
-- [Bartosz Michalak](https://github.com/Bartoszkk)
+---
