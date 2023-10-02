@@ -35,8 +35,7 @@ jobs:
       - name: Build & Package (Fedora)
         if: matrix.os == 'fedora-latest'
         run: |
-          ./dependecies.sh
-          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
+          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
 
       - name: Build & Package (Windows)
         if: matrix.os == 'windows-latest'
