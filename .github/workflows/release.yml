@@ -10,24 +10,43 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest, fedora-latest]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Get dependencies (Ubuntu)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake
 
       - name: Get dependencies (macOS)
-        if: ${{ matrix.os == 'macos-latest' }}
+        if: matrix.os == 'macos-latest'
         run: |
           brew install cmake
 
-      - name: Build & Package
+      - name: Get dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install cmake
+
+      - name: Build & Package (Fedora)
+        if: matrix.os == 'fedora-latest'
+        run: |
+          ./dependecies.sh
+          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
+
+      - name: Build & Package (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          cmake --build . --config Release
+          cpack
+
+      - name: Build & Package (Generic)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
           cpack
@@ -54,11 +73,12 @@ jobs:
           path: ./*.exe
 
       - name: Upload Artifact (Fedora)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'fedora-latest' }}
         uses: actions/upload-artifact@v3
         with:
-          name: RTYPE-fedora-latest
+          name: RTYPE-${{ matrix.os }}
           path: ./*.rpm
+
 
           
 
