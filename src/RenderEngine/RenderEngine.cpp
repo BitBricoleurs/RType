@@ -74,37 +74,36 @@ void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
                  RAYWHITE);
 }
 
-void RenderEngine::PollEvents(GameEngine::EventHandler &eventHandler) {
-  if (IsKeyPressed(KEY_SPACE))
-    eventHandler.queueEvent("SPACE_KEY_PRESSED");
-  if (IsKeyPressed(KEY_UP))
-    eventHandler.queueEvent("UP_KEY_PRESSED");
-  if (IsKeyReleased(KEY_UP))
-    eventHandler.queueEvent("UP_KEY_RELEASED");
-  if (IsKeyPressed(KEY_DOWN))
-    eventHandler.queueEvent("DOWN_KEY_PRESSED");
-  if (IsKeyReleased(KEY_DOWN))
-    eventHandler.queueEvent("DOWN_KEY_RELEASED");
-  if (IsKeyPressed(KEY_LEFT))
-    eventHandler.queueEvent("LEFT_KEY_PRESSED");
-  if (IsKeyReleased(KEY_LEFT))
-    eventHandler.queueEvent("LEFT_KEY_RELEASED");
-  if (IsKeyPressed(KEY_RIGHT))
-    eventHandler.queueEvent("RIGHT_KEY_PRESSED");
-  if (IsKeyReleased(KEY_RIGHT))
-    eventHandler.queueEvent("RIGHT_KEY_RELEASED");
-  if (IsKeyPressed(KEY_ENTER))
-    eventHandler.queueEvent("ENTER_KEY_PRESSED");
-  if (IsKeyPressed(KEY_ESCAPE))
-    eventHandler.queueEvent("ESCAPE_KEY_PRESSED");
-  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-    eventHandler.queueEvent("MouseLeftButtonPressed");
-  if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-    eventHandler.queueEvent("MouseRightButtonPressed");
-  if (IsKeyReleased(KEY_SPACE))
-    eventHandler.queueEvent("SPACE_KEY_RELEASED");
-}
-
+void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
+        if (IsKeyPressed(KEY_SPACE))
+            eventHandler.queueEvent("SPACE_KEY_PRESSED");
+        if (IsKeyReleased(KEY_SPACE))
+            eventHandler.queueEvent("SPACE_KEY_RELEASED");
+        if (IsKeyPressed(KEY_UP))
+            eventHandler.queueEvent("UP_KEY_PRESSED");
+        if (IsKeyReleased(KEY_UP))
+            eventHandler.queueEvent("UP_KEY_RELEASED");
+        if (IsKeyPressed(KEY_DOWN))
+            eventHandler.queueEvent("DOWN_KEY_PRESSED");
+        if (IsKeyReleased(KEY_DOWN))
+            eventHandler.queueEvent("DOWN_KEY_RELEASED");
+        if (IsKeyPressed(KEY_LEFT))
+            eventHandler.queueEvent("LEFT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_LEFT))
+            eventHandler.queueEvent("LEFT_KEY_RELEASED");
+        if (IsKeyPressed(KEY_RIGHT))
+            eventHandler.queueEvent("RIGHT_KEY_PRESSED");
+        if (IsKeyReleased(KEY_RIGHT))
+            eventHandler.queueEvent("RIGHT_KEY_RELEASED");
+        if (IsKeyPressed(KEY_ENTER))
+            eventHandler.queueEvent("ENTER_KEY_PRESSED");
+        if (IsKeyPressed(KEY_ESCAPE))
+            eventHandler.queueEvent("ESCAPE_KEY_PRESSED");
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            eventHandler.queueEvent("MouseLeftButtonPressed");
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+            eventHandler.queueEvent("MouseRightButtonPressed");
+    }
 void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
 }
