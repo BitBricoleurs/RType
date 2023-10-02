@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../../GameEngine/Components/AComponent.hpp"
+#include "AComponent.hpp"
 #include <string>
 
 namespace GameEngine {

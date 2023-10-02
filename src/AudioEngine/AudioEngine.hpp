@@ -10,7 +10,7 @@
 #include "raylib.h"
 #include <string>
 #include <unordered_map>
-#include "AudioCompTypes/AudioComponent.hpp"
+#include "AudioComponent.hpp"
 
 namespace GameEngine {
     class AudioEngine {
