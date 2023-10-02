@@ -4,7 +4,6 @@ add_subdirectory(RenderEngine)
 add_subdirectory(PhysicsEngine)
 add_subdirectory(POCEngine)
 add_subdirectory(POCProgram)
-add_subdirectory(MobPoc)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}
