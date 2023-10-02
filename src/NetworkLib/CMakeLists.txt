@@ -14,7 +14,9 @@ add_library(NetworkLib STATIC
         EndpointGetter.cpp
 )
 
-find_path(ASIO_INCLUDE_DIR NAMES asio.hpp PATHS /usr/local/include /opt/local/include)
-include_directories(${ASIO_INCLUDE_DIR})
+find_package(Boost REQUIRED COMPONENTS system)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
-target_link_libraries(NetworkLib ${ASIO_LIBRARY})
+target_link_libraries(NetworkLib ${Boost_LIBRARIES})

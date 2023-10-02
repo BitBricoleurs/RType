@@ -6,10 +6,10 @@
 
 #include <memory>
 #include <functional>
-#include <asio.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
-#include <asio/buffer.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/ts/buffer.hpp>
+#include <boost/asio/ts/internet.hpp>
+#include <boost/asio/buffer.hpp>
 #include "PacketComponent.hpp"
 #include "Body.hpp"
 #include "IMessage.hpp"
@@ -28,13 +28,13 @@ namespace Network {
             SERVER,
             CLIENT
         };
-        PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn,
-                  asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages,
+        PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
+                  boost::asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages,
                   Network::Tick& tick);
 
-        PacketIO( asio::io_context& context, asio::ip::udp::endpoint& endpoint, asio::ip::udp::socket& socketIn,
-                  asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages,
-                  Network::Tick& tick, std::function<void(asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client);
+        PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
+                  boost::asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages,
+                  Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client);
 
         ~PacketIO() = default;
 
@@ -46,19 +46,19 @@ namespace Network {
 
       private:
 
-        unsigned int getIdByEndpoint(const asio::ip::udp::endpoint& endpoint);
-        asio::ip::udp::endpoint getEndpointById(unsigned int id);
+        unsigned int getIdByEndpoint(const boost::asio::ip::udp::endpoint& endpoint);
+        boost::asio::ip::udp::endpoint getEndpointById(unsigned int id);
 
         void serializePacket();
 
         TSQueue<std::shared_ptr<IMessage>>* _outMessages;
         Network::TSQueue<Network::OwnedMessage> &_inMessages;
         Network::Tick& _tick;
-        asio::io_context& _context;
-        asio::ip::udp::endpoint& _endpoint;
+        boost::asio::io_context& _context;
+        boost::asio::ip::udp::endpoint& _endpoint;
 
-        asio::ip::udp::socket& _socketIn;
-        asio::ip::udp::socket& _socketOut;
+        boost::asio::ip::udp::socket& _socketIn;
+        boost::asio::ip::udp::socket& _socketOut;
 
         Network::PacketHeader _headerIn;
         Network::Body _bodyIn;
@@ -73,7 +73,7 @@ namespace Network {
 
         std::vector<std::uint8_t> _tempBuffer;
 
-        std::function<void(asio::ip::udp::endpoint &endpoint)> _onConnect;
+        std::function<void(boost::asio::ip::udp::endpoint &endpoint)> _onConnect;
         Network::PacketIO::Type _type;
 
         std::vector<std::shared_ptr<Network::Interface>>* _clients;

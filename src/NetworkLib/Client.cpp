@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <asio.hpp>
+#include <boost/asio.hpp>
 #include <utility>
 #include "Client.hpp"
 #include "Tick.hpp"
@@ -22,7 +22,7 @@ public:
     void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
     void processIncomingMessages();
 
-    asio::io_context _context;
+    boost::asio::io_context _context;
     Network::Tick _tick;
     std::unique_ptr<Network::Interface> _interface;
     std::thread _tickThread;
@@ -80,7 +80,7 @@ void Network::Client::Impl::send(const std::string &action, std::vector<unsigned
 
 
 void Network::Client::Impl::processIncomingMessages() {
-    asio::post(_context, [this]() {
+    boost::asio::post(_context, [this]() {
         while (1) {
             std::unique_lock<std::mutex> lock( _tick._mtx );
             _tick._cvIncoming.wait( lock, [ this ]() {

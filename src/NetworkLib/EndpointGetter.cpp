@@ -5,7 +5,7 @@
 #include "EndpointGetter.hpp"
 #include "InterfaceNetwork.hpp"
 
-unsigned int Network::EndpointGetter::getIdByEndpoint(const asio::ip::udp::endpoint& endpoint, const std::vector<std::shared_ptr<Network::Interface> >* _clients) {
+unsigned int Network::EndpointGetter::getIdByEndpoint(const boost::asio::ip::udp::endpoint& endpoint, const std::vector<std::shared_ptr<Network::Interface> >* _clients) {
     if (_clients == nullptr)
         return 0;
     for (auto& client : *_clients) {
@@ -15,9 +15,9 @@ unsigned int Network::EndpointGetter::getIdByEndpoint(const asio::ip::udp::endpo
     return 0;
 }
 
-asio::ip::udp::endpoint Network::EndpointGetter::getEndpointById(unsigned int id, const std::vector<std::shared_ptr<Network::Interface> >* _clients) {
+boost::asio::ip::udp::endpoint Network::EndpointGetter::getEndpointById(unsigned int id, const std::vector<std::shared_ptr<Network::Interface> >* _clients) {
     if (_clients == nullptr)
-        return asio::ip::udp::endpoint();
+        return boost::asio::ip::udp::endpoint();
     for (auto& client : *_clients) {
         if (client->getId() == id)
             return client->getEndpoint();

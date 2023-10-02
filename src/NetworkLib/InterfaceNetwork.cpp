@@ -4,15 +4,15 @@
 
 #include "InterfaceNetwork.hpp"
 
-Network::Interface::Interface(asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<asio::ip::udp::socket>> inSocket,
+Network::Interface::Interface(boost::asio::io_context &Context, TSQueue<OwnedMessage> &inMessages, std::optional<std::reference_wrapper<boost::asio::ip::udp::socket>> inSocket,
                                Network::Tick &tick, unsigned int id, Network::Interface::Type type) :
         _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _type(type), _tick(tick), _id(id)
 {
     if (type == Type::SERVER) {
         if (_endpoint.address().is_v4())
-            _socket.open(asio::ip::udp::v4());
+            _socket.open(boost::asio::ip::udp::v4());
         else
-            _socket.open(asio::ip::udp::v6());
+            _socket.open(boost::asio::ip::udp::v6());
     }
     _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, _tick);
     _id = 0;
@@ -37,9 +37,9 @@ void Network::Interface::connectToServer(const std::string &host, unsigned short
 {
     _endpoint = *_resolver.resolve(host, std::to_string(port)).begin();
     if (_endpoint.address().is_v4())
-        _socket.open(asio::ip::udp::v4());
+        _socket.open(boost::asio::ip::udp::v4());
     else
-        _socket.open(asio::ip::udp::v6());
+        _socket.open(boost::asio::ip::udp::v6());
     getIO()->readPacket();
 }
 
@@ -50,12 +50,12 @@ void Network::Interface::send(const std::shared_ptr<IMessage>& message)
     }
 }
 
-void Network::Interface::setEndpoint(const asio::ip::udp::endpoint &endpoint)
+void Network::Interface::setEndpoint(const boost::asio::ip::udp::endpoint &endpoint)
 {
     _endpoint = endpoint;
 }
 
-asio::ip::udp::endpoint &Network::Interface::getEndpoint()
+boost::asio::ip::udp::endpoint &Network::Interface::getEndpoint()
 {
     return _endpoint;
 }

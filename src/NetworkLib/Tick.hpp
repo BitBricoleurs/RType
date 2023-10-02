@@ -5,9 +5,9 @@
 #pragma once
 
 #include <cstddef>
-#include <asio.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/ts/buffer.hpp>
+#include <boost/asio/ts/internet.hpp>
 #include <mutex>
 #include <condition_variable>
 

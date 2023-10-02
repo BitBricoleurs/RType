@@ -7,19 +7,18 @@
 #include "Tick.hpp"
 #include "InterfaceNetwork.hpp"
 #include "Server.hpp"
-#include<unistd.h>
 
 namespace Network {
 
     class Server::Impl {
     public:
       Impl(unsigned short port, size_t maxClients, size_t Tick)
-          : _context(), _idleWork(std::make_unique<asio::io_context::work>(_context)), _tick(Tick), _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)), _running(true), _port(port), _maxClients(maxClients), _inMessages(),
+          : _context(), _idleWork(std::make_unique<boost::asio::io_context::work>(_context)), _tick(Tick), _socket(_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)), _running(true), _port(port), _maxClients(maxClients), _inMessages(),
             _tempPacket(), _tempBuffer(MAX_PACKET_SIZE + sizeof(Network::PacketHeader)), _indexId(0)
       {
 
           _packetIO = std::make_shared<Network::PacketIO>(_context, _remoteEndpoint, _socket, _socket, _inMessages, _tick,
-                                                          [this](asio::ip::udp::endpoint &endpoint) {
+                                                          [this](boost::asio::ip::udp::endpoint &endpoint) {
                                                                 registerNewCon(endpoint);
                                                           }, _clients);
             int maxThreads = std::thread::hardware_concurrency();
@@ -32,7 +31,7 @@ namespace Network {
             for (size_t i = 0; i < ideaThread; i++) {
                 _pool.push_back(std::thread([&]() { _context.run(); }));
             }
-            asio::ip::udp::endpoint local_ep = _socket.local_endpoint();
+            boost::asio::ip::udp::endpoint local_ep = _socket.local_endpoint();
             std::string listening_ip = local_ep.address().to_string();
             unsigned short listening_port = local_ep.port();
 
@@ -71,7 +70,7 @@ namespace Network {
             }
         }
 
-        bool isConnectionOpen(const asio::ip::udp::endpoint& endpoint) {
+        bool isConnectionOpen(const boost::asio::ip::udp::endpoint& endpoint) {
             for (const auto& client : _clients) {
                 if (client->getEndpoint() == endpoint) {
                     return true;
@@ -81,7 +80,7 @@ namespace Network {
         }
 
         void processIncomingMessages() {
-            asio::post(_context, [this]() {
+            boost::asio::post(_context, [this]() {
                 while (1) {
                     std::unique_lock<std::mutex> lock( _tick._mtx );
                     _tick._cvIncoming.wait( lock, [ this ]() {
@@ -154,7 +153,7 @@ namespace Network {
         }
 
     private:
-        std::shared_ptr<Interface> getInterfaceByEndpoint(const asio::ip::udp::endpoint& endpoint) {
+        std::shared_ptr<Interface> getInterfaceByEndpoint(const boost::asio::ip::udp::endpoint& endpoint) {
             for (const auto& client : _clients) {
                 if (client->getEndpoint() == endpoint) {
                     return client;
@@ -163,7 +162,7 @@ namespace Network {
             return nullptr;
         }
 
-        void registerNewCon(asio::ip::udp::endpoint &remoteEndpoint)
+        void registerNewCon(boost::asio::ip::udp::endpoint &remoteEndpoint)
         {
             auto clientInterface
                 = getInterfaceByEndpoint( remoteEndpoint );
@@ -186,8 +185,8 @@ namespace Network {
 
 
         Network::TSQueue<Network::OwnedMessage> _inMessages;
-        asio::io_context _context;
-        std::unique_ptr<asio::io_context::work> _idleWork;
+        boost::asio::io_context _context;
+        std::unique_ptr<boost::asio::io_context::work> _idleWork;
         Network::Tick _tick;
 
         std::thread _tickThread;
@@ -196,9 +195,9 @@ namespace Network {
         Network::Packet _tempPacket;
         std::vector<unsigned char> _tempBuffer;
 
-        asio::ip::udp::socket _socket;
+        boost::asio::ip::udp::socket _socket;
         std::mutex _socketMutex;
-        asio::ip::udp::endpoint _remoteEndpoint;
+        boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::vector<std::thread> _pool;
         std::vector<std::shared_ptr<Network::Interface> > _clients;
         bool _running;
