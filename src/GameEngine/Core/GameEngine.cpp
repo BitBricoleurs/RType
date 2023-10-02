@@ -44,14 +44,11 @@ namespace GameEngine {
     }
 
     void GameEngine::scheduleEvent(const std::string& eventName, size_t interval) {
-        scheduledEvents.emplace_back(eventName, interval, 0);
+        eventHandler.scheduleEvent(eventName, interval);
     }
 
     void GameEngine::unscheduleEvent(const std::string& eventName) {
-        scheduledEvents.erase(std::remove_if(scheduledEvents.begin(), scheduledEvents.end(), [&eventName](auto& event) {
-            auto& [name, interval, counter] = event;
-            return name == eventName;
-        }), scheduledEvents.end());
+        eventHandler.unscheduleEvent(eventName);
     }
 
     void GameEngine::run() {
@@ -90,17 +87,18 @@ namespace GameEngine {
 
     void GameEngine::update() {
         registry.updateSystems(eventHandler);
-        for (auto& event : scheduledEvents) {
-            auto& [eventName, interval, counter] = event;
-            counter++;
-            if (counter >= interval) {
-                eventHandler.queueEvent(eventName);
-                counter = 0;
-            }
-        }
+        eventHandler.updateScheduledEvents();
     }
 
     void GameEngine::stop() {
         isRunning = false;
+    }
+
+    void GameEngine::setContinuousEvent(const std::string& eventName, const std::string& continuousEventName) {
+        eventHandler.setContinuousEvent(eventName, continuousEventName);
+    }
+
+    void GameEngine::removeContinuousEvent(const std::string& eventName) {
+        eventHandler.removeContinuousEvent(eventName);
     }
 }
