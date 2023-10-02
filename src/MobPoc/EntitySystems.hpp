@@ -12,11 +12,13 @@
 #include "EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
+#include <iostream>
 
 namespace GameEngine {
 class updateEntitySpriteSystem : public ISystem {
   public:
     void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+        std::cout << "updateEntitySpriteSystem" << std::endl;
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteAnimationComponent"));
 
@@ -49,12 +51,14 @@ class updateEntitySpriteSystem : public ISystem {
             sprite->rect1.x = animation->currentFrame.x;
             sprite->rect1.y = animation->currentFrame.y;
         }
+        std::cout << "updateEntitySpriteSystem end" << std::endl;
     }
 };
 
 class updatePositionSystem : public ISystem {
   public:
     void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+        std::cout << "updatePositionSystem" << std::endl;
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("PositionComponent"));
 
@@ -82,12 +86,14 @@ class updatePositionSystem : public ISystem {
                 sprite->pos.y = position->y;
             }
         }
+        std::cout << "updatePositionSystem end" << std::endl;
     }
 };
 
 class updateHealthSystem : public ISystem {
   public:
     void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+        std::cout << "updateHealthSystem" << std::endl;
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
 
@@ -107,11 +113,13 @@ class updateHealthSystem : public ISystem {
                 }
             }
         }
+        std::cout << "updateHealthSystem end" << std::endl;
     }
 };
 
 class MobDeathSystem : public ISystem {
     void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+        std::cout << "MobDeathSystem" << std::endl;
         std::string event = eventHandler.getTriggeredEvent();
         size_t id = std::stoi(event.substr(1, event.find(" ")));
         eventHandler.deleteEvent(event);
@@ -129,6 +137,7 @@ class MobDeathSystem : public ISystem {
             // }
             deathAnimation->currentFrame = deathAnimation->spritePositions[deathAnimation->currentFrameIndex++];
         }
+        std::cout << "MobDeathSystem end" << std::endl;
     };
 };
 
