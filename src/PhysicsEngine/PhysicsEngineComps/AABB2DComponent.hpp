@@ -14,7 +14,7 @@ namespace GameEngine {
         AABB2DComponent(const Vector2& min, const Vector2& max) : minExtents(min), maxExtents(max) {}
         ~AABB2DComponent() override = default;
 
-        size_t getComponentType() override { return componentType; }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("AABBComponent"); }
 
         Vector2 getMinExtents() const { return minExtents; }
         Vector2 getMaxExtents() const { return maxExtents; }
@@ -22,7 +22,6 @@ namespace GameEngine {
         void setMaxExtents(const Vector2& max) { maxExtents = max; }
 
     private:
-        size_t componentType = ComponentsType::getNewComponentType("AABBComponent");
         Vector2 minExtents;
         Vector2 maxExtents;
     };

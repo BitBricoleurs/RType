@@ -40,9 +40,9 @@ namespace GameEngine {
         std::vector<CollisionInfo> getCollisions() const {
             return collisions;
         }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("CollisionResultComponent"); }
 
     private:
-        size_t componentType = ComponentsType::getNewComponentType("CollisionResultComponent");
         std::vector <CollisionInfo> collisions;
     };
 }

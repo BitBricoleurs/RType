@@ -15,11 +15,10 @@ namespace GameEngine {
         VelocityComponent(const Vector2& velocity) : velocity(velocity) {}
         ~VelocityComponent() override = default;
 
-        size_t getComponentType() override { return componentType; }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("VelocityComponent") }
         Vector2 getVelocity() const { return velocity; }
         void setVelocity(const Vector2& velocity) { this->velocity = velocity; }
     private:
-        size_t componentType = ComponentsType::getNewComponentType("VelocityComponent");
         Vector2 velocity;
     };
 }
