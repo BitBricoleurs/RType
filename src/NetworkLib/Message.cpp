@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <typeindex>
+#include <memory>
+#include <functional>
+#include <arpa/inet.h>
 #include "Message.hpp"
 
 std::vector <std::uint8_t> Network::Serializer::serialize(const std::vector <std::any> &data)
