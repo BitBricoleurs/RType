@@ -6,7 +6,8 @@
 
 #include "ComponentsType.hpp"
 #include "src/UtilsProject/Utils.hpp"
-#include "IColliderComponent.hpp"
+#include "AColliderComponent.hpp"
+#include "CircleColliderComponent.hpp"
 
 namespace GameEngine {
 
@@ -27,7 +28,7 @@ namespace GameEngine {
         return distanceSquared < (c.radius * c.radius);
     }
 
-    class RectangleColliderComponent : public IColliderComponent {
+    class RectangleColliderComponent : public AColliderComponent {
     public:
         RectangleColliderComponent() = default;
         RectangleColliderComponent(const rect& collider) : collider(collider) {}
@@ -39,7 +40,7 @@ namespace GameEngine {
         rect getCollider() const { return collider; }
         void setCollider(const rect& collider) { this->collider = collider; }
 
-        bool collidesWith(IColliderComponent& other, CollisionResultComponent& result) override {
+        bool collidesWith(AColliderComponent& other, CollisionResultComponent& result) override {
             if(auto otherRect = dynamic_cast<RectangleColliderComponent*>(&other)) {
                 if (checkCollision(collider, otherRect->getCollider())) {
                     return true;

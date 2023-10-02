@@ -1,1 +1,0 @@
-. "/home/Bartosz/delivery/TECH3/RType/build/conanbuildenv-release-x86_64.sh"

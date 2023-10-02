@@ -1,9 +1,9 @@
-project(POCEngine)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(POCEngine POCEngine.cpp)
+target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib)
+target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC ${CMAKE_SOURCE_DIR}/src/UtilsProject)
 
-find_package(Threads REQUIRED)
-target_link_libraries(POCEngine GameEngine RenderEngineLib AudioEngineLib dl Threads::Threads)
+target_sources(${PROJECT_NAME_POCENGINE}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/POCEngine.cpp)

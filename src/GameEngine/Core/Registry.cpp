@@ -36,8 +36,8 @@ namespace GameEngine {
         return componentsContainer.getComponentsFromEntity(entityID);
     }
 
-    void Registry::bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::shared_ptr<IComponent>> component) {
-        componentsContainer.bindComponentToEntity(entityID, componentType, component);
+    void Registry::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
+        componentsContainer.bindComponentToEntity(entityID, component);
     }
     void Registry::unbindComponentFromEntity(size_t entityID, size_t componentType) {
         componentsContainer.unbindComponentFromEntity(entityID, componentType);

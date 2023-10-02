@@ -26,7 +26,7 @@ namespace GameEngine {
         size_t createEntity();
         size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components);
 
-        void bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::shared_ptr<IComponent>> component);
+        void bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component);
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
         void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1);
 
@@ -35,6 +35,10 @@ namespace GameEngine {
 
         void setTickSpeed(double newTickSpeed);
         void scheduleEvent(const std::string& eventName, size_t interval);
+        void unscheduleEvent(const std::string& eventName);
+
+        void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
+        void removeContinuousEvent(const std::string& eventName);
 
         void run();
 

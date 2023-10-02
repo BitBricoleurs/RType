@@ -5,7 +5,7 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "src/UtilsProject/Utils.hpp"
+#include "Utils.hpp"
 #include "ComponentsType.hpp"
 
 namespace GameEngine {
@@ -15,7 +15,7 @@ namespace GameEngine {
         VelocityComponent(const Vector2& velocity) : velocity(velocity) {}
         ~VelocityComponent() override = default;
 
-        size_t getComponentType() override { return ComponentsType::getNewComponentType("VelocityComponent") }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("VelocityComponent"); }
         Vector2 getVelocity() const { return velocity; }
         void setVelocity(const Vector2& velocity) { this->velocity = velocity; }
     private:

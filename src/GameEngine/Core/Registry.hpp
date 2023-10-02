@@ -35,7 +35,7 @@ namespace GameEngine {
         std::vector<size_t> getEntitiesWithComponent(size_t componentType);
         std::vector<std::optional<std::shared_ptr<IComponent>>> getComponentsFromEntity(size_t entityID);
 
-        void bindComponentToEntity(size_t entityID, size_t componentType, std::optional<std::shared_ptr<IComponent>> component);
+        void bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component);
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
 
         void deleteEntity(size_t entityID);

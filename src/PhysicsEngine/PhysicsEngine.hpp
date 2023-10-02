@@ -5,7 +5,8 @@
 #pragma once
 
 #include "AABB2DComponent.hpp"
-#include "
+#include "PositionComponent.hpp"
+#include "IColliderComponent.hpp"
 #include <utility>
 #include <tuple>
 
@@ -16,12 +17,12 @@ namespace GameEngine {
         ~PhysicsEngine() = default;
 
         bool broadPhase(const AABB2DComponent& comp, const AABB2DComponent& comp2);
-        bool narrowPhase(std::tuple<std::shared_ptr<IColliderComponent>, PositionComponent, CollisionResultComponent>& comp1,
-                         std::tuple<std::shared_ptr<IColliderComponent>, PositionComponent, CollisionResultComponent>& comp2) {
 
-            return std::get<0>(comp1)->collidesWith(*std::get<0>(comp2), std::get<2>(comp1));
+        bool narrowPhase(std::pair<std::shared_ptr<IColliderComponent>, PositionComponent>& comp1,
+                         std::pair<std::shared_ptr<IColliderComponent>, PositionComponent>& comp2) {
+
+            return comp1.first->collidesWith(*comp2.first, comp1.second);
         }
     private:
-
     };
 }

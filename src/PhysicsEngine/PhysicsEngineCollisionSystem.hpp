@@ -15,7 +15,7 @@ namespace GameEngine
     public:
         PhysicsEngineCollisionSystem() = default;
         ~PhysicsEngineCollisionSystem();
-        void update(const ComponentsContainer& componentsContainer, const EventHandler& eventHandler) override;
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
     private:
         std::vector<std::pair<size_t , size_t >> potentialCollisions;
     };

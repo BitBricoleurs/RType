@@ -14,3 +14,4 @@ target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Compone
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Utilities)
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Event)
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Misc)
+target_link_libraries(GameEngine raylib)

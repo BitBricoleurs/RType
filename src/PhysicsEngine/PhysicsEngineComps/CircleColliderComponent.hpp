@@ -5,7 +5,7 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "src/UtilsProject/Utils.hpp"
+#include "Utils.hpp"
 #include "ComponentsType.hpp"
 #include "CollisionResultComponent.hpp"
 #include "RectangleColliderComponent.hpp"
@@ -33,7 +33,7 @@ namespace GameEngine {
         return distanceSquared < (c.radius * c.radius);
     }
 
-    class CircleColliderComponent : public IColliderComponent {
+    class CircleColliderComponent : public AColliderComponent {
     public:
         CircleColliderComponent() = default;
         CircleColliderComponent(const Circle& collider) : collider(collider) {}
@@ -45,7 +45,7 @@ namespace GameEngine {
         Circle getCollider() const { return collider; }
         void setCollider(const Circle& collider) { this->collider = collider; }
 
-        bool collidesWith(IColliderComponent& other, CollisionResultComponent& result) override {
+        bool collidesWith(AColliderComponent& other, CollisionResultComponent& result) override {
             //TODO: Compute collision info
 
             if(auto otherCircle = dynamic_cast<CircleColliderComponent*>(&other)) {
