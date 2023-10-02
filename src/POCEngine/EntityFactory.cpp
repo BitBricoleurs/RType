@@ -12,6 +12,25 @@
 #include <iostream>
 #include <memory>
 
+size_t EntityFactory::spawnCancerMob(GameEngine::GameEngine &engine, float posX,
+                                     float posY, float dirX, float dirY) {
+
+  size_t entityId = createBaseMob(
+      engine, "assets/cancerMob.png", 34, 200, 6, true, "assets/explosion.gif",
+      33, 200, 6, posX, posY, 1, 1, dirX, dirY, 32, 32, 100, 10, 0, 0);
+  return entityId;
+}
+
+size_t EntityFactory::spawnPataPataMob(GameEngine::GameEngine &engine,
+                                       float posX, float posY, float dirX,
+                                       float dirY) {
+  size_t entityId =
+      createBaseMob(engine, "assets/epitech_assets/pataPataMob.png", 36, 533,
+                    16, true, "assets/explosion.gif", 33, 200, 6, posX, posY, 1,
+                    1, dirX, dirY, 36, 36, 100, 10, 0, 0);
+  return entityId;
+}
+
 size_t EntityFactory::createBaseMob(
     GameEngine::GameEngine &engine, const std::string &spriteSheetPath,
     int spriteSheetHeight, int spriteSheetWidth, int frames, bool twoDirections,
