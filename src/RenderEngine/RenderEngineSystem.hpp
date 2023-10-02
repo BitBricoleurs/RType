@@ -19,7 +19,7 @@
 namespace GameEngine {
     class RenderEngineSystem : public ISystem {
     public:
-        RenderEngineSystem( int screenWidth, int screenHeight, const char* windowTitle, char* argv[]);
+        RenderEngineSystem( int screenWidth, int screenHeight, const char* windowTitle);
         ~RenderEngineSystem();
 
         virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;

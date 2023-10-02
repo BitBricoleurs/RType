@@ -9,7 +9,7 @@
 #include <filesystem>
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
-#else
+#elif defined(__linux__)
 #include <unistd.h>
 #include <limits.h>
 #include <libgen.h>
@@ -43,7 +43,7 @@ namespace GameEngine {
         }
     }
 
-    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle, char* argv[]) {
+    void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
         InitWindow(screenWidth, screenHeight, windowTitle);
         _baseAssetPath = getExecutablePath();
         this->screenWidth = screenWidth;
