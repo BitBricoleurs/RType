@@ -4,9 +4,21 @@
 
 #include "GameEngine.hpp"
 
+
+
 namespace GameEngine {
     GameEngine::GameEngine() : tickSpeed(1.0 / 60.0), isRunning(true) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
+        eventHandler.addEvent("gameEngineStartSocketServer", [this] { this->startSocketServer(); });
+
+        registerCommand("getCommandNames", [this](std::vector<std::string> args) {
+            return this->getCommandNames(args);
+        });
+        registerCommand("getEventNames", [this](std::vector<std::string> args) {
+            return eventHandler.getEventNames(args);
+        });
+
+
     }
 
     GameEngine::~GameEngine() = default;
@@ -94,11 +106,43 @@ namespace GameEngine {
         isRunning = false;
     }
 
+    void GameEngine::startSocketServer() {
+        auto socketServerInstance = std::make_unique<SocketServer>();
+
+        std::thread([server = std::move(socketServerInstance)]() {
+            server->run();
+        }).detach();
+
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+
+        system("osascript -e 'tell app \"Terminal\" to do script \"/Users/theophilushomawoo/Documents/y3/RType/build/bin/DEVCONSOLE\"'");
+    }
+
     void GameEngine::setContinuousEvent(const std::string& eventName, const std::string& continuousEventName) {
         eventHandler.setContinuousEvent(eventName, continuousEventName);
     }
 
     void GameEngine::removeContinuousEvent(const std::string& eventName) {
         eventHandler.removeContinuousEvent(eventName);
+    }
+
+    void GameEngine::registerCommand(const std::string &commandName,
+                                     std::function<std::string(std::vector<std::string>)> command) {
+        commands[commandName] = std::move(command);
+    }
+
+    std::string GameEngine::executeCommand(const std::string &commandName, std::vector<std::string> args) {
+        if (commands.find(commandName) != commands.end()) {
+            return commands[commandName](std::move(args));
+        }
+        return "Command not found";
+    }
+
+    std::string GameEngine::getCommandNames(std::vector<std::string> args) {
+        std::string commandNames;
+        for (const auto &command: commands) {
+            commandNames += command.first + ", ";
+        }
+        return commandNames;
     }
 }

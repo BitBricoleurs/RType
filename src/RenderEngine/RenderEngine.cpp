@@ -9,7 +9,6 @@
 
 namespace GameEngine {
 
-
     RenderEngine::~RenderEngine() {
         for (auto& pair : textureCache) {
             UnloadTexture(pair.second);

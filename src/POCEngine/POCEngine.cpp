@@ -29,6 +29,13 @@ namespace GameEngine {
             bool isPlayer;
     };
 
+    class launchDevConsole : public ISystem {
+    public:
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+            eventHandler.queueEvent("gameEngineStartSocketServer");
+        }
+    };
+
 
     class MovementSystem : public ISystem {
     public:
@@ -73,6 +80,7 @@ int main() {
     GameEngine::GameEngine engine;
 
     auto move = std::make_shared<GameEngine::MovementSystem>();
+    auto launchDevConsole = std::make_shared<GameEngine::launchDevConsole>();
     engine.addSystem("RenderEngineSystem", std::make_shared<GameEngine::RenderEngineSystem>(1600, 1080, "POC Engine"));
     engine.addEvent("UP_KEY_PRESSED", move);
     engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
@@ -80,8 +88,7 @@ int main() {
     engine.setContinuousEvent("DOWN_KEY_PRESSED", "DOWN_KEY_RELEASED");
     engine.addEvent("LEFT_KEY_PRESSED", move);
     engine.setContinuousEvent("LEFT_KEY_PRESSED", "LEFT_KEY_RELEASED");
-    engine.addEvent("RIGHT_KEY_PRESSED", move);
-    engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
+    engine.addEvent("RIGHT_KEY_PRESSED", launchDevConsole);
 
     GameEngine::Vect2 pos;
     pos.x = 100;

@@ -9,14 +9,18 @@
 #include <vector>
 #include <tuple>
 #include <functional>
+#include <cstdlib>
+#include <memory>
 
 #include "Registry.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "IComponent.hpp"
 #include "Timer.hpp"
+#include "SocketServer.hpp"
 
 namespace GameEngine {
+
 
     class GameEngine {
     public:
@@ -48,14 +52,22 @@ namespace GameEngine {
 
         void deleteEvent(const std::string& eventName);
 
+        void registerCommand(const std::string& commandName, std::function<std::string(std::vector<std::string>)> command);
+        std::string executeCommand(const std::string& commandName, std::vector<std::string> args);
     private:
         void update();
         void stop();
+        void startSocketServer();
 
+        std::map<std::string, std::function<std::string(std::vector<std::string>)>> commands;
         Registry registry;
         EventHandler eventHandler;
         double tickSpeed;
         std::vector<std::tuple<std::string, size_t, size_t>> scheduledEvents;
         bool isRunning;
+
+        std::string queueEvent(std::vector<std::string> args);
+        std::string getEvents(std::vector<std::string> args);
+        std::string getCommandNames(std::vector<std::string> args);
     };
 } // namespace GameEngine

@@ -37,6 +37,17 @@ namespace GameEngine {
         void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
         void removeContinuousEvent(const std::string& eventName);
 
+        std::string getEventNames(std::vector<std::string> args) const {
+            std::string eventNames;
+            for (const auto& pair : eventMap) {
+                eventNames += pair.first + ", ";
+            }
+            for (const auto& pair : eventFunctionMap) {
+                eventNames += pair.first + ", ";
+            }
+            return eventNames;
+        }
+
     private:
         std::unordered_map<std::string, std::vector<std::shared_ptr<ISystem>>> eventMap;
         std::unordered_map<std::string, std::function<void()>> eventFunctionMap;
