@@ -7,7 +7,6 @@
 
 #include "EntityFactory.hpp"
 #include "../../RenderEngine/RenderCompTypes/SpriteComponent.hpp"
-#include <__ranges/concepts.h>
 #include <cstddef>
 #include <iostream>
 #include <memory>
