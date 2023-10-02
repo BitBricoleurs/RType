@@ -85,7 +85,7 @@ namespace GameEngine {
         std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         auto rectComponent = std::make_shared<RectComponent>(rectX, rectY, rectWidth, rectHeight, spriteSheetPath);
         auto positionComponent = std::make_shared<PositionComponent>(posX, posY);
-        auto velocityComponent = std::make_shared<VelocityComponent>(velX, velY);
+        auto velocityComponent = std::make_shared<VelocityComponent1>(velX, velY);
         auto directionComponent = std::make_shared<DirectionComponent>(dirX, dirY);
         auto hitboxComponent = std::make_shared<HitboxComponent>(hitboxWidth, hitboxHeight);
         components.push_back(rectComponent);

@@ -38,9 +38,9 @@ namespace GameEngine {
         Vec2f position;
     };
 
-    class VelocityComponent : public IComponent {
+    class VelocityComponent1 : public IComponent {
     public:
-        VelocityComponent(float dx, float dy) 
+        VelocityComponent1(float dx, float dy)
             : dx(dx), dy(dy) {}
 
         float dx, dy;

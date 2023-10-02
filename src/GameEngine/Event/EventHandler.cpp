@@ -46,7 +46,7 @@ namespace GameEngine {
         }
 
         for (const auto& eventName : activeContinuousEvents) {
-            eventQueue.push(continuousEvents[eventName]);
+            eventQueue.push({eventName, continuousEvents[eventName].second});
         }
     }
 
