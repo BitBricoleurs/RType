@@ -25,7 +25,7 @@ namespace GameEngine {
             uint32_t size = sizeof(path);
             if (_NSGetExecutablePath(path, &size) == 0) {
                 std::string pathStr = std::string(path);
-                return pathStr.substr(0, pathStr.find_last_of("/"));
+                return (pathStr.substr(0, pathStr.find_last_of("/"))) + "/";
             } else {
                 return "";
             }
@@ -70,6 +70,8 @@ namespace GameEngine {
     void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))
             eventHandler.queueEvent("SPACE_KEY_PRESSED");
+        if (IsKeyReleased(KEY_SPACE))
+            eventHandler.queueEvent("SPACE_KEY_RELEASED");
         if (IsKeyPressed(KEY_UP))
             eventHandler.queueEvent("UP_KEY_PRESSED");
         if (IsKeyReleased(KEY_UP))
@@ -94,8 +96,6 @@ namespace GameEngine {
             eventHandler.queueEvent("MouseLeftButtonPressed");
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
             eventHandler.queueEvent("MouseRightButtonPressed");
-        if (IsKeyReleased(KEY_SPACE))
-            eventHandler.queueEvent("SPACE_KEY_RELEASED");
     }
 
     void RenderEngine::ClearBackgroundRender(Color color) {

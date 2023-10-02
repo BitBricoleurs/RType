@@ -13,6 +13,26 @@
 
 namespace GameEngine {
 
+    class IsChargingBar : public AComponent {
+    public:
+        IsChargingBar() {
+            isChargingBar = true;
+        }
+        ~IsChargingBar() = default;
+
+        void setIsChargingBar(bool isChargingBar) {
+            this->isChargingBar = isChargingBar;
+        }
+        bool getIsChargingBar() {
+            return this->isChargingBar;
+        }
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("IsChargingBar");
+        }
+    private:
+        bool isChargingBar;
+    };
+
     class IsParallaxComponent : public AComponent {
     public:
         IsParallaxComponent() {
@@ -208,6 +228,64 @@ namespace GameEngine {
 
     };
 
+    class ChargingBar : public ISystem {
+    public:
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+            auto events = eventHandler.getTriggeredEvent();
+            if (events.first == "SPACE_KEY_PRESSED") {
+                _charge += 1;
+                if (_charge > _maxCharge) {
+                    _charge = _maxCharge;
+                }
+                auto entities = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("IsChargingBar"));
+                for (auto entity : entities) {
+                    auto eses = componentsContainer.getComponentsFromEntity(entity);
+                    for (const auto& optComp : eses) {
+                        if (optComp.has_value()) {
+                            auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
+                            if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
+                                auto spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
+                                if (spriteComp) {
+                                    auto currentRect = spriteComp->getRect();
+                                    currentRect.w = _charge * 2;
+                                    std::cout << "CURRENT RECT: " << currentRect.w << std::endl;
+                                    spriteComp->setRect(currentRect);
+                                    std::cout << "UPDATED: " << _charge << std::endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (events.first == "SPACE_KEY_RELEASED") {
+                _charge -= 4;
+                if (_charge < 0) {
+                    _charge = 0;
+                    eventHandler.queueEvent("STOP_UNCHARGING");
+                }
+                auto entities = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("IsChargingBar"));
+                for (auto entity : entities) {
+                    auto eses = componentsContainer.getComponentsFromEntity(entity);
+                    for (const auto& optComp : eses) {
+                        if (optComp.has_value()) {
+                            auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
+                            if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
+                                auto spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
+                                if (spriteComp) {
+                                    auto currentRect = spriteComp->getRect();
+                                    currentRect.w = _charge * 2;
+                                    spriteComp->setRect(currentRect);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private:
+            int _charge = 0;
+            int _maxCharge = 103;
+    };
+
 
     class MovementBulletSystem : public ISystem {
     public:
@@ -294,6 +372,28 @@ int main() {
     engine.scheduleEvent("ShootSystem", 50);
     engine.addEvent("MovementShoot", moveShoot);
     engine.scheduleEvent("MovementShoot", 1);
+
+    engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
+
+    engine.setContinuousEvent("SPACE_KEY_RELEASED", "STOP_UNCHARGING");
+    auto chargingBarEntityLayer1 = engine.createEntity();
+    auto isChargingBarComponent = std::make_shared<GameEngine::IsChargingBar>();
+    engine.bindComponentToEntity(chargingBarEntityLayer1, isChargingBarComponent);
+    auto spritecompoennt5 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/BlueBar.png", GameEngine::Vect2(0,0), GameEngine::rect(0,0,0,26), 100);
+    engine.bindComponentToEntity(chargingBarEntityLayer1, spritecompoennt5);
+
+    auto chargingBarEntityLayer2 = engine.createEntity();
+    auto spritecompoennt6 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/EmptyBar.png", GameEngine::Vect2(0, 0), GameEngine::rect(0, 0, 208, 26), 99);
+    engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
+
+    auto chargingBar = std::make_shared<GameEngine::ChargingBar>();
+
+    engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
+    engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
+
+
+
+
 
     GameEngine::Vect2 pos;
     pos.x = 100;
