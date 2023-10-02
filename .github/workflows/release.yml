@@ -123,10 +123,10 @@ jobs:
 
       - name: Upload Release Asset via gh CLI
         run: |
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-ubuntu-latest/*.deb
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-macos-latest/*.dmg
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-windows-latest/*.exe
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
+          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-ubuntu-latest/*.deb
+          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-macos-latest/*.dmg
+          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-windows-latest/*.exe
+          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
