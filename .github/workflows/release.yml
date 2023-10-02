@@ -35,12 +35,12 @@ jobs:
       - name: Build & Package (Fedora)
         if: matrix.os == 'fedora-latest'
         run: |
-          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
+          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./setup/dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
 
       - name: Build & Package (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          ./dependencies.sh
+          ./setup/dependencies.sh
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
           cmake --build . --config Release
           cpack
@@ -48,7 +48,7 @@ jobs:
       - name: Build & Package (Generic)
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
-          ./dependencies.sh
+          ./setup/dependencies.sh
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
           cpack
 
