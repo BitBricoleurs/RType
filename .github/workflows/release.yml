@@ -40,6 +40,7 @@ jobs:
       - name: Build & Package (Windows)
         if: matrix.os == 'windows-latest'
         run: |
+          ./dependencies.sh
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
           cmake --build . --config Release
           cpack
@@ -47,6 +48,7 @@ jobs:
       - name: Build & Package (Generic)
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
+          ./dependencies.sh
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
           cpack
 
