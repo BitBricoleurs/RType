@@ -133,17 +133,6 @@ public:
   float x, y;
 };
 
-class VelocityComponent : public AComponent {
-public:
-  VelocityComponent(float dx, float dy) : dx(dx), dy(dy) {}
-
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("VelocityComponent");
-  }
-
-  float dx, dy;
-};
-
 class DirectionComponent : public AComponent {
 public:
   DirectionComponent(float dx, float dy) : dx(dx), dy(dy) {}

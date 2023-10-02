@@ -9,6 +9,7 @@
 
 #include "EntityComponents.hpp"
 #include "GameEngine.hpp"
+#include <cstddef>
 #include <iostream>
 
 class EntityFactory {
@@ -20,10 +21,21 @@ public:
   EntityFactory(const EntityFactory &) = delete;
   EntityFactory &operator=(const EntityFactory &) = delete;
 
+  size_t spawnCancerMob(GameEngine::GameEngine &engine, float posX, float posY,
+                        float dirX, float dirY);
+  size_t spawnPataPataMob(GameEngine::GameEngine &engine, float posX,
+                          float posY, float dirX, float dirY);
+
+  size_t spawnBugMob(GameEngine::GameEngine &engine, float posX, float posY,
+                     float dirX, float dirY);
+
+private:
+  EntityFactory() = default;
+  ~EntityFactory() = default;
   size_t createBaseMob(GameEngine::GameEngine &engine,
                        const std::string &spriteSheetPath,
                        int spriteSheetHeight, int spriteSheetWidth, int frames,
-                       bool twoDirections,
+                       bool twoDirections, bool reverse,
                        const std::string &deathSpriteSheetPath,
                        int deathSpriteSheetHeight, int deathSpriteSheetWidth,
                        int deathFrames, float posX, float posY, float velX,
@@ -34,7 +46,7 @@ public:
   size_t createBossMob(GameEngine::GameEngine &engine,
                        const std::string &spriteSheetPath,
                        int spriteSheetHeight, int spriteSheetWidth, int frames,
-                       bool twoDirections,
+                       bool twoDirections, bool reverse,
                        const std::string &deathSpriteSheetPath,
                        int deathSpriteSheetHeight, int deathSpriteSheetWidth,
                        int deathFrames, float posX, float posY, float velX,
@@ -60,20 +72,17 @@ public:
                        int rectWidth, int rectHeight, float posX, float posY,
                        float velX, float velY, float dirX, float dirY,
                        float hitboxWidth, float hitboxHeight);
-
-private:
-  EntityFactory() = default;
-  ~EntityFactory() = default;
   size_t createBaseEntity(GameEngine::GameEngine &engine,
                           const std::string &spriteSheetPath,
                           int spriteSheetHeight, int spriteSheetWidth,
-                          int frames, bool twoDirections, float posX,
-                          float posY, float velX, float velY, float dirX,
-                          float dirY, float hitboxWidth, float hitboxHeight);
+                          int frames, bool twoDirections, bool reverse,
+                          float posX, float posY, float velX, float velY,
+                          float dirX, float dirY, float hitboxWidth,
+                          float hitboxHeight);
 
   std::shared_ptr<GameEngine::SpriteAnimationComponent>
   initAnimation(const std::string &spriteSheetPath, int frames, int width,
-                int height, bool twoDirections, int direction);
+                int height, bool twoDirections, bool reverse, int direction);
 
   std::shared_ptr<GameEngine::DeathAnimationComponent>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
