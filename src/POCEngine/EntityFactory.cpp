@@ -8,6 +8,7 @@
 #include "EntityFactory.hpp"
 #include "RenderEngine.hpp"
 #include "Utils.hpp"
+#include "VelocityComponent.hpp"
 #include <cstddef>
 #include <iostream>
 #include <memory>
@@ -16,8 +17,8 @@ size_t EntityFactory::spawnCancerMob(GameEngine::GameEngine &engine, float posX,
                                      float posY, float dirX, float dirY) {
 
   size_t entityId = createBaseMob(
-      engine, "assets/cancerMob.png", 34, 200, 6, true, "assets/explosion.gif",
-      33, 200, 6, posX, posY, 1, 1, dirX, dirY, 32, 32, 100, 10, 0, 0);
+      engine, "assets/cancerMob.gif", 34, 200, 6, true, "assets/explosion.gif",
+      33, 200, 6, posX, posY, 2, 0, dirX, dirY, 32, 32, 100, 10, 0, 0);
   return entityId;
 }
 
@@ -25,9 +26,17 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::GameEngine &engine,
                                        float posX, float posY, float dirX,
                                        float dirY) {
   size_t entityId =
-      createBaseMob(engine, "assets/epitech_assets/pataPataMob.png", 36, 533,
-                    16, true, "assets/explosion.gif", 33, 200, 6, posX, posY, 1,
-                    1, dirX, dirY, 36, 36, 100, 10, 0, 0);
+      createBaseMob(engine, "assets/epitech_assets/pataPataMob.gif", 36, 533,
+                    16, true, "assets/explosion.gif", 33, 200, 6, posX, posY, 4,
+                    0, dirX, dirY, 36, 36, 100, 10, 0, 0);
+  return entityId;
+}
+
+size_t EntityFactory::spawnBugMob(GameEngine::GameEngine &engine, float posX,
+                                  float posY, float dirX, float dirY) {
+  size_t entityId = createBaseMob(
+      engine, "assets/bugMob.png", 34, 532, 16, false, "assets/explosion.gif",
+      33, 200, 6, posX, posY, 2, 0, dirX, dirY, 32, 32, 100, 10, 0, 0);
   return entityId;
 }
 
@@ -161,8 +170,9 @@ size_t EntityFactory::createBaseEntity(
 
   auto positionComponent =
       std::make_shared<GameEngine::PositionComponent>(posX, posY);
+  const GameEngine::Vect2 velocity = {velX, velY};
   auto velocityComponent =
-      std::make_shared<GameEngine::VelocityComponent>(velX, velY);
+      std::make_shared<GameEngine::VelocityComponent>(velocity);
   auto directionComponent =
       std::make_shared<GameEngine::DirectionComponent>(dirX, dirY);
   auto hitboxComponent =
@@ -179,7 +189,7 @@ size_t EntityFactory::createBaseEntity(
   GameEngine::Vect2 spritePos = {positionComponent->x, positionComponent->y};
 
   auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(1));
+      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(4));
 
   size_t entityId = engine.createEntity();
 

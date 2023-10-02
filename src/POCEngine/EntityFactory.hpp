@@ -26,6 +26,9 @@ public:
   size_t spawnPataPataMob(GameEngine::GameEngine &engine, float posX,
                           float posY, float dirX, float dirY);
 
+  size_t spawnBugMob(GameEngine::GameEngine &engine, float posX, float posY,
+                     float dirX, float dirY);
+
 private:
   EntityFactory() = default;
   ~EntityFactory() = default;
