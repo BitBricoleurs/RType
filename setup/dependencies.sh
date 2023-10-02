@@ -18,7 +18,7 @@ fi
 if command -v apt-get >/dev/null 2>&1; then
     echo "apt-get detected. Installing required tools..."
     sudo apt-get update
-    sudo apt-get install -y g++ cmake clang-tidy clang-format xorg-dev dpkg rpm
+    sudo apt-get install -y g++ cmake clang-tidy clang-format xorg-dev dpkg rpm libxrandr
     exit 0
 fi
 
