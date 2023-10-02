@@ -49,6 +49,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Fetch latest release version
+        id: latest_version
+        run: |
+          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
+          echo "Latest version is $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ env.LATEST_VERSION }}
+
       - name: Get dependencies (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -69,7 +80,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           ./setup/dependencies.sh
-          cmake . -DCPACK_PACKAGE_VERSION=${{ steps.create-release.outputs.latest_version }}
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
           cmake --build . --config Release
           cpack
 
@@ -77,7 +88,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           ./setup/dependencies.sh
-          cmake . -DCPACK_PACKAGE_VERSION=${{ steps.create-release.outputs.latest_version }}
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
           cpack
 
       - name: Upload Artifact
@@ -116,6 +127,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Fetch latest release version
+        id: latest_version
+        run: |
+          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
+          echo "Latest version is $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ env.LATEST_VERSION }}
+
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
@@ -123,10 +145,10 @@ jobs:
 
       - name: Upload Release Asset via gh CLI
         run: |
-          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-ubuntu-latest/*.deb
-          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-macos-latest/*.dmg
-          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-windows-latest/*.exe
-          gh release upload ${{steps.create-release.outputs.latest_version}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-ubuntu-latest/*.deb
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-macos-latest/*.dmg
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-windows-latest/*.exe
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
