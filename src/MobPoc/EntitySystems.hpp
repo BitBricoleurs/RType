@@ -25,8 +25,6 @@ public:
     auto entities = componentsContainer.getEntitiesWithComponent(
         ComponentsType::getComponentType("SpriteAnimationComponent"));
 
-    std::cout << "entities.size() " << entities.size() << std::endl;
-
     for (auto &entity : entities) {
       auto animationOpt = componentsContainer.getComponent(
           entity, ComponentsType::getComponentType("SpriteAnimationComponent"));
@@ -49,18 +47,12 @@ public:
 
       auto animation = std::dynamic_pointer_cast<SpriteAnimationComponent>(
           animationOpt.value());
-      std::cout << "animation " << animation->getComponentType() << std::endl;
       auto direction =
           std::dynamic_pointer_cast<DirectionComponent>(directionOpt.value());
-      std::cout << "direction " << direction->getComponentType() << std::endl;
       auto sprite =
           std::dynamic_pointer_cast<SpriteComponent>(spriteOpt.value());
 
-      std::cout << "animation " << animation << std::endl;
-      std::cout << "entity " << entity << std::endl;
-
       if (animation) {
-        std::cout << "animation" << std::endl;
         if (animation->twoDirections) {
           if (animation->currentFrameIndex >= animation->frames / 2)
             animation->currentFrameIndex = 0;
@@ -80,7 +72,6 @@ public:
         sprite->rect1.y = animation->currentFrame.y;
       }
     }
-    std::cout << "updateEntitySpriteSystem end" << std::endl;
   }
 };
 
@@ -88,7 +79,6 @@ class updatePositionSystem : public ISystem {
 public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
-    std::cout << "updatePositionSystem" << std::endl;
     auto entities = componentsContainer.getEntitiesWithComponent(
         ComponentsType::getComponentType("PositionComponent"));
 
@@ -120,7 +110,6 @@ public:
         sprite->pos.y = position->y;
       }
     }
-    std::cout << "updatePositionSystem end" << std::endl;
   }
 };
 
@@ -128,7 +117,6 @@ class updateHealthSystem : public ISystem {
 public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
-    std::cout << "updateHealthSystem" << std::endl;
     std::string event = eventHandler.getTriggeredEvent().first;
     size_t id = std::stoi(event.substr(1, event.find(" ")));
 
@@ -153,14 +141,12 @@ public:
         }
       }
     }
-    std::cout << "updateHealthSystem end" << std::endl;
   }
 };
 
 class MobDeathSystem : public ISystem {
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
-    std::cout << "MobDeathSystem" << std::endl;
     std::string event = eventHandler.getTriggeredEvent().first;
     size_t id = std::stoi(event.substr(1, event.find(" ")));
     eventHandler.deleteEvent(event);
@@ -181,7 +167,6 @@ class MobDeathSystem : public ISystem {
       deathAnimation->currentFrame =
           deathAnimation->spritePositions[deathAnimation->currentFrameIndex++];
     }
-    std::cout << "MobDeathSystem end" << std::endl;
   };
 };
 
