@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-   create-release:
+  create-release:
     runs-on: ubuntu-latest
     permissions: write-all
     steps: 
@@ -35,7 +35,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: echo ${{ env.LATEST_VERSION }}
-
 
   build-and-package:
   needs: create-release
@@ -84,7 +83,6 @@ jobs:
           cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
           cpack
 
-
       - name: Upload Artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v3
@@ -111,9 +109,6 @@ jobs:
         with:
           name: RTYPE-${{ matrix.os }}
           path: ./*.rpm
-
-
-          
 
   release:
     needs: build-and-package
