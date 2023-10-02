@@ -13,6 +13,8 @@
 
 int main(int argc, char* argv[]) {
     GameEngine::GameEngine engine;
+    engine.addSystem("RenderEngineSystem",
+                     std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "POC Engine", argv));
 
     auto updateSprite = std::make_shared<GameEngine::updateEntitySpriteSystem>();
     engine.addSystem("updateSpriteSystem", updateSprite);
@@ -22,9 +24,6 @@ int main(int argc, char* argv[]) {
     // engine.addSystem("HealthSystem", health);
     // auto mobDeath = std::make_shared<GameEngine::MobDeathSystem>();
     // engine.addSystem("MobDeathSystem", mobDeath);
-
-    engine.addSystem("RenderEngineSystem",
-                     std::make_shared<GameEngine::RenderEngineSystem>(1920, 1080, "POC Engine", argv));
 
     for (int i = 0; i < 5; i++) {
         size_t id = EntityFactory::getInstance().createBaseMob(engine, "../../../Assets/classic-mob.gif", 34, 200, 6,

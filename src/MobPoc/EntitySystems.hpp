@@ -8,19 +8,23 @@
 #pragma once
 
 #include "../RenderEngine/RenderEngine.hpp"
+#include "AComponent.hpp"
 #include "ComponentContainer.hpp"
 #include "EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include <iostream>
+#include <memory>
 
 namespace GameEngine {
 class updateEntitySpriteSystem : public ISystem {
   public:
     void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
-        std::cout << "updateEntitySpriteSystem" << std::endl;
+        // std::cout << "updateEntitySpriteSystem" << std::endl;
         auto entities =
             componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("SpriteAnimationComponent"));
+
+        std::cout << "entities.size() " << entities.size() << std::endl;
 
         for (auto& entity : entities) {
             auto animationOpt =
@@ -30,11 +34,26 @@ class updateEntitySpriteSystem : public ISystem {
             auto spriteOpt =
                 componentsContainer.getComponent(entity, ComponentsType::getComponentType("SpriteComponent"));
 
+            // // std::cout << "animationOpt " << animationOpt.has_value() << std::endl;
+            // auto aComp = std::dynamic_pointer_cast<AComponent>(animationOpt.value());
+            // std::cout << "aComp " << aComp->getComponentType() << std::endl;
+            // auto dComp = std::dynamic_pointer_cast<AComponent>(directionOpt.value());
+            // std::cout << "dComp " << dComp->getComponentType() << std::endl;
+            // auto sComp = std::dynamic_pointer_cast<AComponent>(spriteOpt.value());
+
+            // std::cout << "aComp " << aComp << std::endl;
+
             auto animation = std::dynamic_pointer_cast<SpriteAnimationComponent>(animationOpt.value());
+            std::cout << "animation " << animation->getComponentType() << std::endl;
             auto direction = std::dynamic_pointer_cast<DirectionComponent>(directionOpt.value());
+            std::cout << "direction " << direction->getComponentType() << std::endl;
             auto sprite = std::dynamic_pointer_cast<SpriteComponent>(spriteOpt.value());
 
+            std::cout << "animation " << animation << std::endl;
+            std::cout << "entity " << entity << std::endl;
+
             if (animation) {
+                std::cout << "animation" << std::endl;
                 if (animation->twoDirections) {
                     if (animation->currentFrameIndex >= animation->frames / 2)
                         animation->currentFrameIndex = 0;
@@ -47,9 +66,9 @@ class updateEntitySpriteSystem : public ISystem {
                         animation->currentFrameIndex = 0;
                     animation->currentFrame = animation->spritePositionsLeft[animation->currentFrameIndex++];
                 }
+                sprite->rect1.x = animation->currentFrame.x;
+                sprite->rect1.y = animation->currentFrame.y;
             }
-            sprite->rect1.x = animation->currentFrame.x;
-            sprite->rect1.y = animation->currentFrame.y;
         }
         std::cout << "updateEntitySpriteSystem end" << std::endl;
     }

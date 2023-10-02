@@ -122,7 +122,7 @@ size_t EntityFactory::createBaseEntity(GameEngine::GameEngine& engine, const std
     spriteRect.x = spriteAnimationComponent->currentFrame.x;
     spriteRect.y = spriteAnimationComponent->currentFrame.y;
 
-    GameEngine::Vector2 spritePos;
+    GameEngine::Vect2 spritePos;
     spritePos.x = positionComponent->x;
     spritePos.y = positionComponent->y;
 
