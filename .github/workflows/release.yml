@@ -6,6 +6,36 @@ on:
       - main
 
 jobs:
+
+  create-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: lts/*
+      - run: npm clean-install
+       - name: Semantic Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest release version
+        id: latest_version
+        run: |
+          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
+          echo "Latest version is $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ env.LATEST_VERSION }}
+
+
   build-and-package:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -35,13 +65,13 @@ jobs:
       - name: Build & Package (Fedora)
         if: matrix.os == 'fedora-latest'
         run: |
-          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./setup/dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}; cpack"
+          docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./setup/dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}; cpack"
 
       - name: Build & Package (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           ./setup/dependencies.sh
-          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
           cmake --build . --config Release
           cpack
 
@@ -49,7 +79,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           ./setup/dependencies.sh
-          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
           cpack
 
 
@@ -91,33 +121,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          cache: npm
-          node-version: lts/*
-      - run: npm clean-install
-
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
           path: artifacts
-
-      - name: Semantic Release
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Fetch latest release version
-        id: latest_version
-        run: |
-          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
-          echo "Latest version is $LATEST_VERSION"
-          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: echo ${{ env.LATEST_VERSION }}
 
       - name: Upload Release Asset via gh CLI
         run: |
