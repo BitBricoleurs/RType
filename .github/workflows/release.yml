@@ -41,7 +41,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, fedora-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest, docker-fedora]
 
     steps:
       - name: Checkout code
@@ -64,7 +64,7 @@ jobs:
           choco install cmake
 
       - name: Build & Package (Fedora)
-        if: matrix.os == 'fedora-latest'
+        if: matrix.os == 'docker-fedora'
         run: |
           docker run -v $PWD:/workdir fedora:latest /bin/sh -c "cd /workdir; dnf install -y cmake; ./setup/dependencies.sh; cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}; cpack"
 
