@@ -345,8 +345,8 @@ int main() {
   //   engine.scheduleEvent("SpawnMob", 1000);
 
   for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnBugMob(engine, 1980,
-                                                         200 + i * 150, -1, 0);
+    size_t id = EntityFactory::getInstance().spawnCancerMob(
+        engine, 1980, 200 + i * 150, -1, 0);
   }
 
   engine.run();
