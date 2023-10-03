@@ -61,6 +61,33 @@ public:
   }
 };
 
+class PataPataComponent : public AComponent {
+public:
+  PataPataComponent() = default;
+
+  size_t getComponentType() override {
+    return ComponentsType::getNewComponentType("PataPataComponent");
+  }
+};
+
+class CancerComponent : public AComponent {
+public:
+  CancerComponent() = default;
+
+  size_t getComponentType() override {
+    return ComponentsType::getNewComponentType("CancerComponent");
+  }
+};
+
+class BugComponent : public AComponent {
+public:
+  BugComponent() = default;
+
+  size_t getComponentType() override {
+    return ComponentsType::getNewComponentType("BugComponent");
+  }
+};
+
 class CollideComponent : public AComponent {
 public:
   CollideComponent() = default;
