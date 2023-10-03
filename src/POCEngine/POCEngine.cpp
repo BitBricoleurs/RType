@@ -9,6 +9,8 @@
 #include "ComponentContainer.hpp"
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
 
 
 namespace GameEngine {
@@ -140,13 +142,13 @@ namespace GameEngine {
             }
             if (spriteComp) {
                 Vector2 currentPosition = spriteComp->getPos();
-                if (event == "UP_KEY_PRESSED") {
+                if (event.first == "UP_KEY_PRESSED") {
                     currentPosition.y -= 5;
-                } else if (event == "DOWN_KEY_PRESSED") {
+                } else if (event.first == "DOWN_KEY_PRESSED") {
                     currentPosition.y += 5;
-                } else if (event == "LEFT_KEY_PRESSED") {
+                } else if (event.first == "LEFT_KEY_PRESSED") {
                     currentPosition.x -= 5;
-                } else if (event == "RIGHT_KEY_PRESSED") {
+                } else if (event.first == "RIGHT_KEY_PRESSED") {
                     currentPosition.x += 5;
                 }
                 spriteComp->setPos(currentPosition);
@@ -246,6 +248,7 @@ namespace GameEngine {
 int main() {
     GameEngine::GameEngine engine;
 
+    auto movementSystem = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
     auto paralax = std::make_shared<GameEngine::ParallaxSystem>();
     auto move = std::make_shared<GameEngine::MovementSystem>();
     auto shoot = std::make_shared<GameEngine::ShootSystem>();

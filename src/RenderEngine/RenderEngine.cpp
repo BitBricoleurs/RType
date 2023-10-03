@@ -6,9 +6,36 @@
 */
 
 #include "RenderEngine.hpp"
+#include <filesystem>
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#elif defined(__linux__)
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
+#endif
 
 namespace GameEngine {
 
+    std::string getExecutablePath() {
+#if defined(_WIN32) || defined(_WIN64)
+        return "";
+#elif defined(__APPLE__)
+        char path[1024];
+            uint32_t size = sizeof(path);
+            if (_NSGetExecutablePath(path, &size) == 0) {
+                std::string pathStr = std::string(path);
+                return pathStr.substr(0, pathStr.find_last_of("/"));
+            } else {
+                return "";
+            }
+#else
+        char result[PATH_MAX];
+        ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        std::string path = std::string(dirname(result));
+        return path + "/";
+#endif
+    }
 
     RenderEngine::~RenderEngine() {
         for (auto& pair : textureCache) {
@@ -18,6 +45,7 @@ namespace GameEngine {
 
     void RenderEngine::Initialize(int screenWidth, int screenHeight, const char* windowTitle) {
         InitWindow(screenWidth, screenHeight, windowTitle);
+        _baseAssetPath = getExecutablePath();
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
     }
@@ -27,7 +55,7 @@ namespace GameEngine {
     }
 
     void RenderEngine::Draw(const SpriteComponent& spriteComponent) {
-        std::string path = spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.getImagePath();
 
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {

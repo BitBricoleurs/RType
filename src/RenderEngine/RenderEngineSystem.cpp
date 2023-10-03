@@ -10,7 +10,7 @@
 
 namespace GameEngine {
     RenderEngineSystem::RenderEngineSystem(int width, int height, const char* windowName) {
-        renderEngine = std::make_shared<RenderEngine>();
+        renderEngine = std::make_unique<RenderEngine>();
         renderEngine->Initialize(width, height, windowName);
     }
 

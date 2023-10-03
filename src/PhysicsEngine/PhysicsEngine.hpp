@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include "AABB2DComponent.hpp"
-#include "PositionComponent.hpp"
-#include "IColliderComponent.hpp"
+#include "AABBComponent2D.hpp"
+#include "PositionComponent2D.hpp"
+#include "AColliderComponent2D.hpp"
 #include <utility>
 #include <tuple>
+#include <memory>
 
 namespace GameEngine {
     class PhysicsEngine {
@@ -16,13 +17,17 @@ namespace GameEngine {
         PhysicsEngine() = default;
         ~PhysicsEngine() = default;
 
-        bool broadPhase(const AABB2DComponent& comp, const AABB2DComponent& comp2);
+        bool broadPhase(const AABBComponent2D& comp, const AABBComponent2D& comp2);
 
-        bool narrowPhase(std::pair<std::shared_ptr<IColliderComponent>, PositionComponent>& comp1,
-                         std::pair<std::shared_ptr<IColliderComponent>, PositionComponent>& comp2) {
+        bool narrowPhase(std::pair<std::shared_ptr<AColliderComponent2D>, PositionComponent2D>& comp1,
+                         std::pair<std::shared_ptr<AColliderComponent2D>, PositionComponent2D>& comp2) {
 
-            return comp1.first->collidesWith(*comp2.first, comp1.second);
+            return comp1.first->collidesWith(*(comp2.first));
         }
+        void moveObject(PositionComponent2D& positionComponent, const Vector2& velocity) {
+            positionComponent.setPos(positionComponent.getPos() + velocity);
+        }
+
     private:
     };
 }

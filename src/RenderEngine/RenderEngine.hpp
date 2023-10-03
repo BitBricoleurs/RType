@@ -31,5 +31,6 @@ namespace GameEngine {
         int screenWidth;
         int screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
+        std::string _baseAssetPath;
     };
 }

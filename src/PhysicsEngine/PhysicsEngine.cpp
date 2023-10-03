@@ -6,7 +6,7 @@
 
 namespace GameEngine {
 
-    bool PhysicsEngine::broadPhase(const AABB2DComponent& comp, const AABB2DComponent& comp2) {
+    bool PhysicsEngine::broadPhase(const AABBComponent2D& comp, const AABBComponent2D& comp2) {
         return !(comp.getMaxX() < comp2.getMinX() ||
                  comp2.getMaxX() < comp.getMinX() ||
                  comp.getMaxY() < comp2.getMinY() ||

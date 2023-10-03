@@ -33,19 +33,19 @@ namespace GameEngine {
         return distanceSquared < (c.radius * c.radius);
     }
 
-    class CircleColliderComponent : public AColliderComponent {
+    class CircleColliderComponent : public AColliderComponent2D {
     public:
         CircleColliderComponent() = default;
         CircleColliderComponent(const Circle& collider) : collider(collider) {}
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("CircleColliderComponent");
+            return ComponentsType::getNewComponentType("IColliderComponent2D");
         }
 
         Circle getCollider() const { return collider; }
         void setCollider(const Circle& collider) { this->collider = collider; }
 
-        bool collidesWith(AColliderComponent& other, CollisionResultComponent& result) override {
+        bool collidesWith(AColliderComponent& other) override {
             //TODO: Compute collision info
 
             if(auto otherCircle = dynamic_cast<CircleColliderComponent*>(&other)) {
