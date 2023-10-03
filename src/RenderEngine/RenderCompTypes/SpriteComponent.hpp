@@ -8,9 +8,9 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include <string>
-#include "Utils.hpp"
 #include "ComponentsType.hpp"
+#include "Utils.hpp"
+#include <string>
 
 namespace GameEngine {
     class SpriteComponent : public AComponent {
@@ -44,7 +44,9 @@ namespace GameEngine {
         void setOrigin(Vect2 origin) { this->origin = origin;}
         ColorR getTint() const {return tint;}
         void setTinit(ColorR tint) { this->tint = tint;}
-
+         
+        Vect2 pos;
+        rect rect1;
     private:
         float scale;
         float rotation;
@@ -56,3 +58,4 @@ namespace GameEngine {
         ColorR tint;
     };
 }
+
