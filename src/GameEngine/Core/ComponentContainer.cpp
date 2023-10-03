@@ -43,9 +43,9 @@ namespace GameEngine {
             entityComponents.resize(entityID + 1, std::nullopt);
         }
         entityComponents[entityID] = component;
-}
+    }
 
-void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t componentType) {
+    void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t componentType) {
         if(entityID < componentsContainer[componentType].size()) {
             componentsContainer[componentType][entityID] = std::nullopt;
 

@@ -197,9 +197,7 @@ namespace GameEngine {
                 }
             }
             if (spriteComp) {
-                std::cout << "SHOOT" << std::endl;
                 Vect2 currentPosition = spriteComp->getPos();
-                std::cout << "Pos (x: " << spriteComp->getPos().x << ",y: " << spriteComp->getPos().y << ")" << std::endl;
 
                 auto currentRect = spriteComp->getRect();
                 auto spritePos = spriteComp->getPos();
@@ -216,7 +214,6 @@ namespace GameEngine {
 
 
                 auto bullet = componentsContainer.createEntity();
-                std::cout << " New entitie id:" << bullet << std::endl;
                 auto spriteComponent = std::make_shared<SpriteComponent>("assets/11.png", shootingPosition, rect1, 4);
                 componentsContainer.bindComponentToEntity(bullet, spriteComponent);
                 auto isBulletComponent = std::make_shared<IsBullet>(5);
@@ -248,9 +245,7 @@ namespace GameEngine {
                                 if (spriteComp) {
                                     auto currentRect = spriteComp->getRect();
                                     currentRect.w = _charge * 2;
-                                    std::cout << "CURRENT RECT: " << currentRect.w << std::endl;
                                     spriteComp->setRect(currentRect);
-                                    std::cout << "UPDATED: " << _charge << std::endl;
                                 }
                             }
                         }
@@ -319,7 +314,53 @@ namespace GameEngine {
         bool done = false;
 
     };
-}
+
+    class isHealthBar : public AComponent {
+    public:
+        isHealthBar() {
+            _healthBar = true;
+        }
+        ~isHealthBar() override = default;
+
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("IsHealthBar");
+        }
+    private:
+        bool _healthBar;
+    };
+
+    class RemoveHealth : public ISystem {
+        public:
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+            if (hp <= 0) return;
+            auto events = eventHandler.getTriggeredEvent();
+            if (events.first == "DAMAGE_RECEIVED") {
+                auto entities = componentsContainer.getEntitiesWithComponent(ComponentsType::getNewComponentType("IsHealthBar"));
+                for (auto entity : entities) {
+                    auto eses = componentsContainer.getComponentsFromEntity(entity);
+                    for (const auto& optComp : eses) {
+                        if (optComp.has_value()) {
+                            auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
+                            if (aComp && aComp->getComponentType() == ComponentsType::getNewComponentType("SpriteComponent")) {
+                                auto spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
+                                if (spriteComp) {
+                                    auto currentRect = spriteComp->getRect();
+                                    std::cout << "CURRENT RECT: " << currentRect.w << std::endl;
+                                    currentRect.w -= 8;
+                                    spriteComp->setRect(currentRect);
+                                    hp -= 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private:
+            int hp = 8;
+    };
+
+} // namespace GameEngine
 
 int main() {
     GameEngine::GameEngine engine;
@@ -376,11 +417,11 @@ int main() {
     auto chargingBarEntityLayer1 = engine.createEntity();
     auto isChargingBarComponent = std::make_shared<GameEngine::IsChargingBar>();
     engine.bindComponentToEntity(chargingBarEntityLayer1, isChargingBarComponent);
-    auto spritecompoennt5 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/BlueBar.png", GameEngine::Vect2(0,0), GameEngine::rect(0,0,0,26), 100);
+    auto spritecompoennt5 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/BlueBar.png", GameEngine::Vect2(856,1052), GameEngine::rect(0,0,0,26), 100);
     engine.bindComponentToEntity(chargingBarEntityLayer1, spritecompoennt5);
 
     auto chargingBarEntityLayer2 = engine.createEntity();
-    auto spritecompoennt6 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/EmptyBar.png", GameEngine::Vect2(0, 0), GameEngine::rect(0, 0, 208, 26), 99);
+    auto spritecompoennt6 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/EmptyBar.png", GameEngine::Vect2(856,1052), GameEngine::rect(0, 0, 208, 26), 99);
     engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
 
     auto chargingBar = std::make_shared<GameEngine::ChargingBar>();
@@ -388,7 +429,23 @@ int main() {
     engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
     engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
 
+    auto emptyHealthBarEntity = engine.createEntity();
+    auto spritecompoennt7 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/HealthBar.png", GameEngine::Vect2(0,0), GameEngine::rect(0, 0, 63, 10), 99);
+    engine.bindComponentToEntity(emptyHealthBarEntity, spritecompoennt7);
 
+    auto healthBarEntity = engine.createEntity();
+    auto spritecompoennt8 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/FullHealthBar.png", GameEngine::Vect2(0,0), GameEngine::rect(0, 0, 63, 10), 100);
+    engine.bindComponentToEntity(healthBarEntity, spritecompoennt8);
+
+
+    auto isHealthBarComponent = std::make_shared<GameEngine::isHealthBar>();
+    engine.bindComponentToEntity(healthBarEntity, isHealthBarComponent);
+
+    auto removeHealth = std::make_shared<GameEngine::RemoveHealth>();
+
+    engine.addEvent("DAMAGE_RECEIVED", removeHealth);
+
+    engine.scheduleEvent("DAMAGE_RECEIVED", 120);
 
 
 
