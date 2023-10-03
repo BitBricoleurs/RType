@@ -4,9 +4,11 @@
 
 #pragma once
 
-#include "test/EntityComponents.hpp"
-#include "AComponent.hpp"
 #include <cstddef>
+#include <vector>
+#include "Utils.hpp"
+#include "ComponentsType.hpp"
+#include "AComponent.hpp"
 
 class SpriteAnimation : public GameEngine::AComponent {
 public:

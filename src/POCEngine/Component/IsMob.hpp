@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "test/EntityComponents.hpp"
-#include "AComponent.hpp"
 #include <cstddef>
+#include "ComponentsType.hpp"
+#include "AComponent.hpp"
 
 class IsMob : public GameEngine::AComponent {
 public:

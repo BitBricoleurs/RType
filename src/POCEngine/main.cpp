@@ -16,6 +16,8 @@
 #include "UpdateEntitySprite.hpp"
 #include "PositionComponent2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
+#include "SyncPosSprite.hpp"
+#include "ResetDirPlayer.hpp"
 
 
 int main() {
@@ -25,7 +27,9 @@ int main() {
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto move = std::make_shared<ChangeDirPlayer>();
+  auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
+  auto sync = std::make_shared<SyncPosSprite>();
 
   GameEngine::rect rect2(0, 0, 1920, 1080);
   GameEngine::Vect2 pos2(0, 0);
@@ -67,16 +71,21 @@ int main() {
   //engine.addSystem("CollisionSystem", collision);
   engine.addSystem("MovementSystem", movement);
   engine.addSystem("ParallaxSystem", paralax);
+  engine.addSystem("SyncPosSPrite", sync);
   engine.addSystem("RenderEngineSystem",
                    std::make_shared<GameEngine::RenderEngineSystem>(
                        1920, 1080, "POC Engine"));
   engine.addEvent("UP_KEY_PRESSED", move);
+  engine.addEvent("UP_KEY_RELEASED", reset);
   engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
   engine.addEvent("DOWN_KEY_PRESSED", move);
+  engine.addEvent("DOWN_KEY_RELEASED", reset);
   engine.setContinuousEvent("DOWN_KEY_PRESSED", "DOWN_KEY_RELEASED");
   engine.addEvent("LEFT_KEY_PRESSED", move);
+  engine.addEvent("LEFT_KEY_RELEASED", reset);
   engine.setContinuousEvent("LEFT_KEY_PRESSED", "LEFT_KEY_RELEASED");
   engine.addEvent("RIGHT_KEY_PRESSED", move);
+  engine.addEvent("RIGHT_KEY_RELEASED", reset);
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
   engine.addEvent("ShootSystem", shoot);
@@ -127,12 +136,13 @@ int main() {
       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
   auto isPLayerComponent = std::make_shared<IsPlayer>();
   auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent>(pos.x, pos.y);
+  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
   auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
   engine.bindComponentToEntity(Player, spritecompoennt);
   engine.bindComponentToEntity(Player, isPLayerComponent);
   engine.bindComponentToEntity(Player, movementComponent);
   engine.bindComponentToEntity(Player, positionComponent);
+  engine.bindComponentToEntity(Player, velocity);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
   engine.addEvent("UpdateAnimation", updateSprite);
@@ -141,10 +151,10 @@ int main() {
   engine.scheduleEvent("UpdateAnimation", 30);
   //   engine.scheduleEvent("SpawnMob", 1000);
 
-  for (int i = 0; i < 5; i++) {
+  /*for (int i = 0; i < 5; i++) {
     size_t id = EntityFactory::getInstance().spawnCancerMob(
         engine, 1980, 200 + i * 150, -1, 0);
-  }
+  }*/
 
   engine.run();
   return 0;

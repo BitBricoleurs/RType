@@ -14,6 +14,17 @@ namespace GameEngine {
         auto entitiesWithMovement = componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("MovementComponent2D"));
 
         for (const auto& entityID : entitiesWithMovement) {
+
+            auto components = componentsContainer.getComponentsFromEntity(entityID);
+            for (const auto& componentOpt : components) {
+                if (componentOpt.has_value()) { // Vérifie si l'optionnel a une valeur.
+                    auto component = componentOpt.value();
+                        if (component) { // Vérifie si le pointeur partagé n'est pas nul.
+                            //std::cout << "Entity: " << entityID << " Component Type: " << component->getComponentType() << "Type: " << ComponentsType::getComponentName(component->getComponentType()) << std::endl;
+                        }
+                }
+        }
+
             auto positionOptional = componentsContainer.getComponent(entityID, ComponentsType::getComponentType("PositionComponent2D"));
             auto velocityOptional = componentsContainer.getComponent(entityID, ComponentsType::getComponentType("VelocityComponent"));
 

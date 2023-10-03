@@ -38,7 +38,6 @@
             if (newPos.x + spriteComponent->rect1.w < 0) {
               newPos.x = 1920;
             }
-            std::cout << "new:" << newPos.x << ", " << newPos.y << std::endl;
             spriteComponent->pos = newPos;
           }
         }

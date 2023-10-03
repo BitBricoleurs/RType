@@ -12,6 +12,7 @@ namespace GameEngine {
         static size_t getNewComponentType();
         static size_t getNewComponentType(const std::string& componentName);
         static size_t getComponentType(const std::string& componentName);
+        static std::string getComponentName(size_t typeId);
 
     private:
         static size_t& getComponentTypeCounter();

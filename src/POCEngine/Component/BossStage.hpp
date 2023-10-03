@@ -2,7 +2,6 @@
 // Created by alexandre on 03/10/23.
 //
 
-#include "test/EntityComponents.hpp"
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 #include <cstddef>

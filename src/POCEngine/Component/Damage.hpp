@@ -2,9 +2,10 @@
 // Created by alexandre on 03/10/23.
 //
 
-#include "test/EntityComponents.hpp"
-#include "AComponent.hpp"
 #include <cstddef>
+#include "AComponent.hpp"
+#include "ComponentsType.hpp"
+
 #pragma once
 
 class Damage : public GameEngine::AComponent {

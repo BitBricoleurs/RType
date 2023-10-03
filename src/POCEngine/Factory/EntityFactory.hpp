@@ -7,9 +7,20 @@
 
 #pragma once
 
-#include "test/EntityComponents.hpp"
 #include "GameEngine.hpp"
 #include "Utils.hpp"
+#include "PositionComponent2D.hpp"
+#include "SpriteAnimation.hpp"
+#include "DeathAnimation.hpp"
+#include "IsMob.hpp"
+#include "IsBullet.hpp"
+#include "IsBoss.hpp"
+#include "Damage.hpp"
+#include "IsPowerUp.hpp"
+#include "IsPlayer.hpp"
+#include "BulletStartPosition.hpp"
+#include "BossStage.hpp"
+#include "Health.hpp"
 #include <cstddef>
 #include <iostream>
 
@@ -90,11 +101,11 @@ private:
                           float rotation = 0.0f,
                           GameEngine::ColorR tint = {255, 255, 255, 255});
 
-  std::shared_ptr<GameEngine::SpriteAnimationComponent>
+  std::shared_ptr<SpriteAnimation>
   initAnimation(const std::string &spriteSheetPath, int frames, int width,
                 int height, bool twoDirections, bool reverse, int direction);
 
-  std::shared_ptr<GameEngine::DeathAnimationComponent>
+  std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
 };

@@ -1,14 +1,13 @@
 //
-// Created by alexandre on 03/10/23.
+// Created by alexandre on 04/10/23.
 //
 
-#include "ChangeDirPlayer.hpp"
 #include "VelocityComponent.hpp"
+#include "ResetDirPlayer.hpp"
 
- void ChangeDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) {
-    auto nbEntity = componentsContainer.getEntitiesWithComponent(
-        GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
+void ResetDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+{
+    auto nbEntity = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
     auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
     auto event = eventHandler.getTriggeredEvent();
     std::shared_ptr<GameEngine::VelocityComponent> spriteComp;
@@ -27,14 +26,7 @@
       }
     }
     if (spriteComp) {
-      if (event.first == "UP_KEY_PRESSED") {
-        spriteComp->velocity.y = -5;
-      } else if (event.first == "DOWN_KEY_PRESSED") {
-        spriteComp->velocity.y = 5;
-      } else if (event.first == "LEFT_KEY_PRESSED") {
-        spriteComp->velocity.x = -5;
-      } else if (event.first == "RIGHT_KEY_PRESSED") {
-        spriteComp->velocity.x = 5;
-      }
+        spriteComp->velocity.x = 0;
+        spriteComp->velocity.y = 0;
     }
-  }
+}

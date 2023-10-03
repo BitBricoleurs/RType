@@ -4,9 +4,11 @@
 
 #pragma once
 
-#include "test/EntityComponents.hpp"
-#include "AComponent.hpp"
 #include <cstddef>
+#include <vector>
+#include "ComponentsType.hpp"
+#include "AComponent.hpp"
+#include "Utils.hpp"
 
 class DeathAnimation : public GameEngine::AComponent {
 public:
