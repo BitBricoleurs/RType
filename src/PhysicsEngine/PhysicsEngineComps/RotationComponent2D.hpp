@@ -15,7 +15,7 @@ namespace GameEngine {
         RotationComponent(float angle) : angle(angle) {}
         ~RotationComponent() override = default;
 
-        size_t getComponentType() override { return componentType; }
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("RotationComponent"); }
         float getAngle() const { return angle; }
         void setAngle(float angle) {
             if (angle >= 360.0f) {
@@ -27,7 +27,6 @@ namespace GameEngine {
         }
 
     private:
-        size_t componentType = ComponentsType::getNewComponentType("RotationComponent");
         float angle;
     };
 }

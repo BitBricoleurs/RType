@@ -3,7 +3,7 @@
 //
 
 #include "AComponent.hpp"
-#include "src/UtilsProject/Utils.hpp"
+#include "Utils.hpp"
 #include "ComponentsType.hpp"
 
 namespace GameEngine {

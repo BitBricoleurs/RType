@@ -6,7 +6,7 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "src/UtilsProject/Utils.hpp"
+#include "Utils.hpp"
 
 namespace GameEngine {
     class AccelerationComponent : public AComponent {

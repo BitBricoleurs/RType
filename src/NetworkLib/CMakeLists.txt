@@ -1,3 +1,4 @@
+find_package(Threads REQUIRED)
 add_library(NetworkLib STATIC
         Body.cpp
         Client.cpp
@@ -36,7 +37,6 @@ foreach(lib ${BOOST_INCLUDE_LIBRARIES})
             Boost::${lib}
     )
 endforeach()
-
 find_package(Boost REQUIRED COMPONENTS system)
 if(Boost_FOUND)
     message(STATUS "Boost include directories: ${Boost_INCLUDE_DIRS}")
@@ -44,5 +44,7 @@ if(Boost_FOUND)
     target_link_libraries(NetworkLib PRIVATE
             ${Boost_LIBRARIES}
             Boost::asio
-    )
+            )
 endif()
+
+target_link_libraries(NetworkLib PRIVATE Threads::Threads)

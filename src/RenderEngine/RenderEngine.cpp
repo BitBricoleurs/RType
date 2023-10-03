@@ -30,10 +30,18 @@ std::string getExecutablePath() {
     return "";
   }
 #else
-  char result[PATH_MAX];
-  ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
-  std::string path = std::string(dirname(result));
-  return path + "/";
+    char result[PATH_MAX];
+    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+    if (count < 0 || count >= PATH_MAX) {
+        return "";
+    }
+    result[count] = '\0';
+    char* dir = dirname(result);
+    if (dir == NULL) {
+        return "";
+    }
+    std::string path = std::string(dir);
+    return path + std::string("/");
 #endif
 }
 
@@ -46,9 +54,12 @@ RenderEngine::~RenderEngine() {
 void RenderEngine::Initialize(int screenWidth, int screenHeight,
                               const char *windowTitle) {
   InitWindow(screenWidth, screenHeight, windowTitle);
-  _baseAssetPath = getExecutablePath();
   this->screenWidth = screenWidth;
   this->screenHeight = screenHeight;
+    _baseAssetPath = getExecutablePath();
+  if (_baseAssetPath.empty()) {
+    _baseAssetPath = "./";
+  }
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
