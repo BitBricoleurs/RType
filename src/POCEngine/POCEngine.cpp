@@ -209,11 +209,11 @@ public:
       rect1.h = 72;
       rect1.x = 0;
       rect1.y = 0;
-      
-      ColorR tint = {255,255,255,255};
+
+      ColorR tint = {255, 255, 255, 255};
       float scale = 1.0f;
       float rotation = 0.0f;
-      
+
       auto bullet = componentsContainer.createEntity();
       std::cout << " New entitie id:" << bullet << std::endl;
       auto spriteComponent = std::make_shared<SpriteComponent>(
@@ -354,10 +354,10 @@ int main() {
   GameEngine::rect rect2(0, 0, 1920, 1080);
   GameEngine::Vect2 pos2(0, 0);
   GameEngine::Vect2 pos3(1920, 0);
-  
-     GameEngine::ColorR tint = {255,255,255,255};
-    float scale = 1.0f;
-    float rotation = 0.0f;
+
+  GameEngine::ColorR tint = {255, 255, 255, 255};
+  float scale = 1.0f;
+  float rotation = 0.0f;
 
   auto paralaxEntity = engine.createEntity();
   auto isParalaxComponent = std::make_shared<GameEngine::IsParallaxComponent>();
@@ -383,7 +383,8 @@ int main() {
   engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
   auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/Planets/Planet_Furnace_01_560x560.png",
-      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale, rotation, tint);
+      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale,
+      rotation, tint);
   engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
   engine.addSystem("ParallaxSystem", paralax);
@@ -458,14 +459,15 @@ int main() {
   engine.addEvent("animate PataPata", updateSprite);
   engine.scheduleEvent("animate PataPata", 10);
 
+  // EntityFactory::getInstance().createPlayer()
   for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(
-        engine, 1980, 200 + i * 150, -1, 0);
+    EntityFactory::getInstance().spawnCancerMob(engine, 1980, 200 + i * 150, -1,
+                                                0);
   }
 
   for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnPataPataMob(
-        engine, 2080, 100 + i * 175, -1, 0);
+    EntityFactory::getInstance().spawnPataPataMob(engine, 2080, 100 + i * 175,
+                                                  -1, 0);
   }
 
   engine.run();

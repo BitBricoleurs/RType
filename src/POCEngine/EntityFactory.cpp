@@ -35,6 +35,10 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::GameEngine &engine,
                     posY, 4, 0, dirX, dirY, 36, 36, 100, 10, 0, 0, 1.5f);
   engine.bindComponentToEntity(
       entityId, std::make_shared<GameEngine::PataPataComponent>());
+  engine.bindComponentToEntity(
+      entityId,
+      std::make_shared<GameEngine::HeightVariationComponent>(2, 50, posY));
+
   return entityId;
 }
 

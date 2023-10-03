@@ -94,6 +94,8 @@ public:
           entity, ComponentsType::getComponentType("VelocityComponent"));
       auto spriteOpt = componentsContainer.getComponent(
           entity, ComponentsType::getComponentType("SpriteComponent"));
+      auto heightVarOpt = componentsContainer.getComponent(
+          entity, ComponentsType::getComponentType("HeightVariationComponent"));
 
       auto position =
           std::dynamic_pointer_cast<PositionComponent>(positionOpt.value());
@@ -107,6 +109,18 @@ public:
       if (velocity && position && direction) {
         position->x += velocity->velocity.x * direction->dx;
         position->y += velocity->velocity.y * direction->dy;
+        if (heightVarOpt.has_value()) {
+          auto heightVar = std::dynamic_pointer_cast<HeightVariationComponent>(
+              heightVarOpt.value());
+          if (position->y < heightVar->baseY - heightVar->maxVar)
+            heightVar->isGoingUp = true;
+          else if (position->y > heightVar->baseY + heightVar->maxVar)
+            heightVar->isGoingUp = false;
+          if (heightVar->isGoingUp)
+            position->y += heightVar->heightVarience;
+          else
+            position->y -= heightVar->heightVarience;
+        }
       }
       if (sprite) {
         sprite->pos.x = position->x;
