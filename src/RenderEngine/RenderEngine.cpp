@@ -70,20 +70,16 @@ void RenderEngine::Draw(const TextComponent &textComponent) {
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-  std::string path = _baseAssetPath + spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.getImagePath();
+  
+        auto it = textureCache.find(path);
+        if (it == textureCache.end()) {
+            Texture2D texture = LoadTexture(path.c_str());
+            textureCache[path] = texture;
+        }
+        DrawTexturePro(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().w, spriteComponent.getRect().h }, {spriteComponent.getPos().x, spriteComponent.getPos().y, spriteComponent.getRect().w * spriteComponent.getScale(), spriteComponent.getRect().h * spriteComponent.getScale()}, {spriteComponent.getOrigin().x, spriteComponent.getOrigin().y}, spriteComponent.getRotation(), {spriteComponent.getTint().r, spriteComponent.getTint().g, spriteComponent.getTint().b, spriteComponent.getTint().a});
+    }
 
-  auto it = textureCache.find(path);
-  if (it == textureCache.end()) {
-    Texture2D texture = LoadTexture(path.c_str());
-    textureCache[path] = texture;
-  }
-
-  DrawTextureRec(textureCache[path],
-                 {spriteComponent.getRect().x, spriteComponent.getRect().y,
-                  spriteComponent.getRect().w, spriteComponent.getRect().h},
-                 {spriteComponent.getPos().x, spriteComponent.getPos().y},
-                 RAYWHITE);
-}
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))
