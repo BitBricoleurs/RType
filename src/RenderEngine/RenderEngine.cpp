@@ -59,7 +59,6 @@ void RenderEngine::Draw(const TextComponent &textComponent) {
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-  std::string path = _baseAssetPath + spriteComponent.getImagePath();
         std::string path = _baseAssetPath + spriteComponent.getImagePath();
   
         auto it = textureCache.find(path);

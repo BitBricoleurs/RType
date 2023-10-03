@@ -52,8 +52,6 @@ namespace GameEngine {
         float rotation;
         size_t layer;
         std::string imagePath;
-        Vect2 pos;
-        rect rect1;
         Vect2 origin;
         ColorR tint;
     };
