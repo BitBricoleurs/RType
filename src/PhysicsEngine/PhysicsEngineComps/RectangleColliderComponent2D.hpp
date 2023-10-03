@@ -17,15 +17,11 @@ namespace GameEngine {
 
         size_t getComponentType() override;
 
-        rect getCollider() const;
-        void setCollider(const rect& collider);
+        rect collider;
 
         bool collidesWith(AColliderComponent2D& other) override;
 
     private:
-        rect collider;
     };
-
-    bool checkCollision(const rect& a, const rect& b);
 
 }

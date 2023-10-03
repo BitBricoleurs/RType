@@ -16,19 +16,9 @@ namespace GameEngine {
 
         size_t getComponentType() override { return ComponentsType::getNewComponentType("AABBComponent2D"); }
 
-        Vect2 getMinExtents() const { return minExtents; }
-        Vect2 getMaxExtents() const { return maxExtents; }
-        void setMinExtents(const Vect2& min) { minExtents = min; }
-        void setMaxExtents(const Vect2& max) { maxExtents = max; }
-        float getMinX() const { return minExtents.x; }
-        float getMaxX() const { return maxExtents.x; }
-        float getMinY() const { return minExtents.y; }
-        float getMaxY() const { return maxExtents.y; }
-
-
-    private:
         Vect2 minExtents;
         Vect2 maxExtents;
+    private:
     };
 
 }

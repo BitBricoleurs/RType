@@ -22,7 +22,7 @@ namespace GameEngine {
                 auto velocity = std::dynamic_pointer_cast<VelocityComponent>(velocityOptional.value());
 
                 if (position && velocity) {
-                    engine->moveObject(*position, velocity->getVelocity());
+                    engine->moveObject(*position, velocity->velocity);
                 }
             }
         }

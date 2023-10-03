@@ -1,9 +1,9 @@
 
 #include "AComponent.hpp"
 #include "ComponentContainer.hpp"
-#include "EntityComponents.hpp"
+#include "test/EntityComponents.hpp"
 #include "EntityFactory.hpp"
-#include "EntitySystems.hpp"
+#include "test/EntitySystems.hpp"
 #include "GameEngine.hpp"
 #include "ISystem.hpp"
 #include "RenderEngineSystem.hpp"
@@ -13,40 +13,13 @@
 #include "VelocityComponent.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include <iostream>
+#include "IsBullet.hpp"
+#include "IsParallax.hpp"
+#include "IsChargingBar.hpp"
+#include "IsPlayer.hpp"
 
 namespace GameEngine {
 
-class IsChargingBar : public AComponent {
-public:
-  IsChargingBar() { isChargingBar = true; }
-  ~IsChargingBar() = default;
-
-  void setIsChargingBar(bool isChargingBar) {
-    this->isChargingBar = isChargingBar;
-  }
-  bool getIsChargingBar() { return this->isChargingBar; }
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("IsChargingBar");
-  }
-
-private:
-  bool isChargingBar;
-};
-
-class IsParallaxComponent : public AComponent {
-public:
-  IsParallaxComponent() { isParallax = true; }
-  ~IsParallaxComponent() = default;
-
-  void setIsParallax(bool isParallax) { this->isParallax = isParallax; }
-  bool getIsParallax() { return this->isParallax; }
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("IsParallaxComponent");
-  }
-
-private:
-  bool isParallax;
-};
 
 class ParallaxSystem : public ISystem {
 public:
@@ -57,7 +30,7 @@ public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
-        ComponentsType::getNewComponentType("IsParallaxComponent"));
+        ComponentsType::getNewComponentType("IsParallax"));
     Vect2 Velocity(0.0f, 0);
 
     for (auto entityID : parallaxEntities) {
@@ -72,24 +45,24 @@ public:
               componentOpt.value());
 
           if (velocityComponent) {
-            velocityComponent->setVelocity(Velocity);
+            velocityComponent->velocity = Velocity;
           }
         }
         if (componentOpt.value()->getComponentType() !=
-            ComponentsType::getNewComponentType("IsParallaxComponent")) {
+            ComponentsType::getNewComponentType("IsParallax")) {
           auto spriteComponent =
               std::dynamic_pointer_cast<SpriteComponent>(componentOpt.value());
 
           if (spriteComponent) {
             Vect2 newPos =
-                spriteComponent->getPos() -
-                Vect2(0.1f * spriteComponent->getLayer() + Velocity.x, 0);
+                spriteComponent->pos -
+                Vect2(0.1f * spriteComponent->layer + Velocity.x, 0);
 
-            if (newPos.x + spriteComponent->getWidth() < 0) {
+            if (newPos.x + spriteComponent->rect1.w < 0) {
               newPos.x = 1920;
             }
 
-            spriteComponent->setPos(newPos);
+            spriteComponent->pos = newPos;
           }
         }
       }
@@ -97,42 +70,12 @@ public:
   }
 };
 
-class IsPlayer : public AComponent {
-public:
-  IsPlayer() { isPlayer = true; }
-  ~IsPlayer() = default;
-
-  void setIsPlayer(bool isPlayer) { this->isPlayer = isPlayer; }
-  bool getIsPlayer() { return this->isPlayer; }
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("PlayerComponent");
-  }
-
-private:
-  bool isPlayer;
-};
-
-class IsBullet : public AComponent {
-public:
-  IsBullet(int speed) { _speed = speed; }
-  ~IsBullet() = default;
-
-  void setSpeed(int speed) { _speed = speed; }
-  int getSpeed() { return _speed; }
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("BulletComponent");
-  }
-
-private:
-  int _speed;
-};
-
 class MovementSystem : public ISystem {
 public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
     auto nbEntity = componentsContainer.getEntitiesWithComponent(
-        ComponentsType::getNewComponentType("PlayerComponent"));
+        ComponentsType::getNewComponentType("IsPlayer"));
     auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
     auto event = eventHandler.getTriggeredEvent();
     std::shared_ptr<SpriteComponent> spriteComp;
@@ -151,7 +94,7 @@ public:
       }
     }
     if (spriteComp) {
-      Vect2 currentPosition = spriteComp->getPos();
+      Vect2 currentPosition = spriteComp->pos;
       if (event.first == "UP_KEY_PRESSED") {
         currentPosition.y -= 5;
       } else if (event.first == "DOWN_KEY_PRESSED") {
@@ -161,7 +104,7 @@ public:
       } else if (event.first == "RIGHT_KEY_PRESSED") {
         currentPosition.x += 5;
       }
-      spriteComp->setPos(currentPosition);
+      spriteComp->pos = currentPosition;
     }
   }
 
@@ -174,7 +117,7 @@ public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
     auto nbEntity = componentsContainer.getEntitiesWithComponent(
-        ComponentsType::getNewComponentType("PlayerComponent"));
+        ComponentsType::getNewComponentType("IsPlayer"));
     auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
     auto event = eventHandler.getTriggeredEvent();
     std::shared_ptr<SpriteComponent> spriteComp;
@@ -194,12 +137,12 @@ public:
     }
     if (spriteComp) {
       std::cout << "SHOOT" << std::endl;
-      Vect2 currentPosition = spriteComp->getPos();
-      std::cout << "Pos (x: " << spriteComp->getPos().x
-                << ",y: " << spriteComp->getPos().y << ")" << std::endl;
+      Vect2 currentPosition = spriteComp->pos;
+      std::cout << "Pos (x: " << spriteComp->pos.x
+                << ",y: " << spriteComp->pos.y << ")" << std::endl;
 
-      auto currentRect = spriteComp->getRect();
-      auto spritePos = spriteComp->getPos();
+      auto currentRect = spriteComp->rect1;
+      auto spritePos = spriteComp->pos;
 
       Vect2 shootingPosition;
       shootingPosition.x = spritePos.x + currentRect.w;
@@ -226,7 +169,7 @@ public:
         Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
       auto rectangleCollider = std::make_shared<RectangleColliderComponent2D>(rect1);
       componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-      auto isBulletComponent = std::make_shared<IsBullet>(5);
+      auto isBulletComponent = std::make_shared<IsBullet>();
       componentsContainer.bindComponentToEntity(bullet, AABBComponent);
       componentsContainer.bindComponentToEntity(bullet, PositionComponent);
       componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
@@ -261,10 +204,10 @@ public:
               auto spriteComp =
                   std::dynamic_pointer_cast<SpriteComponent>(aComp);
               if (spriteComp) {
-                auto currentRect = spriteComp->getRect();
+                auto currentRect = spriteComp->rect1;
                 currentRect.w = _charge * 2;
                 std::cout << "CURRENT RECT: " << currentRect.w << std::endl;
-                spriteComp->setRect(currentRect);
+                spriteComp->rect1 = currentRect;
                 std::cout << "UPDATED: " << _charge << std::endl;
               }
             }
@@ -290,9 +233,9 @@ public:
               auto spriteComp =
                   std::dynamic_pointer_cast<SpriteComponent>(aComp);
               if (spriteComp) {
-                auto currentRect = spriteComp->getRect();
+                auto currentRect = spriteComp->rect1;
                 currentRect.w = _charge * 2;
-                spriteComp->setRect(currentRect);
+                spriteComp->rect1 = currentRect;
               }
             }
           }
@@ -311,7 +254,7 @@ public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
     auto entities = componentsContainer.getEntitiesWithComponent(
-        ComponentsType::getNewComponentType("BulletComponent"));
+        ComponentsType::getNewComponentType("IsBullet"));
     for (const auto &entity : entities) {
       auto eses = componentsContainer.getComponentsFromEntity(entity);
       auto event = eventHandler.getTriggeredEvent();
@@ -346,13 +289,14 @@ public:
         }
       }
       if (spriteComp && bulletComp) {
-        auto pos = spriteComp->getPos();
-        auto speed = bulletComp->getSpeed();
-        auto rect = spriteComp->getRect();
-        positionComp->setPos({pos.x + speed, pos.y});
-        aabbComp->setMinExtents({pos.x + speed, pos.y});
-        aabbComp->setMaxExtents({pos.x + rect.w + speed, pos.y + rect.h});
-        spriteComp->setPos({pos.x + speed, pos.y});
+        auto pos = spriteComp->pos;
+        //auto speed = bulletComp.speed;
+        auto speed = 5;
+        auto rect = spriteComp->rect1;
+        positionComp->pos= {pos.x + speed, pos.y};
+        aabbComp->minExtents = {pos.x + speed, pos.y};
+        aabbComp->maxExtents = {pos.x + rect.w + speed, pos.y + rect.h};
+        spriteComp->pos = {pos.x + speed, pos.y};
       }
     }
   }
@@ -387,7 +331,7 @@ int main() {
     float rotation = 0.0f;
 
   auto paralaxEntity = engine.createEntity();
-  auto isParalaxComponent = std::make_shared<GameEngine::IsParallaxComponent>();
+  auto isParalaxComponent = std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
   auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(
       GameEngine::Vect2(1.0f, 0.0f));
@@ -398,7 +342,7 @@ int main() {
 
   auto paralaxEntity2 = engine.createEntity();
   auto isParalaxComponent1 =
-      std::make_shared<GameEngine::IsParallaxComponent>();
+      std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
   auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
@@ -406,14 +350,14 @@ int main() {
 
   auto paralaxEntity3 = engine.createEntity();
   auto isParalaxComponent2 =
-      std::make_shared<GameEngine::IsParallaxComponent>();
+      std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
   auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/Planets/Planet_Furnace_01_560x560.png",
       GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
-    engine.addSystem("CollisionSystem", collision);
+  engine.addSystem("CollisionSystem", collision);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("RenderEngineSystem",
                    std::make_shared<GameEngine::RenderEngineSystem>(
@@ -436,7 +380,7 @@ int main() {
 
   engine.setContinuousEvent("SPACE_KEY_RELEASED", "STOP_UNCHARGING");
   auto chargingBarEntityLayer1 = engine.createEntity();
-  auto isChargingBarComponent = std::make_shared<GameEngine::IsChargingBar>();
+  auto isChargingBarComponent = std::make_shared<IsChargingBar>();
   engine.bindComponentToEntity(chargingBarEntityLayer1, isChargingBarComponent);
   auto spritecompoennt5 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/HUD/BlueBar.png", GameEngine::Vect2(0, 0),
@@ -475,7 +419,7 @@ int main() {
   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
   engine.bindComponentToEntity(Player, spritecompoennt);
-  auto isPLayerComponent = std::make_shared<GameEngine::IsPlayer>();
+  auto isPLayerComponent = std::make_shared<IsPlayer>();
   engine.bindComponentToEntity(Player, isPLayerComponent);
 
   auto updateSprite = std::make_shared<GameEngine::updateEntitySpriteSystem>();

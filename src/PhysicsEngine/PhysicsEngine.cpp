@@ -7,9 +7,9 @@
 namespace GameEngine {
 
     bool PhysicsEngine::broadPhase(const AABBComponent2D& comp, const AABBComponent2D& comp2) {
-        return !(comp.getMaxX() < comp2.getMinX() ||
-                 comp2.getMaxX() < comp.getMinX() ||
-                 comp.getMaxY() < comp2.getMinY() ||
-                 comp2.getMaxY() < comp.getMinY());
+        return !(comp.maxExtents.x < comp2.minExtents.x ||
+                 comp2.maxExtents.x < comp.minExtents.x ||
+                 comp.maxExtents.y < comp2.minExtents.y ||
+                 comp2.maxExtents.y < comp.minExtents.y);
     }
 }

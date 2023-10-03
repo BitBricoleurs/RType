@@ -9,6 +9,7 @@ set(SOURCES
         PhysicsEngineMovementSystem2D.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/CircleColliderComponent2D.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/RectangleColliderComponent2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/CheckCollision.cpp
         )
 
 add_library(PhysicsEngineLib STATIC ${SOURCES})

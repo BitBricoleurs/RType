@@ -9,7 +9,7 @@
 
 #include "AComponent.hpp"
 #include "ComponentContainer.hpp"
-#include "EntityComponents.hpp"
+#include "test/EntityComponents.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "RenderEngine.hpp"
@@ -60,7 +60,6 @@ public:
         sprite->rect1.y = animation->currentFrame.y;
       }
     }
-    std::cout << "updateEntitySpriteSystem end" << std::endl;
   }
 };
 

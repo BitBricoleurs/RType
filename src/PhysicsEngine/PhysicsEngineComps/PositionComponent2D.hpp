@@ -16,9 +16,7 @@ namespace GameEngine {
         ~PositionComponent2D() override = default;
 
         size_t getComponentType() override { return ComponentsType::getNewComponentType("PositionComponent2D"); }
-        Vect2 getPos() const { return pos; }
-        void setPos(const Vect2& pos) { this->pos = pos; }
-    private:
         Vect2 pos;
+    private:
     };
 }

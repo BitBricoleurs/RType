@@ -42,7 +42,7 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
   }
   std::sort(sortedTextComponents.begin(), sortedTextComponents.end(),
             [](const TextComponent &a, const TextComponent &b) {
-              return a.getLayer() < b.getLayer();
+              return a.layer < b.layer;
             });
 
   for (const auto &component : spriteComponents) {
@@ -56,7 +56,7 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
   }
   std::sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
             [](const SpriteComponent &a, const SpriteComponent &b) {
-              return a.getLayer() < b.getLayer();
+              return a.layer < b.layer;
             });
 
   renderEngine->ClearBackgroundRender(BLACK);

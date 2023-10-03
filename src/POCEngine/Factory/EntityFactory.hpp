@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "EntityComponents.hpp"
+#include "test/EntityComponents.hpp"
 #include "GameEngine.hpp"
 #include "Utils.hpp"
 #include <cstddef>
