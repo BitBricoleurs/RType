@@ -22,8 +22,22 @@ class updateEntitySpriteSystem : public ISystem {
 public:
   void update(ComponentsContainer &componentsContainer,
               EventHandler &eventHandler) override {
+
+    std::string event = eventHandler.getTriggeredEvent().first;
+    std::string entity = event.substr(event.find(" ") + 1, event.size());
+    std::string toUpdate = "SpriteAnimationComponent";
+
+    if (entity.compare("Cancer") == 0) {
+      toUpdate = "CancerComponent";
+    } else if (entity.compare("PataPata") == 0) {
+      toUpdate = "PataPataComponent";
+    } else
+      toUpdate = "SpriteAnimationComponent";
+
+    std::cout << toUpdate << std::endl;
+
     auto entities = componentsContainer.getEntitiesWithComponent(
-        ComponentsType::getComponentType("SpriteAnimationComponent"));
+        ComponentsType::getComponentType(toUpdate));
 
     for (auto &entity : entities) {
       auto animationOpt = componentsContainer.getComponent(

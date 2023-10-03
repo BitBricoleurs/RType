@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "EntityComponents.hpp"
 #include "RenderEngine.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
@@ -20,6 +21,8 @@ size_t EntityFactory::spawnCancerMob(GameEngine::GameEngine &engine, float posX,
       createBaseMob(engine, "assets/cancerMob.gif", 34, 200, 6, true, true,
                     "assets/explosion.gif", 33, 200, 6, posX, posY, 2, 0, dirX,
                     dirY, 32, 32, 100, 10, 0, 0);
+  engine.bindComponentToEntity(entityId,
+                               std::make_shared<GameEngine::CancerComponent>());
   return entityId;
 }
 
@@ -30,6 +33,8 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::GameEngine &engine,
       createBaseMob(engine, "assets/epitech_assets/pataPataMob.gif", 36, 533,
                     16, true, false, "assets/explosion.gif", 33, 200, 6, posX,
                     posY, 4, 0, dirX, dirY, 36, 36, 100, 10, 0, 0);
+  engine.bindComponentToEntity(
+      entityId, std::make_shared<GameEngine::PataPataComponent>());
   return entityId;
 }
 
@@ -39,6 +44,8 @@ size_t EntityFactory::spawnBugMob(GameEngine::GameEngine &engine, float posX,
       createBaseMob(engine, "assets/bugMob.png", 34, 532, 16, false, false,
                     "assets/explosion.gif", 33, 200, 6, posX, posY, 2, 0, dirX,
                     dirY, 32, 32, 100, 10, 0, 0);
+  engine.bindComponentToEntity(entityId,
+                               std::make_shared<GameEngine::BugComponent>());
   return entityId;
 }
 

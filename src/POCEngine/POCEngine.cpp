@@ -445,15 +445,19 @@ int main() {
   auto updateSprite = std::make_shared<GameEngine::updateEntitySpriteSystem>();
   auto moveEntities = std::make_shared<GameEngine::updatePositionSystem>();
   engine.addSystem("updatePositionSystem", moveEntities);
-  engine.addEvent("UpdateAnimation", updateSprite);
-  std::cout << "spawnMob1" << std::endl;
-  //   engine.addEvent("SpawnMob", [&engine]() { spawnMob(engine); });
-  engine.scheduleEvent("UpdateAnimation", 30);
-  //   engine.scheduleEvent("SpawnMob", 1000);
+  engine.addEvent("animate Cancer", updateSprite);
+  engine.scheduleEvent("animate Cancer", 30);
+  engine.addEvent("animate PataPata", updateSprite);
+  engine.scheduleEvent("animate PataPata", 10);
 
   for (int i = 0; i < 5; i++) {
     size_t id = EntityFactory::getInstance().spawnCancerMob(
         engine, 1980, 200 + i * 150, -1, 0);
+  }
+
+  for (int i = 0; i < 5; i++) {
+    size_t id = EntityFactory::getInstance().spawnPataPataMob(
+        engine, 2080, 100 + i * 175, -1, 0);
   }
 
   engine.run();
