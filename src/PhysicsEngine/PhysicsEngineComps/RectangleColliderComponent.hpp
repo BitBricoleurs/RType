@@ -59,5 +59,4 @@ namespace GameEngine {
     private:
         rect collider;
     };
-
-} // namespace GameEngine
+}

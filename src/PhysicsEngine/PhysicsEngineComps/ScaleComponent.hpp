@@ -13,13 +13,14 @@ namespace GameEngine {
     class ScaleComponent : public AComponent {
     public:
         ScaleComponent() = default;
-        ScaleComponent(const Vector2& scale) : scale(scale) {}
+        ScaleComponent(const Vect2& scale) : scale(scale) {}
         ~ScaleComponent() override = default;
 
-        size_t getComponentType() override { return ComponentsType::getNewComponentType("ScaleComponent"); }
-        Vector2 getScale() const { return scale; }
-        void setScale(const Vector2& scale) { this->scale = scale; }
+        size_t getComponentType() override { return componentType; }
+        Vect2 getScale() const { return scale; }
+        void setScale(const Vect2& scale) { this->scale = scale; }
     private:
-        Vector2 scale;
+        size_t componentType = ComponentsType::getNewComponentType("ScaleComponent");
+        Vect2 scale;
     };
 }
