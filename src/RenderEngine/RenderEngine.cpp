@@ -62,8 +62,7 @@ namespace GameEngine {
             Texture2D texture = LoadTexture(path.c_str());
             textureCache[path] = texture;
         }
-
-        DrawTextureRec(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().w, spriteComponent.getRect().h }, { spriteComponent.getPos().x, spriteComponent.getPos().y }, RAYWHITE);
+        DrawTexturePro(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().w, spriteComponent.getRect().h }, {spriteComponent.getPos().x, spriteComponent.getPos().y, spriteComponent.getRect().w * spriteComponent.getScale(), spriteComponent.getRect().h * spriteComponent.getScale()}, {spriteComponent.getOrigin().x, spriteComponent.getOrigin().y}, spriteComponent.getRotation(), {spriteComponent.getTint().r, spriteComponent.getTint().g, spriteComponent.getTint().b, spriteComponent.getTint().a});
     }
 
 

@@ -184,20 +184,23 @@ namespace GameEngine {
                 auto currentRect = spriteComp->getRect();
                 auto spritePos = spriteComp->getPos();
 
-                Vect2 shootingPosition;
-                shootingPosition.x = spritePos.x + currentRect.w;
-                shootingPosition.y = spritePos.y + (currentRect.h) - 60;
-
                 rect rect1;
                 rect1.w = 125;
                 rect1.h = 72;
                 rect1.x = 0;
                 rect1.y = 0;
+                ColorR tint = {255,255,255,255};
+                float scale = 1.0f;
+                float rotation = 0.0f;
+
+                Vect2 shootingPosition;
+                shootingPosition.x = spritePos.x + currentRect.w * spriteComp->getScale();
+                shootingPosition.y = (spritePos.y + ((currentRect.h * spriteComp->getScale()) / 2 - (rect1.h / 2)));
 
 
                 auto bullet = componentsContainer.createEntity();
                 std::cout << " New entitie id:" << bullet << std::endl;
-                auto spriteComponent = std::make_shared<SpriteComponent>("assets/11.png", shootingPosition, rect1, 4);
+                auto spriteComponent = std::make_shared<SpriteComponent>("assets/11.png", shootingPosition, rect1, 4, scale, rotation, tint);
                 componentsContainer.bindComponentToEntity(bullet, spriteComponent);
                 auto isBulletComponent = std::make_shared<IsBullet>(5);
                 componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
@@ -257,26 +260,30 @@ int main() {
     GameEngine::Vect2 pos2(0, 0);
     GameEngine::Vect2 pos3(1920, 0);
 
+    GameEngine::ColorR tint = {255,255,255,255};
+    float scale = 1.0f;
+    float rotation = 0.0f;
+
     auto paralaxEntity = engine.createEntity();
     auto isParalaxComponent = std::make_shared<GameEngine::IsParallaxComponent>();
     engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
     auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(1.0f, 0.0f));
     engine.bindComponentToEntity(paralaxEntity, velocityComponent);
-    auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos2, rect2, 2);
+    auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos2, rect2, 2, 1, rotation, tint);
     engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
 
 
     auto paralaxEntity2 = engine.createEntity();
     auto isParalaxComponent1 = std::make_shared<GameEngine::IsParallaxComponent>();
     engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
-    auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos3, rect2, 2);
+    auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>("assets/background_1.png", pos3, rect2, 2, 1, rotation, tint);
     engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
 
     auto paralaxEntity3 = engine.createEntity();
     auto isParalaxComponent2 = std::make_shared<GameEngine::IsParallaxComponent>();
     engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
-    auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>("assets/Planets/Planet_Furnace_01_560x560.png", GameEngine::Vect2(300,300), GameEngine::rect(0,0,560,560), 3);
+    auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>("assets/Planets/Planet_Furnace_01_560x560.png", GameEngine::Vect2(300,300), GameEngine::rect(0,0,560,560), 3, 1, rotation, tint);
     engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
     engine.addSystem("ParallaxSystem", paralax);
@@ -317,7 +324,7 @@ int main() {
 
 
     auto Player = engine.createEntity();
-    auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("assets/spaceship.png", pos, rect1, 4);
+    auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>("assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
     engine.bindComponentToEntity(Player, spritecompoennt);
     auto isPLayerComponent = std::make_shared<GameEngine::IsPlayer>();
     engine.bindComponentToEntity(Player, isPLayerComponent);

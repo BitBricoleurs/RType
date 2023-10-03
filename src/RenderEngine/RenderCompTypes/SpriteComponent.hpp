@@ -15,11 +15,14 @@
 namespace GameEngine {
     class SpriteComponent : public AComponent {
     public:
-        SpriteComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer) {
+        SpriteComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer, float scale, float rotation, ColorR tint) {
             this->imagePath = imagePath;
             this->pos = pos;
             this->rect1 = rect1;
             this->layer = layer;
+            this->rotation = rotation;
+            this->scale = scale;
+            this->tint = tint;
         }
         ~SpriteComponent() = default;
 
@@ -35,12 +38,21 @@ namespace GameEngine {
         float getScale() const { return scale; }
         void setScale(float scale) { this->scale = scale; }
         int getWidth() const { return rect1.w; }
+        float getRotation() const { return rotation; }
+        void setRotation(float rotation) { this->rotation = rotation;}
+        Vect2 getOrigin() const { return origin;}
+        void setOrigin(Vect2 origin) { this->origin = origin;}
+        ColorR getTint() const {return tint;}
+        void setTinit(ColorR tint) { this->tint = tint;}
 
     private:
         float scale;
+        float rotation;
         size_t layer;
         std::string imagePath;
         Vect2 pos;
         rect rect1;
+        Vect2 origin;
+        ColorR tint;
     };
 }
