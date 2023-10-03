@@ -36,10 +36,10 @@ namespace GameEngine {
             }
         }
         for (const auto& pair : potentialCollisions) {
-            auto optCollider1 = componentsContainer.getComponent(pair.first, ComponentsType::getComponentType("AColliderComponent2D"));
-            auto optPosition1 = componentsContainer.getComponent(pair.first, ComponentsType::getComponentType("PositionComponent2D"));
-            auto optCollider2 = componentsContainer.getComponent(pair.second, ComponentsType::getComponentType("AColliderComponent2D"));
-            auto optPosition2 = componentsContainer.getComponent(pair.second, ComponentsType::getComponentType("PositionComponent2D"));
+            auto optCollider1 = componentsContainer.getComponent(pair.first, ComponentsType::getNewComponentType("AColliderComponent2D"));
+            auto optPosition1 = componentsContainer.getComponent(pair.first, ComponentsType::getNewComponentType("PositionComponent2D"));
+            auto optCollider2 = componentsContainer.getComponent(pair.second, ComponentsType::getNewComponentType("AColliderComponent2D"));
+            auto optPosition2 = componentsContainer.getComponent(pair.second, ComponentsType::getNewComponentType("PositionComponent2D"));
 
             if (!optCollider1.has_value() || !optPosition1.has_value() || !optCollider2.has_value() || !optPosition2.has_value()) continue;
 
@@ -53,6 +53,7 @@ namespace GameEngine {
             std::pair<std::shared_ptr<AColliderComponent2D>, PositionComponent2D> pair2(collider2Opt, *position2Opt);
 
             if (physicsEngine->narrowPhase(pair1, pair2)) {
+                printf("eventadded\n");
                 eventHandler.queueEvent("Collision", std::make_pair(pair.first, pair.second));
             }
         }

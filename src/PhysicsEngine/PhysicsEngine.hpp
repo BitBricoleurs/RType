@@ -24,7 +24,7 @@ namespace GameEngine {
 
             return comp1.first->collidesWith(*(comp2.first));
         }
-        void moveObject(PositionComponent2D& positionComponent, const Vector2& velocity) {
+        void moveObject(PositionComponent2D& positionComponent, const Vect2& velocity) {
             positionComponent.setPos(positionComponent.getPos() + velocity);
         }
 

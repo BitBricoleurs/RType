@@ -10,6 +10,7 @@
 #include "PhysicsEngine.hpp"
 #include "AABBComponent2D.hpp"
 #include "AColliderComponent2D.hpp"
+#include "RectangleColliderComponent2D.hpp"
 #include "PositionComponent2D.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"

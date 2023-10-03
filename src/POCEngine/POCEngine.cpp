@@ -12,8 +12,6 @@
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-
 #include <iostream>
 
 namespace GameEngine {
@@ -129,103 +127,111 @@ private:
   int _speed;
 };
 
-
 class MovementSystem : public ISystem {
 public:
-    void update(ComponentsContainer &componentsContainer,
-                EventHandler &eventHandler) override {
-        auto nbEntity = componentsContainer.getEntitiesWithComponent(
-                ComponentsType::getNewComponentType("PlayerComponent"));
-        auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
-        auto event = eventHandler.getTriggeredEvent();
-        std::shared_ptr<SpriteComponent> spriteComp;
+  void update(ComponentsContainer &componentsContainer,
+              EventHandler &eventHandler) override {
+    auto nbEntity = componentsContainer.getEntitiesWithComponent(
+        ComponentsType::getNewComponentType("PlayerComponent"));
+    auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
+    auto event = eventHandler.getTriggeredEvent();
+    std::shared_ptr<SpriteComponent> spriteComp;
 
-        for (const auto &optComp : player) {
-            if (optComp.has_value()) {
-                auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
-                if (aComp &&
-                    aComp->getComponentType() ==
-                    ComponentsType::getNewComponentType("SpriteComponent")) {
-                    spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
-                    if (spriteComp) {
-                        break;
-                    }
-                }
-            }
+    for (const auto &optComp : player) {
+      if (optComp.has_value()) {
+        auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
+        if (aComp &&
+            aComp->getComponentType() ==
+                ComponentsType::getNewComponentType("SpriteComponent")) {
+          spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
+          if (spriteComp) {
+            break;
+          }
         }
-        if (spriteComp) {
-            Vect2 currentPosition = spriteComp->getPos();
-            if (event.first == "UP_KEY_PRESSED") {
-                currentPosition.y -= 5;
-            } else if (event.first == "DOWN_KEY_PRESSED") {
-                currentPosition.y += 5;
-            } else if (event.first == "LEFT_KEY_PRESSED") {
-                currentPosition.x -= 5;
-            } else if (event.first == "RIGHT_KEY_PRESSED") {
-                currentPosition.x += 5;
-            }
-            spriteComp->setPos(currentPosition);
-        }
+      }
     }
+    if (spriteComp) {
+      Vect2 currentPosition = spriteComp->getPos();
+      if (event.first == "UP_KEY_PRESSED") {
+        currentPosition.y -= 5;
+      } else if (event.first == "DOWN_KEY_PRESSED") {
+        currentPosition.y += 5;
+      } else if (event.first == "LEFT_KEY_PRESSED") {
+        currentPosition.x -= 5;
+      } else if (event.first == "RIGHT_KEY_PRESSED") {
+        currentPosition.x += 5;
+      }
+      spriteComp->setPos(currentPosition);
+    }
+  }
 
 private:
-    bool done = false;
+  bool done = false;
 };
 
 class ShootSystem : public ISystem {
 public:
-    void update(ComponentsContainer &componentsContainer,
-                EventHandler &eventHandler) override {
-        auto nbEntity = componentsContainer.getEntitiesWithComponent(
-                ComponentsType::getNewComponentType("PlayerComponent"));
-        auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
-        auto event = eventHandler.getTriggeredEvent();
-        std::shared_ptr<SpriteComponent> spriteComp;
+  void update(ComponentsContainer &componentsContainer,
+              EventHandler &eventHandler) override {
+    auto nbEntity = componentsContainer.getEntitiesWithComponent(
+        ComponentsType::getNewComponentType("PlayerComponent"));
+    auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
+    auto event = eventHandler.getTriggeredEvent();
+    std::shared_ptr<SpriteComponent> spriteComp;
 
-        for (const auto &optComp : player) {
-            if (optComp.has_value()) {
-                auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
-                if (aComp &&
-                    aComp->getComponentType() ==
-                    ComponentsType::getNewComponentType("SpriteComponent")) {
-                    spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
-                    if (spriteComp) {
-                        break;
-                    }
-                }
-            }
+    for (const auto &optComp : player) {
+      if (optComp.has_value()) {
+        auto aComp = std::dynamic_pointer_cast<AComponent>(optComp.value());
+        if (aComp &&
+            aComp->getComponentType() ==
+                ComponentsType::getNewComponentType("SpriteComponent")) {
+          spriteComp = std::dynamic_pointer_cast<SpriteComponent>(aComp);
+          if (spriteComp) {
+            break;
+          }
         }
-        if (spriteComp) {
-            std::cout << "SHOOT" << std::endl;
-            Vect2 currentPosition = spriteComp->getPos();
-            std::cout << "Pos (x: " << spriteComp->getPos().x
-                      << ",y: " << spriteComp->getPos().y << ")" << std::endl;
-
-            auto currentRect = spriteComp->getRect();
-            auto spritePos = spriteComp->getPos();
-
-            Vect2 shootingPosition;
-            shootingPosition.x = spritePos.x + currentRect.w;
-            shootingPosition.y = spritePos.y + (currentRect.h) - 60;
-
-            rect rect1;
-            rect1.w = 125;
-            rect1.h = 72;
-            rect1.x = 0;
-            rect1.y = 0;
-
-            auto bullet = componentsContainer.createEntity();
-            std::cout << " New entitie id:" << bullet << std::endl;
-            auto spriteComponent = std::make_shared<SpriteComponent>(
-                    "assets/11.png", shootingPosition, rect1, 4);
-            componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-            auto isBulletComponent = std::make_shared<IsBullet>(5);
-            componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
-        }
+      }
     }
+    if (spriteComp) {
+      std::cout << "SHOOT" << std::endl;
+      Vect2 currentPosition = spriteComp->getPos();
+      std::cout << "Pos (x: " << spriteComp->getPos().x
+                << ",y: " << spriteComp->getPos().y << ")" << std::endl;
+
+      auto currentRect = spriteComp->getRect();
+      auto spritePos = spriteComp->getPos();
+
+      Vect2 shootingPosition;
+      shootingPosition.x = spritePos.x + currentRect.w;
+      shootingPosition.y = spritePos.y + (currentRect.h) - 60;
+
+      rect rect1;
+      rect1.w = 125;
+      rect1.h = 72;
+      rect1.x = 0;
+      rect1.y = 0;
+
+      auto bullet = componentsContainer.createEntity();
+      std::cout << " New entitie id:" << bullet << std::endl;
+      auto spriteComponent = std::make_shared<SpriteComponent>(
+          "assets/11.png", shootingPosition, rect1, 4);
+      auto PositionComponent = std::make_shared<PositionComponent2D>(
+          Vect2(shootingPosition.x, shootingPosition.y));
+      auto AABBComponent = std::make_shared<AABBComponent2D>(
+        Vect2(shootingPosition.x, shootingPosition.y),
+        Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
+      auto rectangleCollider = std::make_shared<RectangleColliderComponent2D>(rect1);
+      componentsContainer.bindComponentToEntity(bullet, spriteComponent);
+      auto isBulletComponent = std::make_shared<IsBullet>(5);
+      componentsContainer.bindComponentToEntity(bullet, AABBComponent);
+      componentsContainer.bindComponentToEntity(bullet, PositionComponent);
+      componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
+      componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
+    }
+  }
 
 private:
-    bool done = false;
+  bool done = false;
 };
 
 class ChargingBar : public ISystem {
@@ -307,6 +313,8 @@ public:
       auto event = eventHandler.getTriggeredEvent();
       std::shared_ptr<SpriteComponent> spriteComp;
       std::shared_ptr<IsBullet> bulletComp;
+      std::shared_ptr<PositionComponent2D> positionComp;
+      std::shared_ptr<AABBComponent2D> aabbComp;
 
       for (const auto &optComp : eses) {
         if (optComp.has_value()) {
@@ -321,11 +329,25 @@ public:
                   ComponentsType::getNewComponentType("BulletComponent")) {
             bulletComp = std::dynamic_pointer_cast<IsBullet>(aComp);
           }
+          if (aComp &&
+              aComp->getComponentType() ==
+                  ComponentsType::getNewComponentType("PositionComponent2D")) {
+            positionComp = std::dynamic_pointer_cast<PositionComponent2D>(aComp);
+          }
+          if (aComp &&
+              aComp->getComponentType() ==
+                  ComponentsType::getNewComponentType("AABBComponent2D")) {
+            aabbComp = std::dynamic_pointer_cast<AABBComponent2D>(aComp);
+          }
         }
       }
       if (spriteComp && bulletComp) {
         auto pos = spriteComp->getPos();
         auto speed = bulletComp->getSpeed();
+        auto rect = spriteComp->getRect();
+        positionComp->setPos({pos.x + speed, pos.y});
+        aabbComp->setMinExtents({pos.x + speed, pos.y});
+        aabbComp->setMaxExtents({pos.x + rect.w + speed, pos.y + rect.h});
         spriteComp->setPos({pos.x + speed, pos.y});
       }
     }
@@ -346,18 +368,11 @@ void spawnMob(GameEngine::GameEngine &engine) {
 int main() {
   GameEngine::GameEngine engine;
 
-<<<<<<< HEAD
-    auto movementSystem = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
-    auto paralax = std::make_shared<GameEngine::ParallaxSystem>();
-    auto move = std::make_shared<GameEngine::MovementSystem>();
-    auto shoot = std::make_shared<GameEngine::ShootSystem>();
-    auto moveShoot = std::make_shared<GameEngine::MovementBulletSystem>();
-=======
+  auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto paralax = std::make_shared<GameEngine::ParallaxSystem>();
   auto move = std::make_shared<GameEngine::MovementSystem>();
   auto shoot = std::make_shared<GameEngine::ShootSystem>();
   auto moveShoot = std::make_shared<GameEngine::MovementBulletSystem>();
->>>>>>> 390f51007f4abacc7c61f4a6ab52ee2d734bcd6a
 
   GameEngine::rect rect2(0, 0, 1920, 1080);
   GameEngine::Vect2 pos2(0, 0);
@@ -390,6 +405,7 @@ int main() {
       GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3);
   engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
+    engine.addSystem("CollisionSystem", collision);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("RenderEngineSystem",
                    std::make_shared<GameEngine::RenderEngineSystem>(

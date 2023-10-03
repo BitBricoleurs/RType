@@ -25,7 +25,7 @@ namespace GameEngine {
         void Draw(const SpriteComponent& spriteComponent);
         void PollEvents(EventHandler& eventHandler);
         void Shutdown();
-        void ClearBackgroundRender(Color color);
+        void ClearBackgroundRender(Color colosr);
 
     private:
         int screenWidth;
