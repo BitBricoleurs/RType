@@ -29,10 +29,7 @@
             }
         }
         if (spriteComp) {
-            std::cout << "SHOOT" << std::endl;
             GameEngine::Vect2 currentPosition = spriteComp->pos;
-            std::cout << "Pos (x: " << spriteComp->pos.x
-                      << ",y: " << spriteComp->pos.y << ")" << std::endl;
 
             auto currentRect = spriteComp->rect1;
             auto spritePos = spriteComp->pos;

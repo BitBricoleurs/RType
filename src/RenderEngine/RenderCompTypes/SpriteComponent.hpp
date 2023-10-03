@@ -27,6 +27,10 @@ namespace GameEngine {
         }
         ~SpriteComponent() = default;
 
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("SpriteComponent");
+        }
+
         Vect2 pos;
         rect rect1;
         float scale;
