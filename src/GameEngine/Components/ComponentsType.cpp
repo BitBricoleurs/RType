@@ -3,7 +3,6 @@
 //
 
 #include "ComponentsType.hpp"
-#include <iostream>
 
 namespace GameEngine {
 
