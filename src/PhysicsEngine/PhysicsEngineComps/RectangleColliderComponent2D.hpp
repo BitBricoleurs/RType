@@ -8,7 +8,7 @@
 
 namespace GameEngine {
 
-    class CircleColliderComponent2D;  // Forward declaration if needed
+    class CircleColliderComponent2D;
 
     class RectangleColliderComponent2D : public AColliderComponent2D {
     public:

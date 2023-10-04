@@ -35,17 +35,12 @@ private:
 
 class IsParallaxComponent : public AComponent {
 public:
-  IsParallaxComponent() { isParallax = true; }
+  IsParallaxComponent() = default;
   ~IsParallaxComponent() = default;
 
-  void setIsParallax(bool isParallax) { this->isParallax = isParallax; }
-  bool getIsParallax() { return this->isParallax; }
   size_t getComponentType() override {
     return ComponentsType::getNewComponentType("IsParallaxComponent");
   }
-
-private:
-  bool isParallax;
 };
 
 class ParallaxSystem : public ISystem {
@@ -75,26 +70,118 @@ public:
             velocityComponent->setVelocity(Velocity);
           }
         }
-        if (componentOpt.value()->getComponentType() !=
-            ComponentsType::getNewComponentType("IsParallaxComponent")) {
+        if (componentOpt.value()->getComponentType() ==
+            ComponentsType::getNewComponentType("SpriteComponent")) {
           auto spriteComponent =
               std::dynamic_pointer_cast<SpriteComponent>(componentOpt.value());
 
           if (spriteComponent) {
             Vect2 newPos =
                 spriteComponent->getPos() -
-                Vect2(0.1f * spriteComponent->getLayer() + Velocity.x, 0);
+                Vect2(0.5f * spriteComponent->getLayer() + Velocity.x, 0);
 
             if (newPos.x + spriteComponent->getWidth() < 0) {
               newPos.x = 1920;
             }
 
             spriteComponent->setPos(newPos);
+            if (newPos.x + spriteComponent->getWidth() < 0 && spriteComponent->getLayer() != 1) {
+              componentsContainer.deleteEntity(entityID);
+
+            }
           }
         }
       }
     }
   }
+};
+
+class ParallaxPlanetSystem : public ISystem {
+public:
+    ParallaxPlanetSystem()
+        : lastPlanetLayer(0),
+          lastPlanetY(0),
+          ticksSinceLastPlanet(0)
+    {
+        PlanetsPath = {
+            "Planet_Furnace_01_560x560.png",
+            "Planet_Furnace_02_560x560.png",
+            "Planets_Desert_01_560x560.png",
+            "Planets_Desert_02_560x560.png",
+            "Planets_Grave_01_560x560.png",
+            "Planets_Grave_02_560x560.png",
+            "Planets_Ice_01_560x560.png",
+            "Planets_Ice_02_560x560.png",
+            "Planets_Jovian_01_560x560.png",
+            "Planets_Jovian_02_560x560.png",
+            "Planets_Jungle1_560x560.png",
+            "Planets_Jungle2_560x560.png",
+            "Planets_Ocean_01_560x560.png",
+            "Planets_Ocean_02_560x560.png",
+            "Planets_Rocky_01_560x560.png",
+            "Planets_Rocky_02_560x560.png",
+            "Planets_Shattered_01_560x560.png",
+            "Planets_Shattered_02_560x560.png",
+            "Planets_Tainted_01_560x560.png",
+            "Planets_Tainted_02_560x560.png",
+            "Planets_Vital_01_560x560.png",
+            "Planets_Vital_02_560x560.png"
+        };
+    }
+
+    ~ParallaxPlanetSystem() = default;
+
+    void update(ComponentsContainer &componentsContainer,
+            EventHandler &eventHandler) override {
+        ticksSinceLastPlanet++;
+        if (ticksSinceLastPlanet >= nextTickThreshold) {
+            spawnPlanets(componentsContainer);
+            ticksSinceLastPlanet = 0;
+            nextTickThreshold = randomTickThreshold();
+        }
+    }
+
+private:
+    int nextTickThreshold;
+    size_t lastPlanetLayer;
+    int lastPlanetY;
+    int ticksSinceLastPlanet;
+    std::vector<std::string> PlanetsPath;
+    std::vector<std::string> UsedPlanetsPath;
+
+    int randomTickThreshold() {
+        return rand() % (800) + 1000;
+    }
+
+    void spawnPlanets(ComponentsContainer &componentsContainer) {
+
+        if (PlanetsPath.empty()) {
+            PlanetsPath.swap(UsedPlanetsPath);
+            UsedPlanetsPath.clear();
+        }
+
+        size_t randomIndex = rand() % PlanetsPath.size();
+        std::string randomPath = "assets/Planets/" + PlanetsPath[randomIndex];
+        PlanetsPath.erase(PlanetsPath.begin() + randomIndex);
+        UsedPlanetsPath.push_back(randomPath);
+        size_t randomLayer = lastPlanetLayer;
+        while (randomLayer == lastPlanetLayer) {
+            randomLayer = rand() % 3 + 2;
+        }
+        float scaleFactor = 0.3f * randomLayer;
+        int random = rand() % (1080) - 200;
+        float randomY = static_cast<float>(random);
+
+        ColorR tint = {255, 255, 255, 255};
+        float rotation = 0.0f;
+        auto parallaxEntity = componentsContainer.createEntity();
+        auto isParallaxComponent = std::make_shared<IsParallaxComponent>();
+        componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
+        auto spriteComponent = std::make_shared<SpriteComponent>(
+            randomPath, Vect2{1920, randomY}, rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint
+        );
+        componentsContainer.bindComponentToEntity(parallaxEntity, spriteComponent);
+    };
 };
 
 class IsPlayer : public AComponent {
@@ -216,9 +303,8 @@ public:
       float rotation = 0.0f;
       
       auto bullet = componentsContainer.createEntity();
-      std::cout << " New entitie id:" << bullet << std::endl;
       auto spriteComponent = std::make_shared<SpriteComponent>(
-          "assets/11.png", shootingPosition, rect1, 4, scale, rotation, tint);
+          "assets/11.png", shootingPosition, rect1, 10, scale, rotation, tint);
       auto PositionComponent = std::make_shared<PositionComponent2D>(
           Vect2(shootingPosition.x, shootingPosition.y));
       auto AABBComponent = std::make_shared<AABBComponent2D>(
@@ -226,7 +312,7 @@ public:
         Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
       auto rectangleCollider = std::make_shared<RectangleColliderComponent2D>(rect1);
       componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-      auto isBulletComponent = std::make_shared<IsBullet>(5);
+      auto isBulletComponent = std::make_shared<IsBullet>(10);
       componentsContainer.bindComponentToEntity(bullet, AABBComponent);
       componentsContainer.bindComponentToEntity(bullet, PositionComponent);
       componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
@@ -349,10 +435,11 @@ public:
         auto pos = spriteComp->getPos();
         auto speed = bulletComp->getSpeed();
         auto rect = spriteComp->getRect();
-        positionComp->setPos({pos.x + speed, pos.y});
-        aabbComp->setMinExtents({pos.x + speed, pos.y});
-        aabbComp->setMaxExtents({pos.x + rect.w + speed, pos.y + rect.h});
-        spriteComp->setPos({pos.x + speed, pos.y});
+        pos.x += speed;
+        positionComp->setPos({pos.x, pos.y});
+        aabbComp->setMinExtents({pos.x, pos.y});
+        aabbComp->setMaxExtents({pos.x + rect.w, pos.y + rect.h});
+        spriteComp->setPos({pos.x, pos.y});
       }
     }
   }
@@ -393,7 +480,7 @@ int main() {
       GameEngine::Vect2(1.0f, 0.0f));
   engine.bindComponentToEntity(paralaxEntity, velocityComponent);
   auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/background_1.png", pos2, rect2, 2, scale, rotation, tint);
+      "assets/background_1.png", pos2, rect2, 1, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
 
   auto paralaxEntity2 = engine.createEntity();
@@ -401,17 +488,9 @@ int main() {
       std::make_shared<GameEngine::IsParallaxComponent>();
   engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
   auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
+      "assets/background_1.png", pos3, rect2, 1, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
-  auto paralaxEntity3 = engine.createEntity();
-  auto isParalaxComponent2 =
-      std::make_shared<GameEngine::IsParallaxComponent>();
-  engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
-  auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/Planets/Planet_Furnace_01_560x560.png",
-      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale, rotation, tint);
-  engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
     engine.addSystem("CollisionSystem", collision);
   engine.addSystem("ParallaxSystem", paralax);
@@ -473,13 +552,15 @@ int main() {
 
   auto Player = engine.createEntity();
   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
+      "assets/spaceship.png", pos, rect1, 10, scale, rotation, tint);
   engine.bindComponentToEntity(Player, spritecompoennt);
   auto isPLayerComponent = std::make_shared<GameEngine::IsPlayer>();
   engine.bindComponentToEntity(Player, isPLayerComponent);
 
   auto updateSprite = std::make_shared<GameEngine::updateEntitySpriteSystem>();
   auto moveEntities = std::make_shared<GameEngine::updatePositionSystem>();
+    auto parallaxPlanet = std::make_shared<GameEngine::ParallaxPlanetSystem>();
+    engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
   engine.addSystem("updatePositionSystem", moveEntities);
   engine.addEvent("UpdateAnimation", updateSprite);
   std::cout << "spawnMob1" << std::endl;
