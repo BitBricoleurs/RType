@@ -7,44 +7,18 @@
 #include "Utils.hpp"
 #include "MovementComponent2D.hpp"
 
-    void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) {
-        auto nbEntity = componentsContainer.getEntitiesWithComponent(
-                GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
-        auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
+    void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+    auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
+    for (const auto& entityID : entities) {
         auto event = eventHandler.getTriggeredEvent();
-        std::shared_ptr<GameEngine::SpriteComponent> spriteComp;
+        auto player = componentsContainer.getComponentsFromEntity(entityID);
+        auto spriteOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
+        if (spriteOptional.has_value()) {
+            auto spriteComp = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOptional.value());
 
-        for (const auto &optComp : player) {
-            if (optComp.has_value()) {
-                auto aComp = std::dynamic_pointer_cast< GameEngine::AComponent>(optComp.value());
-                if (aComp &&
-                    aComp->getComponentType() ==
-                    GameEngine::ComponentsType::getNewComponentType("SpriteComponent")) {
-                    spriteComp = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(aComp);
-                    if (spriteComp) {
-                        break;
-                    }
-                }
-            }
-        }
-        if (spriteComp) {
-            GameEngine::Vect2 currentPosition = spriteComp->pos;
-
-            auto currentRect = spriteComp->rect1;
-            auto spritePos = spriteComp->pos;
-
-            GameEngine::Vect2 shootingPosition;
-            shootingPosition.x = spritePos.x + currentRect.w;
-            shootingPosition.y = spritePos.y + (currentRect.h) - 60;
-
-            GameEngine::rect rect1;
-            rect1.w = 125;
-            rect1.h = 72;
-            rect1.x = 0;
-            rect1.y = 0;
-
-            GameEngine::ColorR tint = {255,255,255,255};
+            GameEngine::Vect2 shootingPosition(spriteComp->pos.x + spriteComp->rect1.w, (spriteComp->pos.y + (spriteComp->rect1.h) - 60));
+            GameEngine::rect rect1(0, 0, 125, 72);
+            GameEngine::ColorR tint(255, 255, 255, 255);
             float scale = 1.0f;
             float rotation = 0.0f;
 
@@ -69,3 +43,4 @@
             componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
         }
     }
+}
