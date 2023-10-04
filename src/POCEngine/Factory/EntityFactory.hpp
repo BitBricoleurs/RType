@@ -11,6 +11,7 @@
 #include "BulletStartPosition.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"
+#include "EventHandler.hpp"
 #include "GameEngine.hpp"
 #include "Health.hpp"
 #include "IsBoss.hpp"
@@ -35,11 +36,14 @@ public:
   EntityFactory &operator=(const EntityFactory &) = delete;
 
   size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
+                        GameEngine::EventHandler &eventHandler,
                         GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
   size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
+                          GameEngine::EventHandler &eventHandler,
                           GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
   size_t spawnBugMob(GameEngine::ComponentsContainer &container,
+                     GameEngine::EventHandler &eventHandler,
                      GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
 private:

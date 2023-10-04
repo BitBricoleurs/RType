@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "HeightVariation.hpp"
 #include "MovementComponent2D.hpp"
 #include "RenderEngine.hpp"
 #include "Utils.hpp"
@@ -13,8 +14,11 @@
 #include <cstddef>
 #include <iostream>
 #include <memory>
+#include <tuple>
+#include <utility>
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
+                                     GameEngine::EventHandler &eventHandler,
                                      GameEngine::Vect2 pos,
                                      GameEngine::Vect2 velocity) {
 
@@ -23,27 +27,39 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                     "assets/explosion.gif", 33, 200, 6, pos, velocity, 32, 32,
                     100, 10, 0, 0, 2.5f);
   container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
+  eventHandler.scheduleEvent("animate", 30,
+                             std::make_tuple(std::string("Cancer"), entityId));
   return entityId;
 }
 
 size_t
 EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
                                 GameEngine::Vect2 pos,
                                 GameEngine::Vect2 velocity) {
   size_t entityId =
       createBaseMob(container, "assets/epitech_assets/pataPataMob.gif", 36, 533,
                     16, true, false, "assets/explosion.gif", 33, 200, 6, pos,
-                    velocity, 36, 36, 100, 10, 0, 0);
+                    velocity, 36, 36, 100, 10, 0, 0, 2.5f);
+
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
+  container.bindComponentToEntity(
+      entityId, std::make_shared<HeightVariation>(3, 75, pos.y));
+
+  eventHandler.scheduleEvent(
+      "animate", 10, std::make_tuple(std::string("PataPata"), entityId));
   return entityId;
 }
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
+                                  GameEngine::EventHandler &eventHandler,
                                   GameEngine::Vect2 pos,
                                   GameEngine::Vect2 velocity) {
+
   size_t entityId = createBaseMob(container, "assets/bugMob.png", 34, 532, 16,
                                   false, false, "assets/explosion.gif", 33, 200,
                                   6, pos, velocity, 32, 32, 100, 10, 0, 0);
+
   container.bindComponentToEntity(entityId, std::make_shared<Bug>());
   return entityId;
 }
@@ -232,12 +248,8 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
   }
   std::cout << spriteComponent->spritePositionsLeft.size() << std::endl; // 3
   if (reverse) {
-    std::cout << "reverse" << std::endl;
-    std::cout << "i: " << i << std::endl; // 3
     for (int y = i - 2; y > 0; y--) {
-      std::cout << "y: " << y << std::endl;
       GameEngine::Vect2 spritePos = {y * static_cast<float>(width) / frames, 0};
-      std::cout << "spritePos: " << spritePos.x << std::endl;
       spriteComponent->spritePositionsLeft.push_back(spritePos);
       y--;
     }
