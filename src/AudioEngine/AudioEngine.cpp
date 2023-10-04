@@ -19,20 +19,20 @@ namespace GameEngine {
     }
 
     void AudioEngine::PlaySound(const AudioComponent& audioComponent) {
-        if (soundMap.find(audioComponent.getAudioPath()) == soundMap.end()) {
-            soundMap[audioComponent.getAudioPath()] = LoadSound(audioComponent.getAudioPath().c_str());
+        if (soundMap.find(audioComponent.audioPath) == soundMap.end()) {
+            soundMap[audioComponent.audioPath] = LoadSound(audioComponent.audioPath.c_str());
         }
 
         if (!IsAudioDeviceReady()) {
             throw std::runtime_error("Audio device not ready");
         }
 
-        ::PlaySound(soundMap[audioComponent.getAudioPath()]);
+        ::PlaySound(soundMap[audioComponent.audioPath]);
     }
 
     void AudioEngine::StopSound(const AudioComponent& audioComponent) {
-        if (soundMap.find(audioComponent.getAudioPath()) != soundMap.end()) {
-            ::StopSound(soundMap[audioComponent.getAudioPath()]);
+        if (soundMap.find(audioComponent.audioPath) != soundMap.end()) {
+            ::StopSound(soundMap[audioComponent.audioPath]);
         }
     }
 }

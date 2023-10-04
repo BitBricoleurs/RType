@@ -63,21 +63,21 @@ void RenderEngine::Initialize(int screenWidth, int screenHeight,
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.getText().c_str(), textComponent.getPos().x,
-           textComponent.getPos().y, textComponent.getFontSize(),
-           {textComponent.getColor().r, textComponent.getColor().g,
-            textComponent.getColor().b, textComponent.getColor().a});
+  DrawText(textComponent.text.c_str(), textComponent.pos.x,
+           textComponent.pos.y, textComponent.fontSize,
+           {textComponent.color.r, textComponent.color.g,
+            textComponent.color.b, textComponent.color.a});
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-        std::string path = _baseAssetPath + spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.imagePath;
   
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
             Texture2D texture = LoadTexture(path.c_str());
             textureCache[path] = texture;
         }
-        DrawTexturePro(textureCache[path], { spriteComponent.getRect().x, spriteComponent.getRect().y, spriteComponent.getRect().w, spriteComponent.getRect().h }, {spriteComponent.getPos().x, spriteComponent.getPos().y, spriteComponent.getRect().w * spriteComponent.getScale(), spriteComponent.getRect().h * spriteComponent.getScale()}, {spriteComponent.getOrigin().x, spriteComponent.getOrigin().y}, spriteComponent.getRotation(), {spriteComponent.getTint().r, spriteComponent.getTint().g, spriteComponent.getTint().b, spriteComponent.getTint().a});
+        DrawTexturePro(textureCache[path], { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h }, {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale}, {spriteComponent.origin.x, spriteComponent.origin.y}, spriteComponent.rotation, {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
     }
 
 

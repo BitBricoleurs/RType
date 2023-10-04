@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AComponent.hpp"
+#include "ComponentsType.hpp"
 #include <string>
 
 namespace GameEngine {
@@ -18,16 +19,12 @@ namespace GameEngine {
         }
         ~AudioComponent() = default;
 
-        std::string getAudioPath() const { return audioPath; }
-        void setAudioPath(const std::string& audioPath) { this->audioPath = audioPath; }
-        void setAudioTimer(size_t audioTimer) { this->audioTimer = audioTimer; }
-        int getVolume() const { return volume; }
-        void setVolume(int volume) { this->volume = volume; }
-        int getAudioTimer() const { return audioTimer; }
-
-    private:
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("Player");
+          }
         std::string audioPath;
         int audioTimer;
         int volume;
+    private:
     };
 }

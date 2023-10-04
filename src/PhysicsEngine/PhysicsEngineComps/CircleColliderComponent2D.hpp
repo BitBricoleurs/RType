@@ -5,7 +5,6 @@
 #include "ComponentsType.hpp"
 #include "AColliderComponent2D.hpp"
 #include "RectangleColliderComponent2D.hpp"
-#include <algorithm>
 
 namespace GameEngine {
     class RectangleColliderComponent2D;
@@ -25,7 +24,4 @@ namespace GameEngine {
     private:
         Circle collider;
     };
-
-    bool checkCollision(const Circle& a, const Circle& b);
-    bool checkCollision(const rect& r, const Circle& c);
 }
