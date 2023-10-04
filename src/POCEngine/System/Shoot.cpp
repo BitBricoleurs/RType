@@ -59,7 +59,7 @@
             auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(rect1);
             componentsContainer.bindComponentToEntity(bullet, spriteComponent);
             auto isBulletComponent = std::make_shared<IsBullet>();
-            auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(5.0f, 0.0f));
+            auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(6.0f, 0.0f));
             auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
             componentsContainer.bindComponentToEntity(bullet, velocity);
             componentsContainer.bindComponentToEntity(bullet, movementComponent);

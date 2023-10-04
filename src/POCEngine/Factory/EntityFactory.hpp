@@ -33,13 +33,10 @@ public:
   EntityFactory(const EntityFactory &) = delete;
   EntityFactory &operator=(const EntityFactory &) = delete;
 
-  size_t spawnCancerMob(GameEngine::GameEngine &engine, float posX, float posY,
-                        float dirX, float dirY);
-  size_t spawnPataPataMob(GameEngine::GameEngine &engine, float posX,
-                          float posY, float dirX, float dirY);
+  size_t spawnCancerMob(GameEngine::GameEngine &engine, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+  size_t spawnPataPataMob(GameEngine::GameEngine &engine, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
-  size_t spawnBugMob(GameEngine::GameEngine &engine, float posX, float posY,
-                     float dirX, float dirY);
+  size_t spawnBugMob(GameEngine::GameEngine &engine, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
 private:
   EntityFactory() = default;
@@ -49,7 +46,7 @@ private:
       int spriteSheetHeight, int spriteSheetWidth, int frames,
       bool twoDirections, bool reverse, const std::string &deathSpriteSheetPath,
       int deathSpriteSheetHeight, int deathSpriteSheetWidth, int deathFrames,
-      float posX, float posY, float velX, float velY, float dirX, float dirY,
+      GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
       float hitboxWidth, float hitboxHeight, int maxHealth, int damageValue,
       float bulletStartX, float bulletStartY, float scale = 1.0f,
       float rotation = 0.0f, GameEngine::ColorR tint = {255, 255, 255, 255});
@@ -60,8 +57,7 @@ private:
                        bool twoDirections, bool reverse,
                        const std::string &deathSpriteSheetPath,
                        int deathSpriteSheetHeight, int deathSpriteSheetWidth,
-                       int deathFrames, float posX, float posY, float velX,
-                       float velY, float dirX, float dirY, float hitboxWidth,
+                       int deathFrames, GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
                        float hitboxHeight, int maxHealth, int damageValue,
                        float bulletStartX, float bulletStartY, int stageValue,
                        float scale = 1.0f, float rotation = 0.0f,
@@ -69,8 +65,7 @@ private:
 
   size_t createPlayer(GameEngine::GameEngine &engine,
                       const std::string &spriteSheetPath, int rectX, int rectY,
-                      int rectWidth, int rectHeight, float posX, float posY,
-                      float velX, float velY, float dirX, float dirY,
+                      int rectWidth, int rectHeight, GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
                       float hitboxWidth, float hitboxHeight, int maxHealth,
                       float bulletStartX, float bulletStartY,
                       float scale = 1.0f, float rotation = 0.0f,
@@ -78,16 +73,14 @@ private:
 
   size_t createBullet(GameEngine::GameEngine &engine,
                       const std::string &spriteSheetPath, int rectX, int rectY,
-                      int rectWidth, int rectHeight, float posX, float posY,
-                      float velX, float velY, float dirX, float dirY,
+                      int rectWidth, int rectHeight, GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
                       float hitboxWidth, float hitboxHeight, int damageValue,
                       float scale = 1.0f, float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 
   size_t createPowerUp(GameEngine::GameEngine &engine,
                        const std::string &spriteSheetPath, int rectX, int rectY,
-                       int rectWidth, int rectHeight, float posX, float posY,
-                       float velX, float velY, float dirX, float dirY,
+                       int rectWidth, int rectHeight, GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
                        float hitboxWidth, float hitboxHeight,
                        float scale = 1.0f, float rotation = 0.0f,
                        GameEngine::ColorR tint = {255, 255, 255, 255});
@@ -95,8 +88,7 @@ private:
                           const std::string &spriteSheetPath,
                           int spriteSheetHeight, int spriteSheetWidth,
                           int frames, bool twoDirections, bool reverse,
-                          float posX, float posY, float velX, float velY,
-                          float dirX, float dirY, float hitboxWidth,
+                          GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
                           float hitboxHeight, float scale = 1.0f,
                           float rotation = 0.0f,
                           GameEngine::ColorR tint = {255, 255, 255, 255});

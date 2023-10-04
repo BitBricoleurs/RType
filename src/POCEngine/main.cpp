@@ -24,7 +24,7 @@
 int main() {
   GameEngine::GameEngine engine;
 
-  //auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
+  auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
@@ -62,7 +62,7 @@ int main() {
   engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
 
-  //engine.addSystem("CollisionSystem", collision);
+  engine.addSystem("CollisionSystem", collision);
   engine.addSystem("MovementSystem", movement);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("ParallaxPlanetSystem", paralaxPlanet);
@@ -84,7 +84,7 @@ int main() {
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
   engine.addEvent("ShootSystem", shoot);
-  engine.scheduleEvent("ShootSystem", 50);
+  engine.scheduleEvent("ShootSystem", 20);
   engine.scheduleEvent("MovementShoot", 1);
 
   engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
@@ -124,8 +124,6 @@ int main() {
   color.b = 255;
   color.a = 255;
 
-  auto textEntity = engine.createEntity();
-
   auto Player = engine.createEntity();
   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
@@ -147,8 +145,8 @@ int main() {
   //   engine.scheduleEvent("SpawnMob", 1000);
 
   for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(
-        engine, 1980, 200 + i * 150, -1, 0);
+    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
+    std::cout << "Create id monster" << id << std::endl;
   }
 
   engine.run();

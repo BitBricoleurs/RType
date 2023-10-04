@@ -20,11 +20,14 @@ namespace GameEngine {
     }
 
     size_t ComponentsType::getComponentType(const std::string& componentName) {
-        return getComponentTypeMap()[componentName];
+        const auto& map = getComponentTypeMap();
+        if (map.find(componentName) == map.end()) {
+            return 0;
+        }
+        return map.at(componentName);
     }
-
     size_t& ComponentsType::getComponentTypeCounter() {
-        static size_t componentTypeCounter = 0;
+        static size_t componentTypeCounter = 1;
         return componentTypeCounter;
     }
 
