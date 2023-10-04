@@ -19,6 +19,8 @@
 #include "SyncPosSprite.hpp"
 #include "ResetDirPlayer.hpp"
 #include "ParallaxPlanet.hpp"
+#include "ForcePodSpawn.hpp"
+#include "TestInput.hpp"
 
 
 int main() {
@@ -32,6 +34,8 @@ int main() {
   auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
   auto sync = std::make_shared<SyncPosSprite>();
+  auto forcePod = std::make_shared<ForcePodSpawn>();
+  auto testInput = std::make_shared<TestInput>();
 
   GameEngine::rect rect2(0, 0, 1920, 1080);
   GameEngine::Vect2 pos2(0, 0);
@@ -148,6 +152,9 @@ int main() {
     size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
     std::cout << "Create id monster" << id << std::endl;
   }
+  engine.addEvent("CONTROL_KEY_PRESSED", testInput);
+  engine.addEvent("ForcePodSpawn", forcePod);
+  engine.addEvent("ForcePodStop", forcePod);
 
   engine.run();
   return 0;

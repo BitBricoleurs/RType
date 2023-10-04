@@ -17,6 +17,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsForcePod.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
@@ -25,12 +26,14 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ParallaxPlanet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/TestInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp

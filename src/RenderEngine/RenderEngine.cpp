@@ -110,7 +110,15 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
             eventHandler.queueEvent("MouseLeftButtonPressed");
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
             eventHandler.queueEvent("MouseRightButtonPressed");
-    }
+        if (IsKeyPressed(KEY_LEFT_CONTROL)) {
+            eventHandler.queueEvent("CONTROL_KEY_PRESSED");
+            }
+        if (IsKeyReleased(KEY_LEFT_CONTROL))
+            eventHandler.queueEvent("CONTROL_KEY_RELEASED");
+        if (WindowShouldClose()) {
+            eventHandler.queueEvent("gameEngineStop");
+        }
+}
 void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
 }
