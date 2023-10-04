@@ -8,8 +8,8 @@
 #include <cstdint>
 #include <sstream>
 #include <map>
-#include "IMessage.hpp"
 #include <cstring>
+#include "AMessage.hpp"
 
 namespace Network {
 
@@ -24,7 +24,7 @@ namespace Network {
     };
 
 
-    class Message : public IMessage {
+    class Message : public AMessage {
 
         std::map<std::string, uint8_t> actionToCodeMap = {
                 {"HELLO", 0x01},
@@ -46,16 +46,10 @@ namespace Network {
         };
 
     public:
-            Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
 
-            Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
-
-            Message(std::vector<std::uint8_t> &message);
-            ~Message() = default;
-
-            std::vector<std::uint8_t> &getMessage() override;
-
-            unsigned int getSize() override;
+        Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
+        Message(std::vector<std::uint8_t> &message);
+        ~Message() override = default;
 
 
 
@@ -80,7 +74,6 @@ namespace Network {
         uint8_t _sizeArg;
         std::vector<unsigned int> _IDs;
         std::vector<std::any> _args;
-        std::vector<std::uint8_t> _message;
       private:
     };
 }

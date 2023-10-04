@@ -12,6 +12,7 @@ add_library(NetworkLib STATIC
         PacketIO.hpp
         EndpointGetter.hpp
         EndpointGetter.cpp
+        AMessage.hpp
 )
 
 foreach(lib ${BOOST_INCLUDE_LIBRARIES})

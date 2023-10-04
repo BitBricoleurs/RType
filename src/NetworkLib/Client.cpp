@@ -14,13 +14,13 @@
 
 class Network::Client::Impl {
 public:
-    Impl(std::size_t tick) : _tick(tick) {}
+    Impl(std::size_t tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) :
+    _tick(tick), _forwardQueue(forwardQueue) {}
 
     void connect(const std::string &host, unsigned short port);
     void disconnect();
     bool isConnected() const;
-    void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
-    void send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg);
+    void send(const std::shared_ptr<IMessage>& message);
     void processIncomingMessages();
 
     boost::asio::io_context _context;
@@ -30,14 +30,16 @@ public:
     std::thread _listenThread;
     std::thread _receiveThread;
     std::thread _sendThread;
-    Network::TSQueue<Network::OwnedMessage> _inMessages;
+
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_forwardQueue;
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> _inMessages;
 };
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
-    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _tick, 0, Network::Interface::Type::CLIENT);
+    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _forwardQueue, _tick, 0 , Network::Interface::Type::CLIENT);
     _interface->connectToServer(host, port);
 
-    processIncomingMessages();
+    _interface->getIO()->processIncomingMessages();
     _interface->getIO()->processOutgoingMessages();
 
     _tickThread = std::thread([this]() {_tick.Start();});
@@ -63,43 +65,15 @@ bool Network::Client::Impl::isConnected() const {
     return _interface->isConnected();
 }
 
-void Network::Client::Impl::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args) {
+void Network::Client::Impl::send(const std::shared_ptr<IMessage>& message) {
     if (!isConnected()) {
         return;
     }
-    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, args);
-    _interface->send(message);
-}
-
-void Network::Client::Impl::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg) {
-    if (!isConnected()) {
-        return;
-    }
-    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, arg);
     _interface->send(message);
 }
 
 
-void Network::Client::Impl::processIncomingMessages() {
-    boost::asio::post(_context, [this]() {
-        while (1) {
-            std::unique_lock<std::mutex> lock( _tick._mtx );
-            _tick._cvIncoming.wait( lock, [ this ]() {
-                return _tick._processIncoming;
-            } );
-            while ( !_inMessages.empty() ) {
-                std::shared_ptr<IMessage> message
-                    = _inMessages.getFront().message;
-                std::cout << "Message received : " << message->getSize()
-                          << std::endl;
-                _inMessages.popFront();
-            }
-            _tick._processIncoming= false;
-        }
-    });
-}
-
-Network::Client::Client(std::size_t tick) : pimpl(std::make_unique<Impl>(tick)) {}
+Network::Client::Client(std::size_t tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) : pimpl(std::make_unique<Impl>(tick, forwardQueue)) {}
 
 void Network::Client::connect(const std::string &host, unsigned short port) {
     pimpl->connect(host, port);
@@ -113,12 +87,8 @@ bool Network::Client::isConnected() const {
     return pimpl->isConnected();
 }
 
-void Network::Client::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args) {
-    pimpl->send(action, std::move(IDs), typeArg, std::move(args));
-}
-
-void Network::Client::send(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg) {
-    pimpl->send(action, std::move(IDs), typeArg, std::move(arg));
+void Network::Client::send(const std::shared_ptr<IMessage>& message) {
+    pimpl->send(message);
 }
 
 Network::Client::~Client() = default;

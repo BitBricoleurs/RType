@@ -6,15 +6,15 @@
 #include <utility>
 #include "PacketIO.hpp"
 
-Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn, boost::asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages, Network::Tick& tick)
-: _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _outMessages(&outMessages), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _type(Type::CLIENT), _clients(nullptr)
+Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn, boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> & forwardMessages,Network::Tick& tick)
+: _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _outMessages(&outMessages), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _type(Type::CLIENT), _clients(nullptr), _forwardMessages(&forwardMessages)
 {
     _headerIn.bodySize = 0;
     _headerOut.bodySize = 0;
 }
 
-Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn, boost::asio::ip::udp::socket& socketOut, TSQueue<Network::OwnedMessage>& inMessages, Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)> onConnect, std::vector<std::shared_ptr<Network::Interface> > &clients)
-    : _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _outMessages(nullptr), _clients(&clients)
+Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn, boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages, Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)> onConnect, std::vector<std::shared_ptr<Network::Interface> > &clients)
+    : _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _outMessages(nullptr), _clients(&clients), _forwardMessages(&forwardMessages)
 {
     _headerIn.bodySize = 0;
     _headerOut.bodySize = 0;
@@ -41,11 +41,13 @@ void Network::PacketIO::readPacket()
                             _onConnect(_endpoint);
                         }
                         size_t index = 0;
+                        unsigned int id = 0;
                         while (index < _headerIn.bodySize) {
                             std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().end());
-                            std::shared_ptr<Network::Message> message =
-                                std::make_shared<Network::Message>(subData);
-                            _inMessages.pushBack({EndpointGetter::getIdByEndpoint(_endpoint, _clients), message});
+                            std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
+                            id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
+                            std::shared_ptr<Network::OwnedMessage> ownedMessage = std::make_shared<Network::OwnedMessage>(id, message);
+                            _inMessages.pushBack(ownedMessage);
                             index += message->getSize();
                         }
                     } else {
@@ -83,6 +85,26 @@ void Network::PacketIO::writePacket()
                           << std::endl;
             }
         });
+}
+
+void Network::PacketIO::processIncomingMessages() {
+    boost::asio::post(_context, [this]() {
+        while (1) {
+            std::unique_lock<std::mutex> lock( _tick._mtx );
+            _tick._cvIncoming.wait( lock, [ this ]() {
+                return _tick._processIncoming;
+            } );
+            while ( !_inMessages.empty() ) {
+                std::shared_ptr<OwnedMessage> message
+                    = _inMessages.getFront();
+                std::cout << "Message received : " << message->message->getSize()
+                          << std::endl;
+                _forwardMessages->pushBack(message);
+                _inMessages.popFront();
+            }
+            _tick._processIncoming= false;
+        }
+    });
 }
 
 void Network::PacketIO::processOutgoingMessages()

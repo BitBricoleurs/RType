@@ -68,7 +68,8 @@ std::vector<std::any> Network::Serializer::deserialize(const std::vector<std::ui
     throw std::runtime_error("Unsupported data type for deserialization check Message.hpp file");
 }
 
-Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::move(message)), _ArgType(), _args()
+Network::Message::Message(std::vector <std::uint8_t> &message):
+AMessage(message), _ArgType(), _args()
 {
     try {
         getDataMessage();
@@ -78,7 +79,7 @@ Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::mo
 }
 
 Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-: _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size())
+: AMessage(), _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size()), _NbrId(IDs.size())
 {
     try {
         std::vector<std::uint8_t> serializedArgs = Serializer::serialize(_args);
@@ -86,26 +87,6 @@ Network::Message::Message(const std::string &action, std::vector<unsigned int> I
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
-}
-
-Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg)
-        : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1), _NbrId(IDs.size())
-{
-    try {
-        std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);
-        initializeMessage(IDs, serializedArgs);
-    } catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
-    }
-}
-
-std::vector<std::uint8_t> &Network::Message::getMessage()
-{
-    return _message;
-}
-
-unsigned int Network::Message::getSize() {
-    return _message.size();
 }
 
 std::string Network::Message::getActionByCode(uint8_t code)

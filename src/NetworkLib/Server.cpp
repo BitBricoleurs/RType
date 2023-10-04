@@ -12,12 +12,12 @@ namespace Network {
 
     class Server::Impl {
     public:
-      Impl(unsigned short port, size_t maxClients, size_t Tick)
+      Impl(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
           : _context(), _idleWork(std::make_unique<boost::asio::io_context::work>(_context)), _tick(Tick), _socket(_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)), _running(true), _port(port), _maxClients(maxClients), _inMessages(),
-            _tempPacket(), _tempBuffer(MAX_PACKET_SIZE + sizeof(Network::PacketHeader)), _indexId(0)
+            _tempPacket(), _tempBuffer(MAX_PACKET_SIZE + sizeof(Network::PacketHeader)), _indexId(0), _forwardQueue(forwardQueue)
       {
 
-          _packetIO = std::make_shared<Network::PacketIO>(_context, _remoteEndpoint, _socket, _socket, _inMessages, _tick,
+          _packetIO = std::make_shared<Network::PacketIO>(_context, _remoteEndpoint, _socket, _socket, _inMessages, _forwardQueue, _tick,
                                                           [this](boost::asio::ip::udp::endpoint &endpoint) {
                                                                 registerNewCon(endpoint);
                                                           }, _clients);
@@ -46,15 +46,12 @@ namespace Network {
         void start() {
             _tickThread = std::thread([this]() {_tick.Start();});
             _packetIO->readPacket();
-            processIncomingMessages();
-            sleep(3);
+            _packetIO->processIncomingMessages();
             bool isSend = false;
             while (true) {
                 if (_context.stopped()) {
                     std::cout << "io_context is stopped!" << std::endl;
                 }
-                sendAllClients( "HELLO", {}, "", {} );
-                usleep(50000);
             }
         }
 
@@ -79,34 +76,6 @@ namespace Network {
             return false;
         }
 
-        void processIncomingMessages() {
-            boost::asio::post(_context, [this]() {
-                while (1) {
-                    std::unique_lock<std::mutex> lock( _tick._mtx );
-                    _tick._cvIncoming.wait( lock, [ this ]() {
-                        return _tick._processIncoming;
-                    } );
-                    lock.unlock();
-                    while ( !_inMessages.empty() ) {
-                        OwnedMessage message = _inMessages.popBack();
-                        std::cout << "Message received from : " << message.remote << std::endl;
-                        if (message.message)
-                            std::cout << "Message Content : " << message.message->_action << std::endl;
-                    }
-                    _tick._processIncoming= false;
-                }
-            });
-        }
-
-
-        void sendClient(unsigned int id, const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-        {
-            if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
-                return;
-            }
-            std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, args);
-            _clients[id]->send(message);
-        }
 
         void sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
         {
@@ -116,15 +85,7 @@ namespace Network {
             _clients[id]->send(message);
         }
 
-        void sendAllClients(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-        {
-            for (auto &client : _clients) {
-                if (client) {
-                    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, args);
-                    client->send(message);
-                }
-            }
-        }
+
         void sendAllClients(const std::shared_ptr<IMessage>& message)
         {
             for (auto &client : _clients) {
@@ -134,15 +95,6 @@ namespace Network {
             }
         }
 
-        void sendAllClientsExcept(unsigned int id, const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-        {
-            for (auto &client : _clients) {
-                if (client && client->isConnected() && client->getId() != id) {
-                    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>(action, IDs, typeArg, args);
-                    client->send(message);
-                }
-            }
-        }
         void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message)
         {
             for (auto &client : _clients) {
@@ -169,7 +121,7 @@ namespace Network {
             if ( !clientInterface ) {
                 clientInterface = std::make_shared<
                     Network::Interface>(
-                    _context, _inMessages, _socket, _tick, _indexId, Network::Interface::Type::SERVER
+                    _context, _inMessages, _socket, _forwardQueue, _tick, _indexId, Network::Interface::Type::SERVER
                 );
                 clientInterface->setEndpoint(remoteEndpoint);
                 _clients.push_back( clientInterface );
@@ -184,7 +136,8 @@ namespace Network {
         }
 
 
-        Network::TSQueue<Network::OwnedMessage> _inMessages;
+        Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_forwardQueue;
+        Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> _inMessages;
         boost::asio::io_context _context;
         std::unique_ptr<boost::asio::io_context::work> _idleWork;
         Network::Tick _tick;
@@ -206,8 +159,8 @@ namespace Network {
         size_t _indexId;
     };
 
-    Server::Server(unsigned short port, size_t maxClients, size_t Tick)
-            : pimpl(std::make_unique<Impl>(port, maxClients, Tick)) {}
+    Server::Server(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
+            : pimpl(std::make_unique<Impl>(port, maxClients, Tick, forwardQueue)) {}
 
     Server::~Server()
     {
@@ -224,29 +177,15 @@ namespace Network {
         _isRunning = false;
     }
 
-    void Server::sendClient(unsigned int id, const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-    {
-        pimpl->sendClient(id, action, IDs, typeArg, args);
-    }
 
     void Server::sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
     {
         pimpl->sendClient(id, message);
     }
 
-    void Server::sendAllClients(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-    {
-        pimpl->sendAllClients(action, IDs, typeArg, args);
-    }
-
     void Server::sendAllClients(const std::shared_ptr<IMessage>& message)
     {
         pimpl->sendAllClients(message);
-    }
-
-    void Server::sendAllClientsExcept(unsigned int id, const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-    {
-        pimpl->sendAllClientsExcept(id, action, IDs, typeArg, args);
     }
 
     void Server::sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message)
