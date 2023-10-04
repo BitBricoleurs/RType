@@ -21,6 +21,7 @@
 #include "ParallaxPlanet.hpp"
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
+#include "Shooter.hpp"
 
 
 int main() {
@@ -135,11 +136,14 @@ int main() {
   auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
   auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
   auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
+
+  auto shooter = std::make_shared<Shooter>(GameEngine::Vect2(125, 0), GameEngine::Vect2(6,0), 0);
   engine.bindComponentToEntity(Player, spritecompoennt);
   engine.bindComponentToEntity(Player, isPLayerComponent);
   engine.bindComponentToEntity(Player, movementComponent);
   engine.bindComponentToEntity(Player, positionComponent);
   engine.bindComponentToEntity(Player, velocity);
+  engine.bindComponentToEntity(Player, shooter);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
   engine.addEvent("UpdateAnimation", updateSprite);

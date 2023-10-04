@@ -113,8 +113,8 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_LEFT_CONTROL)) {
             eventHandler.queueEvent("CONTROL_KEY_PRESSED");
             }
-        if (IsKeyReleased(KEY_LEFT_CONTROL))
-            eventHandler.queueEvent("CONTROL_KEY_RELEASED");
+        if (IsKeyPressed(KEY_ENTER))
+            eventHandler.queueEvent("ENTER_KEY_PRESSED");
         if (WindowShouldClose()) {
             eventHandler.queueEvent("gameEngineStop");
         }

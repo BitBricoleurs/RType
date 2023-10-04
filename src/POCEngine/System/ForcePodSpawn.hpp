@@ -16,6 +16,7 @@
 #include "PositionComponent2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "IsForcePod.hpp"
+#include "Shooter.hpp"
 
 class ForcePodSpawn : public GameEngine::ISystem {
     void update(GameEngine::ComponentsContainer &componentsContainer,

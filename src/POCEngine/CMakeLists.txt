@@ -22,6 +22,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
