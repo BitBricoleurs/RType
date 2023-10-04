@@ -18,6 +18,7 @@
 #include "IsMob.hpp"
 #include "IsPlayer.hpp"
 #include "IsPowerUp.hpp"
+#include "MobComponents.hpp"
 #include "PositionComponent2D.hpp"
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"

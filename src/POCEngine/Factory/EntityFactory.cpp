@@ -22,6 +22,7 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
       createBaseMob(container, "assets/cancerMob.gif", 34, 200, 6, true, true,
                     "assets/explosion.gif", 33, 200, 6, pos, velocity, 32, 32,
                     100, 10, 0, 0, 2.5f);
+  container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
   return entityId;
 }
 
@@ -33,6 +34,7 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
       createBaseMob(container, "assets/epitech_assets/pataPataMob.gif", 36, 533,
                     16, true, false, "assets/explosion.gif", 33, 200, 6, pos,
                     velocity, 36, 36, 100, 10, 0, 0);
+  container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   return entityId;
 }
 
@@ -42,6 +44,7 @@ size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
   size_t entityId = createBaseMob(container, "assets/bugMob.png", 34, 532, 16,
                                   false, false, "assets/explosion.gif", 33, 200,
                                   6, pos, velocity, 32, 32, 100, 10, 0, 0);
+  container.bindComponentToEntity(entityId, std::make_shared<Bug>());
   return entityId;
 }
 
