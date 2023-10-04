@@ -18,6 +18,7 @@
 #include "UpdateEntitySprite.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
+#include "WiggleMob.hpp"
 #include <iostream>
 #include <memory>
 
@@ -147,20 +148,13 @@ int main() {
 
   auto spawnMob = std::make_shared<SpawnMob>();
   engine.addEvent("spawnMob", spawnMob);
-  engine.scheduleEvent("spawnMob", 300);
+  engine.scheduleEvent("spawnMob", 60);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
-  engine.addEvent("UpdateAnimation", updateSprite);
-  std::cout << "spawnMob1" << std::endl;
-  //   engine.addEvent("SpawnMob", [&engine]() { spawnMob(engine); });
-  engine.scheduleEvent("UpdateAnimation", 30);
-  //   engine.scheduleEvent("SpawnMob", 1000);
+  engine.addEvent("animate", updateSprite);
 
-  //   for (int i = 0; i < 5; i++) {
-  //     size_t id = EntityFactory::getInstance().spawnCancerMob(engine,
-  //     GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-1, 0));
-  //     std::cout << "Create id monster" << id << std::endl;
-  //   }
+  auto wigglePata = std::make_shared<WiggleMob>();
+  engine.addSystem("wiggleMob", wigglePata);
 
   engine.run();
   return 0;
