@@ -26,8 +26,8 @@ int main() {
 
   //auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
-  auto paralax = std::make_shared<ParallaxSystem>();
-  auto paralaxPlanet = std::make_shared<ParallaxPlanetSystem>();
+  auto paralax = std::make_shared<Parallax>();
+  auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
   auto move = std::make_shared<ChangeDirPlayer>();
   auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
@@ -42,7 +42,7 @@ int main() {
     float rotation = 0.0f;
 
   auto paralaxEntity = engine.createEntity();
-  auto isParalaxComponent = std::make_shared<IsParallaxComponent>();
+  auto isParalaxComponent = std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
   auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(
       GameEngine::Vect2(1.0f, 0.0f));
@@ -55,7 +55,7 @@ int main() {
 
   auto paralaxEntity2 = engine.createEntity();
   auto isParalaxComponent1 =
-      std::make_shared<IsParallaxComponent>();
+      std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
   auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
@@ -146,10 +146,10 @@ int main() {
   engine.scheduleEvent("UpdateAnimation", 30);
   //   engine.scheduleEvent("SpawnMob", 1000);
 
-  /*for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 5; i++) {
     size_t id = EntityFactory::getInstance().spawnCancerMob(
         engine, 1980, 200 + i * 150, -1, 0);
-  }*/
+  }
 
   engine.run();
   return 0;

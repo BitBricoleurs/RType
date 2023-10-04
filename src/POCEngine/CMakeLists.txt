@@ -18,6 +18,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp

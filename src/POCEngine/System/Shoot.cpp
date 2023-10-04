@@ -49,9 +49,8 @@
             float rotation = 0.0f;
 
             auto bullet = componentsContainer.createEntity();
-            std::cout << " New entitie id:" << bullet << std::endl;
             auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-                    "assets/11.png", shootingPosition, rect1, 4, scale, rotation, tint);
+                    "assets/11.png", shootingPosition, rect1, 10, scale, rotation, tint);
             auto PositionComponent = std::make_shared<GameEngine::PositionComponent2D>(
                     GameEngine::Vect2(shootingPosition.x, shootingPosition.y));
             auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(

@@ -5,10 +5,10 @@
 #include "Parallax.hpp"
 
 
-void ParallaxSystem::update(GameEngine::ComponentsContainer &componentsContainer,
+void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
-        GameEngine::ComponentsType::getNewComponentType("IsParallaxComponent"));
+        GameEngine::ComponentsType::getNewComponentType("IsParallax"));
     GameEngine::Vect2 Velocity(0.0f, 0);
 
     for (auto entityID : parallaxEntities) {

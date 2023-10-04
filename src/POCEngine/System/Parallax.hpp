@@ -11,11 +11,11 @@
 #include "VelocityComponent.hpp"
 #include "SpriteComponent.hpp"
 
-class ParallaxSystem : public GameEngine::ISystem {
+class Parallax : public GameEngine::ISystem {
 public:
-  ParallaxSystem() = default;
+  Parallax() = default;
 
-  ~ParallaxSystem() = default;
+  ~Parallax() = default;
 
   void update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) override;

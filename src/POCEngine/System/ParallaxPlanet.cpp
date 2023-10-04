@@ -5,7 +5,7 @@
 
 #include "ParallaxPlanet.hpp"
 
-ParallaxPlanetSystem::ParallaxPlanetSystem() : lastPlanetLayer(0),
+ParallaxPlanet::ParallaxPlanet() : lastPlanetLayer(0),
           lastPlanetY(0),
           ticksSinceLastPlanet(0)
     {
@@ -36,7 +36,7 @@ ParallaxPlanetSystem::ParallaxPlanetSystem() : lastPlanetLayer(0),
     }
 
 
-void ParallaxPlanetSystem::update(GameEngine::ComponentsContainer &componentsContainer,
+void ParallaxPlanet::update(GameEngine::ComponentsContainer &componentsContainer,
                                   GameEngine::EventHandler &eventHandler) {
     ticksSinceLastPlanet++;
     if (ticksSinceLastPlanet >= nextTickThreshold) {
@@ -46,11 +46,11 @@ void ParallaxPlanetSystem::update(GameEngine::ComponentsContainer &componentsCon
     }
 }
 
-int ParallaxPlanetSystem::randomTickThreshold() {
+int ParallaxPlanet::randomTickThreshold() {
     return rand() % (800) + 1000;
 }
 
-void ParallaxPlanetSystem::spawnPlanets(GameEngine::ComponentsContainer &componentsContainer) {
+void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsContainer) {
     if (PlanetsPath.empty()) {
             PlanetsPath.swap(UsedPlanetsPath);
             UsedPlanetsPath.clear();
@@ -71,7 +71,7 @@ void ParallaxPlanetSystem::spawnPlanets(GameEngine::ComponentsContainer &compone
         GameEngine::ColorR tint = {255, 255, 255, 255};
         float rotation = 0.0f;
         auto parallaxEntity = componentsContainer.createEntity();
-        auto isParallaxComponent = std::make_shared<IsParallaxComponent>();
+        auto isParallaxComponent = std::make_shared<IsParallax>();
         componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
         auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
             randomPath, GameEngine::Vect2{1920, randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint

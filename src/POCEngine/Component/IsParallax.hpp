@@ -8,13 +8,10 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsParallaxComponent : public GameEngine::AComponent {
+class IsParallax : public GameEngine::AComponent {
 public:
-  IsParallaxComponent() = default;
-  ~IsParallaxComponent() = default;
+  IsParallax() = default;
+  ~IsParallax() = default;
 
-  size_t getComponentType() override {
-    return GameEngine::ComponentsType::getNewComponentType("IsParallaxComponent");
-  }
+  size_t getComponentType() override;
 };
-
