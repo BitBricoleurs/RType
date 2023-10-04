@@ -18,6 +18,7 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "SyncPosSprite.hpp"
 #include "ResetDirPlayer.hpp"
+#include "ParallaxPlanet.hpp"
 
 
 int main() {
@@ -26,6 +27,7 @@ int main() {
   auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
+  auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
   auto move = std::make_shared<ChangeDirPlayer>();
   auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
@@ -59,18 +61,11 @@ int main() {
       "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
-  auto paralaxEntity3 = engine.createEntity();
-  auto isParalaxComponent2 =
-      std::make_shared<IsParallax>();
-  engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
-  auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/Planets/Planet_Furnace_01_560x560.png",
-      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale, rotation, tint);
-  engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
   engine.addSystem("CollisionSystem", collision);
   engine.addSystem("MovementSystem", movement);
   engine.addSystem("ParallaxSystem", paralax);
+  engine.addSystem("ParallaxPlanetSystem", paralaxPlanet);
   engine.addSystem("SyncPosSPrite", sync);
   engine.addSystem("RenderEngineSystem",
                    std::make_shared<GameEngine::RenderEngineSystem>(
@@ -89,7 +84,7 @@ int main() {
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
   engine.addEvent("ShootSystem", shoot);
-  engine.scheduleEvent("ShootSystem", 50);
+  engine.scheduleEvent("ShootSystem", 20);
   engine.scheduleEvent("MovementShoot", 1);
 
   engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
@@ -150,7 +145,7 @@ int main() {
   //   engine.scheduleEvent("SpawnMob", 1000);
 
   for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-1, 0));
+    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
     std::cout << "Create id monster" << id << std::endl;
   }
 

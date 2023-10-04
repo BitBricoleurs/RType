@@ -28,9 +28,7 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
               if (spriteComp) {
                 auto currentRect = spriteComp->rect1;
                 currentRect.w = _charge * 2;
-                std::cout << "CURRENT RECT: " << currentRect.w << std::endl;
                 spriteComp->rect1 = currentRect;
-                std::cout << "UPDATED: " << _charge << std::endl;
               }
             }
           }

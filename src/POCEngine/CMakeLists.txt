@@ -28,6 +28,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ParallaxPlanet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
