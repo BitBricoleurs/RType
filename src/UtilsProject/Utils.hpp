@@ -54,6 +54,21 @@ namespace GameEngine {
         Vect3(float x, float y, float z) : x(x), y(y), z(z) {}
     };
 
+    struct Point {
+        float x, y;
+
+        Point() : x(0), y(0) {}
+        Point(float x, float y) : x(x), y(y) {}
+    };
+
+    struct Circle {
+        Point center;
+        float radius;
+
+        Circle() : center(), radius(0) {}
+
+        Circle(const Point &center, float radius) : center(center), radius(radius) {}
+    };
     struct ColorR {
         unsigned char r;
         unsigned char g;

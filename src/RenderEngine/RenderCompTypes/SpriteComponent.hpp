@@ -13,40 +13,33 @@
 #include <string>
 
 namespace GameEngine {
-class SpriteComponent : public AComponent {
-public:
-  SpriteComponent(const std::string &imagePath, Vect2 pos, rect rect1,
-                  size_t layer) {
-    this->imagePath = imagePath;
-    this->pos = pos;
-    this->rect1 = rect1;
-    this->layer = layer;
-  }
-  ~SpriteComponent() = default;
+    class SpriteComponent : public AComponent {
+    public:
+        SpriteComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer, float scale, float rotation, ColorR tint) {
+            this->imagePath = imagePath;
+            this->pos = pos;
+            this->rect1 = rect1;
+            this->layer = layer;
+            this->rotation = rotation;
+            this->scale = scale;
+            this->tint = tint;
+            this->origin = Vect2(0.0f,0.0f);
+        }
+        ~SpriteComponent() = default;
 
-  std::string getImagePath() const { return imagePath; }
-  void setImagePath(const std::string &imagePath) {
-    this->imagePath = imagePath;
-  }
-  Vect2 getPos() const { return pos; }
-  void setPos(Vect2 pos) { this->pos = pos; }
-  rect getRect() const { return rect1; }
-  void setRect(rect rect1) { this->rect1 = rect1; }
-  size_t getLayer() const { return layer; }
-  void setLayer(int layer) { this->layer = layer; }
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("SpriteComponent");
-  }
-  float getScale() const { return scale; }
-  void setScale(float scale) { this->scale = scale; }
-  int getWidth() const { return rect1.w; }
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("SpriteComponent");
+        }
 
-  Vect2 pos;
-  rect rect1;
+        Vect2 pos;
+        rect rect1;
+        float scale;
+        float rotation;
+        size_t layer;
+        std::string imagePath;
+        Vect2 origin;
+        ColorR tint;
+    private:
+    };
+}
 
-private:
-  float scale;
-  size_t layer;
-  std::string imagePath;
-};
-} // namespace GameEngine

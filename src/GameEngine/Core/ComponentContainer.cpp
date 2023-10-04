@@ -7,10 +7,18 @@
 
 namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponents(size_t componentType) {
-        return componentsContainer[componentType];
+        if (componentsContainer.find(componentType) != componentsContainer.end()) {
+            return componentsContainer[componentType];
+        }
+        return {};
     }
     std::optional<std::shared_ptr<IComponent>> ComponentsContainer::getComponent(size_t entityID, size_t componentType) {
-        return componentsContainer[componentType][entityID];
+        if (componentsContainer.find(componentType) != componentsContainer.end()) {
+            if (entityID < componentsContainer[componentType].size()) {
+                return componentsContainer[componentType][entityID];
+            }
+        }
+        return std::nullopt;
     }
     std::vector<size_t> ComponentsContainer::getEntitiesWithComponent(size_t componentType) {
         std::vector<size_t> entities;
@@ -33,10 +41,14 @@ namespace GameEngine {
 
     void ComponentsContainer::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
         if (!component) {
+            std::cout << "Error: Component is null" << std::endl;
             return;
         }
         size_t componentType = component.value()->getComponentType();
 
+        if (componentsContainer.find(componentType) == componentsContainer.end()) {
+            componentsContainer[componentType] = {};
+        }
         std::vector<std::optional<std::shared_ptr<IComponent>>>& entityComponents = componentsContainer[componentType];
 
         if(entityID >= entityComponents.size()) {

@@ -6,6 +6,7 @@
 #include <boost/asio.hpp>
 #include <utility>
 #include "Client.hpp"
+#include <optional>
 
 #include "Tick.hpp"
 #include "Message.hpp"

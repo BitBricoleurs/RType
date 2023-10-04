@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <optional>
 #include "PacketIO.hpp"
 
 namespace Network {

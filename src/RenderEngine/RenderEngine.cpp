@@ -30,10 +30,18 @@ std::string getExecutablePath() {
     return "";
   }
 #else
-  char result[PATH_MAX];
-  ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
-  std::string path = std::string(dirname(result));
-  return path + "/";
+    char result[PATH_MAX];
+    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+    if (count < 0 || count >= PATH_MAX) {
+        return "";
+    }
+    result[count] = '\0';
+    char* dir = dirname(result);
+    if (dir == NULL) {
+        return "";
+    }
+    std::string path = std::string(dir);
+    return path + std::string("/");
 #endif
 }
 
@@ -46,33 +54,32 @@ RenderEngine::~RenderEngine() {
 void RenderEngine::Initialize(int screenWidth, int screenHeight,
                               const char *windowTitle) {
   InitWindow(screenWidth, screenHeight, windowTitle);
-  _baseAssetPath = getExecutablePath();
   this->screenWidth = screenWidth;
   this->screenHeight = screenHeight;
+    _baseAssetPath = getExecutablePath();
+  if (_baseAssetPath.empty()) {
+    _baseAssetPath = "./";
+  }
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.getText().c_str(), textComponent.getPos().x,
-           textComponent.getPos().y, textComponent.getFontSize(),
-           {textComponent.getColor().r, textComponent.getColor().g,
-            textComponent.getColor().b, textComponent.getColor().a});
+  DrawText(textComponent.text.c_str(), textComponent.pos.x,
+           textComponent.pos.y, textComponent.fontSize,
+           {textComponent.color.r, textComponent.color.g,
+            textComponent.color.b, textComponent.color.a});
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-  std::string path = _baseAssetPath + spriteComponent.getImagePath();
+        std::string path = _baseAssetPath + spriteComponent.imagePath;
+  
+        auto it = textureCache.find(path);
+        if (it == textureCache.end()) {
+            Texture2D texture = LoadTexture(path.c_str());
+            textureCache[path] = texture;
+        }
+        DrawTexturePro(textureCache[path], { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h }, {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale}, {spriteComponent.origin.x, spriteComponent.origin.y}, spriteComponent.rotation, {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+    }
 
-  auto it = textureCache.find(path);
-  if (it == textureCache.end()) {
-    Texture2D texture = LoadTexture(path.c_str());
-    textureCache[path] = texture;
-  }
-
-  DrawTextureRec(textureCache[path],
-                 {spriteComponent.getRect().x, spriteComponent.getRect().y,
-                  spriteComponent.getRect().w, spriteComponent.getRect().h},
-                 {spriteComponent.getPos().x, spriteComponent.getPos().y},
-                 RAYWHITE);
-}
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
         if (IsKeyPressed(KEY_SPACE))

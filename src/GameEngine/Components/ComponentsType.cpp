@@ -33,4 +33,13 @@ namespace GameEngine {
         return componentTypeMap;
     }
 
+    std::string ComponentsType::getComponentName(size_t typeId) {
+        for (const auto& pair : getComponentTypeMap()) {
+            if (pair.second == typeId) {
+                return pair.first;
+            }
+        }
+        return "";
+    }
+
 } // namespace GameEngine

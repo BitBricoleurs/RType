@@ -8,6 +8,7 @@
 #include <vector>
 #include <any>
 #include <memory>
+#include <pthread.h>
 #include "TSqueue.hpp"
 #include "IMessage.hpp"
 

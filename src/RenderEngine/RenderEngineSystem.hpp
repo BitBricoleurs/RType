@@ -25,6 +25,6 @@ namespace GameEngine {
         virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
 
     private:
-        std::shared_ptr<RenderEngine> renderEngine;
+        std::unique_ptr<RenderEngine> renderEngine;
     };
 }
