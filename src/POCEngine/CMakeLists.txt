@@ -32,6 +32,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

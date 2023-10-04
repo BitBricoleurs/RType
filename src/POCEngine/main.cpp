@@ -1,29 +1,31 @@
-#include "ComponentContainer.hpp"
-#include "EntityFactory.hpp"
-#include "RenderEngineSystem.hpp"
-#include "SpriteComponent.hpp"
-#include "Utils.hpp"
-#include "VelocityComponent.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
-#include <iostream>
-#include "IsParallax.hpp"
-#include "IsChargingBar.hpp"
-#include "IsPlayer.hpp"
-#include "Parallax.hpp"
-#include "Shoot.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
-#include "UpdateEntitySprite.hpp"
-#include "PositionComponent2D.hpp"
+#include "ComponentContainer.hpp"
+#include "EntityFactory.hpp"
+#include "IsChargingBar.hpp"
+#include "IsParallax.hpp"
+#include "IsPlayer.hpp"
+#include "Parallax.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
-#include "SyncPosSprite.hpp"
+#include "PositionComponent2D.hpp"
+#include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
-
+#include "Shoot.hpp"
+#include "SpawnMob.hpp"
+#include "SpriteComponent.hpp"
+#include "SyncPosSprite.hpp"
+#include "UpdateEntitySprite.hpp"
+#include "Utils.hpp"
+#include "VelocityComponent.hpp"
+#include <iostream>
+#include <memory>
 
 int main() {
   GameEngine::GameEngine engine;
 
-  auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
+  auto collision =
+      std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto move = std::make_shared<ChangeDirPlayer>();
@@ -35,9 +37,9 @@ int main() {
   GameEngine::Vect2 pos2(0, 0);
   GameEngine::Vect2 pos3(1920, 0);
 
-     GameEngine::ColorR tint = {255,255,255,255};
-    float scale = 1.0f;
-    float rotation = 0.0f;
+  GameEngine::ColorR tint = {255, 255, 255, 255};
+  float scale = 1.0f;
+  float rotation = 0.0f;
 
   auto paralaxEntity = engine.createEntity();
   auto isParalaxComponent = std::make_shared<IsParallax>();
@@ -52,20 +54,19 @@ int main() {
   engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
 
   auto paralaxEntity2 = engine.createEntity();
-  auto isParalaxComponent1 =
-      std::make_shared<IsParallax>();
+  auto isParalaxComponent1 = std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
   auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
   auto paralaxEntity3 = engine.createEntity();
-  auto isParalaxComponent2 =
-      std::make_shared<IsParallax>();
+  auto isParalaxComponent2 = std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity3, isParalaxComponent2);
   auto spritecompoennt4 = std::make_shared<GameEngine::SpriteComponent>(
       "assets/Planets/Planet_Furnace_01_560x560.png",
-      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale, rotation, tint);
+      GameEngine::Vect2(300, 300), GameEngine::rect(0, 0, 560, 560), 3, scale,
+      rotation, tint);
   engine.bindComponentToEntity(paralaxEntity3, spritecompoennt4);
 
   engine.addSystem("CollisionSystem", collision);
@@ -134,13 +135,19 @@ int main() {
       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
   auto isPLayerComponent = std::make_shared<IsPlayer>();
   auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
-  auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
+  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(
+      GameEngine::Vect2(pos.x, pos.y));
+  auto velocity =
+      std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0, 0));
   engine.bindComponentToEntity(Player, spritecompoennt);
   engine.bindComponentToEntity(Player, isPLayerComponent);
   engine.bindComponentToEntity(Player, movementComponent);
   engine.bindComponentToEntity(Player, positionComponent);
   engine.bindComponentToEntity(Player, velocity);
+
+  auto spawnMob = std::make_shared<SpawnMob>();
+  engine.addEvent("spawnMob", spawnMob);
+  engine.scheduleEvent("spawnMob", 300);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
   engine.addEvent("UpdateAnimation", updateSprite);
@@ -149,10 +156,11 @@ int main() {
   engine.scheduleEvent("UpdateAnimation", 30);
   //   engine.scheduleEvent("SpawnMob", 1000);
 
-  for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-1, 0));
-    std::cout << "Create id monster" << id << std::endl;
-  }
+  //   for (int i = 0; i < 5; i++) {
+  //     size_t id = EntityFactory::getInstance().spawnCancerMob(engine,
+  //     GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-1, 0));
+  //     std::cout << "Create id monster" << id << std::endl;
+  //   }
 
   engine.run();
   return 0;
