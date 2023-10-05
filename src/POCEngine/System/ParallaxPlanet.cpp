@@ -8,7 +8,8 @@
 
 ParallaxPlanet::ParallaxPlanet() : lastPlanetLayer(0),
           lastPlanetY(0),
-          ticksSinceLastPlanet(0)
+          ticksSinceLastPlanet(0),
+          nextTickThreshold(0)
     {
         PlanetsPath = {
             "Planet_Furnace_01_560x560.png",
