@@ -21,7 +21,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         GameEngine::Vect2 shootingPosition(spriteComp->pos.x + shooterComp->shootPosition.x, spriteComp->pos.y + shooterComp->shootPosition.y);
         float rotation = 0.0f;
         float scale = 0.0f;
-        GameEngine::ColorR tint(255, 255, 255, 255);
+        GameEngine::ColorR tint = {255, 255, 255, 255};
         GameEngine::rect rect1;
         std::string spritePath;
 
