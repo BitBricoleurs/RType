@@ -6,63 +6,8 @@
 */
 
 #include "EntityFactory.hpp"
-#include "HeightVariation.hpp"
-#include "MovementComponent2D.hpp"
-#include "RenderEngine.hpp"
-#include "Utils.hpp"
-#include "VelocityComponent.hpp"
-#include <cstddef>
-#include <iostream>
-#include <memory>
-#include <tuple>
-#include <utility>
-
-size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
-                                     GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos,
-                                     GameEngine::Vect2 velocity) {
-
-  size_t entityId =
-      createBaseMob(container, "assets/cancerMob.gif", 34, 200, 6, true, true,
-                    "assets/explosion.gif", 33, 200, 6, pos, velocity, 32, 32,
-                    100, 10, 0, 0, 2.5f);
-  container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
-  eventHandler.scheduleEvent("animate", 30,
-                             std::make_tuple(std::string("Cancer"), entityId));
-  return entityId;
-}
-
-size_t
-EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
-                                GameEngine::EventHandler &eventHandler,
-                                GameEngine::Vect2 pos,
-                                GameEngine::Vect2 velocity) {
-  size_t entityId =
-      createBaseMob(container, "assets/epitech_assets/pataPataMob.gif", 36, 533,
-                    16, true, false, "assets/explosion.gif", 33, 200, 6, pos,
-                    velocity, 36, 36, 100, 10, 0, 0, 2.5f);
-
-  container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
-  container.bindComponentToEntity(
-      entityId, std::make_shared<HeightVariation>(3, 75, pos.y));
-
-  eventHandler.scheduleEvent(
-      "animate", 10, std::make_tuple(std::string("PataPata"), entityId));
-  return entityId;
-}
-
-size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
-                                  GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos,
-                                  GameEngine::Vect2 velocity) {
-
-  size_t entityId = createBaseMob(container, "assets/bugMob.png", 34, 532, 16,
-                                  false, false, "assets/explosion.gif", 33, 200,
-                                  6, pos, velocity, 32, 32, 100, 10, 0, 0);
-
-  container.bindComponentToEntity(entityId, std::make_shared<Bug>());
-  return entityId;
-}
+#include <math.h>
+#include <ostream>
 
 size_t EntityFactory::createBaseMob(
     GameEngine::ComponentsContainer &container,
@@ -75,8 +20,8 @@ size_t EntityFactory::createBaseMob(
     float scale, float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-      twoDirections, reverse, pos, velocity, hitboxHeight, hitboxWidth, scale,
-      rotation, tint);
+      twoDirections, reverse, pos, velocity, hitboxHeight, hitboxWidth, 0,
+      scale, rotation, tint);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto damageComponent = std::make_shared<Damage>(damageValue);
@@ -104,6 +49,14 @@ size_t EntityFactory::createBossMob(
     GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
     int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
     int stageValue, float scale, float rotation, GameEngine::ColorR tint) {
+  //   ameEngine::ComponentsContainer &container,
+  // const std::string &spriteSheetPath, int spriteSheetHeight,
+  // int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
+  // const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
+  // int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
+  // GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
+  // int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
+  // float scale, float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseMob(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
@@ -124,13 +77,16 @@ size_t EntityFactory::createBossMob(
 
 size_t EntityFactory::createPlayer(
     GameEngine::ComponentsContainer &container,
-    const std::string &spriteSheetPath, int rectX, int rectY, int rectWidth,
-    int rectHeight, GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
-    float hitboxWidth, float hitboxHeight, int maxHealth, float bulletStartX,
-    float bulletStartY, float scale, float rotation, GameEngine::ColorR tint) {
-  size_t entityId = createBaseEntity(
-      container, spriteSheetPath, false, rectX, rectY, rectWidth, rectHeight,
-      pos, velocity, hitboxWidth, hitboxHeight, scale, rotation, tint);
+    const std::string &spriteSheetPath, int spriteSheetHeight,
+    int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
+    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
+    float hitboxHeight, int maxHealth, int damageValue, float bulletStartX,
+    float bulletStartY, int player, float scale, float rotation,
+    GameEngine::ColorR tint) {
+  size_t entityId =
+      createBaseEntity(container, spriteSheetPath, spriteSheetHeight,
+                       spriteSheetWidth, frames, twoDirections, reverse, pos,
+                       velocity, hitboxWidth, hitboxHeight, player, 2.5f);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto playerComponent = std::make_shared<IsPlayer>();
@@ -154,7 +110,7 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, false, rectX, rectY, rectWidth, rectHeight,
-      pos, velocity, hitboxWidth, hitboxHeight, scale, rotation, tint);
+      pos, velocity, hitboxWidth, hitboxHeight, 0, scale, rotation, tint);
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto bulletComponent = std::make_shared<IsBullet>();
@@ -175,7 +131,7 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
                                     GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, false, rectX, rectY, rectWidth, rectHeight,
-      pos, velocity, hitboxWidth, hitboxHeight, scale, rotation, tint);
+      pos, velocity, hitboxWidth, hitboxHeight, 0, scale, rotation, tint);
   auto powerUpComponent = std::make_shared<IsPowerUp>();
   container.bindComponentToEntity(entityId, powerUpComponent);
   return entityId;
@@ -186,10 +142,11 @@ size_t EntityFactory::createBaseEntity(
     const std::string &spriteSheetPath, int spriteSheetHeight,
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
     GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
-    float hitboxHeight, float scale, float rotation, GameEngine::ColorR tint) {
-  auto spriteAnimationComponent =
-      initAnimation(spriteSheetPath, frames, spriteSheetWidth,
-                    spriteSheetHeight, twoDirections, reverse, velocity.x);
+    float hitboxHeight, int player, float scale, float rotation,
+    GameEngine::ColorR tint) {
+  auto spriteAnimationComponent = initAnimation(
+      spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight,
+      twoDirections, reverse, velocity.x, player);
 
   auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
   auto positionComponent =
@@ -211,7 +168,7 @@ size_t EntityFactory::createBaseEntity(
                                  positionComponent->pos.y};
 
   auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(4), scale,
+      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(7), scale,
       rotation, tint);
 
   size_t entityId = container.createEntity();
@@ -230,7 +187,7 @@ size_t EntityFactory::createBaseEntity(
 std::shared_ptr<SpriteAnimation>
 EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
                              int width, int height, bool twoDirections,
-                             bool reverse, int direction) {
+                             bool reverse, int direction, int player) {
   auto spriteComponent = std::make_shared<SpriteAnimation>();
 
   spriteComponent->frameHeight = height;
@@ -239,14 +196,20 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
   if (reverse)
     spriteComponent->frames = frames * 2 - 4;
   else
-    spriteComponent->frames = frames;
+    spriteComponent->frames = frames; // 5
   int i = 0;
 
+  float startY = 0;
+  if (player > 0) {
+    float starty = (player - 1) * (height / 5);
+    spriteComponent->frameHeight = round(height / 5);
+  }
+
   for (i = 0; i < frames / 2; i++) {
-    GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames, 0};
+    GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames,
+                                   startY};
     spriteComponent->spritePositionsLeft.push_back(spritePos);
   }
-  std::cout << spriteComponent->spritePositionsLeft.size() << std::endl; // 3
   if (reverse) {
     for (int y = i - 2; y > 0; y--) {
       GameEngine::Vect2 spritePos = {y * static_cast<float>(width) / frames, 0};
@@ -254,12 +217,9 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
       y--;
     }
   }
-  for (auto &pos : spriteComponent->spritePositionsLeft) {
-    std::cout << pos.x << std::endl;
-    std::cout << pos.y << std::endl;
-  }
-  for (; i >= frames; i++) {
-    GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames, 0};
+  for (; i < frames; i++) {
+    GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames,
+                                   startY};
     if (!twoDirections) {
       spriteComponent->spritePositionsLeft.push_back(spritePos);
     } else {
@@ -285,6 +245,9 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
       spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[0];
   else
     spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[0];
+  if (player > 0) {
+    spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[2];
+  }
 
   return spriteComponent;
 }

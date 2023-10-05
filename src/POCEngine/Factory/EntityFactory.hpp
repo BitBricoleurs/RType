@@ -14,15 +14,19 @@
 #include "EventHandler.hpp"
 #include "GameEngine.hpp"
 #include "Health.hpp"
+#include "HeightVariation.hpp"
 #include "IsBoss.hpp"
 #include "IsBullet.hpp"
 #include "IsMob.hpp"
 #include "IsPlayer.hpp"
 #include "IsPowerUp.hpp"
 #include "MobComponents.hpp"
+#include "MovementComponent2D.hpp"
 #include "PositionComponent2D.hpp"
+#include "RenderEngine.hpp"
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
+#include "VelocityComponent.hpp"
 #include <cstddef>
 #include <iostream>
 
@@ -45,6 +49,10 @@ public:
   size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                      GameEngine::EventHandler &eventHandler,
                      GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
+  size_t createNewPlayer(GameEngine::ComponentsContainer &container,
+                         GameEngine::EventHandler &eventHandler,
+                         GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
 private:
   EntityFactory() = default;
@@ -76,12 +84,13 @@ private:
                        GameEngine::ColorR tint = {255, 255, 255, 255});
 
   size_t createPlayer(GameEngine::ComponentsContainer &container,
-                      const std::string &spriteSheetPath, int rectX, int rectY,
-                      int rectWidth, int rectHeight, GameEngine::Vect2 pos,
+                      const std::string &spriteSheetPath, int spriteSheetHeight,
+                      int spriteSheetWidth, int frames, bool twoDirections,
+                      bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, float hitboxWidth,
-                      float hitboxHeight, int maxHealth, float bulletStartX,
-                      float bulletStartY, float scale = 1.0f,
-                      float rotation = 0.0f,
+                      float hitboxHeight, int maxHealth, int damageValue,
+                      float bulletStartX, float bulletStartY, int player = 1,
+                      float scale = 1.0f, float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 
   size_t createBullet(GameEngine::ComponentsContainer &container,
@@ -104,15 +113,17 @@ private:
                           int spriteSheetHeight, int spriteSheetWidth,
                           int frames, bool twoDirections, bool reverse,
                           GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
-                          float hitboxWidth, float hitboxHeight,
+                          float hitboxWidth, float hitboxHeight, int player = 0,
                           float scale = 1.0f, float rotation = 0.0f,
                           GameEngine::ColorR tint = {255, 255, 255, 255});
 
   std::shared_ptr<SpriteAnimation>
   initAnimation(const std::string &spriteSheetPath, int frames, int width,
-                int height, bool twoDirections, bool reverse, int direction);
+                int height, bool twoDirections, bool reverse, int direction,
+                int player = 0);
 
   std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
+  int player = 0;
 };
