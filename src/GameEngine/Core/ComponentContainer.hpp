@@ -35,6 +35,6 @@ namespace GameEngine {
     private:
         std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer;
         std::vector<size_t> freeMemorySlots;
-        size_t maxEntityID = 0;
+        size_t maxEntityID = 1;
     };
 }

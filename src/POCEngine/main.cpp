@@ -22,11 +22,12 @@
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
 #include "Shooter.hpp"
+#include "ForcePodFixSync.hpp"
+#include "WindowInfo.hpp"
 
 
 int main() {
   GameEngine::GameEngine engine;
-
   auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
@@ -37,10 +38,12 @@ int main() {
   auto sync = std::make_shared<SyncPosSprite>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
+  auto podSync = std::make_shared<ForcePodFixSync>();
+  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
 
-  GameEngine::rect rect2(0, 0, 1920, 1080);
+  GameEngine::rect rect2(0, 0, render->getScreenWidth(), render->getScreenHeight());
   GameEngine::Vect2 pos2(0, 0);
-  GameEngine::Vect2 pos3(1920, 0);
+  GameEngine::Vect2 pos3(render->getScreenWidth(), 0);
 
      GameEngine::ColorR tint = {255,255,255,255};
     float scale = 1.0f;
@@ -71,10 +74,8 @@ int main() {
   engine.addSystem("MovementSystem", movement);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("ParallaxPlanetSystem", paralaxPlanet);
-  engine.addSystem("SyncPosSPrite", sync);
-  engine.addSystem("RenderEngineSystem",
-                   std::make_shared<GameEngine::RenderEngineSystem>(
-                       1920, 1080, "POC Engine"));
+  engine.addSystem("SyncPosSPrite", sync, 3);
+  engine.addSystem("RenderEngineSystem", render, 4);
   engine.addEvent("UP_KEY_PRESSED", move);
   engine.addEvent("UP_KEY_RELEASED", reset);
   engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
@@ -89,8 +90,6 @@ int main() {
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
   engine.addEvent("ShootSystem", shoot);
-  engine.scheduleEvent("ShootSystem", 20);
-  engine.scheduleEvent("MovementShoot", 1);
 
   engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
 
@@ -137,6 +136,8 @@ int main() {
   auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
   auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
 
+  engine.scheduleEvent("ShootSystem", 20, Player);
+
   auto shooter = std::make_shared<Shooter>(GameEngine::Vect2(125, 0), GameEngine::Vect2(6,0), 0);
   engine.bindComponentToEntity(Player, spritecompoennt);
   engine.bindComponentToEntity(Player, isPLayerComponent);
@@ -157,8 +158,15 @@ int main() {
     std::cout << "Create id monster" << id << std::endl;
   }
   engine.addEvent("CONTROL_KEY_PRESSED", testInput);
+  engine.addEvent("ENTER_KEY_PRESSED", testInput);
   engine.addEvent("ForcePodSpawn", forcePod);
   engine.addEvent("ForcePodStop", forcePod);
+  engine.addEvent("ForcePodFix", forcePod);
+  engine.addSystem("ForcePodFixSync", podSync, 2);
+
+  auto window = engine.createEntity();
+  std::cout << "Window size:" << render->getScreenHeight() << ":" << render->getScreenWidth() << std::endl;
+  engine.bindComponentToEntity(window, std::make_shared<WindowInfo>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.run();
   return 0;

@@ -8,7 +8,6 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
 {
     auto anyEvent = eventHandler.getTriggeredEvent();
     if (anyEvent.first == "ForcePodSpawn") {
-        std::cout << "Spawn" << std::endl;
         auto anyEventSecond = eventHandler.getTriggeredEvent().second;
         auto posY = std::any_cast<float>(anyEventSecond);
         auto entityId = componentsContainer.createEntity();
@@ -20,6 +19,7 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsForcePod>());
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<Shooter>(GameEngine::Vect2(55, -13), GameEngine::Vect2(6,0), 1));
         eventHandler.scheduleEvent("ForcePodStop", 200, entityId);
+        eventHandler.scheduleEvent("ShootSystem", 100, entityId);
     } else if (anyEvent.first == "ForcePodStop") {
         eventHandler.unscheduleEvent("ForcePodStop");
         auto anyEventSecond = anyEvent.second;
@@ -30,5 +30,21 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
             velocity->velocity.x = 0;
             velocity->velocity.y = 0;
         }
+    } else if (anyEvent.first == "ForcePodFix") {
+        std::cout << "FIX" << std::endl;
+        auto anyEventSecond = anyEvent.second;
+        auto entityIdPlayer = std::any_cast<size_t>(anyEventSecond);
+        std::cout << "Entity id" << entityIdPlayer << std::endl;
+        auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsForcePod"));
+        for (const auto& entityID : entities) {
+            auto forcePodOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsForcePod"));
+            if (forcePodOpt.has_value()) {
+                auto forcePod = std::dynamic_pointer_cast<IsForcePod>(forcePodOpt.value());
+                if (forcePod->entityId == 0) {
+                    forcePod->entityId = entityIdPlayer;
+                }
+            }
+        }
+
     }
 }

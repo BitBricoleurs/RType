@@ -10,7 +10,9 @@
 
 class IsForcePod : public GameEngine::AComponent {
 public:
-  IsForcePod() = default;
+  IsForcePod();
 
   size_t getComponentType() override;
+
+  size_t entityId;
 };
