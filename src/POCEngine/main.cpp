@@ -1,7 +1,10 @@
+#include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "ComponentContainer.hpp"
+#include "CreatePlayer.hpp"
 #include "EntityFactory.hpp"
+#include "ISystem.hpp"
 #include "IsChargingBar.hpp"
 #include "IsParallax.hpp"
 #include "IsPlayer.hpp"
@@ -15,6 +18,7 @@
 #include "SpawnMob.hpp"
 #include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
+#include "System/AnimateOnMove.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
@@ -33,6 +37,7 @@ int main() {
   auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
   auto sync = std::make_shared<SyncPosSprite>();
+  auto animateOnMove = std::make_shared<AnimateOnMove>();
 
   GameEngine::rect rect2(0, 0, 1920, 1080);
   GameEngine::Vect2 pos2(0, 0);
@@ -77,6 +82,7 @@ int main() {
   engine.addSystem("RenderEngineSystem",
                    std::make_shared<GameEngine::RenderEngineSystem>(
                        1920, 1080, "POC Engine"));
+
   engine.addEvent("UP_KEY_PRESSED", move);
   engine.addEvent("UP_KEY_RELEASED", reset);
   engine.setContinuousEvent("UP_KEY_PRESSED", "UP_KEY_RELEASED");
@@ -90,8 +96,10 @@ int main() {
   engine.addEvent("RIGHT_KEY_RELEASED", reset);
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
+  engine.addEvent("animatePlayer", animateOnMove);
+
   engine.addEvent("ShootSystem", shoot);
-  engine.scheduleEvent("ShootSystem", 50);
+  engine.scheduleEvent("ShootSystem", 25);
   engine.scheduleEvent("MovementShoot", 1);
 
   engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
@@ -116,35 +124,41 @@ int main() {
   engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
   engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
 
-  GameEngine::Vect2 pos;
-  pos.x = 100;
-  pos.y = 100;
+  //   GameEngine::Vect2 pos;
+  //   pos.x = 100;
+  //   pos.y = 100;
 
-  GameEngine::rect rect1;
-  rect1.w = 144;
-  rect1.h = 59;
-  rect1.x = 0;
-  rect1.y = 0;
-  GameEngine::ColorR color;
-  color.r = 0;
-  color.g = 0;
-  color.b = 255;
-  color.a = 255;
+  //   GameEngine::rect rect1;
+  //   rect1.w = 144;
+  //   rect1.h = 59;
+  //   rect1.x = 0;
+  //   rect1.y = 0;
+  //   GameEngine::ColorR color;
+  //   color.r = 0;
+  //   color.g = 0;
+  //   color.b = 255;
+  //   color.a = 255;
 
-  auto Player = engine.createEntity();
-  auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
-  auto isPLayerComponent = std::make_shared<IsPlayer>();
-  auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(
-      GameEngine::Vect2(pos.x, pos.y));
-  auto velocity =
-      std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0, 0));
-  engine.bindComponentToEntity(Player, spritecompoennt);
-  engine.bindComponentToEntity(Player, isPLayerComponent);
-  engine.bindComponentToEntity(Player, movementComponent);
-  engine.bindComponentToEntity(Player, positionComponent);
-  engine.bindComponentToEntity(Player, velocity);
+  //   auto Player = engine.createEntity();
+  //   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
+  //       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
+  //   auto isPLayerComponent = std::make_shared<IsPlayer>();
+  //   auto movementComponent =
+  //   std::make_shared<GameEngine::MovementComponent>(); auto positionComponent
+  //   = std::make_shared<GameEngine::PositionComponent2D>(
+  //       GameEngine::Vect2(pos.x, pos.y));
+  //   auto velocity =
+  //       std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,
+  //       0));
+  //   engine.bindComponentToEntity(Player, spritecompoennt);
+  //   engine.bindComponentToEntity(Player, isPLayerComponent);
+  //   engine.bindComponentToEntity(Player, movementComponent);
+  //   engine.bindComponentToEntity(Player, positionComponent);
+  //   engine.bindComponentToEntity(Player, velocity);
+
+  auto createPlayer = std::make_shared<CreatePlayer>();
+  engine.addEvent("createPlayer", createPlayer);
+  engine.scheduleEvent("createPlayer", 1);
 
   auto spawnMob = std::make_shared<SpawnMob>();
   engine.addEvent("spawnMob", spawnMob);
