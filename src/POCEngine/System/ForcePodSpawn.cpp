@@ -3,6 +3,7 @@
 //
 
 #include "ForcePodSpawn.hpp"
+#include <iostream>
 
 void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
@@ -12,7 +13,12 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
         auto posY = std::any_cast<float>(anyEventSecond);
         auto entityId = componentsContainer.createEntity();
 
-        componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::SpriteComponent>("assets/force_pod_n1.gif", GameEngine::Vect2(0, posY), GameEngine::rect(0, 0, 22, 16), 10, 2.5, 0, GameEngine::ColorR(255, 255, 255, 225)));
+        GameEngine::ColorR tint = {255, 255, 255, 225};
+
+        componentsContainer.bindComponentToEntity(
+            entityId, std::make_shared<GameEngine::SpriteComponent>(
+                          "assets/force_pod_n1.gif", GameEngine::Vect2(0, posY),
+                          GameEngine::rect(0, 0, 22, 16), 10, 2.5, 0, tint));
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(3, 0)));
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::MovementComponent>());
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(0, posY)));
