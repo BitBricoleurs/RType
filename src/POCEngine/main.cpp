@@ -24,6 +24,7 @@
 #include "Shooter.hpp"
 #include "ForcePodFixSync.hpp"
 #include "WindowInfo.hpp"
+#include "ShootDelete.hpp"
 
 
 int main() {
@@ -40,6 +41,7 @@ int main() {
   auto testInput = std::make_shared<TestInput>();
   auto podSync = std::make_shared<ForcePodFixSync>();
   auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+  auto deleteShoot = std::make_shared<ShootDelete>();
 
   GameEngine::rect rect2(0, 0, render->getScreenWidth(), render->getScreenHeight());
   GameEngine::Vect2 pos2(0, 0);
@@ -163,6 +165,7 @@ int main() {
   engine.addEvent("ForcePodStop", forcePod);
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("ForcePodFixSync", podSync, 2);
+  engine.addSystem("deleteShoot", deleteShoot);
 
   auto window = engine.createEntity();
   std::cout << "Window size:" << render->getScreenHeight() << ":" << render->getScreenWidth() << std::endl;
