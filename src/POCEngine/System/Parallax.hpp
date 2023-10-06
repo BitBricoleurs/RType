@@ -6,6 +6,7 @@
 
 #include "ISystem.hpp"
 #include "Utils.hpp"
+#include "IsParallax.hpp"
 #include "ComponentsType.hpp"
 #include "VelocityComponent.hpp"
 #include "SpriteComponent.hpp"

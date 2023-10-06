@@ -7,6 +7,8 @@
 
 #include "RenderEngine.hpp"
 #include <filesystem>
+
+
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 #elif defined(__linux__)
@@ -51,11 +53,10 @@ RenderEngine::~RenderEngine() {
   }
 }
 
-void RenderEngine::Initialize(int screenWidth, int screenHeight,
-                              const char *windowTitle) {
-  InitWindow(screenWidth, screenHeight, windowTitle);
-  this->screenWidth = screenWidth;
-  this->screenHeight = screenHeight;
+void RenderEngine::Initialize(const char *windowTitle) {
+  InitWindow(0, 0, windowTitle);
+  this->screenWidth = GetScreenWidth();
+  this->screenHeight = GetScreenHeight();
     _baseAssetPath = getExecutablePath();
   if (_baseAssetPath.empty()) {
     _baseAssetPath = "./";
@@ -78,42 +79,43 @@ void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
             textureCache[path] = texture;
         }
         DrawTexturePro(textureCache[path], { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h }, {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale}, {spriteComponent.origin.x, spriteComponent.origin.y}, spriteComponent.rotation, {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
-    }
-
+}
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
-        if (IsKeyPressed(KEY_SPACE))
-            eventHandler.queueEvent("SPACE_KEY_PRESSED");
-        if (IsKeyReleased(KEY_SPACE))
-            eventHandler.queueEvent("SPACE_KEY_RELEASED");
-        if (IsKeyPressed(KEY_UP))
-            eventHandler.queueEvent("UP_KEY_PRESSED");
-        if (IsKeyReleased(KEY_UP))
-            eventHandler.queueEvent("UP_KEY_RELEASED");
-        if (IsKeyPressed(KEY_DOWN))
-            eventHandler.queueEvent("DOWN_KEY_PRESSED");
-        if (IsKeyReleased(KEY_DOWN))
-            eventHandler.queueEvent("DOWN_KEY_RELEASED");
-        if (IsKeyPressed(KEY_LEFT))
-            eventHandler.queueEvent("LEFT_KEY_PRESSED");
-        if (IsKeyReleased(KEY_LEFT))
-            eventHandler.queueEvent("LEFT_KEY_RELEASED");
-        if (IsKeyPressed(KEY_RIGHT))
-            eventHandler.queueEvent("RIGHT_KEY_PRESSED");
-        if (IsKeyReleased(KEY_RIGHT))
-            eventHandler.queueEvent("RIGHT_KEY_RELEASED");
-        if (IsKeyPressed(KEY_ENTER))
-            eventHandler.queueEvent("ENTER_KEY_PRESSED");
-        if (IsKeyPressed(KEY_ESCAPE))
-            eventHandler.queueEvent("ESCAPE_KEY_PRESSED");
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            eventHandler.queueEvent("MouseLeftButtonPressed");
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-            eventHandler.queueEvent("MouseRightButtonPressed");
+    for (const auto& mapping : keyMappings) {
+        if (mapping.checkFunction(mapping.key)) {
+            eventHandler.queueEvent(mapping.eventName);
+        }
     }
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        eventHandler.queueEvent("MouseLeftButtonPressed");
+    if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        eventHandler.queueEvent("MouseRightButtonPressed");
+    if (IsKeyPressed(KEY_F11)) {
+        SetWindowSize(1920,1080);
+        ToggleFullscreen();
+    }
+    if (WindowShouldClose()) {
+        eventHandler.queueEvent("gameEngineStop");
+    }
+}
+
+
 void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }
+
+size_t RenderEngine::getScreenHeight()
+{
+    return screenHeight;
+}
+
+size_t RenderEngine::getScreenWidth()
+{
+    return screenWidth;
+}
+
 } // namespace GameEngine

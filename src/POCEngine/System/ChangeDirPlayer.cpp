@@ -7,34 +7,23 @@
 
  void ChangeDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
-    auto nbEntity = componentsContainer.getEntitiesWithComponent(
-        GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
-    auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
-    auto event = eventHandler.getTriggeredEvent();
-    std::shared_ptr<GameEngine::VelocityComponent> spriteComp;
 
-    for (const auto &optComp : player) {
-      if (optComp.has_value()) {
-        auto aComp = std::dynamic_pointer_cast<GameEngine::AComponent>(optComp.value());
-        if (aComp &&
-            aComp->getComponentType() ==
-                GameEngine::ComponentsType::getNewComponentType("VelocityComponent")) {
-          spriteComp = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(aComp);
-          if (spriteComp) {
-            break;
-          }
+    auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
+    for (const auto& entityID : entities) {
+        auto event = eventHandler.getTriggeredEvent();
+        auto player = componentsContainer.getComponentsFromEntity(entityID);
+        auto velocityOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+        if (velocityOptional.has_value()) {
+             auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+            if (event.first == "UP_KEY_PRESSED") {
+                velocity->velocity.y = -5;
+            } else if (event.first == "DOWN_KEY_PRESSED") {
+                velocity->velocity.y = 5;
+            } else if (event.first == "LEFT_KEY_PRESSED") {
+                velocity->velocity.x = -5;
+            } else if (event.first == "RIGHT_KEY_PRESSED") {
+                velocity->velocity.x = 5;
+            }
         }
-      }
-    }
-    if (spriteComp) {
-      if (event.first == "UP_KEY_PRESSED") {
-        spriteComp->velocity.y = -5;
-      } else if (event.first == "DOWN_KEY_PRESSED") {
-        spriteComp->velocity.y = 5;
-      } else if (event.first == "LEFT_KEY_PRESSED") {
-        spriteComp->velocity.x = -5;
-      } else if (event.first == "RIGHT_KEY_PRESSED") {
-        spriteComp->velocity.x = 5;
-      }
     }
   }

@@ -3,11 +3,25 @@
 //
 
 #include "Parallax.hpp"
+#include "WindowInfo.hpp"
 
-  void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
+
+void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
         GameEngine::ComponentsType::getNewComponentType("IsParallax"));
+    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfo"));
+    size_t sizeWidth = 0;
+
+    for (const auto &window : windows) {
+        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfo"));
+        if (windowOpt.has_value()) {
+            auto windowSize = std::dynamic_pointer_cast<WindowInfo>(windowOpt.value());
+            sizeWidth = windowSize->windowWidth;
+            break;
+        }
+    }
+
     GameEngine::Vect2 Velocity(0.0f, 0);
 
     for (auto entityID : parallaxEntities) {
@@ -22,23 +36,28 @@
               componentOpt.value());
 
           if (velocityComponent) {
-            velocityComponent->velocity = Velocity;
+            velocityComponent->velocity= Velocity;
           }
         }
-        if (componentOpt.value()->getComponentType() !=
-            GameEngine::ComponentsType::getNewComponentType("IsParallax")) {
+        if (componentOpt.value()->getComponentType() ==
+            GameEngine::ComponentsType::getNewComponentType("SpriteComponent")) {
           auto spriteComponent =
               std::dynamic_pointer_cast<GameEngine::SpriteComponent>(componentOpt.value());
 
           if (spriteComponent) {
             GameEngine::Vect2 newPos =
-                spriteComponent->pos -
-                GameEngine::Vect2(0.1f * spriteComponent->layer + Velocity.x, 0);
+                spriteComponent->pos -=
+                GameEngine::Vect2(0.5f * static_cast<float>(spriteComponent->layer) + Velocity.x, 0);
 
             if (newPos.x + spriteComponent->rect1.w < 0) {
-              newPos.x = 1920;
+              newPos.x = sizeWidth;
             }
+
             spriteComponent->pos = newPos;
+            if (newPos.x + spriteComponent->rect1.w < 0 && spriteComponent->layer!= 1) {
+              componentsContainer.deleteEntity(entityID);
+
+            }
           }
         }
       }
