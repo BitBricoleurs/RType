@@ -85,7 +85,7 @@ size_t EntityFactory::createPlayer(
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(45, -8),
-                                               GameEngine::Vect2(6, 0), 0);
+                                               GameEngine::Vect2(12, 0), 0);
   auto playerComponent = std::make_shared<IsPlayer>();
   auto bulletStartPositionComponent =
       std::make_shared<BulletStartPosition>(bulletStartX, bulletStartY);
