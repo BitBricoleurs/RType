@@ -36,11 +36,11 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkOutput.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientConnection.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientRequestDisconnect.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientDisconnecting.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientTimeout.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkStartServer.cpp
+        ../POCServer/System/NetworkClientConnection.cpp
+        ../POCServer/System/NetworkClientRequestDisconnect.cpp
+        ../POCServer/System/NetworkClientDisconnecting.cpp
+        ../POCServer/System/NetworkClientTimeout.cpp
+        ../POCServer/System/NetworkStartServer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnectApply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerTimeout.cpp

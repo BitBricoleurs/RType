@@ -12,9 +12,9 @@
 
 // System of the Server that Handle Client Connection
 
-class NetworkClientConnect : public  GameEngine::ISystem {
+class NetworkClientConnection : public  GameEngine::ISystem {
     public:
-        NetworkClientConnect() = default;
+        NetworkClientConnection() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:

@@ -2,9 +2,9 @@
 // Created by Clément Lagasse on 05/10/2023.
 //
 
-#include "Server/NetworkClientConnection.hpp"
+#include "NetworkClientConnection.hpp"
 
-void NetworkClientConnect::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+void NetworkClientConnection::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     unsigned int netInterfaceId = 0;
 
