@@ -17,18 +17,15 @@ size_t EntityFactory::createBaseMob(
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
-    int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
-    float scale, float rotation, GameEngine::ColorR tint) {
+    GameEngine::Vect2 velocity, int maxHealth, int damageValue, float scale,
+    float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-      twoDirections, reverse, pos, velocity, hitboxHeight, hitboxWidth, 0,
-      scale, rotation, tint);
+      twoDirections, reverse, pos, velocity, 0, scale, rotation, tint);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto damageComponent = std::make_shared<Damage>(damageValue);
-  auto bulletStartPositionComponent =
-      std::make_shared<BulletStartPosition>(bulletStartX, bulletStartY);
+
   auto deathSpriteComponent =
       initDeathAnimation(deathSpriteSheetPath, deathFrames,
                          deathSpriteSheetWidth, deathSpriteSheetHeight);
@@ -36,7 +33,6 @@ size_t EntityFactory::createBaseMob(
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
-  container.bindComponentToEntity(entityId, bulletStartPositionComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
 
   return entityId;
@@ -48,16 +44,14 @@ size_t EntityFactory::createBossMob(
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
-    int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
-    int stageValue, float scale, float rotation, GameEngine::ColorR tint) {
+    GameEngine::Vect2 velocity, int maxHealth, int damageValue, int stageValue,
+    float scale, float rotation, GameEngine::ColorR tint) {
 
   size_t entityId = createBaseMob(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
-      deathSpriteSheetWidth, deathFrames, pos, velocity, hitboxWidth,
-      hitboxHeight, maxHealth, damageValue, bulletStartX, bulletStartY, scale,
-      rotation, tint);
+      deathSpriteSheetWidth, deathFrames, pos, velocity, maxHealth, damageValue,
+      scale, rotation, tint);
 
   auto stageComponent = std::make_shared<BossStage>(stageValue);
   auto bossComponent = std::make_shared<IsBoss>();
@@ -70,29 +64,25 @@ size_t EntityFactory::createBossMob(
   return entityId;
 }
 
-size_t EntityFactory::createPlayer(
-    GameEngine::ComponentsContainer &container,
-    const std::string &spriteSheetPath, int spriteSheetHeight,
-    int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
-    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
-    float hitboxHeight, int maxHealth, int damageValue, float bulletStartX,
-    float bulletStartY, int player, float scale, float rotation,
-    GameEngine::ColorR tint) {
-  size_t entityId =
-      createBaseEntity(container, spriteSheetPath, spriteSheetHeight,
-                       spriteSheetWidth, frames, twoDirections, reverse, pos,
-                       velocity, hitboxWidth, hitboxHeight, player, 2.5f);
+size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
+                                   const std::string &spriteSheetPath,
+                                   int spriteSheetHeight, int spriteSheetWidth,
+                                   int frames, bool twoDirections, bool reverse,
+                                   GameEngine::Vect2 pos,
+                                   GameEngine::Vect2 velocity, int maxHealth,
+                                   int damageValue, int player, float scale,
+                                   float rotation, GameEngine::ColorR tint) {
+  size_t entityId = createBaseEntity(
+      container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
+      twoDirections, reverse, pos, velocity, player, 2.5f);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(45, -8),
                                                GameEngine::Vect2(12, 0), 0);
   auto playerComponent = std::make_shared<IsPlayer>();
-  auto bulletStartPositionComponent =
-      std::make_shared<BulletStartPosition>(bulletStartX, bulletStartY);
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, playerComponent);
-  container.bindComponentToEntity(entityId, bulletStartPositionComponent);
   container.bindComponentToEntity(entityId, shooterComp);
 
   return entityId;
@@ -100,18 +90,18 @@ size_t EntityFactory::createPlayer(
 
 size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    const std::string &spriteSheetPath,
-                                   int rectX, int rectY, int rectWidth,
-                                   int rectHeight, GameEngine::Vect2 pos,
-                                   GameEngine::Vect2 velocity,
-                                   float hitboxWidth, float hitboxHeight,
-                                   int damageValue, float scale, float rotation,
-                                   GameEngine::ColorR tint) {
+                                   int spriteSheetHeight, int spriteSheetWidth,
+                                   int frames, bool twoDirections, bool reverse,
+                                   GameEngine::Vect2 pos,
+                                   GameEngine::Vect2 velocity, int damageValue,
+                                   bool isPlayerBullet, float scale,
+                                   float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
-      container, spriteSheetPath, false, rectX, rectY, rectWidth, rectHeight,
-      pos, velocity, hitboxWidth, hitboxHeight, 0, scale, rotation, tint);
+      container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
+      twoDirections, reverse, pos, velocity, 0, scale, rotation, tint);
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
-  auto bulletComponent = std::make_shared<IsBullet>();
+  auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
 
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, bulletComponent);
@@ -123,13 +113,11 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
                                     const std::string &spriteSheetPath,
                                     int rectX, int rectY, int rectWidth,
                                     int rectHeight, GameEngine::Vect2 pos,
-                                    GameEngine::Vect2 velocity,
-                                    float hitboxWidth, float hitboxHeight,
-                                    float scale, float rotation,
-                                    GameEngine::ColorR tint) {
-  size_t entityId = createBaseEntity(
-      container, spriteSheetPath, false, rectX, rectY, rectWidth, rectHeight,
-      pos, velocity, hitboxWidth, hitboxHeight, 0, scale, rotation, tint);
+                                    GameEngine::Vect2 velocity, float scale,
+                                    float rotation, GameEngine::ColorR tint) {
+  size_t entityId = createBaseEntity(container, spriteSheetPath, false, rectX,
+                                     rectY, rectWidth, rectHeight, pos,
+                                     velocity, 0, scale, rotation, tint);
   auto powerUpComponent = std::make_shared<IsPowerUp>();
   container.bindComponentToEntity(entityId, powerUpComponent);
   return entityId;
@@ -180,9 +168,8 @@ size_t EntityFactory::createBaseEntity(
     GameEngine::ComponentsContainer &container,
     const std::string &spriteSheetPath, int spriteSheetHeight,
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
-    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, float hitboxWidth,
-    float hitboxHeight, int player, float scale, float rotation,
-    GameEngine::ColorR tint) {
+    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, int player, float scale,
+    float rotation, GameEngine::ColorR tint) {
   auto spriteAnimationComponent = initAnimation(
       spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight,
       twoDirections, reverse, velocity.x, player);
@@ -192,9 +179,14 @@ size_t EntityFactory::createBaseEntity(
       std::make_shared<GameEngine::PositionComponent2D>(pos);
   auto velocityComponent =
       std::make_shared<GameEngine::VelocityComponent>(velocity);
-  // auto hitboxComponent =
-  // std::make_shared<Hitbox>(hitboxWidth, hitboxHeight);
-  // auto collideComponent = std::make_shared<GameEngine::AA>();
+
+  auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(
+      pos, GameEngine::Vect2(pos.x + spriteAnimationComponent->frameWidth,
+                             pos.y + spriteAnimationComponent->frameHeight));
+  auto rectangleCollider =
+      std::make_shared<GameEngine::RectangleColliderComponent2D>(
+          GameEngine::rect(0, 0, spriteAnimationComponent->frameWidth,
+                           spriteAnimationComponent->frameHeight));
 
   GameEngine::rect spriteRect;
 
@@ -217,8 +209,8 @@ size_t EntityFactory::createBaseEntity(
   container.bindComponentToEntity(entityId, positionComponent);
   container.bindComponentToEntity(entityId, velocityComponent);
   container.bindComponentToEntity(entityId, movementComponent);
-  // engine.bindComponentToEntity(entityId, hitboxComponent);
-  // engine.bindComponentToEntity(entityId, collideComponent);
+  container.bindComponentToEntity(entityId, AABBComponent);
+  container.bindComponentToEntity(entityId, rectangleCollider);
 
   return entityId;
 }
