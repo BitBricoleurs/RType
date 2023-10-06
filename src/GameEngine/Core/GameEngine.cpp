@@ -101,4 +101,8 @@ namespace GameEngine {
     void GameEngine::removeContinuousEvent(const std::string& eventName) {
         eventHandler.removeContinuousEvent(eventName);
     }
+
+    void GameEngine::queueEvent(const std::string & eventName, const std::any & eventData){
+        eventHandler.queueEvent(eventName, eventData);
+    }
 }
