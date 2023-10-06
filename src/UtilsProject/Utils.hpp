@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <cmath>
 
 namespace GameEngine {
     struct rect {
@@ -45,6 +46,17 @@ namespace GameEngine {
             x *= scalar;
             y *= scalar;
             return *this;
+        }
+        float magnitude() const { return std::sqrt(x * x + y * y); }
+
+        // Normalize the vector and return it
+        Vect2 normalize() const {
+          float mag = magnitude();
+          // To handle the case where magnitude is zero (avoid division by zero)
+          if (mag == 0) {
+            return Vect2(0, 0);
+          }
+          return Vect2(x / mag, y / mag);
         }
     };
 

@@ -15,7 +15,7 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
   this->player++;
   size_t entityId =
       createPlayer(container, "assets/ships.gif", 86, 166, 5, false, false, pos,
-                   velocity, 33, 17, 100, 0, 0, 0, player, 2.5f);
+                   velocity, 100, 0, player, 2.5f);
 
   GameEngine::Vect2 pos2(-100, -100);
 
