@@ -2,7 +2,7 @@
 // Created by Clément Lagasse on 05/10/2023.
 //
 
-#include "NetworkClientConnection.hpp"
+#include "Server/NetworkClientConnection.hpp"
 
 void NetworkClientConnect::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {

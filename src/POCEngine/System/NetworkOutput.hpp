@@ -10,6 +10,9 @@
 #include "ISystem.hpp"
 #include "IMessage.hpp"
 #include "UserMessage.hpp"
+#include "NetworkClientId.hpp"
+#include "ComponentContainer.hpp"
+#include "ComponentsType.hpp"
 
 class NetworkOutput : public GameEngine::ISystem {
 public:

@@ -23,20 +23,34 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
             }
         }
     } else if (_type == SERVER) {
+        size_t componentType = GameEngine::ComponentsType::getComponentType("NetworkClientId");
         try {
             if (auto userMsgPtr = std::any_cast<std::shared_ptr<Network::UserMessage>>(eventHandler.getTriggeredEvent().second)) {
-                // TODO: Look into Component for find the real Network ID and not the Entity ID
-                _server->sendClient(userMsgPtr->id, userMsgPtr->message);
+                auto mayComp = componentsContainer.getComponent(userMsgPtr->id, componentType);
+                if (!mayComp.has_value())
+                    return;
+                unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
+                _server->sendClient(netIdComp, userMsgPtr->message);
             }
             else if (auto usersMsgPtr = std::any_cast<std::shared_ptr<Network::UsersMessage>>(eventHandler.getTriggeredEvent().second)) {
+                std::vector<unsigned int> idsToBeSend = {};
                 for (auto id : usersMsgPtr->ids) {
-                    // TODO: Look into Component for find the real Network ID and not the Entity ID
-                    _server->sendClient(id, usersMsgPtr->message);
+                    auto mayComp = componentsContainer.getComponent(id, componentType);
+                    if (!mayComp.has_value())
+                        continue;
+                    idsToBeSend.push_back(std::static_pointer_cast<NetworkClientId>(mayComp.value())->id);
                 }
+                _server->sendClients(idsToBeSend, usersMsgPtr->message);
             }
             else if (auto notUserMsgPtr = std::any_cast<std::shared_ptr<Network::NotUserMessage>>(eventHandler.getTriggeredEvent().second)) {
-                // TODO: Look into Component for find the real Network ID and not the Entity ID
-                _server->sendAllClientsExcept(notUserMsgPtr->id, notUserMsgPtr->message);
+                auto mayComp = componentsContainer.getComponent(notUserMsgPtr->id, componentType);
+                if (!mayComp.has_value())
+                    return;
+                unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
+                _server->sendAllClientsExcept(netIdComp, userMsgPtr->message);
+            }
+            else if (auto allUserMsgPtr = std::any_cast<std::shared_ptr<Network::AllUsersMessage>>(eventHandler.getTriggeredEvent().second)) {
+                _server->sendAllClients(allUserMsgPtr->message);
             }
             else {
                 throw std::runtime_error("Unknown message type in eventHandler.getTriggeredEvent().second");

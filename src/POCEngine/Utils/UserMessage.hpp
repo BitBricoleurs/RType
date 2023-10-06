@@ -20,4 +20,7 @@ namespace Network {
         size_t id;
         std::shared_ptr<IMessage> message;
     };
+    struct AllUsersMessage {
+        std::shared_ptr<IMessage> message;
+    };
 };

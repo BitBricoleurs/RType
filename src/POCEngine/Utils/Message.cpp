@@ -89,6 +89,28 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
     }
 }
 
+std::map<std::string, uint8_t> actionToCodeMap =
+{
+    {"HELLO", 0x01},
+    {"BYE", 0x02},
+};
+
+std::map<std::string, uint8_t> typeToCodeMap =
+{
+    {"IGNORE", 0x00},
+    { "INT", 0x01 },
+    { "FLOAT", 0x02 },
+    { "STRING", 0x03 },
+    { "CHAR", 0x03}
+};
+
+std::map<uint8_t, uint8_t> typeToSizeMap =
+{
+    { 0x01, sizeof(int) },
+    { 0x02, sizeof(float) },
+    { 0x03, sizeof(char) },
+};
+
 std::string Network::Message::getActionByCode(uint8_t code)
 {
     for (auto& item : actionToCodeMap) {

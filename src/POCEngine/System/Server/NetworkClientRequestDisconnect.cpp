@@ -20,7 +20,7 @@ void NetworkClientRequestDisconnect::update(GameEngine::ComponentsContainer &com
         auto netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value());
         std::vector<size_t> ids = {netIdComp->id};
         std::vector<std::any> args = {};
-        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DISCONNECT_USER", ids, "", args);
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DISCONNECT", ids, "", args);
         std::shared_ptr<Network::UserMessage> userMessage = std::make_shared<Network::UserMessage>(entityId, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
 }

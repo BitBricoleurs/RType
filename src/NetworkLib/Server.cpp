@@ -85,6 +85,15 @@ namespace Network {
             _clients[id]->send(message);
         }
 
+        void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message)
+        {
+            for (auto id : ids) {
+                if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
+                    continue;
+                }
+                _clients[id]->send(message);
+            }
+        }
 
         void sendAllClients(const std::shared_ptr<IMessage>& message)
         {
@@ -200,6 +209,11 @@ namespace Network {
     void Server::sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
     {
         pimpl->sendClient(id, message);
+    }
+
+    void Server::sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message)
+    {
+        pimpl->sendClients(ids, message);
     }
 
     void Server::sendAllClients(const std::shared_ptr<IMessage>& message)

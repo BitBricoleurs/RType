@@ -36,9 +36,15 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkOutput.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientConnection.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientRequestDisconnect.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientDisconnecting.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientConnection.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientRequestDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientDisconnecting.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkClientTimeout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Server/NetworkStartServer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnectApply.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerTimeout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkConnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Utils/Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
