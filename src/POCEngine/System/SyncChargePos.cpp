@@ -25,13 +25,13 @@ void SyncChargePos::update(GameEngine::ComponentsContainer &componentsContainer,
       auto position =
           std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
               positionOpt.value());
+      auto charge = std::dynamic_pointer_cast<ChargeShoot>(chargeOpt.value());
       if (strcmp(triggeredEvent.c_str(), "SPACE_KEY_PRESSED")) {
         position->pos.x = -100;
         position->pos.y = -100;
         return;
       }
 
-      auto charge = std::dynamic_pointer_cast<ChargeShoot>(chargeOpt.value());
       auto playerPosOpt = componentsContainer.getComponent(
           charge->player,
           GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
@@ -41,8 +41,6 @@ void SyncChargePos::update(GameEngine::ComponentsContainer &componentsContainer,
                 playerPosOpt.value());
         position->pos.y = playerPos->pos.y - 10;
         position->pos.x = playerPos->pos.x + 80;
-        std::cout << position->pos.x << ", " << position->pos.x << " | "
-                  << playerPos->pos.y << ", " << playerPos->pos.y << std::endl;
       }
     }
   }

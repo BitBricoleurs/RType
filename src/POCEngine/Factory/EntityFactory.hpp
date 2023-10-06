@@ -25,6 +25,7 @@
 #include "MovementComponent2D.hpp"
 #include "PositionComponent2D.hpp"
 #include "RenderEngine.hpp"
+#include "Shooter.hpp"
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"

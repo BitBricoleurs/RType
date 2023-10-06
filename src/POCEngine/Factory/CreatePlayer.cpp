@@ -24,6 +24,7 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
 
   container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
   eventHandler.scheduleEvent("animatePlayer", 15, entityId);
+  eventHandler.scheduleEvent("ShootSystem", 20, entityId);
   eventHandler.scheduleEvent(
       "animate", 5,
       std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));

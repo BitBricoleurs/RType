@@ -3,8 +3,8 @@
 //
 
 #include "Shoot.hpp"
-
 #include "MovementComponent2D.hpp"
+#include "Shooter.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
 
