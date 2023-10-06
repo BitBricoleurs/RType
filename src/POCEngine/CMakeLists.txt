@@ -28,6 +28,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/ChargeShoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/WindowInfo.cpp
+        ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
         
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
@@ -38,6 +39,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodFixSync.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/InitParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
