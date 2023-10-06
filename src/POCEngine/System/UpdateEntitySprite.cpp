@@ -7,28 +7,28 @@
   void updateEntitySprite::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
     auto entities = componentsContainer.getEntitiesWithComponent(
-        GameEngine::ComponentsType::getComponentType("SpriteAnimationComponent"));
+        GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
 
     for (auto &entity : entities) {
       auto animationOpt = componentsContainer.getComponent(
-          entity, GameEngine::ComponentsType::getComponentType("SpriteAnimationComponent"));
-      auto directionOpt = componentsContainer.getComponent(
-          entity, GameEngine::ComponentsType::getComponentType("DirectionComponent"));
+          entity, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
+      auto velocityOpt = componentsContainer.getComponent(
+          entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
       auto spriteOpt = componentsContainer.getComponent(
           entity, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
       auto animation = std::dynamic_pointer_cast<SpriteAnimation>(
           animationOpt.value());
-      auto direction =
-          std::dynamic_pointer_cast<GameEngine::VelocityComponent>(directionOpt.value());
+      auto velocity =
+          std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOpt.value());
       auto sprite =
           std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
 
       if (animation) {
-        /*if (animation->twoDirections) {
+        if (animation->twoDirections) {
           if (animation->currentFrameIndex >= animation->frames / 2)
             animation->currentFrameIndex = 0;
-          if (direction->dx > 1)
+          if (velocity->velocity.x > 1)
             animation->currentFrame =
                 animation->spritePositionsRight[animation->currentFrameIndex++];
           else
@@ -42,7 +42,6 @@
         }
         sprite->rect1.x = animation->currentFrame.x;
         sprite->rect1.y = animation->currentFrame.y;
-         */
       }
     }
     std::cout << "updateEntitySpriteSystem end" << std::endl;

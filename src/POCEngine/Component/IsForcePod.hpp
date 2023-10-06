@@ -1,5 +1,5 @@
 //
-// Created by alexandre on 03/10/23.
+// Created by alexandre on 04/10/23.
 //
 
 #pragma once
@@ -8,10 +8,11 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsParallax : public GameEngine::AComponent {
+class IsForcePod : public GameEngine::AComponent {
 public:
-  IsParallax() = default;
-  ~IsParallax() = default;
+  IsForcePod();
 
   size_t getComponentType() override;
+
+  size_t entityId;
 };

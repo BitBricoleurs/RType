@@ -18,29 +18,32 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsForcePod.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/NetworkClientId.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/WindowInfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodFixSync.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ParallaxPlanet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ShootDelete.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/TestInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkOutput.cpp
-        ../POCServer/System/NetworkClientConnection.cpp
-        ../POCServer/System/NetworkClientRequestDisconnect.cpp
-        ../POCServer/System/NetworkClientDisconnecting.cpp
-        ../POCServer/System/NetworkClientTimeout.cpp
-        ../POCServer/System/NetworkStartServer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnectApply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerTimeout.cpp

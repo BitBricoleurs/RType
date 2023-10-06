@@ -22,6 +22,9 @@ namespace GameEngine {
     }
     std::vector<size_t> ComponentsContainer::getEntitiesWithComponent(size_t componentType) {
         std::vector<size_t> entities;
+        if (componentType == 0) {
+            return entities;
+        }
         for (size_t i = 0; i < componentsContainer[componentType].size(); i++) {
             if (componentsContainer[componentType][i].has_value()) {
                 entities.push_back(i);
