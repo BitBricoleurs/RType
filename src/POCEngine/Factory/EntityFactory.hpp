@@ -9,6 +9,7 @@
 
 #include "BossStage.hpp"
 #include "BulletStartPosition.hpp"
+#include "ChargeShoot.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"
 #include "EventHandler.hpp"
@@ -42,6 +43,7 @@ public:
   size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                         GameEngine::EventHandler &eventHandler,
                         GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
   size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                           GameEngine::EventHandler &eventHandler,
                           GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
@@ -108,6 +110,15 @@ private:
                        float hitboxHeight, float scale = 1.0f,
                        float rotation = 0.0f,
                        GameEngine::ColorR tint = {255, 255, 255, 255});
+
+  size_t createChargeAnimation(GameEngine::ComponentsContainer &container,
+                               const std::string &spriteSheetPath,
+                               int spriteSheetHeight, int spriteSheetWidth,
+                               int frames, GameEngine::Vect2 pos,
+                               size_t entityId, float scale = 1.0f,
+                               float rotation = 0.0f,
+                               GameEngine::ColorR tint = {255, 255, 255, 255});
+
   size_t createBaseEntity(GameEngine::ComponentsContainer &container,
                           const std::string &spriteSheetPath,
                           int spriteSheetHeight, int spriteSheetWidth,
@@ -125,5 +136,11 @@ private:
   std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
+
+  // std::shared_ptr<ChargeShootAnimation>
+  // EntityFactory::initChargeAnimation(const std::string
+  // &chargeSpriteSheetPath,
+  //                                    int chargeFrames, int chargeWidth,
+  //                                    int chargeHeight);
   int player = 0;
 };

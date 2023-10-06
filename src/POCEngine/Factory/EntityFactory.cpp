@@ -6,7 +6,9 @@
 */
 
 #include "EntityFactory.hpp"
+#include <cstddef>
 #include <math.h>
+#include <memory>
 #include <ostream>
 
 size_t EntityFactory::createBaseMob(
@@ -49,14 +51,7 @@ size_t EntityFactory::createBossMob(
     GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
     int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
     int stageValue, float scale, float rotation, GameEngine::ColorR tint) {
-  //   ameEngine::ComponentsContainer &container,
-  // const std::string &spriteSheetPath, int spriteSheetHeight,
-  // int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
-  // const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
-  // int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
-  // GameEngine::Vect2 velocity, float hitboxWidth, float hitboxHeight,
-  // int maxHealth, int damageValue, float bulletStartX, float bulletStartY,
-  // float scale, float rotation, GameEngine::ColorR tint) {
+
   size_t entityId = createBaseMob(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
@@ -135,6 +130,47 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
   auto powerUpComponent = std::make_shared<IsPowerUp>();
   container.bindComponentToEntity(entityId, powerUpComponent);
   return entityId;
+}
+
+size_t EntityFactory::createChargeAnimation(
+    GameEngine::ComponentsContainer &container,
+    const std::string &spriteSheetPath, int spriteSheetHeight,
+    int spriteSheetWidth, int frames, GameEngine::Vect2 pos, size_t entityId,
+    float scale, float rotation, GameEngine::ColorR tint) {
+
+  auto positionComponent =
+      std::make_shared<GameEngine::PositionComponent2D>(pos);
+  auto movementComp = std::make_shared<GameEngine::MovementComponent>();
+  auto chargeShootAnimation =
+      initAnimation(spriteSheetPath, frames, spriteSheetWidth,
+                    spriteSheetHeight, false, false, 1, 0);
+  GameEngine::Vect2 vel(0, 0);
+  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(vel);
+  auto isChargeShoot = std::make_shared<ChargeShoot>();
+  isChargeShoot->player = entityId;
+
+  GameEngine::rect spriteRect;
+  spriteRect.w = chargeShootAnimation->frameWidth;
+  spriteRect.h = chargeShootAnimation->frameHeight;
+  spriteRect.x = chargeShootAnimation->currentFrame.x;
+  spriteRect.y = chargeShootAnimation->currentFrame.y;
+
+  GameEngine::Vect2 spritePos = {positionComponent->pos.x,
+                                 positionComponent->pos.y};
+
+  auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
+      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(8), scale,
+      rotation, tint);
+
+  size_t animationId = container.createEntity();
+
+  container.bindComponentToEntity(animationId, positionComponent);
+  container.bindComponentToEntity(animationId, chargeShootAnimation);
+  container.bindComponentToEntity(animationId, spriteComponent);
+  container.bindComponentToEntity(animationId, isChargeShoot);
+  container.bindComponentToEntity(animationId, velocityComponent);
+  container.bindComponentToEntity(animationId, movementComp);
+  return animationId;
 }
 
 size_t EntityFactory::createBaseEntity(
@@ -272,3 +308,24 @@ EntityFactory::initDeathAnimation(const std::string &deathSpriteSheetPath,
 
   return deathSpriteComponent;
 }
+
+// std::shared_ptr<ChargeShootAnimation>
+// EntityFactory::initChargeAnimation(const std::string &chargeSpriteSheetPath,
+//                                    int chargeFrames, int chargeWidth,
+//                                    int chargeHeight) {
+//   auto chargeSpriteComponent = std::make_shared<ChargeShootAnimation>();
+
+//   chargeSpriteComponent->frameHeight = chargeHeight;
+//   chargeSpriteComponent->frameWidth =
+//       static_cast<float>(chargeWidth) / chargeFrames;
+//   chargeSpriteComponent->frames = chargeFrames;
+//   int i = 0;
+
+//   for (i = 0; i < chargeFrames; i++) {
+//     GameEngine::Vect2 spritePos = {
+//         i * static_cast<float>(chargeWidth) / chargeFrames, 0};
+//     chargeSpriteComponent->spritePositions.push_back(spritePos);
+//   }
+
+//   return chargeSpriteComponent;
+// }

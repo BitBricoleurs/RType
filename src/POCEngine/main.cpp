@@ -17,6 +17,7 @@
 #include "Shoot.hpp"
 #include "SpawnMob.hpp"
 #include "SpriteComponent.hpp"
+#include "SyncChargePos.hpp"
 #include "SyncPosSprite.hpp"
 #include "System/AnimateOnMove.hpp"
 #include "UpdateEntitySprite.hpp"
@@ -120,9 +121,14 @@ int main() {
   engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
 
   auto chargingBar = std::make_shared<ChargingBar>();
+  auto syncCharge = std::make_shared<SyncChargePos>();
 
-  engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
-  engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
+  std::vector<std::shared_ptr<GameEngine::ISystem>> keypressed;
+  keypressed.push_back(chargingBar);
+  keypressed.push_back(syncCharge);
+
+  engine.addEvent("SPACE_KEY_PRESSED", keypressed);
+  engine.addEvent("SPACE_KEY_RELEASED", keypressed);
 
   //   GameEngine::Vect2 pos;
   //   pos.x = 100;

@@ -31,8 +31,8 @@ void updateEntitySprite::update(
   auto sprite =
       std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
 
-  if (animation) {
-    if (animation->twoDirections) {
+  if (animation && sprite) {
+    if (animation->twoDirections && velocity) {
       if (animation->currentFrameIndex >= animation->frames / 2)
         animation->currentFrameIndex = 0;
       if (velocity->velocity.x > 1)

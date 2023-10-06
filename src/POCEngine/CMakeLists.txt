@@ -24,6 +24,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/ChargeShoot.cpp
+
         
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
@@ -42,6 +44,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncChargePos.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
