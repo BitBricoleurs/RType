@@ -120,6 +120,7 @@ int main() {
 
   engine.addEvent("SPACE_KEY_PRESSED", keypressed);
   engine.addEvent("SPACE_KEY_RELEASED", keypressed);
+  engine.addEvent("STOP_UNCHARGING", syncCharge);
 
   //   GameEngine::Vect2 pos;
   //   pos.x = 100;
@@ -141,8 +142,9 @@ int main() {
   //       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
   //   auto isPLayerComponent = std::make_shared<IsPlayer>();
   //   auto movementComponent =
-  //   std::make_shared<GameEngine::MovementComponent>(); auto positionComponent
-  //   = std::make_shared<GameEngine::PositionComponent2D>(
+  //   std::make_shared<GameEngine::MovementComponent>(); auto
+  //   positionComponent =
+  //   std::make_shared<GameEngine::PositionComponent2D>(
   //       GameEngine::Vect2(pos.x, pos.y));
   //   auto velocity =
   //       std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,

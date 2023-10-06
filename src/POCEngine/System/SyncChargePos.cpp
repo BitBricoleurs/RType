@@ -10,6 +10,8 @@
 void SyncChargePos::update(GameEngine::ComponentsContainer &componentsContainer,
                            GameEngine::EventHandler &eventHandler) {
   auto triggeredEvent = eventHandler.getTriggeredEvent().first;
+
+  std::cout << triggeredEvent << std::endl;
   auto chargeAnimations = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("ChargeShoot"));
 
@@ -26,11 +28,19 @@ void SyncChargePos::update(GameEngine::ComponentsContainer &componentsContainer,
           std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
               positionOpt.value());
       auto charge = std::dynamic_pointer_cast<ChargeShoot>(chargeOpt.value());
-      if (strcmp(triggeredEvent.c_str(), "SPACE_KEY_PRESSED")) {
+      if (strcmp(triggeredEvent.c_str(), "SPACE_KEY_RELEASED") == 0) {
+        std::cout << "released" << std::endl;
         position->pos.x = -100;
         position->pos.y = -100;
+        std::cout << position->pos.x << ", " << position->pos.y << std::endl;
         return;
-      }
+      } else if (strcmp(triggeredEvent.c_str(), "STOP_UNCHARGING") == 0) {
+        std::cout << "stopped" << std::endl;
+        eventHandler.scheduleEvent("ShootSystem", 20, charge->player);
+        return;
+      } else
+        std::cout << "pressed" << std::endl;
+      eventHandler.unscheduleEvent("ShootSystem");
 
       auto playerPosOpt = componentsContainer.getComponent(
           charge->player,
