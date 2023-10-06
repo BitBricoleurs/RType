@@ -26,6 +26,7 @@ set(BOOST_INCLUDE_LIBRARIES
         system
         smart_ptr
         throw_exception
+        type_traits
         utility
 )
 FetchContent_MakeAvailable(Boost)
