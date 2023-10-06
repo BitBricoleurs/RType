@@ -26,7 +26,6 @@ void ShootDelete::update(GameEngine::ComponentsContainer &componentsContainer, G
             auto pos = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(posOpt.value());
             auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
             if (pos->pos.x + sprite->rect1.w < 0 || pos->pos.x > sizeWidth) {
-                std::cout << "DELETE" << std::endl;
                 componentsContainer.deleteEntity(entityID);
             }
 
