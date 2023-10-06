@@ -4,7 +4,7 @@ add_library(NetworkLib STATIC
         Client.cpp
         IMessage.hpp
         InterfaceNetwork.cpp
-        Message.cpp
+        ../POCEngine/Utils/Message.cpp
         PacketComponent.hpp
         Server.cpp
         Tick.cpp
@@ -49,3 +49,4 @@ if(Boost_FOUND)
 endif()
 
 target_link_libraries(NetworkLib PRIVATE Threads::Threads)
+target_include_directories(NetworkLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

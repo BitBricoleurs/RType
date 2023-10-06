@@ -47,7 +47,7 @@ namespace Network {
 
     public:
 
-        Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args);
+        Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args);
         Message(std::vector<std::uint8_t> &message);
         ~Message() override = default;
 
@@ -64,7 +64,7 @@ namespace Network {
         void getDataMessage();
 
 
-        void initializeMessage(const std::vector<unsigned int>& IDs, const std::vector<std::uint8_t>& serializedArgs);
+        void initializeMessage(const std::vector<size_t>& IDs, const std::vector<std::uint8_t>& serializedArgs);
 
         std::string _action;
         std::string _ArgType;
@@ -72,7 +72,7 @@ namespace Network {
         uint8_t _NbrArgs;
         uint16_t _NbrId;
         uint8_t _sizeArg;
-        std::vector<unsigned int> _IDs;
+        std::vector<size_t> _IDs;
         std::vector<std::any> _args;
       private:
     };

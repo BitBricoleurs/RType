@@ -78,7 +78,7 @@ AMessage(message), _ArgType(), _args()
     }
 }
 
-Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
+Network::Message::Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args)
 : AMessage(), _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size()), _NbrId(IDs.size())
 {
     try {
@@ -164,7 +164,7 @@ void Network::Message::getDataMessage()
     _args = Serializer::deserialize(std::vector<uint8_t>(_message.begin() + 5 + _NbrId, _message.end()), _ArgTypeCode, _sizeArg, _NbrArgs);
 }
 
-void Network::Message::initializeMessage(const std::vector<unsigned int>& IDs, const std::vector<std::uint8_t>& serializedArgs)
+void Network::Message::initializeMessage(const std::vector<size_t>& IDs, const std::vector<std::uint8_t>& serializedArgs)
 {
     _message.push_back(actionToCodeMap[_action]);
     _message.push_back(static_cast<uint8_t>(_NbrId >> 8));

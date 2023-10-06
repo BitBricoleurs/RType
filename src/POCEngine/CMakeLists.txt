@@ -5,6 +5,7 @@ target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC ${CMAKE_SOURCE_DIR}/
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Component)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Factory)
+target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Utils)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_sources(${PROJECT_NAME_POCENGINE}
@@ -22,6 +23,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/NetworkClientId.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
@@ -32,7 +34,12 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkInput.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkOutput.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientConnection.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientRequestDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Utils/Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib)
+target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib)

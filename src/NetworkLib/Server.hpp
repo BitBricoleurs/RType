@@ -25,6 +25,9 @@ namespace Network {
 
         void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message);
 
+        std::deque<unsigned int> &getConnectedClients();
+        std::deque<unsigned int> &getDisconnectedClients();
+
     private:
         bool _isRunning;
         class Impl;

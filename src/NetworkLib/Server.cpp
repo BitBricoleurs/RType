@@ -104,6 +104,16 @@ namespace Network {
             }
         }
 
+        std::deque<unsigned int> &getConnectedClients()
+        {
+            return _connectingClients;
+        }
+
+        std::deque<unsigned int> &getDisconnectedClients()
+        {
+            return _disconnetingClients;
+        }
+
     private:
         std::shared_ptr<Interface> getInterfaceByEndpoint(const boost::asio::ip::udp::endpoint& endpoint) {
             for (const auto& client : _clients) {
@@ -157,6 +167,8 @@ namespace Network {
         unsigned short _port;
         size_t _maxClients;
         size_t _indexId;
+        std::deque<unsigned int> _connectingClients;
+        std::deque<unsigned int> _disconnetingClients;
     };
 
     Server::Server(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
@@ -191,5 +203,15 @@ namespace Network {
     void Server::sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message)
     {
         pimpl->sendAllClientsExcept(id, message);
+    }
+
+    std::deque<unsigned int> &Server::getConnectedClients()
+    {
+        return pimpl->getConnectedClients();
+    }
+
+    std::deque<unsigned int> &Server::getDisconnectedClients()
+    {
+        return pimpl->getDisconnectedClients();
     }
 }

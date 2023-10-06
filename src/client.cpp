@@ -2,7 +2,7 @@
 #include <memory>
 #include <any>
 #include "NetworkLib/Client.hpp"
-#include "NetworkLib/Message.hpp"
+#include "POCEngine/Utils/Message.hpp"
 
 int main() {
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> forwardQueue;
