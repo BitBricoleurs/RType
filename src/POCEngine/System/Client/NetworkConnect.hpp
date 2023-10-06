@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Endpoint.hpp"
+#include "../../../SharedNetwork/Utils/Endpoint.hpp"
 #include "Client.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"

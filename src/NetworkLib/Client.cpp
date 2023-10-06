@@ -5,11 +5,9 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <utility>
-#include "Client.hpp"
 #include <optional>
-
+#include "Client.hpp"
 #include "Tick.hpp"
-#include "../POCEngine/Utils/Message.hpp"
 #include "TSqueue.hpp"
 #include "InterfaceNetwork.hpp"
 
@@ -23,7 +21,7 @@ public:
     bool isConnected() const;
     void send(const std::shared_ptr<IMessage>& message);
     void processIncomingMessages();
-    waitForOutMessagesAndDisconnect();
+    void waitForOutMessagesAndDisconnect();
 
     boost::asio::io_context _context;
     Network::Tick _tick;

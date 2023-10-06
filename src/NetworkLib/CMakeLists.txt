@@ -4,7 +4,6 @@ add_library(NetworkLib STATIC
         Client.cpp
         IMessage.hpp
         InterfaceNetwork.cpp
-        ../POCEngine/Utils/Message.cpp
         PacketComponent.hpp
         Server.cpp
         Tick.cpp

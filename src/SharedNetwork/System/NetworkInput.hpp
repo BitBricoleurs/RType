@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "TSQueue.hpp"
+#include "TSqueue.hpp"
 #include "Message.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"

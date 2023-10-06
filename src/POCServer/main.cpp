@@ -27,6 +27,7 @@ int main(void) {
     engine.addSystem("NETWORK_INPUT", input, 0);
     engine.addSystem("NETWORK_OUTPUT", output, 1);
 
+    engine.queueEvent("NETWORK_START_SERVER", std::make_any<size_t>(0));
     engine.run();
     return 0;
 }

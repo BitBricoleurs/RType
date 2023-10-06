@@ -2,7 +2,6 @@
 #include <memory>
 #include <any>
 #include "NetworkLib/Client.hpp"
-#include "POCEngine/Utils/Message.hpp"
 
 int main() {
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> forwardQueue;
@@ -12,8 +11,8 @@ int main() {
     std::string str = "Hello";
     std::vector< std::any> data = {std::any(str)};
     std::vector<unsigned int> ids = {1, 2, 3};
-    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("HELLO", ids, "STRING", data);
-    client.send(message);
+    //std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("HELLO", ids, "STRING", data);
+    //client.send(message);
     while (1);
     return 0;
 }
