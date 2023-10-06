@@ -87,15 +87,10 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
             eventHandler.queueEvent(mapping.eventName);
         }
     }
-
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         eventHandler.queueEvent("MouseLeftButtonPressed");
     if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
         eventHandler.queueEvent("MouseRightButtonPressed");
-    if (IsKeyPressed(KEY_F11)) {
-        SetWindowSize(1920,1080);
-        ToggleFullscreen();
-    }
     if (WindowShouldClose()) {
         eventHandler.queueEvent("gameEngineStop");
     }
