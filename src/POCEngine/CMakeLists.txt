@@ -27,7 +27,6 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/ChargeShoot.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/WindowInfo.cpp
         ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
         
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
