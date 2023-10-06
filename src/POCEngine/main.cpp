@@ -155,7 +155,7 @@ int main() {
 
   auto createPlayer = std::make_shared<CreatePlayer>();
   engine.addEvent("createPlayer", createPlayer);
-  engine.scheduleEvent("createPlayer", 1);
+  engine.queueEvent("createPlayer");
 
   auto spawnMob = std::make_shared<SpawnMob>();
   engine.addEvent("spawnMob", spawnMob);

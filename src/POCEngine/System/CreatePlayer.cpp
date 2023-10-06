@@ -13,5 +13,4 @@ void CreatePlayer::update(GameEngine::ComponentsContainer &componentsContainer,
   EntityFactory::getInstance().createNewPlayer(
       componentsContainer, eventHandler, GameEngine::Vect2(0, 0),
       GameEngine::Vect2(-2, 0));
-  eventHandler.unscheduleEvent("createPlayer");
 }
