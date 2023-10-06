@@ -23,6 +23,7 @@ public:
     bool isConnected() const;
     void send(const std::shared_ptr<IMessage>& message);
     void processIncomingMessages();
+    waitForOutMessagesAndDisconnect();
 
     boost::asio::io_context _context;
     Network::Tick _tick;
@@ -49,17 +50,27 @@ void Network::Client::Impl::connect(const std::string &host, unsigned short port
     _sendThread = std::thread([this]() {_context.run(); });
 }
 
-void Network::Client::Impl::disconnect() {
-    if (isConnected()) {
-        _interface->disconnect();
-        if (_tickThread.joinable())
-            _tickThread.join();
-        if (_receiveThread.joinable())
-            _receiveThread.join();
-        if (_sendThread.joinable())
-            _sendThread.join();
-        _interface.reset();
+void Network::Client::Impl::waitForOutMessagesAndDisconnect() {
+    while (_interface->getIO()->getOutMessagesSize() > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+
+    _interface->disconnect();
+}
+void Network::Client::Impl::disconnect() {
+    boost::asio::post(_context, [this]() {
+        waitForOutMessagesAndDisconnect();
+    });
+
+    if (_tickThread.joinable())
+        _tickThread.join();
+    if (_receiveThread.joinable())
+        _receiveThread.join();
+    if (_sendThread.joinable())
+        _sendThread.join();
+    if (_listenThread.joinable())
+        _listenThread.join();
+    _interface.reset();
 }
 
 bool Network::Client::Impl::isConnected() const {

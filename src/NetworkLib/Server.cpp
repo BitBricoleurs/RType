@@ -114,6 +114,13 @@ namespace Network {
             return _disconnetingClients;
         }
 
+        void disconnectClient(unsigned int id) {
+            if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
+                return;
+            }
+            _clients[id]->disconnect();
+        }
+
     private:
         std::shared_ptr<Interface> getInterfaceByEndpoint(const boost::asio::ip::udp::endpoint& endpoint) {
             for (const auto& client : _clients) {
@@ -213,5 +220,9 @@ namespace Network {
     std::deque<unsigned int> &Server::getDisconnectedClients()
     {
         return pimpl->getDisconnectedClients();
+    }
+
+    void Server::disconnectClient(unsigned int id) {
+        pimpl->disconnectClient(id);
     }
 }

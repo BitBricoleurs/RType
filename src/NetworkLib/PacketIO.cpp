@@ -139,3 +139,8 @@ void Network::PacketIO::processOutgoingMessages()
         }
     });
 }
+
+size_t Network::PacketIO::getOutMessagesSize() const
+{
+    return _outMessages->count();
+}

@@ -45,6 +45,8 @@ namespace Network {
         void processOutgoingMessages();
         void processIncomingMessages();
 
+        size_t getOutMessagesSize() const;
+
       private:
 
         unsigned int getIdByEndpoint(const boost::asio::ip::udp::endpoint& endpoint);

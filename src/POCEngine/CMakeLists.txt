@@ -38,6 +38,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkOutput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientConnection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientRequestDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientDisconnecting.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Utils/Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
