@@ -4,7 +4,7 @@
 
 
 #include "ParallaxPlanet.hpp"
-#include "WindowInfo.hpp"
+#include "WindowInfoComponent.hpp"
 
 ParallaxPlanet::ParallaxPlanet() : lastPlanetLayer(0),
           lastPlanetY(0),
@@ -57,14 +57,14 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
             PlanetsPath.swap(UsedPlanetsPath);
             UsedPlanetsPath.clear();
         }
-    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfo"));
+    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     size_t sizeWidth = 0;
     size_t sizeHeight = 0;
 
     for (const auto &window : windows) {
-        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfo"));
+        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
         if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfo>(windowOpt.value());
+            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
             sizeWidth = windowSize->windowWidth;
             sizeHeight = windowSize->windowHeight;
             break;

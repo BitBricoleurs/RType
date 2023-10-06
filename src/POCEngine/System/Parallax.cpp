@@ -3,20 +3,20 @@
 //
 
 #include "Parallax.hpp"
-#include "WindowInfo.hpp"
+#include "WindowInfoComponent.hpp"
 
 
 void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
         GameEngine::ComponentsType::getNewComponentType("IsParallax"));
-    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfo"));
+    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     size_t sizeWidth = 0;
 
     for (const auto &window : windows) {
-        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfo"));
+        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
         if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfo>(windowOpt.value());
+            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
             sizeWidth = windowSize->windowWidth;
             break;
         }

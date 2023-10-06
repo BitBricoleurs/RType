@@ -6,7 +6,6 @@
 #include "VelocityComponent.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include <iostream>
-#include "IsParallax.hpp"
 #include "IsChargingBar.hpp"
 #include "IsPlayer.hpp"
 #include "Parallax.hpp"
@@ -23,8 +22,10 @@
 #include "TestInput.hpp"
 #include "Shooter.hpp"
 #include "ForcePodFixSync.hpp"
-#include "WindowInfo.hpp"
+#include "WindowInfoComponent.hpp"
 #include "ShootDelete.hpp"
+#include "InitParallax.hpp"
+#include "ToggleFullScreen.hpp"
 
 
 int main() {
@@ -42,36 +43,19 @@ int main() {
   auto podSync = std::make_shared<ForcePodFixSync>();
   auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
   auto deleteShoot = std::make_shared<ShootDelete>();
+  auto initParallax = std::make_shared<InitParallax>();
+  auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
 
-  GameEngine::rect rect2(0, 0, render->getScreenWidth(), render->getScreenHeight());
-  GameEngine::Vect2 pos2(0, 0);
-  GameEngine::Vect2 pos3(render->getScreenWidth(), 0);
+  auto window = engine.createEntity();
+  engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
-     GameEngine::ColorR tint = {255,255,255,255};
-    float scale = 1.0f;
-    float rotation = 0.0f;
+  GameEngine::ColorR tint = {255,255,255,255};
+  float scale = 1.0f;
+  float rotation = 0.0f;
 
-  auto paralaxEntity = engine.createEntity();
-  auto isParalaxComponent = std::make_shared<IsParallax>();
-  engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
-  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(
-      GameEngine::Vect2(1.0f, 0.0f));
-  engine.bindComponentToEntity(paralaxEntity, velocityComponent);
-  auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/background_1.png", pos2, rect2, 2, scale, rotation, tint);
-  std::cout << "para" << paralaxEntity << std::endl;
-  std::cout << spritecompoennt2->origin.x << std::endl;
-  engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
-
-  auto paralaxEntity2 = engine.createEntity();
-  auto isParalaxComponent1 =
-      std::make_shared<IsParallax>();
-  engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
-  auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
-  engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
-
-
+  engine.addEvent("InitParallax", initParallax);
+  engine.queueEvent("InitParallax");
+  engine.addEvent("toggleFullScreen", toggleFullScreen);
   engine.addSystem("CollisionSystem", collision);
   engine.addSystem("MovementSystem", movement);
   engine.addSystem("ParallaxSystem", paralax);
@@ -166,10 +150,6 @@ int main() {
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
-
-  auto window = engine.createEntity();
-  std::cout << "Window size:" << render->getScreenHeight() << ":" << render->getScreenWidth() << std::endl;
-  engine.bindComponentToEntity(window, std::make_shared<WindowInfo>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.run();
   return 0;

@@ -9,9 +9,9 @@
 #include "AComponent.hpp"
 #include "Utils.hpp"
 
-class WindowInfo : public GameEngine::AComponent {
+class WindowInfoComponent : public GameEngine::AComponent {
 public:
-  explicit WindowInfo(size_t windowWidth, size_t windowHeight);
+  explicit WindowInfoComponent(size_t windowWidth, size_t windowHeight);
 
   size_t getComponentType() override;
 
