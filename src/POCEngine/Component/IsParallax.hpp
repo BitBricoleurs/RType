@@ -11,9 +11,7 @@
 class IsParallax : public GameEngine::AComponent {
 public:
   IsParallax() = default;
-  ~IsParallax() override = default;
+  ~IsParallax() = default;
 
   size_t getComponentType() override;
-
-private:
 };

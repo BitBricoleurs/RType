@@ -220,21 +220,12 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
     GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames, 0};
     spriteComponent->spritePositionsLeft.push_back(spritePos);
   }
-  std::cout << spriteComponent->spritePositionsLeft.size() << std::endl; // 3
   if (reverse) {
-    std::cout << "reverse" << std::endl;
-    std::cout << "i: " << i << std::endl; // 3
     for (int y = i - 2; y > 0; y--) {
-      std::cout << "y: " << y << std::endl;
       GameEngine::Vect2 spritePos = {y * static_cast<float>(width) / frames, 0};
-      std::cout << "spritePos: " << spritePos.x << std::endl;
       spriteComponent->spritePositionsLeft.push_back(spritePos);
       y--;
     }
-  }
-  for (auto &pos : spriteComponent->spritePositionsLeft) {
-    std::cout << pos.x << std::endl;
-    std::cout << pos.y << std::endl;
   }
   for (; i >= frames; i++) {
     GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames, 0};

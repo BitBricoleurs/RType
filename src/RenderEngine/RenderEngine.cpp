@@ -63,10 +63,10 @@ void RenderEngine::Initialize(int screenWidth, int screenHeight,
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.text.c_str(), textComponent.pos.x,
-           textComponent.pos.y, textComponent.fontSize,
-           {textComponent.color.r, textComponent.color.g,
-            textComponent.color.b, textComponent.color.a});
+    Vector2 position = { textComponent.pos.x, textComponent.pos.y };
+    Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
+
+    DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
@@ -116,4 +116,7 @@ void RenderEngine::ClearBackgroundRender(Color color) {
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }
+RenderEngine::RenderEngine() {
+    font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
+}
 } // namespace GameEngine

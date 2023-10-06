@@ -44,5 +44,4 @@
         sprite->rect1.y = animation->currentFrame.y;
       }
     }
-    std::cout << "updateEntitySpriteSystem end" << std::endl;
   }

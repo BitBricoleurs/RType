@@ -13,12 +13,13 @@
 #include "IsBullet.hpp"
 #include "EventHandler.hpp"
 #include "VelocityComponent.hpp"
+#include "AudioComponent.hpp"
 
 class Shoot : public GameEngine::ISystem {
+public:
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
-public:
-
 private:
+    std::shared_ptr<GameEngine::AudioComponent> shootSound = std::make_shared<GameEngine::AudioComponent>("assets/music/Shoot.wav");
   bool done = false;
 };

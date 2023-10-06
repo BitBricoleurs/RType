@@ -4,7 +4,8 @@
 
 #include "Parallax.hpp"
 
-  void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
+
+void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
         GameEngine::ComponentsType::getNewComponentType("IsParallax"));
@@ -22,23 +23,28 @@
               componentOpt.value());
 
           if (velocityComponent) {
-            velocityComponent->velocity = Velocity;
+            velocityComponent->velocity= Velocity;
           }
         }
-        if (componentOpt.value()->getComponentType() !=
-            GameEngine::ComponentsType::getNewComponentType("IsParallax")) {
+        if (componentOpt.value()->getComponentType() ==
+            GameEngine::ComponentsType::getNewComponentType("SpriteComponent")) {
           auto spriteComponent =
               std::dynamic_pointer_cast<GameEngine::SpriteComponent>(componentOpt.value());
 
           if (spriteComponent) {
             GameEngine::Vect2 newPos =
-                spriteComponent->pos -
-                GameEngine::Vect2(0.1f * spriteComponent->layer + Velocity.x, 0);
+                spriteComponent->pos -=
+                GameEngine::Vect2(0.5f * static_cast<float>(spriteComponent->layer) + Velocity.x, 0);
 
             if (newPos.x + spriteComponent->rect1.w < 0) {
               newPos.x = 1920;
             }
+
             spriteComponent->pos = newPos;
+            if (newPos.x + spriteComponent->rect1.w < 0 && spriteComponent->layer!= 1) {
+              componentsContainer.deleteEntity(entityID);
+
+            }
           }
         }
       }

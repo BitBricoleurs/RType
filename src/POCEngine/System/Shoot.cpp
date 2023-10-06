@@ -50,7 +50,7 @@
 
             auto bullet = componentsContainer.createEntity();
             auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-                    "assets/11.png", shootingPosition, rect1, 4, scale, rotation, tint);
+                    "assets/11.png", shootingPosition, rect1, 10, scale, rotation, tint);
             auto PositionComponent = std::make_shared<GameEngine::PositionComponent2D>(
                     GameEngine::Vect2(shootingPosition.x, shootingPosition.y));
             auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(
@@ -59,7 +59,7 @@
             auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(rect1);
             componentsContainer.bindComponentToEntity(bullet, spriteComponent);
             auto isBulletComponent = std::make_shared<IsBullet>();
-            auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(2.0f, 0.0f));
+            auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(6.0f, 0.0f));
             auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
             componentsContainer.bindComponentToEntity(bullet, velocity);
             componentsContainer.bindComponentToEntity(bullet, movementComponent);
@@ -67,5 +67,7 @@
             componentsContainer.bindComponentToEntity(bullet, PositionComponent);
             componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
             componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
+            componentsContainer.bindComponentToEntity(bullet, shootSound);
+            eventHandler.queueEvent("PLAY_SOUND", bullet);
         }
     }

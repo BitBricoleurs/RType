@@ -17,7 +17,7 @@
 namespace GameEngine {
     class RenderEngine {
     public:
-        RenderEngine() = default;
+        RenderEngine();
         ~RenderEngine();
 
         void Initialize(int screenWidth, int screenHeight, const char* windowTitle);
@@ -32,5 +32,6 @@ namespace GameEngine {
         int screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
+        Font font;
     };
 }

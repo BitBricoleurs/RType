@@ -34,7 +34,7 @@ namespace GameEngine {
         void changeScene(const std::string& sceneName);
 
         void setTickSpeed(double newTickSpeed);
-        void scheduleEvent(const std::string& eventName, size_t interval);
+        void scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {});
         void unscheduleEvent(const std::string& eventName);
 
         void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
@@ -45,6 +45,8 @@ namespace GameEngine {
         void addEvent(const std::string& eventName, std::shared_ptr<ISystem> system);
         void addEvent(const std::string& eventName, std::function<void()> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
+
+        void queueEvent(const std::string& eventName, const std::any& eventData = {});
 
         void deleteEvent(const std::string& eventName);
 
