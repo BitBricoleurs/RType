@@ -1,5 +1,10 @@
+#include "AnimateOnMove.hpp"
+#include "ChangeDirPlayer.hpp"
+#include "ChargingBar.hpp"
 #include "ComponentContainer.hpp"
+#include "CreatePlayer.hpp"
 #include "EntityFactory.hpp"
+#include "ISystem.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "Utils.hpp"
@@ -7,16 +12,24 @@
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include <iostream>
 #include "IsChargingBar.hpp"
+#include "IsParallax.hpp"
 #include "IsPlayer.hpp"
 #include "Parallax.hpp"
-#include "Shoot.hpp"
-#include "ChangeDirPlayer.hpp"
-#include "ChargingBar.hpp"
-#include "UpdateEntitySprite.hpp"
-#include "PositionComponent2D.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
-#include "SyncPosSprite.hpp"
+#include "PositionComponent2D.hpp"
+#include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
+#include "Shoot.hpp"
+#include "SpawnMob.hpp"
+#include "SpriteComponent.hpp"
+#include "SyncChargePos.hpp"
+#include "SyncPosSprite.hpp"
+#include "System/AnimateOnMove.hpp"
+#include "UpdateEntitySprite.hpp"
+#include "Utils.hpp"
+#include "VelocityComponent.hpp"
+#include "WiggleMob.hpp"
 #include "ParallaxPlanet.hpp"
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
@@ -24,9 +37,10 @@
 #include "ForcePodFixSync.hpp"
 #include "WindowInfoComponent.hpp"
 #include "ShootDelete.hpp"
+#include <iostream>
+#include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
-
 
 int main() {
   GameEngine::GameEngine engine;
@@ -38,6 +52,7 @@ int main() {
   auto reset = std::make_shared<ResetDirPlayer>();
   auto shoot = std::make_shared<Shoot>();
   auto sync = std::make_shared<SyncPosSprite>();
+  auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
   auto podSync = std::make_shared<ForcePodFixSync>();
@@ -75,6 +90,8 @@ int main() {
   engine.addEvent("RIGHT_KEY_RELEASED", reset);
   engine.setContinuousEvent("RIGHT_KEY_PRESSED", "RIGHT_KEY_RELEASED");
 
+  engine.addEvent("animatePlayer", animateOnMove);
+
   engine.addEvent("ShootSystem", shoot);
 
   engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
@@ -95,54 +112,61 @@ int main() {
   engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
 
   auto chargingBar = std::make_shared<ChargingBar>();
+  auto syncCharge = std::make_shared<SyncChargePos>();
 
-  engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
-  engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
+  std::vector<std::shared_ptr<GameEngine::ISystem>> keypressed;
+  keypressed.push_back(chargingBar);
+  keypressed.push_back(syncCharge);
 
-  GameEngine::Vect2 pos;
-  pos.x = 100;
-  pos.y = 100;
+  engine.addEvent("SPACE_KEY_PRESSED", keypressed);
+  engine.addEvent("SPACE_KEY_RELEASED", keypressed);
 
-  GameEngine::rect rect1;
-  rect1.w = 144;
-  rect1.h = 59;
-  rect1.x = 0;
-  rect1.y = 0;
-  GameEngine::ColorR color;
-  color.r = 0;
-  color.g = 0;
-  color.b = 255;
-  color.a = 255;
+  //   GameEngine::Vect2 pos;
+  //   pos.x = 100;
+  //   pos.y = 100;
 
-  auto Player = engine.createEntity();
-  auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
-  auto isPLayerComponent = std::make_shared<IsPlayer>();
-  auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
-  auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
+  //   GameEngine::rect rect1;
+  //   rect1.w = 144;
+  //   rect1.h = 59;
+  //   rect1.x = 0;
+  //   rect1.y = 0;
+  //   GameEngine::ColorR color;
+  //   color.r = 0;
+  //   color.g = 0;
+  //   color.b = 255;
+  //   color.a = 255;
 
-  engine.scheduleEvent("ShootSystem", 20, Player);
+  //   auto Player = engine.createEntity();
+  //   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
+  //       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
+  //   auto isPLayerComponent = std::make_shared<IsPlayer>();
+  //   auto movementComponent =
+  //   std::make_shared<GameEngine::MovementComponent>(); auto positionComponent
+  //   = std::make_shared<GameEngine::PositionComponent2D>(
+  //       GameEngine::Vect2(pos.x, pos.y));
+  //   auto velocity =
+  //       std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,
+  //       0));
+  //   engine.bindComponentToEntity(Player, spritecompoennt);
+  //   engine.bindComponentToEntity(Player, isPLayerComponent);
+  //   engine.bindComponentToEntity(Player, movementComponent);
+  //   engine.bindComponentToEntity(Player, positionComponent);
+  //   engine.bindComponentToEntity(Player, velocity);
 
-  auto shooter = std::make_shared<Shooter>(GameEngine::Vect2(125, 0), GameEngine::Vect2(6,0), 0);
-  engine.bindComponentToEntity(Player, spritecompoennt);
-  engine.bindComponentToEntity(Player, isPLayerComponent);
-  engine.bindComponentToEntity(Player, movementComponent);
-  engine.bindComponentToEntity(Player, positionComponent);
-  engine.bindComponentToEntity(Player, velocity);
-  engine.bindComponentToEntity(Player, shooter);
+  auto createPlayer = std::make_shared<CreatePlayer>();
+  engine.addEvent("createPlayer", createPlayer);
+  engine.queueEvent("createPlayer");
+
+  auto spawnMob = std::make_shared<SpawnMob>();
+  engine.addEvent("spawnMob", spawnMob);
+  engine.scheduleEvent("spawnMob", 60);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
-  engine.addEvent("UpdateAnimation", updateSprite);
-  std::cout << "spawnMob1" << std::endl;
-  //   engine.addEvent("SpawnMob", [&engine]() { spawnMob(engine); });
-  engine.scheduleEvent("UpdateAnimation", 30);
-  //   engine.scheduleEvent("SpawnMob", 1000);
+  engine.addEvent("animate", updateSprite);
 
-  for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
-    std::cout << "Create id monster" << id << std::endl;
-  }
+  auto wigglePata = std::make_shared<WiggleMob>();
+  engine.addSystem("wiggleMob", wigglePata);
+
   engine.addEvent("CONTROL_KEY_PRESSED", testInput);
   engine.addEvent("ENTER_KEY_PRESSED", testInput);
   engine.addEvent("ForcePodSpawn", forcePod);

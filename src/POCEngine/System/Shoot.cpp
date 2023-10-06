@@ -3,10 +3,10 @@
 //
 
 #include "Shoot.hpp"
-#include "VelocityComponent.hpp"
-#include "Utils.hpp"
-#include "Shooter.hpp"
 #include "MovementComponent2D.hpp"
+#include "Shooter.hpp"
+#include "Utils.hpp"
+#include "VelocityComponent.hpp"
 
 void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     auto event = eventHandler.getTriggeredEvent().second;

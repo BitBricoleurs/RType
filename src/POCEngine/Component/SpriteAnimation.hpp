@@ -24,3 +24,17 @@ public:
   std::vector<GameEngine::Vect2> spritePositionsLeft;
   std::vector<GameEngine::Vect2> spritePositionsRight;
 };
+
+class ChargeShootAnimation : public GameEngine::AComponent {
+public:
+  ChargeShootAnimation();
+
+  size_t getComponentType() override;
+
+  int frameHeight, frameWidth;
+  int currentFrameIndex;
+  int frames;
+  GameEngine::Vect2 currentFrame;
+  std::vector<GameEngine::Vect2> spritePositionsLeft;
+  std::vector<GameEngine::Vect2> spritePositionsRight;
+};
