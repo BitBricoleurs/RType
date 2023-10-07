@@ -4,11 +4,11 @@
 
 #include "NetworkReceiveDisconnectApply.hpp"
 
-NetworkRecieveDisconnectApply::NetworkRecieveDisconnectApply(std::shared_ptr<Network::Client> &client) : _client(client)
+NetworkReceiveDisconnectApply::NetworkReceiveDisconnectApply(std::shared_ptr<Network::Client> &client) : _client(client)
 {
 }
 
-void NetworkRecieveDisconnectApply::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+void NetworkReceiveDisconnectApply::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     _client->disconnect();
 }

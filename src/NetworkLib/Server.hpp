@@ -29,8 +29,8 @@ namespace Network {
 
         void disconnectClient(unsigned int id);
 
-        std::deque<unsigned int> &getConnectedClients();
-        std::deque<unsigned int> &getDisconnectedClients();
+        Network::TSQueue<unsigned int> &getConnectedClients();
+        Network::TSQueue<unsigned int> &getDisconnectedClients();
 
     private:
         bool _isRunning;

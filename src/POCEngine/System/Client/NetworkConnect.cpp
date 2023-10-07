@@ -4,20 +4,24 @@
 
 #include "NetworkConnect.hpp"
 
-NetworkInitConnection::NetworkInitConnection(std::shared_ptr<Network::Client> &client) : _client(client)
+NetworkConnect::NetworkConnect(std::shared_ptr<Network::Client> &client) : _client(client)
 {
 }
 
-void NetworkInitConnection::update(GameEngine::ComponentsContainer &componentsContainer,
+void NetworkConnect::update(GameEngine::ComponentsContainer &componentsContainer,
                                    GameEngine::EventHandler &eventHandler)
 {
     if (_client->isConnected())
         return;
-    Network::Endpoint endpoint = {};
+    Network::Endpoint endpoint("", 0);
     try {
         endpoint = std::any_cast<Network::Endpoint>(eventHandler.getTriggeredEvent().second);
     } catch (std::bad_any_cast &e) {
         std::cerr << "Error from NetworkClientConnect System " << e.what() << std::endl;
     }
     _client->connect(endpoint.ip, endpoint.port);
+    std::vector<size_t> ids = {};
+    std::vector<std::any> args = {};
+    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CONNECT", ids, "", args);
+    eventHandler.queueEvent("SEND_NETWORK", message);
 }

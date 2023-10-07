@@ -91,7 +91,7 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 
 std::map<std::string, uint8_t> actionToCodeMap =
 {
-    {"HELLO", 0x01},
+    {"CONNECT", 0x01},
     {"BYE", 0x02},
 };
 

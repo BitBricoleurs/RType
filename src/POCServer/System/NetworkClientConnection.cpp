@@ -4,15 +4,16 @@
 
 #include "NetworkClientConnection.hpp"
 
+NetworkClientConnection::NetworkClientConnection(std::shared_ptr<Network::Server> &server) : _server(server)
+{
+}
+
 void NetworkClientConnection::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    unsigned int netInterfaceId = 0;
-
-    try {
-        netInterfaceId = std::any_cast<unsigned int>(eventHandler.getTriggeredEvent().second);
-    } catch (std::bad_any_cast &e) {
-        std::cerr << "Error from NetworkClientConnect System " << e.what() << std::endl;
-    }
+    Network::TSQueue<unsigned int> &queue = _server->getConnectedClients();
+    if (queue.empty())
+        return;
+    unsigned int netInterfaceId = queue.popBack();
     size_t entityId = componentsContainer.createEntity();
     componentsContainer.bindComponentToEntity(entityId, std::make_shared<NetworkClientId>(netInterfaceId));
     std::vector<size_t> ids = {entityId};

@@ -47,12 +47,6 @@ namespace Network {
             _tickThread = std::thread([this]() {_tick.Start();});
             _packetIO->readPacket();
             _packetIO->processIncomingMessages();
-            bool isSend = false;
-            while (true) {
-                if (_context.stopped()) {
-                    std::cout << "io_context is stopped!" << std::endl;
-                }
-            }
         }
 
         void stop() {
@@ -113,12 +107,12 @@ namespace Network {
             }
         }
 
-        std::deque<unsigned int> &getConnectedClients()
+         Network::TSQueue<unsigned int> &getConnectedClients()
         {
             return _connectingClients;
         }
 
-        std::deque<unsigned int> &getDisconnectedClients()
+        Network::TSQueue<unsigned int>& getDisconnectedClients()
         {
             return _disconnetingClients;
         }
@@ -157,6 +151,7 @@ namespace Network {
                     << ":" << remoteEndpoint.port()
                     << " id is :" << _indexId << std::endl;
                 clientInterface->getIO()->processOutgoingMessages();
+                _connectingClients.pushBack(_indexId);
                 _indexId++;
             }
         }
@@ -183,8 +178,9 @@ namespace Network {
         unsigned short _port;
         size_t _maxClients;
         size_t _indexId;
-        std::deque<unsigned int> _connectingClients;
-        std::deque<unsigned int> _disconnetingClients;
+        std::mutex _queueMutex;
+        Network::TSQueue<unsigned int> _disconnetingClients;
+        Network::TSQueue<unsigned int> _connectingClients;
     };
 
     Server::Server(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
@@ -226,12 +222,12 @@ namespace Network {
         pimpl->sendAllClientsExcept(id, message);
     }
 
-    std::deque<unsigned int> &Server::getConnectedClients()
+    Network::TSQueue<unsigned int> &Server::getConnectedClients()
     {
         return pimpl->getConnectedClients();
     }
 
-    std::deque<unsigned int> &Server::getDisconnectedClients()
+     Network::TSQueue<unsigned int> &Server::getDisconnectedClients()
     {
         return pimpl->getDisconnectedClients();
     }

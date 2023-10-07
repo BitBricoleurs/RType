@@ -4,15 +4,16 @@
 
 #pragma once
 
-#include "../../../SharedNetwork/Utils/Endpoint.hpp"
+#include "Endpoint.hpp"
 #include "Client.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "Message.hpp"
 
-class NetworkInitConnection : public GameEngine::ISystem {
+class NetworkConnect : public GameEngine::ISystem {
 
 public:
-    NetworkInitConnection(std::shared_ptr<Network::Client> &client);
+    NetworkConnect(std::shared_ptr<Network::Client> &client);
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
     private:

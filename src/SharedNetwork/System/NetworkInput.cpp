@@ -8,7 +8,7 @@ NetworkInput::NetworkInput(Network::TSQueue<std::shared_ptr<Network::OwnedMessag
 
 
 std::unordered_map<std::string, std::string> NetworkInput::_actionEventMap = {
-    {"action1", "event1"},
+    {"CONNECT", "NETWORK_CLIENT_CONNECTION"},
     {"action2", "event2"}
 };
 
@@ -18,7 +18,7 @@ void NetworkInput::update(GameEngine::ComponentsContainer &componentsContainer, 
         return;
     while (!_forwardQueue.empty()) {
         auto message = _forwardQueue.popFront();
-        auto messageData = std::static_pointer_cast<Network::Message>(message->message);
+        std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(message->message->getMessage());
         auto action = messageData->getAction();
         auto it = _actionEventMap.find(action);
         if (it != _actionEventMap.end()) {

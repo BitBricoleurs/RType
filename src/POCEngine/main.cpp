@@ -41,9 +41,18 @@
 #include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
+#include "NetworkConnect.hpp"
+#include "NetworkReceiveDisconnect.hpp"
+#include "NetworkReceiveDisconnectApply.hpp"
+#include "NetworkServerTimeout.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkOutput.hpp"
+#include "Client.hpp"
+#include "Endpoint.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
+  /*
   auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
@@ -177,6 +186,26 @@ int main() {
   engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
 
+   */
+
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+    auto client = std::make_shared<Network::Client>(2, queue);
+    auto networkConnect = std::make_shared<NetworkConnect>(client);
+    auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
+    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>(client);
+    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>(client);
+    auto networkInput = std::make_shared<NetworkInput>(queue);
+    auto networkOutput = std::make_shared<NetworkOutput>(client);
+    Network::Endpoint endpoint("127.0.0.1", 4444);
+
+    engine.addSystem("NETWORK_INPUT", networkInput, 0);
+    engine.addEvent("SEND_NETWORK", networkOutput);
+    engine.addEvent("NETWORK_CONNECT", networkConnect);
+    engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
+    engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
+    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
+
+    engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
   engine.run();
   return 0;
 }

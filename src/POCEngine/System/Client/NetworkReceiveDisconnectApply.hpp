@@ -9,9 +9,9 @@
 
 // Last system to be executed because it's cutting the connection with the server and the client
 
-class NetworkRecieveDisconnectApply : public GameEngine::ISystem {
+class NetworkReceiveDisconnectApply : public GameEngine::ISystem {
     public:
-        NetworkRecieveDisconnectApply(std::shared_ptr<Network::Client> &client);
+        NetworkReceiveDisconnectApply(std::shared_ptr<Network::Client> &client);
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:

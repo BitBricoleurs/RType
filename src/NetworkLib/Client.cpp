@@ -72,6 +72,8 @@ void Network::Client::Impl::disconnect() {
 }
 
 bool Network::Client::Impl::isConnected() const {
+    if (!_interface)
+        return false;
     return _interface->isConnected();
 }
 

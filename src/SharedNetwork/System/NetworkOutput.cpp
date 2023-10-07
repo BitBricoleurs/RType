@@ -17,46 +17,53 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
     if (_type == CLIENT) {
         if (_client->isConnected()) {
             try {
-            _client->send(std::any_cast<std::shared_ptr<Network::IMessage>>(eventHandler.getTriggeredEvent().second));
+                _client->send(std::any_cast<std::shared_ptr<Network::IMessage>>(eventHandler.getTriggeredEvent().second));
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from NetworkOutput System " << e.what() << std::endl;
             }
         }
     } else if (_type == SERVER) {
         size_t componentType = GameEngine::ComponentsType::getComponentType("NetworkClientId");
+        auto eventArg = eventHandler.getTriggeredEvent().second;
+
         try {
-            if (auto userMsgPtr = std::any_cast<std::shared_ptr<Network::UserMessage>>(eventHandler.getTriggeredEvent().second)) {
-                auto mayComp = componentsContainer.getComponent(userMsgPtr->id, componentType);
-                if (!mayComp.has_value())
-                    return;
+            auto userMsgPtr = std::any_cast<std::shared_ptr<Network::UserMessage>>(eventArg);
+            auto mayComp = componentsContainer.getComponent(userMsgPtr->id, componentType);
+            if (mayComp.has_value()) {
                 unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
                 _server->sendClient(netIdComp, userMsgPtr->message);
             }
-            else if (auto usersMsgPtr = std::any_cast<std::shared_ptr<Network::UsersMessage>>(eventHandler.getTriggeredEvent().second)) {
-                std::vector<unsigned int> idsToBeSend = {};
-                for (auto id : usersMsgPtr->ids) {
-                    auto mayComp = componentsContainer.getComponent(id, componentType);
-                    if (!mayComp.has_value())
-                        continue;
+            return ;
+        } catch (const std::bad_any_cast&) {}
+
+        try {
+            auto usersMsgPtr = std::any_cast<std::shared_ptr<Network::UsersMessage>>(eventArg);
+            std::vector<unsigned int> idsToBeSend = {};
+            for (auto id : usersMsgPtr->ids) {
+                auto mayComp = componentsContainer.getComponent(id, componentType);
+                if (mayComp.has_value()) {
                     idsToBeSend.push_back(std::static_pointer_cast<NetworkClientId>(mayComp.value())->id);
                 }
-                _server->sendClients(idsToBeSend, usersMsgPtr->message);
+                return ;
             }
-            else if (auto notUserMsgPtr = std::any_cast<std::shared_ptr<Network::NotUserMessage>>(eventHandler.getTriggeredEvent().second)) {
-                auto mayComp = componentsContainer.getComponent(notUserMsgPtr->id, componentType);
-                if (!mayComp.has_value())
-                    return;
+            _server->sendClients(idsToBeSend, usersMsgPtr->message);
+        } catch (const std::bad_any_cast&) {}
+
+        try {
+            auto notUserMsgPtr = std::any_cast<std::shared_ptr<Network::NotUserMessage>>(eventArg);
+            auto mayComp = componentsContainer.getComponent(notUserMsgPtr->id, componentType);
+            if (mayComp.has_value()) {
                 unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
-                _server->sendAllClientsExcept(netIdComp, userMsgPtr->message);
+                _server->sendAllClientsExcept(netIdComp, notUserMsgPtr->message);  // Fixed variable name from userMsgPtr to notUserMsgPtr
             }
-            else if (auto allUserMsgPtr = std::any_cast<std::shared_ptr<Network::AllUsersMessage>>(eventHandler.getTriggeredEvent().second)) {
-                _server->sendAllClients(allUserMsgPtr->message);
-            }
-            else {
-                throw std::runtime_error("Unknown message type in eventHandler.getTriggeredEvent().second");
-            }
-        } catch (const std::exception &e) {
-            std::cerr << "Error from NetworkOutput System " << e.what() << std::endl;
-        }
+            return ;
+        } catch (const std::bad_any_cast&) {}
+
+        try {
+            auto allUserMsgPtr = std::any_cast<std::shared_ptr<Network::AllUsersMessage>>(eventArg);
+            _server->sendAllClients(allUserMsgPtr->message);
+            return ;
+        } catch (const std::bad_any_cast&) {}
+        std::cerr << "Error from NetworkOutput System: No message type found" << std::endl;
     }
 }
