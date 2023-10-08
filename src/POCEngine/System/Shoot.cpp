@@ -33,13 +33,13 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
                 auto chargeOpt = componentsContainer.getComponent(chargeId, GameEngine::ComponentsType::getComponentType("ChargeShoot"));
                 if (chargeOpt.has_value()) {
                     auto charge = std::dynamic_pointer_cast<ChargeShoot>(chargeOpt.value());
-                    if (charge->charge == 103) {
-                        std::cout << "YESSS" << std::endl;
-                        charge = 0;
+                    if (charge->charge > 50) {
+                        charge->charge = 0;
                         rect1 = GameEngine::rect(0, 0, 80, 16);
                         scale = 2.5f;
                         spritePath = "assets/ShootCharge.gif";
                         velocity.x = 15;
+                        shootingPosition.y = shootingPosition.y - 15;
                     } else {
                         rect1 = GameEngine::rect(0, 0, 16, 4);
                         scale = 2.5f;

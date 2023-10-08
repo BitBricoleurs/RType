@@ -62,9 +62,9 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
                             if (player->entityIdForcePod == 0) {
                                 player->entityIdForcePod = entityID;
                             }
-                            shooter->shootPosition.x = 80;
-                            GameEngine::Vect2 shootingPosition(pos->pos.x + shooter->shootPosition.x, pos->pos.y + shooter->shootPosition.y + 13);
+                            GameEngine::Vect2 shootingPosition(pos->pos.x + shooter->shootPosition.x, pos->pos.y + shooter->shootPosition.y - 13);
                             posForcePod->pos = shootingPosition;
+                            shooter->shootPosition.x =  shooter->shootPosition.x + 45;
                         }
                     }
                 }

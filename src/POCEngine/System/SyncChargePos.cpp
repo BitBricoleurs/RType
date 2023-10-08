@@ -20,22 +20,28 @@ void SyncChargePos::update(GameEngine::ComponentsContainer &componentsContainer,
             auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
             auto charge = std::dynamic_pointer_cast<ChargeShoot>(chargeOpt.value());
             auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOpt.value());
-
-            if (strcmp(triggeredEvent.c_str(), "SPACE_KEY_RELEASED") == 0) {
-                eventHandler.queueEvent("ShootSystem", charge->player);
-                sprite->isVisible = false;
-            } else if (strcmp(triggeredEvent.c_str(), "STOP_UNCHARGING") == 0) {
-                eventHandler.scheduleEvent("ShootSystem", 20, charge->player);
-            } else {
-                eventHandler.unscheduleEvent("ShootSystem");
-                auto playerShootOpt = componentsContainer.getComponent(charge->player, GameEngine::ComponentsType::getComponentType("Shooter"));
-                auto playerPosOpt = componentsContainer.getComponent(charge->player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                if (playerPosOpt.has_value() && playerShootOpt.has_value()) {
-                    auto shooter = std::dynamic_pointer_cast<Shooter>(playerShootOpt.value());
-                    auto posPlayer = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(playerPosOpt.value());
-                    GameEngine::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y);
-                    position->pos = shootingPosition;
-                    sprite->isVisible = true;
+            auto playerShootOpt = componentsContainer.getComponent(charge->player, GameEngine::ComponentsType::getComponentType("Shooter"));
+            if (playerShootOpt.has_value()) {
+                auto shooter = std::dynamic_pointer_cast<Shooter>(playerShootOpt.value());
+                if (strcmp(triggeredEvent.c_str(), "SPACE_KEY_RELEASED") == 0) {
+                    if (shoot) {
+                        eventHandler.queueEvent("ShootSystem", charge->player);
+                        sprite->isVisible = false;
+                        shoot = false;
+                        eventHandler.scheduleEvent("ShootSystem", 20, charge->player);
+                    }
+                } else if (strcmp(triggeredEvent.c_str(), "STOP_UNCHARGING") == 0) {
+                    return;
+                } else {
+                    eventHandler.unscheduleEvent("ShootSystem");
+                    auto playerPosOpt = componentsContainer.getComponent(charge->player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+                    if (playerPosOpt.has_value()) {
+                        auto posPlayer = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(playerPosOpt.value());
+                        GameEngine::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 30);
+                        position->pos = shootingPosition;
+                        sprite->isVisible = true;
+                        shoot = true;
+                    }
                 }
             }
         }

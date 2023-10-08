@@ -18,4 +18,6 @@
 class SyncChargePos : public GameEngine::ISystem {
   void update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) override;
+
+  bool shoot = false;
 };
