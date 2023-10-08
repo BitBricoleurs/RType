@@ -11,6 +11,8 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "PositionComponent2D.hpp"
+#include "SpriteComponent.hpp"
+#include "Shooter.hpp"
 #include <cstring>
 
 class SyncChargePos : public GameEngine::ISystem {

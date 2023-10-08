@@ -8,7 +8,6 @@
 #pragma once
 
 #include "BossStage.hpp"
-#include "BulletStartPosition.hpp"
 #include "ChargeShoot.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"

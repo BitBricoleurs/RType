@@ -2,10 +2,10 @@
 // Created by alexandre on 05/10/23.
 //
 
-#include "ShootDelete.hpp"
+#include "DeleteEntities.hpp"
 #include "WindowInfoComponent.hpp"
 
-void ShootDelete::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+void DeleteEntities::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     size_t sizeWidth = 0;
@@ -18,7 +18,7 @@ void ShootDelete::update(GameEngine::ComponentsContainer &componentsContainer, G
             break;
         }
     }
-    auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsBullet"));
+    auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("SpriteComponent"));
     for (const auto &entityID : entities) {
         auto posOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
         auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));

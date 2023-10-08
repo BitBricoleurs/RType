@@ -12,6 +12,7 @@
 #include "AABBComponent2D.hpp"
 #include "IsBullet.hpp"
 #include "EventHandler.hpp"
+#include "ChargeShoot.hpp"
 #include "VelocityComponent.hpp"
 
 class Shoot : public GameEngine::ISystem {

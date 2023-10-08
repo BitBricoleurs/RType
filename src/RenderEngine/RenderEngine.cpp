@@ -64,13 +64,16 @@ void RenderEngine::Initialize(const char *windowTitle) {
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.text.c_str(), textComponent.pos.x,
-           textComponent.pos.y, textComponent.fontSize,
-           {textComponent.color.r, textComponent.color.g,
-            textComponent.color.b, textComponent.color.a});
+    if (textComponent.isVisible) {
+      DrawText(textComponent.text.c_str(), textComponent.pos.x,
+               textComponent.pos.y, textComponent.fontSize,
+               {textComponent.color.r, textComponent.color.g,
+                textComponent.color.b, textComponent.color.a});
+  }
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
+    if (spriteComponent.isVisible) {
         std::string path = _baseAssetPath + spriteComponent.imagePath;
   
         auto it = textureCache.find(path);
@@ -79,6 +82,7 @@ void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
             textureCache[path] = texture;
         }
         DrawTexturePro(textureCache[path], { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h }, {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale}, {spriteComponent.origin.x, spriteComponent.origin.y}, spriteComponent.rotation, {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+        }
 }
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {

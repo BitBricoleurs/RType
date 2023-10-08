@@ -9,6 +9,7 @@
 #include "EventHandler.hpp"
 #include "AComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ChargeShoot.hpp"
 
 class ChargingBar : public GameEngine::ISystem {
 public:
@@ -18,4 +19,5 @@ public:
 private:
   int _charge = 0;
   int _maxCharge = 103;
+  bool shoot = false;
 };

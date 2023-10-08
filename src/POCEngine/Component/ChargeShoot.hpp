@@ -17,4 +17,5 @@ public:
 
   size_t getComponentType() override;
   size_t player;
+  size_t charge;
 };

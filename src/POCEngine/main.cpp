@@ -34,9 +34,8 @@
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
 #include "Shooter.hpp"
-#include "ForcePodFixSync.hpp"
 #include "WindowInfoComponent.hpp"
-#include "ShootDelete.hpp"
+#include "DeleteEntities.hpp"
 #include <iostream>
 #include <memory>
 #include "InitParallax.hpp"
@@ -55,9 +54,8 @@ int main() {
   auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
-  auto podSync = std::make_shared<ForcePodFixSync>();
   auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
-  auto deleteShoot = std::make_shared<ShootDelete>();
+  auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
 
@@ -174,7 +172,6 @@ int main() {
   engine.addEvent("ForcePodSpawn", forcePod);
   engine.addEvent("ForcePodStop", forcePod);
   engine.addEvent("ForcePodFix", forcePod);
-  engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
 
   engine.run();

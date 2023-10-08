@@ -27,8 +27,6 @@ size_t EntityFactory::createBaseMob(
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto damageComponent = std::make_shared<Damage>(damageValue);
-  auto bulletStartPositionComponent =
-      std::make_shared<BulletStartPosition>(bulletStartX, bulletStartY);
   auto deathSpriteComponent =
       initDeathAnimation(deathSpriteSheetPath, deathFrames,
                          deathSpriteSheetWidth, deathSpriteSheetHeight);
@@ -36,7 +34,6 @@ size_t EntityFactory::createBaseMob(
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
-  container.bindComponentToEntity(entityId, bulletStartPositionComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
 
   return entityId;
@@ -84,15 +81,11 @@ size_t EntityFactory::createPlayer(
                        velocity, hitboxWidth, hitboxHeight, player, 2.5f);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(45, -8),
-                                               GameEngine::Vect2(12, 0), 0);
+  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), 0);
   auto playerComponent = std::make_shared<IsPlayer>();
-  auto bulletStartPositionComponent =
-      std::make_shared<BulletStartPosition>(bulletStartX, bulletStartY);
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, playerComponent);
-  container.bindComponentToEntity(entityId, bulletStartPositionComponent);
   container.bindComponentToEntity(entityId, shooterComp);
 
   return entityId;
@@ -164,7 +157,7 @@ size_t EntityFactory::createChargeAnimation(
   auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
       spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(8), scale,
       rotation, tint);
-
+  spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
 
   container.bindComponentToEntity(animationId, positionComponent);
