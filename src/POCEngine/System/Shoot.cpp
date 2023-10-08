@@ -35,7 +35,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
           componentsContainer, eventHandler, shootingPosition,
           shooterComp->velocity);
     } else if (shooterComp->typeBullet == 1) {
-      std::cout << "Entity " << entityID << " shooting" << std::endl;
       auto players = componentsContainer.getEntitiesWithComponent(
           GameEngine::ComponentsType::getComponentType("IsPlayer"));
       GameEngine::Vect2 velocity;
@@ -52,8 +51,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
                 positionOpt.value());
 
         if (positionComp) {
-          std::cout << "player pos: " << positionComp->pos.x << ", "
-                    << positionComp->pos.y << std::endl;
           GameEngine::Vect2 directionToPlayer =
               positionComp->pos - shootingPosition;
           float distanceToPlayer = directionToPlayer.magnitude();
@@ -64,9 +61,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
           }
         }
       }
-
-      std::cout << "Direction to Player: (" << directionToClosestPlayer.x
-                << ", " << directionToClosestPlayer.y << ")\n";
 
       if (closestDistance < std::numeric_limits<float>::max()) {
         float maxVal = std::max(std::abs(directionToClosestPlayer.x),

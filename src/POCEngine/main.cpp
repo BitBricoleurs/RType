@@ -41,6 +41,7 @@
 #include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
+#include "CollisionHandler.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -176,6 +177,10 @@ int main() {
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
+
+    //auto collisionHandler = std::make_shared<CollisionHandler>();
+
+  //engine.addEvent("Collision", collisionHandler);
 
   engine.run();
   return 0;
