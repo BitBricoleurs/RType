@@ -99,7 +99,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int maxHealth,
-                      int damageValue, int player = 1, float scale = 1.0f,
+                      int damageValue, int bulletStartX, int bulletStartY, int player = 1, float scale = 1.0f,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 

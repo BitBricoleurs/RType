@@ -69,7 +69,7 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int maxHealth,
-                                   int damageValue, int player, float scale,
+                                   int damageValue, int bulletStartX, int bulletStartY,  int player, float scale,
                                    float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,

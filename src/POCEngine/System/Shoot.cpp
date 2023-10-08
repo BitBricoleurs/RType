@@ -6,11 +6,9 @@
 #include "MovementComponent2D.hpp"
 #include "Shooter.hpp"
 #include "Utils.hpp"
+#include "IsBullet.hpp"
 #include "VelocityComponent.hpp"
 #include <cmath>
-void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
-                   GameEngine::EventHandler &eventHandler) {
-
 void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     auto event = eventHandler.getTriggeredEvent().second;
     auto entityID = std::any_cast<size_t>(event);
@@ -98,7 +96,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(GameEngine::Vect2(shootingPosition.x, shootingPosition.y), GameEngine::Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
         auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(rect1);
         auto PositionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(shootingPosition.x, shootingPosition.y));
-        auto isBulletComponent = std::make_shared<IsBullet>();
+        auto isBulletComponent = std::make_shared<IsBullet>(0);
         auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velocity);
         auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
         componentsContainer.bindComponentToEntity(bullet, spriteComponent);
@@ -109,5 +107,4 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         componentsContainer.bindComponentToEntity(bullet, PositionComponent);
         componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
     }
-  }
 }
