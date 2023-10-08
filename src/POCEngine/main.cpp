@@ -189,13 +189,13 @@ int main() {
    */
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    auto client = std::make_shared<Network::Client>(2, queue);
-    auto networkConnect = std::make_shared<NetworkConnect>(client);
+    Network::Client::init(2, queue);
+    auto networkConnect = std::make_shared<NetworkConnect>();
     auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
-    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>(client);
-    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>(client);
+    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
+    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
     auto networkInput = std::make_shared<NetworkInput>(queue);
-    auto networkOutput = std::make_shared<NetworkOutput>(client);
+    auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
     Network::Endpoint endpoint("127.0.0.1", 4444);
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);

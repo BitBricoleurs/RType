@@ -16,9 +16,8 @@
 
 class NetworkServerTimeout : public GameEngine::ISystem {
     public:
-        NetworkServerTimeout(std::shared_ptr<Network::Client> &client);
+        NetworkServerTimeout() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Client> _client;
 };

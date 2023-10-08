@@ -18,7 +18,7 @@ void NetworkClientDisconnecting::update(GameEngine::ComponentsContainer &compone
         if (!mayComp.has_value())
             return;
         auto netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value());
-        _server->disconnectClient(netIdComp->id);
+        Network::Server::getInstance().disconnectClient(netIdComp->id);
         componentsContainer.deleteEntity(entityId);
         std::vector<size_t> ids = {entityId};
         std::vector<std::any> args = {};

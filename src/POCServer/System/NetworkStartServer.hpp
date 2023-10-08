@@ -10,10 +10,9 @@
 
 class NetworkStartServer : public GameEngine::ISystem {
     public:
-        NetworkStartServer(std::shared_ptr<Network::Server> &server);
+        NetworkStartServer() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Server> _server;
 };
 

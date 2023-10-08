@@ -4,12 +4,8 @@
 
 #include "NetworkStartServer.hpp"
 
-NetworkStartServer::NetworkStartServer(std::shared_ptr<Network::Server> &server) : _server(server)
-{
-}
-
 void NetworkStartServer::update(GameEngine::ComponentsContainer &componentsContainer,
                                 GameEngine::EventHandler &eventHandler)
 {
-    _server->start();
+    Network::Server::getInstance().start();
 }

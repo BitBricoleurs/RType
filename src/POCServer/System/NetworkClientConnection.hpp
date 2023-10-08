@@ -16,11 +16,10 @@
 
 class NetworkClientConnection : public  GameEngine::ISystem {
     public:
-        NetworkClientConnection(std::shared_ptr<Network::Server> &server);
+        NetworkClientConnection() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Server> _server;
 };
 
 

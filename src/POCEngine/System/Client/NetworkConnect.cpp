@@ -4,14 +4,10 @@
 
 #include "NetworkConnect.hpp"
 
-NetworkConnect::NetworkConnect(std::shared_ptr<Network::Client> &client) : _client(client)
-{
-}
-
 void NetworkConnect::update(GameEngine::ComponentsContainer &componentsContainer,
                                    GameEngine::EventHandler &eventHandler)
 {
-    if (_client->isConnected())
+    if (Network::Client::getInstance().isConnected())
         return;
     Network::Endpoint endpoint("", 0);
     try {
@@ -19,7 +15,7 @@ void NetworkConnect::update(GameEngine::ComponentsContainer &componentsContainer
     } catch (std::bad_any_cast &e) {
         std::cerr << "Error from NetworkClientConnect System " << e.what() << std::endl;
     }
-    _client->connect(endpoint.ip, endpoint.port);
+    Network::Client::getInstance().connect(endpoint.ip, endpoint.port);
     std::vector<size_t> ids = {};
     std::vector<std::any> args = {};
     std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CONNECT", ids, "", args);

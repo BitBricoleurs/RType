@@ -4,10 +4,6 @@
 
 #include "NetworkServerTimeout.hpp"
 
-NetworkServerTimeout::NetworkServerTimeout(std::shared_ptr<Network::Client> &client) : _client(client)
-{
-}
-
 void NetworkServerTimeout::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     size_t entityId = 0;
@@ -19,6 +15,6 @@ void NetworkServerTimeout::update(GameEngine::ComponentsContainer &componentsCon
     if (entityId == 0)
         return;
     componentsContainer.deleteEntity(entityId);
-    _client->disconnect();
+    Network::Client::getInstance().disconnect();
     // TODO : Send To ECS that the client is disconnected
 }

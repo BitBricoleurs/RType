@@ -15,12 +15,12 @@ int main(void) {
     GameEngine::GameEngine engine;
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    auto server = std::make_shared<Network::Server>(4444, 2, 2, queue);
+    Network::Server::init(4444, 2, 2, queue);
 
-    auto networkStart = std::make_shared<NetworkStartServer>(server);
-    auto networkClientConnection = std::make_shared<NetworkClientConnection>(server);
+    auto networkStart = std::make_shared<NetworkStartServer>();
+    auto networkClientConnection = std::make_shared<NetworkClientConnection>();
     auto input = std::make_shared<NetworkInput>(queue);
-    auto output = std::make_shared<NetworkOutput>(server);
+    auto output = std::make_shared<NetworkOutput>(NetworkOutput::SERVER);
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("NETWORK_CLIENT_CONNECTION", networkClientConnection);

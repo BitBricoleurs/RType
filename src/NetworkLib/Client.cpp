@@ -14,13 +14,12 @@
 class Network::Client::Impl {
 public:
     Impl(std::size_t tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) :
-    _tick(tick), _forwardQueue(forwardQueue) {}
+            _tick(tick), _forwardQueue(forwardQueue) {}
 
     void connect(const std::string &host, unsigned short port);
     void disconnect();
     bool isConnected() const;
     void send(const std::shared_ptr<IMessage>& message);
-    void processIncomingMessages();
     void waitForOutMessagesAndDisconnect();
 
     boost::asio::io_context _context;
@@ -41,6 +40,8 @@ void Network::Client::Impl::connect(const std::string &host, unsigned short port
 
     _interface->getIO()->processIncomingMessages();
     _interface->getIO()->processOutgoingMessages();
+    _tick.setIncomingFunction([this]() {_interface->getIO()->processIncomingMessages();});
+    _tick.setOutgoingFunction([this]() {_interface->getIO()->processOutgoingMessages();});
 
     _tickThread = std::thread([this]() {_tick.Start();});
     _listenThread = std::thread([this]() {_context.run(); });
@@ -85,7 +86,16 @@ void Network::Client::Impl::send(const std::shared_ptr<IMessage>& message) {
 }
 
 
-Network::Client::Client(std::size_t tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) : pimpl(std::make_unique<Impl>(tick, forwardQueue)) {}
+Network::Client::Client() : pimpl(nullptr) {}
+
+void Network::Client::init(std::size_t tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) {
+    Network::Client::getInstance().pimpl = std::make_unique<Impl>(tick, forwardQueue);
+}
+
+Network::Client& Network::Client::getInstance() {
+    static Network::Client instance;
+    return instance;
+}
 
 void Network::Client::connect(const std::string &host, unsigned short port) {
     pimpl->connect(host, port);
@@ -103,4 +113,6 @@ void Network::Client::send(const std::shared_ptr<IMessage>& message) {
     pimpl->send(message);
 }
 
-Network::Client::~Client() = default;
+Network::Client::~Client() {
+    std::cout << "Client destroyed" << std::endl;
+}

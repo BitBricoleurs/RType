@@ -13,10 +13,9 @@
 class NetworkConnect : public GameEngine::ISystem {
 
 public:
-    NetworkConnect(std::shared_ptr<Network::Client> &client);
+    NetworkConnect() = default;
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Client> _client;
 };
 

@@ -11,11 +11,10 @@
 
 class NetworkReceiveDisconnectApply : public GameEngine::ISystem {
     public:
-        NetworkReceiveDisconnectApply(std::shared_ptr<Network::Client> &client);
+        NetworkReceiveDisconnectApply() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Client> _client;
 
 };
 

@@ -4,20 +4,16 @@
 
 #include "NetworkOutput.hpp"
 
-NetworkOutput::NetworkOutput(std::shared_ptr<Network::Client> &client) : _client(client), _type(CLIENT)
-{
-}
-
-NetworkOutput::NetworkOutput(std::shared_ptr<Network::Server> &server) : _server(server), _type(SERVER)
+NetworkOutput::NetworkOutput(NetworkOutput::SystemType type) :_type(type)
 {
 }
 
 void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     if (_type == CLIENT) {
-        if (_client->isConnected()) {
+        if (Network::Client::getInstance().isConnected()) {
             try {
-                _client->send(std::any_cast<std::shared_ptr<Network::IMessage>>(eventHandler.getTriggeredEvent().second));
+                Network::Client::getInstance().send(std::any_cast<std::shared_ptr<Network::IMessage>>(eventHandler.getTriggeredEvent().second));
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from NetworkOutput System " << e.what() << std::endl;
             }
@@ -31,7 +27,7 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
             auto mayComp = componentsContainer.getComponent(userMsgPtr->id, componentType);
             if (mayComp.has_value()) {
                 unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
-                _server->sendClient(netIdComp, userMsgPtr->message);
+                Network::Server::getInstance().sendClient(netIdComp, userMsgPtr->message);
             }
             return ;
         } catch (const std::bad_any_cast&) {}
@@ -46,7 +42,7 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
                 }
                 return ;
             }
-            _server->sendClients(idsToBeSend, usersMsgPtr->message);
+            Network::Server::getInstance().sendClients(idsToBeSend, usersMsgPtr->message);
         } catch (const std::bad_any_cast&) {}
 
         try {
@@ -54,14 +50,14 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
             auto mayComp = componentsContainer.getComponent(notUserMsgPtr->id, componentType);
             if (mayComp.has_value()) {
                 unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
-                _server->sendAllClientsExcept(netIdComp, notUserMsgPtr->message);  // Fixed variable name from userMsgPtr to notUserMsgPtr
+                Network::Server::getInstance().sendAllClientsExcept(netIdComp, notUserMsgPtr->message);  // Fixed variable name from userMsgPtr to notUserMsgPtr
             }
             return ;
         } catch (const std::bad_any_cast&) {}
 
         try {
             auto allUserMsgPtr = std::any_cast<std::shared_ptr<Network::AllUsersMessage>>(eventArg);
-            _server->sendAllClients(allUserMsgPtr->message);
+            Network::Server::getInstance().sendAllClients(allUserMsgPtr->message);
             return ;
         } catch (const std::bad_any_cast&) {}
         std::cerr << "Error from NetworkOutput System: No message type found" << std::endl;

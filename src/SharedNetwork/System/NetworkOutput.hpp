@@ -21,12 +21,9 @@ public:
         SERVER
     };
 
-    NetworkOutput(std::shared_ptr<Network::Client> &client);
-    NetworkOutput(std::shared_ptr<Network::Server> &server);
+    NetworkOutput(SystemType type);
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Client> _client;
-        std::shared_ptr<Network::Server> _server;
         enum SystemType _type;
 };

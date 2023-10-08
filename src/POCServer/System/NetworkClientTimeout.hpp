@@ -16,11 +16,10 @@
 
 class NetworkClientTimeout : public GameEngine::ISystem {
     public:
-        NetworkClientTimeout(std::shared_ptr<Network::Server> &server);
+        NetworkClientTimeout() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Server> _server;
 
 };
 

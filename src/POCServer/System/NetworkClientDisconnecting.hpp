@@ -13,9 +13,8 @@
 
 class NetworkClientDisconnecting : public GameEngine::ISystem {
     public:
-        NetworkClientDisconnecting(std::shared_ptr<Network::Server> server);
+        NetworkClientDisconnecting() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
-        std::shared_ptr<Network::Server> _server;
 };

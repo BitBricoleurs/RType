@@ -92,7 +92,7 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 std::map<std::string, uint8_t> actionToCodeMap =
 {
     {"CONNECT", 0x01},
-    {"BYE", 0x02},
+    {"ACCEPTED", 0x02},
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =
@@ -171,12 +171,12 @@ void Network::Message::getDataMessage()
     _ArgTypeCode = _message[3 + _NbrId];
     _NbrArgs = _message[4 + _NbrId];
 
-    _ArgType = getTypeByCode(_ArgTypeCode);
-    if (_ArgType == "IGNORE") {
+    if (_ArgTypeCode == 0x00) {
         _sizeArg = 0;
         _args = {};
         return;
     }
+    _ArgType = getTypeByCode(_ArgTypeCode);
     _sizeArg = getSizeByType(_ArgTypeCode);
     if (_ArgTypeCode == 0x03) {
         _sizeArg = _NbrArgs;

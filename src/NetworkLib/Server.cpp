@@ -45,6 +45,14 @@ namespace Network {
 
         void start() {
             _tickThread = std::thread([this]() {_tick.Start();});
+            _tick.setIncomingFunction([this]() {_packetIO->processIncomingMessages();});
+            _tick.setOutgoingFunction([this]() {
+            for (auto &client : _clients) {
+                if (client && client->isConnected()) {
+                    client->getIO()->processOutgoingMessages();
+                }
+            }
+            });
             _packetIO->readPacket();
             _packetIO->processIncomingMessages();
         }
@@ -138,7 +146,10 @@ namespace Network {
         {
             auto clientInterface
                 = getInterfaceByEndpoint( remoteEndpoint );
-            if ( !clientInterface ) {
+            if (_clients.size() == _maxClients) {
+                return;
+            }
+            if ( !clientInterface) {
                 clientInterface = std::make_shared<
                     Network::Interface>(
                     _context, _inMessages, _socket, _forwardQueue, _tick, _indexId, Network::Interface::Type::SERVER
@@ -183,8 +194,16 @@ namespace Network {
         Network::TSQueue<unsigned int> _connectingClients;
     };
 
-    Server::Server(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
-            : pimpl(std::make_unique<Impl>(port, maxClients, Tick, forwardQueue)) {}
+    Server::Server() : _isRunning(false), pimpl(nullptr) {}
+
+    void Server::init(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue) {
+        Server::getInstance().pimpl = std::make_unique<Impl>(port, maxClients, Tick, forwardQueue);
+    }
+
+    Server& Server::getInstance() {
+        static Server instance;
+        return instance;
+    }
 
     Server::~Server()
     {
@@ -200,7 +219,6 @@ namespace Network {
         pimpl->stop();
         _isRunning = false;
     }
-
 
     void Server::sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
     {
@@ -227,7 +245,7 @@ namespace Network {
         return pimpl->getConnectedClients();
     }
 
-     Network::TSQueue<unsigned int> &Server::getDisconnectedClients()
+    Network::TSQueue<unsigned int> &Server::getDisconnectedClients()
     {
         return pimpl->getDisconnectedClients();
     }
@@ -235,4 +253,5 @@ namespace Network {
     void Server::disconnectClient(unsigned int id) {
         pimpl->disconnectClient(id);
     }
+
 }

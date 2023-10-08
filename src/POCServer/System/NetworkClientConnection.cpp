@@ -4,13 +4,9 @@
 
 #include "NetworkClientConnection.hpp"
 
-NetworkClientConnection::NetworkClientConnection(std::shared_ptr<Network::Server> &server) : _server(server)
-{
-}
-
 void NetworkClientConnection::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    Network::TSQueue<unsigned int> &queue = _server->getConnectedClients();
+    Network::TSQueue<unsigned int> &queue = Network::Server::getInstance().getConnectedClients();
     if (queue.empty())
         return;
     unsigned int netInterfaceId = queue.popBack();
@@ -21,4 +17,7 @@ void NetworkClientConnection::update(GameEngine::ComponentsContainer &components
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "", args);
     std::shared_ptr<Network::NotUserMessage> notMessage = std::make_shared<Network::NotUserMessage>(netInterfaceId, message);
     eventHandler.queueEvent("SEND_NETWORK", notMessage);
+    std::shared_ptr<Network::Message> message2 = std::make_shared<Network::Message>("ACCEPTED", ids, "", args);
+    std::shared_ptr<Network::UserMessage> userMessage = std::make_shared<Network::UserMessage>(netInterfaceId, message2);
+    eventHandler.queueEvent("SEND_NETWORK", userMessage);
 }

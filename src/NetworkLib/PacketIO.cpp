@@ -89,11 +89,6 @@ void Network::PacketIO::writePacket()
 
 void Network::PacketIO::processIncomingMessages() {
     boost::asio::post(_context, [this]() {
-        while (1) {
-            std::unique_lock<std::mutex> lock( _tick._mtx );
-            _tick._cvIncoming.wait( lock, [ this ]() {
-                return _tick._processIncoming;
-            } );
             while ( !_inMessages.empty() ) {
                 std::shared_ptr<OwnedMessage> message
                     = _inMessages.getFront();
@@ -102,23 +97,15 @@ void Network::PacketIO::processIncomingMessages() {
                 _forwardMessages->pushBack(message);
                 _inMessages.popFront();
             }
-            _tick._processIncoming= false;
-        }
     });
 }
 
 void Network::PacketIO::processOutgoingMessages()
 {
     boost::asio::post(_context, [this]() {
-        while (1) {
-            std::unique_lock<std::mutex> lock( _tick._mtx );
-            _tick._cvOutgoing.wait( lock, [ this ]() {
-                return _tick._processOutgoing;
-            } );
             uint16_t size = 0;
             if (!_outMessages || _outMessages->empty()) {
-                _tick._processOutgoing= false;
-                continue;
+                return;
             }
             _bodyOut.clear();
             std::cout << "Nbr message" << _outMessages->count() << std::endl;
@@ -135,8 +122,6 @@ void Network::PacketIO::processOutgoingMessages()
             _packetOut.body= _bodyOut.getData();
             if (_packetOut.header.bodySize > 0)
                 writePacket();
-            _tick._processOutgoing= false;
-        }
     });
 }
 
