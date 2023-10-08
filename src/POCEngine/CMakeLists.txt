@@ -31,6 +31,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
+
 
         ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateOnMove.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp

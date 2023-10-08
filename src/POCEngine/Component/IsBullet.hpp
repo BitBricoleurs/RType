@@ -10,7 +10,8 @@
 
 class IsBullet : public GameEngine::AComponent {
 public:
-  IsBullet() = default;
+  IsBullet(bool playerBullet);
 
   size_t getComponentType() override;
+  bool playerBullet;
 };
