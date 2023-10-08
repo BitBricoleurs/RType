@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <memory>
 #include "IMessage.hpp"
 
 namespace Network {
