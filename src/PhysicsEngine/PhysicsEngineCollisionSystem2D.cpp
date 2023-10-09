@@ -53,7 +53,6 @@ namespace GameEngine {
             std::pair<std::shared_ptr<AColliderComponent2D>, PositionComponent2D> pair2(collider2Opt, *position2Opt);
 
             if (physicsEngine->narrowPhase(pair1, pair2)) {
-                std::cout << "Collision between " << pair.first << " and " << pair.second << std::endl;
                 eventHandler.queueEvent("Collision", std::make_pair(pair.first, pair.second));
             }
         }

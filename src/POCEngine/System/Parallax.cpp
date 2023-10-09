@@ -11,7 +11,6 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
     auto parallaxEntities = componentsContainer.getEntitiesWithComponent(
         GameEngine::ComponentsType::getNewComponentType("IsParallax"));
     std::sort(parallaxEntities.begin(), parallaxEntities.end());
-    //print the vector
     auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     size_t sizeWidth = 0;
 
