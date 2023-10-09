@@ -54,5 +54,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
         }
+        eventHandler.queueEvent("PLAY_SOUND", bullet);
     }
 }

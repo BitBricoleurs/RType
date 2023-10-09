@@ -23,6 +23,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isHealthBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
         ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
@@ -49,6 +51,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/TestInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/RemoveHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateScore.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp

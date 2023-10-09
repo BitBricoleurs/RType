@@ -64,11 +64,12 @@ void RenderEngine::Initialize(const char *windowTitle) {
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
+    Vector2 position = { textComponent.pos.x, textComponent.pos.y };
+    Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
+  
+  
     if (textComponent.isVisible) {
-      DrawText(textComponent.text.c_str(), textComponent.pos.x,
-               textComponent.pos.y, textComponent.fontSize,
-               {textComponent.color.r, textComponent.color.g,
-                textComponent.color.b, textComponent.color.a});
+      DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
   }
 }
 
@@ -127,6 +128,10 @@ void RenderEngine::ClearBackgroundRender(Color color) {
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }
+  
+RenderEngine::RenderEngine() {
+    font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
+}
 
 size_t RenderEngine::getScreenHeight()
 {
