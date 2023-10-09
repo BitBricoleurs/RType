@@ -7,7 +7,6 @@
 
 void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     try {
-        call += 1;
         auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
 
         auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -20,30 +19,19 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
         auto firstEntityOptMob = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
         auto secondEntityOptMob = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
 
-        std::cout << "Call: " << call << std::endl;
-        std::cout << "Entities: " << firstEntity << " " << secondEntity << std::endl;
-        std::cout << "Player: " << firstEntityOptPlayer.has_value() << " " << secondEntityOptPlayer.has_value() << std::endl;
-        std::cout << "Bullet: " << firstEntityOptBullet.has_value() << " " << secondEntityOptBullet.has_value() << std::endl;
-        std::cout << "Mob: " << firstEntityOptMob.has_value() << " " << secondEntityOptMob.has_value() << std::endl;
-        std::cout << std::endl;
-
         // Player vs Bullet
 
         if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
 
             if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit");
-                std::cout << "Player hit" << std::endl;
-                componentsContainer.deleteEntity(secondEntity);
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             }
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptBullet.has_value()) {
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
 
             if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit");
-                std::cout << "Player hit" << std::endl;
-                componentsContainer.deleteEntity(firstEntity);
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             }
         }
 
@@ -53,33 +41,22 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
 
             if (bullet->playerBullet) {
-                eventHandler.queueEvent("MobHit");
-                std::cout << "Mob hit" << std::endl;
-                componentsContainer.deleteEntity(secondEntity);
-                componentsContainer.deleteEntity(firstEntity);
-
+                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
             }
         } else if (secondEntityOptMob.has_value() && firstEntityOptBullet.has_value()) {
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
 
             if (bullet->playerBullet) {
-                eventHandler.queueEvent("MobHit");
-                std::cout << "Mob hit" << std::endl;
-                componentsContainer.deleteEntity(firstEntity);
-                componentsContainer.deleteEntity(secondEntity);
+                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
             }
         }
 
         // Player vs Mob
 
         if (firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
-            std::cout << "Player hit" << std::endl;
-            eventHandler.queueEvent("PlayerHit");
-            componentsContainer.deleteEntity(secondEntity);
+            eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptMob.has_value()) {
-            std::cout << "Player hit" << std::endl;
-            eventHandler.queueEvent("PlayerHit");
-            componentsContainer.deleteEntity(firstEntity);
+            eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
         }
 
         // Bullet vs Bullet

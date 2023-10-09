@@ -42,6 +42,9 @@
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
 #include "CollisionHandler.hpp"
+#include "PlayerHit.hpp"
+#include "MobHit.hpp"
+#include "PlayerHitMob.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -61,6 +64,9 @@ int main() {
   auto deleteShoot = std::make_shared<ShootDelete>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto PlayerHit1 = std::make_shared<PlayerHit>();
+  auto MobHit1 = std::make_shared<MobHit>();
+  auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
@@ -69,6 +75,9 @@ int main() {
   float scale = 1.0f;
   float rotation = 0.0f;
 
+  engine.addEvent("PlayerHit", PlayerHit1);
+  engine.addEvent("MobHit", MobHit1);
+  engine.addEvent("PlayerHitMob", PlayerHitMob1);
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);

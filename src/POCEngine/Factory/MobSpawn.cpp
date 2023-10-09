@@ -32,7 +32,7 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::Vect2 velocity) {
   size_t entityId = createBaseMob(
       container, "assets/epitech_assets/pataPataMob.gif", 36, 533, 16, true,
-      false, "assets/explosion.gif", 33, 200, 6, pos, velocity, 100, 10, 2.5f);
+      false, "assets/explosion.gif", 33, 100, 6, pos, velocity, 400, 10, 2.5f);
 
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   container.bindComponentToEntity(

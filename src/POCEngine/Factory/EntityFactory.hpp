@@ -33,6 +33,8 @@
 #include "VelocityComponent.hpp"
 #include <cstddef>
 #include <iostream>
+#include "AudioEngineSystem.hpp"
+#include "AudioComponent.hpp"
 
 class EntityFactory {
 public:
