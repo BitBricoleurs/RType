@@ -20,7 +20,8 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
   container.bindComponentToEntity(entityId, shooterComp);
   eventHandler.scheduleEvent("animate", 30,
                              std::make_tuple(std::string("Cancer"), entityId));
-  eventHandler.scheduleEvent("ShootSystem", 300, entityId);
+  auto IdCharge = std::make_tuple(entityId, 0);
+  eventHandler.scheduleEvent("ShootSystem", 300, IdCharge);
   return entityId;
 }
 
@@ -30,7 +31,7 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::Vect2 pos,
                                 GameEngine::Vect2 velocity) {
   size_t entityId = createBaseMob(
-      container, "assets/epitech_assets/pataPataMob.gif", 36, 533, 16, true,
+      container, "assets/patapataMob2.gif", 24, 523, 16, true,
       false, "assets/explosion.gif", 33, 200, 6, pos, velocity, 100, 10, 2.5f);
 
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());

@@ -18,8 +18,9 @@
 class DeleteEntities : public GameEngine::ISystem {
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
-public:
+    static void deleteBulletIfOutOfBounds(const size_t& entityID, size_t sizeWidth, GameEngine::ComponentsContainer &componentsContainer);
+    static void deleteMobParallaxIfOutsideLeft(const size_t& entityID, GameEngine::ComponentsContainer &componentsContainer);
 
-private:
-  bool done = false;
+    private:
+      bool done = false;
 };

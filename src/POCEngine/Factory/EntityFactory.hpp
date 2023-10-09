@@ -99,7 +99,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int maxHealth,
-                      int damageValue, int bulletStartX, int bulletStartY, int player = 1, float scale = 1.0f,
+                      int damageValue, int bulletStartX, int bulletStartY, int player = 1, float scale = 1.0f, size_t entityCharge = 0,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 
@@ -122,8 +122,7 @@ private:
   size_t createChargeAnimation(GameEngine::ComponentsContainer &container,
                                const std::string &spriteSheetPath,
                                int spriteSheetHeight, int spriteSheetWidth,
-                               int frames, GameEngine::Vect2 pos,
-                               size_t entityId, float scale = 1.0f,
+                               int frames, GameEngine::Vect2 pos, float scale = 1.0f,
                                float rotation = 0.0f,
                                GameEngine::ColorR tint = {255, 255, 255, 255});
 

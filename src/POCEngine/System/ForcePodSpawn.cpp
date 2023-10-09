@@ -22,9 +22,10 @@ void ForcePodSpawn::update(GameEngine::ComponentsContainer &componentsContainer,
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::MovementComponent>());
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(0, posY)));
         componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsForcePod>());
-        componentsContainer.bindComponentToEntity(entityId, std::make_shared<Shooter>(GameEngine::Vect2(55, -13), 1));
+        componentsContainer.bindComponentToEntity(entityId, std::make_shared<Shooter>(GameEngine::Vect2(55, -13), 0));
         eventHandler.scheduleEvent("ForcePodStop", 200, entityId);
-        eventHandler.scheduleEvent("ShootSystem", 100, entityId);
+        auto IdCharge = std::make_tuple(entityId, 0);
+        eventHandler.scheduleEvent("ShootSystem", 100, IdCharge);
     } else if (anyEvent.first == "ForcePodStop") {
         eventHandler.unscheduleEvent("ForcePodStop");
         auto anyEventSecond = anyEvent.second;

@@ -69,7 +69,7 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int maxHealth,
-                                   int damageValue, int bulletStartX, int bulletStartY,  int player, float scale,
+                                   int damageValue, int bulletStartX, int bulletStartY,  int player, float scale, size_t entityCharge,
                                    float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
@@ -77,7 +77,7 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), 0);
-  auto playerComponent = std::make_shared<IsPlayer>();
+  auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, playerComponent);
@@ -124,7 +124,7 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
 size_t EntityFactory::createChargeAnimation(
     GameEngine::ComponentsContainer &container,
     const std::string &spriteSheetPath, int spriteSheetHeight,
-    int spriteSheetWidth, int frames, GameEngine::Vect2 pos, size_t entityId,
+    int spriteSheetWidth, int frames, GameEngine::Vect2 pos,
     float scale, float rotation, GameEngine::ColorR tint) {
 
   auto positionComponent =
@@ -135,8 +135,6 @@ size_t EntityFactory::createChargeAnimation(
                     spriteSheetHeight, false, false, 1, 0);
   GameEngine::Vect2 vel(0, 0);
   auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(vel);
-  auto isChargeShoot = std::make_shared<ChargeShoot>();
-  isChargeShoot->player = entityId;
 
   GameEngine::rect spriteRect;
   spriteRect.w = chargeShootAnimation->frameWidth;
@@ -156,7 +154,6 @@ size_t EntityFactory::createChargeAnimation(
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);
   container.bindComponentToEntity(animationId, spriteComponent);
-  container.bindComponentToEntity(animationId, isChargeShoot);
   container.bindComponentToEntity(animationId, velocityComponent);
   container.bindComponentToEntity(animationId, movementComp);
   return animationId;

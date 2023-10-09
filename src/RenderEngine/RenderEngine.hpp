@@ -15,6 +15,7 @@
 #include "KeyMapping.hpp"
 #include <vector>
 #include <string>
+#include <fstream>
 
 namespace GameEngine {
     class RenderEngine {
@@ -55,5 +56,6 @@ namespace GameEngine {
         {KEY_F11, IsKeyPressed, "toggleFullScreen"}
     };
 
-    };
+    static bool fileExists(const std::string& path);
+};
 }
