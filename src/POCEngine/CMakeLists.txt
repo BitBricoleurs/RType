@@ -51,6 +51,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/StartDeath.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateDeath.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )

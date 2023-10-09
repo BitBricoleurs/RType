@@ -284,6 +284,7 @@ EntityFactory::initDeathAnimation(const std::string &deathSpriteSheetPath,
                                   int deathHeight) {
   auto deathSpriteComponent = std::make_shared<DeathAnimation>();
 
+  deathSpriteComponent->filepath = deathSpriteSheetPath;
   deathSpriteComponent->frameHeight = deathHeight;
   deathSpriteComponent->frameWidth =
       static_cast<float>(deathWidth) / deathFrames;

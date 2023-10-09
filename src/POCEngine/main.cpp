@@ -1,44 +1,41 @@
 #include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
+#include "Component/DeathAnimation.hpp"
 #include "ComponentContainer.hpp"
 #include "CreatePlayer.hpp"
+#include "DeleteEntities.hpp"
 #include "EntityFactory.hpp"
+#include "ForcePodSpawn.hpp"
 #include "ISystem.hpp"
-#include "RenderEngineSystem.hpp"
-#include "SpriteComponent.hpp"
-#include "Utils.hpp"
-#include "VelocityComponent.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
-#include <iostream>
+#include "InitParallax.hpp"
 #include "IsChargingBar.hpp"
 #include "IsParallax.hpp"
 #include "IsPlayer.hpp"
 #include "Parallax.hpp"
+#include "ParallaxPlanet.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "PositionComponent2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
 #include "Shoot.hpp"
+#include "Shooter.hpp"
 #include "SpawnMob.hpp"
 #include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
+#include "System/AnimateDeath.hpp"
 #include "System/AnimateOnMove.hpp"
+#include "System/StartDeath.hpp"
+#include "TestInput.hpp"
+#include "ToggleFullScreen.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
 #include "WiggleMob.hpp"
-#include "ParallaxPlanet.hpp"
-#include "ForcePodSpawn.hpp"
-#include "TestInput.hpp"
-#include "Shooter.hpp"
 #include "WindowInfoComponent.hpp"
-#include "DeleteEntities.hpp"
 #include <iostream>
 #include <memory>
-#include "InitParallax.hpp"
-#include "ToggleFullScreen.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -148,6 +145,11 @@ int main() {
   //   engine.bindComponentToEntity(Player, movementComponent);
   //   engine.bindComponentToEntity(Player, positionComponent);
   //   engine.bindComponentToEntity(Player, velocity);
+
+  auto mobDeath = std::make_shared<AnimateDeath>();
+  auto startDeath = std::make_shared<StartDeath>();
+  engine.addEvent("Death", startDeath);
+  engine.addEvent("MobDeath", mobDeath);
 
   auto createPlayer = std::make_shared<CreatePlayer>();
   engine.addEvent("createPlayer", createPlayer);
