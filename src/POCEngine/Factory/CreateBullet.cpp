@@ -11,9 +11,9 @@ size_t
 EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
                                   GameEngine::Vect2 pos,
-                                  GameEngine::Vect2 velocity) {
-  size_t entityId = createBullet(container, "assets/11.png", 72, 125, 1, false,
-                                 false, pos, velocity, 50, true, 1.0f);
+                                  GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1) {
+  size_t entityId = createBullet(container, path, rect1.h, rect1.w, 1, false,
+                                 false, pos, velocity, 50, true, 2.5);
 
   return entityId;
 }
