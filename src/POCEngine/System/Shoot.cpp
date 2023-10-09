@@ -86,5 +86,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         componentsContainer.bindComponentToEntity(bullet, movementComponent);
         componentsContainer.bindComponentToEntity(bullet, PositionComponent);
         componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
+        componentsContainer.bindComponentToEntity(bullet, shootSound);
+        eventHandler.queueEvent("PLAY_SOUND", bullet);
     }
 }
