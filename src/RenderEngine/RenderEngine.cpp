@@ -64,22 +64,47 @@ void RenderEngine::Initialize(const char *windowTitle) {
 }
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.text.c_str(), textComponent.pos.x,
-           textComponent.pos.y, textComponent.fontSize,
-           {textComponent.color.r, textComponent.color.g,
-            textComponent.color.b, textComponent.color.a});
+    if (textComponent.isVisible) {
+      DrawText(textComponent.text.c_str(), textComponent.pos.x,
+               textComponent.pos.y, textComponent.fontSize,
+               {textComponent.color.r, textComponent.color.g,
+                textComponent.color.b, textComponent.color.a});
+  }
 }
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
+    if (spriteComponent.isVisible) {
         std::string path = _baseAssetPath + spriteComponent.imagePath;
-  
+
         auto it = textureCache.find(path);
         if (it == textureCache.end()) {
-            Texture2D texture = LoadTexture(path.c_str());
-            textureCache[path] = texture;
+            if (fileExists(path)) {
+                Texture2D texture = LoadTexture(path.c_str());
+                if (texture.id != 0) {
+                    textureCache[path] = texture;
+                } else {
+                    std::cout << "Log: texture not loaded: " << path.c_str() << std::endl;
+                    return;
+                }
+            } else {
+                std::cout << "Log: cannot find file: " << path.c_str() << std::endl;
+                return;
+            }
         }
-        DrawTexturePro(textureCache[path], { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h }, {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale}, {spriteComponent.origin.x, spriteComponent.origin.y}, spriteComponent.rotation, {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+        DrawTexturePro(textureCache[path],
+                       { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h },
+                       {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale},
+                       {spriteComponent.origin.x, spriteComponent.origin.y},
+                       spriteComponent.rotation,
+                       {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+    }
 }
+
+bool RenderEngine::fileExists(const std::string& path) {
+    std::ifstream file(path.c_str());
+    return file.good();
+}
+
 
 void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
     for (const auto& mapping : keyMappings) {

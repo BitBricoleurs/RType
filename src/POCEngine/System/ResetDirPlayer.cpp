@@ -12,10 +12,23 @@ void ResetDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer
         auto event = eventHandler.getTriggeredEvent();
         auto player = componentsContainer.getComponentsFromEntity(entityID);
         auto velocityOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-        if (velocityOptional.has_value()) {
-             auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
-             velocity->velocity.x = 0;
-             velocity->velocity.y = 0;
+        auto isPlayerOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsPlayer"));
+        if (isPlayerOptional.has_value() && velocityOptional.has_value()) {
+            auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+            auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
+             if (isPlayer->entityIdForcePod != 0) {
+                auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+                if (velocityForcePodOpt.has_value()) {
+                    auto velocityForcePod = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityForcePodOpt.value());
+                    velocity->velocity.x = 0;
+                    velocity->velocity.y = 0;
+                    velocityForcePod->velocity.x = 0;
+                    velocityForcePod->velocity.y = 0;
+                }
+            } else {
+                 velocity->velocity.x = 0;
+                 velocity->velocity.y = 0;
+             }
         }
     }
 }

@@ -7,7 +7,7 @@
 size_t Shooter::getComponentType() {
     return GameEngine::ComponentsType::getNewComponentType("Shooter");
 }
-Shooter::Shooter(GameEngine::Vect2 shootPosition, GameEngine::Vect2 velocity, size_t typeBullet) : shootPosition(shootPosition), velocity(velocity), typeBullet(typeBullet)
+Shooter::Shooter(GameEngine::Vect2 shootPosition, size_t typeBullet) : shootPosition(shootPosition), typeBullet(typeBullet)
 {
 
 }
