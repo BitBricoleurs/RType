@@ -7,26 +7,28 @@
 
 void ResetDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    auto nbEntity = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
-    auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
-    auto event = eventHandler.getTriggeredEvent();
-    std::shared_ptr<GameEngine::VelocityComponent> spriteComp;
-
-    for (const auto &optComp : player) {
-      if (optComp.has_value()) {
-        auto aComp = std::dynamic_pointer_cast<GameEngine::AComponent>(optComp.value());
-        if (aComp &&
-            aComp->getComponentType() ==
-                GameEngine::ComponentsType::getNewComponentType("VelocityComponent")) {
-          spriteComp = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(aComp);
-          if (spriteComp) {
-            break;
-          }
+    auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
+    for (const auto& entityID : entities) {
+        auto event = eventHandler.getTriggeredEvent();
+        auto player = componentsContainer.getComponentsFromEntity(entityID);
+        auto velocityOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+        auto isPlayerOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsPlayer"));
+        if (isPlayerOptional.has_value() && velocityOptional.has_value()) {
+            auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+            auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
+             if (isPlayer->entityIdForcePod != 0) {
+                auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+                if (velocityForcePodOpt.has_value()) {
+                    auto velocityForcePod = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityForcePodOpt.value());
+                    velocity->velocity.x = 0;
+                    velocity->velocity.y = 0;
+                    velocityForcePod->velocity.x = 0;
+                    velocityForcePod->velocity.y = 0;
+                }
+            } else {
+                 velocity->velocity.x = 0;
+                 velocity->velocity.y = 0;
+             }
         }
-      }
-    }
-    if (spriteComp) {
-        spriteComp->velocity.x = 0;
-        spriteComp->velocity.y = 0;
     }
 }

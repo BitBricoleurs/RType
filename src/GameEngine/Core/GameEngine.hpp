@@ -43,6 +43,7 @@ namespace GameEngine {
         void run();
 
         void addEvent(const std::string& eventName, std::shared_ptr<ISystem> system);
+        void queueEvent(const std::string& eventName, const std::any& eventData = {});
         void addEvent(const std::string& eventName, std::function<void()> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
 

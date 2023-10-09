@@ -4,10 +4,12 @@
 
 
 #include "ParallaxPlanet.hpp"
+#include "WindowInfoComponent.hpp"
 
 ParallaxPlanet::ParallaxPlanet() : lastPlanetLayer(0),
           lastPlanetY(0),
-          ticksSinceLastPlanet(0)
+          ticksSinceLastPlanet(0),
+          nextTickThreshold(0)
     {
         PlanetsPath = {
             "Planet_Furnace_01_560x560.png",
@@ -55,7 +57,19 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
             PlanetsPath.swap(UsedPlanetsPath);
             UsedPlanetsPath.clear();
         }
+    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+    size_t sizeWidth = 0;
+    size_t sizeHeight = 0;
 
+    for (const auto &window : windows) {
+        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
+        if (windowOpt.has_value()) {
+            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
+            sizeWidth = windowSize->windowWidth;
+            sizeHeight = windowSize->windowHeight;
+            break;
+        }
+    }
         size_t randomIndex = rand() % PlanetsPath.size();
         std::string randomPath = "assets/Planets/" + PlanetsPath[randomIndex];
         PlanetsPath.erase(PlanetsPath.begin() + randomIndex);
@@ -65,7 +79,7 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
             randomLayer = rand() % 3 + 2;
         }
         float scaleFactor = 0.3f * randomLayer;
-        int random = rand() % (1080) - 200;
+        int random = rand() % (sizeHeight) - 200;
         float randomY = static_cast<float>(random);
 
         GameEngine::ColorR tint = {255, 255, 255, 255};
@@ -73,8 +87,6 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
         auto parallaxEntity = componentsContainer.createEntity();
         auto isParallaxComponent = std::make_shared<IsParallax>();
         componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
-        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-            randomPath, GameEngine::Vect2{1920, randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint
-        );
+        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint);
         componentsContainer.bindComponentToEntity(parallaxEntity, spriteComponent);
     };

@@ -9,10 +9,10 @@
 #include <algorithm>
 
 namespace GameEngine {
-RenderEngineSystem::RenderEngineSystem(int width, int height,
-                                       const char *windowName) {
-  renderEngine = std::make_unique<RenderEngine>();
-  renderEngine->Initialize(width, height, windowName);
+RenderEngineSystem::RenderEngineSystem(const char *windowName)
+{
+    renderEngine = std::make_unique<RenderEngine>();
+    renderEngine->Initialize(windowName);
 }
 
 RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
@@ -72,5 +72,14 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
 
   EndDrawing();
 }
+    size_t RenderEngineSystem::getScreenHeight()
+    {
+        return renderEngine->getScreenHeight();
+    }
+
+    size_t RenderEngineSystem::getScreenWidth()
+    {
+        return renderEngine->getScreenWidth();
+    }
 
 } // namespace GameEngine

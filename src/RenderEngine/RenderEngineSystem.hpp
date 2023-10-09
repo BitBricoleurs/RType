@@ -5,7 +5,6 @@
 ** RenderEngineSystem
 */
 
-// RenderEngineSystem.hpp
 #pragma once
 
 
@@ -15,16 +14,19 @@
 #include "RenderEngine.hpp"
 #include "ComponentsType.hpp"
 #include <memory>
+#include "WindowInfoComponent.hpp"
 
 namespace GameEngine {
     class RenderEngineSystem : public ISystem {
     public:
-        RenderEngineSystem( int screenWidth, int screenHeight, const char* windowTitle);
+        RenderEngineSystem(const char* windowTitle);
         ~RenderEngineSystem();
 
-        virtual void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
 
+        size_t getScreenHeight();
+        size_t getScreenWidth();
     private:
         std::unique_ptr<RenderEngine> renderEngine;
-    };
+};
 }

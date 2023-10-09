@@ -72,15 +72,16 @@ namespace GameEngine {
                 return a.second.second < b.second.second;
             });
 
-            systemMap.clear();
+            systemOrder.clear();
             for (const auto& item : sortedSystems) {
-                systemMap[item.first] = item.second;
+                systemOrder.push_back(item.first);
             }
 
             systemsNeedSorting = false;
         }
 
-        for (auto& [name, systemPair] : systemMap) {
+        for (auto &name : systemOrder) {
+            std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
             systemPair.first->update(componentsContainer, eventHandler);
         }
         eventHandler.processEventQueue(componentsContainer);

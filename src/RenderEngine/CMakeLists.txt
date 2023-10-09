@@ -1,6 +1,7 @@
 set(SOURCES
         RenderEngine.cpp
         RenderEngineSystem.cpp
+        ToggleFullScreen.cpp
         )
 
 add_library(RenderEngineLib STATIC ${SOURCES})

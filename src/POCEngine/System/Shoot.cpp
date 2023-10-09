@@ -3,71 +3,90 @@
 //
 
 #include "Shoot.hpp"
-#include "VelocityComponent.hpp"
-#include "Utils.hpp"
 #include "MovementComponent2D.hpp"
+#include "Shooter.hpp"
+#include "Utils.hpp"
+#include "IsBullet.hpp"
+#include "VelocityComponent.hpp"
+#include <cmath>
+void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+    auto charge = 0;
+    auto event = eventHandler.getTriggeredEvent().second;
+   auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(event);
+    size_t entityID = std::get<0>(tupleIdCharge);
+    charge = std::get<1>(tupleIdCharge);
+    auto player = componentsContainer.getComponentsFromEntity(entityID);
+    auto positionOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+    auto shooterOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("Shooter"));
+    if (positionOptional.has_value() && shooterOptional.has_value()) {
+        auto posComp = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
+        auto shooterComp = std::dynamic_pointer_cast<Shooter>(shooterOptional.value());
 
-    void Shoot::update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) {
-        auto nbEntity = componentsContainer.getEntitiesWithComponent(
-                GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
-        auto player = componentsContainer.getComponentsFromEntity(nbEntity[0]);
-        auto event = eventHandler.getTriggeredEvent();
-        std::shared_ptr<GameEngine::SpriteComponent> spriteComp;
-
-        for (const auto &optComp : player) {
-            if (optComp.has_value()) {
-                auto aComp = std::dynamic_pointer_cast< GameEngine::AComponent>(optComp.value());
-                if (aComp &&
-                    aComp->getComponentType() ==
-                    GameEngine::ComponentsType::getNewComponentType("SpriteComponent")) {
-                    spriteComp = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(aComp);
-                    if (spriteComp) {
-                        break;
+        GameEngine::Vect2 shootingPosition(posComp->pos.x + shooterComp->shootPosition.x, posComp->pos.y + shooterComp->shootPosition.y);
+        float rotation = 0.0f;
+        float scale = 0.0f;
+        GameEngine::ColorR tint = {255, 255, 255, 255};
+        GameEngine::rect rect1;
+        std::string spritePath = "";
+        GameEngine::Vect2 velocity = GameEngine::Vect2(0,0);
+        std::cout << "type" << shooterComp->typeBullet << std::endl;
+        auto bullet = componentsContainer.createEntity();
+        if (shooterComp->typeBullet == 0) {
+            if (charge > 50) {
+                rect1 = GameEngine::rect(0, 0, 80, 16);
+                scale = 2.5f;
+                spritePath = "assets/ShootCharge.gif";
+                velocity.x = 15;
+                shootingPosition.y = shootingPosition.y - 15;
+            } else {
+                rect1 = GameEngine::rect(0, 0, 16, 4);
+                scale = 2.5f;
+                spritePath = "assets/shoot.gif";
+                velocity.x = 20;
+            }
+        } else if (shooterComp->typeBullet == 1) {
+            rect1 = GameEngine::rect(0, 0, 16, 4);
+            scale = 2.5f;
+            spritePath = "assets/shoot.gif";
+            velocity.x = 20;
+            auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
+            GameEngine::Vect2 velocity;
+            float closestDistance = std::numeric_limits<float>::max();
+            GameEngine::Vect2 directionToClosestPlayer;
+            for (auto &player : players) {
+                auto positionOpt = componentsContainer.getComponent(player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+                auto positionComp = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOpt.value());
+                if (positionComp) {
+                    GameEngine::Vect2 directionToPlayer = positionComp->pos - shootingPosition;
+                    float distanceToPlayer = directionToPlayer.magnitude();
+                    if (distanceToPlayer < closestDistance) {
+                        closestDistance = distanceToPlayer;
+                        directionToClosestPlayer = directionToPlayer;
                     }
                 }
             }
+            if (closestDistance < std::numeric_limits<float>::max()) {
+              float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
+              float scaleFactor = 6.0f / maxVal;
+              velocity = directionToClosestPlayer * scaleFactor;
+              EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
+      }
         }
-        if (spriteComp) {
-            GameEngine::Vect2 currentPosition = spriteComp->pos;
-
-            auto currentRect = spriteComp->rect1;
-            auto spritePos = spriteComp->pos;
-
-            GameEngine::Vect2 shootingPosition;
-            shootingPosition.x = spritePos.x + currentRect.w;
-            shootingPosition.y = spritePos.y + (currentRect.h) - 60;
-
-            GameEngine::rect rect1;
-            rect1.w = 125;
-            rect1.h = 72;
-            rect1.x = 0;
-            rect1.y = 0;
-
-            GameEngine::ColorR tint = {255,255,255,255};
-            float scale = 1.0f;
-            float rotation = 0.0f;
-
-            auto bullet = componentsContainer.createEntity();
-            auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-                    "assets/11.png", shootingPosition, rect1, 10, scale, rotation, tint);
-            auto PositionComponent = std::make_shared<GameEngine::PositionComponent2D>(
-                    GameEngine::Vect2(shootingPosition.x, shootingPosition.y));
-            auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(
-                    GameEngine::Vect2(shootingPosition.x, shootingPosition.y),
-                    GameEngine::Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
-            auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(rect1);
-            componentsContainer.bindComponentToEntity(bullet, spriteComponent);
-            auto isBulletComponent = std::make_shared<IsBullet>();
-            auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(6.0f, 0.0f));
-            auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-            componentsContainer.bindComponentToEntity(bullet, velocity);
-            componentsContainer.bindComponentToEntity(bullet, movementComponent);
-            componentsContainer.bindComponentToEntity(bullet, AABBComponent);
-            componentsContainer.bindComponentToEntity(bullet, PositionComponent);
-            componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
-            componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
-            componentsContainer.bindComponentToEntity(bullet, shootSound);
-            eventHandler.queueEvent("PLAY_SOUND", bullet);
-        }
+        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(spritePath, shootingPosition, rect1, 10, scale, rotation, tint);
+        auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(GameEngine::Vect2(shootingPosition.x, shootingPosition.y), GameEngine::Vect2(shootingPosition.x + rect1.w, shootingPosition.y + rect1.h));
+        auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(rect1);
+        auto PositionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(shootingPosition.x, shootingPosition.y));
+        auto isBulletComponent = std::make_shared<IsBullet>(0);
+        auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velocity);
+        auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
+        componentsContainer.bindComponentToEntity(bullet, spriteComponent);
+        componentsContainer.bindComponentToEntity(bullet, rectangleCollider);
+        componentsContainer.bindComponentToEntity(bullet, AABBComponent);
+        componentsContainer.bindComponentToEntity(bullet, velocityComponent);
+        componentsContainer.bindComponentToEntity(bullet, movementComponent);
+        componentsContainer.bindComponentToEntity(bullet, PositionComponent);
+        componentsContainer.bindComponentToEntity(bullet, isBulletComponent);
+        componentsContainer.bindComponentToEntity(bullet, shootSound);
+        eventHandler.queueEvent("PLAY_SOUND", bullet);
     }
+}
