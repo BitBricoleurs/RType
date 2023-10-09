@@ -164,8 +164,8 @@ int main() {
   engine.addEvent("spawnMob", spawnMob);
   engine.scheduleEvent("spawnMob", 60);
 
-  auto updateSprite = std::make_shared<updateEntitySprite>();
-  engine.addEvent("animate", updateSprite);
+  //auto updateSprite = std::make_shared<updateEntitySprite>();
+  //engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
   engine.addSystem("wiggleMob", wigglePata);
@@ -178,9 +178,9 @@ int main() {
   engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
 
-    //auto collisionHandler = std::make_shared<CollisionHandler>();
+  auto collisionHandler = std::make_shared<CollisionHandler>();
 
-  //engine.addEvent("Collision", collisionHandler);
+  engine.addEvent("Collision", collisionHandler);
 
   engine.run();
   return 0;

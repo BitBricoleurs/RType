@@ -34,6 +34,7 @@ size_t EntityFactory::createBaseMob(
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
+  container.bindComponentToEntity(entityId, mobComponent);
 
   return entityId;
 }
