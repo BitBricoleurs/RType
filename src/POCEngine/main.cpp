@@ -31,18 +31,6 @@
 int main() {
   GameEngine::GameEngine engine;
 
-  auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
-  auto backgroundMusicEntity = engine.createEntity();
-
-  auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
-
-  engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
-  engine.addEvent("PLAY_SOUND", audioSys);
-  engine.queueEvent("PLAY_SOUND", backgroundMusicEntity);
-
-  engine.scheduleEvent("UPDATE_SOUNDS", 1);
-  engine.addEvent("UPDATE_SOUNDS", audioSys);
-
   auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
@@ -194,6 +182,18 @@ int main() {
   for (int i = 0; i < 5; i++) {
     size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
    }
+
+  auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
+  auto backgroundMusicEntity = engine.createEntity();
+
+  auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
+
+  engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
+  engine.addEvent("PLAY_SOUND", audioSys);
+  engine.queueEvent("PLAY_SOUND", backgroundMusicEntity);
+
+  engine.scheduleEvent("UPDATE_SOUNDS", 1);
+  engine.addEvent("UPDATE_SOUNDS", audioSys);
 
   engine.run();
   return 0;
