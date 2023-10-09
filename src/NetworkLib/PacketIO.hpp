@@ -56,6 +56,7 @@ namespace Network {
 
         TSQueue<std::shared_ptr<IMessage>>* _outMessages;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>* _forwardMessages;
+        Network::TSQueue<Network::Packet> _packetQueue;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_inMessages;
         Network::Tick& _tick;
         boost::asio::io_context& _context;
@@ -81,5 +82,7 @@ namespace Network {
         Network::PacketIO::Type _type;
 
         std::vector<std::shared_ptr<Network::Interface>>* _clients;
+        int _currentSequenceNumber;
+        int _lastSequenceNumber;
     };
 }

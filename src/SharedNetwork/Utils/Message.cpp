@@ -93,6 +93,7 @@ std::map<std::string, uint8_t> actionToCodeMap =
 {
     {"CONNECT", 0x01},
     {"ACCEPTED", 0x02},
+    {"CREATED_USER", 0x03}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

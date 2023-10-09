@@ -10,6 +10,7 @@ NetworkInput::NetworkInput(Network::TSQueue<std::shared_ptr<Network::OwnedMessag
 std::unordered_map<std::string, std::string> NetworkInput::_actionEventMap = {
     {"CONNECT", "NETWORK_CLIENT_CONNECTION"},
     {"ACCEPTED", "NETWORK_SERVER_ACCEPT"},
+    {"CREATED_USER", "NETWORK_NEW_CLIENT_CON"},
     {"action2", "event2"}
 };
 
