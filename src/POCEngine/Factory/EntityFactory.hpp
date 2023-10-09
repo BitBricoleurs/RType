@@ -29,6 +29,7 @@
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
+#include "AudioComponent.hpp"
 #include <cstddef>
 #include <iostream>
 
@@ -108,7 +109,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int damageValue,
-                      bool isPlayerBullet, float scale = 1.0f,
+                      bool isPlayerBullet, const std::string &pathSound, float scale = 1.0f,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 

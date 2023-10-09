@@ -18,6 +18,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
     auto player = componentsContainer.getComponentsFromEntity(entityID);
     auto positionOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
     auto shooterOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("Shooter"));
+    size_t bullet = 0;
     if (positionOptional.has_value() && shooterOptional.has_value()) {
         auto posComp = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
         auto shooterComp = std::dynamic_pointer_cast<Shooter>(shooterOptional.value());
@@ -26,9 +27,9 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         if (shooterComp->typeBullet == 0) {
             if (charge > 50) {
                 shootingPosition.y = shootingPosition.y - 15;
-                EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), "assets/ShootCharge.gif", GameEngine::rect(0, 0, 80, 16));
+                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), "assets/ShootCharge.gif", GameEngine::rect(0, 0, 80, 16));
             } else {
-                EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), "assets/shoot.gif", GameEngine::rect(0, 0, 16, 4));
+                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), "assets/shoot.gif", GameEngine::rect(0, 0, 16, 4));
             }
         } else if (shooterComp->typeBullet == 1) {
             auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -51,7 +52,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
               float scaleFactor = 6.0f / maxVal;
               velocity = directionToClosestPlayer * scaleFactor;
-              EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
+              bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
         }
         eventHandler.queueEvent("PLAY_SOUND", bullet);
