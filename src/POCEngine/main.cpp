@@ -163,8 +163,8 @@ int main() {
   engine.addEvent("spawnMob", spawnMob);
   engine.scheduleEvent("spawnMob", 60);
 
-  auto updateSprite = std::make_shared<updateEntitySprite>();
-  engine.addEvent("animate", updateSprite);
+  //auto updateSprite = std::make_shared<updateEntitySprite>();
+  //engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
   engine.addSystem("wiggleMob", wigglePata);
