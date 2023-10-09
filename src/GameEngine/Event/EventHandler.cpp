@@ -66,26 +66,32 @@ namespace GameEngine {
         eventMap.erase(eventName);
     }
 
-    void EventHandler::scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData) {
-        scheduledEvents.emplace_back(eventName, interval, 0, eventData);
+    void EventHandler::scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData, size_t repeat) {
+        scheduledEvents.emplace_back(eventName, interval, 0, eventData, repeat, 0);
     }
 
-    void EventHandler::unscheduleEvent(const std::string& eventName) {
+    void EventHandler::unscheduleEvent(const std::string& eventName, const std::any& eventData) {
         scheduledEvents.erase(std::remove_if(scheduledEvents.begin(), scheduledEvents.end(), [&eventName](auto& event) {
-            auto& [name, interval, counter, data] = event;
+            auto& [name, interval, counter, data, maxRepeat, currentRepeats] = event;
             return name == eventName;
         }), scheduledEvents.end());
     }
 
     void EventHandler::updateScheduledEvents() {
         for (auto& event : scheduledEvents) {
-            auto& [eventName, interval, counter, data] = event;
+            auto& [eventName, interval, counter, data, maxRepeat, currentRepeats] = event;
             counter++;
-            if (counter >= interval) {
+            if (maxRepeat == 0 || currentRepeats < maxRepeat) {
                 queueEvent(eventName, data);
                 counter = 0;
+                currentRepeats++;
             }
         }
+
+        scheduledEvents.erase(std::remove_if(scheduledEvents.begin(), scheduledEvents.end(), [](auto& event) {
+            auto& [name, interval, counter, data, maxRepeats, currentRepeats] = event;
+            return maxRepeats != 0 && currentRepeats >= maxRepeats;
+        }), scheduledEvents.end());
     }
 
     void EventHandler::setContinuousEvent(const std::string& continuousEvent, const std::string& stopEvent, const std::any& eventData) {
