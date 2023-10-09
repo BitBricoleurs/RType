@@ -96,10 +96,6 @@ int main() {
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
-  GameEngine::ColorR tint = {255,255,255,255};
-  float scale = 1.0f;
-  float rotation = 0.0f;
-
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
@@ -166,21 +162,6 @@ GameEngine::Vect2 pos;
   color.b = 255;
   color.a = 255;
 
-  auto Player = engine.createEntity();
-  auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
-  auto isPLayerComponent = std::make_shared<IsPlayer>();
-  auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(GameEngine::Vect2(pos.x, pos.y));
-  auto velocity = std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,0));
-  auto health = std::make_shared<Health>(3);
-  engine.bindComponentToEntity(Player, spritecompoennt);
-  engine.bindComponentToEntity(Player, isPLayerComponent);
-  engine.bindComponentToEntity(Player, movementComponent);
-  engine.bindComponentToEntity(Player, positionComponent);
-  engine.bindComponentToEntity(Player, velocity);
-  engine.bindComponentToEntity(Player, health);
-
   auto emptyHealthBarEntity = engine.createEntity();
   auto spritecompoennt7 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/HealthBar.png", GameEngine::Vect2(0,1040), GameEngine::rect(0, 0, 24, 10), 99, 4.0f, rotation, tint);
   engine.bindComponentToEntity(emptyHealthBarEntity, spritecompoennt7);
@@ -191,12 +172,9 @@ GameEngine::Vect2 pos;
   auto isHealthBarComponent = std::make_shared<isHealthBar>();
   engine.bindComponentToEntity(healthBarEntity, isHealthBarComponent);
 
-  std::any anyPlayer = Player;
 
   auto healthSystem = std::make_shared<RemoveHealth>();
   engine.addEvent("DAMAGE", healthSystem);
-  engine.scheduleEvent("DAMAGE", 120, anyPlayer);
-
   auto scoreEntity = engine.createEntity();
     auto scoreComponent = std::make_shared<Score>();
     engine.bindComponentToEntity(scoreEntity, scoreComponent);
@@ -208,10 +186,6 @@ GameEngine::Vect2 pos;
     engine.addEvent("UpdateScore", updateScore);
 
     engine.scheduleEvent("UpdateScore", 30, 70);
-
-  for (int i = 0; i < 5; i++) {
-    size_t id = EntityFactory::getInstance().spawnCancerMob(engine, GameEngine::Vect2(1980, 200 + i * 150), GameEngine::Vect2(-4, 0));
-   }
 
   auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
   auto backgroundMusicEntity = engine.createEntity();
