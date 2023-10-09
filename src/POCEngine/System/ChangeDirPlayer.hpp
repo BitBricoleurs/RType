@@ -7,6 +7,7 @@
 #include "ISystem.hpp"
 #include "SpriteComponent.hpp"
 #include "EventHandler.hpp"
+#include "IsPlayer.hpp"
 
 class ChangeDirPlayer : public GameEngine::ISystem {
 public:

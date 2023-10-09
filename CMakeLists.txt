@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME_CLIENT} )
 add_executable(${PROJECT_NAME_SERVER} )
-add_executable(${PROJECT_NAME_POCENGINE} )
+add_executable(${PROJECT_NAME_POCENGINE})
 add_executable(${PROJECT_NAME_POCPROGRAM})
 
 add_subdirectory(lib)
