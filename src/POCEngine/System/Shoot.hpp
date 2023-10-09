@@ -15,7 +15,6 @@
 #include "AABBComponent2D.hpp"
 #include "IsBullet.hpp"
 #include "EventHandler.hpp"
-#include "ChargeShoot.hpp"
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 

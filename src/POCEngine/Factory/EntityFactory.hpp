@@ -9,7 +9,6 @@
 
 #include "AABBComponent2D.hpp"
 #include "BossStage.hpp"
-#include "ChargeShoot.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"
 #include "EventHandler.hpp"

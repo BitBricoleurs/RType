@@ -11,7 +11,6 @@
 #include "SpriteComponent.hpp"
 #include "IsPlayer.hpp"
 #include "PositionComponent2D.hpp"
-#include "ChargeShoot.hpp"
 #include "Shooter.hpp"
 
 class ChargingBar : public GameEngine::ISystem {
