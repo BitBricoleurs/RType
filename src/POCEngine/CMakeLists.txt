@@ -23,7 +23,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsHealthBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isHealthBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
