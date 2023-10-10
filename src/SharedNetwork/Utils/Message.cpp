@@ -68,7 +68,8 @@ std::vector<std::any> Network::Serializer::deserialize(const std::vector<std::ui
     throw std::runtime_error("Unsupported data type for deserialization check Message.hpp file");
 }
 
-Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::move(message)), _ArgType(), _args()
+Network::Message::Message(std::vector <std::uint8_t> &message):
+AMessage(message), _ArgType(), _args()
 {
     try {
         getDataMessage();
@@ -77,8 +78,8 @@ Network::Message::Message(std::vector <std::uint8_t> &message): _message(std::mo
     }
 }
 
-Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::vector<std::any> args)
-: _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size())
+Network::Message::Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args)
+: AMessage(), _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size()), _NbrId(IDs.size())
 {
     try {
         std::vector<std::uint8_t> serializedArgs = Serializer::serialize(_args);
@@ -88,25 +89,28 @@ Network::Message::Message(const std::string &action, std::vector<unsigned int> I
     }
 }
 
-Network::Message::Message(const std::string &action, std::vector<unsigned int> IDs, const std::string &typeArg, std::any arg)
-        : _action(action), _ArgType(typeArg), _args(), _IDs(IDs), _NbrArgs(1), _NbrId(IDs.size())
+std::map<std::string, uint8_t> actionToCodeMap =
 {
-    try {
-        std::vector<std::uint8_t> serializedArgs = Serializer::serializeItem(arg);
-        initializeMessage(IDs, serializedArgs);
-    } catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
-    }
-}
+    {"CONNECT", 0x01},
+    {"ACCEPTED", 0x02},
+    {"CREATED_USER", 0x03},
+};
 
-std::vector<std::uint8_t> &Network::Message::getMessage()
+std::map<std::string, uint8_t> typeToCodeMap =
 {
-    return _message;
-}
+    {"IGNORE", 0x00},
+    { "INT", 0x01 },
+    { "FLOAT", 0x02 },
+    { "STRING", 0x03 },
+    { "CHAR", 0x03}
+};
 
-unsigned int Network::Message::getSize() {
-    return _message.size();
-}
+std::map<uint8_t, uint8_t> typeToSizeMap =
+{
+    { 0x01, sizeof(int) },
+    { 0x02, sizeof(float) },
+    { 0x03, sizeof(char) },
+};
 
 std::string Network::Message::getActionByCode(uint8_t code)
 {
@@ -168,12 +172,12 @@ void Network::Message::getDataMessage()
     _ArgTypeCode = _message[3 + _NbrId];
     _NbrArgs = _message[4 + _NbrId];
 
-    _ArgType = getTypeByCode(_ArgTypeCode);
-    if (_ArgType == "IGNORE") {
+    if (_ArgTypeCode == 0x00) {
         _sizeArg = 0;
         _args = {};
         return;
     }
+    _ArgType = getTypeByCode(_ArgTypeCode);
     _sizeArg = getSizeByType(_ArgTypeCode);
     if (_ArgTypeCode == 0x03) {
         _sizeArg = _NbrArgs;
@@ -183,7 +187,7 @@ void Network::Message::getDataMessage()
     _args = Serializer::deserialize(std::vector<uint8_t>(_message.begin() + 5 + _NbrId, _message.end()), _ArgTypeCode, _sizeArg, _NbrArgs);
 }
 
-void Network::Message::initializeMessage(const std::vector<unsigned int>& IDs, const std::vector<std::uint8_t>& serializedArgs)
+void Network::Message::initializeMessage(const std::vector<size_t>& IDs, const std::vector<std::uint8_t>& serializedArgs)
 {
     _message.push_back(actionToCodeMap[_action]);
     _message.push_back(static_cast<uint8_t>(_NbrId >> 8));

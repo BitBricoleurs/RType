@@ -5,6 +5,7 @@ add_subdirectory(PhysicsEngine)
 add_subdirectory(POCEngine)
 add_subdirectory(POCProgram)
 add_subdirectory(NetworkLib)
+add_subdirectory(POCServer)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}
