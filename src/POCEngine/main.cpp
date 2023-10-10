@@ -53,7 +53,6 @@
 
 int main() {
   GameEngine::GameEngine engine;
-  /*
   auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
@@ -186,8 +185,6 @@ int main() {
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("ForcePodFixSync", podSync, 2);
   engine.addSystem("deleteShoot", deleteShoot);
-
-   */
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     Network::Client::init(2, queue);

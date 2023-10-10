@@ -23,7 +23,3 @@ class NetworkMoveClient : public GameEngine::ISystem {
     private:
 
 };
-
-
-
-#endif //RTYPE_MOVECLIENT_HPP
