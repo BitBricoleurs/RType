@@ -7,5 +7,5 @@
 void NetworkServerAccept::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     size_t entityId = componentsContainer.createEntity();
-    componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsPlayer>());
+    componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsPlayer>(0));
 }
