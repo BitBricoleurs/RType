@@ -15,7 +15,6 @@ target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOU
 target_sources(${PROJECT_NAME_POCENGINE}
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/BossStage.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/BulletStartPosition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Damage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/DeathAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Health.cpp
@@ -29,9 +28,10 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isHealthBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/ChargeShoot.cpp
         ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
@@ -40,15 +40,15 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateOnMove.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodFixSync.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/InitParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/RollBackBorder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ParallaxPlanet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/ShootDelete.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/DeleteEntities.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/TestInput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
@@ -66,6 +66,12 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncChargePos.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/RemoveHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

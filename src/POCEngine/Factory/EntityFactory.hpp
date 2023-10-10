@@ -9,8 +9,6 @@
 
 #include "AABBComponent2D.hpp"
 #include "BossStage.hpp"
-#include "BulletStartPosition.hpp"
-#include "ChargeShoot.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"
 #include "EventHandler.hpp"
@@ -31,6 +29,7 @@
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
+#include "AudioComponent.hpp"
 #include <cstddef>
 #include <iostream>
 
@@ -61,7 +60,8 @@ public:
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path,
+                            GameEngine::rect rect1);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
@@ -100,7 +100,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int maxHealth,
-                      int damageValue, int player = 1, float scale = 1.0f,
+                      int damageValue, int bulletStartX, int bulletStartY, int player = 1, float scale = 1.0f, size_t entityCharge = 0,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 
@@ -109,7 +109,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int damageValue,
-                      bool isPlayerBullet, float scale = 1.0f,
+                      bool isPlayerBullet, const std::string &pathSound, float scale = 1.0f,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 
@@ -123,8 +123,7 @@ private:
   size_t createChargeAnimation(GameEngine::ComponentsContainer &container,
                                const std::string &spriteSheetPath,
                                int spriteSheetHeight, int spriteSheetWidth,
-                               int frames, GameEngine::Vect2 pos,
-                               size_t entityId, float scale = 1.0f,
+                               int frames, GameEngine::Vect2 pos, float scale = 1.0f,
                                float rotation = 0.0f,
                                GameEngine::ColorR tint = {255, 255, 255, 255});
 

@@ -5,8 +5,8 @@
 #pragma once
 
 #include "ISystem.hpp"
-#include "SpriteComponent.hpp"
 #include "EventHandler.hpp"
+#include "IsPlayer.hpp"
 
 class ResetDirPlayer : public GameEngine::ISystem {
 public:

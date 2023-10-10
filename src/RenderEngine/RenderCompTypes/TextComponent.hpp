@@ -30,6 +30,7 @@ namespace GameEngine {
         Vect2 pos;
         int fontSize;
         ColorR color;
+        bool isVisible = true;
 
     private:
     };
