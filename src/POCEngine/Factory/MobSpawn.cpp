@@ -13,9 +13,9 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::Vect2 velocity) {
 
   size_t entityId = createBaseMob(container, "assets/cancerMob.gif", 34, 200, 6,
-                                  true, true, "assets/explosion.gif", 33, 200,
+                                  true, true, "assets/explode-mob.gif", 33, 200,
                                   6, pos, velocity, 100, 10, 2.5f);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(0, 50),1);
+  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(0, 50), 1);
   container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
   container.bindComponentToEntity(entityId, shooterComp);
   eventHandler.scheduleEvent("animate", 30,
@@ -30,9 +30,10 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
                                 GameEngine::Vect2 pos,
                                 GameEngine::Vect2 velocity) {
-  size_t entityId = createBaseMob(
-      container, "assets/epitech_assets/patapataMob2.gif", 24, 523, 16, true,
-      false, "assets/explosion.gif", 33, 200, 6, pos, velocity, 100, 10, 2.5f);
+  size_t entityId =
+      createBaseMob(container, "assets/epitech_assets/patapataMob2.gif", 24,
+                    523, 16, true, false, "assets/explode-mob.gif", 33, 200, 6,
+                    pos, velocity, 100, 10, 2.5f);
 
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   container.bindComponentToEntity(

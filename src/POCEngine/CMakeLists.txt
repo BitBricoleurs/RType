@@ -42,7 +42,6 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/InitParallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/RollBackBorder.cpp
@@ -65,6 +64,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/RemoveHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateScore.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp

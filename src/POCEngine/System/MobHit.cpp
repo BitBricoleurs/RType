@@ -15,7 +15,7 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", firstEntity);
+              startMobDeath(componentsContainer, eventHandler, firstEntity);
             }
             componentsContainer.deleteEntity(secondEntity);
         } else {
@@ -25,11 +25,26 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", secondEntity);
+              startMobDeath(componentsContainer, eventHandler, secondEntity);
             }
             componentsContainer.deleteEntity(firstEntity);
         }
     } catch (std::exception &e) {
 
     }
+}
+
+void MobHit::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
+                           GameEngine::EventHandler &eventHandler, size_t id) {
+  auto velocityOpt = componentsContainer.getComponent(
+      id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+
+  auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+      velocityOpt.value());
+  // velocity->velocity.x = 0;
+  velocity->velocity.y = 0;
+  componentsContainer.unbindComponentFromEntity(
+      id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
+
+  eventHandler.scheduleEvent("MobDeath", 5, id);
 }
