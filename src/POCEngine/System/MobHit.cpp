@@ -41,12 +41,10 @@ void MobHit::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
 
   auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
       velocityOpt.value());
-  //   velocity->velocity.x = 0;
+  // velocity->velocity.x = 0;
   velocity->velocity.y = 0;
   componentsContainer.unbindComponentFromEntity(
       id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
-  componentsContainer.unbindComponentFromEntity(
-      id, GameEngine::ComponentsType::getComponentType("HeightVariance"));
 
   eventHandler.scheduleEvent("MobDeath", 5, id);
 }
