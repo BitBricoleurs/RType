@@ -56,6 +56,18 @@ public:
                      GameEngine::EventHandler &eventHandler,
                      GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
+  size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                           GameEngine::EventHandler &eventHandler,
+                           GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
+  size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                            GameEngine::EventHandler &eventHandler,
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
+  size_t createBellmite(GameEngine::ComponentsContainer &container,
+                        GameEngine::EventHandler &eventHandler,
+                        GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
   size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
                          GameEngine::Vect2 pos, GameEngine::Vect2 velocity);

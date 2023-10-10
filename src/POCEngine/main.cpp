@@ -258,7 +258,7 @@ GameEngine::Vect2 pos;
 
   auto spawnMob = std::make_shared<SpawnMob>();
   engine.addEvent("spawnMob", spawnMob);
-  engine.scheduleEvent("spawnMob", 60);
+  engine.scheduleEvent("spawnMob", 60, "", 1);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
   engine.addEvent("animate", updateSprite);
