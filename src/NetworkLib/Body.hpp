@@ -6,9 +6,10 @@
 
 #include <vector>
 #include <cstdint>
+#include "Pack.hpp"
 
 namespace Network {
-    class Body {
+    PACK(class Body {
     public:
         Body() = default;
         ~Body() = default;
@@ -20,5 +21,5 @@ namespace Network {
 
     private:
         std::vector<std::uint8_t> _data;
-    } __attribute__((packed));
+    });
 }
