@@ -185,7 +185,11 @@ GameEngine::Vect2 pos;
 
     engine.addEvent("UpdateScore", updateScore);
 
-    engine.scheduleEvent("UpdateScore", 30, 70);
+    engine.scheduleEvent("UpdateScore", 30, 70, 10);
+
+    engine.scheduleEvent("UpdateScore", 60, 100, 10);
+
+    engine.unscheduleEvent("UpdateScore", 100);
 
   auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
   auto backgroundMusicEntity = engine.createEntity();

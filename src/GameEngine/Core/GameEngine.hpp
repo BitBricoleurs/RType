@@ -34,8 +34,8 @@ namespace GameEngine {
         void changeScene(const std::string& sceneName);
 
         void setTickSpeed(double newTickSpeed);
-        void scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {});
-        void unscheduleEvent(const std::string& eventName);
+        void scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {}, size_t repeat = 0);
+        void unscheduleEvent(const std::string& eventName, const std::any& eventData = {});
 
         void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
         void removeContinuousEvent(const std::string& eventName);

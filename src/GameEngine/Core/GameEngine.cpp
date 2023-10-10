@@ -43,12 +43,12 @@ namespace GameEngine {
         tickSpeed = newTickSpeed;
     }
 
-    void GameEngine::scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData) {
-        eventHandler.scheduleEvent(eventName, interval, eventData);
+    void GameEngine::scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData, size_t repeat) {
+        eventHandler.scheduleEvent(eventName, interval, eventData, repeat);
     }
 
-    void GameEngine::unscheduleEvent(const std::string& eventName) {
-        eventHandler.unscheduleEvent(eventName);
+    void GameEngine::unscheduleEvent(const std::string& eventName, const std::any& eventData) {
+        eventHandler.unscheduleEvent(eventName, eventData);
     }
 
     void GameEngine::run() {
