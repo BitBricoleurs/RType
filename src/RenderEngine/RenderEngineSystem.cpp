@@ -40,10 +40,13 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
       }
     }
   }
-  std::sort(sortedTextComponents.begin(), sortedTextComponents.end(),
-            [](const TextComponent &a, const TextComponent &b) {
-              return a.layer < b.layer;
-            });
+  std::stable_sort(sortedTextComponents.begin(), sortedTextComponents.end(),
+    [](const TextComponent &a, const TextComponent &b) {
+        if(a.layer == b.layer) {
+            return a.pos.x < b.pos.x;
+        }
+        return a.layer < b.layer;
+    });
 
   for (const auto &component : spriteComponents) {
     if (component.has_value()) {
@@ -54,10 +57,13 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
       }
     }
   }
-  std::sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
-            [](const SpriteComponent &a, const SpriteComponent &b) {
-              return a.layer < b.layer;
-            });
+  std::stable_sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
+    [](const SpriteComponent &a, const SpriteComponent &b) {
+        if(a.layer == b.layer) {
+            return a.pos.x < b.pos.x;
+        }
+        return a.layer < b.layer;
+    });
 
   renderEngine->ClearBackgroundRender(BLACK);
 

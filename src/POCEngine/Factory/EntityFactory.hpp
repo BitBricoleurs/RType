@@ -29,8 +29,11 @@
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
+#include "AudioComponent.hpp"
 #include <cstddef>
 #include <iostream>
+#include "AudioEngineSystem.hpp"
+#include "AudioComponent.hpp"
 
 class EntityFactory {
 public:
@@ -59,7 +62,8 @@ public:
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path,
+                            GameEngine::rect rect1);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
@@ -107,7 +111,7 @@ private:
                       int spriteSheetWidth, int frames, bool twoDirections,
                       bool reverse, GameEngine::Vect2 pos,
                       GameEngine::Vect2 velocity, int damageValue,
-                      bool isPlayerBullet, float scale = 1.0f,
+                      bool isPlayerBullet, const std::string &pathSound, float scale = 1.0f,
                       float rotation = 0.0f,
                       GameEngine::ColorR tint = {255, 255, 255, 255});
 

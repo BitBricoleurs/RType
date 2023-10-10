@@ -33,6 +33,7 @@ size_t EntityFactory::createBaseMob(
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
+  container.bindComponentToEntity(entityId, mobComponent);
 
   return entityId;
 }
@@ -92,7 +93,7 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int damageValue,
-                                   bool isPlayerBullet, float scale,
+                                   bool isPlayerBullet, const std::string &pathSound, float scale,
                                    float rotation, GameEngine::ColorR tint) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
@@ -100,7 +101,8 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
-
+  auto shootSound = std::make_shared<GameEngine::AudioComponent>(pathSound);
+  container.bindComponentToEntity(entityId, shootSound);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, bulletComponent);
 

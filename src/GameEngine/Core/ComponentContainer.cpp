@@ -32,6 +32,29 @@ namespace GameEngine {
         }
         return entities;
     }
+    size_t ComponentsContainer::getEntityWithUniqueComponent(size_t componentType) {
+        if (componentType == 0) {
+            return 0;
+        }
+        for (size_t i = 0; i < componentsContainer[componentType].size(); i++) {
+            if (componentsContainer[componentType][i].has_value()) {
+                return i;
+            }
+        }
+        return 0;
+    }
+    std::vector<size_t> ComponentsContainer::getEntitiesWithComponent(size_t componentType, size_t secondComponentType) {
+        std::vector<size_t> entities;
+        if (componentType == 0 || secondComponentType == 0) {
+            return entities;
+        }
+        for (size_t i = 0; i < componentsContainer[componentType].size() && i < componentsContainer[secondComponentType].size(); i++) {
+            if (componentsContainer[componentType][i].has_value() && componentsContainer[secondComponentType][i].has_value()) {
+                entities.push_back(i);
+            }
+        }
+        return entities;
+    }
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponentsFromEntity(size_t entityID) {
         std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         for (auto componentType : componentsContainer) {

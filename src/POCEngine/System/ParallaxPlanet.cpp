@@ -12,31 +12,36 @@ ParallaxPlanet::ParallaxPlanet() : lastPlanetLayer(0),
           nextTickThreshold(0)
     {
         PlanetsPath = {
-            "Planet_Furnace_01_560x560.png",
-            "Planet_Furnace_02_560x560.png",
-            "Planets_Desert_01_560x560.png",
-            "Planets_Desert_02_560x560.png",
-            "Planets_Grave_01_560x560.png",
-            "Planets_Grave_02_560x560.png",
-            "Planets_Ice_01_560x560.png",
-            "Planets_Ice_02_560x560.png",
-            "Planets_Jovian_01_560x560.png",
-            "Planets_Jovian_02_560x560.png",
-            "Planets_Jungle1_560x560.png",
-            "Planets_Jungle2_560x560.png",
-            "Planets_Ocean_01_560x560.png",
-            "Planets_Ocean_02_560x560.png",
-            "Planets_Rocky_01_560x560.png",
-            "Planets_Rocky_02_560x560.png",
-            "Planets_Shattered_01_560x560.png",
-            "Planets_Shattered_02_560x560.png",
-            "Planets_Tainted_01_560x560.png",
-            "Planets_Tainted_02_560x560.png",
-            "Planets_Vital_01_560x560.png",
-            "Planets_Vital_02_560x560.png"
+            "assets/Planets/Planet_Furnace_01_560x560.png",
+            "assets/Planets/Planet_Furnace_02_560x560.png",
+            "assets/Planets/Planets_Desert_01_560x560.png",
+            "assets/Planets/Planets_Desert_02_560x560.png",
+            "assets/Planets/Planets_Grave_01_560x560.png",
+            "assets/Planets/Planets_Grave_02_560x560.png",
+            "assets/Planets/Planets_Ice_01_560x560.png",
+            "assets/Planets/Planets_Ice_02_560x560.png",
+            "assets/Planets/Planets_Jovian_01_560x560.png",
+            "assets/Planets/Planets_Jovian_02_560x560.png",
+            "assets/Planets/Planets_Jungle1_560x560.png",
+            "assets/Planets/Planets_Jungle2_560x560.png",
+            "assets/Planets/Planets_Ocean_01_560x560.png",
+            "assets/Planets/Planets_Ocean_02_560x560.png",
+            "assets/Planets/Planets_Rocky_01_560x560.png",
+            "assets/Planets/Planets_Rocky_02_560x560.png",
+            "assets/Planets/Planets_Shattered_01_560x560.png",
+            "assets/Planets/Planets_Shattered_02_560x560.png",
+            "assets/Planets/Planets_Tainted_01_560x560.png",
+            "assets/Planets/Planets_Tainted_02_560x560.png",
+            "assets/Planets/Planets_Vital_01_560x560.png",
+            "assets/Planets/Planets_Vital_02_560x560.png"
         };
     }
 
+ParallaxPlanet::ParallaxPlanet(const std::vector<std::string>& paths) : lastPlanetLayer(0),
+          lastPlanetY(0),
+          ticksSinceLastPlanet(0),
+          nextTickThreshold(0),
+          PlanetsPath(paths) {}
 
 void ParallaxPlanet::update(GameEngine::ComponentsContainer &componentsContainer,
                                   GameEngine::EventHandler &eventHandler) {
@@ -71,7 +76,7 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
         }
     }
         size_t randomIndex = rand() % PlanetsPath.size();
-        std::string randomPath = "assets/Planets/" + PlanetsPath[randomIndex];
+        std::string randomPath = PlanetsPath[randomIndex];
         PlanetsPath.erase(PlanetsPath.begin() + randomIndex);
         UsedPlanetsPath.push_back(randomPath);
         size_t randomLayer = lastPlanetLayer;
@@ -87,7 +92,6 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
         auto parallaxEntity = componentsContainer.createEntity();
         auto isParallaxComponent = std::make_shared<IsParallax>();
         componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
-        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint
-        );
+        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint);
         componentsContainer.bindComponentToEntity(parallaxEntity, spriteComponent);
     };

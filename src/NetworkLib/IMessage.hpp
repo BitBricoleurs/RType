@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <utility>
 #include <vector>
 #include <cstdint>
 
@@ -19,7 +20,20 @@ namespace Network {
 
     class Message;
     struct OwnedMessage {
+        OwnedMessage(unsigned int remote, std::shared_ptr<Network::IMessage> message) : remote(remote), message(std::move(message)) {}
+        OwnedMessage(const OwnedMessage& other) = default;
+        OwnedMessage(OwnedMessage&& other) noexcept : remote(other.remote), message(std::move(other.message)) {}
+        OwnedMessage& operator=(const OwnedMessage& other) {
+            remote = other.remote;
+            message = other.message;
+            return *this;
+        }
+        OwnedMessage& operator=(OwnedMessage&& other) noexcept {
+            remote = other.remote;
+            message = std::move(other.message);
+            return *this;
+        }
         unsigned int remote;
-        std::shared_ptr<Network::Message> message;
+        std::shared_ptr<Network::IMessage> message;
     };
 }
