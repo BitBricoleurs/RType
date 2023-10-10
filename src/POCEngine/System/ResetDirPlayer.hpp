@@ -5,7 +5,6 @@
 #pragma once
 
 #include "ISystem.hpp"
-#include "SpriteComponent.hpp"
 #include "EventHandler.hpp"
 #include "IsPlayer.hpp"
 
