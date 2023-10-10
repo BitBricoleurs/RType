@@ -12,6 +12,7 @@ set(PROJECT_NAME_CLIENT client)
 set(PROJECT_NAME_SERVER server)
 set(PROJECT_NAME_POCENGINE POCEngine)
 set(PROJECT_NAME_POCPROGRAM POCProgram)
+set(PROJECT_NAME_POCSERVER POCServer)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,6 +21,7 @@ add_executable(${PROJECT_NAME_CLIENT} )
 add_executable(${PROJECT_NAME_SERVER} )
 add_executable(${PROJECT_NAME_POCENGINE})
 add_executable(${PROJECT_NAME_POCPROGRAM})
+add_executable(${PROJECT_NAME_POCSERVER})
 
 add_subdirectory(lib)
 add_subdirectory(src)
@@ -29,6 +31,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
+file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION .)
 
 message(STATUS "Configured to compile the RType project.")
 

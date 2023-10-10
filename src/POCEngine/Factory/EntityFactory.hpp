@@ -29,6 +29,7 @@
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
+#include "AudioComponent.hpp"
 #include <cstddef>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -45,15 +46,15 @@ public:
 
   size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                         GameEngine::EventHandler &eventHandler,
-                        GameEngine::Vect2 pos);
+                        GameEngine::Vect2 pos, bool dropPowerup);
 
   size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                           GameEngine::EventHandler &eventHandler,
-                          GameEngine::Vect2 pos);
+                          GameEngine::Vect2 pos, bool dropPowerup);
 
   size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                      GameEngine::EventHandler &eventHandler,
-                     GameEngine::Vect2 pos);
+                     GameEngine::Vect2 pos, bool dropPowerup);
 
   size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
@@ -61,11 +62,14 @@ public:
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos);
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos);
+                               GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+
+    nlohmann::json loadConfig(const std::string& filePath);
+
 
 private:
   EntityFactory() = default;
@@ -105,7 +109,7 @@ private:
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int damageValue,
-                                   bool isPlayerBullet, int playerA, float scale,
+                                   bool isPlayerBullet, int playerA, const std::string &pathSound, float scale,
                                    float rotation, GameEngine::ColorR tint, int layer);
 
   size_t createPowerUp(GameEngine::ComponentsContainer &container, const std::string &spriteSheetPath,
@@ -136,26 +140,7 @@ private:
   std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
-
     private:
-        static nlohmann::json loadConfig(const std::string& filePath) {
-            std::ifstream file(filePath);
-            if (!file.is_open()) {
-                std::cerr << "Failed to open file: " << filePath << std::endl;
-                throw std::runtime_error("Failed to open config file.");
-            }
-
-            nlohmann::json config;
-            try {
-                file >> config;
-            } catch (const nlohmann::json::parse_error& e) {
-                std::cerr << "JSON parsing error: " << e.what() << std::endl;
-                throw;
-            }
-
-            return config;
-        }
-
 
   int player = 0;
 };

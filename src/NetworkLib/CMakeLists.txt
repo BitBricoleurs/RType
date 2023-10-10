@@ -4,7 +4,6 @@ add_library(NetworkLib STATIC
         Client.cpp
         IMessage.hpp
         InterfaceNetwork.cpp
-        Message.cpp
         PacketComponent.hpp
         Server.cpp
         Tick.cpp
@@ -13,6 +12,7 @@ add_library(NetworkLib STATIC
         PacketIO.hpp
         EndpointGetter.hpp
         EndpointGetter.cpp
+        AMessage.hpp
 )
 
 foreach(lib ${BOOST_INCLUDE_LIBRARIES})
@@ -48,3 +48,4 @@ if(Boost_FOUND)
 endif()
 
 target_link_libraries(NetworkLib PRIVATE Threads::Threads)
+target_include_directories(NetworkLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

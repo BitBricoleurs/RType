@@ -90,7 +90,7 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int damageValue,
-                                   bool isPlayerBullet, int playerA, float scale,
+                                   bool isPlayerBullet, int playerA, const std::string &pathSound, float scale,
                                    float rotation, GameEngine::ColorR tint, int layer) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
@@ -98,7 +98,8 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
-
+  auto shootSound = std::make_shared<GameEngine::AudioComponent>(pathSound);
+  container.bindComponentToEntity(entityId, shootSound);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, bulletComponent);
 
@@ -127,6 +128,7 @@ size_t EntityFactory::createChargeAnimation(
   auto positionComponent =
       std::make_shared<GameEngine::PositionComponent2D>(pos);
   auto movementComp = std::make_shared<GameEngine::MovementComponent>();
+  std::cout << spriteSheetPath << ":" << frames << ":" << spriteSheetWidth << ":" << spriteSheetHeight << ":" <<twoDirection << ":" << reverse << ":" << direction << ":" << playerA << std::endl;
   auto chargeShootAnimation =
       initAnimation(spriteSheetPath, frames, spriteSheetWidth,
                     spriteSheetHeight, twoDirection, reverse, direction, playerA);
@@ -146,7 +148,7 @@ size_t EntityFactory::createChargeAnimation(
       rotation, tint);
   spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
-
+ std::cout << chargeShootAnimation->frames << std::endl;
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);
   container.bindComponentToEntity(animationId, spriteComponent);

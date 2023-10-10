@@ -93,7 +93,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
         }
     }
     size_t ComponentsContainer::createEntity() {
-        size_t entityID;
+        size_t entityID = 0;
         if (!freeMemorySlots.empty()) {
             entityID = freeMemorySlots.back();
             freeMemorySlots.pop_back();

@@ -8,17 +8,10 @@
 #include "RenderEngineSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "Utils.hpp"
-#include "VelocityComponent.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
-#include <iostream>
 #include "IsChargingBar.hpp"
-#include "IsParallax.hpp"
-#include "IsPlayer.hpp"
 #include "Parallax.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
-#include "PositionComponent2D.hpp"
-#include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
 #include "ParallaxPlanet.hpp"
 #include "isHealthBar.hpp"
@@ -30,23 +23,27 @@
 #include "AudioEngineSystem.hpp"
 #include "Shoot.hpp"
 #include "SpawnMob.hpp"
-#include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
-#include "System/AnimateOnMove.hpp"
 #include "UpdateEntitySprite.hpp"
-#include "Utils.hpp"
-#include "VelocityComponent.hpp"
 #include "WiggleMob.hpp"
 #include "ParallaxPlanet.hpp"
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
-#include "Shooter.hpp"
 #include "WindowInfoComponent.hpp"
 #include "DeleteEntities.hpp"
-#include <iostream>
 #include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
+#include "NetworkConnect.hpp"
+#include "NetworkReceiveDisconnect.hpp"
+#include "NetworkReceiveDisconnectApply.hpp"
+#include "NetworkServerTimeout.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkOutput.hpp"
+#include "Client.hpp"
+#include "Endpoint.hpp"
+#include "NetworkServerAccept.hpp"
+#include "RollBackBorder.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -92,6 +89,7 @@ int main() {
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto borderStop = std::make_shared<RollBackBorder>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
@@ -100,7 +98,8 @@ int main() {
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
   engine.addSystem("CollisionSystem", collision);
-  engine.addSystem("MovementSystem", movement);
+  engine.addSystem("RollBackBorder", borderStop);
+  engine.addSystem("MovementSystem", movement, 2);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("ParallaxPlanetSystem", paralaxPlanet);
   engine.addSystem("SyncPosSPrite", sync, 3);
@@ -235,9 +234,9 @@ GameEngine::Vect2 pos;
   engine.addEvent("createPlayer", createPlayer);
   engine.queueEvent("createPlayer");
 
-  auto spawnMob = std::make_shared<SpawnMob>();
-  engine.addEvent("spawnMob", spawnMob);
-  engine.scheduleEvent("spawnMob", 60);
+  auto spawnMob = std::make_shared<SpawnMob>("config/map");
+  engine.addSystem("spawnMob", spawnMob);
+  //engine.queueEvent("spawnMob", 1);
 
   auto updateSprite = std::make_shared<updateEntitySprite>();
   engine.addEvent("animate", updateSprite);
@@ -251,6 +250,26 @@ GameEngine::Vect2 pos;
   engine.addEvent("ForcePodStop", forcePod);
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("deleteShoot", deleteShoot);
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+    Network::Client::init(2, queue);
+    auto networkConnect = std::make_shared<NetworkConnect>();
+    auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
+    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
+    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
+    auto networkInput = std::make_shared<NetworkInput>(queue);
+    auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
+    auto networkAccept = std::make_shared<NetworkServerAccept>();
+    Network::Endpoint endpoint("127.0.0.1", 4444);
+
+    engine.addSystem("NETWORK_INPUT", networkInput, 0);
+    engine.addEvent("SEND_NETWORK", networkOutput);
+    engine.addEvent("NETWORK_CONNECT", networkConnect);
+    engine.addEvent("ACCEPTED", networkAccept);
+    engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
+    engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
+    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
+
+    engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
   engine.run();
   return 0;
 }

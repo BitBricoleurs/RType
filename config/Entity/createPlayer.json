@@ -1,0 +1,61 @@
+{
+  "createChargeAnimation": {
+    "spriteSheetPath": "assets/chargeShoot.gif",
+    "spriteSheetHeight": 34,
+    "spriteSheetWidth": 264,
+    "frames": 8,
+    "pos": {
+      "x": 0,
+      "y": 0
+    },
+    "velocity": {
+      "x": 0,
+      "y": 0
+    },
+    "scale": 2.0,
+    "rotation": 0,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "twoDirection": false,
+    "reverse": false,
+    "direction": 1,
+    "playerA": 0,
+    "layer": 7
+  },
+
+  "createPlayer": {
+    "spriteSheetPath": "assets/ships.gif",
+    "spriteSheetHeight": 86,
+    "spriteSheetWidth": 166,
+    "frames": 5,
+    "twoDirections": false,
+    "reverse": false,
+    "pos": {
+      "x": 0,
+      "y": 0
+    },
+    "velocity": {
+      "x": 0,
+      "y": 0
+    },
+    "maxHealth": 100,
+    "damageValue": 0,
+    "bulletStartX": 80,
+    "bulletStartY": 22,
+    "playerA": 0,
+    "scale": 2.5,
+    "rotation": 0,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "typeBullet": 0,
+    "layer": 7
+  }
+}
