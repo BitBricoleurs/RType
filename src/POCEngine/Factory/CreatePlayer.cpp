@@ -19,7 +19,6 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
 
 
   eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-  eventHandler.scheduleEvent("ShootSystem", 20, entityId);
   eventHandler.scheduleEvent(
       "animate", 5,
       std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
