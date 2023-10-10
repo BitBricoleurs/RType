@@ -50,7 +50,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
             spritePath = "assets/shoot.gif";
             velocity.x = 20;
             auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
-            GameEngine::Vect2 velocity;
             float closestDistance = std::numeric_limits<float>::max();
             GameEngine::Vect2 directionToClosestPlayer;
             for (auto &player : players) {
@@ -69,7 +68,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
               float scaleFactor = 6.0f / maxVal;
               velocity = directionToClosestPlayer * scaleFactor;
-              EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
+              EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition);
       }
         }
         auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(spritePath, shootingPosition, rect1, 10, scale, rotation, tint);

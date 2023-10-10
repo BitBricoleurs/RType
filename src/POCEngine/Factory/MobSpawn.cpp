@@ -9,17 +9,15 @@
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos,
-                                     GameEngine::Vect2 velocity) {
+                                     GameEngine::Vect2 pos) {
 
   size_t entityId = createBaseMob(container, "assets/cancerMob.gif", 34, 200, 6,
                                   true, true, "assets/explosion.gif", 33, 200,
-                                  6, pos, velocity, 100, 10, 2.5f);
+                                  6, pos, GameEngine::Vect2 (-2, 0), 100, 10, 0, 2.5f, 0, GameEngine::ColorR(255, 255, 255, 255), 7);
   auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(0, 50),1);
   container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
   container.bindComponentToEntity(entityId, shooterComp);
-  eventHandler.scheduleEvent("animate", 30,
-                             std::make_tuple(std::string("Cancer"), entityId));
+  eventHandler.scheduleEvent("animate", 30, std::make_tuple(std::string("Cancer"), entityId));
   auto IdCharge = std::make_tuple(entityId, 0);
   eventHandler.scheduleEvent("ShootSystem", 300, IdCharge);
   return entityId;
@@ -28,11 +26,10 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
-                                GameEngine::Vect2 pos,
-                                GameEngine::Vect2 velocity) {
+                                GameEngine::Vect2 pos) {
   size_t entityId = createBaseMob(
       container, "assets/patapataMob2.gif", 24, 523, 16, true,
-      false, "assets/explosion.gif", 33, 200, 6, pos, velocity, 100, 10, 2.5f);
+      false, "assets/explosion.gif", 33, 200, 6, pos, GameEngine::Vect2 (-2, 0), 100, 10, 0, 2.5f, 0, GameEngine::ColorR(255, 255, 255, 255), 7);
 
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   container.bindComponentToEntity(
@@ -45,12 +42,11 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos,
-                                  GameEngine::Vect2 velocity) {
+                                  GameEngine::Vect2 pos) {
 
   size_t entityId = createBaseMob(container, "assets/bugMob.png", 34, 532, 16,
                                   false, false, "assets/explosion.gif", 33, 200,
-                                  6, pos, velocity, 100, 10, 2.5f);
+                                  6, pos, GameEngine::Vect2 (-2, 0), 100, 10, 0, 2.5f, 0, GameEngine::ColorR(255, 255, 255, 255), 7);
 
   container.bindComponentToEntity(entityId, std::make_shared<Bug>());
   return entityId;

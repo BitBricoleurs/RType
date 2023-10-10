@@ -38,8 +38,8 @@ install(TARGETS ${PROJECT_NAME_CLIENT} ${PROJECT_NAME_SERVER} ${PROJECT_NAME_POC
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-# Installer le répertoire assets entier dans le même répertoire que l'exécutable
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/config" DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 include(InstallRequiredSystemLibraries)
 

@@ -10,12 +10,11 @@
 size_t
 EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos,
-                               GameEngine::Vect2 velocity) {
+                               GameEngine::Vect2 pos) {
   this->player++;
 
-  size_t chargeAnimationID = createChargeAnimation(container, "assets/chargeShoot.gif", 34, 264, 8, GameEngine::Vect2 (0, 0), 2.0f);
-  size_t entityId = createPlayer(container, "assets/ships.gif", 86, 166, 5, false, false, pos, velocity, 100, 0, 80, 22, player, 2.5f, chargeAnimationID);
+  size_t chargeAnimationID = createChargeAnimation(container, "assets/chargeShoot.gif", 34, 264, 8, GameEngine::Vect2 (0, 0), GameEngine::Vect2 (0, 0), 2.0f, 0, GameEngine::ColorR(255, 255, 255, 255),  false, false, 1, 0, 7);
+  size_t entityId = createPlayer(container, "assets/ships.gif", 86, 166, 5, false, false, pos, GameEngine::Vect2 (-2, 0), 100, 0, 80, 22, player, 2.5f, chargeAnimationID, 0, GameEngine::ColorR(255, 255, 255, 255), 0, 7);
 
 
   eventHandler.scheduleEvent("animatePlayer", 15, entityId);
