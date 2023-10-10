@@ -6,6 +6,7 @@ add_subdirectory(POCEngine)
 add_subdirectory(POCProgram)
 add_subdirectory(NetworkLib)
 add_subdirectory(POCServer)
+add_subdirectory(POCClient)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}

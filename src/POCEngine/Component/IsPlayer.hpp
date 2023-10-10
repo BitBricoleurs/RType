@@ -8,7 +8,8 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsPlayer : public GameEngine::AComponent {
+class
+IsPlayer : public GameEngine::AComponent {
 public:
   IsPlayer(size_t entityIdChargeAnimation);
 

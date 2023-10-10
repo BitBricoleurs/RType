@@ -57,11 +57,11 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkOutput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Utils/Message.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnect.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnectApply.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerTimeout.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkConnect.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerAccept.cpp
+        ../POCClient/System/NetworkReceiveDisconnect.cpp
+        ../POCClient/System/NetworkReceiveDisconnectApply.cpp
+        ../POCClient/System/NetworkServerTimeout.cpp
+        ../POCClient/System/NetworkConnect.cpp
+        ../POCClient/System/NetworkServerAccept.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
