@@ -23,13 +23,13 @@ namespace GameEngine {
             this->color = color;
             this->pos = pos;
         }
-        ~TextComponent() = default;
+        ~TextComponent() override = default;
 
         size_t layer;
         std::string text;
         Vect2 pos;
         int fontSize;
-        ColorR color;
+        ColorR color{};
         bool isVisible = true;
 
     private:
