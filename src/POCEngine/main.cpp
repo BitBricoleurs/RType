@@ -1,24 +1,39 @@
+#include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
+#include "Client.hpp"
+#include "CollisionHandler.hpp"
 #include "Component/DeathAnimation.hpp"
 #include "ComponentContainer.hpp"
 #include "CreatePlayer.hpp"
 #include "DeleteEntities.hpp"
+#include "Endpoint.hpp"
 #include "EntityFactory.hpp"
 #include "ForcePodSpawn.hpp"
 #include "ISystem.hpp"
 #include "InitParallax.hpp"
 #include "IsChargingBar.hpp"
+#include "MobHit.hpp"
+#include "NetworkConnect.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkOutput.hpp"
+#include "NetworkReceiveDisconnect.hpp"
+#include "NetworkReceiveDisconnectApply.hpp"
+#include "NetworkServerAccept.hpp"
+#include "NetworkServerTimeout.hpp"
 #include "Parallax.hpp"
 #include "ParallaxPlanet.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
+#include "PlayerHit.hpp"
+#include "PlayerHitMob.hpp"
 #include "RemoveHealth.hpp"
 #include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
+#include "RollBackBorder.hpp"
 #include "Score.hpp"
 #include "Shoot.hpp"
 #include "Shooter.hpp"
@@ -38,20 +53,6 @@
 #include "isHealthBar.hpp"
 #include <iostream>
 #include <memory>
-#include "CollisionHandler.hpp"
-#include "PlayerHit.hpp"
-#include "MobHit.hpp"
-#include "PlayerHitMob.hpp"
-#include "NetworkConnect.hpp"
-#include "NetworkReceiveDisconnect.hpp"
-#include "NetworkReceiveDisconnectApply.hpp"
-#include "NetworkServerTimeout.hpp"
-#include "NetworkInput.hpp"
-#include "NetworkOutput.hpp"
-#include "Client.hpp"
-#include "Endpoint.hpp"
-#include "NetworkServerAccept.hpp"
-#include "RollBackBorder.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -249,8 +250,6 @@ GameEngine::Vect2 pos;
   //   engine.bindComponentToEntity(Player, velocity);
 
   auto mobDeath = std::make_shared<AnimateDeath>();
-  auto startDeath = std::make_shared<StartDeath>();
-  engine.addEvent("Death", startDeath);
   engine.addEvent("MobDeath", mobDeath);
 
   auto createPlayer = std::make_shared<CreatePlayer>();
@@ -261,8 +260,8 @@ GameEngine::Vect2 pos;
   engine.addEvent("spawnMob", spawnMob);
   engine.scheduleEvent("spawnMob", 60);
 
-  //auto updateSprite = std::make_shared<updateEntitySprite>();
-  //engine.addEvent("animate", updateSprite);
+  auto updateSprite = std::make_shared<updateEntitySprite>();
+  engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
   engine.addSystem("wiggleMob", wigglePata);

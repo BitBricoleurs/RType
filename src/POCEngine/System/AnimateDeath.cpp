@@ -24,11 +24,16 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
     auto deathAnim =
         std::dynamic_pointer_cast<DeathAnimation>(deathOpt.value());
     if (sprite->imagePath != deathAnim->filepath) {
+      sprite->rect1.w = deathAnim->frameWidth;
+      sprite->rect1.h = deathAnim->frameHeight;
       sprite->imagePath = deathAnim->filepath;
+      componentsContainer.unbindComponentFromEntity(
+          entityID,
+          GameEngine::ComponentsType::getComponentType("AColliderComponent2D"));
     }
     if (deathAnim->currentFrameIndex == deathAnim->frames) {
       componentsContainer.deleteEntity(entityID);
-      eventHandler.unscheduleEvent("MobDeath");
+      eventHandler.unscheduleEvent("MobDeath", entityID);
       return;
     }
     deathAnim->currentFrame =
