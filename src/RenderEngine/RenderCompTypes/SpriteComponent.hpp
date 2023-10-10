@@ -39,6 +39,7 @@ namespace GameEngine {
         std::string imagePath;
         Vect2 origin;
         ColorR tint;
+        bool isVisible = true;
     private:
     };
 }

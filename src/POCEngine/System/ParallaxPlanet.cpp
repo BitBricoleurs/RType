@@ -87,7 +87,6 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
         auto parallaxEntity = componentsContainer.createEntity();
         auto isParallaxComponent = std::make_shared<IsParallax>();
         componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
-        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint
-        );
+        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint);
         componentsContainer.bindComponentToEntity(parallaxEntity, spriteComponent);
     };

@@ -1,5 +1,5 @@
 //
-// Created by alexandre on 03/10/23.
+// Created by alexandre on 09/10/23.
 //
 
 #pragma once
@@ -8,12 +8,14 @@
 #include "SpriteComponent.hpp"
 #include "EventHandler.hpp"
 #include "IsPlayer.hpp"
+#include "PositionComponent2D.hpp"
+#include "VelocityComponent.hpp"
+#include "WindowInfoComponent.hpp"
 
-class ChangeDirPlayer : public GameEngine::ISystem {
+class RollBackBorder : public GameEngine::ISystem {
 public:
   void update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) override;
 private:
   bool done = false;
 };
-

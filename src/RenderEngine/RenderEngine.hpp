@@ -15,11 +15,12 @@
 #include "KeyMapping.hpp"
 #include <vector>
 #include <string>
+#include <fstream>
 
 namespace GameEngine {
     class RenderEngine {
     public:
-        RenderEngine() = default;
+        RenderEngine();
         ~RenderEngine();
 
         void Initialize(const char* windowTitle);
@@ -37,6 +38,7 @@ namespace GameEngine {
         size_t screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
+        Font font;
 
             std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },
@@ -55,5 +57,6 @@ namespace GameEngine {
         {KEY_F11, IsKeyPressed, "toggleFullScreen"}
     };
 
-    };
+    static bool fileExists(const std::string& path);
+};
 }

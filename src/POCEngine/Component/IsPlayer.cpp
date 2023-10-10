@@ -7,3 +7,7 @@
 size_t IsPlayer::getComponentType() {
     return GameEngine::ComponentsType::getNewComponentType("IsPlayer");
 }
+IsPlayer::IsPlayer(size_t entityIdChargeAnimation) : entityIdChargeAnimation(entityIdChargeAnimation)
+{
+
+}
