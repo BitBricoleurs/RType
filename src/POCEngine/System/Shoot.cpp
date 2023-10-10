@@ -13,7 +13,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
     auto charge = 0;
     auto event = eventHandler.getTriggeredEvent().second;
    auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(event);
-    size_t entityID = std::get<0>(tupleIdCharge);
+      size_t entityID = std::get<0>(tupleIdCharge);
     charge = std::get<1>(tupleIdCharge);
     auto player = componentsContainer.getComponentsFromEntity(entityID);
     auto positionOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));

@@ -2,19 +2,18 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** CreatePlayer
+** AnimateDeath
 */
 
 #pragma once
-#include "ComponentsType.hpp"
-#include "EntityFactory.hpp"
-#include "ISystem.hpp"
-#include "Utils.hpp"
-#include <iostream>
-#include "AudioEngineSystem.hpp"
-#include "AudioComponent.hpp"
 
-class CreatePlayer : public GameEngine::ISystem {
+#include "ComponentsType.hpp"
+#include "DeathAnimation.hpp"
+#include "EventHandler.hpp"
+#include "ISystem.hpp"
+#include "SpriteComponent.hpp"
+
+class AnimateDeath : public GameEngine::ISystem {
 public:
   void update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) override;

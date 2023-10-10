@@ -10,6 +10,7 @@
 #include "ComponentsType.hpp"
 #include "VelocityComponent.hpp"
 #include "SpriteComponent.hpp"
+#include <algorithm>
 
 class Parallax : public GameEngine::ISystem {
 public:

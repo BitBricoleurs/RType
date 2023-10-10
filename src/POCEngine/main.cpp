@@ -1,49 +1,58 @@
+#include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
-#include "ChangeDirPlayer.hpp"
-#include "ChargingBar.hpp"
-#include "ComponentContainer.hpp"
-#include "CreatePlayer.hpp"
-#include "EntityFactory.hpp"
-#include "ISystem.hpp"
-#include "RenderEngineSystem.hpp"
-#include "SpriteComponent.hpp"
-#include "Utils.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
-#include "IsChargingBar.hpp"
-#include "Parallax.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-#include "ResetDirPlayer.hpp"
-#include "ParallaxPlanet.hpp"
-#include "isHealthBar.hpp"
-#include "RemoveHealth.hpp"
-#include "TextComponent.hpp"
-#include "Score.hpp"
-#include "UpdateScore.hpp"
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
-#include "Shoot.hpp"
-#include "SpawnMob.hpp"
-#include "SyncPosSprite.hpp"
-#include "UpdateEntitySprite.hpp"
-#include "WiggleMob.hpp"
-#include "ParallaxPlanet.hpp"
-#include "ForcePodSpawn.hpp"
-#include "TestInput.hpp"
-#include "WindowInfoComponent.hpp"
+#include "ChangeDirPlayer.hpp"
+#include "ChargingBar.hpp"
+#include "Client.hpp"
+#include "CollisionHandler.hpp"
+#include "Component/DeathAnimation.hpp"
+#include "ComponentContainer.hpp"
+#include "CreatePlayer.hpp"
 #include "DeleteEntities.hpp"
-#include <memory>
+#include "Endpoint.hpp"
+#include "EntityFactory.hpp"
+#include "ForcePodSpawn.hpp"
+#include "ISystem.hpp"
 #include "InitParallax.hpp"
-#include "ToggleFullScreen.hpp"
+#include "IsChargingBar.hpp"
+#include "MobHit.hpp"
 #include "NetworkConnect.hpp"
-#include "NetworkReceiveDisconnect.hpp"
-#include "NetworkReceiveDisconnectApply.hpp"
-#include "NetworkServerTimeout.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkOutput.hpp"
-#include "Client.hpp"
-#include "Endpoint.hpp"
+#include "NetworkReceiveDisconnect.hpp"
+#include "NetworkReceiveDisconnectApply.hpp"
 #include "NetworkServerAccept.hpp"
+#include "NetworkServerTimeout.hpp"
+#include "Parallax.hpp"
+#include "ParallaxPlanet.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "PlayerHit.hpp"
+#include "PlayerHitMob.hpp"
+#include "RemoveHealth.hpp"
+#include "RenderEngineSystem.hpp"
+#include "ResetDirPlayer.hpp"
 #include "RollBackBorder.hpp"
+#include "Score.hpp"
+#include "Shoot.hpp"
+#include "Shooter.hpp"
+#include "SpawnMob.hpp"
+#include "SpriteComponent.hpp"
+#include "SyncPosSprite.hpp"
+#include "System/AnimateOnMove.hpp"
+#include "TestInput.hpp"
+#include "TextComponent.hpp"
+#include "ToggleFullScreen.hpp"
+#include "UpdateEntitySprite.hpp"
+#include "UpdateScore.hpp"
+#include "Utils.hpp"
+#include "VelocityComponent.hpp"
+#include "WiggleMob.hpp"
+#include "WindowInfoComponent.hpp"
+#include "isHealthBar.hpp"
+#include <iostream>
+#include <memory>
 
 int main() {
   GameEngine::GameEngine engine;
@@ -89,11 +98,17 @@ int main() {
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto PlayerHit1 = std::make_shared<PlayerHit>();
+  auto MobHit1 = std::make_shared<MobHit>();
+  auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
+  engine.addEvent("PlayerHit", PlayerHit1);
+  engine.addEvent("MobHit", MobHit1);
+  engine.addEvent("PlayerHitMob", PlayerHitMob1);
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
@@ -184,7 +199,11 @@ GameEngine::Vect2 pos;
 
     engine.addEvent("UpdateScore", updateScore);
 
-    engine.scheduleEvent("UpdateScore", 30, 70);
+    engine.scheduleEvent("UpdateScore", 30, 70, 10);
+
+    engine.scheduleEvent("UpdateScore", 60, 100, 10);
+
+    engine.unscheduleEvent("UpdateScore", 100);
 
   auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
   auto backgroundMusicEntity = engine.createEntity();
@@ -230,6 +249,9 @@ GameEngine::Vect2 pos;
   //   engine.bindComponentToEntity(Player, positionComponent);
   //   engine.bindComponentToEntity(Player, velocity);
 
+  auto mobDeath = std::make_shared<AnimateDeath>();
+  engine.addEvent("MobDeath", mobDeath);
+
   auto createPlayer = std::make_shared<CreatePlayer>();
   engine.addEvent("createPlayer", createPlayer);
   engine.queueEvent("createPlayer");
@@ -250,6 +272,11 @@ GameEngine::Vect2 pos;
   engine.addEvent("ForcePodStop", forcePod);
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("deleteShoot", deleteShoot);
+
+  auto collisionHandler = std::make_shared<CollisionHandler>();
+
+  engine.addEvent("Collision", collisionHandler);
+
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     Network::Client::init(2, queue);
     auto networkConnect = std::make_shared<NetworkConnect>();

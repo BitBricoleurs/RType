@@ -34,6 +34,8 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
+#include "AudioEngineSystem.hpp"
+#include "AudioComponent.hpp"
 
 class EntityFactory {
 public:

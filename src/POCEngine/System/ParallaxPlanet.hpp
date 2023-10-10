@@ -14,6 +14,7 @@
 class ParallaxPlanet : public GameEngine::ISystem {
 public:
     ParallaxPlanet();
+    explicit ParallaxPlanet(const std::vector<std::string>& paths);
     ~ParallaxPlanet() = default;
 
     void update(GameEngine::ComponentsContainer &componentsContainer,
@@ -30,3 +31,4 @@ private:
     int randomTickThreshold();
     void spawnPlanets(GameEngine::ComponentsContainer &componentsContainer);
 };
+

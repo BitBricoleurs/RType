@@ -31,6 +31,7 @@ size_t EntityFactory::createBaseMob(
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
+  container.bindComponentToEntity(entityId, mobComponent);
 
   return entityId;
 }
@@ -174,12 +175,13 @@ size_t EntityFactory::createBaseEntity(
       std::make_shared<GameEngine::VelocityComponent>(velocity);
 
   auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(
-      pos, GameEngine::Vect2(pos.x + spriteAnimationComponent->frameWidth,
-                             pos.y + spriteAnimationComponent->frameHeight));
+      pos,
+      GameEngine::Vect2(pos.x + spriteAnimationComponent->frameWidth * scale,
+                        pos.y + spriteAnimationComponent->frameHeight * scale));
   auto rectangleCollider =
       std::make_shared<GameEngine::RectangleColliderComponent2D>(
-          GameEngine::rect(0, 0, spriteAnimationComponent->frameWidth,
-                           spriteAnimationComponent->frameHeight));
+          GameEngine::rect(0, 0, spriteAnimationComponent->frameWidth * scale,
+                           spriteAnimationComponent->frameHeight * scale));
 
   GameEngine::rect spriteRect;
 
@@ -282,6 +284,7 @@ EntityFactory::initDeathAnimation(const std::string &deathSpriteSheetPath,
                                   int deathHeight) {
   auto deathSpriteComponent = std::make_shared<DeathAnimation>();
 
+  deathSpriteComponent->filepath = deathSpriteSheetPath;
   deathSpriteComponent->frameHeight = deathHeight;
   deathSpriteComponent->frameWidth =
       static_cast<float>(deathWidth) / deathFrames;
