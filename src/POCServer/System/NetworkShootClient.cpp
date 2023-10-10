@@ -1,35 +1,32 @@
 //
-// Created by Clément Lagasse on 09/10/2023.
+// Created by Clément Lagasse on 10/10/2023.
 //
 
-#include "NetworkMoveClient.hpp"
+#include "NetworkShootClient.hpp"
 
-void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContainer,
-                        GameEngine::EventHandler &eventHandler) {
+void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+{
     std::shared_ptr<Network::OwnedMessage> message;
 
     try {
         message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
     } catch (std::bad_any_cast &e) {
             std::cerr << "Error from NetworkMoveClient System " << e.what() << std::endl;
-            return ;
     }
     unsigned int networkId = message->remote;
     std::shared_ptr<Network::IMessage> IMessage = message->message;
     std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(IMessage->getMessage());
 
-    GameEngine::Vect2 newVel = {0, 0};
-    std::vector<float> argsVel;
-    for (auto &arg : messageData->getArgs()) {
-        try {
-            argsVel.push_back(std::any_cast<float>(arg));
-        } catch (std::bad_any_cast &e) {
-            std::cerr << "Error from NetworkMoveClient System Float" << e.what() << std::endl;
-            return ;
-        }
+    std::vector<char> argsShoot;
+    try {
+        argsShoot.push_back(std::any_cast<char>(messageData->getArgs()));
+    } catch (std::bad_any_cast &e) {
+        std::cerr << "Error from NetworkShootClient System Float" << e.what() << std::endl;
+        return ;
     }
-    newVel.x = argsVel[0];
-    newVel.y = argsVel[1];
+    bool isShootPower = argsShoot[0] == 1;
+
+    GameEngine::Vect2 pos {0, 0};
     auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
     auto entitiesPlayers = componentsContainer.getEntitiesWithComponent(networkComp);
     size_t entityId = 0;
@@ -43,14 +40,14 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
             auto mayComp2 = componentsContainer.getComponent(entity, velocityComp);
             if (!mayComp2.has_value())
                 continue;
-            auto velComp = std::static_pointer_cast<GameEngine::VelocityComponent>(mayComp2.value());
-            velComp->velocity = newVel;
+            auto velComp = std::static_pointer_cast<GameEngine::PositionComponent2D>(mayComp2.value());
+            pos = velComp->pos;
             entityId = entity;
         }
     }
-    std::vector<size_t> ids = {entityId};
-    std::vector<std::any> args = {newVel.x, newVel.y};
-    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
-    std::shared_ptr<Network::AllUsersMessage> userMessage = std::make_shared<Network::AllUsersMessage>(messageOut);
-    eventHandler.queueEvent("SEND_NETWORK", userMessage);
+    bool isPLayerShoot = true;
+
+    GameEngine::Vect2 vel {0, 0};
+    BulletCreate bulletCreate = {pos, vel, isPLayerShoot, isShootPower};
+    eventHandler.queueEvent("CREATE_BULLET", bulletCreate);
 }
