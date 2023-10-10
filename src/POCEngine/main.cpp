@@ -1,53 +1,53 @@
+#include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
-#include "ChangeDirPlayer.hpp"
-#include "ChargingBar.hpp"
-#include "ComponentContainer.hpp"
-#include "CreatePlayer.hpp"
-#include "EntityFactory.hpp"
-#include "ISystem.hpp"
-#include "RenderEngineSystem.hpp"
-#include "SpriteComponent.hpp"
-#include "Utils.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
-#include "IsChargingBar.hpp"
-#include "Parallax.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-#include "ResetDirPlayer.hpp"
-#include "ParallaxPlanet.hpp"
-#include "isHealthBar.hpp"
-#include "RemoveHealth.hpp"
-#include "TextComponent.hpp"
-#include "Score.hpp"
-#include "UpdateScore.hpp"
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
-#include "Shoot.hpp"
-#include "SpawnMob.hpp"
-#include "SyncPosSprite.hpp"
-#include "UpdateEntitySprite.hpp"
-#include "WiggleMob.hpp"
-#include "ParallaxPlanet.hpp"
-#include "ForcePodSpawn.hpp"
-#include "TestInput.hpp"
-#include "WindowInfoComponent.hpp"
-#include "DeleteEntities.hpp"
-#include <memory>
-#include "InitParallax.hpp"
-#include "ToggleFullScreen.hpp"
+#include "ChangeDirPlayer.hpp"
+#include "ChargingBar.hpp"
+#include "Client.hpp"
 #include "CollisionHandler.hpp"
-#include "PlayerHit.hpp"
+#include "Component/DeathAnimation.hpp"
+#include "ComponentContainer.hpp"
+#include "CreatePlayer.hpp"
+#include "DeleteEntities.hpp"
+#include "Endpoint.hpp"
+#include "EntityFactory.hpp"
+#include "ForcePodSpawn.hpp"
+#include "ISystem.hpp"
+#include "InitParallax.hpp"
+#include "IsChargingBar.hpp"
 #include "MobHit.hpp"
-#include "PlayerHitMob.hpp"
-#include "../POCClient/System/NetworkConnect.hpp"
-#include "../POCClient/System/NetworkReceiveDisconnect.hpp"
-#include "../POCClient/System/NetworkReceiveDisconnectApply.hpp"
-#include "../POCClient/System/NetworkServerTimeout.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkOutput.hpp"
-#include "Client.hpp"
-#include "Endpoint.hpp"
-#include "../POCClient/System/NetworkServerAccept.hpp"
+#include "Parallax.hpp"
+#include "ParallaxPlanet.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "PlayerHit.hpp"
+#include "PlayerHitMob.hpp"
+#include "RemoveHealth.hpp"
+#include "RenderEngineSystem.hpp"
+#include "ResetDirPlayer.hpp"
 #include "RollBackBorder.hpp"
+#include "Score.hpp"
+#include "Shoot.hpp"
+#include "Shooter.hpp"
+#include "SpawnMob.hpp"
+#include "SpriteComponent.hpp"
+#include "SyncPosSprite.hpp"
+#include "System/AnimateOnMove.hpp"
+#include "TestInput.hpp"
+#include "TextComponent.hpp"
+#include "ToggleFullScreen.hpp"
+#include "UpdateEntitySprite.hpp"
+#include "UpdateScore.hpp"
+#include "Utils.hpp"
+#include "VelocityComponent.hpp"
+#include "WiggleMob.hpp"
+#include "WindowInfoComponent.hpp"
+#include "isHealthBar.hpp"
+#include <iostream>
+#include <memory>
 
 int main() {
   GameEngine::GameEngine engine;
@@ -244,16 +244,19 @@ GameEngine::Vect2 pos;
   //   engine.bindComponentToEntity(Player, positionComponent);
   //   engine.bindComponentToEntity(Player, velocity);
 
+  auto mobDeath = std::make_shared<AnimateDeath>();
+  engine.addEvent("MobDeath", mobDeath);
+
   auto createPlayer = std::make_shared<CreatePlayer>();
   engine.addEvent("createPlayer", createPlayer);
   engine.queueEvent("createPlayer");
 
-  auto spawnMob = std::make_shared<SpawnMob>();
-  engine.addEvent("spawnMob", spawnMob);
-  engine.scheduleEvent("spawnMob", 60);
+  auto spawnMob = std::make_shared<SpawnMob>("config/map");
+  engine.addSystem("spawnMob", spawnMob);
+  //engine.queueEvent("spawnMob", 1);
 
-  //auto updateSprite = std::make_shared<updateEntitySprite>();
-  //engine.addEvent("animate", updateSprite);
+  auto updateSprite = std::make_shared<updateEntitySprite>();
+  engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
   engine.addSystem("wiggleMob", wigglePata);
@@ -269,26 +272,6 @@ GameEngine::Vect2 pos;
 
   engine.addEvent("Collision", collisionHandler);
 
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Client::init(2, queue);
-    auto networkConnect = std::make_shared<NetworkConnect>();
-    auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
-    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
-    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
-    auto networkInput = std::make_shared<NetworkInput>(queue);
-    auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
-    auto networkAccept = std::make_shared<NetworkServerAccept>();
-    Network::Endpoint endpoint("127.0.0.1", 4444);
-
-    engine.addSystem("NETWORK_INPUT", networkInput, 0);
-    engine.addEvent("SEND_NETWORK", networkOutput);
-    engine.addEvent("NETWORK_CONNECT", networkConnect);
-    engine.addEvent("ACCEPTED", networkAccept);
-    engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
-    engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
-
-    engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
   engine.run();
   return 0;
 }

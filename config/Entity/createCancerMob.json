@@ -1,0 +1,37 @@
+{
+  "createCancerMob": {
+    "spriteSheetPath": "assets/cancerMob.gif",
+    "spriteSheetHeight": 34,
+    "spriteSheetWidth": 200,
+    "hitboxHeight": 34,
+    "hitboxWidth": 33,
+    "frames": 6,
+    "twoDirections": true,
+    "reverse": true,
+    "deathSpriteSheetPath": "assets/explosion.gif",
+    "deathSpriteSheetHeight": 33,
+    "deathSpriteSheetWidth": 200,
+    "deathFrames": 6,
+    "velocity": {
+      "x": -2,
+      "y": 0
+    },
+    "maxHealth": 100,
+    "damageValue": 10,
+    "player": 0,
+    "scale": 2.5,
+    "rotation": 0,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 7
+  },
+  "shootingPos": {
+    "x": 0,
+    "y": 50
+  },
+  "typeBullet": 1
+}

@@ -34,6 +34,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
         ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/LoadConfig.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
@@ -42,7 +43,6 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/InitParallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/MobDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Parallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ResetDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/RollBackBorder.cpp
@@ -57,14 +57,10 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkOutput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Utils/Message.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
-        ../POCClient/System/NetworkReceiveDisconnect.cpp
-        ../POCClient/System/NetworkReceiveDisconnectApply.cpp
-        ../POCClient/System/NetworkServerTimeout.cpp
-        ../POCClient/System/NetworkConnect.cpp
-        ../POCClient/System/NetworkServerAccept.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/RemoveHealth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateScore.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
@@ -78,4 +74,4 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib)
+target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)

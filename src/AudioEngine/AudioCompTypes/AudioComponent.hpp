@@ -14,19 +14,19 @@
 namespace GameEngine {
     class AudioComponent : public AComponent {
     public:
-        AudioComponent(const std::string& audioPath, bool loop = false, int loopDuration = -1, int playDuration = -1) {
+        explicit AudioComponent(const std::string& audioPath, bool loop = false, int loopDuration = -1, int playDuration = -1) {
             this->audioPath = audioPath;
             this->loop = loop;
             this->loopDuration = loopDuration;
             this->playDuration = playDuration;
         }
-        ~AudioComponent() = default;
+        ~AudioComponent() override = default;
 
         size_t getComponentType() override {
             return ComponentsType::getNewComponentType("AudioComponent");
           }
         std::string audioPath;
-        int audioTimer;
+        int audioTimer{};
         int volume = 50;
         bool loop;
         int loopDuration;

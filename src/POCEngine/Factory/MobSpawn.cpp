@@ -9,17 +9,45 @@
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos,
-                                     GameEngine::Vect2 velocity) {
+                                     GameEngine::Vect2 pos, bool dropPowerup) {
 
-  size_t entityId = createBaseMob(container, "assets/cancerMob.gif", 34, 200, 6,
-                                  true, true, "assets/explosion.gif", 33, 200,
-                                  6, pos, velocity, 100, 10, 2.5f);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(0, 50),1);
+nlohmann::json config = loadConfig("config/Entity/createCancerMob.json");
+
+size_t entityId = createBaseMob(
+    container,
+    config["createCancerMob"]["spriteSheetPath"].get<std::string>(),
+    config["createCancerMob"]["spriteSheetHeight"].get<int>(),
+    config["createCancerMob"]["spriteSheetWidth"].get<int>(),
+    config["createCancerMob"]["frames"].get<int>(),
+    config["createCancerMob"]["twoDirections"].get<bool>(),
+    config["createCancerMob"]["reverse"].get<bool>(),
+    config["createCancerMob"]["deathSpriteSheetPath"].get<std::string>(),
+    config["createCancerMob"]["deathSpriteSheetHeight"].get<int>(),
+    config["createCancerMob"]["deathSpriteSheetWidth"].get<int>(),
+    config["createCancerMob"]["deathFrames"].get<int>(),
+    pos,
+    GameEngine::Vect2(
+        config["createCancerMob"]["velocity"]["x"].get<float>(),
+        config["createCancerMob"]["velocity"]["y"].get<float>()
+    ),
+    config["createCancerMob"]["maxHealth"].get<int>(),
+    config["createCancerMob"]["damageValue"].get<int>(),
+    config["createCancerMob"]["player"].get<int>(),
+    config["createCancerMob"]["scale"].get<float>(),
+    config["createCancerMob"]["rotation"].get<float>(),
+    GameEngine::ColorR(
+        config["createCancerMob"]["tint"]["r"].get<int>(),
+        config["createCancerMob"]["tint"]["g"].get<int>(),
+        config["createCancerMob"]["tint"]["b"].get<int>(),
+        config["createCancerMob"]["tint"]["a"].get<int>()
+    ),
+    config["createCancerMob"]["layer"].get<int>()
+);
+
+  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(config["shootingPos"]["x"].get<float>(), config["shootingPos"]["y"].get<float>()), config["typeBullet"].get<int>());
   container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
   container.bindComponentToEntity(entityId, shooterComp);
-  eventHandler.scheduleEvent("animate", 30,
-                             std::make_tuple(std::string("Cancer"), entityId));
+  eventHandler.scheduleEvent("animate", 30, std::make_tuple(std::string("Cancer"), entityId));
   auto IdCharge = std::make_tuple(entityId, 0);
   eventHandler.scheduleEvent("ShootSystem", 300, IdCharge);
   return entityId;
@@ -28,15 +56,43 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
-                                GameEngine::Vect2 pos,
-                                GameEngine::Vect2 velocity) {
-  size_t entityId = createBaseMob(
-      container, "assets/epitech_assets/patapataMob2.gif", 24, 523, 16, true,
-      false, "assets/explosion.gif", 33, 200, 6, pos, velocity, 100, 10, 2.5f);
+                                GameEngine::Vect2 pos, bool dropPowerup) {
 
+    nlohmann::json config = loadConfig("config/Entity/createPatapataMob.json");
+
+    size_t entityId = createBaseMob(
+        container,
+        config["createPatapataMob"]["spriteSheetPath"].get<std::string>(),
+        config["createPatapataMob"]["spriteSheetHeight"].get<int>(),
+        config["createPatapataMob"]["spriteSheetWidth"].get<int>(),
+        config["createPatapataMob"]["frames"].get<int>(),
+        config["createPatapataMob"]["twoDirections"].get<bool>(),
+        config["createPatapataMob"]["reverse"].get<bool>(),
+        config["createPatapataMob"]["deathSpriteSheetPath"].get<std::string>(),
+        config["createPatapataMob"]["deathSpriteSheetHeight"].get<int>(),
+        config["createPatapataMob"]["deathSpriteSheetWidth"].get<int>(),
+        config["createPatapataMob"]["deathFrames"].get<int>(),
+        pos,
+        GameEngine::Vect2(
+            config["createPatapataMob"]["velocity"]["x"].get<float>(),
+            config["createPatapataMob"]["velocity"]["y"].get<float>()
+        ),
+        config["createPatapataMob"]["maxHealth"].get<int>(),
+        config["createPatapataMob"]["damageValue"].get<int>(),
+        config["createPatapataMob"]["player"].get<int>(),
+        config["createPatapataMob"]["scale"].get<float>(),
+        config["createPatapataMob"]["rotation"].get<float>(),
+        GameEngine::ColorR(
+            config["createPatapataMob"]["tint"]["r"].get<int>(),
+            config["createPatapataMob"]["tint"]["g"].get<int>(),
+            config["createPatapataMob"]["tint"]["b"].get<int>(),
+            config["createPatapataMob"]["tint"]["a"].get<int>()
+        ),
+        config["createPatapataMob"]["layer"].get<int>()
+    );
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   container.bindComponentToEntity(
-      entityId, std::make_shared<HeightVariation>(3, 75, pos.y));
+      entityId, std::make_shared<HeightVariation>(config["heightVarience"].get<float>(), config["maxVar"].get<float>(), pos.y));
 
   eventHandler.scheduleEvent(
       "animate", 10, std::make_tuple(std::string("PataPata"), entityId));
@@ -45,12 +101,41 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos,
-                                  GameEngine::Vect2 velocity) {
+                                  GameEngine::Vect2 pos, bool dropPowerup) {
 
-  size_t entityId = createBaseMob(container, "assets/bugMob.png", 34, 532, 16,
-                                  false, false, "assets/explosion.gif", 33, 200,
-                                  6, pos, velocity, 100, 10, 2.5f);
+nlohmann::json config = loadConfig("config/Entity/createBugMob.json");
+
+size_t entityId = createBaseMob(
+    container,
+    config["createBugMob"]["spriteSheetPath"].get<std::string>(),
+    config["createBugMob"]["spriteSheetHeight"].get<int>(),
+    config["createBugMob"]["spriteSheetWidth"].get<int>(),
+    config["createBugMob"]["frames"].get<int>(),
+    config["createBugMob"]["twoDirections"].get<bool>(),
+    config["createBugMob"]["reverse"].get<bool>(),
+    config["createBugMob"]["deathSpriteSheetPath"].get<std::string>(),
+    config["createBugMob"]["deathSpriteSheetHeight"].get<int>(),
+    config["createBugMob"]["deathSpriteSheetWidth"].get<int>(),
+    config["createBugMob"]["deathFrames"].get<int>(),
+    pos,
+    GameEngine::Vect2(
+        config["createBugMob"]["velocity"]["x"].get<float>(),
+        config["createBugMob"]["velocity"]["y"].get<float>()
+    ),
+    config["createBugMob"]["maxHealth"].get<int>(),
+    config["createBugMob"]["damageValue"].get<int>(),
+    config["createBugMob"]["player"].get<int>(),
+    config["createBugMob"]["scale"].get<float>(),
+    config["createBugMob"]["rotation"].get<float>(),
+    GameEngine::ColorR(
+        config["createBugMob"]["tint"]["r"].get<int>(),
+        config["createBugMob"]["tint"]["g"].get<int>(),
+        config["createBugMob"]["tint"]["b"].get<int>(),
+        config["createBugMob"]["tint"]["a"].get<int>()
+    ),
+    config["createBugMob"]["layer"].get<int>()
+);
+
 
   container.bindComponentToEntity(entityId, std::make_shared<Bug>());
   return entityId;

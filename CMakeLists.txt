@@ -33,6 +33,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
+file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION .)
 
 message(STATUS "Configured to compile the RType project.")
 
@@ -42,8 +43,8 @@ install(TARGETS ${PROJECT_NAME_CLIENT} ${PROJECT_NAME_SERVER} ${PROJECT_NAME_POC
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-# Installer le répertoire assets entier dans le même répertoire que l'exécutable
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/config" DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 include(InstallRequiredSystemLibraries)
 
