@@ -6,7 +6,11 @@
 #include <typeindex>
 #include <memory>
 #include <functional>
-#include <arpa/inet.h>
+#if defined(_WIN32) || defined(_WIN64)
+    #include <winsock2.h>
+#else
+    #include <arpa/inet.h>
+#endif
 #include "Message.hpp"
 
 std::vector <std::uint8_t> Network::Serializer::serialize(const std::vector <std::any> &data)
