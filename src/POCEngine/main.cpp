@@ -34,6 +34,10 @@
 #include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
+#include "CollisionHandler.hpp"
+#include "PlayerHit.hpp"
+#include "MobHit.hpp"
+#include "PlayerHitMob.hpp"
 #include "NetworkConnect.hpp"
 #include "NetworkReceiveDisconnect.hpp"
 #include "NetworkReceiveDisconnectApply.hpp"
@@ -89,11 +93,17 @@ int main() {
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto PlayerHit1 = std::make_shared<PlayerHit>();
+  auto MobHit1 = std::make_shared<MobHit>();
+  auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
+  engine.addEvent("PlayerHit", PlayerHit1);
+  engine.addEvent("MobHit", MobHit1);
+  engine.addEvent("PlayerHitMob", PlayerHitMob1);
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
@@ -238,8 +248,8 @@ GameEngine::Vect2 pos;
   engine.addEvent("spawnMob", spawnMob);
   engine.scheduleEvent("spawnMob", 60);
 
-  auto updateSprite = std::make_shared<updateEntitySprite>();
-  engine.addEvent("animate", updateSprite);
+  //auto updateSprite = std::make_shared<updateEntitySprite>();
+  //engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
   engine.addSystem("wiggleMob", wigglePata);
@@ -250,6 +260,11 @@ GameEngine::Vect2 pos;
   engine.addEvent("ForcePodStop", forcePod);
   engine.addEvent("ForcePodFix", forcePod);
   engine.addSystem("deleteShoot", deleteShoot);
+
+  auto collisionHandler = std::make_shared<CollisionHandler>();
+
+  engine.addEvent("Collision", collisionHandler);
+
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     Network::Client::init(2, queue);
     auto networkConnect = std::make_shared<NetworkConnect>();

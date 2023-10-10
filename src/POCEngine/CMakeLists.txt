@@ -70,6 +70,10 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
