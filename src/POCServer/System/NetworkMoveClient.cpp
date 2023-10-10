@@ -47,7 +47,7 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
         }
     }
     std::vector<size_t> ids = {entityId};
-    std::vector<std::any> args = {};
+    std::vector<std::any> args = {newVel.x, newVel.y};
     std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
     std::shared_ptr<Network::AllUsersMessage> userMessage = std::make_shared<Network::AllUsersMessage>(messageOut);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
