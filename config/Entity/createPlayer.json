@@ -46,7 +46,7 @@
     "damageValue": 0,
     "bulletStartX": 80,
     "bulletStartY": 22,
-    "playerA": 0,
+    "playerA": 1,
     "scale": 2.5,
     "rotation": 0,
     "tint": {

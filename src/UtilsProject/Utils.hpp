@@ -82,9 +82,12 @@ namespace GameEngine {
         Circle(const Point &center, float radius) : center(center), radius(radius) {}
     };
     struct ColorR {
-        unsigned char r;
-        unsigned char g;
-        unsigned char b;
-        unsigned char a;
+      ColorR() : r(255), g(255), b(255), a(255) {}
+      ColorR(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+          : r(r), g(g), b(b), a(a) {}
+      unsigned char r;
+      unsigned char g;
+      unsigned char b;
+      unsigned char a;
     };
 }
