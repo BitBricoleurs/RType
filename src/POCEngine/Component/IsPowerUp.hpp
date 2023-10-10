@@ -13,4 +13,5 @@ public:
   IsPowerUp() = default;
 
   size_t getComponentType() override;
+  size_t type;
 };
