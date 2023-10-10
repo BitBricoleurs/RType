@@ -12,15 +12,18 @@ target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOU
 
 target_sources(${PROJECT_NAME_POCSERVER}
         PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/NetworkClientId.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Utils/Message.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkInput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkOutput.cpp
+        ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientConnection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientDisconnecting.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientRequestDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientTimeout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkStartServer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkUpdateWorld.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkMoveClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 

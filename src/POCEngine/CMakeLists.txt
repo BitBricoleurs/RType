@@ -29,7 +29,6 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/NetworkClientId.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/ChargeShoot.cpp
@@ -57,6 +56,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkInput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkOutput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Utils/Message.cpp
+        ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkReceiveDisconnectApply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Client/NetworkServerTimeout.cpp

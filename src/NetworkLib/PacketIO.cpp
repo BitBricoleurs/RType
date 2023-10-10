@@ -29,7 +29,6 @@ void Network::PacketIO::readPacket()
                 Network::Packet receivedPacket;
 
                 memcpy(&receivedPacket.header, _tempBuffer.data(), sizeof(PacketHeader));
-                if (_lastSequenceNumber > )
                 _lastSequenceNumber = receivedPacket.header.sequenceNumber;
                 receivedPacket.body.assign(_tempBuffer.begin() + sizeof(PacketHeader), _tempBuffer.begin() + length);
                 _packetQueue.pushBack(receivedPacket);
@@ -111,6 +110,8 @@ void Network::PacketIO::processOutgoingMessages()
             std::cout << "Nbr message" << _outMessages->count() << std::endl;
             while (!_outMessages->empty()) {
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
+                if (size + message->getSize() > MAX_PACKET_SIZE)
+                    break;
                 _outMessages->popFront();
                 _bodyOut.addData( message->getMessage() );
                 size+= message->getSize();

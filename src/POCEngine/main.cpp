@@ -49,6 +49,7 @@
 #include "NetworkOutput.hpp"
 #include "Client.hpp"
 #include "Endpoint.hpp"
+#include "NetworkServerAccept.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -196,11 +197,13 @@ int main() {
     auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
     auto networkInput = std::make_shared<NetworkInput>(queue);
     auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
+    auto networkAccept = std::make_shared<NetworkServerAccept>();
     Network::Endpoint endpoint("127.0.0.1", 4444);
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
     engine.addEvent("NETWORK_CONNECT", networkConnect);
+    engine.addEvent("ACCEPTED", networkAccept);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
     engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);

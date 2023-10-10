@@ -23,7 +23,7 @@ int main(void) {
     auto output = std::make_shared<NetworkOutput>(NetworkOutput::SERVER);
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
-    engine.addEvent("NETWORK_CLIENT_CONNECTION", networkClientConnection);
+    engine.addEvent("CONNECT", networkClientConnection);
     engine.addSystem("NETWORK_INPUT", input, 0);
     engine.addEvent("SEND_NETWORK", output);
 
