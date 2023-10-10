@@ -19,6 +19,7 @@ public:
   int frameHeight, frameWidth;
   int currentFrameIndex;
   int frames;
+  std::string filepath;
   GameEngine::Vect2 currentFrame;
   std::vector<GameEngine::Vect2> spritePositions;
 };
