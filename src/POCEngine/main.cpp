@@ -8,17 +8,10 @@
 #include "RenderEngineSystem.hpp"
 #include "SpriteComponent.hpp"
 #include "Utils.hpp"
-#include "VelocityComponent.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
-#include <iostream>
 #include "IsChargingBar.hpp"
-#include "IsParallax.hpp"
-#include "IsPlayer.hpp"
 #include "Parallax.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
-#include "PositionComponent2D.hpp"
-#include "RenderEngineSystem.hpp"
 #include "ResetDirPlayer.hpp"
 #include "ParallaxPlanet.hpp"
 #include "isHealthBar.hpp"
@@ -30,23 +23,18 @@
 #include "AudioEngineSystem.hpp"
 #include "Shoot.hpp"
 #include "SpawnMob.hpp"
-#include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
-#include "System/AnimateOnMove.hpp"
 #include "UpdateEntitySprite.hpp"
-#include "Utils.hpp"
-#include "VelocityComponent.hpp"
 #include "WiggleMob.hpp"
 #include "ParallaxPlanet.hpp"
 #include "ForcePodSpawn.hpp"
 #include "TestInput.hpp"
-#include "Shooter.hpp"
 #include "WindowInfoComponent.hpp"
 #include "DeleteEntities.hpp"
-#include <iostream>
 #include <memory>
 #include "InitParallax.hpp"
 #include "ToggleFullScreen.hpp"
+#include "RollBackBorder.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -92,6 +80,7 @@ int main() {
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto borderStop = std::make_shared<RollBackBorder>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
@@ -100,7 +89,8 @@ int main() {
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
   engine.addSystem("CollisionSystem", collision);
-  engine.addSystem("MovementSystem", movement);
+  engine.addSystem("RollBackBorder", borderStop);
+  engine.addSystem("MovementSystem", movement, 2);
   engine.addSystem("ParallaxSystem", paralax);
   engine.addSystem("ParallaxPlanetSystem", paralaxPlanet);
   engine.addSystem("SyncPosSPrite", sync, 3);
