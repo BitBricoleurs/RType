@@ -31,6 +31,7 @@
 #include <iostream>
 #include "AudioEngineSystem.hpp"
 #include "AudioComponent.hpp"
+#include "PlayerUtils.hpp"
 
 class EntityFactory {
 public:
@@ -55,7 +56,7 @@ public:
 
   size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         GameEngine::Vect2 pos);
+                         GameEngine::Vect2 pos, PlayerNumber numberPlayer);
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
@@ -67,6 +68,26 @@ public:
 
     nlohmann::json loadConfig(const std::string& filePath);
 
+
+    void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
+        _playerMap[entityId] = numberPlayer;
+    }
+
+    const std::map<size_t, PlayerNumber>& getPlayerMap() const {
+        return _playerMap;
+    }
+
+    void registerEntity(size_t clientEntityId, size_t serverEntityId) {
+        _entityIdMap[clientEntityId] = serverEntityId;
+    }
+
+    size_t getServerId(size_t clientEntityId) const {
+        auto it = _entityIdMap.find(clientEntityId);
+        if (it != _entityIdMap.end()) {
+            return it->second;
+        }
+        throw std::runtime_error("Client entity ID not found");
+    }
 
 private:
   EntityFactory() = default;
@@ -132,7 +153,7 @@ private:
   std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
-    private:
 
-  int player = 0;
+        std::map<size_t, size_t> _entityIdMap;
+        std::map<size_t, PlayerNumber> _playerMap;
 };

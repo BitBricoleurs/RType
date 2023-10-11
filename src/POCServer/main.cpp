@@ -10,13 +10,12 @@
 #include "NetworkStartServer.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkOutput.hpp"
+#include "NetworkUpdateWorld.hpp"
+#include "NetworkMoveClient.hpp"
+#include "NetworkShootClient.hpp"
 
-int main(void) {
-    GameEngine::GameEngine engine;
-
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Server::init(4444, 2, 2, queue);
-
+void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
+{
     auto networkStart = std::make_shared<NetworkStartServer>();
     auto networkClientConnection = std::make_shared<NetworkClientConnection>();
     auto input = std::make_shared<NetworkInput>(queue);
@@ -28,6 +27,27 @@ int main(void) {
     engine.addEvent("SEND_NETWORK", output);
 
     engine.queueEvent("NETWORK_START_SERVER", std::make_any<size_t>(0));
+}
+
+void setup_sync_systems(GameEngine::GameEngine &engine)
+{
+    auto updateWorld = std::make_shared<NetworkUpdateWorld>();
+    auto moveClient = std::make_shared<NetworkMoveClient>();
+    auto shootClient = std::make_shared<NetworkShootClient>();
+
+    engine.addEvent("UPDATE_WORLD", updateWorld);
+    engine.addEvent("MOVE", moveClient);
+    engine.addEvent("SHOOT", shootClient);
+}
+
+int main(void) {
+    GameEngine::GameEngine engine;
+
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+    Network::Server::init(4444, 2, 2, queue);
+
+    setup_network(engine, queue);
+    setup_sync_systems(engine);
     engine.run();
     return 0;
 }
