@@ -9,6 +9,7 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "IsPlayer.hpp"
+#include "EntityFactory.hpp"
 
 class NetworkServerAccept : public GameEngine::ISystem {
     public:

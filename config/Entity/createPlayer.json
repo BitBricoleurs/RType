@@ -57,7 +57,16 @@
       "b": 255,
       "a": 255
     },
+    "shootingPos": {
+      "x": 0,
+      "y": 50
+    },
+    "bulletVelocity": {
+      "x": 12,
+      "y": 0
+    },
     "typeBullet": 0,
-    "layer": 7
+    "layer": 7,
+    "shootDelay": 200
   }
 }

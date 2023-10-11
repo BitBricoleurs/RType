@@ -10,8 +10,8 @@
 size_t
 EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos) {
-  this->player++;
+                               GameEngine::Vect2 pos, PlayerNumber playerNumber) {
+
 try {
     nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
 
@@ -78,6 +78,7 @@ size_t entityId = createPlayer(
   auto IdCharge = std::make_tuple(entityId, 0);
   eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
   eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+  registerPlayer(entityId, playerNumber);
   return entityId;
 } catch (const nlohmann::json::exception& e) {
     std::cerr << "JSON error in createPlayer: " << e.what() << std::endl;
