@@ -17,15 +17,6 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
     std::shared_ptr<Network::IMessage> IMessage = message->message;
     std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(IMessage->getMessage());
 
-    std::vector<char> argsShoot;
-    try {
-        argsShoot.push_back(std::any_cast<char>(messageData->getArgs()));
-    } catch (std::bad_any_cast &e) {
-        std::cerr << "Error from NetworkShootClient System Float" << e.what() << std::endl;
-        return ;
-    }
-    bool isShootPower = argsShoot[0] == 1;
-
     GameEngine::Vect2 pos {0, 0};
     auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
     auto entitiesPlayers = componentsContainer.getEntitiesWithComponent(networkComp);
@@ -36,18 +27,17 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
             continue;
         auto netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value());
         if (netIdComp->id == networkId) {
-            auto velocityComp = GameEngine::ComponentsType::getComponentType("VelocityComponent");
-            auto mayComp2 = componentsContainer.getComponent(entity, velocityComp);
+            auto shooterComp = GameEngine::ComponentsType::getComponentType("Shooter");
+            auto mayComp2 = componentsContainer.getComponent(entity, shooterComp);
             if (!mayComp2.has_value())
                 continue;
-            auto velComp = std::static_pointer_cast<GameEngine::PositionComponent2D>(mayComp2.value());
-            pos = velComp->pos;
+            auto shooter = std::static_pointer_cast<Shooter>(mayComp2.value());
+            pos = shooter->shootPosition;
             entityId = entity;
         }
     }
-    bool isPLayerShoot = true;
-
-    GameEngine::Vect2 vel {0, 0};
-    BulletCreate bulletCreate = {pos, vel, isPLayerShoot, isShootPower};
-    eventHandler.queueEvent("CREATE_BULLET", bulletCreate);
+    bool isShootPower = true;
+    EntityFactory &factory = EntityFactory::getInstance();
+    GameEngine::Vect2 velocity {2, 2};
+    factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, isShootPower);
 }

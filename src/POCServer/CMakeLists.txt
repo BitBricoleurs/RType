@@ -7,7 +7,7 @@ target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Component)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System)
-target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Utils)
+target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Factory)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_sources(${PROJECT_NAME_POCSERVER}
@@ -43,7 +43,6 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkUpdateWorld.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkMoveClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkShootClient.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/CreateBulletSystem.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 

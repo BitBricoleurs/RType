@@ -10,21 +10,30 @@
 size_t
 EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, GameEngine::rect rect1 ) {
+                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet ) {
     nlohmann::json config = loadConfig("config/Entity/createBulletPlayer.json");
+
+    nlohmann::json rectConfig = config["createBullet"]["bulletTypes"]["type" + std::to_string(typeBullet)]["rect"];
+    int rectH = rectConfig["h"].get<int>();
+    int rectW = rectConfig["w"].get<int>();
 
     size_t entityId = createBullet(
         container,
-        rect1.h,
-        rect1.w,
+        rectH,
+        rectW,
         pos,
         velocity,
         config["createBullet"]["damageValue"].get<int>(),
         config["createBullet"]["isPlayerBullet"].get<bool>(),
         config["createBullet"]["scale"].get<float>()
     );
-
-  return entityId;
+    std::vector<size_t> ids = {entityId};
+    std::vector<std::any> args = {BulletOwner::PLAYER};
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATE_BULLET", ids, "", args);
+    std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+    EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
+    return entityId;
 }
 
 size_t
@@ -43,7 +52,6 @@ EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
     config["createBullet"]["damageValue"].get<int>(),
     config["createBullet"]["isPlayerBullet"].get<bool>(),
     config["createBullet"]["scale"].get<float>()
-);
-
+    );
   return entityId;
 }

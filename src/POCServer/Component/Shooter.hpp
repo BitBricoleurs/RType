@@ -11,10 +11,11 @@
 
 class Shooter : public GameEngine::AComponent {
 public:
-    Shooter(GameEngine::Vect2 shootPosition, size_t typeBullet);
+    Shooter(GameEngine::Vect2 shootPosition, GameEngine::Vect2 velocity, size_t typeBullet);
 
     size_t getComponentType() override;
 
     GameEngine::Vect2 shootPosition;
+    GameEngine::Vect2 velocity;
     size_t typeBullet;
 };

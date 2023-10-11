@@ -7,6 +7,10 @@
 
 #pragma once
 
+#include <cstddef>
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <iostream>
 #include "AABBComponent2D.hpp"
 #include "BossStage.hpp"
 #include "Damage.hpp"
@@ -26,10 +30,11 @@
 #include "Shooter.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
-#include <cstddef>
-#include <nlohmann/json.hpp>
-#include <fstream>
-#include <iostream>
+#include "Message.hpp"
+#include "UserMessage.hpp"
+#include "BulletUtils.hpp"
+#include "PlayerUtils.hpp"
+#include "MobUtils.hpp"
 
 class EntityFactory {
 public:
@@ -54,11 +59,11 @@ public:
 
   size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         GameEngine::Vect2 pos);
+                         GameEngine::Vect2 pos, PlayerNumber numberPlayer);
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, GameEngine::rect rect1);
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
@@ -66,6 +71,23 @@ public:
 
     nlohmann::json loadConfig(const std::string& filePath);
 
+    static void updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, GameEngine::Vect2 &pos, GameEngine::Vect2 &velocity);
+
+    void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
+        _playerMap[entityId] = numberPlayer;
+    }
+
+    const std::map<size_t, PlayerNumber>& getPlayerMap() const {
+        return _playerMap;
+    }
+
+    PlayerNumber getNextPlayerNumber(void) {
+        if (_playerMap.empty())
+            return PlayerNumber::Player1;
+        auto it = _playerMap.end();
+        it--;
+        return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
+    }
 
 private:
   EntityFactory() = default;
@@ -83,7 +105,7 @@ private:
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int maxHealth,
                                    int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                   int typeBullet);
+                                   GameEngine::Vect2 bulletVelocity, int typeBullet);
 
   size_t createBullet(GameEngine::ComponentsContainer &container,
                                    int hitboxHeight, int hitboxWidth,
@@ -101,7 +123,8 @@ private:
     int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
     GameEngine::Vect2 velocity, float scale);
 
-    private:
 
-  int player = 0;
+    private:
+        std::map<size_t, PlayerNumber> _playerMap;
+
 };

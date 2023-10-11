@@ -13,7 +13,8 @@
 #include "NetworkClientId.hpp"
 #include "IMessage.hpp"
 #include "PositionComponent2D.hpp"
-#include "BulletCreateStruct.hpp"
+#include "Shooter.hpp"
+#include "EntityFactory.hpp"
 
 class NetworkShootClient : public GameEngine::ISystem {
     public:
