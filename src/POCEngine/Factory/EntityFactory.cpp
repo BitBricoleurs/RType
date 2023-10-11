@@ -17,17 +17,15 @@ size_t EntityFactory::createBaseMob(
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, int maxHealth, int damageValue, float scale,
-    float rotation, GameEngine::ColorR tint) {
+    GameEngine::Vect2 velocity, int maxHealth, int damageValue, int player, float scale,
+    float rotation, GameEngine::ColorR tint, int layer) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-      twoDirections, reverse, pos, velocity, 0, scale, rotation, tint);
+      twoDirections, reverse, pos, velocity, player, scale, rotation, tint, layer);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
   auto damageComponent = std::make_shared<Damage>(damageValue);
-  auto deathSpriteComponent =
-      initDeathAnimation(deathSpriteSheetPath, deathFrames,
-                         deathSpriteSheetWidth, deathSpriteSheetHeight);
+  auto deathSpriteComponent = initDeathAnimation(deathSpriteSheetPath, deathFrames, deathSpriteSheetWidth, deathSpriteSheetHeight);
   auto mobComponent = std::make_shared<IsMob>();
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
@@ -43,14 +41,14 @@ size_t EntityFactory::createBossMob(
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, int maxHealth, int damageValue, int stageValue,
-    float scale, float rotation, GameEngine::ColorR tint) {
+    GameEngine::Vect2 velocity, int maxHealth, int damageValue, int playerA, int stageValue,
+    float scale, float rotation, GameEngine::ColorR tint, int layer) {
 
   size_t entityId = createBaseMob(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
-      deathSpriteSheetWidth, deathFrames, pos, velocity, maxHealth, damageValue,
-      scale, rotation, tint);
+      deathSpriteSheetWidth, deathFrames, pos, velocity, maxHealth, damageValue, playerA,
+      scale, rotation, tint, layer);
 
   auto stageComponent = std::make_shared<BossStage>(stageValue);
   auto bossComponent = std::make_shared<IsBoss>();
@@ -69,14 +67,14 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int maxHealth,
-                                   int damageValue, int bulletStartX, int bulletStartY,  int player, float scale, size_t entityCharge,
-                                   float rotation, GameEngine::ColorR tint) {
+                                   int damageValue, int bulletStartX, int bulletStartY,  int playerA, float scale, size_t entityCharge,
+                                   float rotation, GameEngine::ColorR tint, int typeBullet, int layer) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-      twoDirections, reverse, pos, velocity, player, 2.5f);
+      twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), 0);
+  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), typeBullet);
   auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
 
   container.bindComponentToEntity(entityId, healthComponent);
@@ -92,11 +90,11 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int damageValue,
-                                   bool isPlayerBullet, const std::string &pathSound, float scale,
-                                   float rotation, GameEngine::ColorR tint) {
+                                   bool isPlayerBullet, int playerA, const std::string &pathSound, float scale,
+                                   float rotation, GameEngine::ColorR tint, int layer) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-      twoDirections, reverse, pos, velocity, 0, scale, rotation, tint);
+      twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
@@ -108,15 +106,14 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
   return entityId;
 }
 
-size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
-                                    const std::string &spriteSheetPath,
+size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container, const std::string &spriteSheetPath,
                                     int rectX, int rectY, int rectWidth,
                                     int rectHeight, GameEngine::Vect2 pos,
-                                    GameEngine::Vect2 velocity, float scale,
-                                    float rotation, GameEngine::ColorR tint) {
+                                    GameEngine::Vect2 velocity, int playerA, float scale,
+                                    float rotation, GameEngine::ColorR tint, int layer) {
   size_t entityId = createBaseEntity(container, spriteSheetPath, false, rectX,
                                      rectY, rectWidth, rectHeight, pos,
-                                     velocity, 0, scale, rotation, tint);
+                                     velocity, playerA, scale, rotation, tint, layer);
   auto powerUpComponent = std::make_shared<IsPowerUp>();
   container.bindComponentToEntity(entityId, powerUpComponent);
   return entityId;
@@ -125,17 +122,17 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
 size_t EntityFactory::createChargeAnimation(
     GameEngine::ComponentsContainer &container,
     const std::string &spriteSheetPath, int spriteSheetHeight,
-    int spriteSheetWidth, int frames, GameEngine::Vect2 pos,
-    float scale, float rotation, GameEngine::ColorR tint) {
+    int spriteSheetWidth, int frames, GameEngine::Vect2 pos, GameEngine::Vect2 velocity,
+    float scale, float rotation, GameEngine::ColorR tint, bool twoDirection, bool reverse, int direction, int playerA, int layer) {
 
   auto positionComponent =
       std::make_shared<GameEngine::PositionComponent2D>(pos);
   auto movementComp = std::make_shared<GameEngine::MovementComponent>();
+  std::cout << spriteSheetPath << ":" << frames << ":" << spriteSheetWidth << ":" << spriteSheetHeight << ":" <<twoDirection << ":" << reverse << ":" << direction << ":" << playerA << std::endl;
   auto chargeShootAnimation =
       initAnimation(spriteSheetPath, frames, spriteSheetWidth,
-                    spriteSheetHeight, false, false, 1, 0);
-  GameEngine::Vect2 vel(0, 0);
-  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(vel);
+                    spriteSheetHeight, twoDirection, reverse, direction, playerA);
+  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velocity);
 
   GameEngine::rect spriteRect;
   spriteRect.w = chargeShootAnimation->frameWidth;
@@ -147,11 +144,11 @@ size_t EntityFactory::createChargeAnimation(
                                  positionComponent->pos.y};
 
   auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(8), scale,
+      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
       rotation, tint);
   spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
-
+ std::cout << chargeShootAnimation->frames << std::endl;
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);
   container.bindComponentToEntity(animationId, spriteComponent);
@@ -164,11 +161,11 @@ size_t EntityFactory::createBaseEntity(
     GameEngine::ComponentsContainer &container,
     const std::string &spriteSheetPath, int spriteSheetHeight,
     int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
-    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, int player, float scale,
-    float rotation, GameEngine::ColorR tint) {
+    GameEngine::Vect2 pos, GameEngine::Vect2 velocity, int playerA, float scale,
+    float rotation, GameEngine::ColorR tint, int layer) {
   auto spriteAnimationComponent = initAnimation(
       spriteSheetPath, frames, spriteSheetWidth, spriteSheetHeight,
-      twoDirections, reverse, velocity.x, player);
+      twoDirections, reverse, velocity.x, playerA);
 
   auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
   auto positionComponent =
@@ -196,7 +193,7 @@ size_t EntityFactory::createBaseEntity(
                                  positionComponent->pos.y};
 
   auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(
-      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(7), scale,
+      spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
       rotation, tint);
 
   size_t entityId = container.createEntity();
@@ -301,24 +298,3 @@ EntityFactory::initDeathAnimation(const std::string &deathSpriteSheetPath,
 
   return deathSpriteComponent;
 }
-
-// std::shared_ptr<ChargeShootAnimation>
-// EntityFactory::initChargeAnimation(const std::string &chargeSpriteSheetPath,
-//                                    int chargeFrames, int chargeWidth,
-//                                    int chargeHeight) {
-//   auto chargeSpriteComponent = std::make_shared<ChargeShootAnimation>();
-
-//   chargeSpriteComponent->frameHeight = chargeHeight;
-//   chargeSpriteComponent->frameWidth =
-//       static_cast<float>(chargeWidth) / chargeFrames;
-//   chargeSpriteComponent->frames = chargeFrames;
-//   int i = 0;
-
-//   for (i = 0; i < chargeFrames; i++) {
-//     GameEngine::Vect2 spritePos = {
-//         i * static_cast<float>(chargeWidth) / chargeFrames, 0};
-//     chargeSpriteComponent->spritePositions.push_back(spritePos);
-//   }
-
-//   return chargeSpriteComponent;
-// }

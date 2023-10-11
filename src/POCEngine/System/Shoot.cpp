@@ -33,7 +33,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
             }
         } else if (shooterComp->typeBullet == 1) {
             auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
-            GameEngine::Vect2 velocity;
             float closestDistance = std::numeric_limits<float>::max();
             GameEngine::Vect2 directionToClosestPlayer;
             for (auto &player : players) {
@@ -51,7 +50,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
             if (closestDistance < std::numeric_limits<float>::max()) {
               float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
               float scaleFactor = 6.0f / maxVal;
-              velocity = directionToClosestPlayer * scaleFactor;
+              auto velocity = directionToClosestPlayer * scaleFactor;
               bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
         }
