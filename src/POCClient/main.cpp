@@ -32,7 +32,6 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
     engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
-
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
 }
 
