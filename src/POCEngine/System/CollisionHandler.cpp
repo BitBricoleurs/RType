@@ -79,10 +79,12 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             auto poscompplayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
             auto poscompplayercast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*poscompplayer);
             eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);
+            componentsContainer.deleteEntity(secondEntity);
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptPowerUp.has_value()) {
             auto poscompplayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
             auto poscompplayercast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*poscompplayer);
             eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);
+            componentsContainer.deleteEntity(firstEntity);
         }
         // Player vs forcepod
 

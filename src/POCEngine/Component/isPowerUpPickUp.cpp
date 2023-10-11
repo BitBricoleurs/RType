@@ -5,5 +5,5 @@
 #include "isPowerUpPickUp.hpp"
 
 size_t isPowerUpPickUp::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsPowerUpPickUp");
+    return GameEngine::ComponentsType::getNewComponentType("isPowerUpPickUp");
 }

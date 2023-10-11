@@ -29,6 +29,13 @@ size_t EntityFactory::createBaseMob(
       initDeathAnimation(deathSpriteSheetPath, deathFrames,
                          deathSpriteSheetWidth, deathSpriteSheetHeight);
   auto mobComponent = std::make_shared<IsMob>();
+    auto random = rand() % 5 + 1;
+    if (random == 1) {
+        auto random1 = rand() % 3;
+        auto isPowerUp = std::make_shared<IsPowerUp>();
+        isPowerUp->type = random1;
+        container.bindComponentToEntity(entityId, isPowerUp);
+    }
 
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);

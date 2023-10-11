@@ -15,6 +15,9 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
+                auto ispowerup = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
+                if (ispowerup.has_value())
+                    eventHandler.queueEvent("SpawnPowerUp", firstEntity);
               startMobDeath(componentsContainer, eventHandler, firstEntity);
             }
             componentsContainer.deleteEntity(secondEntity);
@@ -25,6 +28,9 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
+                auto ispowerup = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
+                if (ispowerup.has_value())
+                    eventHandler.queueEvent("SpawnPowerUp", secondEntity);
               startMobDeath(componentsContainer, eventHandler, secondEntity);
             }
             componentsContainer.deleteEntity(firstEntity);

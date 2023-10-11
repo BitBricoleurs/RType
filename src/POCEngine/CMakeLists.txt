@@ -32,6 +32,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/HeightVariation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isPowerUpPickUp.cpp
         ../RenderEngine/RenderCompTypes/WindowInfoComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
@@ -75,7 +76,6 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnPowerUp.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/isPowerUpPickUp.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
