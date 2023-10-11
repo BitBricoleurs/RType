@@ -11,6 +11,9 @@
 #include "GameEngine.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "SyncPosSprite.hpp"
+#include "ChangeDirPlayer.hpp"
 
 void setup_network(GameEngine::GameEngine& engine) {
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
@@ -38,9 +41,22 @@ void setup_network(GameEngine::GameEngine& engine) {
 void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto updatePosition = std::make_shared<Client::UpdatePosition>();
     auto updateVelocity = std::make_shared<Client::UpdateVelocity>();
+    auto physicsEngineMovementSystem2D = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+    auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
+    auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
+    engine.addSystem("PHYSICS_ENGINE_MOVEMENT_SYSTEM_2D", physicsEngineMovementSystem2D, 0);
+    engine.addSystem("SYNC_POS_SPRITE", syncPosSprite, 1);
+    engine.addEvent("UP_KEY_PRESSED", changeDirPlayer);
+    engine.addEvent("DOWN_KEY_PRESSED", changeDirPlayer);
+    engine.addEvent("LEFT_KEY_PRESSED", changeDirPlayer);
+    engine.addEvent("RIGHT_KEY_PRESSED", changeDirPlayer);
+    engine.addEvent("UP_KEY_RELEASED", changeDirPlayer);
+    engine.addEvent("DOWN_KEY_RELEASED", changeDirPlayer);
+    engine.addEvent("LEFT_KEY_RELEASED", changeDirPlayer);
+    engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
 }
 
 int main() {
