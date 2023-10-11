@@ -53,6 +53,7 @@
 #include "isHealthBar.hpp"
 #include <iostream>
 #include <memory>
+#include "SpawnPowerUp.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -102,10 +103,12 @@ int main() {
   auto MobHit1 = std::make_shared<MobHit>();
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
+  auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
+  engine.addEvent("SpawnPowerUp", spawnPowerUp);
   engine.addEvent("PlayerHit", PlayerHit1);
   engine.addEvent("MobHit", MobHit1);
   engine.addEvent("PlayerHitMob", PlayerHitMob1);

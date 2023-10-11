@@ -7,6 +7,9 @@
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
 #include "ComponentsType.hpp"
+#include "isPowerUpPickUp.hpp"
+#include "IsForcePod.hpp"
+#include "PositionComponent2D.hpp"
 
 class CollisionHandler : public GameEngine::ISystem {
 public:

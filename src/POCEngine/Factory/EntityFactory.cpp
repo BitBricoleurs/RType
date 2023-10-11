@@ -18,7 +18,7 @@ size_t EntityFactory::createBaseMob(
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
     GameEngine::Vect2 velocity, int maxHealth, int damageValue, int player, float scale,
-    float rotation, GameEngine::ColorR tint, int layer) {
+    float rotation, GameEngine::ColorR tint, int layer, bool droppowerup) {
   size_t entityId = createBaseEntity(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, pos, velocity, player, scale, rotation, tint, layer);
@@ -27,7 +27,11 @@ size_t EntityFactory::createBaseMob(
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto deathSpriteComponent = initDeathAnimation(deathSpriteSheetPath, deathFrames, deathSpriteSheetWidth, deathSpriteSheetHeight);
   auto mobComponent = std::make_shared<IsMob>();
-
+  if (droppowerup) {
+      auto random = rand() % 3;
+      auto powerupComponent = std::make_shared<IsPowerUp>(random);
+        container.bindComponentToEntity(entityId, powerupComponent);
+  }
   container.bindComponentToEntity(entityId, healthComponent);
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, deathSpriteComponent);
@@ -43,13 +47,13 @@ size_t EntityFactory::createBossMob(
     const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
     GameEngine::Vect2 velocity, int maxHealth, int damageValue, int playerA, int stageValue,
-    float scale, float rotation, GameEngine::ColorR tint, int layer) {
+    float scale, float rotation, GameEngine::ColorR tint, int layer, bool droppowerup) {
 
   size_t entityId = createBaseMob(
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
       deathSpriteSheetWidth, deathFrames, pos, velocity, maxHealth, damageValue, playerA,
-      scale, rotation, tint, layer);
+      scale, rotation, tint, layer, droppowerup);
 
   auto stageComponent = std::make_shared<BossStage>(stageValue);
   auto bossComponent = std::make_shared<IsBoss>();

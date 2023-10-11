@@ -1,5 +1,6 @@
 {
   "createBugMob": {
+    "dropPowerup" : true,
     "spriteSheetPath": "assets/bugMob.png",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 532,
