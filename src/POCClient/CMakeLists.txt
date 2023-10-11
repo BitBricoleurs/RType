@@ -46,7 +46,9 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateVelocity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChangeDirPlayer.cpp
-
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CreateBullet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CreateMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
