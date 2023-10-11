@@ -2,6 +2,7 @@
 #include "AnimateOnMove.hpp"
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
+#include "BounceBoss.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "Client.hpp"
@@ -264,14 +265,17 @@ GameEngine::Vect2 pos;
   engine.addEvent("animate", updateSprite);
 
   auto wigglePata = std::make_shared<WiggleMob>();
-  engine.addSystem("wiggleMob", wigglePata);
+  engine.addEvent("wiggleMob", wigglePata);
 
-  engine.addEvent("CONTROL_KEY_PRESSED", testInput);
-  engine.addEvent("ENTER_KEY_PRESSED", testInput);
-  engine.addEvent("ForcePodSpawn", forcePod);
-  engine.addEvent("ForcePodStop", forcePod);
-  engine.addEvent("ForcePodFix", forcePod);
-  engine.addSystem("deleteShoot", deleteShoot);
+  auto bounceBoss = std::make_shared<BounceBoss>();
+  engine.addEvent("bounceBoss", bounceBoss);
+
+  // engine.addEvent("CONTROL_KEY_PRESSED", testInput);
+  // engine.addEvent("ENTER_KEY_PRESSED", testInput);
+  // engine.addEvent("ForcePodSpawn", forcePod);
+  // engine.addEvent("ForcePodStop", forcePod);
+  // engine.addEvent("ForcePodFix", forcePod);
+  // engine.addSystem("deleteShoot", deleteShoot);
 
   auto collisionHandler = std::make_shared<CollisionHandler>();
 

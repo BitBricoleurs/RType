@@ -15,7 +15,9 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                   GameEngine::Vect2 velocity) {
   size_t entityId = createBossMob(container, "assets/bellmite-core.png", 64, 64,
                                   1, false, false, "assets/explode-mob.gif", 33,
-                                  200, 6, pos, velocity, 100, 10, 1, 2.0f);
+                                  200, 6, pos, velocity, 400, 10, 1, 2.0f);
+  auto bossCore = std::make_shared<isBossCore>();
+  container.bindComponentToEntity(entityId, bossCore);
   return entityId;
 }
 
@@ -26,21 +28,23 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
                                  GameEngine::Vect2 velocity) {
   size_t entityId = createBossMob(
       container, "assets/bellmite-entities.png", 29, 124, 4, false, false,
-      "assets/explode-mob.gif", 33, 200, 6, pos, velocity, 100, 10, 1, 3.0f);
+      "assets/explode-mob.gif", 33, 200, 6, pos, velocity, 200, 50, 1, 3.0f);
+  auto bossPod = std::make_shared<isBossPod>();
+  container.bindComponentToEntity(entityId, bossPod);
   eventHandler.scheduleEvent("animate", 8,
                              std::make_tuple(std::string("Pods"), entityId));
   return entityId;
 }
 
-const int totalPods = 21;
-const float podDiameter = 64.0 * 1.5f;            // 64px scaled by 4
-const float maxRadius = 800.0 / 2;                // Half of the total diameter
-const float radiusIncrement = podDiameter * 0.80; // Overlap by 25%
-
 size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
                                      GameEngine::Vect2 pos,
                                      GameEngine::Vect2 velocity) {
+
+  const int totalPods = 21;
+  const float podDiameter = 64.0 * 1.5f; // 64px scaled
+  const float maxRadius = 800.0 / 2;     // Half of the total diameter
+  const float radiusIncrement = podDiameter * 0.80; // Overlap by 20%
 
   createBellmiteBoss(container, eventHandler, pos, velocity);
 
@@ -61,6 +65,8 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
     currentRadius += radiusIncrement;
     podsInCurrentRadius += 6; // Approximate increase, adjust accordingly
   }
+
+  eventHandler.scheduleEvent("bounceBoss", 5);
 
   return 0;
 }

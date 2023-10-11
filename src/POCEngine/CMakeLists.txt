@@ -19,6 +19,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/DeathAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Health.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/BossComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsForcePod.cpp
@@ -75,6 +76,7 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/BounceBoss.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )

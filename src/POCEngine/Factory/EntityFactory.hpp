@@ -8,6 +8,9 @@
 #pragma once
 
 #include "AABBComponent2D.hpp"
+#include "AudioComponent.hpp"
+#include "AudioEngineSystem.hpp"
+#include "BossComponent.hpp"
 #include "BossStage.hpp"
 #include "Damage.hpp"
 #include "DeathAnimation.hpp"
@@ -29,11 +32,8 @@
 #include "SpriteAnimation.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
-#include "AudioComponent.hpp"
 #include <cstddef>
 #include <iostream>
-#include "AudioEngineSystem.hpp"
-#include "AudioComponent.hpp"
 
 class EntityFactory {
 public:

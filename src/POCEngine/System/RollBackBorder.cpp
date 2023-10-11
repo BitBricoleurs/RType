@@ -29,8 +29,9 @@ void RollBackBorder::update(GameEngine::ComponentsContainer &componentsContainer
             auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
             auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
             auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOptional.value());
-            std::cout << "SIZE: " << sizeWidth << ":" << sizeHeight << std::endl;
-            std::cout << "Pos: " << position->pos.x << ":" << position->pos.y << std::endl;
+            // std::cout << "SIZE: " << sizeWidth << ":" << sizeHeight <<
+            // std::endl; std::cout << "Pos: " << position->pos.x << ":" <<
+            // position->pos.y << std::endl;
             if (position->pos.x + velocity->velocity.x < 0 || position->pos.x + velocity->velocity.x + (sprite->rect1.w * sprite->scale) > sizeWidth) {
                 velocity->velocity.x = 0;
             }
