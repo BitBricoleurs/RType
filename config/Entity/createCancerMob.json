@@ -1,5 +1,6 @@
 {
   "createCancerMob": {
+    "dropPowerup" : true,
     "spriteSheetPath": "assets/cancerMob.gif",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 200,

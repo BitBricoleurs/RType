@@ -41,7 +41,8 @@ size_t entityId = createBaseMob(
         config["createCancerMob"]["tint"]["b"].get<int>(),
         config["createCancerMob"]["tint"]["a"].get<int>()
     ),
-    config["createCancerMob"]["layer"].get<int>()
+    config["createCancerMob"]["layer"].get<int>(),
+    config["createCancerMob"]["dropPowerup"].get<bool>()
 );
 
   auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(config["shootingPos"]["x"].get<float>(), config["shootingPos"]["y"].get<float>()), config["typeBullet"].get<int>());
@@ -88,7 +89,8 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
             config["createPatapataMob"]["tint"]["b"].get<int>(),
             config["createPatapataMob"]["tint"]["a"].get<int>()
         ),
-        config["createPatapataMob"]["layer"].get<int>()
+        config["createPatapataMob"]["layer"].get<int>(),
+        config["createPatapataMob"]["dropPowerup"].get<bool>()
     );
   container.bindComponentToEntity(entityId, std::make_shared<PataPata>());
   container.bindComponentToEntity(
@@ -133,7 +135,8 @@ size_t entityId = createBaseMob(
         config["createBugMob"]["tint"]["b"].get<int>(),
         config["createBugMob"]["tint"]["a"].get<int>()
     ),
-    config["createBugMob"]["layer"].get<int>()
+    config["createBugMob"]["layer"].get<int>(),
+    config["createBugMob"]["dropPowerup"].get<bool>()
 );
 
 

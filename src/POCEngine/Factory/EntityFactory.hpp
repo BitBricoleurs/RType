@@ -82,7 +82,7 @@ private:
                         const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
                         int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
                         GameEngine::Vect2 velocity, int maxHealth, int damageValue, int player, float scale,
-                        float rotation, GameEngine::ColorR tint, int layer);
+                        float rotation, GameEngine::ColorR tint, int layer, bool droppowerup);
 
   size_t createBossMob(GameEngine::ComponentsContainer &container,
                        const std::string &spriteSheetPath,
@@ -94,7 +94,7 @@ private:
                        GameEngine::Vect2 velocity, int maxHealth,
                        int damageValue, int playerA, int stageValue, float scale,
                        float rotation,
-                       GameEngine::ColorR tint, int layer);
+                       GameEngine::ColorR tint, int layer, bool droppowerup);
 
   size_t createPlayer(GameEngine::ComponentsContainer &container,
                                    const std::string &spriteSheetPath,
