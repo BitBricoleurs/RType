@@ -16,6 +16,7 @@
 #include "ChangeDirPlayer.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue) {
+    Network::Endpoint endpoint("127.0.0.1", 4444);
     auto networkConnect = std::make_shared<NetworkConnect>();
     auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
     auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
@@ -60,9 +61,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 int main() {
     GameEngine::GameEngine engine;
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Endpoint endpoint("127.0.0.1", 4444);
 
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     Network::Client::init(2, queue);
     setup_network(engine, queue);
     setup_sync_systems(engine);
