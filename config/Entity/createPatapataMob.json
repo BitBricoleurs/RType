@@ -6,7 +6,7 @@
     "frames": 16,
     "twoDirections": true,
     "reverse": false,
-    "deathSpriteSheetPath": "assets/explosion.gif",
+    "deathSpriteSheetPath": "assets/explode-mob.gif",
     "deathSpriteSheetHeight": 33,
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
