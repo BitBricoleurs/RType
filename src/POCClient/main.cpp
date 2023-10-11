@@ -15,8 +15,9 @@
 #include "SyncPosSprite.hpp"
 #include "ChangeDirPlayer.hpp"
 
-void setup_network(GameEngine::GameEngine& engine) {
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+void setup_network(GameEngine::GameEngine& engine,
+                   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& queue,
+                   Network::Endpoint& endpoint) {
     Network::Client::init(2, queue);
     auto networkConnect = std::make_shared<NetworkConnect>();
     auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
@@ -25,7 +26,6 @@ void setup_network(GameEngine::GameEngine& engine) {
     auto networkInput = std::make_shared<NetworkInput>(queue);
     auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
     auto networkAccept = std::make_shared<NetworkServerAccept>();
-    Network::Endpoint endpoint("127.0.0.1", 4444);
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -61,8 +61,10 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 
 int main() {
     GameEngine::GameEngine engine;
+    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+    Network::Endpoint endpoint("127.0.0.1", 4444);
 
-    setup_network(engine);
+    setup_network(engine, queue, endpoint);
     setup_sync_systems(engine);
 
     engine.run();

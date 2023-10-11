@@ -5,6 +5,7 @@
 #include "ChangeDirPlayer.hpp"
 #include "VelocityComponent.hpp"
 #include "IsPlayer.hpp"
+#include "Message.hpp"
 
 Client::ChangeDirPlayer::ChangeDirPlayer()
 {
