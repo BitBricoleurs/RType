@@ -9,10 +9,10 @@
 #include "Endpoint.hpp"
 #include "NetworkServerAccept.hpp"
 #include "GameEngine.hpp"
+#include "UpdatePosition.hpp"
+#include "UpdateVelocity.hpp"
 
-int main() {
-    GameEngine::GameEngine engine;
-
+void setup_network(GameEngine::GameEngine& engine) {
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     Network::Client::init(2, queue);
     auto networkConnect = std::make_shared<NetworkConnect>();
@@ -33,6 +33,22 @@ int main() {
     engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
 
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
-  engine.run();
+}
+
+void setup_sync_systems(GameEngine::GameEngine& engine) {
+    auto updatePosition = std::make_shared<Client::UpdatePosition>();
+    auto updateVelocity = std::make_shared<Client::UpdateVelocity>();
+
+    engine.addEvent("UPDATE_POSITION", updatePosition);
+    engine.addEvent("UPDATE_VELOCITY", updateVelocity);
+}
+
+int main() {
+    GameEngine::GameEngine engine;
+
+    setup_network(engine);
+    setup_sync_systems(engine);
+
+    engine.run();
   return 0;
 }
