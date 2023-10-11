@@ -49,13 +49,13 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity, int maxHealth,
                                    int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                   int typeBullet) {
+                                   GameEngine::Vect2 bulletVelocity, int typeBullet) {
   size_t entityId = createBaseEntity(
       container, hitboxHeight, hitboxWidth,
       pos, velocity, scale);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), typeBullet);
+  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
   auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
 
   container.bindComponentToEntity(entityId, healthComponent);
@@ -129,4 +129,21 @@ size_t EntityFactory::createBaseEntity(
   container.bindComponentToEntity(entityId, rectangleCollider);
 
   return entityId;
+}
+
+void EntityFactory::updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, GameEngine::Vect2 &pos, GameEngine::Vect2 &velocity)
+{
+    std::vector<size_t> ids = {entityId};
+    std::vector<std::any> args = {};
+    args.push_back(pos.x);
+    args.push_back(pos.y);
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "", args);
+    std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+    args.clear();
+    args.push_back(velocity.x);
+    args.push_back(velocity.y);
+    message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
+    allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
 }

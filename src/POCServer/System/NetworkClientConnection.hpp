@@ -11,6 +11,7 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "IMessage.hpp"
+#include "EntityFactory.hpp"
 
 // System of the Server that Handle Client Connection
 

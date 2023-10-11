@@ -10,14 +10,17 @@ void NetworkClientConnection::update(GameEngine::ComponentsContainer &components
     if (queue.empty())
         return;
     unsigned int netInterfaceId = queue.popBack();
-    size_t entityId = componentsContainer.createEntity();
-    componentsContainer.bindComponentToEntity(entityId, std::make_shared<NetworkClientId>(netInterfaceId));
+    auto &factory = EntityFactory::getInstance();
+    GameEngine::Vect2 pos = {0, 0};
+    PlayerNumber nbr = factory.getNextPlayerNumber();
+    size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
     std::vector<size_t> ids = {entityId};
-    std::vector<std::any> args = {};
+    std::vector<std::any> args = {nbr};
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "", args);
     std::shared_ptr<Network::NotUserMessage> notMessage = std::make_shared<Network::NotUserMessage>(netInterfaceId, message);
     eventHandler.queueEvent("SEND_NETWORK", notMessage);
     std::shared_ptr<Network::Message> message2 = std::make_shared<Network::Message>("ACCEPTED", ids, "", args);
     std::shared_ptr<Network::UserMessage> userMessage = std::make_shared<Network::UserMessage>(netInterfaceId, message2);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
+    eventHandler.queueEvent("UPDATE_WORLD", entityId);
 }
