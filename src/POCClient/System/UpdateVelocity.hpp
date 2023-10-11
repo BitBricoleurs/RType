@@ -7,13 +7,13 @@
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
 #include "ComponentsType.hpp"
-#include "PositionComponent2D.hpp"
+#include "VelocityComponent.hpp"
 #include "Message.hpp"
 
 namespace Client {
-    class UpdatePosition : public GameEngine::ISystem {
+    class UpdateVelocity : public GameEngine::ISystem {
     public:
-        UpdatePosition() = default;
+        UpdateVelocity() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     };
