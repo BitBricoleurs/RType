@@ -105,8 +105,12 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
       twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
   auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
-  auto shootSound = std::make_shared<GameEngine::AudioComponent>(pathSound);
-  container.bindComponentToEntity(entityId, shootSound);
+  if (_audioMap.find(pathSound) == _audioMap.end()) {
+    auto shootSound = std::make_shared<GameEngine::AudioComponent>(pathSound);
+    _audioMap[pathSound] = shootSound;
+  }
+
+  container.bindComponentToEntity(entityId, _audioMap[pathSound]);
   container.bindComponentToEntity(entityId, bulletComponent);
 
   return entityId;

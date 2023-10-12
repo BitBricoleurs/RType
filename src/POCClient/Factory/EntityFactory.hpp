@@ -168,4 +168,5 @@ private:
 
         std::map<size_t, size_t> _entityIdMap;
         std::map<size_t, PlayerNumber> _playerMap;
+        std::map<std::string, std::shared_ptr<GameEngine::AudioComponent>> _audioMap;
 };
