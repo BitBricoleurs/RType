@@ -40,7 +40,7 @@ void SpawnPowerUp::update(GameEngine::ComponentsContainer &componentsContainer,
         auto positionComponent = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
         auto positionComponentCast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*positionComponent);
         componentsContainer.bindComponentToEntity(powerUp, positionComponentCast);
-        auto powerupCompoent = std::make_shared<isPowerUpPickUp>();
+        auto powerupCompoent = std::make_shared<isPowerUpPickUp>(isPowerupCast->type);
         componentsContainer.bindComponentToEntity(powerUp, powerupCompoent);
     }
 }
