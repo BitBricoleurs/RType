@@ -85,7 +85,7 @@ size_t EntityFactory::createSharhips(GameEngine::ComponentsContainer &container,
       container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
       twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
-  auto playerComponent = std::make_shared<IsStaships>(entityCharge);
+  auto playerComponent = std::make_shared<IsStarship>(entityCharge);
 
   container.bindComponentToEntity(entityId, playerComponent);
 

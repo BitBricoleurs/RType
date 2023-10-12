@@ -8,9 +8,11 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsStaships : public GameEngine::AComponent {
+class IsStarship : public GameEngine::AComponent {
 public:
-  IsStaships() = default;
+  explicit IsStarship(size_t entityIdChargeAnimation);
 
   size_t getComponentType() override;
+
+   size_t entityIdChargeAnimation;
 };

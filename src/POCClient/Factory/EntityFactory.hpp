@@ -32,7 +32,7 @@
 #include "AudioEngineSystem.hpp"
 #include "AudioComponent.hpp"
 #include "PlayerUtils.hpp"
-#include "IsStaships.hpp"
+#include "IsStarship.hpp"
 
 class EntityFactory {
 public:
