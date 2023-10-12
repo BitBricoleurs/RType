@@ -73,7 +73,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
           return;
         }
         GameEngine::Vect2 newVelocity = newVelocityOpt.value();
-        podVelocityComp->velocity = newVelocity;
+        podVelocityComp->velocity = newVelocity * 3;
 
       } else if (!changedDir) {
 
@@ -136,6 +136,8 @@ bool BounceBoss::checkInScreen(
       posComp->pos.y > sizeHeight - 300 || posComp->pos.x > sizeWidth - 300) {
     return false;
   }
+  if (!hasAppeared)
+    eventHandler.scheduleEvent("launchBossPods", 200);
   hasAppeared = true;
   return true;
 }

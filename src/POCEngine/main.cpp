@@ -7,16 +7,18 @@
 #include "ChargingBar.hpp"
 #include "Client.hpp"
 #include "CollisionHandler.hpp"
-#include "Component/DeathAnimation.hpp"
 #include "ComponentContainer.hpp"
 #include "CreatePlayer.hpp"
+#include "DeathAnimation.hpp"
 #include "DeleteEntities.hpp"
 #include "Endpoint.hpp"
 #include "EntityFactory.hpp"
+#include "FlashWhenHit.hpp"
 #include "ForcePodSpawn.hpp"
 #include "ISystem.hpp"
 #include "InitParallax.hpp"
 #include "IsChargingBar.hpp"
+#include "LaunchBossPods.hpp"
 #include "MobHit.hpp"
 #include "NetworkConnect.hpp"
 #include "NetworkInput.hpp"
@@ -41,7 +43,6 @@
 #include "SpawnMob.hpp"
 #include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
-#include "System/AnimateOnMove.hpp"
 #include "TestInput.hpp"
 #include "TextComponent.hpp"
 #include "ToggleFullScreen.hpp"
@@ -269,6 +270,12 @@ GameEngine::Vect2 pos;
 
   auto bounceBoss = std::make_shared<BounceBoss>();
   engine.addEvent("bounceBoss", bounceBoss);
+
+  auto launchBossPods = std::make_shared<LaunchBossPods>();
+  engine.addEvent("launchBossPods", launchBossPods);
+
+  auto flashWhenHit = std::make_shared<FlashWhenHit>();
+  engine.addEvent("flash", flashWhenHit);
 
   // engine.addEvent("CONTROL_KEY_PRESSED", testInput);
   // engine.addEvent("ENTER_KEY_PRESSED", testInput);

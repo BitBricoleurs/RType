@@ -77,7 +77,8 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/BounceBoss.cpp
-
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/LaunchBossPods.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/FlashWhenHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
