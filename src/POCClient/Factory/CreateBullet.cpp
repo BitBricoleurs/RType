@@ -10,14 +10,19 @@
 size_t
 EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1 ) {
+                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet) {
     nlohmann::json config = loadConfig("config/Entity/createBulletPlayer.json");
+
+    nlohmann::json rectConfig = config["createBullet"]["bulletTypes"]["type" + std::to_string(typeBullet)]["rect"];
+    int rectH = rectConfig["h"].get<int>();
+    int rectW = rectConfig["w"].get<int>();
+    std::string path = rectConfig["path"].get<std::string>();
 
     size_t entityId = createBullet(
         container,
         path,
-        rect1.h,
-        rect1.w,
+        rectH,
+        rectW,
         config["createBullet"]["frames"].get<int>(),
         config["createBullet"]["twoDirections"].get<bool>(),
         config["createBullet"]["reverse"].get<bool>(),
