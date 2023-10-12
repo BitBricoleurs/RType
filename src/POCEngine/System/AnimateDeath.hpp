@@ -12,6 +12,7 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "SpriteComponent.hpp"
+#include "IsMob.hpp"
 
 class AnimateDeath : public GameEngine::ISystem {
 public:
