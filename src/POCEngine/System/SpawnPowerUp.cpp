@@ -42,5 +42,6 @@ void SpawnPowerUp::update(GameEngine::ComponentsContainer &componentsContainer,
         componentsContainer.bindComponentToEntity(powerUp, positionComponentCast);
         auto powerupCompoent = std::make_shared<isPowerUpPickUp>(isPowerupCast->type);
         componentsContainer.bindComponentToEntity(powerUp, powerupCompoent);
+        componentsContainer.unbindComponentFromEntity(entity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
     }
 }

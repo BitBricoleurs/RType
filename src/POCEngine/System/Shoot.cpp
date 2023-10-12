@@ -54,7 +54,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
         } else if (shooterComp->typeBullet == 2) {
-            bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), "assets/spritesheet-5.png", GameEngine::rect(0, 0, 64, 32), 2);
+            bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(10,0), "assets/spritesheet-5.png", GameEngine::rect(0, 0, 64, 32), 2);
         }
         eventHandler.queueEvent("PLAY_SOUND", bullet);
     }

@@ -39,7 +39,7 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
             config["createBullet"]["layer"].get<int>()
         );
     } else if (type == 2) {
-        entityId = createBullet(container, path, 488, 32, 8, false, false, pos, velocity, 100, true, 0, "assets/music/Shoot 2.wav", 1.0f, 0.0f, GameEngine::ColorR(255, 255, 255, 255), 7);
+        entityId = createBullet(container, path, 32, 488, 8, false, false, pos, velocity, 100, true, 0, "assets/music/Shoot 2.wav", 1.0f, 0.0f, GameEngine::ColorR(255, 255, 255, 255), 7);
         auto isBulletopt = container.getComponent(entityId, GameEngine::ComponentsType::getComponentType("IsBullet"));
         auto bulletcast = std::dynamic_pointer_cast<IsBullet>(*isBulletopt);
         bulletcast->passingThrough = true;
