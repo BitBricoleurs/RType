@@ -32,6 +32,7 @@
 #include "AudioEngineSystem.hpp"
 #include "AudioComponent.hpp"
 #include "PlayerUtils.hpp"
+#include "IsStarship.hpp"
 
 class EntityFactory {
 public:
@@ -57,10 +58,13 @@ public:
   size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
                          GameEngine::Vect2 pos, PlayerNumber numberPlayer);
+  size_t createNewStarship(GameEngine::ComponentsContainer &container,
+                               GameEngine::EventHandler &eventHandler,
+                               GameEngine::Vect2 pos, PlayerNumber playerNumber);
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
-                            GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1);
+                                  GameEngine::EventHandler &eventHandler,
+                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
@@ -99,6 +103,14 @@ private:
                     int deathSpriteSheetWidth, int deathFrames, GameEngine::Vect2 pos,
                     GameEngine::Vect2 velocity, int player, float scale,
                     float rotation, GameEngine::ColorR tint, int layer);
+
+  size_t createSharhips(GameEngine::ComponentsContainer &container,
+                                   const std::string &spriteSheetPath,
+                                   int spriteSheetHeight, int spriteSheetWidth,
+                                   int frames, bool twoDirections, bool reverse,
+                                   GameEngine::Vect2 pos,
+                                   GameEngine::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                   float rotation, GameEngine::ColorR tint, int layer);
 
   size_t createBossMob(GameEngine::ComponentsContainer &container,
                 const std::string &spriteSheetPath, int spriteSheetHeight,

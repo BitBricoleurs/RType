@@ -74,6 +74,24 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
   return entityId;
 }
 
+size_t EntityFactory::createSharhips(GameEngine::ComponentsContainer &container,
+                                   const std::string &spriteSheetPath,
+                                   int spriteSheetHeight, int spriteSheetWidth,
+                                   int frames, bool twoDirections, bool reverse,
+                                   GameEngine::Vect2 pos,
+                                   GameEngine::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                   float rotation, GameEngine::ColorR tint, int layer) {
+  size_t entityId = createBaseEntity(
+      container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
+      twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
+
+  auto playerComponent = std::make_shared<IsStarship>(entityCharge);
+
+  container.bindComponentToEntity(entityId, playerComponent);
+
+  return entityId;
+}
+
 size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    const std::string &spriteSheetPath,
                                    int spriteSheetHeight, int spriteSheetWidth,

@@ -23,7 +23,7 @@ void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, 
     GameEngine::Vect2 velocity = {0, 0};
     GameEngine::rect rect = {0, 0, 0, 0};
     if (number == BulletOwner::PLAYER)
-        entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, path, rect);
+        entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, number);
     else
         //entityId = factory.createEnemyBullet(componentsContainer, eventHandler, pos, number);
     factory.registerEntity(ids.front(), entityId);
