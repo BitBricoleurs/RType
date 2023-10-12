@@ -14,6 +14,9 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "SyncPosSprite.hpp"
 #include "ChangeDirPlayer.hpp"
+#include "RenderEngineSystem.hpp"
+#include "WindowInfoComponent.hpp"
+
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue) {
     Network::Endpoint endpoint("127.0.0.1", 4444);
@@ -64,7 +67,8 @@ int main() {
     Network::Client::init(2, queue);
     setup_network(engine, queue);
     setup_sync_systems(engine);
-
+    auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+    engine.addSystem("RENDER", render, 4);
     engine.run();
   return 0;
 }

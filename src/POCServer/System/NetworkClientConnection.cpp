@@ -15,7 +15,7 @@ void NetworkClientConnection::update(GameEngine::ComponentsContainer &components
     PlayerNumber nbr = factory.getNextPlayerNumber();
     size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
     std::vector<size_t> ids = {entityId};
-    std::vector<std::any> args = {nbr};
+    std::vector<std::any> args = {static_cast<int>(nbr)};
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "", args);
     std::shared_ptr<Network::NotUserMessage> notMessage = std::make_shared<Network::NotUserMessage>(netInterfaceId, message);
     eventHandler.queueEvent("SEND_NETWORK", notMessage);

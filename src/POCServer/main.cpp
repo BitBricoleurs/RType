@@ -13,6 +13,7 @@
 #include "NetworkUpdateWorld.hpp"
 #include "NetworkMoveClient.hpp"
 #include "NetworkShootClient.hpp"
+#include "SpawnMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -40,6 +41,12 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("SHOOT", shootClient);
 }
 
+void setup_engine(GameEngine::GameEngine& engine)
+{
+    std::string path = "config/map";
+    auto spawnMob = std::make_shared<SpawnMob>(path);
+}
+
 int main(void) {
     GameEngine::GameEngine engine;
 
@@ -48,6 +55,7 @@ int main(void) {
 
     setup_network(engine, queue);
     setup_sync_systems(engine);
+    setup_engine(engine);
     engine.run();
     return 0;
 }

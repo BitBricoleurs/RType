@@ -39,10 +39,13 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
 
     std::vector<size_t> ids = {};
     std::vector<std::any> args = {};
+    EntityFactory &factory = EntityFactory::getInstance();
     // Creating Players
+    // TODO : Add player type and add PlayerNumber into creation
     for (auto &player : players) {
         if (player == entityId)
             continue;
+
         ids.push_back(player);
     }
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "", args);
@@ -52,11 +55,12 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
     ids.clear();
     args.clear();
     // Creating Mobs
+    int typeMob = static_cast<int>(MobType::CANCER);
+    args.push_back(typeMob);
     for (auto &mob : mobs) {
-        // TODO : add a way to know which mob is which and push to the args
         ids.push_back(mob);
     }
-    message = std::make_shared<Network::Message>("CREATED_MOB", ids, "", args);
+    message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
     userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
 
@@ -68,7 +72,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compIsBullet->playerBullet);
         ids.push_back(bullet);
     }
-    message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "", args);
+    message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
     userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
 
@@ -80,7 +84,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compPos->pos.x);
         args.push_back(compPos->pos.y);
         ids.push_back(player);
-        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
@@ -89,7 +93,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compVel->velocity.x);
         args.push_back(compVel->velocity.y);
         ids.push_back(player);
-        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
@@ -101,7 +105,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compPos->pos.x);
         args.push_back(compPos->pos.y);
         ids.push_back(mob);
-        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
@@ -110,7 +114,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compVel->velocity.x);
         args.push_back(compVel->velocity.y);
         ids.push_back(mob);
-        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
@@ -122,7 +126,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compPos->pos.x);
         args.push_back(compPos->pos.y);
         ids.push_back(bullet);
-        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
@@ -131,7 +135,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.push_back(compVel->velocity.x);
         args.push_back(compVel->velocity.y);
         ids.push_back(bullet);
-        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
+        message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();

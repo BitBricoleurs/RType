@@ -33,6 +33,8 @@
     "spriteSheetPath": "assets/ships.gif",
     "spriteSheetHeight": 86,
     "spriteSheetWidth": 166,
+    "hitboxHeight": 86,
+    "hitboxWidth": 33,
     "frames": 5,
     "twoDirections": false,
     "reverse": false,

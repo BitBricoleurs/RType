@@ -43,6 +43,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkUpdateWorld.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkMoveClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkShootClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/SpawnMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
