@@ -12,20 +12,40 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             auto hpComponent = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Health"));
             auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
             auto DamageBullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Damage"));
+            if (DamageBullet == std::nullopt)
+              return;
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
+            auto sprite = componentsContainer.getComponent(
+                firstEntity, GameEngine::ComponentsType::getComponentType(
+                                 "SpriteComponent"));
+            auto spriteCast =
+                std::dynamic_pointer_cast<GameEngine::SpriteComponent>(*sprite);
+            spriteCast->flash = false;
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
               startMobDeath(componentsContainer, eventHandler, firstEntity);
+            } else {
+              eventHandler.scheduleEvent("flash", 3, firstEntity, 5);
             }
             componentsContainer.deleteEntity(secondEntity);
         } else {
             auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
             auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
             auto DamageBullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Damage"));
+            if (DamageBullet == std::nullopt)
+              return;
             auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
+            auto sprite = componentsContainer.getComponent(
+                secondEntity, GameEngine::ComponentsType::getComponentType(
+                                  "SpriteComponent"));
+            auto spriteCast =
+                std::dynamic_pointer_cast<GameEngine::SpriteComponent>(*sprite);
+            spriteCast->flash = false;
             hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             if (hpComponentCast->currentHealth <= 0) {
               startMobDeath(componentsContainer, eventHandler, secondEntity);
+            } else {
+              eventHandler.scheduleEvent("flash", 3, secondEntity, 5);
             }
             componentsContainer.deleteEntity(firstEntity);
         }

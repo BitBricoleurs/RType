@@ -9,6 +9,7 @@
 #include "EventHandler.hpp"
 #include "Health.hpp"
 #include "ISystem.hpp"
+#include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 
 class MobHit : public GameEngine::ISystem {

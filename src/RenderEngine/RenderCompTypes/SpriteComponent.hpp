@@ -24,6 +24,7 @@ namespace GameEngine {
             this->scale = scale;
             this->tint = tint;
             this->origin = Vect2(0.0f,0.0f);
+            this->flash = false;
         }
         ~SpriteComponent() = default;
 
@@ -39,6 +40,7 @@ namespace GameEngine {
         std::string imagePath;
         Vect2 origin;
         ColorR tint;
+        bool flash;
         bool isVisible = true;
     private:
     };
