@@ -43,6 +43,8 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
         auto isBulletopt = container.getComponent(entityId, GameEngine::ComponentsType::getComponentType("IsBullet"));
         auto bulletcast = std::dynamic_pointer_cast<IsBullet>(*isBulletopt);
         bulletcast->passingThrough = true;
+        eventHandler.scheduleEvent(
+        "animate", 20, std::make_tuple(std::string("PlayerBullet"), entityId));
     }
 
   return entityId;
