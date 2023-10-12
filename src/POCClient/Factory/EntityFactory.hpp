@@ -81,7 +81,7 @@ public:
         _entityIdMap[clientEntityId] = serverEntityId;
     }
 
-    static size_t getServerId(size_t clientEntityId) const {
+    size_t getServerId(size_t clientEntityId) const {
         auto it = _entityIdMap.find(clientEntityId);
         if (it != _entityIdMap.end()) {
             return it->second;
@@ -154,7 +154,7 @@ private:
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
 
-        static std::map<size_t, size_t> _entityIdMap;
+        std::map<size_t, size_t> _entityIdMap;
         std::map<size_t, PlayerNumber> _playerMap;
         std::map<std::string, std::shared_ptr<GameEngine::AudioComponent>> _audioMap;
 };
