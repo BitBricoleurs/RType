@@ -18,7 +18,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
       GameEngine::ComponentsType::getComponentType("isBossCore"));
 
   // check if boss exists and is in scope
-  if (bossPods.size() == 0 || bossCore == 0)
+  if (bossCore == 0)
     return;
   if (!hasAppeared &&
       checkInScreen(bossCore, componentsContainer, eventHandler) == false) {
@@ -64,7 +64,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         podPosComp->pos.x > sizeWidth - 150) {
 
       if (bossPodComp->launched) { // if pod is detached from the core
-
         auto newVelocityOpt = // change only its velocity
             handleDirectionChange(
                 podPosComp->pos,
@@ -74,7 +73,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         }
         GameEngine::Vect2 newVelocity = newVelocityOpt.value();
         podVelocityComp->velocity = newVelocity * 3;
-
+        bossPodComp->bounces++;
       } else if (!changedDir) {
 
         auto newVelocityOpt = // change velocity of the boss's
@@ -113,7 +112,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
           otherPodVelocityComp->velocity.y = bossVelComp->velocity.y;
         }
         changedDir = true;
-        return;
       }
     }
   }
@@ -197,9 +195,9 @@ std::optional<GameEngine::Vect2>
 BounceBoss::handleDirectionChange(GameEngine::Vect2 pos,
                                   GameEngine::Vect2 velocity) {
   bool touchesLeft = pos.x < 0;
-  bool touchesRight = pos.x > sizeWidth - 100;
+  bool touchesRight = pos.x > sizeWidth - 150;
   bool touchesTop = pos.y < 0;
-  bool touchesBottom = pos.y > sizeHeight - 100;
+  bool touchesBottom = pos.y > sizeHeight - 150;
 
   if ((touchesLeft && velocity.x > 0) || (touchesRight && velocity.x < 0) ||
       (touchesTop && velocity.y > 0) || (touchesBottom && velocity.y < 0)) {

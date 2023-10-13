@@ -6,6 +6,9 @@
 */
 
 #include "LaunchBossPods.hpp"
+#include <algorithm>
+#include <iostream>
+#include <random>
 
 void LaunchBossPods::update(
     GameEngine::ComponentsContainer &componentsContainer,
@@ -16,6 +19,11 @@ void LaunchBossPods::update(
       GameEngine::ComponentsType::getComponentType("isBossPod"));
 
   size_t podToLaunch = 0;
+
+  // shuffle pods
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(bossPods.begin(), bossPods.end(), g);
 
   for (auto &bossPod : bossPods) {
     auto bossPodOpt = componentsContainer.getComponent(
