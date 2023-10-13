@@ -19,10 +19,10 @@ void FlashWhenHit::update(GameEngine::ComponentsContainer &componentsContainer,
     auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(
         spriteOpt.value());
     if (!sprite->flash) {
-      sprite->tint.a = 255;
+      sprite->tint = {255, 255, 255, 255};
       sprite->flash = true;
     } else {
-      sprite->tint.a = 0;
+      sprite->tint = {255, 255, 255, 0};
       sprite->flash = false;
     }
   }
