@@ -14,8 +14,8 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                   GameEngine::Vect2 pos,
                                   GameEngine::Vect2 velocity) {
   size_t entityId = createBossMob(container, "assets/bellmite-core.png", 64, 64,
-                                  1, false, false, "assets/explode-mob.gif", 33,
-                                  200, 6, pos, velocity, 400, 10, 1, 2.0f);
+                                  1, false, false, "assets/boss-explode.png",
+                                  64, 320, 5, pos, velocity, 400, 10, 1, 2.0f);
   auto bossCore = std::make_shared<isBossCore>();
   container.bindComponentToEntity(entityId, bossCore);
   return entityId;
