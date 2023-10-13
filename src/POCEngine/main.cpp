@@ -18,6 +18,7 @@
 #include "ISystem.hpp"
 #include "InitParallax.hpp"
 #include "IsChargingBar.hpp"
+#include "LatchPodToBoss.hpp"
 #include "LaunchBossPods.hpp"
 #include "MobHit.hpp"
 #include "NetworkConnect.hpp"
@@ -104,11 +105,13 @@ int main() {
   auto MobHit1 = std::make_shared<MobHit>();
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
+  auto latchPodToBoss = std::make_shared<LatchPodToBoss>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.addEvent("PlayerHit", PlayerHit1);
+  engine.addEvent("LatchPodToBoss", latchPodToBoss);
   engine.addEvent("MobHit", MobHit1);
   engine.addEvent("PlayerHitMob", PlayerHitMob1);
   engine.addEvent("InitParallax", initParallax);
@@ -282,7 +285,7 @@ GameEngine::Vect2 pos;
   // engine.addEvent("ForcePodSpawn", forcePod);
   // engine.addEvent("ForcePodStop", forcePod);
   // engine.addEvent("ForcePodFix", forcePod);
-  // engine.addSystem("deleteShoot", deleteShoot);
+  engine.addSystem("deleteShoot", deleteShoot);
 
   auto collisionHandler = std::make_shared<CollisionHandler>();
 

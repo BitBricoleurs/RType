@@ -9,6 +9,7 @@ target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOU
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Component)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Factory)
+target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Utils)
 target_include_directories(${PROJECT_NAME_POCENGINE} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -76,9 +77,10 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/BounceBoss.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/LaunchBossPods.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/BounceBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/LaunchBossPods.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/FlashWhenHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/LatchPodToBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

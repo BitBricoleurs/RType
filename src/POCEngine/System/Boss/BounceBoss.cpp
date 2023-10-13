@@ -7,7 +7,6 @@
 
 #include "BounceBoss.hpp"
 #include <cmath>
-#include <cstddef>
 
 void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) {
@@ -20,8 +19,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   // check if boss exists and is in scope
   if (bossCore == 0)
     return;
-  if (!hasAppeared &&
-      checkInScreen(bossCore, componentsContainer, eventHandler) == false) {
+  if (!hasAppeared && !checkInScreen(bossCore, componentsContainer, eventHandler)) {
     return;
   }
   bool changedDir = false;
@@ -130,15 +128,13 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         posBossCoreComp->pos.y > sizeHeight - 150 || // boss is bouncing
         posBossCoreComp->pos.x > sizeWidth - 150) {
       auto newVelocityOpt = // change velocity of the boss's
-          handleDirectionChange(
-              posBossCoreComp->pos,
-              bossVelComp->velocity);    // core, and set all the pods
-      if (!newVelocityOpt.has_value()) { // velocity to be the same
+          handleDirectionChange(posBossCoreComp->pos,
+                                bossVelComp->velocity); // core, and set all the pods
+      if (!newVelocityOpt.has_value()) {                // velocity to be the same
         return;
       }
       GameEngine::Vect2 newVelocity = newVelocityOpt.value();
       bossVelComp->velocity = newVelocity;
-      changedDir = true;
     }
   }
 }

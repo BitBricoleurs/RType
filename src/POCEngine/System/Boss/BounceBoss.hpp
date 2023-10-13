@@ -31,7 +31,7 @@ private:
   float randomizeVelocity(float currentVelocity);
   std::optional<GameEngine::Vect2>
   handleDirectionChange(GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
-  int sizeWidth = 0;
-  int sizeHeight = 0;
+  size_t sizeWidth = 0;
+  size_t sizeHeight = 0;
   bool hasAppeared = false;
 };
