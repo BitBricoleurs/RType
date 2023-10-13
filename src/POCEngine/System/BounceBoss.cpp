@@ -117,6 +117,32 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
       }
     }
   }
+  // the boss has no more pods attached, check if boss is bouncing
+  if (!changedDir) {
+    auto posBossCoreOpt = componentsContainer.getComponent(
+        bossCore,
+        GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+    if (!posBossCoreOpt.has_value())
+      return;
+    auto posBossCoreComp =
+        std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
+            posBossCoreOpt.value());
+
+    if (posBossCoreComp->pos.x < 0 || posBossCoreComp->pos.y < 0 ||
+        posBossCoreComp->pos.y > sizeHeight - 150 || // boss is bouncing
+        posBossCoreComp->pos.x > sizeWidth - 150) {
+      auto newVelocityOpt = // change velocity of the boss's
+          handleDirectionChange(
+              posBossCoreComp->pos,
+              bossVelComp->velocity);    // core, and set all the pods
+      if (!newVelocityOpt.has_value()) { // velocity to be the same
+        return;
+      }
+      GameEngine::Vect2 newVelocity = newVelocityOpt.value();
+      bossVelComp->velocity = newVelocity;
+      changedDir = true;
+    }
+  }
 }
 
 bool BounceBoss::checkInScreen(
