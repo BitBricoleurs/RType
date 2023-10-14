@@ -40,15 +40,16 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         auto shooterComp = std::static_pointer_cast<Shooter>(shooterOptional.value());
 
         GameEngine::Vect2 shootingPosition(posComp->pos.x + shooterComp->shootPosition.x, posComp->pos.y + shooterComp->shootPosition.y);
-        if (shooterComp->typeBullet == 0) {
+        if (shooterComp->typeBullet == BulletTypeEntity::PlayerBullet) {
             if (charge >= 50) {
                 shootingPosition.y = shootingPosition.y - 15;
+                std::cout << "yes" << std::endl;
                 bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), 1);
                 return ;
             } else {
                 bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), 0);
             }
-        } else if (shooterComp->typeBullet == 1) {
+        } else if (shooterComp->typeBullet == BulletTypeEntity::EnemyBullet) {
             auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
             float closestDistance = std::numeric_limits<float>::max();
             GameEngine::Vect2 directionToClosestPlayer;

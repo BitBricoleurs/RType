@@ -28,7 +28,7 @@ void CreateMob::update(GameEngine::ComponentsContainer &componentsContainer, Gam
             } else {
                 entityId = factory.spawnBugMob(componentsContainer, eventHandler, pos, 0);
             }
-            factory.registerEntity(ids.front(), entityId);
+            factory.registerEntity(entityId, ids.front());
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
         }

@@ -9,7 +9,7 @@
 #include "Pack.hpp"
 
 namespace Network {
-    PACK(class Body {
+    class Body {
     public:
         Body() = default;
         ~Body() = default;
@@ -21,5 +21,5 @@ namespace Network {
 
     private:
         std::vector<std::uint8_t> _data;
-    });
+    };
 }

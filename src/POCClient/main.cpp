@@ -19,6 +19,9 @@
 #include "CreateMob.hpp"
 #include "CreateBullet.hpp"
 #include "WindowInfoComponent.hpp"
+#include "InitParallax.hpp"
+#include "Parallax.hpp"
+#include "ParallaxPlanet.hpp"
 #include "ChargeShoot.hpp"
 
 
@@ -72,7 +75,14 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 void setup_game(GameEngine::GameEngine& engine)
 {
     auto shoot = std::make_shared<ChargeShoot>();
-    engine.addEvent("SPACE_KEY_RELEASED", shoot);
+    auto initParallax = std::make_shared<InitParallax>();
+    auto parallax = std::make_shared<Parallax>();
+    auto parallaxPlanet = std::make_shared<ParallaxPlanet>();
+
+    engine.addSystem("ParallaxSystem", parallax);
+    engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
+    engine.addEvent("InitParallax", initParallax);
+    engine.queueEvent("InitParallax");
 }
 
 int main() {

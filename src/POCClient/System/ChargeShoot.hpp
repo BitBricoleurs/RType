@@ -7,6 +7,7 @@
 #include "ISystem.hpp"
 #include "Message.hpp"
 #include "EventHandler.hpp"
+#include "BulletUtils.hpp"
 
 class ChargeShoot : public GameEngine::ISystem {
     public:

@@ -10,6 +10,9 @@
 #include "ComponentContainer.hpp"
 #include "ComponentsType.hpp"
 #include "NetworkClientId.hpp"
+#include "Message.hpp"
+#include "BulletUtils.hpp"
+#include "Shooter.hpp"
 
 class NetworkShootClient : public GameEngine::ISystem {
     public:

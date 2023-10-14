@@ -14,7 +14,6 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
 
 try {
     nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
-
     size_t chargeAnimationID = createChargeAnimation(
     container,
     config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
@@ -70,9 +69,7 @@ size_t entityId = createPlayer(
     config["createPlayer"]["layer"].get<int>()
 );
   eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-  eventHandler.scheduleEvent(
-      "animate", 5,
-      std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+  eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
   std::shared_ptr<GameEngine::AudioComponent> shootSound = std::make_shared<GameEngine::AudioComponent>("assets/music/Shoot.wav");
   container.bindComponentToEntity(entityId, shootSound);
   auto IdCharge = std::make_tuple(entityId, 0);

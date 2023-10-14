@@ -28,6 +28,7 @@ namespace Client {
                 return;
             EntityFactory &factory = EntityFactory::getInstance();
             for (auto &id : ids) {
+
                 size_t entityToUpdate = factory.getClientId(id);
                 auto positionComponent = componentsContainer.getComponent(entityToUpdate, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
                 if (!positionComponent.has_value())
@@ -38,7 +39,6 @@ namespace Client {
                 auto position = std::static_pointer_cast<GameEngine::PositionComponent2D>(positionComponent.value());
                 position->pos = {x, y};
             }
-
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
         }

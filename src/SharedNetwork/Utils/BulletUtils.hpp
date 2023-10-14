@@ -13,3 +13,9 @@ enum BulletType {
     NORMAL,
     CHARGED,
 };
+
+enum BulletTypeEntity {
+    PlayerBullet,
+    PlayerBulletInvolve,
+    EnemyBullet,
+};

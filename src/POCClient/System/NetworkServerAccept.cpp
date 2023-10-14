@@ -28,7 +28,7 @@ void NetworkServerAccept::update(GameEngine::ComponentsContainer &componentsCont
             EntityFactory  &factory = EntityFactory::getInstance();
             GameEngine::Vect2 pos = {0, 0};
             size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, number);
-            factory.registerEntity(ids.front(), entityId);
+            factory.registerEntity(entityId, ids.front());
     } catch (std::bad_any_cast &e) {
         std::cerr << "Error from NetworkServerAccept System " << e.what() << std::endl;
     }
