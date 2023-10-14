@@ -137,13 +137,13 @@ void EntityFactory::updateEntityNetwork(GameEngine::EventHandler &eventHandler, 
     std::vector<std::any> args = {};
     args.push_back(pos.x);
     args.push_back(pos.y);
-    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "", args);
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
     std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
     eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     args.clear();
     args.push_back(velocity.x);
     args.push_back(velocity.y);
-    message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
+    message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
     allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
     eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
 }

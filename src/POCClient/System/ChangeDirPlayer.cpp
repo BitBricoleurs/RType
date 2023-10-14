@@ -38,6 +38,7 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         velocity->velocity.x += directionMap[event.first].first;
         velocity->velocity.y += directionMap[event.first].second;
 
+            std::cout << "New dir " << velocity->velocity.x << " " << velocity->velocity.y << std::endl;
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
@@ -50,8 +51,9 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
             }
         }
     }
-     // Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args);
-     size_t serverId = EntityFactory::getInstance().getServerId(id);
-     Network::Message message("UPDATE_VELOCITY", {serverId}, "float", {directionMap[event.first].first, directionMap[event.first].second});
-     eventHandler.queueEvent("SEND_NETWORK", std::make_shared<Network::Message>(message));
+    std::vector<size_t> ids = {};
+    std::vector<float> argsF = {directionMap[event.first].first, directionMap[event.first].second};
+    std::vector<std::any> args = {directionMap[event.first].first, directionMap[event.first].second};
+    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
+    eventHandler.queueEvent("SEND_NETWORK", message);
 }

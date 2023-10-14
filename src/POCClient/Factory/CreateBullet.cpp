@@ -13,10 +13,11 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet) {
     nlohmann::json config = loadConfig("config/Entity/createBulletPlayer.json");
 
-    nlohmann::json rectConfig = config["createBullet"]["bulletTypes"]["type" + std::to_string(typeBullet)]["rect"];
+    nlohmann::json bulletConfig = config["createBullet"]["bulletTypes"]["type" + std::to_string(typeBullet)];
+    nlohmann::json rectConfig = bulletConfig["rect"];
     int rectH = rectConfig["h"].get<int>();
     int rectW = rectConfig["w"].get<int>();
-    std::string path = rectConfig["path"].get<std::string>();
+    std::string path = bulletConfig["path"].get<std::string>();
 
     size_t entityId = createBullet(
         container,

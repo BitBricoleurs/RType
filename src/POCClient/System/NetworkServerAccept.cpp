@@ -7,8 +7,16 @@
 void NetworkServerAccept::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     try {
-            auto message = eventHandler.getTriggeredEvent().second;
-            auto messageData = std::any_cast<std::shared_ptr<Network::Message>>(message);
+           std::shared_ptr<Network::OwnedMessage> message;
+
+            try {
+                message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
+            } catch (std::bad_any_cast &e) {
+                    std::cerr << "Error from NetworkServerAccept System " << e.what() << std::endl;
+                    return ;
+            }
+            std::shared_ptr<Network::IMessage> IMessage = message->message;
+            std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(IMessage->getMessage());
 
             std::vector<size_t> ids = messageData->getIDs();
             std::vector<std::any> args = messageData->getArgs();

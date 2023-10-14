@@ -28,8 +28,14 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
         config["createBullet"]["scale"].get<float>()
     );
     std::vector<size_t> ids = {entityId};
-    std::vector<std::any> args = {BulletOwner::PLAYER};
-    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATE_BULLET", ids, "", args);
+    std::vector<std::any> args = {static_cast<int>(BulletOwner::PLAYER)};
+    if (typeBullet == 0) {
+        args.push_back(static_cast<int>(BulletType::NORMAL));
+    } else if (typeBullet == 1) {
+        std::cout << "CHARGED" << std::endl;
+        args.push_back(static_cast<int>(BulletType::CHARGED));
+    }
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
     std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
     eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);

@@ -4,18 +4,19 @@
 
 #pragma once
 
-#include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "ISystem.hpp"
 #include "Message.hpp"
-#include "ComponentContainer.hpp"
+#include "UserMessage.hpp"
 #include "ComponentsType.hpp"
-#include "NetworkClientId.hpp"
+#include "PositionComponent2D.hpp"
 
-class NetworkShootClient : public GameEngine::ISystem {
+class CheckPositionClient : public GameEngine::ISystem {
     public:
-        NetworkShootClient() = default;
+        CheckPositionClient() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
     private:
 
 };
+

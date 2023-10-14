@@ -15,11 +15,14 @@
 #include "SyncPosSprite.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "RenderEngineSystem.hpp"
+#include "CreatePlayer.hpp"
+#include "CreateMob.hpp"
+#include "CreateBullet.hpp"
 #include "WindowInfoComponent.hpp"
+#include "ChargeShoot.hpp"
 
 
-void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue) {
-    Network::Endpoint endpoint("127.0.0.1", 4444);
+void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<NetworkConnect>();
     auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
     auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
@@ -27,6 +30,9 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkInput = std::make_shared<NetworkInput>(queue);
     auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
     auto networkAccept = std::make_shared<NetworkServerAccept>();
+    auto createPlayer = std::make_shared<CreatePlayer>();
+    auto createMob = std::make_shared<CreateMob>();
+    auto createBullet = std::make_shared<CreateBullet>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -35,6 +41,9 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
     engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
+    engine.addEvent("CREATED_USER", createPlayer);
+    engine.addEvent("CREATED_MOB", createMob);
+    engine.addEvent("CREATED_BULLET", createBullet);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
 }
 
@@ -49,7 +58,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
     engine.addSystem("PHYSICS_ENGINE_MOVEMENT_SYSTEM_2D", physicsEngineMovementSystem2D, 0);
-    engine.addSystem("SYNC_POS_SPRITE", syncPosSprite, 1);
+    engine.addSystem("SYNC_POS_SPRITE", syncPosSprite, 2);
     engine.addEvent("UP_KEY_PRESSED", changeDirPlayer);
     engine.addEvent("DOWN_KEY_PRESSED", changeDirPlayer);
     engine.addEvent("LEFT_KEY_PRESSED", changeDirPlayer);
@@ -60,13 +69,21 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
 }
 
+void setup_game(GameEngine::GameEngine& engine)
+{
+    auto shoot = std::make_shared<ChargeShoot>();
+    engine.addEvent("SPACE_KEY_RELEASED", shoot);
+}
+
 int main() {
     GameEngine::GameEngine engine;
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+    Network::Endpoint endpoint("127.0.0.1", 4444);
 
-    Network::Client::init(2, queue);
-    setup_network(engine, queue);
+    Network::Client::init(1000, queue);
+    setup_network(engine, queue, endpoint);
     setup_sync_systems(engine);
+    setup_game(engine);
     auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
     engine.addSystem("RENDER", render, 4);
     engine.run();

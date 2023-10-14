@@ -9,6 +9,7 @@
 #include "ComponentsType.hpp"
 #include "VelocityComponent.hpp"
 #include "Message.hpp"
+#include "EntityFactory.hpp"
 
 namespace Client {
     class UpdateVelocity : public GameEngine::ISystem {

@@ -44,13 +44,15 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
             if (!mayComp2.has_value())
                 continue;
             auto velComp = std::static_pointer_cast<GameEngine::VelocityComponent>(mayComp2.value());
-            velComp->velocity = newVel;
+            velComp->velocity.x += newVel.x;
+            velComp->velocity.y += newVel.y;
+            newVel = velComp->velocity;
             entityId = entity;
         }
     }
     std::vector<size_t> ids = {entityId};
     std::vector<std::any> args = {newVel.x, newVel.y};
-    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
-    std::shared_ptr<Network::AllUsersMessage> userMessage = std::make_shared<Network::AllUsersMessage>(messageOut);
+    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+    std::shared_ptr<Network::NotUserMessage> userMessage = std::make_shared<Network::NotUserMessage>(networkId, messageOut);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
 }

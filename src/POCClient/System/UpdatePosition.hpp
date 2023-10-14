@@ -9,6 +9,7 @@
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
 #include "Message.hpp"
+#include "EntityFactory.hpp"
 
 namespace Client {
     class UpdatePosition : public GameEngine::ISystem {

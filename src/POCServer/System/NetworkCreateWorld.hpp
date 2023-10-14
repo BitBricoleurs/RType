@@ -1,5 +1,5 @@
 //
-// Created by Clément Lagasse on 09/10/2023.
+// Created by Clément Lagasse on 13/10/2023.
 //
 
 #pragma once
@@ -11,16 +11,21 @@
 #include "Message.hpp"
 #include "UserMessage.hpp"
 #include "NetworkClientId.hpp"
+#include "IsBullet.hpp"
+#include "PositionComponent2D.hpp"
 #include "VelocityComponent.hpp"
-#include "IMessage.hpp"
+#include "MobUtils.hpp"
+#include "PlayerUtils.hpp"
+#include "BulletUtils.hpp"
+#include "EntityFactory.hpp"
 
-class NetworkMoveClient : public GameEngine::ISystem {
+class NetworkCreateWorld : public GameEngine::ISystem {
     public:
-        NetworkMoveClient() = default;
+        NetworkCreateWorld() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
 
     private:
-        float _speed = 7;
 
 };
+

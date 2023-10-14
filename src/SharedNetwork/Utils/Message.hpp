@@ -9,6 +9,7 @@
 #include <sstream>
 #include <map>
 #include <cstring>
+#include <typeindex>
 #include "AMessage.hpp"
 
 namespace Network {
@@ -16,11 +17,15 @@ namespace Network {
     class Serializer {
     public:
 
+        static std::vector<std::uint8_t> decomposeUint32(uint32_t binValue);
+
         static std::vector<std::uint8_t> serialize(const std::vector<std::any>& data);
 
         static std::vector<std::uint8_t> serializeItem(const std::any& item);
 
         static std::vector<std::any> deserialize(const std::vector<std::uint8_t>& data, uint8_t typeCode, uint8_t size, uint8_t nbrArgs);
+
+        static std::map<std::type_index, void(*)(const std::any&, std::vector<std::uint8_t>&)> serializers;
     };
 
 
@@ -40,6 +45,7 @@ namespace Network {
         uint8_t getSizeArg() {return _sizeArg;};
         std::vector<size_t> &getIDs() {return _IDs;};
         std::vector<std::any> &getArgs() {return _args;};
+        uint16_t &getMessageSize() {return _messageSize;};
 
     private:
         static std::string getActionByCode(uint8_t code);
@@ -55,6 +61,7 @@ namespace Network {
 
         void initializeMessage(const std::vector<size_t>& IDs, const std::vector<std::uint8_t>& serializedArgs);
 
+        uint16_t _messageSize;
         std::string _action;
         std::string _ArgType;
         uint8_t _ArgTypeCode;

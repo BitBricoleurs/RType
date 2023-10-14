@@ -61,6 +61,7 @@ namespace Network {
         Network::Tick& _tick;
         boost::asio::io_context& _context;
         boost::asio::ip::udp::endpoint& _endpoint;
+        boost::asio::ip::udp::endpoint _tempEndpoint;
 
         boost::asio::ip::udp::socket& _socketIn;
         boost::asio::ip::udp::socket& _socketOut;

@@ -8,3 +8,8 @@ enum BulletOwner {
     PLAYER,
     ENEMY
 };
+
+enum BulletType {
+    NORMAL,
+    CHARGED,
+};

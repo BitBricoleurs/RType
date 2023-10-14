@@ -93,6 +93,14 @@ public:
         throw std::runtime_error("Client entity ID not found");
     }
 
+    size_t getClientId(size_t serverEntityId) const {
+        for (auto &it : _entityIdMap) {
+            if (it.second == serverEntityId) {
+                return it.first;
+            }
+        }
+        throw std::runtime_error("Server entity ID not found");
+    }
 private:
   EntityFactory() = default;
   ~EntityFactory() = default;

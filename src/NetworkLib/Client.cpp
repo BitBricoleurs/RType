@@ -114,5 +114,5 @@ void Network::Client::send(const std::shared_ptr<IMessage>& message) {
 }
 
 Network::Client::~Client() {
-    std::cout << "Client destroyed" << std::endl;
+    pimpl.reset();
 }

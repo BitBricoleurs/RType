@@ -13,7 +13,9 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
     if (_type == CLIENT) {
         if (Network::Client::getInstance().isConnected()) {
             try {
-                Network::Client::getInstance().send(std::any_cast<std::shared_ptr<Network::IMessage>>(eventHandler.getTriggeredEvent().second));
+                auto systemArg = eventHandler.getTriggeredEvent().second;
+                auto iMessage = std::any_cast<std::shared_ptr<Network::IMessage>>(systemArg);
+                Network::Client::getInstance().send(iMessage);
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from NetworkOutput System " << e.what() << std::endl;
             }
@@ -24,34 +26,18 @@ void NetworkOutput::update(GameEngine::ComponentsContainer &componentsContainer,
 
         try {
             auto userMsgPtr = std::any_cast<std::shared_ptr<Network::UserMessage>>(eventArg);
-            auto mayComp = componentsContainer.getComponent(userMsgPtr->id, componentType);
-            if (mayComp.has_value()) {
-                unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
-                Network::Server::getInstance().sendClient(netIdComp, userMsgPtr->message);
-            }
+            Network::Server::getInstance().sendClient(userMsgPtr->id, userMsgPtr->message);
             return ;
         } catch (const std::bad_any_cast&) {}
 
         try {
             auto usersMsgPtr = std::any_cast<std::shared_ptr<Network::UsersMessage>>(eventArg);
-            std::vector<unsigned int> idsToBeSend = {};
-            for (auto id : usersMsgPtr->ids) {
-                auto mayComp = componentsContainer.getComponent(id, componentType);
-                if (mayComp.has_value()) {
-                    idsToBeSend.push_back(std::static_pointer_cast<NetworkClientId>(mayComp.value())->id);
-                }
-                return ;
-            }
-            Network::Server::getInstance().sendClients(idsToBeSend, usersMsgPtr->message);
+            Network::Server::getInstance().sendClients(usersMsgPtr->ids, usersMsgPtr->message);
         } catch (const std::bad_any_cast&) {}
 
         try {
             auto notUserMsgPtr = std::any_cast<std::shared_ptr<Network::NotUserMessage>>(eventArg);
-            auto mayComp = componentsContainer.getComponent(notUserMsgPtr->id, componentType);
-            if (mayComp.has_value()) {
-                unsigned int netIdComp = std::static_pointer_cast<NetworkClientId>(mayComp.value())->id;
-                Network::Server::getInstance().sendAllClientsExcept(netIdComp, notUserMsgPtr->message);  // Fixed variable name from userMsgPtr to notUserMsgPtr
-            }
+            Network::Server::getInstance().sendAllClientsExcept(notUserMsgPtr->id, notUserMsgPtr->message);
             return ;
         } catch (const std::bad_any_cast&) {}
 
