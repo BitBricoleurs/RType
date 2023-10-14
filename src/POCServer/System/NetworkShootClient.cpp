@@ -22,7 +22,6 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
     auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
     auto entitiesPlayers = componentsContainer.getEntitiesWithComponent(networkComp);
 
-    size_t entityId = 0;
     std::vector<int> argsVel;
     for (auto &arg : messageData->getArgs()) {
         try {
@@ -32,7 +31,7 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
             return ;
         }
     }
-    BulletTypeEntity type = static_cast<BulletTypeEntity>(argsVel[0]);
+    auto type = static_cast<BulletTypeEntity>(argsVel[0]);
     int charge = argsVel[1];
     std::cout << "type" << type << ":" << charge << std::endl;
     for (auto &entity : entitiesPlayers) {

@@ -32,6 +32,9 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isHealthBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
@@ -41,6 +44,8 @@ target_sources(${PROJECT_NAME_POCCLIENT}
 
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkReceiveDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkReceiveDisconnectApply.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/InitHUD.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkServerTimeout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkConnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkServerAccept.cpp
@@ -54,7 +59,6 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ParallaxPlanet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CreateMob.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargeShoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

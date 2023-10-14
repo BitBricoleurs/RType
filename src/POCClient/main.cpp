@@ -18,11 +18,11 @@
 #include "CreatePlayer.hpp"
 #include "CreateMob.hpp"
 #include "CreateBullet.hpp"
-#include "WindowInfoComponent.hpp"
+#include "InitHUD.hpp"
 #include "InitParallax.hpp"
 #include "Parallax.hpp"
 #include "ParallaxPlanet.hpp"
-#include "ChargeShoot.hpp"
+#include "ChargingBar.hpp"
 
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
@@ -72,9 +72,23 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
 }
 
+void setup_hud(GameEngine::GameEngine &engine) {
+    auto chargingBar = std::make_shared<ChargingBar>();
+    auto initHud = std::make_shared<InitHUD>();
+
+
+    engine.addEvent("InitEvent", initHud);
+    engine.queueEvent("InitEvent");
+    engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
+    engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
+    engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
+    engine.setContinuousEvent("SPACE_KEY_RELEASED", "STOP_UNCHARGING");
+
+
+}
+
 void setup_game(GameEngine::GameEngine& engine)
 {
-    auto shoot = std::make_shared<ChargeShoot>();
     auto initParallax = std::make_shared<InitParallax>();
     auto parallax = std::make_shared<Parallax>();
     auto parallaxPlanet = std::make_shared<ParallaxPlanet>();
@@ -94,6 +108,7 @@ int main() {
     setup_network(engine, queue, endpoint);
     setup_sync_systems(engine);
     setup_game(engine);
+    setup_hud(engine);
     auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
     engine.addSystem("RENDER", render, 4);
     engine.run();
