@@ -20,6 +20,7 @@
 #include "CreateBullet.hpp"
 #include "WindowInfoComponent.hpp"
 #include "ChargeShoot.hpp"
+#include "NetworkDeleteEntity.hpp"
 
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
@@ -33,17 +34,19 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createPlayer = std::make_shared<CreatePlayer>();
     auto createMob = std::make_shared<CreateMob>();
     auto createBullet = std::make_shared<CreateBullet>();
+    auto networkDeleteEntity = std::make_shared<NetworkDeleteEntity>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
     engine.addEvent("NETWORK_CONNECT", networkConnect);
     engine.addEvent("ACCEPTED", networkAccept);
-    engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
+    engine.addEvent("gameEngineStop", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
     engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
+    engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
 }
 

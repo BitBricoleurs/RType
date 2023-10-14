@@ -22,7 +22,7 @@ namespace GameEngine {
         RenderEngineSystem(const char* windowTitle);
         ~RenderEngineSystem();
 
-        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
+        void update(ComponentsContainer& componentsContainer, EventHandler &eventHandler) override;
 
         size_t getScreenHeight();
         size_t getScreenWidth();

@@ -150,14 +150,17 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 std::map<std::string, uint8_t> actionToCodeMap =
 {
     {"CONNECT", 0x01},
-    {"ACCEPTED", 0x02},
-    {"CREATED_USER", 0x03},
-    {"CREATED_BULLET", 0x04},
-    {"CREATED_MOB", 0x05},
-    {"UPDATE_VELOCITY", 0x06},
-    {"UPDATE_POSITION", 0x07},
-    {"MOVE", 0x08},
-    {"CHARGE_SHOOT", 0x09},
+    {"DISCONNECTING", 0x02},
+    {"DISCONNECT", 0x03},
+    {"ACCEPTED", 0x04},
+    {"CREATED_USER", 0x05},
+    {"CREATED_BULLET", 0x06},
+    {"CREATED_MOB", 0x07},
+    {"UPDATE_VELOCITY", 0x08},
+    {"UPDATE_POSITION", 0x09},
+    {"MOVE", 0x10},
+    {"CHARGE_SHOOT", 0x11},
+    {"DELETED_ENTITY", 0x12}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

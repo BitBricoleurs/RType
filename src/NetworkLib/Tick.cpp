@@ -7,7 +7,7 @@
 #include "Tick.hpp"
 
 Network::Tick::Tick(size_t tick)
-: _tick(tick), _timeToWaitBetweenTick(1000/_tick)
+: _tick(tick), _timeToWaitBetweenTick(1000/_tick), _running(true)
 {
     lastWriteTimeMtx.lock();
     lastPacketSent = std::chrono::high_resolution_clock::now();
@@ -24,9 +24,9 @@ void Network::Tick::setOutgoingFunction(std::function<void()> outFunc)
     processOutgoing = std::move(outFunc);
 }
 
- [[noreturn]] void Network::Tick::Start()
+void Network::Tick::Start()
 {
-    while (1) {
+    while (_running.load()) {
         lastWriteTimeMtx.lock();
         auto localLastWriteTime= lastPacketSent;
         lastWriteTimeMtx.unlock();
@@ -51,6 +51,12 @@ void Network::Tick::setOutgoingFunction(std::function<void()> outFunc)
         }
     }
 }
+
+void Network::Tick::Stop() {
+    _running.store(false);
+}
+
+
 void Network::Tick::changeTick(size_t newTick)
 {
     _tick = newTick;

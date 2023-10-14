@@ -32,7 +32,7 @@ void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, 
             entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
         else
             printf("CreateBulletSystem: BulletOwner not implemented\n");
-        factory.registerEntity(id, entityId);
+        factory.registerEntity(entityId, id);
         eventHandler.queueEvent("PLAY_SOUND", entityId);
         arg_index += 2;
         }

@@ -60,6 +60,7 @@ namespace Network {
         void stop() {
             _idleWork.reset();
             _context.stop();
+            _tick.Stop();
             if (_tickThread.joinable())
                 _tickThread.join();
             for (auto &thread: _pool) {
@@ -81,19 +82,21 @@ namespace Network {
 
         void sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
         {
-            if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
-                return;
+            for (auto &client : _clients) {
+                if (client && client->isConnected() && client->getId() == id) {
+                    client->send(message);
+                }
             }
-            _clients[id]->send(message);
         }
 
         void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message)
         {
             for (auto id : ids) {
-                if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
-                    continue;
+                for (auto &client : _clients) {
+                    if (client && client->isConnected() && client->getId() == id) {
+                        client->send(message);
+                    }
                 }
-                _clients[id]->send(message);
             }
         }
 
@@ -126,10 +129,16 @@ namespace Network {
         }
 
         void disconnectClient(unsigned int id) {
-            if (id >= _clients.size() || !_clients[id] || !_clients[id]->isConnected()) {
-                return;
-            }
-            _clients[id]->disconnect();
+          int i = 0;
+           for (auto &client : _clients) {
+               if (client && client->isConnected() && client->getId() == id) {
+                   client->disconnect();
+                   _disconnetingClients.pushBack(id);
+                   client.reset();
+                   _clients.erase(_clients.begin() + i);
+               }
+                i++;
+           }
         }
 
     private:

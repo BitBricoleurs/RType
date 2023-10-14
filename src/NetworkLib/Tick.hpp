@@ -17,7 +17,8 @@ namespace Network {
 
         Tick(size_t tick);
 
-         [[noreturn]] void Start();
+         void Start();
+         void Stop();
         void updateLastWriteTime();
         void setIncomingFunction(std::function<void()> func);
         void setOutgoingFunction(std::function<void()> func);
@@ -32,5 +33,6 @@ namespace Network {
     private:
         std::function<void()> processIncoming;
         std::function<void()> processOutgoing;
+        std::atomic_bool _running;
     };
 }
