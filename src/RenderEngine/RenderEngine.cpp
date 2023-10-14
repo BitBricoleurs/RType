@@ -53,6 +53,7 @@ RenderEngine::~RenderEngine() {
   }
 }
 
+
 void RenderEngine::Initialize(const char *windowTitle) {
   InitWindow(0, 0, windowTitle);
   this->screenWidth = GetScreenWidth();
@@ -93,7 +94,7 @@ void RenderEngine::Draw(const TextComponent &textComponent) {
   
   
     if (textComponent.isVisible) {
-      DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
+      DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
   }
 }
 
@@ -172,10 +173,6 @@ void RenderEngine::ClearBackgroundRender(Color color) {
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }
-  
-RenderEngine::RenderEngine() {
-    font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
-}
 
 size_t RenderEngine::getScreenHeight()
 {

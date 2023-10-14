@@ -21,7 +21,7 @@
 namespace GameEngine {
     class RenderEngine {
     public:
-        RenderEngine();
+        RenderEngine() = default;
         ~RenderEngine();
 
         void Initialize(const char* windowTitle);
@@ -40,8 +40,6 @@ namespace GameEngine {
         size_t screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
-        Font font;
-
             std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },
         { KEY_SPACE, IsKeyReleased, "SPACE_KEY_RELEASED" },
