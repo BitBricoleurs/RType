@@ -10,6 +10,7 @@
 #include "raylib.h"
 #include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ButtonComponent.hpp"
 #include "EventHandler.hpp"
 #include <unordered_map>
 #include "KeyMapping.hpp"
@@ -26,7 +27,8 @@ namespace GameEngine {
         void Initialize(const char* windowTitle);
         void Draw(const TextComponent& textComponent);
         void Draw(const SpriteComponent& spriteComponent);
-        void PollEvents(EventHandler& eventHandler);
+        void Draw(const ButtonComponent& buttonComponent);
+        void PollEvents(EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons);
         void Shutdown();
         void ClearBackgroundRender(Color colosr);
 
