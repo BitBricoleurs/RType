@@ -29,7 +29,7 @@ void CreatePlayer::update(GameEngine::ComponentsContainer &componentsContainer, 
             GameEngine::Vect2 pos = {0, 0};
             size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, number);
 
-            factory.registerEntity(ids.front(), entityId);
+            factory.registerEntity(entityId, ids.front());
 
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;

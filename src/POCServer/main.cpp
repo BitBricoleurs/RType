@@ -18,6 +18,7 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
 #include "Shoot.hpp"
+#include "NetworkClientDisconnecting.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -25,12 +26,13 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto networkClientConnection = std::make_shared<NetworkClientConnection>();
     auto input = std::make_shared<NetworkInput>(queue);
     auto output = std::make_shared<NetworkOutput>(NetworkOutput::SERVER);
+    auto disconnecting = std::make_shared<NetworkClientDisconnecting>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
     engine.addSystem("NETWORK_INPUT", input, 0);
     engine.addEvent("SEND_NETWORK", output);
-
+    engine.addEvent("DISCONNECTING", disconnecting);
     engine.queueEvent("NETWORK_START_SERVER", std::make_any<size_t>(0));
 }
 
