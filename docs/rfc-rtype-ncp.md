@@ -1,261 +1,414 @@
-# R-TYPE Game Netcode Protocol Specification
+Network Working Group                                         C. Lagasse
+Request for Comments: XXXX                                  THCB Company
+Category: Informational                                    October 2023
+ISSN: 2070-1721
 
-## Table of Contents
-1. [Status of this Memo](#status-of-this-memo)
-2. [Copyright Notice](#copyright-notice)
-3. [Abstract](#abstract)
-4. [Introduction](#introduction)
-    1. [Requirements Terminology](#requirements-terminology)
-5. [Netcode Protocol Overview](#netcode-protocol-overview)
-    1. [Connection Initiation](#connection-initiation)
-    2. [Connection Closure](#connection-closure)
-6. [Packet Structure](#packet-structure)
-    1. [Header](#header)
-    2. [Body](#body)
-    3. [Action Codes and Arguments](#action-codes-and-arguments)
-7. [Transmission Algorithms](#transmission-algorithms)
-    1. [Packet Loss Detection](#packet-loss-detection)
-    2. [Packet Loss Resolution](#packet-loss-resolution)
-    3. [Sequence and Acknowledgment Management](#sequence-and-acknowledgment-management)
-    4. [Handling Out-of-Order Packets](#handling-out-of-order-packets)
-8. [Security Considerations](#security-considerations)
-    1. [Data Encryption](#data-encryption)
-    2. [Authentication](#authentication)
-    3. [Data Integrity](#data-integrity)
-    4. [Denial of Service Protection](#denial-of-service-protection)
-    5. [Logging and Monitoring](#logging-and-monitoring)
-    6. [Future Updates](#future-updates)
-9. [Performance Metrics](#performance-metrics)
-10. [Author's Address](#authors-address)
+              R-TYPE Game Netcode Protocol Specification
 
----
+Status of This Memo
 
-## Status of this Memo
+This memo provides guidelines and information for the gaming
+community building R-TYPE-like games. It does not specify an
+Internet standard of any kind. Distribution of this memo is
+unlimited.
 
-This memo provides guidelines and information for the gaming community building R-TYPE-like games. It does not specify an Internet standard of any kind. Distribution of this memo is unlimited.
-
-## Copyright Notice
+Copyright Notice
 
 Copyright (C) THCB Company (2023). All Rights Reserved.
 
-## Abstract
+Table of Contents
+
+1. Introduction ................................................... 3
+   1.1. Requirements Terminology .................................. 3
+2. Netcode Protocol Overview ...................................... 4
+   2.1. Connection Initiation ..................................... 4
+   2.2. Connection Closure ........................................ 5
+   2.2.1. Server-side Timeout ..................................... 5
+   2.2.2. Client-side Disconnection ............................... 5
+3. Packet Structure ............................................... 6
+   3.1. Header .................................................... 6
+   3.2. Body ...................................................... 7
+   3.3. Action Codes and Arguments ................................ 8
+4. Transmission Algorithms ........................................ 9
+   4.1. Packet Loss Detection ..................................... 9
+   4.2. Packet Loss Resolution .................................... 9
+   4.3. Sequence and Acknowledgment Management .................... 10
+   4.4. Handling Out-of-Order Packets ............................. 10
+5. Security Considerations ........................................ 11
+   5.1. Data Encryption ........................................... 11
+   5.2. Authentication ............................................ 12
+   5.3. Data Integrity ............................................ 12
+   5.4. Denial of Service Protection .............................. 12
+   5.5. Logging and Monitoring .................................... 13
+   5.6. Future Updates ............................................ 13
+6. Performance Metrics ............................................ 14 
+Acknowledgments ................................................... 14
+Author's Address .................................................. 14
+
+1.  Introduction
+
+This document describes the protocol for R-TYPE game networking,
+focusing on the communication between clients and servers. The
+protocol is designed to be efficient and to provide a high level of
+synchronization between game clients and servers.
+
+1.1.  Requirements Terminology
+
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      RFC 2119.
+
+2.  Netcode Protocol Overview
+
+The protocol defined in this document specifies the communication
+methods for initiating, maintaining, and terminating connections
+between game clients and servers.
+
+2.1.  Connection Initiation
+
+Upon establishing a connection, the client will send a packet
+with the CONNECT action to introduce itself to the server.
+
+      Action  | Args
+      ------- | -----
+      CONNECT | None
+
+The server will respond to the concerned client with an ACCEPT action,
+and will broadcast a CREATED_PLAYER action to the other clients.
+
+      Action         | Args
+      -------------- | ---------------
+      ACCEPT         | Assigned Entity ID
+      
+      Broadcast Action | Args
+      -----------------| ---------------
+      CREATED_PLAYER   | Assigned Entity ID
+
+2.1.1.  Initial World State Transmission
+
+      Upon successful connection and acknowledgment, the server will
+      initiate a CREATE_WORLD process, which encompasses sending a series
+      of CREATED_PLAYER, CREATED_MOB, and other similar actions to
+      populate the initial state of the game world for the newly connected
+      client.
+
+      Following the CREATE_WORLD process, the server will transmit an
+      UPDATE_WORLD action, which iteratively sends UPDATE_VELOCITY and
+      UPDATE_POSITION actions for each entity in the game to convey the
+      current state of the game world.
+
+      It's important to note that CREATE_WORLD and UPDATE_WORLD are not
+      packets themselves, but rather a defined process of sending
+      multiple actions to provide a snapshot and continuous updates of the
+      game world's state to the clients.
+
+
+2.2.  Connection Closure
+
+The disconnection process can be initiated by either the server or the client.
+
+2.2.1.  Server-initiated Disconnection
+
+      There may be circumstances where the server deems it necessary to
+      disconnect a client, perhaps due to maintenance requirements, server
+      overload, or other operational considerations. In such cases,
+      the server will send a DISCONNECT action to the concerned client
+      to initiate the disconnection process.
+
+         Action      | Args
+         ----------- | -----
+         DISCONNECT  | None
+
+      Upon receiving the DISCONNECT action, the client is expected
+      to acknowledge the server's request by responding with a
+      DISCONNECTING action. This action serves as a formal indication
+      of the client's intention to comply with the server's request
+      and initiate the disconnection process.
+
+         Action         | Args
+         -------------- | -----
+         DISCONNECTING  | None
+
+2.2.2.  Client-initiated Disconnection
+
+      A client may decide to disconnect from the server due to various reasons
+      such as user request, application closure, or network issues.
+      In such instances, the client will send a DISCONNECTING action
+      to the server to indicate its intention to disconnect.
+
+         Action         | Args
+         -------------- | -----
+         DISCONNECTING  | None
+
+      The server, upon receiving the DISCONNECTING action,
+      will acknowledge the client's request and proceed to release
+      any resources associated with that client's session.
+      It's crucial that both the server and the client handle
+      disconnection requests gracefully to ensure the integrity and stability
+      of the network communication.
+
+2.2.3.  Timeout
+
+      A timeout mechanism is implemented to handle scenarios where either
+      the server or the client becomes unresponsive. If no response is
+      received from the other party within 30 seconds, the initiating
+      entity will close the socket and cease further communication attempts.
+      This ensures a timely release of resources and maintains the stability
+      and reliability of the network communication.
+
+
+3.  Packet Structure
+
+      The protocol uses a custom binary packet structure to communicate
+      between clients and servers. The packet is divided into a header and
+      a body.
+
+      +------------------------+
+      |       Header           |
+      +------------------------+
+      |        Body            |
+      |  +------------------+  |
+      |  |    Message 1     |  |
+      |  +------------------+  |
+      |  |    Message 2     |  |
+      |  +------------------+  |
+      |  |        ...       |  |
+      |  +------------------+  |
+      |  |    Message N     |  |
+      |  +------------------+  |
+      +------------------------+
+
+3.1.  Header
+
+      The header contains metadata that describe the characteristics of
+      the packet. Below is the updated layout of the header.
+
+         Field               | Size (Bytes) | Description
+         ------------------- | ------------ | --------------------------------
+         Sequence Number     | 4            | A unique identifier for this packet.
+         Ack Sequence Number | 4            | The sequence number of the last packet received.
+         Ack Mask            | 2            | Bitmask for the last 16 received packets.
+         Packet Size         | 2            | Size of the Body.
+
+      Sequence Number:
+         A 4-byte field that uniquely identifies this packet.
+
+      Ack Sequence Number:
+         A 4-byte field that indicates the sequence number of the last
+         packet successfully received from the other end.
+
+      Ack Mask:
+         A 2-byte field representing a bitmask that gives the status of
+         the last 16 packets received, relative to the Ack Sequence
+         Number.
+
+      Packet Size:
+         A 2-byte field that specifies the size of the Body.
+
+3.2.  Body
+
+      The body consists of a series of messages,
+      each containing information for a specific action.
+      
+      Each message within the body is structured as follows:
+
+      | Field          | Size (Bytes) | Description                                        |
+      | -------------- | ------------ | -------------------------------------------------- |
+      | Message Size   | 2            | Size of the message including the header and data. |
+      | Action         | 1            | Describes the type of action (e.g., move, shoot, etc.).|
+      | Num IDs        | 2            | The number of IDs affected by this action.        |
+      | IDs            | Variable     | The IDs affected by this action.                   |
+      | Num Args       | 1            | The number of arguments related to the action.     |
+      | Type Arg       | 1            | Indicates the size/type of each argument.         |
+      | Arguments      | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.). |
+
+      The body can contain multiple messages,
+      each delineated by the 'Message Size' field which helps in parsing the messages.
+      The messages are processed sequentially as per their occurrence in the body.
+
+
+
+      Action:
+         A 1-byte field to indicate what type of action is being sent
+         (move, shoot, etc.).
+
+      Num IDs:
+         A 1-byte value representing how many IDs are concerned by this
+         action.
+
+      IDs:
+         A list of IDs involved in the action. The size is variable and
+         depends on Num IDs.
+
+      Num Args:
+         A 1-byte value indicating the number of arguments related to
+         the action. This is particularly useful for managing string
+         arguments.
+
+      Type Arg:
+         A 1-byte value used to indicate the size/type of each argument.
+         The mapping from byte values to types is as follows:
+
+            Byte  | Type
+            ----- | -----
+            0x01  | Long
+            0x02  | Float
+            0x03  | Double
+            0x04  | Integer
+            0x05  | Short
+            0x06  | Byte
+            ...   | ...
+
+      Arguments:
+         The actual data arguments related to the action. The size and
+         type are determined by Num Args and Size Arg, respectively.
+
+3.3.  Action Codes and Arguments
+
+      This section outlines the list of possible actions that can be
+      included in a packet. Each action has a specific byte associated
+      with it and may require various types of arguments. In case the
+      action code is not recognized by the server or client, the packet
+      will be ignored. Similarly, if the ID doesn't exist or the packet
+      is malformed, the packet will also be disregarded.
+
+      Action Code Table:
+
+         Action Name      | Byte Value | Argument Type(s)
+         -----------------|------------|------------------
+         CONNECT          | `0x01`     | None
+         ACCEPTED         | `0x02`     | int (EntityID)
+         CREATED_USER     | `0x03`     | int (EntityID)
+         CREATED_BULLET   | `0x04`     | int (BulletOwner), int (BulletType)
+         CREATED_MOB      | `0x05`     | int (MobType)
+         UPDATE_VELOCITY  | `0x06`     | float (velocity_x), float (velocity_y)
+         UPDATE_POSITION  | `0x07`     | float (position_x), float (position_y)
+         MOVE             | `0x08`     | float (velocity_x), float (velocity_y)
+         CHARGE_SHOOT     | `0x09`     | None
+
+      Argument Type Tables:
 
-This memo describes how to secure R-TYPE game connections over the Internet using a custom netcode protocol with binary packets. This document aims to provide high performance and synchronization between clients and servers.
+         BulletOwner Table:
 
----
+            Byte Value | Description
+            -----------|------------
+            0x00       | PLAYER
+            0x01       | ENEMY
 
-## 1. Introduction
+         BulletType Table:
 
-### 1.1. Requirements Terminology
+            Byte Value | Description
+            -----------|------------
+            0x00       | NORMAL
+            0x01       | CHARGED
 
-- **MUST**: This word means that the item is an absolute requirement.
-- **SHOULD**: This means the item is strongly recommended but not required.
+         PlayerNumber Table:
 
----
+            Byte Value | Description
+            -----------|------------
+            0x00       | Player1
+            0x01       | Player2
+            0x02       | Player3
+            0x03       | Player4
 
-## 2. Netcode Protocol Overview
+         MobType Table:
 
-### 2. Netcode Protocol Overview
+            Byte Value | Description
+            -----------|------------
+            0x00       | CANCER
+            0x01       | PATAPATA
+            0x02       | BUG
+            0x03       | BOSS
 
-#### 2.1. Connection Initiation
+4.  Transmission Algorithms
 
-Upon establishing a connection, the client will send a packet with the `INIT_CONNECT` action to introduce itself to the server.
+This section describes the algorithms used for packet transmission,
+handling packet loss, and managing sequence and acknowledgment
+numbers.
 
-| Action       | Args |
-|--------------|------|
-| INIT_CONNECT | None |
+4.1.  Packet Loss Detection
 
-The server will respond with a `ACCEPT_CLIENT` action, with entity ID that is the client id. This ensures that both sides use the same entity ID for the session.
+      The AckMask and the last received sequence number Ack Sequence
+      Number are used to identify which packets have arrived
+      successfully and which haven't. This allows both the server and
+      the client to determine if there has been packet loss.
 
-| Action        | Args            |
-|---------------|-----------------|
-| ACCEPT_CLIENT | Assigned Entity ID|
+4.2.  Packet Loss Resolution
 
-#### 2.2. Connection Closure
+      A receive buffer is utilized to store packets that arrive
+      out-of-order or are delayed. This allows for reordering and
+      processing when the missing packets finally arrive.
 
-##### 2.2.1. Server-side Timeout
+4.3.  Sequence and Acknowledgment Management
 
-If the client takes more than 30 seconds without sending an `IAMALIVE` action, and no other packets are being transmitted to the server, the server will take the initiative to disconnect the client. All other clients will be informed through a `USER_DISCONNECTED` action.
+      Upon receiving a new packet, both the AckMask and Ack Sequence
+      Number are updated. This ensures that both parties are aware of
+      which packets have been received and acknowledged.
 
-| Action           | Args            |
-|------------------|-----------------|
-| USER_DISCONNECTED| Disconnected ID |
+4.4.  Handling Out-of-Order Packets
 
-##### 2.2.2. Client-side Disconnection
+      A receive buffer is used to temporarily store packets that arrive
+      out of their intended sequence. An algorithm updates the AckMask
+      and the last received sequence number to ensure
 
-The client can also request its disconnection by sending a `REQUEST_DISCONNECT` action to the server.
+5.  Security Considerations
 
-| Action            | Args |
-|-------------------|------|
-| REQUEST_DISCONNECT| None |
+As of the current version, this protocol does not include any
+built-in security measures. Therefore, it is recommended to use this
+protocol within a secure environment or overlay it with a secure
+transport layer.
 
-The server will confirm the disconnection with a `USER_DISCONNECTED` action, informing all other clients.
+5.1.  Data Encryption
 
-| Action           | Args            |
-|------------------|-----------------|
-| USER_DISCONNECTED| Disconnected ID |
+      It's highly advisable to implement encryption algorithms to secure
+      the data being sent. Transport Layer Security (TLS) or a similar
+      secure protocol should be considered.
 
-#### 2.3. Client Ready Signal
+5.2.  Authentication
 
-Once the client is successfully connected and is ready to receive game data, it should send a `USER_READY` action to the server, along with its chosen username or pseudo.
+      Both the client and the server should be authenticated to prevent
+      unauthorized access. A simple shared-key authentication could be
+      used as a minimum requirement.
 
-| Action      | Args       |
-|-------------|------------|
-| USER_READY  | Username   |
+5.3.  Data Integrity
 
----
+      Checksums or cryptographic hashes should be used to verify the
+      integrity of the data packets, ensuring that they have not been
+      tampered with during transit.
 
-## 3. Packet Structure
+5.4.  Denial of Service Protection
 
-### 3.1. Header
+      Rate-limiting and other anti-flooding mechanisms should be in
+      place to prevent denial-of-service attacks.
 
-The header contains metadata that describe the characteristics of the packet. Below is the updated layout of the header.
+5.5.  Logging and Monitoring
 
-| Field                        | Size (Bytes) | Description                                        |
-| ---------------------------- | ------------ | -------------------------------------------------- |
-| Sequence Number              | 4            | A unique identifier for this packet.               |
-| Ack Sequence Number          | 4            | The sequence number of the last packet received.   |
-| Ack Mask                     | 2            | Bitmask for the last 16 received packets.          |
-| Packet Size                  | 2            | Size of the Body.                                  |
+      Continuous logging and monitoring are crucial for identifying and
+      mitigating security threats in real-time.
 
-#### Sequence Number
+5.6.  Future Updates
 
-A 4-byte field that uniquely identifies this packet.
+      It is recommended to plan for future versions of the protocol that
+      will include robust security features.
 
-#### Ack Sequence Number
+6.  Performance Metrics
 
-A 4-byte field that indicates the sequence number of the last packet successfully received from the other end.
+This section should discuss the metrics that are relevant for
+evaluating the performance of the protocol. Metrics such as latency,
+bandwidth usage, packet loss rate, and others could be discussed
+here.
 
-#### Ack Mask
+7.  Acknowledgments
 
-A 2-byte field representing a bitmask that gives the status of the last 16 packets received, relative to the `Ack Sequence Number`.
+The author would like to thank the individuals and organizations who
+have contributed to the development and review of this protocol
+specification. Special thanks to EPITECH, and all members of the
+THCB Company for their valuable insights and support.
 
-#### Packet Size
+8.  Author's Address
 
-A 2-byte field that specifies the size of the Body.
-
-### 3.2. Body
-
-The body contains the data payload and the relevant metadata. Below is the layout of the body.
-
-| Field        | Size (Bytes) | Description                                                         |
-| ------------ | ------------ | ------------------------------------------------------------------- |
-| Action       | 1            | Describes the type of action (e.g., move, shoot, etc.).             |
-| Num IDs      | 2            | The number of IDs affected by this action.                          |
-| IDs          | Variable     | The IDs affected by this action.                                    |
-| Num Args     | 1            | The number of arguments related to the action.                      |
-| Size Arg     | 1            | Indicates the size/type of each argument.                           |
-| Arguments    | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.).     |
-
-#### Action
-
-A 1-byte field to indicate what type of action is being sent (move, shoot, etc.).
-
-#### Num IDs
-
-A 1-byte value representing how many IDs are concerned by this action.
-
-#### IDs
-
-A list of IDs involved in the action. The size is variable and depends on `Num IDs`.
-
-#### Num Args
-
-A 1-byte value indicating the number of arguments related to the action. This is particularly useful for managing string arguments.
-
-#### Size Arg
-
-A 1-byte value used to indicate the size/type of each argument. The mapping from byte values to types is as follows:
-
-| Byte  | Type      |
-| ----- | --------- |
-| 0x01  | Long      |
-| 0x02  | Float     |
-| 0x03  | Double    |
-| 0x04  | Integer   |
-| 0x05  | Short     |
-| 0x06  | Byte      |
-| ...   | ...       |
-
-#### Arguments
-
-The actual data arguments related to the action. The size and type are determined by `Num Args` and `Size Arg`, respectively.
-
-
-### 3.3. Action Codes and Arguments
-
-This section outlines the list of possible actions that can be included in a packet. Each action has a specific byte associated with it and may require various types of arguments. In case the action code is not recognized by the server or client, the packet will be ignored. Similarly, if the ID doesn't exist or the packet is malformed, the packet will also be disregarded.
-
-#### Action Code Table
-
-| Action Name | Byte Value | Argument Type(s)       |
-|-------------|------------|------------------------|
-| MOVE_LEFT   | `0x01`     | float (distance)       |
-| MOVE_RIGHT  | `0x02`     | float (distance)       |
-| SHOOT       | `0x03`     | None                   |
-| PLAYER_DIE  | `0x04`     | None                   |
-| ENEMY_SPAWN | `0x05`     | int (enemy_type)       |
-| POWER_UP    | `0x06`     | int (power_up_type)    |
-| ...         | ...        | ...                    |
-
----
-
-## 4. Transmission Algorithms
-
-### 4.1. Packet Loss Detection
-
-The `AckMask` and the last received sequence number `Ack Sequence Number` are used to identify which packets have arrived successfully and which haven't. This allows both the server and the client to determine if there has been packet loss.
-
-### 4.2. Packet Loss Resolution
-
-A receive buffer is utilized to store packets that arrive out-of-order or are delayed. This allows for reordering and processing when the missing packets finally arrive.
-
-### 4.3. Sequence and Acknowledgment Management
-
-Upon receiving a new packet, both the `AckMask` and `Ack Sequence Number` are updated. This ensures that both parties are aware of which packets have been received and acknowledged.
-
-### 4.4. Handling Out-of-Order Packets
-
-A receive buffer is used to temporarily store packets that arrive out of their intended sequence. An algorithm updates the `AckMask` and the last received sequence number to ensure that out-of-order packets are correctly processed and acknowledged.
-
----
-
-## 5. Security Considerations
-
-As of the current version, this protocol does not include any built-in security measures. Therefore, it is recommended to use this protocol within a secure environment or overlay it with a secure transport layer.
-
-### 5.1. Data Encryption
-
-It's highly advisable to implement encryption algorithms to secure the data being sent. Transport Layer Security (TLS) or a similar secure protocol should be considered.
-
-### 5.2. Authentication
-
-Both the client and the server should be authenticated to prevent unauthorized access. A simple shared-key authentication could be used as a minimum requirement.
-
-### 5.3. Data Integrity
-
-Checksums or cryptographic hashes should be used to verify the integrity of the data packets, ensuring that they have not been tampered with during transit.
-
-### 5.4. Denial of Service Protection
-
-Rate-limiting and other anti-flooding mechanisms should be in place to prevent denial-of-service attacks.
-
-### 5.5. Logging and Monitoring
-
-Continuous logging and monitoring are crucial for identifying and mitigating security threats in real-time.
-
-### 5.6. Future Updates
-
-It is recommended to plan for future versions of the protocol that will include robust security features.
-
----
-
-## 6. Performance Metrics
-
-Metrics such as latency and bandwidth should be considered here.
-
----
-
-## 7. Author's Address
-
-Clément LAGASSE - clement.lagasse@epitech.eu
+Clément LAGASSE
+THCB Company
+Email: clement.lagasse@epitech.eu
+...
