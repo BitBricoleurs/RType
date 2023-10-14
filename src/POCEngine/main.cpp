@@ -54,6 +54,8 @@
 #include <iostream>
 #include <memory>
 #include "SpawnPowerUp.hpp"
+#include "ButtonComponent.hpp"
+#include "Utils.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -155,6 +157,12 @@ int main() {
       "assets/HUD/EmptyBar.png", GameEngine::Vect2(752, 1028),
       GameEngine::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
   engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
+
+   auto buttonTest = engine.createEntity();
+  auto button = std::make_shared<GameEngine::ButtonComponent>(
+      "assets/HUD/EmptyBar.png", GameEngine::Vect2(0, 0),
+      GameEngine::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
+  engine.bindComponentToEntity(buttonTest, button);
 
   auto chargingBar = std::make_shared<ChargingBar>();
 
