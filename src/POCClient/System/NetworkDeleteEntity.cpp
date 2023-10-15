@@ -23,7 +23,7 @@ void NetworkDeleteEntity::update(GameEngine::ComponentsContainer &componentsCont
         size_t clientId = 0;
         for (auto &id : ids) {
             clientId = entityFactory.getClientId(id);
-            componentsContainer.deleteEntity(clientId);
+            eventHandler.queueEvent("KillEntity", clientId);
         }
 
     } catch (std::bad_any_cast &e) {

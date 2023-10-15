@@ -1,31 +1,34 @@
 
-#include "NetworkConnect.hpp"
-#include "NetworkReceiveDisconnect.hpp"
-#include "NetworkReceiveDisconnectApply.hpp"
-#include "NetworkServerTimeout.hpp"
-#include "NetworkInput.hpp"
-#include "NetworkOutput.hpp"
-#include "Client.hpp"
-#include "Endpoint.hpp"
-#include "NetworkServerAccept.hpp"
-#include "GameEngine.hpp"
-#include "UpdatePosition.hpp"
-#include "UpdateVelocity.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-#include "SyncPosSprite.hpp"
+#include "AnimateDeath.hpp"
+#include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
-#include "RenderEngineSystem.hpp"
-#include "CreatePlayer.hpp"
-#include "CreateMob.hpp"
+#include "ChargingBar.hpp"
+#include "Client.hpp"
 #include "CreateBullet.hpp"
+#include "CreateMob.hpp"
+#include "CreatePlayer.hpp"
+#include "Endpoint.hpp"
+#include "GameEngine.hpp"
 #include "InitHUD.hpp"
 #include "InitParallax.hpp"
+#include "KillEntity.hpp"
+#include "NetworkConnect.hpp"
+#include "NetworkDeleteEntity.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkOutput.hpp"
+#include "NetworkReceiveDisconnect.hpp"
+#include "NetworkReceiveDisconnectApply.hpp"
+#include "NetworkServerAccept.hpp"
+#include "NetworkServerTimeout.hpp"
 #include "Parallax.hpp"
 #include "ParallaxPlanet.hpp"
-#include "ChargingBar.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "RenderEngineSystem.hpp"
+#include "SyncPosSprite.hpp"
+#include "UpdateEntitySprite.hpp"
+#include "UpdatePosition.hpp"
+#include "UpdateVelocity.hpp"
 #include "WindowInfoComponent.hpp"
-#include "NetworkDeleteEntity.hpp"
-
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<NetworkConnect>();
@@ -103,18 +106,31 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.queueEvent("InitParallax");
 }
 
-int main() {
-    GameEngine::GameEngine engine;
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Endpoint endpoint("127.0.0.1", 4444);
+void setup_animations(GameEngine::GameEngine &engine) {
+  auto killEntity = std::make_shared<KillEntity>();
+  auto mobDeath = std::make_shared<AnimateDeath>();
+  auto updateSprite = std::make_shared<updateEntitySprite>();
+  auto animateOnMove = std::make_shared<AnimateOnMove>();
 
-    Network::Client::init(1000, queue);
-    setup_network(engine, queue, endpoint);
-    setup_sync_systems(engine);
-    setup_game(engine);
-    setup_hud(engine);
-    auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
-    engine.addSystem("RENDER", render, 4);
-    engine.run();
+  engine.addEvent("MobDeath", mobDeath);
+  engine.addEvent("KillEntity", killEntity);
+  engine.addEvent("animate", updateSprite);
+  engine.addEvent("animatePlayer", animateOnMove);
+}
+
+int main() {
+  GameEngine::GameEngine engine;
+  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+  Network::Endpoint endpoint("127.0.0.1", 4444);
+
+  Network::Client::init(1000, queue);
+  setup_network(engine, queue, endpoint);
+  setup_sync_systems(engine);
+  setup_game(engine);
+  setup_hud(engine);
+  setup_animations(engine);
+  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+  engine.addSystem("RENDER", render, 4);
+  engine.run();
   return 0;
 }
