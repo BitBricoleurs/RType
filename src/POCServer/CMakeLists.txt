@@ -50,6 +50,8 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkShootClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/OutOfBounds.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/IndentifyOutOfBounds.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp

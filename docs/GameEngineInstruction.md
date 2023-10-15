@@ -5,7 +5,7 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
  - [Usage](#usage)
-    - [Registry](#registry)
+    - [Registry](#gameengine)
     - [**Scenes**](#scenes)
     - [**Entities and Components**](#entities-and-components)
     - [**Systems**](#systems)
@@ -46,9 +46,9 @@ Welcome to the GameEngine documentation! This documentation provides comprehensi
 
 GameEngine provides a set of powerful features to help you develop games efficiently. Here's an overview of key concepts and components:
 
-### Registry
+### GameEngine
 
-The `Registry` class is the central component for managing entities, components, and systems in your game. It allows you to:
+The `GameEngine` class is the central component for managing entities, components, and systems in your game. It allows you to:
 
 - **Manage Scenes**: 
   - Efficiently bind scenes to initialization functions and change scenes during game flow.
@@ -64,7 +64,7 @@ The `Registry` class is the central component for managing entities, components,
 
 ### **Scenes**
 
-Scenes help you organize different parts of your game. With the `Registry`, you can:
+Scenes help you organize different parts of your game. With the `GameEngine`, you can:
 
 - **Bind Initialization Functions**: 
   - Associate a particular scene with its initialization function.
@@ -109,13 +109,13 @@ Here are some code examples to illustrate how to use GameEngine:
 
 ```cpp
 // Initializing the Registry
-GameEngine::Registry registry;
+GameEngine::GameEngine engine;
 
 // Creating a new entity
-size_t entityID = registry.createEntity();
+size_t entityID = engine.createEntity();
 
 // Binding a component (e.g., Position) to the entity
-registry.bindComponentToEntity(entityID, PositionComponentType, Position{5, 5});
+engine.bindComponentToEntity(entityID, PositionComponentType, Position{5, 5});
 ```
 
 
@@ -128,19 +128,19 @@ class RenderSystem : public ISystem {
 
 // Creating the system and adding to the registry
 auto renderSystem = std::make_shared<RenderSystem>();
-registry.addSystem("RenderSystem", renderSystem);
+engine.addSystem("RenderSystem", renderSystem);
 ```
 
 ## **Example 3: Scene Management**
 
 ```cpp
 // Binding a scene initialization function
-registry.bindSceneInitiation("MainMenu", [](GameEngine::Registry& reg) {
+engine.bindSceneInitiation("MainMenu", [](GameEngine::GameEngine& engine) {
     // Initialization logic for the main menu
 });
 
 // Changing to the main menu scene
-registry.changeScene("MainMenu");
+engine.changeScene("MainMenu");
 ```
 
 # Layers in Renderable Components
@@ -214,14 +214,8 @@ With the LayerType class, it becomes straightforward to manage the rendering hie
 - In GameEngine, components derive from the `IComponent` interface and can be attached to entities. The `IComponent` interface has methods like:
 
 - **getComponentType**: Provides a unique ID for the component type.
-  
-- **incrementBindedEntities**: Increases the count of entities a component is bound to.
 
-- **decrementBindedEntities**: Decreases the entity count the component is bound to.
-
-- **getBindedEntities**: Shows how many entities a component is bound to.
-
-- For component type management, GameEngine offers the `ComponentsType` class to handle unique type IDs. The `Registry` class in GameEngine also includes methods to work with component-entity bindings:
+- For component type management, GameEngine offers the `ComponentsType` class to handle unique type IDs. The `ComponentsContainer` class in GameEngine also includes methods to work with component-entity bindings:
 
 - **bindComponentToEntity**: Binds a component to an entity.
   
@@ -263,14 +257,14 @@ class Velocity : public IComponent {
 ### Using Components:
 
 ```cpp
-GameEngine::Registry registry;
+GameEngine::GameEngine engine;
 
 // Creating a spaceship entity
-size_t spaceshipID = registry.createEntity();
+size_t spaceshipID = engine.createEntity();
 
 // Binding the components
-registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType("Position"), Position{0, 0});
-registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType("Velocity"), Velocity{2, 2});
+engine.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType("Position"), Position{0, 0});
+engine.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType("Velocity"), Velocity{2, 2});
 ```
 
 - This structure allows for efficient management, scalability, and customization in GameEngine.
@@ -295,9 +289,9 @@ registry.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType(
 
 #### update:
 
-- **Description**: This method is called whenever the game developper specifies it or every frame by default and is intended for updating game entities based on their components. When creating a custom system, you should override this method to define the specific behavior of that system.
+- **Description**: This method is called whenever the game developper specifies it or every frame if he added it using the 'addSystem' method from the GameEngine and is intended for updating game entities based on their components. When creating a custom system, you should override this method to define the specific behavior of that system.
 - **Parameters**:
-    - `componentsContainer`: This parameter is an unordered map where each key represents an entity's unique ID, and the associated value is a vector of optional components. The optional `std::any` type allows for flexibility, meaning that systems can process different types of components without knowing their exact type at compile time. This design choice promotes a decoupled and extensible architecture.
+    - `componentsContainer`: This parameter is a class that allows you to interact with every entity actually present in the game, as well as the components attached to them. It is a map that associates each entity ID with a vector of optional components.
     - `eventHandler`: A shared pointer to the `EventHandler` class, allowing systems to react to or dispatch specific game events.
 - **Return Type**: None. The update function alters the state of the game world and entities based on the system's logic but doesn't return any value.
 
@@ -330,6 +324,6 @@ With this information, users of the GameEngine can better understand how to impl
 
 ---
 
-Thank you for choosing GameEngine! If you have any questions or need assistance, please [contact us](mailto:your@email.com).
+Thank you for choosing GameEngine! If you have any questions or need assistance, please [contact us](mailto:theophilus.homawoo@epitech.eu).
 
 

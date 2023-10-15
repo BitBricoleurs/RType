@@ -37,6 +37,7 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
 
         velocity->velocity.x += directionMap[event.first].first;
         velocity->velocity.y += directionMap[event.first].second;
+      
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
