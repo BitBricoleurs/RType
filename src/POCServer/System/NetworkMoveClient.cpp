@@ -12,6 +12,7 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
         message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
     } catch (std::bad_any_cast &e) {
             std::cerr << "Error from NetworkMoveClient System " << e.what() << std::endl;
+            return ;
     }
     unsigned int networkId = message->remote;
     std::shared_ptr<Network::IMessage> IMessage = message->message;
@@ -23,7 +24,8 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
         try {
             argsVel.push_back(std::any_cast<float>(arg));
         } catch (std::bad_any_cast &e) {
-            std::cerr << "Error from NetworkMoveClient System " << e.what() << std::endl;
+            std::cerr << "Error from NetworkMoveClient System Float" << e.what() << std::endl;
+            return ;
         }
     }
     newVel.x = argsVel[0];
@@ -42,13 +44,15 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
             if (!mayComp2.has_value())
                 continue;
             auto velComp = std::static_pointer_cast<GameEngine::VelocityComponent>(mayComp2.value());
-            velComp->velocity = newVel;
+            velComp->velocity.x += newVel.x;
+            velComp->velocity.y += newVel.y;
+            newVel = velComp->velocity;
             entityId = entity;
         }
     }
     std::vector<size_t> ids = {entityId};
     std::vector<std::any> args = {newVel.x, newVel.y};
-    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "", args);
-    std::shared_ptr<Network::AllUsersMessage> userMessage = std::make_shared<Network::AllUsersMessage>(messageOut);
+    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+    std::shared_ptr<Network::NotUserMessage> userMessage = std::make_shared<Network::NotUserMessage>(networkId, messageOut);
     eventHandler.queueEvent("SEND_NETWORK", userMessage);
 }

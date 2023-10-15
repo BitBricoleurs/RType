@@ -17,13 +17,8 @@
 #include "InitParallax.hpp"
 #include "IsChargingBar.hpp"
 #include "MobHit.hpp"
-#include "NetworkConnect.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkOutput.hpp"
-#include "NetworkReceiveDisconnect.hpp"
-#include "NetworkReceiveDisconnectApply.hpp"
-#include "NetworkServerAccept.hpp"
-#include "NetworkServerTimeout.hpp"
 #include "Parallax.hpp"
 #include "ParallaxPlanet.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
@@ -166,9 +161,6 @@ int main() {
 
   auto chargingBar = std::make_shared<ChargingBar>();
 
-  std::vector<std::shared_ptr<GameEngine::ISystem>> keypressed;
-  keypressed.push_back(chargingBar);
-
   engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
   engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
 
@@ -288,26 +280,6 @@ GameEngine::Vect2 pos;
 
   engine.addEvent("Collision", collisionHandler);
 
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Client::init(2, queue);
-    auto networkConnect = std::make_shared<NetworkConnect>();
-    auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
-    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
-    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
-    auto networkInput = std::make_shared<NetworkInput>(queue);
-    auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
-    auto networkAccept = std::make_shared<NetworkServerAccept>();
-    Network::Endpoint endpoint("127.0.0.1", 4444);
-
-    engine.addSystem("NETWORK_INPUT", networkInput, 0);
-    engine.addEvent("SEND_NETWORK", networkOutput);
-    engine.addEvent("NETWORK_CONNECT", networkConnect);
-    engine.addEvent("ACCEPTED", networkAccept);
-    engine.addEvent("NETWORK_RECEIVE_DISCONNECT", networkReceiveDisconnect);
-    engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
-
-    engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
   engine.run();
   return 0;
 }

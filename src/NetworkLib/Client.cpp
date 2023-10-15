@@ -53,14 +53,12 @@ void Network::Client::Impl::waitForOutMessagesAndDisconnect() {
     while (_interface->getIO()->getOutMessagesSize() > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
-    _interface->disconnect();
 }
 void Network::Client::Impl::disconnect() {
-    boost::asio::post(_context, [this]() {
-        waitForOutMessagesAndDisconnect();
-    });
+    waitForOutMessagesAndDisconnect();
 
+    _tick.Stop();
+    _context.stop();
     if (_tickThread.joinable())
         _tickThread.join();
     if (_receiveThread.joinable())
@@ -114,5 +112,5 @@ void Network::Client::send(const std::shared_ptr<IMessage>& message) {
 }
 
 Network::Client::~Client() {
-    std::cout << "Client destroyed" << std::endl;
+    pimpl.reset();
 }

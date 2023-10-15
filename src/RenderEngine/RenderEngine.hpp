@@ -21,25 +21,30 @@
 namespace GameEngine {
     class RenderEngine {
     public:
-        RenderEngine() = default;
-        ~RenderEngine();
+      RenderEngine();
+      ~RenderEngine();
 
-        void Initialize(const char* windowTitle);
-        void Draw(const TextComponent& textComponent);
-        void Draw(const SpriteComponent& spriteComponent);
-        void Draw(const ButtonComponent& buttonComponent);
-        void PollEvents(EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons);
-        void Shutdown();
-        void ClearBackgroundRender(Color colosr);
+      void Initialize(const char *windowTitle);
+      void Draw(const TextComponent &textComponent);
+      void Draw(const SpriteComponent &spriteComponent);
+      void Draw(const ButtonComponent &buttonComponent);
+      void PollEvents(EventHandler &eventHandler,
+                      std::vector<std::shared_ptr<ButtonComponent>> buttons);
+      void Shutdown();
+      void ClearBackgroundRender(Color color);
 
-        size_t getScreenWidth();
-        size_t getScreenHeight();
+      size_t getScreenWidth();
+      size_t getScreenHeight();
 
     private:
         size_t screenWidth;
         size_t screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
+        float scaleX;
+        float scaleY;
+
+
             std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },
         { KEY_SPACE, IsKeyReleased, "SPACE_KEY_RELEASED" },
@@ -53,7 +58,6 @@ namespace GameEngine {
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
         {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_ESCAPE, IsKeyPressed, "gameEngineStop"},
         {KEY_F11, IsKeyPressed, "toggleFullScreen"}
     };
 

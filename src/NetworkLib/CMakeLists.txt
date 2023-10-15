@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.15)
+
 find_package(Threads REQUIRED)
 add_library(NetworkLib STATIC
         Body.cpp
@@ -15,6 +17,36 @@ add_library(NetworkLib STATIC
         AMessage.hpp
 )
 
+include(FetchContent)
+FetchContent_Declare(
+        Boost
+        URL "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+        DOWNLOAD_EXTRACT_TIMESTAMP ON
+)
+
+set(BOOST_RUNTIME_LINK static)
+set(BOOST_INCLUDE_LIBRARIES
+        asio
+        assert
+        align
+        array
+        bind
+        coroutine
+        config
+        context
+        core
+        chrono
+        date_time
+        exception
+        function
+        move
+        system
+        smart_ptr
+        throw_exception
+        utility
+)
+FetchContent_MakeAvailable(Boost)
+
 foreach(lib ${BOOST_INCLUDE_LIBRARIES})
     target_link_libraries(
             NetworkLib
@@ -26,26 +58,7 @@ foreach(lib ${BOOST_INCLUDE_LIBRARIES})
             PRIVATE
             Boost::${lib}
     )
-    target_link_libraries(
-            NetworkLib
-            PRIVATE
-            Boost::${lib}
-    )
-    target_include_directories(
-            NetworkLib
-            PRIVATE
-            Boost::${lib}
-    )
 endforeach()
-find_package(Boost REQUIRED COMPONENTS system)
-if(Boost_FOUND)
-    message(STATUS "Boost include directories: ${Boost_INCLUDE_DIRS}")
-    target_include_directories(NetworkLib PRIVATE ${Boost_INCLUDE_DIRS})
-    target_link_libraries(NetworkLib PRIVATE
-            ${Boost_LIBRARIES}
-            Boost::asio
-            )
-endif()
 
 target_link_libraries(NetworkLib PRIVATE Threads::Threads)
 target_include_directories(NetworkLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

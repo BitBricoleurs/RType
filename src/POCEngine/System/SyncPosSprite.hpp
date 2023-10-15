@@ -11,9 +11,5 @@
 class SyncPosSprite : public GameEngine::ISystem {
     void update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::EventHandler &eventHandler) override;
-public:
-
-private:
-  bool done = false;
 };
 

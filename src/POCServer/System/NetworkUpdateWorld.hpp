@@ -14,6 +14,10 @@
 #include "IsBullet.hpp"
 #include "PositionComponent2D.hpp"
 #include "VelocityComponent.hpp"
+#include "MobUtils.hpp"
+#include "PlayerUtils.hpp"
+#include "BulletUtils.hpp"
+#include "EntityFactory.hpp"
 
 class NetworkUpdateWorld : public GameEngine::ISystem {
     public:

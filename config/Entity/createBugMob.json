@@ -4,6 +4,8 @@
     "spriteSheetPath": "assets/bugMob.png",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 532,
+    "hitboxHeight": 34,
+    "hitboxWidth": 33,
     "frames": 16,
     "twoDirections": false,
     "reverse": false,

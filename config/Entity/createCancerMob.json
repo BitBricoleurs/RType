@@ -4,6 +4,8 @@
     "spriteSheetPath": "assets/cancerMob.gif",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 200,
+    "hitboxHeight": 34,
+    "hitboxWidth": 33,
     "frames": 6,
     "twoDirections": true,
     "reverse": true,
@@ -32,5 +34,10 @@
     "x": 0,
     "y": 50
   },
-  "typeBullet": 1
+  "bulletVelocity": {
+    "x": -4,
+    "y": 0
+  },
+  "typeBullet": 1,
+  "shootDelay": 200
 }

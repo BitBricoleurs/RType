@@ -21,5 +21,6 @@ class NetworkMoveClient : public GameEngine::ISystem {
                     GameEngine::EventHandler &eventHandler) override;
 
     private:
+        float _speed = 7;
 
 };

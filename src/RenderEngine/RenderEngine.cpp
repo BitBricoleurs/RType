@@ -55,13 +55,15 @@ RenderEngine::~RenderEngine() {
 
 
 void RenderEngine::Initialize(const char *windowTitle) {
-  InitWindow(0, 0, windowTitle);
-  this->screenWidth = GetScreenWidth();
-  this->screenHeight = GetScreenHeight();
+    InitWindow(0, 0, windowTitle);
+    screenWidth = GetScreenWidth();
+    screenHeight = GetScreenHeight();
+    scaleX = (float)screenWidth / 1920.0f;
+    scaleY = (float)screenHeight / 1080.0f;
     _baseAssetPath = getExecutablePath();
-  if (_baseAssetPath.empty()) {
-    _baseAssetPath = "./";
-  }
+    if (_baseAssetPath.empty()) {
+        _baseAssetPath = "./";
+    }
 }
 
 void RenderEngine::Draw(const ButtonComponent &buttonComponent) {
@@ -89,14 +91,14 @@ void RenderEngine::Draw(const ButtonComponent &buttonComponent) {
 
 
 void RenderEngine::Draw(const TextComponent &textComponent) {
-    Vector2 position = { textComponent.pos.x, textComponent.pos.y };
+    Vector2 position = { textComponent.pos.x * scaleX, textComponent.pos.y * scaleY };
     Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
-  
-  
+
     if (textComponent.isVisible) {
       DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
   }
 }
+
 
 void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
     if (spriteComponent.isVisible) {
@@ -119,8 +121,8 @@ void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
         }
         DrawTexturePro(textureCache[path],
                        { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h },
-                       {spriteComponent.pos.x, spriteComponent.pos.y, spriteComponent.rect1.w * spriteComponent.scale, spriteComponent.rect1.h * spriteComponent.scale},
-                       {spriteComponent.origin.x, spriteComponent.origin.y},
+                       {spriteComponent.pos.x * scaleX, spriteComponent.pos.y * scaleY, spriteComponent.rect1.w * spriteComponent.scale * scaleX, spriteComponent.rect1.h * spriteComponent.scale * scaleY},
+                       {spriteComponent.origin.x * scaleX, spriteComponent.origin.y * scaleY},
                        spriteComponent.rotation,
                        {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
     }
@@ -170,6 +172,10 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vecto
 
 void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
+}
+  
+RenderEngine::RenderEngine() {
+  // font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }

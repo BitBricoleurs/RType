@@ -34,11 +34,10 @@ void Network::Interface::disconnect()
 
 void Network::Interface::connectToServer(const std::string &host, unsigned short port)
 {
-    _endpoint = *_resolver.resolve(host, std::to_string(port)).begin();
-    if (_endpoint.address().is_v4())
-        _socket.open(boost::asio::ip::udp::v4());
-    else
-        _socket.open(boost::asio::ip::udp::v6());
+    _endpoint = *_resolver.resolve(boost::asio::ip::udp::v4(), host, std::to_string(port)).begin();
+    _socket.open(boost::asio::ip::udp::v4());
+    _socket.bind(boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0));
+
     getIO()->readPacket();
 }
 
