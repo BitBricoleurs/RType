@@ -9,8 +9,9 @@
 
 class isPowerUpPickUp : public GameEngine::AComponent {
 public:
-    isPowerUpPickUp() = default;
+    isPowerUpPickUp(size_t powerUpType);
     size_t getComponentType() override;
+    size_t powerUpType;
 };
 
 

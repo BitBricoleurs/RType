@@ -10,6 +10,7 @@
 #include "isPowerUpPickUp.hpp"
 #include "IsForcePod.hpp"
 #include "PositionComponent2D.hpp"
+#include "Shooter.hpp"
 
 class CollisionHandler : public GameEngine::ISystem {
 public:

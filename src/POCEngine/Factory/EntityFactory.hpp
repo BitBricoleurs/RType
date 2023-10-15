@@ -64,7 +64,7 @@ public:
 
   size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1);
+                            GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1, size_t type);
 
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,

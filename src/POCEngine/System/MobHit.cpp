@@ -23,7 +23,10 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
                     eventHandler.queueEvent("SpawnPowerUp", firstEntity);
               startMobDeath(componentsContainer, eventHandler, firstEntity);
             }
-            componentsContainer.deleteEntity(secondEntity);
+            auto isbullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
+            auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
+            if (isbulletcast->passingThrough == false)
+                componentsContainer.deleteEntity(secondEntity);
         } else {
             auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
             auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
@@ -39,7 +42,10 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
                     eventHandler.queueEvent("SpawnPowerUp", secondEntity);
               startMobDeath(componentsContainer, eventHandler, secondEntity);
             }
-            componentsContainer.deleteEntity(firstEntity);
+            auto isbullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
+            auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
+            if (isbulletcast->passingThrough == false)
+                componentsContainer.deleteEntity(firstEntity);
         }
     } catch (std::exception &e) {
 

@@ -10,6 +10,7 @@
 #include "Health.hpp"
 #include "ISystem.hpp"
 #include "VelocityComponent.hpp"
+#include "IsBullet.hpp"
 
 class MobHit : public GameEngine::ISystem {
 public:
