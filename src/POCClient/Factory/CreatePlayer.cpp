@@ -15,33 +15,29 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
 try {
     nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
     size_t chargeAnimationID = createChargeAnimation(
-    container,
-    config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
-    config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
-    config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
-    config["createChargeAnimation"]["frames"].get<int>(),
-    GameEngine::Vect2(
-        config["createChargeAnimation"]["pos"]["x"].get<float>(),
-        config["createChargeAnimation"]["pos"]["y"].get<float>()
-    ),
-    GameEngine::Vect2(
-        config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-        config["createChargeAnimation"]["velocity"]["y"].get<float>()
-    ),
-    config["createChargeAnimation"]["scale"].get<float>(),
-    config["createChargeAnimation"]["rotation"].get<float>(),
-    GameEngine::ColorR(
-        config["createChargeAnimation"]["tint"]["r"].get<int>(),
-        config["createChargeAnimation"]["tint"]["g"].get<int>(),
-        config["createChargeAnimation"]["tint"]["b"].get<int>(),
-        config["createChargeAnimation"]["tint"]["a"].get<int>()
-    ),
-    config["createChargeAnimation"]["twoDirection"].get<bool>(),
-    config["createChargeAnimation"]["reverse"].get<bool>(),
-    config["createChargeAnimation"]["direction"].get<int>(),
-    config["createChargeAnimation"]["playerA"].get<int>(),
-    config["createChargeAnimation"]["layer"].get<int>()
-);
+        container,
+        config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
+        config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
+        config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
+        config["createChargeAnimation"]["frames"].get<int>(),
+        GameEngine::Vect2(
+            config["createChargeAnimation"]["pos"]["x"].get<float>(),
+            config["createChargeAnimation"]["pos"]["y"].get<float>()),
+        GameEngine::Vect2(
+            config["createChargeAnimation"]["velocity"]["x"].get<float>(),
+            config["createChargeAnimation"]["velocity"]["y"].get<float>()),
+        config["createChargeAnimation"]["scale"].get<float>(),
+        config["createChargeAnimation"]["rotation"].get<float>(),
+        GameEngine::ColorR(
+            config["createChargeAnimation"]["tint"]["r"].get<int>(),
+            config["createChargeAnimation"]["tint"]["g"].get<int>(),
+            config["createChargeAnimation"]["tint"]["b"].get<int>(),
+            config["createChargeAnimation"]["tint"]["a"].get<int>()),
+        config["createChargeAnimation"]["twoDirection"].get<bool>(),
+        config["createChargeAnimation"]["reverse"].get<bool>(),
+        config["createChargeAnimation"]["direction"].get<int>(),
+        static_cast<int>(playerNumber) + 1,
+        config["createChargeAnimation"]["layer"].get<int>());
 
     size_t entityId = createPlayer(
         container, config["createPlayer"]["spriteSheetPath"].get<std::string>(),
@@ -52,8 +48,9 @@ try {
         config["createPlayer"]["reverse"].get<bool>(), pos,
         GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
                           config["createPlayer"]["velocity"]["y"].get<float>()),
-        playerNumber, config["createPlayer"]["scale"].get<float>(),
-        chargeAnimationID, config["createPlayer"]["rotation"].get<float>(),
+        static_cast<int>(playerNumber) + 1,
+        config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
+        config["createPlayer"]["rotation"].get<float>(),
         GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
                            config["createPlayer"]["tint"]["g"].get<int>(),
                            config["createPlayer"]["tint"]["b"].get<int>(),
@@ -108,7 +105,8 @@ try {
             config["createChargeAnimation"]["tint"]["a"].get<int>()),
         config["createChargeAnimation"]["twoDirection"].get<bool>(),
         config["createChargeAnimation"]["reverse"].get<bool>(),
-        config["createChargeAnimation"]["direction"].get<int>(), playerNumber,
+        config["createChargeAnimation"]["direction"].get<int>(),
+        static_cast<int>(playerNumber) + 1,
         config["createChargeAnimation"]["layer"].get<int>());
 
     size_t entityId = createSharhips(
@@ -120,7 +118,7 @@ try {
         config["createPlayer"]["reverse"].get<bool>(), pos,
         GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
                           config["createPlayer"]["velocity"]["y"].get<float>()),
-        config["createPlayer"]["playerA"].get<int>(),
+        static_cast<int>(playerNumber) + 1,
         config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
         config["createPlayer"]["rotation"].get<float>(),
         GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
