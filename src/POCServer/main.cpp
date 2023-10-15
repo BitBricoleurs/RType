@@ -30,7 +30,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
-    engine.addSystem("NETWORK_INPUT", input, 0);
+    engine.addSystem("NETWORK_INPUT", input, -1);
     engine.addEvent("SEND_NETWORK", output);
     engine.addEvent("DISCONNECTING", disconnecting);
     engine.queueEvent("NETWORK_START_SERVER", std::make_any<size_t>(0));
@@ -57,6 +57,7 @@ void setup_engine(GameEngine::GameEngine& engine)
 {
     std::string path = "config/map";
     auto spawnMob = std::make_shared<SpawnMob>(path);
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
 }
 
 int main(void) {
