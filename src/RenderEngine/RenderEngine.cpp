@@ -53,6 +53,7 @@ RenderEngine::~RenderEngine() {
   }
 }
 
+
 void RenderEngine::Initialize(const char *windowTitle) {
   InitWindow(0, 0, windowTitle);
   this->screenWidth = GetScreenWidth();
@@ -63,13 +64,37 @@ void RenderEngine::Initialize(const char *windowTitle) {
   }
 }
 
+void RenderEngine::Draw(const ButtonComponent &buttonComponent) {
+    if (!buttonComponent.isVisible) {
+        return;
+    }
+
+    ColorR color;
+    switch (buttonComponent.state) {
+        case ButtonComponent::NORMAL:
+            color = buttonComponent.tint;
+            break;
+        case ButtonComponent::HOVER:
+            color = buttonComponent.hoverColor;
+            break;
+        case ButtonComponent::DISABLED:
+            color = { 128, 128, 128, 255 };
+            break;
+    }
+
+    SpriteComponent spriteComponent = static_cast<SpriteComponent>(buttonComponent);
+    spriteComponent.tint = color;
+    Draw(spriteComponent);
+}
+
+
 void RenderEngine::Draw(const TextComponent &textComponent) {
     Vector2 position = { textComponent.pos.x, textComponent.pos.y };
     Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
   
   
     if (textComponent.isVisible) {
-      DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 4, color);
+      DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
   }
 }
 
@@ -107,16 +132,36 @@ bool RenderEngine::fileExists(const std::string& path) {
 }
 
 
-void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler) {
+void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons) {
     for (const auto& mapping : keyMappings) {
         if (mapping.checkFunction(mapping.key)) {
             eventHandler.queueEvent(mapping.eventName);
         }
     }
+
+    Vector2 mousePosition = GetMousePosition();
+    Vect2 mousePos;
+    mousePos.x = mousePosition.x;
+    mousePos.y = mousePosition.y;
+
+    for (auto button : buttons) {
+        bool isHovering = (mousePosition.x >= button->pos.x && mousePosition.x <= button->pos.x + button->rect1.w * button->scale) &&
+                (mousePosition.y >= button->pos.y && mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
+
+        if (isHovering && button->state != ButtonComponent::HOVER && button->hoverEvent != "") {
+            button->state = ButtonComponent::HOVER;
+            eventHandler.queueEvent(button->hoverEvent);
+        } else if (!isHovering && button->state == ButtonComponent::HOVER) {
+            button->state = ButtonComponent::NORMAL;
+        }
+        if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            eventHandler.queueEvent(button->clickEvent);
+        }
+    }
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        eventHandler.queueEvent("MouseLeftButtonPressed");
+        eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
     if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-        eventHandler.queueEvent("MouseRightButtonPressed");
+        eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
     if (WindowShouldClose()) {
         eventHandler.queueEvent("gameEngineStop");
     }
@@ -128,10 +173,6 @@ void RenderEngine::ClearBackgroundRender(Color color) {
 }
 
 void RenderEngine::Shutdown() { CloseWindow(); }
-  
-RenderEngine::RenderEngine() {
-    font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
-}
 
 size_t RenderEngine::getScreenHeight()
 {
