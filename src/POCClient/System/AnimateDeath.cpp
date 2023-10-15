@@ -32,6 +32,8 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
           GameEngine::ComponentsType::getComponentType("AColliderComponent2D"));
     }
     if (deathAnim->currentFrameIndex == deathAnim->frames) {
+        EntityFactory &factory = EntityFactory::getInstance();
+      factory.unregisterEntity(entityID);
       componentsContainer.deleteEntity(entityID);
       eventHandler.unscheduleEvent("MobDeath", entityID);
       return;

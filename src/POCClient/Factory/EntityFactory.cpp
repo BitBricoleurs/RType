@@ -182,6 +182,10 @@ size_t EntityFactory::createBaseEntity(
   auto velocityComponent =
       std::make_shared<GameEngine::VelocityComponent>(velocity);
 
+
+  auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(pos, GameEngine::Vect2(pos.x + spriteAnimationComponent->frameWidth * scale, pos.y + spriteAnimationComponent->frameHeight * scale));
+  auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(GameEngine::rect(0, 0, spriteAnimationComponent->frameWidth * scale, spriteAnimationComponent->frameHeight * scale));
+
   GameEngine::rect spriteRect;
 
   spriteRect.w = spriteAnimationComponent->frameWidth;
@@ -203,6 +207,8 @@ size_t EntityFactory::createBaseEntity(
   container.bindComponentToEntity(entityId, positionComponent);
   container.bindComponentToEntity(entityId, velocityComponent);
   container.bindComponentToEntity(entityId, movementComponent);
+  container.bindComponentToEntity(entityId, AABBComponent);
+  container.bindComponentToEntity(entityId, rectangleCollider);
 
   return entityId;
 }
@@ -213,7 +219,6 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
                              bool reverse, int direction, int player) {
   auto spriteComponent = std::make_shared<SpriteAnimation>();
 
-  std::cout << "player no: " << player << std::endl;
 
   spriteComponent->frameHeight = height;
   spriteComponent->frameWidth = static_cast<float>(width) / frames;
@@ -229,8 +234,6 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
     startY = (player - 1) * (height / 5);
     spriteComponent->frameHeight = round(height / 5);
   }
-
-  std::cout << "startY: " << startY << std::endl;
 
   for (i = 0; i < frames / 2; i++) {
     GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames,
@@ -275,8 +278,6 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
   if (player > 0) {
     spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[2];
   }
-  std::cout << "current frame: " << spriteComponent->currentFrame.x << " "
-            << spriteComponent->currentFrame.y << std::endl;
 
   return spriteComponent;
 }

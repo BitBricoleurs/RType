@@ -33,6 +33,7 @@ void NetworkCreateWorld::update(GameEngine::ComponentsContainer &componentsConta
 
     auto mobTypeCompCancer = GameEngine::ComponentsType::getComponentType("Cancer");
     auto mobTypeCompPataPata = GameEngine::ComponentsType::getComponentType("PataPata");
+    auto bossTypeComp = GameEngine::ComponentsType::getComponentType("Boss");
 
     std::vector<size_t> ids = {};
     std::vector<std::any> args = {};
@@ -57,6 +58,17 @@ void NetworkCreateWorld::update(GameEngine::ComponentsContainer &componentsConta
     // Creating Mobs
     int typeMob = static_cast<int>(MobType::CANCER);
     for (auto &mob : mobs) {
+        if (componentsContainer.getComponent(mob, mobTypeCompCancer).has_value()) {
+            typeMob = static_cast<int>(MobType::CANCER);
+        } else if (componentsContainer.getComponent(mob, mobTypeCompPataPata).has_value()) {
+            typeMob = static_cast<int>(MobType::PATAPATA);
+        }
+        else if (componentsContainer.getComponent(mob, bossTypeComp).has_value()) {
+            typeMob = static_cast<int>(MobType::BOSS);
+        }
+        else {
+            continue;
+        }
         ids.push_back(mob);
         args.push_back(typeMob);
         message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);

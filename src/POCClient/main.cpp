@@ -29,6 +29,9 @@
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
 #include "WindowInfoComponent.hpp"
+#include "MobHit.hpp"
+#include "CollisionHandler.hpp"
+#include "PhysicsEngineCollisionSystem2D.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<NetworkConnect>();
@@ -99,11 +102,17 @@ void setup_game(GameEngine::GameEngine& engine)
     auto initParallax = std::make_shared<InitParallax>();
     auto parallax = std::make_shared<Parallax>();
     auto parallaxPlanet = std::make_shared<ParallaxPlanet>();
+    auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
+    auto collisionHandler = std::make_shared<CollisionHandler>();
+    auto MobHit1 = std::make_shared<MobHit>();
 
     engine.addSystem("ParallaxSystem", parallax);
     engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
     engine.addEvent("InitParallax", initParallax);
     engine.queueEvent("InitParallax");
+    engine.addEvent("MobHit", MobHit1);
+    engine.addSystem("CollisionSystem", collision);
+    engine.addEvent("Collision", collisionHandler);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {

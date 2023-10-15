@@ -77,6 +77,10 @@ public:
         _playerMap[entityId] = numberPlayer;
     }
 
+    void unregisterPlayer(size_t entityId) {
+        _playerMap.erase(entityId);
+    }
+
     const std::map<size_t, PlayerNumber>& getPlayerMap() const {
         return _playerMap;
     }

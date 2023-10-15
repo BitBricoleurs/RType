@@ -14,4 +14,6 @@ public:
 
   size_t getComponentType() override;
   bool playerBullet;
+  bool passingThrough;
+  std::vector<size_t> alreadyHit;
 };

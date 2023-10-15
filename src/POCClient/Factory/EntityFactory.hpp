@@ -85,6 +85,10 @@ public:
         _entityIdMap[clientEntityId] = serverEntityId;
     }
 
+    void unregisterEntity(size_t clientEntityId) {
+        _entityIdMap.erase(clientEntityId);
+    }
+
     size_t getServerId(size_t clientEntityId) const {
         auto it = _entityIdMap.find(clientEntityId);
         if (it != _entityIdMap.end()) {

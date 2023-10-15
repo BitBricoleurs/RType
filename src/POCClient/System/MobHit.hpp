@@ -5,15 +5,14 @@
 #pragma once
 
 #include "ComponentsType.hpp"
-#include "Damage.hpp"
 #include "EventHandler.hpp"
-#include "Health.hpp"
 #include "ISystem.hpp"
 #include "VelocityComponent.hpp"
 #include "IsBullet.hpp"
 #include "Message.hpp"
 #include "UserMessage.hpp"
 #include "NetworkClientId.hpp"
+#include "SpriteComponent.hpp"
 
 class MobHit : public GameEngine::ISystem {
 public:

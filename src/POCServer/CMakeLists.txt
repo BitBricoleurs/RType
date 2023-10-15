@@ -26,6 +26,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUpPickUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
