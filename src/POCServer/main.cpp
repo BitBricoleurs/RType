@@ -19,6 +19,8 @@
 #include "NetworkShootClient.hpp"
 #include "Shoot.hpp"
 #include "NetworkClientDisconnecting.hpp"
+#include "OutOfBounds.hpp"
+#include "IndentifyOutOfBounds.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -43,6 +45,8 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto moveClient = std::make_shared<NetworkMoveClient>();
     auto shootClient = std::make_shared<NetworkShootClient>();
     auto shoot = std::make_shared<Shoot>();
+    auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
+    auto outOfBounds = std::make_shared<Server::OutOfBounds>();
 
 
     engine.addEvent("CREATE_WORLD", createWorld);
@@ -51,6 +55,8 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
     engine.addEvent("SHOOT", shoot);
+    engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
+    engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
