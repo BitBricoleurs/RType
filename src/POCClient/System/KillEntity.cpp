@@ -12,9 +12,8 @@ void KillEntity::update(GameEngine::ComponentsContainer &componentsContainer,
   try {
     size_t id = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
 
-    auto isMob = componentsContainer.getComponentFromEntity(
-        id, componentsContainer.getComponentType(
-                GameEngine::ComponentsType::getComponentType("IsMob")));
+    auto isMob = componentsContainer.getComponent(
+        id, GameEngine::ComponentsType::getComponentType("IsMob"));
 
     if (isMob.has_value()) {
       componentsContainer.unbindComponentFromEntity(

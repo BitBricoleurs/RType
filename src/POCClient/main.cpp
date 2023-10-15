@@ -1,5 +1,6 @@
 
 #include "AnimateDeath.hpp"
+#include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "Client.hpp"
@@ -24,6 +25,7 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
+#include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
 #include "WindowInfoComponent.hpp"
