@@ -173,19 +173,12 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vecto
 void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
 }
-
-<<<<<<< HEAD
-void RenderEngine::Shutdown()
-{
-    CloseWindow();
-}
   
 RenderEngine::RenderEngine() {
-    font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
+  // font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);
 }
-=======
+
 void RenderEngine::Shutdown() { CloseWindow(); }
->>>>>>> 285a1d6c13c28dbee7c8a4a4897c137d39dc505a
 
 size_t RenderEngine::getScreenHeight()
 {

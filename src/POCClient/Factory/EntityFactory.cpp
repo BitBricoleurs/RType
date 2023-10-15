@@ -213,6 +213,8 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
                              bool reverse, int direction, int player) {
   auto spriteComponent = std::make_shared<SpriteAnimation>();
 
+  std::cout << "player no: " << player << std::endl;
+
   spriteComponent->frameHeight = height;
   spriteComponent->frameWidth = static_cast<float>(width) / frames;
   spriteComponent->twoDirections = twoDirections;
@@ -224,9 +226,11 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
 
   float startY = 0;
   if (player > 0) {
-    float starty = (player - 1) * (height / 5);
+    startY = (player - 1) * (height / 5);
     spriteComponent->frameHeight = round(height / 5);
   }
+
+  std::cout << "startY: " << startY << std::endl;
 
   for (i = 0; i < frames / 2; i++) {
     GameEngine::Vect2 spritePos = {i * static_cast<float>(width) / frames,
@@ -271,6 +275,8 @@ EntityFactory::initAnimation(const std::string &spriteSheetPath, int frames,
   if (player > 0) {
     spriteComponent->currentFrame = spriteComponent->spritePositionsLeft[2];
   }
+  std::cout << "current frame: " << spriteComponent->currentFrame.x << " "
+            << spriteComponent->currentFrame.y << std::endl;
 
   return spriteComponent;
 }
