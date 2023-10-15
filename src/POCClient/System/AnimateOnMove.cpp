@@ -25,6 +25,9 @@ void AnimateOnMove::update(GameEngine::ComponentsContainer &componentsContainer,
       playerID,
       GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
+  if (!animationOpt.has_value() || !velocityOpt.has_value() ||
+      !spriteOpt.has_value())
+    return;
   auto animation =
       std::dynamic_pointer_cast<SpriteAnimation>(animationOpt.value());
   auto sprite =

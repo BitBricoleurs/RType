@@ -26,6 +26,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isPowerUpPickUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsStarship.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
@@ -64,7 +65,13 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateDeath.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/AnimateOnMove.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
 target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)
+
+if(WIN32)
+        target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC Ws2_32.lib)
+endif()

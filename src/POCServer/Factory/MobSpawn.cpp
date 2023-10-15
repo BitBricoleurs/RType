@@ -33,8 +33,8 @@ size_t entityId = createBaseMob(
   auto IdCharge = std::make_tuple(entityId, 0);
   eventHandler.scheduleEvent("ShootSystem", config["shootDelay"].get<int>(), IdCharge);
   std::vector<size_t> ids = {entityId};
-  std::vector<std::any> args = {MobType::CANCER};
-  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "", args);
+  std::vector<std::any> args = {static_cast<int>(MobType::CANCER)};
+  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
   eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
   EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
@@ -67,8 +67,8 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
       entityId, std::make_shared<HeightVariation>(config["heightVarience"].get<float>(), config["maxVar"].get<float>(), pos.y));
 
   std::vector<size_t> ids = {entityId};
-  std::vector<std::any> args = {MobType::PATAPATA};
-  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATE_MOB", ids, "", args);
+  std::vector<std::any> args = {static_cast<int>(MobType::PATAPATA)};
+  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
   eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
   EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
@@ -98,8 +98,8 @@ size_t entityId = createBaseMob(
 );
   container.bindComponentToEntity(entityId, std::make_shared<Bug>());
   std::vector<size_t> ids = {entityId};
-  std::vector<std::any> args = {MobType::BUG};
-  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATE_MOB", ids, "", args);
+  std::vector<std::any> args = {static_cast<int>(MobType::BUG)};
+  std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
   eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
   EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);

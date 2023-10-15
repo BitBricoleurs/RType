@@ -14,7 +14,6 @@ void NetworkInput::update(GameEngine::ComponentsContainer &componentsContainer, 
         auto message = _forwardQueue.popFront();
         std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(message->message->getMessage());
         std::string action = messageData->getAction();
-        std::cout << "action received: " << action << std::endl;
         if (action.empty())
             continue;
         eventHandler.queueEvent(action, message);
