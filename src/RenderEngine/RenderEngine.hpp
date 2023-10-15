@@ -39,6 +39,9 @@ namespace GameEngine {
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
         Font font;
+        float scaleX;
+        float scaleY;
+
 
             std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },

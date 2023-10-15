@@ -19,15 +19,15 @@
     "bulletTypes": {
       "type0": {
         "rect": {
-          "h": 16,
-          "w": 4
+          "h": 4,
+          "w": 16
         },
         "path" : "assets/shoot.gif"
       },
       "type1": {
         "rect": {
-          "h": 80,
-          "w": 16
+          "h": 16,
+          "w": 80
         },
         "path" : "assets/ShootCharge.gif"
       }

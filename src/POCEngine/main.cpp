@@ -150,9 +150,6 @@ int main() {
 
   auto chargingBar = std::make_shared<ChargingBar>();
 
-  std::vector<std::shared_ptr<GameEngine::ISystem>> keypressed;
-  keypressed.push_back(chargingBar);
-
   engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
   engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
 
