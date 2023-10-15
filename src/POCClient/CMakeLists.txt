@@ -26,7 +26,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUp.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPowerUpPickUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/isPowerUpPickUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsStarship.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/MobComponents.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/SpriteAnimation.cpp
