@@ -64,3 +64,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         )
 
 target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)
+
+if(WIN32)
+        target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC Ws2_32.lib)
+endif()

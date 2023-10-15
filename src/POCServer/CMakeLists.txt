@@ -1,6 +1,7 @@
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_BUILD_TYPE Debug)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/src/UtilsProject)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Utils)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component)
@@ -52,3 +53,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
 )
 
 target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC GameEngine PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC Ws2_32.lib)
+endif()
