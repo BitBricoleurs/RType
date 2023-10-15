@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <cmath>
 
 namespace GameEngine {
     struct rect {
@@ -46,6 +47,17 @@ namespace GameEngine {
             y *= scalar;
             return *this;
         }
+        float magnitude() const { return std::sqrt(x * x + y * y); }
+
+        // Normalize the vector and return it
+        Vect2 normalize() const {
+          float mag = magnitude();
+          // To handle the case where magnitude is zero (avoid division by zero)
+          if (mag == 0) {
+            return Vect2(0, 0);
+          }
+          return Vect2(x / mag, y / mag);
+        }
     };
 
     struct Vect3 {
@@ -54,10 +66,28 @@ namespace GameEngine {
         Vect3(float x, float y, float z) : x(x), y(y), z(z) {}
     };
 
+    struct Point {
+        float x, y;
+
+        Point() : x(0), y(0) {}
+        Point(float x, float y) : x(x), y(y) {}
+    };
+
+    struct Circle {
+        Point center;
+        float radius;
+
+        Circle() : center(), radius(0) {}
+
+        Circle(const Point &center, float radius) : center(center), radius(radius) {}
+    };
     struct ColorR {
-        unsigned char r;
-        unsigned char g;
-        unsigned char b;
-        unsigned char a;
+      ColorR() : r(255), g(255), b(255), a(255) {}
+      ColorR(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+          : r(r), g(g), b(b), a(a) {}
+      unsigned char r;
+      unsigned char g;
+      unsigned char b;
+      unsigned char a;
     };
 }

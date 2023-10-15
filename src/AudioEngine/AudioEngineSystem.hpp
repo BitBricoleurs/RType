@@ -11,6 +11,7 @@
 #include "AudioEngine.hpp"
 #include "AudioComponent.hpp"
 #include "ComponentsType.hpp"
+#include "EventHandler.hpp"
 #include <memory>
 #include <unordered_map>
 #include <vector>

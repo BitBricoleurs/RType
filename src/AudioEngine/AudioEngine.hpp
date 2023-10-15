@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** RType
-** File description:
-** AudioEngine
-*/
-
 #pragma once
 
 #include "raylib.h"
@@ -18,10 +11,14 @@ namespace GameEngine {
         AudioEngine();
         ~AudioEngine();
 
-        void PlaySound(const AudioComponent& audioComponent);
-        void StopSound(const AudioComponent& audioComponent);
+        void Play(const AudioComponent& audioComponent);
+        void Stop(const AudioComponent& audioComponent);
+        void ChangeVolume(const AudioComponent& audioComponent, int volume);
+        void Update();
     private:
         std::unordered_map<std::string, Sound> soundMap;
+        std::unordered_map<std::string, Music> musicMap;
 
+        bool isLongAudio(const AudioComponent& audioComponent);
     };
 }

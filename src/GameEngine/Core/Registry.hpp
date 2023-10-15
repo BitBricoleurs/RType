@@ -50,8 +50,9 @@ namespace GameEngine {
 
     private:
         ComponentsContainer componentsContainer;
-        std::map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
+        std::unordered_map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
         std::unordered_map<std::string, std::function<void(Registry&)>> sceneMap;
+        std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
     };
 }

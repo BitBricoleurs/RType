@@ -34,8 +34,8 @@ namespace GameEngine {
         void changeScene(const std::string& sceneName);
 
         void setTickSpeed(double newTickSpeed);
-        void scheduleEvent(const std::string& eventName, size_t interval);
-        void unscheduleEvent(const std::string& eventName);
+        void scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {}, size_t repeat = 0);
+        void unscheduleEvent(const std::string& eventName, const std::any& eventData = {});
 
         void setContinuousEvent(const std::string& eventName, const std::string& continuousEventName);
         void removeContinuousEvent(const std::string& eventName);
@@ -43,6 +43,7 @@ namespace GameEngine {
         void run();
 
         void addEvent(const std::string& eventName, std::shared_ptr<ISystem> system);
+        void queueEvent(const std::string& eventName, const std::any& eventData = {});
         void addEvent(const std::string& eventName, std::function<void()> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
 
@@ -55,7 +56,6 @@ namespace GameEngine {
         Registry registry;
         EventHandler eventHandler;
         double tickSpeed;
-        std::vector<std::tuple<std::string, size_t, size_t>> scheduledEvents;
         bool isRunning;
     };
 } // namespace GameEngine

@@ -8,26 +8,29 @@
 #pragma once
 
 #include "AComponent.hpp"
+#include "ComponentsType.hpp"
 #include <string>
 
 namespace GameEngine {
     class AudioComponent : public AComponent {
     public:
-        AudioComponent(const std::string& audioPath) {
+        explicit AudioComponent(const std::string& audioPath, bool loop = false, int loopDuration = -1, int playDuration = -1) {
             this->audioPath = audioPath;
+            this->loop = loop;
+            this->loopDuration = loopDuration;
+            this->playDuration = playDuration;
         }
-        ~AudioComponent() = default;
+        ~AudioComponent() override = default;
 
-        std::string getAudioPath() const { return audioPath; }
-        void setAudioPath(const std::string& audioPath) { this->audioPath = audioPath; }
-        void setAudioTimer(size_t audioTimer) { this->audioTimer = audioTimer; }
-        int getVolume() const { return volume; }
-        void setVolume(int volume) { this->volume = volume; }
-        int getAudioTimer() const { return audioTimer; }
-
-    private:
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("AudioComponent");
+          }
         std::string audioPath;
-        int audioTimer;
-        int volume;
+        int audioTimer{};
+        int volume = 50;
+        bool loop;
+        int loopDuration;
+        int playDuration;
+    private:
     };
 }
