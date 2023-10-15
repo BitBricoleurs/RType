@@ -69,7 +69,7 @@ void RenderEngine::Draw(const TextComponent &textComponent) {
   
   
     if (textComponent.isVisible) {
-      DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
+      DrawTextEx(font, textComponent.text.c_str(), position, textComponent.fontSize, 4, color);
   }
 }
 

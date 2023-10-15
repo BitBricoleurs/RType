@@ -293,9 +293,8 @@ EntityFactory::initDeathAnimation(const std::string &deathSpriteSheetPath,
   deathSpriteComponent->frameWidth =
       static_cast<float>(deathWidth) / deathFrames;
   deathSpriteComponent->frames = deathFrames;
-  int i = 0;
 
-  for (i = 0; i < deathFrames; i++) {
+  for (int i = 0; i < deathFrames; i++) {
     GameEngine::Vect2 spritePos = {
         i * static_cast<float>(deathWidth) / deathFrames, 0};
     deathSpriteComponent->spritePositions.push_back(spritePos);
