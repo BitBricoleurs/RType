@@ -90,7 +90,9 @@ public:
         return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
     }
 
-private:
+size_t createBellmite(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, bool dropPowerup);
+
+    private:
   EntityFactory() = default;
   ~EntityFactory() = default;
   size_t createBaseMob(GameEngine::ComponentsContainer &container,
@@ -128,7 +130,6 @@ private:
     private:
         std::map<size_t, PlayerNumber> _playerMap;
 
-size_t createBellmiteBoss(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
-size_t createBellmitePod(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
-size_t createBellmite(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, bool dropPowerup);
+size_t createBellmiteBoss(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos);
+size_t createBellmitePod(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos);
 };

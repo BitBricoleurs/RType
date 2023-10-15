@@ -9,6 +9,9 @@
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
 #include "ISystem.hpp"
+#include "BounceBoss.hpp"
+#include "LatchPodToBoss.hpp"
+#include "LaunchBossPods.hpp"
 #include "Utils.hpp"
 #include <iostream>
 

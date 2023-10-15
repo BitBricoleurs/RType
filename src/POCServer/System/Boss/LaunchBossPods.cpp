@@ -14,13 +14,11 @@ void LaunchBossPods::update(
     GameEngine::ComponentsContainer &componentsContainer,
     GameEngine::EventHandler &eventHandler) {
 
-  std::cout << "LaunchBossPods" << std::endl;
   auto bossPods = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("isBossPod"));
 
   size_t podToLaunch = 0;
 
-  // shuffle pods
   std::random_device rd;
   std::mt19937 g(rd());
   std::shuffle(bossPods.begin(), bossPods.end(), g);
@@ -31,7 +29,6 @@ void LaunchBossPods::update(
     if (!bossPodOpt.has_value())
       continue;
     auto bossPodComp = std::dynamic_pointer_cast<isBossPod>(bossPodOpt.value());
-
     if (bossPodComp->launched == true)
       continue;
     bossPodComp->launched = true;
@@ -49,9 +46,7 @@ void LaunchBossPods::update(
       std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
           podPositionOpt.value());
 
-  std::cout << "launching pod: " << podToLaunch << std::endl;
-  auto players = componentsContainer.getEntitiesWithComponent(
-      GameEngine::ComponentsType::getComponentType("IsPlayer"));
+  auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
   GameEngine::Vect2 velocity;
   float closestDistance = std::numeric_limits<float>::max();
   GameEngine::Vect2 directionToClosestPlayer;

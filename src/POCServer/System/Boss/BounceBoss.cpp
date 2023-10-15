@@ -16,7 +16,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   auto bossCore = componentsContainer.getEntityWithUniqueComponent(
       GameEngine::ComponentsType::getComponentType("isBossCore"));
 
-  // check if boss exists and is in scope
   if (bossCore == 0)
     return;
   if (!hasAppeared && !checkInScreen(bossCore, componentsContainer, eventHandler)) {
@@ -31,7 +30,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   auto bossVelComp = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
       bossVelOpt.value());
 
-  // check if boss pods is bouncing on the screen
   for (auto &bossPod : bossPods) {
     auto bossPodOpt = componentsContainer.getComponent(
         bossPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
@@ -58,14 +56,11 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
             podVelocityCompOpt.value());
 
     if (podPosComp->pos.x < 0 || podPosComp->pos.y < 0 ||
-        podPosComp->pos.y > sizeHeight - 150 || // one of the pods is bouncing
+        podPosComp->pos.y > sizeHeight - 150 ||
         podPosComp->pos.x > sizeWidth - 150) {
 
-      if (bossPodComp->launched) { // if pod is detached from the core
-        auto newVelocityOpt = // change only its velocity
-            handleDirectionChange(
-                podPosComp->pos,
-                podVelocityComp->velocity); // change velocity of the boss's
+      if (bossPodComp->launched) {
+        auto newVelocityOpt = handleDirectionChange(podPosComp->pos, podVelocityComp->velocity);
         if (!newVelocityOpt.has_value()) {
           return;
         }
@@ -73,25 +68,17 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         podVelocityComp->velocity = newVelocity * 3;
         bossPodComp->bounces++;
       } else if (!changedDir) {
-
-        auto newVelocityOpt = // change velocity of the boss's
-            handleDirectionChange(
-                podPosComp->pos,
-                bossVelComp->velocity);    // core, and set all the pods
-        if (!newVelocityOpt.has_value()) { // velocity to be the same
+        auto newVelocityOpt = handleDirectionChange(podPosComp->pos, bossVelComp->velocity);
+        if (!newVelocityOpt.has_value()) {
           return;
         }
         GameEngine::Vect2 newVelocity = newVelocityOpt.value();
         bossVelComp->velocity = newVelocity;
 
         for (auto &otherPod : bossPods) {
-
-          auto otherPodOpt = componentsContainer.getComponent(
-              otherPod,
-              GameEngine::ComponentsType::getComponentType(
-                  "isBossPod"));        // check if the pod is detached
-          if (!otherPodOpt.has_value()) // from the core, and don't apply
-            continue;                   // velocity if its detached
+          auto otherPodOpt = componentsContainer.getComponent(otherPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
+          if (!otherPodOpt.has_value())
+            continue;
           auto otherPodComp =
               std::dynamic_pointer_cast<isBossPod>(otherPodOpt.value());
           if (otherPodComp->launched)
@@ -113,7 +100,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
       }
     }
   }
-  // the boss has no more pods attached, check if boss is bouncing
   if (!changedDir) {
     auto posBossCoreOpt = componentsContainer.getComponent(
         bossCore,
@@ -127,10 +113,8 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
     if (posBossCoreComp->pos.x < 0 || posBossCoreComp->pos.y < 0 ||
         posBossCoreComp->pos.y > sizeHeight - 150 || // boss is bouncing
         posBossCoreComp->pos.x > sizeWidth - 150) {
-      auto newVelocityOpt = // change velocity of the boss's
-          handleDirectionChange(posBossCoreComp->pos,
-                                bossVelComp->velocity); // core, and set all the pods
-      if (!newVelocityOpt.has_value()) {                // velocity to be the same
+      auto newVelocityOpt = handleDirectionChange(posBossCoreComp->pos, bossVelComp->velocity);
+      if (!newVelocityOpt.has_value()) {
         return;
       }
       GameEngine::Vect2 newVelocity = newVelocityOpt.value();
@@ -148,10 +132,7 @@ bool BounceBoss::checkInScreen(
 
   if (pos == nullptr)
     return false;
-  if (sizeHeight == 0 || sizeWidth == 0)
-    getScreenSize(componentsContainer);
-  auto posComp =
-      std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(pos.value());
+  auto posComp = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(pos.value());
   if (posComp->pos.x < 300 || posComp->pos.y < 300 ||
       posComp->pos.y > sizeHeight - 300 || posComp->pos.x > sizeWidth - 300) {
     return false;
@@ -162,25 +143,10 @@ bool BounceBoss::checkInScreen(
   return true;
 }
 
-void BounceBoss::getScreenSize(
-    GameEngine::ComponentsContainer &componentsContainer) {
-  auto window = componentsContainer.getEntityWithUniqueComponent(
-      GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
-  auto windowOpt = componentsContainer.getComponent(
-      window,
-      GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
-  if (windowOpt.has_value()) {
-    auto windowSize =
-        std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
-    sizeWidth = windowSize->windowWidth;
-    sizeHeight = windowSize->windowHeight;
-  }
-}
-
 float BounceBoss::randomizeVelocity(float currentVelocity) {
   float randomizedValue =
       1.0f + static_cast<float>(rand()) /
-                 (static_cast<float>(RAND_MAX) / 2.0f); // Between 1 and 3
+                 (static_cast<float>(RAND_MAX) / 2.0f);
 
   float direction = (currentVelocity >= 0) ? 1.0f : -1.0f;
 
@@ -197,7 +163,7 @@ BounceBoss::handleDirectionChange(GameEngine::Vect2 pos,
 
   if ((touchesLeft && velocity.x > 0) || (touchesRight && velocity.x < 0) ||
       (touchesTop && velocity.y > 0) || (touchesBottom && velocity.y < 0)) {
-    return std::nullopt; // Indicates that no changes should be made
+    return std::nullopt;
   }
 
   velocity.x = randomizeVelocity(velocity.x);

@@ -8,5 +8,6 @@ enum MobType {
     CANCER,
     PATAPATA,
     BUG,
-    BOSS
+    BELLMITE,
+    BELLMITEPOD
 };

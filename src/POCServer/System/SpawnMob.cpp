@@ -30,7 +30,7 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
     currentTick++;
 
     auto &mobs = currentMapContent["mobs"];
-    for (auto it = mobs.begin(); it != mobs.end(); /* No increment here */) {
+    for (auto it = mobs.begin(); it != mobs.end();) {
         if (currentTick == (*it)["tick"].get<int>()) {
             GameEngine::Vect2 position((*it)["position"]["x"].get<int>(), (*it)["position"]["y"].get<int>());
             bool dropPowerup = (*it)["dropPowerup"].get<bool>();
@@ -39,6 +39,12 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
                 EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
             } else if ((*it)["mobType"] == "pataPataMob") {
                 EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+            } else if ((*it)["mobType"] == "boss") {
+                  auto bounceBoss = std::make_shared<BounceBoss>();
+                  eventHandler.addEvent("bounceBoss", bounceBoss);
+                  auto launchBossPods = std::make_shared<LaunchBossPods>();
+                  eventHandler.addEvent("launchBossPods", launchBossPods);
+                  EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position, dropPowerup);
             }
 
             it = mobs.erase(it);

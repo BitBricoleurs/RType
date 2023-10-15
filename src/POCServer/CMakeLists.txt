@@ -7,6 +7,7 @@ target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Component)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System)
+target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/Factory)
 target_include_directories(${PROJECT_NAME_POCSERVER} PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR})
 

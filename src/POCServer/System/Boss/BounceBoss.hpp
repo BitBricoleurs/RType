@@ -14,7 +14,6 @@
 #include "PositionComponent2D.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
-#include "WindowInfoComponent.hpp"
 
 #include <cstddef>
 
@@ -27,11 +26,10 @@ private:
   bool checkInScreen(size_t bossCore,
                      GameEngine::ComponentsContainer &container,
                      GameEngine::EventHandler &eventHandler);
-  void getScreenSize(GameEngine::ComponentsContainer &componentsContainer);
   float randomizeVelocity(float currentVelocity);
   std::optional<GameEngine::Vect2>
   handleDirectionChange(GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
-  size_t sizeWidth = 0;
-  size_t sizeHeight = 0;
+  size_t sizeWidth = 1920;
+  size_t sizeHeight = 1080;
   bool hasAppeared = false;
 };
