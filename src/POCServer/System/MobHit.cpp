@@ -10,7 +10,9 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
         auto firstEntityOptMob = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
         if (firstEntityOptMob.has_value()) {
             auto hpComponent = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
+            if (!hpComponent.has_value())
+                return;
+            auto hpComponentCast = std::static_pointer_cast<Health>(hpComponent.value());
             auto DamageBullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Damage"));
             if (DamageBullet.has_value()) {
                 auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
@@ -21,18 +23,28 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
                 auto ispowerup = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
                 if (ispowerup.has_value())
                     eventHandler.queueEvent("SpawnPowerUp", firstEntity);
-              startMobDeath(componentsContainer, eventHandler, firstEntity);
+                std::vector<size_t> ids = {firstEntity};
+                killMobNetwork(eventHandler, ids);
+                componentsContainer.deleteEntity(firstEntity);
             }
             auto isbullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
-            auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
-            if (isbulletcast->passingThrough == false)
-                componentsContainer.deleteEntity(secondEntity);
+            if (isbullet.has_value()) {
+                auto isbulletcast = std::static_pointer_cast<IsBullet>(isbullet.value());
+                if (isbulletcast->passingThrough == false) {
+                    std::vector<size_t> idsBullet = {secondEntity};
+                    killMobNetwork(eventHandler, idsBullet);
+                    componentsContainer.deleteEntity(secondEntity);
+                }
+
+            }
         } else {
             auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
+            if (!hpComponent.has_value())
+                return;
+            auto hpComponentCast = std::static_pointer_cast<Health>(hpComponent.value());
             auto DamageBullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Damage"));
             if (DamageBullet.has_value()) {
-                auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
+                auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(DamageBullet.value());
                 if (DamageBulletCast != nullptr)
                     hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
             }
@@ -40,31 +52,28 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
                 auto ispowerup = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
                 if (ispowerup.has_value())
                     eventHandler.queueEvent("SpawnPowerUp", secondEntity);
-              startMobDeath(componentsContainer, eventHandler, secondEntity);
+                std::vector<size_t> ids = {secondEntity};
+                killMobNetwork(eventHandler, ids);
+                componentsContainer.deleteEntity(secondEntity);
             }
             auto isbullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
-            auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
-            if (isbulletcast->passingThrough == false)
-                componentsContainer.deleteEntity(firstEntity);
+            if (isbullet.has_value()) {
+                auto isbulletcast = std::static_pointer_cast<IsBullet>(*isbullet);
+                if (isbulletcast->passingThrough == false) {
+                    componentsContainer.deleteEntity(firstEntity);
+                    std::vector<size_t> idsBullet = {firstEntity};
+                    killMobNetwork(eventHandler, idsBullet);
+                }
+            }
         }
     } catch (std::exception &e) {
 
     }
 }
 
-void MobHit::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
-                           GameEngine::EventHandler &eventHandler, size_t id) {
-  auto velocityOpt = componentsContainer.getComponent(
-      id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-
-  auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
-      velocityOpt.value());
-  velocity->velocity.x = 0;
-  velocity->velocity.y = 0;
-  componentsContainer.unbindComponentFromEntity(
-      id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
-  componentsContainer.unbindComponentFromEntity(
-      id, GameEngine::ComponentsType::getComponentType("HeightVariation"));
-
-  eventHandler.scheduleEvent("MobDeath", 5, id);
+void MobHit::killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill)
+{
+     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DELETED_ENTITY", entitiesToKill, "", std::vector<std::any>{});
+     std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+     eventHandler.queueEvent("SEND_NETWORK", allMessage);
 }

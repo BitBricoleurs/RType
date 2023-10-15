@@ -14,7 +14,7 @@ void KillEntity::update(GameEngine::ComponentsContainer &componentsContainer,
 
     auto isMob = componentsContainer.getComponent(
         id, GameEngine::ComponentsType::getComponentType("IsMob"));
-
+    EntityFactory &factory = EntityFactory::getInstance();
     if (isMob.has_value()) {
       componentsContainer.unbindComponentFromEntity(
           id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
@@ -23,6 +23,7 @@ void KillEntity::update(GameEngine::ComponentsContainer &componentsContainer,
 
       eventHandler.scheduleEvent("MobDeath", 5, id);
     } else {
+        factory.unregisterEntity(id);
       componentsContainer.deleteEntity(id);
     }
   } catch (std::bad_any_cast &e) {

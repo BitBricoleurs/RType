@@ -17,6 +17,7 @@ void NetworkClientDisconnecting::update(GameEngine::ComponentsContainer &compone
         unsigned int networkId = message->remote;
         auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
         auto entitiesPlayers = componentsContainer.getEntitiesWithComponent(networkComp);
+        EntityFactory &factory = EntityFactory::getInstance();
         for (auto &entity : entitiesPlayers) {
             auto mayComp = componentsContainer.getComponent(entity, networkComp);
             if (!mayComp.has_value())
@@ -26,6 +27,7 @@ void NetworkClientDisconnecting::update(GameEngine::ComponentsContainer &compone
                 auto &server = Network::Server::getInstance();
                 server.disconnectClient(networkId);
                 componentsContainer.deleteEntity(entity);
+                factory.unregisterPlayer(entity);
                 std::vector<size_t> ids = {entity};
                 std::vector<std::any> args = {};
                 std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DELETED_ENTITY", ids, "", args);

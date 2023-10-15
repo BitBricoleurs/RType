@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstddef>
+#include <vector>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
@@ -14,4 +15,6 @@ public:
 
   size_t getComponentType() override;
   bool playerBullet;
+  bool passingThrough;
+  std::vector<size_t> alreadyHit;
 };

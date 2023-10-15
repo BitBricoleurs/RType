@@ -11,7 +11,6 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
     auto isPlayerOpt = componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("IsPlayer"));
     if (isPlayerOpt.has_value()) {
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOpt.value());
-        std::cout << "Event: " << events.first << std::endl;
         if (events.first == "SPACE_KEY_PRESSED") {
             _charge += 1;
             if (_charge > _maxCharge) {
@@ -23,7 +22,6 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
             }
         } else if (events.first == "SPACE_KEY_RELEASED") {
             if (shoot && endShoot) {
-                std::cout << "YES" << std::endl;
                 BulletTypeEntity type = BulletTypeEntity::PlayerBullet;
                 std::vector<size_t> ids = {};
                 std::vector<std::any> args = {static_cast<int>(type), _charge};

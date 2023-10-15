@@ -111,7 +111,6 @@ void Network::PacketIO::processOutgoingMessages()
                 return;
             }
             _bodyOut.clear();
-            std::cout << "Nbr message" << _outMessages->count() << std::endl;
             while (!_outMessages->empty()) {
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
                 if (size + message->getSize() > MAX_PACKET_SIZE)
