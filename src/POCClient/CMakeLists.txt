@@ -49,6 +49,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkServerTimeout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkConnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkServerAccept.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkDeleteEntity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdatePosition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateVelocity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/SyncPosSprite.cpp

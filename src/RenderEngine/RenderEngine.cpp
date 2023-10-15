@@ -129,7 +129,10 @@ void RenderEngine::ClearBackgroundRender(Color color) {
   ClearBackground(color);
 }
 
-void RenderEngine::Shutdown() { CloseWindow(); }
+void RenderEngine::Shutdown()
+{
+    CloseWindow();
+}
   
 RenderEngine::RenderEngine() {
     font = LoadFontEx("assets/Onick.ttf", 32, 0, 250);

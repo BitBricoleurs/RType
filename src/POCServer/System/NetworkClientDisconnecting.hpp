@@ -10,6 +10,7 @@
 #include "ISystem.hpp"
 #include "Message.hpp"
 #include "UserMessage.hpp"
+#include "EntityFactory.hpp"
 
 class NetworkClientDisconnecting : public GameEngine::ISystem {
     public:

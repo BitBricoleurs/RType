@@ -90,7 +90,8 @@ public:
         if (it != _entityIdMap.end()) {
             return it->second;
         }
-        throw std::runtime_error("Client entity ID not found");
+        std::cerr << "Error: EntityFactory: getServerId: clientEntityId not found" << std::endl;
+        return 0;
     }
 
     size_t getClientId(size_t serverEntityId) const {
@@ -99,7 +100,8 @@ public:
                 return it.first;
             }
         }
-        throw std::runtime_error("Server entity ID not found");
+        std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
+        return 0;
     }
 private:
   EntityFactory() = default;
