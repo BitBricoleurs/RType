@@ -4,39 +4,36 @@
 - [GameEngine Documentation](#gameengine-documentation)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
- - [Usage](#usage)
-    - [Registry](#gameengine)
-    - [**Scenes**](#scenes)
-    - [**Entities and Components**](#entities-and-components)
-    - [**Systems**](#systems)
-    - [Example Usage:](#example-usage)
-  - [**Example 1: Creating a Simple Game Entity**](#example-1-creating-a-simple-game-entity)
-  - [**Example 2: Implementing a Custom System**](#example-2-implementing-a-custom-system)
-  - [**Example 3: Scene Management**](#example-3-scene-management)
+  - [Usage](#usage)
+    - [GameEngine](#gameengine-1)
+    - [Scenes](#scenes-1)
+    - [Entities and Components](#entities-and-components-1)
+    - [Systems](#systems-1)
+    - [Example 1: Creating a Simple Game Entity](#example-1-creating-a-simple-game-entity)
+    - [Example 2: Implementing a Custom System](#example-2-implementing-a-custom-system)
+    - [Example 3: Scene Management](#example-3-scene-management)
 - [Layers in Renderable Components](#layers-in-renderable-components)
   - [LayerType Class](#layertype-class)
-    - [Public Methods:](#public-methods)
-    - [Private Members:](#private-members)
-  - [Example Usage:](#example-usage-1)
-  - [Recommendation:](#recommendation)
-    - [Entities and Components](#entities-and-components-1)
-  - [Entities](#entities)
-  - [Components](#components)
-    - [Example Usage:](#example-usage-2)
-      - [Defining Components:](#defining-components)
-    - [Using Components:](#using-components)
-    - [Systems](#systems-1)
+    - [Public Methods](#public-methods)
+    - [Private Members](#private-members)
+  - [Example Usage](#example-usage)
+  - [Recommendation](#recommendation)
+    - [Entities and Components](#entities-and-components-2)
+  - [Entities](#entities-1)
+  - [Components](#components-1)
+    - [Example Usage](#example-usage-1)
+      - [Defining Components](#defining-components)
+    - [Using Components](#using-components)
+    - [Systems](#systems-2)
 - [Systems in GameEngine](#systems-in-gameengine)
   - [ISystem Interface](#isystem-interface)
-    - [Attributes:](#attributes)
-    - [Methods:](#methods)
-      - [update:](#update)
-    - [Example Usage:](#example-usage-3)
+    - [Attributes](#attributes)
+    - [Methods](#methods)
+      - [update](#update)
+    - [Example Usage](#example-usage-2)
   - [Recommendations:](#recommendations)
   - [Advanced Usage](#advanced-usage)
-  - [API Reference](#api-reference)
-  - [Contributing](#contributing)
-  - [License](#license)
+- [EventHandler](#eventhandler)
 
 ## Introduction
 
@@ -74,7 +71,7 @@ Scenes help you organize different parts of your game. With the `GameEngine`, yo
 
 ### **Entities and Components**
 
-Entities represent objects in your game, and components are the data associated with them. With the `Registry`, you can:
+Entities represent objects in your game, and components are the data associated with them. With the `ComponentsContainer`, you can:
 
 - **Create Entities**: 
   - Instantiate new entities, either empty or with a set of initial components.
@@ -90,7 +87,7 @@ Entities represent objects in your game, and components are the data associated 
   
 ### **Systems**
 
-Systems are responsible for game logic. With the `Registry`, you can:
+Systems are responsible for game logic. With the `GameEngine` and the `EventHandler`, you can:
 
 - **Add Systems**: 
   - Register new game systems by name or by specifying their path.
@@ -100,6 +97,9 @@ Systems are responsible for game logic. With the `Registry`, you can:
 
 - **Delete Systems**: 
   - Remove a system when it's no longer required.
+  - 
+- **Bind to events**:
+  - Bind a system to an event, so that it can react to it.
 
 ### Example Usage:
 
@@ -108,7 +108,7 @@ Here are some code examples to illustrate how to use GameEngine:
 ## **Example 1: Creating a Simple Game Entity**
 
 ```cpp
-// Initializing the Registry
+// Initializing the GameEngine
 GameEngine::GameEngine engine;
 
 // Creating a new entity
@@ -126,7 +126,7 @@ class RenderSystem : public ISystem {
     // Implement the system logic here
 };
 
-// Creating the system and adding to the registry
+// Creating the system and adding to the engine
 auto renderSystem = std::make_shared<RenderSystem>();
 engine.addSystem("RenderSystem", renderSystem);
 ```
@@ -203,7 +203,7 @@ With the LayerType class, it becomes straightforward to manage the rendering hie
 
 ## Entities
 
-- Entities are unique identifiers for game objects in the game world, often represented as integers (like `size_t`). GameEngine's `Registry` provides methods to manage these entities.
+- Entities are unique identifiers for game objects in the game world, often represented as integers (like `size_t`). GameEngine's `ComponentContainer` provides methods to manage these entities.
 
 - **createEntity**: Creates a new entity, optionally specifying its layer or initial components, and returns its ID.
   
@@ -321,6 +321,74 @@ namespace GameEngine {
 2. Systems can also communicate or interact with other systems if needed. However, make sure to manage dependencies between systems carefully to avoid tight coupling and circular dependencies.
 
 With this information, users of the GameEngine can better understand how to implement custom game systems and how they interact with entities and components.
+
+## EventHandler
+
+The `EventHandler` class is responsible for managing and processing events within the GameEngine namespace. It provides capabilities to register, queue, process, schedule, and trigger events.
+
+### Public Member Functions
+
+- **EventHandler()**: Default constructor for initializing the event handler.
+
+- **~EventHandler()**: Destructor to handle necessary cleanup.
+
+- **addEvent(const std::string& eventName, std::shared_ptr<ISystem> system)**: Register a system to respond to a particular event.
+
+- **addEvent(const std::string& eventName, std::function<void()> function)**: Register a function callback to respond to a particular event.
+
+- **addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems)**: Register multiple systems to respond to a particular event.
+
+- **queueEvent(const std::string& eventName, const std::any& eventData = {})**: Queue an event for later processing, with optional data.
+
+- **processEventQueue(ComponentsContainer& componentsContainer)**: Process the events queued up.
+
+- **triggerEvent(const std::string& eventName, ComponentsContainer& componentsContainer)**: Immediately trigger and process an event.
+
+- **deleteEvent(const std::string& eventName)**: Remove an event from the registry.
+
+- **scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {}, size_t repeat = 0)**: Schedule an event to occur at a specified interval with optional data and repetitions.
+
+- **unscheduleEvent(const std::string& eventName, const std::any& eventData = {})**: Remove a previously scheduled event.
+
+- **updateScheduledEvents()**: Update the state of scheduled events.
+
+- **getTriggeredEvent() const**: Retrieve the front-most event in the queue.
+
+- **setContinuousEvent(const std::string& eventName, const std::string& continuousEventName, const std::any& eventData = {})**: Set an event as continuous, linking it with another event and its data.
+
+- **removeContinuousEvent(const std::string& eventName)**: Remove a continuous event linkage.
+
+### Example Usage
+
+```cpp
+// Create a system to handle the event
+auto system = std::make_shared<GameEngine::MovementSystem>();
+
+// Register the system to handle the event
+eventHandler->addEvent("Move", system);
+
+// Queue the event
+eventHandler->queueEvent("Move");
+
+// Schedule the event to occur every 5 ticks
+eventHandler->scheduleEvent("Move", 5);
+
+// Schedule the event to occur every 5 ticks, 3 times
+
+eventHandler->scheduleEvent("Move", 5, {}, 3);
+
+// Send data with the event
+eventHandler->queueEvent("Move", 5, {1, 2, 3});
+
+// Get the event that was triggered (Works only in a system called by the event handler)
+auto [eventName, eventData] = eventHandler->getTriggeredEvent();
+-> eventName = "Move"
+-> eventData = {1, 2, 3}
+
+// The system will now be called when the event is processed
+```
+
+In summary, the `EventHandler` class provides a robust mechanism for managing events in the GameEngine.
 
 ---
 
