@@ -68,8 +68,8 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
         // Bullet vs Bullet
 
         if (firstEntityOptBullet.has_value() && secondEntityOptBullet.has_value()) {
-            componentsContainer.deleteEntity(firstEntity);
-            componentsContainer.deleteEntity(secondEntity);
+            //componentsContainer.deleteEntity(firstEntity);
+            //componentsContainer.deleteEntity(secondEntity);
         }
 
 
@@ -87,7 +87,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
                 shootercompplayercast->typeBullet = 2;
             }
 
-            componentsContainer.deleteEntity(secondEntity);
+            //componentsContainer.deleteEntity(secondEntity);
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptPowerUp.has_value()) {
             auto poscompplayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
             auto poscompplayercast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*poscompplayer);
@@ -99,7 +99,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
                 auto shootercompplayercast = std::dynamic_pointer_cast<Shooter>(*shootercompplayer);
                 shootercompplayercast->typeBullet = 2;
             }
-            componentsContainer.deleteEntity(firstEntity);
+            //componentsContainer.deleteEntity(firstEntity);
         }
         // Player vs forcepod
 

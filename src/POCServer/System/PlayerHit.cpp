@@ -10,14 +10,23 @@ void PlayerHit::update(GameEngine::ComponentsContainer &componentsContainer, Gam
         auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
         if (firstEntityOptPlayer.has_value()) {
+            return;
             std::cout << "Player hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", firstEntity);
-            eventHandler.queueEvent("PLAY_SOUND", firstEntity);
+            std::vector<size_t> entities = {secondEntity};
+            std::vector<std::any> args = {};
+            std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("DELETED_ENTITY", entities, "", args);
+            std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", allMessage);
             componentsContainer.deleteEntity(secondEntity);
         } else {
+            return;
             std::cout << "Mob hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", secondEntity);
-            eventHandler.queueEvent("PLAY_SOUND", secondEntity);
+            std::vector<size_t> entities = {firstEntity};
+            std::vector<std::any> args = {};
+            std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("DELETED_ENTITY", entities, "", args);
+            std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
             componentsContainer.deleteEntity(firstEntity);
         }
 

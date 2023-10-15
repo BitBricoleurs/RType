@@ -9,6 +9,7 @@
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
 #include "Message.hpp"
+#include "UserMessage.hpp"
 
 namespace Server {
     class OutOfBounds : public GameEngine::ISystem {

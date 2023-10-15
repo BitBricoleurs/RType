@@ -18,9 +18,10 @@ void Server::OutOfBounds::update(GameEngine::ComponentsContainer & componentsCon
             if (position) {
                 if (position->pos.x < 0 - _offset || position->pos.x > _width + _offset || position->pos.y < 0 - _offset || position->pos.y > _height + _offset) {
                     std::vector<size_t> entities = {entityID};
-
-                    Network::Message message = Network::Message("DELETED_ENTITY", entities, "", {});
-                    eventHandler.queueEvent("SEND_NETWORK", std::make_shared<Network::Message>(message));
+                    std::vector<std::any> args = {};
+                    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("DELETED_ENTITY", entities, "", args);
+                    std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+                    eventHandler.queueEvent("SEND_NETWORK", allMessage);
                     componentsContainer.deleteEntity(entityID);
                 }
             }

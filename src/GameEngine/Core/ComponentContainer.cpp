@@ -95,7 +95,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
     }
 
     void ComponentsContainer::deleteEntity(size_t entityID) {
-        freeMemorySlots.push_back(entityID);
+        //freeMemorySlots.push_back(entityID);
 
         for (auto& [componentType, components] : componentsContainer) {
             if (entityID < components.size()) {

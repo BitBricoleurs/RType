@@ -10,6 +10,8 @@
 #include "ComponentsType.hpp"
 #include "Health.hpp"
 #include "Damage.hpp"
+#include "UserMessage.hpp"
+#include "Message.hpp"
 
 
 class PlayerHit : public GameEngine::ISystem {
