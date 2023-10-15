@@ -24,7 +24,6 @@
 #include "ParallaxPlanet.hpp"
 #include "ChargingBar.hpp"
 #include "WindowInfoComponent.hpp"
-#include "ChargeShoot.hpp"
 #include "NetworkDeleteEntity.hpp"
 
 
