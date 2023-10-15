@@ -12,26 +12,36 @@ void PlayerHitMob::update(GameEngine::ComponentsContainer &componentsContainer, 
         auto secondEntityOptMob = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
 
         if (firstEntityOptPlayer.has_value()) {
-            auto hpComponent = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
-            hpComponentCast->currentHealth -= 1;
-            if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", firstEntity);
-            }
+            eventHandler.queueEvent("DAMAGE", firstEntity);
             eventHandler.queueEvent("PLAY_SOUND", firstEntity);
-            eventHandler.queueEvent("Death", secondEntity);
+            startMobDeath(componentsContainer, eventHandler, secondEntity);
+            componentsContainer.unbindComponentFromEntity(secondEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
         } else if (secondEntityOptMob.has_value()) {
-            auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
-            hpComponentCast->currentHealth -= 1;
-            if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", secondEntity);
-            }
+            eventHandler.queueEvent("DAMAGE", secondEntity);
             eventHandler.queueEvent("PLAY_SOUND", secondEntity);
-            eventHandler.queueEvent("Death", firstEntity);
+            startMobDeath(componentsContainer, eventHandler, firstEntity);
+            componentsContainer.unbindComponentFromEntity(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
         }
 
     } catch (std::exception &e) {
 
     }
+    }
+
+    void PlayerHitMob::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
+                           GameEngine::EventHandler &eventHandler, size_t id) {
+  auto velocityOpt = componentsContainer.getComponent(
+      id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+
+  auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+      velocityOpt.value());
+  velocity->velocity.x = 0;
+  velocity->velocity.y = 0;
+  componentsContainer.unbindComponentFromEntity(
+      id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
+  componentsContainer.unbindComponentFromEntity(
+      id, GameEngine::ComponentsType::getComponentType("HeightVariation"));
+
+
+  eventHandler.scheduleEvent("MobDeath", 5, id);
 }

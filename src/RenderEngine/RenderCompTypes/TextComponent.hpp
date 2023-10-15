@@ -16,7 +16,7 @@
 namespace GameEngine {
     class TextComponent : public AComponent {
     public:
-        TextComponent(const std::string& text, Vect2 pos, int fontSize, size_t layer, ColorR color) {
+        TextComponent(const std::string text, Vect2 pos, int fontSize, size_t layer, ColorR color) {
             this->text = text;
             this->fontSize = fontSize;
             this->layer = layer;
@@ -24,6 +24,7 @@ namespace GameEngine {
             this->pos = pos;
         }
         ~TextComponent() override = default;
+        size_t getComponentType() override { return ComponentsType::getNewComponentType("TextComponent"); }
 
         size_t layer;
         std::string text;
