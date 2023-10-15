@@ -7,11 +7,14 @@
 #include <cstddef>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
+#include "vector"
 
 class IsBullet : public GameEngine::AComponent {
 public:
-  explicit IsBullet(bool playerBullet);
+  IsBullet(bool playerBullet);
 
   size_t getComponentType() override;
   bool playerBullet;
+  bool passingThrough;
+  std::vector<size_t> alreadyHit;
 };

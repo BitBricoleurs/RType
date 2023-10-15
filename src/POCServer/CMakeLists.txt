@@ -48,6 +48,10 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkShootClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/PlayerHitMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/CollisionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
