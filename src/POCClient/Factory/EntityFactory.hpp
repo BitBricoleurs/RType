@@ -148,7 +148,7 @@ private:
                                    int frames, bool twoDirections, bool reverse,
                                    GameEngine::Vect2 pos,
                                    GameEngine::Vect2 velocity,
-                                   bool isPlayerBullet, int playerA, const std::string &pathSound, float scale,
+                                   bool isPlayerBullet, int playerA, float scale,
                                    float rotation, GameEngine::ColorR tint, int layer);
 
   size_t createPowerUp(GameEngine::ComponentsContainer &container, const std::string &spriteSheetPath,

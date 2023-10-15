@@ -27,6 +27,7 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
                 std::vector<std::any> args = {static_cast<int>(type), _charge};
                 std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CHARGE_SHOOT", ids, "INT", args);
                 eventHandler.queueEvent("SEND_NETWORK", message);
+                eventHandler.queueEvent("PLAY_SOUND", isPlayerId);
                 shoot = false;
                 endShoot = false;
             }

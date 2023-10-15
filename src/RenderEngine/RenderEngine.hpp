@@ -58,7 +58,6 @@ namespace GameEngine {
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
         {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_ESCAPE, IsKeyPressed, "gameEngineStop"},
         {KEY_F11, IsKeyPressed, "toggleFullScreen"}
     };
 

@@ -43,6 +43,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/LoadConfig.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
 
+
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkReceiveDisconnect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkReceiveDisconnectApply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/ChargingBar.cpp
@@ -67,6 +68,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/UpdateEntitySprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CollisionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/InitAudioBackgroud.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

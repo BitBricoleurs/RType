@@ -31,6 +31,7 @@
 
   "createPlayer": {
     "spriteSheetPath": "assets/ships.gif",
+    "pathSound": "assets/music/Shoot.wav",
     "spriteSheetHeight": 86,
     "spriteSheetWidth": 166,
     "hitboxHeight": 86,

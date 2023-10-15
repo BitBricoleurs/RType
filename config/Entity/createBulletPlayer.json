@@ -6,7 +6,6 @@
     "damageValue": 50,
     "isPlayerBullet": true,
     "playerA": 0,
-    "pathSound": "assets/music/Shoot.wav",
     "scale": 2.5,
     "rotation": 0,
     "tint": {

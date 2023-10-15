@@ -28,7 +28,7 @@
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
-#include "WindowInfoComponent.hpp"
+#include "InitAudioBackgroud.hpp"
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
@@ -105,6 +105,15 @@ void setup_game(GameEngine::GameEngine& engine)
     auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
     auto collisionHandler = std::make_shared<CollisionHandler>();
     auto MobHit1 = std::make_shared<MobHit>();
+    auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
+    auto initAudio = std::make_shared<InitAudioBackgroud>();
+
+    engine.addEvent("PLAY_SOUND", audioSys);
+    engine.addEvent("Init", initAudio);
+    engine.queueEvent("Init");
+
+    engine.scheduleEvent("UPDATE_SOUNDS", 1);
+    engine.addEvent("UPDATE_SOUNDS", audioSys);
 
     engine.addSystem("ParallaxSystem", parallax);
     engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
