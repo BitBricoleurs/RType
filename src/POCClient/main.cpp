@@ -108,10 +108,12 @@ void setup_animations(GameEngine::GameEngine &engine) {
   auto killEntity = std::make_shared<KillEntity>();
   auto mobDeath = std::make_shared<AnimateDeath>();
   auto updateSprite = std::make_shared<updateEntitySprite>();
+  auto animateOnMove = std::make_shared<AnimateOnMove>();
 
   engine.addEvent("MobDeath", mobDeath);
   engine.addEvent("KillEntity", killEntity);
   engine.addEvent("animate", updateSprite);
+  engine.addEvent("animatePlayer", animateOnMove);
 }
 
 int main() {
