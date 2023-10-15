@@ -1,5 +1,6 @@
 {
   "createCancerMob": {
+    "dropPowerup" : true,
     "spriteSheetPath": "assets/cancerMob.gif",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 200,
@@ -8,7 +9,7 @@
     "frames": 6,
     "twoDirections": true,
     "reverse": true,
-    "deathSpriteSheetPath": "assets/explosion.gif",
+    "deathSpriteSheetPath": "assets/explode-mob.gif",
     "deathSpriteSheetHeight": 33,
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,

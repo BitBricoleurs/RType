@@ -21,6 +21,10 @@
 #include "NetworkClientDisconnecting.hpp"
 #include "OutOfBounds.hpp"
 #include "IndentifyOutOfBounds.hpp"
+#include "CollisionHandler.hpp"
+#include "PlayerHit.hpp"
+#include "MobHit.hpp"
+#include "PlayerHitMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -61,8 +65,17 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 
 void setup_engine(GameEngine::GameEngine& engine)
 {
+    auto collisionsHandler = std::make_shared<CollisionHandler>();
+    auto PlayerHit1 = std::make_shared<PlayerHit>();
+    auto MobHit1 = std::make_shared<MobHit>();
+    auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
     std::string path = "config/map";
     auto spawnMob = std::make_shared<SpawnMob>(path);
+
+    engine.addEvent("PlayerHit", PlayerHit1);
+    engine.addEvent("MobHit", MobHit1);
+    engine.addEvent("PlayerHitMob", PlayerHitMob1);
+    engine.addSystem("COLLISIONS_HANDLER", collisionsHandler, 1);
 }
 
 int main(void) {

@@ -26,7 +26,28 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
   std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents =
       componentsContainer.getComponents(
           ComponentsType::getComponentType("SpriteComponent"));
-  renderEngine->PollEvents(eventHandler);
+  std::vector<std::optional<std::shared_ptr<IComponent>>> buttonComponents =
+      componentsContainer.getComponents(
+          ComponentsType::getComponentType("ButtonComponent"));
+
+  std::vector<std::shared_ptr<ButtonComponent>> sortedButtonComponents;
+
+  for (const auto &component : buttonComponents) {
+    if (component.has_value()) {
+      auto button = std::dynamic_pointer_cast<ButtonComponent>(component.value());
+        sortedButtonComponents.push_back(button);
+    }
+    }
+
+  std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
+    [](const std::shared_ptr<ButtonComponent> &a, const std::shared_ptr<ButtonComponent> &b) {
+        if(a->layer == b->layer) {
+            return a->pos.x < b->pos.x;
+        }
+        return a->layer < b->layer;
+    });
+
+  renderEngine->PollEvents(eventHandler, sortedButtonComponents);
 
   std::vector<TextComponent> sortedTextComponents;
   std::vector<SpriteComponent> sortedSpriteComponents;
@@ -65,16 +86,26 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
         return a.layer < b.layer;
     });
 
+
   renderEngine->ClearBackgroundRender(BLACK);
 
   BeginDrawing();
-  for (const auto &component : sortedTextComponents) {
-    renderEngine->Draw(component);
-  }
 
   for (const auto &component : sortedSpriteComponents) {
     renderEngine->Draw(component);
   }
+
+  for (const auto &component : sortedTextComponents) {
+    renderEngine->Draw(component);
+  }
+
+  for (const auto &component : sortedButtonComponents) {
+    renderEngine->Draw(*component);
+  }
+
+
+
+
 
   EndDrawing();
 }
