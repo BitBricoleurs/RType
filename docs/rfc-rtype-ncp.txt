@@ -213,14 +213,14 @@ The disconnection process can be initiated by either the server or the client.
       
       Each message within the body is structured as follows:
 
-      | Field          | Size (Bytes) | Description                                        |
-      | -------------- | ------------ | -------------------------------------------------- |
-      | Message Size   | 2            | Size of the message including the header and data. |
-      | Action         | 1            | Describes the type of action (e.g., move, shoot, etc.).|
-      | Num IDs        | 2            | The number of IDs affected by this action.        |
-      | IDs            | Variable     | The IDs affected by this action.                   |
-      | Num Args       | 1            | The number of arguments related to the action.     |
-      | Type Arg       | 1            | Indicates the size/type of each argument.         |
+      | Field          | Size (Bytes) | Description                                                     |
+      | -------------- | ------------ | --------------------------------------------------------------- |
+      | Message Size   | 2            | Size of the message including the header and data.              |
+      | Action         | 1            | Describes the type of action (e.g., move, shoot, etc).          |
+      | Num IDs        | 2            | The number of IDs affected by this action.                      |
+      | IDs            | Variable     | The IDs affected by this action.                                |
+      | Num Args       | 1            | The number of arguments related to the action.                  |
+      | Type Arg       | 1            | Indicates the size/type of each argument.                       |
       | Arguments      | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.). |
 
       The body can contain multiple messages,
@@ -286,6 +286,7 @@ The disconnection process can be initiated by either the server or the client.
          UPDATE_POSITION  | `0x07`     | float (position_x), float (position_y)
          MOVE             | `0x08`     | float (velocity_x), float (velocity_y)
          CHARGE_SHOOT     | `0x09`     | None
+         DELETED_ENTITY   | `0x0A`     | int (EntityID)
 
       Argument Type Tables:
 
