@@ -286,6 +286,7 @@ The disconnection process can be initiated by either the server or the client.
          UPDATE_POSITION  | `0x07`     | float (position_x), float (position_y)
          MOVE             | `0x08`     | float (velocity_x), float (velocity_y)
          CHARGE_SHOOT     | `0x09`     | None
+         DELETED_ENTITY   | `0x0A`     | int (EntityID)
 
       Argument Type Tables:
 
