@@ -40,7 +40,7 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
                 GameEngine::Vect2(0.5f * static_cast<float>(spriteComponent->layer) + Velocity.x, 0);
 
             if (newPos.x + spriteComponent->rect1.w < 0) {
-              newPos.x = 1080;
+              newPos.x = 1920;
             }
 
             spriteComponent->pos = newPos;

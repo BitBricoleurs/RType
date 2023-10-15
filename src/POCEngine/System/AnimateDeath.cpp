@@ -23,6 +23,7 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
         spriteOpt.value());
     auto deathAnim =
         std::dynamic_pointer_cast<DeathAnimation>(deathOpt.value());
+
     if (sprite->imagePath != deathAnim->filepath) {
       sprite->rect1.w = deathAnim->frameWidth;
       sprite->rect1.h = deathAnim->frameHeight;

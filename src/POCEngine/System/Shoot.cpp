@@ -27,9 +27,9 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         if (shooterComp->typeBullet == 0) {
             if (charge > 50) {
                 shootingPosition.y = shootingPosition.y - 15;
-                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), "assets/ShootCharge.gif", GameEngine::rect(0, 0, 80, 16));
+                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), "assets/ShootCharge.gif", GameEngine::rect(0, 0, 80, 16), 1);
             } else {
-                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), "assets/shoot.gif", GameEngine::rect(0, 0, 16, 4));
+                bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(20,0), "assets/shoot.gif", GameEngine::rect(0, 0, 16, 4), 1);
             }
         } else if (shooterComp->typeBullet == 1) {
             auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -53,6 +53,8 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               auto velocity = directionToClosestPlayer * scaleFactor;
               bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
+        } else if (shooterComp->typeBullet == 2) {
+            bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(10,0), "assets/spritesheet-5.png", GameEngine::rect(0, 0, 64, 32), 2);
         }
         eventHandler.queueEvent("PLAY_SOUND", bullet);
     }

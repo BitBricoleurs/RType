@@ -10,6 +10,7 @@
 #include "raylib.h"
 #include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ButtonComponent.hpp"
 #include "EventHandler.hpp"
 #include <unordered_map>
 #include "KeyMapping.hpp"
@@ -20,25 +21,26 @@
 namespace GameEngine {
     class RenderEngine {
     public:
-        RenderEngine();
-        ~RenderEngine();
+      RenderEngine();
+      ~RenderEngine();
 
-        void Initialize(const char* windowTitle);
-        void Draw(const TextComponent& textComponent);
-        void Draw(const SpriteComponent& spriteComponent);
-        void PollEvents(EventHandler& eventHandler);
-        void Shutdown();
-        void ClearBackgroundRender(Color colosr);
+      void Initialize(const char *windowTitle);
+      void Draw(const TextComponent &textComponent);
+      void Draw(const SpriteComponent &spriteComponent);
+      void Draw(const ButtonComponent &buttonComponent);
+      void PollEvents(EventHandler &eventHandler,
+                      std::vector<std::shared_ptr<ButtonComponent>> buttons);
+      void Shutdown();
+      void ClearBackgroundRender(Color color);
 
-        size_t getScreenWidth();
-        size_t getScreenHeight();
+      size_t getScreenWidth();
+      size_t getScreenHeight();
 
     private:
         size_t screenWidth;
         size_t screenHeight;
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
-        Font font;
         float scaleX;
         float scaleY;
 
