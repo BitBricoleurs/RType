@@ -56,7 +56,6 @@ namespace GameEngine {
         Registry registry;
         EventHandler eventHandler;
         double tickSpeed;
-        std::vector<std::tuple<std::string, size_t, size_t>> scheduledEvents;
         bool isRunning;
     };
 } // namespace GameEngine

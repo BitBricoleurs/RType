@@ -10,7 +10,9 @@
 
 class IsPowerUp : public GameEngine::AComponent {
 public:
+  IsPowerUp(size_t);
   IsPowerUp() = default;
 
   size_t getComponentType() override;
+  size_t type;
 };

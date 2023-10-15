@@ -2,6 +2,7 @@ set(SOURCES
         RenderEngine.cpp
         RenderEngineSystem.cpp
         ToggleFullScreen.cpp
+        RenderCompTypes/ButtonComponent.cpp
         )
 
 add_library(RenderEngineLib STATIC ${SOURCES})
