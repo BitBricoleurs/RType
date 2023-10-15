@@ -20,7 +20,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
 
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
 
-
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/BossComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/DeathAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBoss.cpp
@@ -36,6 +36,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/isHealthBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Score.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp

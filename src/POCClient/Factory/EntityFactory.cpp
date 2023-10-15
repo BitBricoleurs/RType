@@ -49,8 +49,8 @@ size_t EntityFactory::createBossMob(
 
   auto bossComponent = std::make_shared<IsBoss>();
 
-  container.unbindComponentFromEntity(
-      entityId, GameEngine::ComponentsType::getComponentType("Mob"));
+  //container.unbindComponentFromEntity(
+    //  entityId, GameEngine::ComponentsType::getComponentType("Mob"));
   container.bindComponentToEntity(entityId, bossComponent);
 
   return entityId;

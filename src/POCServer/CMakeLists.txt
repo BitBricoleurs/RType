@@ -17,6 +17,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/System/NetworkOutput.cpp
         ${CMAKE_SOURCE_DIR}/src/SharedNetwork/Component/NetworkClientId.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/Component/BossComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/BossStage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Damage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Health.cpp
@@ -29,6 +30,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Component/IsBullet.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBoss.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
@@ -48,6 +50,9 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/System/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkShootClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/System/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/BounceBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/LatchPodToBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/System/Boss/LaunchBossPods.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 

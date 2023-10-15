@@ -35,6 +35,7 @@
 #include "BulletUtils.hpp"
 #include "PlayerUtils.hpp"
 #include "MobUtils.hpp"
+#include "BossComponent.hpp"
 
 class EntityFactory {
 public:
@@ -127,4 +128,7 @@ private:
     private:
         std::map<size_t, PlayerNumber> _playerMap;
 
+size_t createBellmiteBoss(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+size_t createBellmitePod(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
+size_t createBellmite(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, GameEngine::Vect2 pos, bool dropPowerup);
 };
