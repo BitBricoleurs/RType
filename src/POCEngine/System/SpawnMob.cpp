@@ -58,10 +58,10 @@ void SpawnMob::loadMapFiles(const std::string &path)
 {
     std::string newPath = std::string();
     #if defined(__APPLE__)
-        char path[1024];
-        uint32_t size = sizeof(path);
-        if (_NSGetExecutablePath(path, &size) == 0) {
-            std::string pathStr = std::string(path);
+        char pathd[1024];
+        uint32_t size = sizeof(pathd);
+        if (_NSGetExecutablePath(pathd, &size) == 0) {
+            std::string pathStr = std::string(pathd);
             newPath = (pathStr.substr(0, pathStr.find_last_of("/")) + "/");
         } else {
             newPath = "";
