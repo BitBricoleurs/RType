@@ -71,7 +71,7 @@ public:
                                GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
     nlohmann::json loadConfig(const std::string& filePath);
-
+  nlohmann::json loadConfigMap(const std::string& filePath);
 
 private:
   EntityFactory() = default;
@@ -142,7 +142,6 @@ private:
   std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                      int deathWidth, int deathHeight);
-    private:
 
   int player = 0;
 };

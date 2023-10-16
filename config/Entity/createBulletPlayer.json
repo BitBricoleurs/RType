@@ -15,6 +15,7 @@
       "a": 255
     },
     "layer": 7,
+    "pathSound": "assets/music/Shoot.wav",
     "bulletTypes": {
       "type0": {
         "rect": {

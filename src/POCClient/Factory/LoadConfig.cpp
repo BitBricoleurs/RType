@@ -49,8 +49,9 @@ nlohmann::json EntityFactory::loadConfig(const std::string& filePath) {
     if (path.empty()) {
         path = "./";
     }
-    path = getExecutablePath() + filePath;
+    path = path + filePath;
     std::ifstream file(path);
+    std::cout << "PATH:" << path << std::endl;
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << path << std::endl;
         throw std::runtime_error("Failed to open config file.");

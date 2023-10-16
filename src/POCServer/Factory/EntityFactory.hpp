@@ -93,6 +93,7 @@ public:
         return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
     }
 
+nlohmann::json loadConfigMap(const std::string& filePath);
 private:
   EntityFactory() = default;
   ~EntityFactory() = default;
@@ -127,8 +128,7 @@ private:
     int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
     GameEngine::Vect2 velocity, float scale);
 
-
-    private:
+  private:
         std::map<size_t, PlayerNumber> _playerMap;
 
 };
