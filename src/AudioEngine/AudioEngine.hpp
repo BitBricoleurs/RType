@@ -12,7 +12,6 @@
 #include <unistd.h>
 #endif
 
-
 namespace GameEngine {
     class AudioEngine {
     public:

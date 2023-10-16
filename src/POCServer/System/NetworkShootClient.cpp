@@ -49,5 +49,4 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
             eventHandler.queueEvent("SHOOT", tuple);
         }
     }
-
 }

@@ -6,7 +6,9 @@
 */
 
 #include "SpawnMob.hpp"
-#if defined(__linux__)
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#elif defined(__linux__)
 #include <libgen.h>
 #include <limits.h>
 #include <unistd.h>
@@ -56,19 +58,21 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
 
 void SpawnMob::loadMapFiles(const std::string &path)
 {
-    std::string newPath = std::string();
-    #if defined(__APPLE__)
-        char path[1024];
-        uint32_t size = sizeof(path);
-        if (_NSGetExecutablePath(path, &size) == 0) {
-            std::string pathStr = std::string(path);
+    std::string newPath = std::string("");
+    #if defined(_WIN32) || defined(_WIN64)
+        newPath = "";
+    #elif defined(__APPLE__)
+        char pathd[1024];
+        uint32_t size = sizeof(pathd);
+        if (_NSGetExecutablePath(pathd, &size) == 0) {
+            std::string pathStr = std::string(pathd);
             newPath = (pathStr.substr(0, pathStr.find_last_of("/")) + "/");
         } else {
             newPath = "";
     }
     #else
         char result[PATH_MAX];
-        ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        size_t count = readlink("/proc/self/exe", result, PATH_MAX);
         if (count < 0 || count >= PATH_MAX) {
             newPath = "";
         }
