@@ -1,0 +1,28 @@
+name: Mirror Repository
+
+env:
+  MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-clement.lagasse.git
+
+on:
+  push:
+    paths-ignore:
+      - ".github/**" # Exclude the workflows
+  delete:
+  create:
+
+concurrency:
+  group: git-mirror
+
+jobs:
+  git-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Remove .github/workflows directory
+        run: rm -rf .github/workflows
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}

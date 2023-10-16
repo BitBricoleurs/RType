@@ -1,0 +1,33 @@
+{
+  "createBugMob": {
+    "dropPowerup" : true,
+    "spriteSheetPath": "assets/bugMob.png",
+    "spriteSheetHeight": 34,
+    "spriteSheetWidth": 532,
+    "hitboxHeight": 34,
+    "hitboxWidth": 33,
+    "frames": 16,
+    "twoDirections": false,
+    "reverse": false,
+    "deathSpriteSheetPath": "assets/explode-mob.gif",
+    "deathSpriteSheetHeight": 33,
+    "deathSpriteSheetWidth": 200,
+    "deathFrames": 6,
+    "velocity": {
+      "x": -2,
+      "y": 0
+    },
+    "maxHealth": 100,
+    "damageValue": 10,
+    "player": 0,
+    "scale": 2.5,
+    "rotation": 0,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 7
+  }
+}
