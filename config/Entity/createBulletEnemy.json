@@ -1,6 +1,7 @@
 {
   "createBullet": {
     "spriteSheetPath": "assets/mobBullet.png",
+    "pathSound": "assets/music/Shoot.wav",
     "spriteSheetHeight": 6,
     "spriteSheetWidth": 28,
     "hitboxHeight": 6,

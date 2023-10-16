@@ -6,6 +6,12 @@
 */
 
 #include "SpawnMob.hpp"
+#if defined(__linux__)
+#include <libgen.h>
+#include <limits.h>
+#include <unistd.h>
+#endif
+
 
 SpawnMob::SpawnMob(std::string path) : directoryPath(std::move(path))
 {
@@ -48,8 +54,35 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
     }
 }
 
-void SpawnMob::loadMapFiles(const std::string &path){
-    for (const auto &entry : std::filesystem::directory_iterator(path)) {
+void SpawnMob::loadMapFiles(const std::string &path)
+{
+    std::string newPath = std::string();
+    #if defined(__APPLE__)
+        char path[1024];
+        uint32_t size = sizeof(path);
+        if (_NSGetExecutablePath(path, &size) == 0) {
+            std::string pathStr = std::string(path);
+            newPath = (pathStr.substr(0, pathStr.find_last_of("/")) + "/");
+        } else {
+            newPath = "";
+    }
+    #else
+        char result[PATH_MAX];
+        ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        if (count < 0 || count >= PATH_MAX) {
+            newPath = "";
+        }
+        result[count] = '\0';
+        char* dir = dirname(result);
+        if (dir == NULL) {
+            newPath = "";
+        }
+        std::string pathd = std::string(dir);
+        newPath = pathd + std::string("/");
+    #endif
+        newPath = newPath + path;
+        std::cout << "PATH: ->" << newPath << std::endl;
+    for (const auto &entry : std::filesystem::directory_iterator(newPath)) {
         if (entry.path().extension() == ".json") {
             mapFiles.push_back(entry.path().string());
         }
@@ -59,7 +92,7 @@ void SpawnMob::loadMapFiles(const std::string &path){
 bool SpawnMob::loadMap(const std::string &filePath)
 {
     try {
-        currentMapContent = EntityFactory::getInstance().loadConfig(filePath);
+        currentMapContent = EntityFactory::getInstance().loadConfigMap(filePath);
         return true;
     } catch (const std::exception& e) {
         std::cerr << "Error loading map: " << e.what() << std::endl;

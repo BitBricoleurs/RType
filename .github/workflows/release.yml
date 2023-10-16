@@ -6,32 +6,89 @@ on:
       - main
 
 jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: lts/*
+      
+      - run: npm clean-install
+      - name: Semantic Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest release version
+        id: latest_version
+        run: |
+          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
+          echo "Latest version is $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ env.LATEST_VERSION }}
+
   build-and-package:
+    needs: create-release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Fetch latest release version
+        id: latest_version
+        run: |
+          LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
+          echo "Latest version is $LATEST_VERSION"
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ env.LATEST_VERSION }}
+
       - name: Get dependencies (Ubuntu)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake
 
       - name: Get dependencies (macOS)
-        if: ${{ matrix.os == 'macos-latest' }}
+        if: matrix.os == 'macos-latest'
         run: |
           brew install cmake
 
-      - name: Build & Package
+      - name: Get dependencies (Windows)
+        if: matrix.os == 'windows-latest'
         run: |
-          cmake . -DCPACK_PACKAGE_VERSION=${{ env.RELEASE_VERSION }}
+          choco install cmake
+
+      - name: Build & Package (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          ./setup/dependencies.sh
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
+          cmake --build . --config Release
           cpack
 
+      - name: Build & Package (Generic)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        run: |
+          ./setup/dependencies.sh
+          cmake . -DCPACK_PACKAGE_VERSION=${{ env.LATEST_VERSION }}
+          cpack
 
       - name: Upload Artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -53,14 +110,13 @@ jobs:
           name: RTYPE-${{ matrix.os }}
           path: ./*.exe
 
-      - name: Upload Artifact (Fedora)
+      - name: Upload RPM Artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v3
         with:
-          name: RTYPE-fedora-latest
-          path: ./*.rpm
+          name: RTYPE-fedora
+          path: ./RTYPE*.rpm
 
-          
 
   release:
     needs: build-and-package
@@ -69,23 +125,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          cache: npm
-          node-version: lts/*
-      - run: npm clean-install
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts
-
-      - name: Semantic Release
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch latest release version
         id: latest_version
@@ -98,12 +137,17 @@ jobs:
 
       - run: echo ${{ env.LATEST_VERSION }}
 
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
       - name: Upload Release Asset via gh CLI
         run: |
           gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-ubuntu-latest/*.deb
           gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-macos-latest/*.dmg
           gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-windows-latest/*.exe
-          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora-latest/*.rpm
+          gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

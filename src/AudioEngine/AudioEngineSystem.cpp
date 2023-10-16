@@ -19,12 +19,10 @@ namespace GameEngine {
         auto triggeredEvent = eventHandler.getTriggeredEvent();
 
         if (triggeredEvent.first == "PLAY_SOUND") {
-            std::cout << "YESSSSS" << std::endl;
             size_t entityID = std::any_cast<size_t>(triggeredEvent.second);
             auto component = componentsContainer.getComponent(entityID, ComponentsType::getComponentType("AudioComponent"));
 
             if (component) {
-                std::cout << "LLLLLL" << std::endl;
                 const auto audioComp = std::dynamic_pointer_cast<AudioComponent>(component.value());
                 audioEngine->Play(*audioComp);
             }
