@@ -23,7 +23,9 @@ namespace GameEngine {
 
 void AudioEngine::Play(const AudioComponent& audioComponent) {
     std::string binaryPath = "";
-    #if defined(__APPLE__)
+    #if defined(_WIN32) || defined(_WIN64)
+        binaryPath = "";
+    #elif defined(__APPLE__)
         char pathBuffer[1024];
         uint32_t size = sizeof(pathBuffer);
         if (_NSGetExecutablePath(pathBuffer, &size) == 0) {
