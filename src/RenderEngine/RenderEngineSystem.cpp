@@ -26,26 +26,31 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
   std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents =
       componentsContainer.getComponents(
           ComponentsType::getComponentType("SpriteComponent"));
-  std::vector<std::optional<std::shared_ptr<IComponent>>> buttonComponents =
-      componentsContainer.getComponents(
+
+  std::vector<size_t> buttonsIDS = componentsContainer.getEntitiesWithComponent(
           ComponentsType::getComponentType("ButtonComponent"));
 
-  std::vector<std::shared_ptr<ButtonComponent>> sortedButtonComponents;
+  std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>> sortedButtonComponents;
 
-  for (const auto &component : buttonComponents) {
-    if (component.has_value()) {
-      auto button = std::dynamic_pointer_cast<ButtonComponent>(component.value());
-        sortedButtonComponents.push_back(button);
-    }
-    }
+  for (auto id : buttonsIDS) {
+    auto button = std::dynamic_pointer_cast<ButtonComponent>(
+        std::any_cast<std::shared_ptr<IComponent>>(
+            componentsContainer.getComponent(id, ComponentsType::getComponentType("ButtonComponent")).value()));
+    sortedButtonComponents.push_back(std::make_pair(id, button));
+  }
 
   std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
-    [](const std::shared_ptr<ButtonComponent> &a, const std::shared_ptr<ButtonComponent> &b) {
-        if(a->layer == b->layer) {
+    [](const std::pair<size_t, std::shared_ptr<ButtonComponent>>& p1,
+       const std::pair<size_t, std::shared_ptr<ButtonComponent>>& p2) {
+        const auto& a = p1.second;
+        const auto& b = p2.second;
+
+        if (a->layer == b->layer) {
             return a->pos.x < b->pos.x;
         }
         return a->layer < b->layer;
     });
+
 
   renderEngine->PollEvents(eventHandler, sortedButtonComponents);
 
@@ -100,7 +105,7 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
   }
 
   for (const auto &component : sortedButtonComponents) {
-    renderEngine->Draw(*component);
+    renderEngine->Draw(*component.second);
   }
 
 

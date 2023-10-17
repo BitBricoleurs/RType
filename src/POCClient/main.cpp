@@ -139,7 +139,7 @@ void setup_animations(GameEngine::GameEngine &engine) {
 int main() {
   GameEngine::GameEngine engine;
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-  Network::Endpoint endpoint("127.0.0.1", 4444);
+  Network::Endpoint endpoint("10.15.191.250", 4444);
 
   Network::Client::init(1000, queue);
   setup_network(engine, queue, endpoint);
@@ -147,7 +147,7 @@ int main() {
   setup_game(engine);
   setup_hud(engine);
   setup_animations(engine);
-  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Eng¨ine");
   engine.addSystem("RENDER", render, 4);
   engine.run();
   return 0;

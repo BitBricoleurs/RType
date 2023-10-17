@@ -29,7 +29,7 @@ namespace GameEngine {
       void Draw(const SpriteComponent &spriteComponent);
       void Draw(const ButtonComponent &buttonComponent);
       void PollEvents(EventHandler &eventHandler,
-                      std::vector<std::shared_ptr<ButtonComponent>> buttons);
+                      std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>> buttons);
       void Shutdown();
       void ClearBackgroundRender(Color color);
 
