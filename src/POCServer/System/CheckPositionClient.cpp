@@ -16,8 +16,6 @@ void CheckPositionClient::update(GameEngine::ComponentsContainer &componentsCont
         auto position = componentsContainer.getComponent(entity, positionComp);
         if (position.has_value()) {
             auto positionComp = std::static_pointer_cast<GameEngine::PositionComponent2D>(position.value());
-            //std::cout << "Entity : " << entity << " x : " << positionComp->pos.x << " y : " << positionComp->pos.y;
         }
-        //std::cout << std::endl;
     }
 }

@@ -11,6 +11,7 @@
 #include "ISystem.hpp"
 #include "Utils.hpp"
 #include <iostream>
+#include "LoadConfig.hpp"
 
 #include <iostream>
 #include <filesystem>
@@ -30,7 +31,7 @@ class SpawnMob : public GameEngine::ISystem {
         std::string directoryPath;
         std::vector<std::string> mapFiles;
         int mapIndex = 0;
-        nlohmann::json currentMapContent;
+        ConfigData currentMapContent;
 
         void loadMapFiles(const std::string& path);
 

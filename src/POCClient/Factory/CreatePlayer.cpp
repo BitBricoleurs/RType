@@ -13,54 +13,58 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                GameEngine::Vect2 pos, PlayerNumber playerNumber) {
 
 try {
-    nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
+    ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
     size_t chargeAnimationID = createChargeAnimation(
         container,
-        config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
-        config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
-        config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
-        config["createChargeAnimation"]["frames"].get<int>(),
+        data.getString("/createChargeAnimation/spriteSheetPath"),
+        data.getInt("/createChargeAnimation/spriteSheetHeight"),
+        data.getInt("/createChargeAnimation/spriteSheetWidth"),
+        data.getInt("/createChargeAnimation/frames"),
         GameEngine::Vect2(
-            config["createChargeAnimation"]["pos"]["x"].get<float>(),
-            config["createChargeAnimation"]["pos"]["y"].get<float>()),
+            data.getFloat("/createChargeAnimation/pos/x"),
+            data.getFloat("/createChargeAnimation/pos/y")),
         GameEngine::Vect2(
-            config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-            config["createChargeAnimation"]["velocity"]["y"].get<float>()),
-        config["createChargeAnimation"]["scale"].get<float>(),
-        config["createChargeAnimation"]["rotation"].get<float>(),
+            data.getFloat("/createChargeAnimation/velocity/x"),
+            data.getFloat("/createChargeAnimation/velocity/y")),
+        data.getFloat("/createChargeAnimation/scale"),
+        data.getFloat("/createChargeAnimation/rotation"),
         GameEngine::ColorR(
-            config["createChargeAnimation"]["tint"]["r"].get<int>(),
-            config["createChargeAnimation"]["tint"]["g"].get<int>(),
-            config["createChargeAnimation"]["tint"]["b"].get<int>(),
-            config["createChargeAnimation"]["tint"]["a"].get<int>()),
-        config["createChargeAnimation"]["twoDirection"].get<bool>(),
-        config["createChargeAnimation"]["reverse"].get<bool>(),
-        config["createChargeAnimation"]["direction"].get<int>(),
+            data.getInt("/createChargeAnimation/tint/r"),
+            data.getInt("/createChargeAnimation/tint/g"),
+            data.getInt("/createChargeAnimation/tint/b"),
+            data.getInt("/createChargeAnimation/tint/a")),
+        data.getBool("/createChargeAnimation/twoDirection"),
+        data.getBool("/createChargeAnimation/reverse"),
+        data.getInt("/createChargeAnimation/direction"),
         static_cast<int>(playerNumber) + 1,
-        config["createChargeAnimation"]["layer"].get<int>());
+        data.getInt("/createChargeAnimation/layer"));
 
     size_t entityId = createPlayer(
-        container, config["createPlayer"]["spriteSheetPath"].get<std::string>(),
-        config["createPlayer"]["spriteSheetHeight"].get<int>(),
-        config["createPlayer"]["spriteSheetWidth"].get<int>(),
-        config["createPlayer"]["frames"].get<int>(),
-        config["createPlayer"]["twoDirections"].get<bool>(),
-        config["createPlayer"]["reverse"].get<bool>(), pos,
-        GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
-                          config["createPlayer"]["velocity"]["y"].get<float>()),
+        container,
+        data.getString("/createPlayer/spriteSheetPath"),
+        data.getInt("/createPlayer/spriteSheetHeight"),
+        data.getInt("/createPlayer/spriteSheetWidth"),
+        data.getInt("/createPlayer/frames"),
+        data.getBool("/createPlayer/twoDirections"),
+        data.getBool("/createPlayer/reverse"),
+        pos,
+        GameEngine::Vect2(
+            data.getFloat("/createPlayer/velocity/x"),
+            data.getFloat("/createPlayer/velocity/y")),
         static_cast<int>(playerNumber) + 1,
-        config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
-        config["createPlayer"]["rotation"].get<float>(),
-        GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
-                           config["createPlayer"]["tint"]["g"].get<int>(),
-                           config["createPlayer"]["tint"]["b"].get<int>(),
-                           config["createPlayer"]["tint"]["a"].get<int>()),
-        config["createPlayer"]["layer"].get<int>());
+        data.getFloat("/createPlayer/scale"), chargeAnimationID,
+        data.getFloat("/createPlayer/rotation"),
+        GameEngine::ColorR(
+            data.getInt("/createPlayer/tint/r"),
+            data.getInt("/createPlayer/tint/g"),
+            data.getInt("/createPlayer/tint/b"),
+            data.getInt("/createPlayer/tint/a")),
+        data.getInt("/createPlayer/layer"));
     eventHandler.scheduleEvent("animatePlayer", 15, entityId);
     eventHandler.scheduleEvent(
         "animate", 5,
         std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-    std::shared_ptr<GameEngine::AudioComponent> shootSound = std::make_shared<GameEngine::AudioComponent>(config["createPlayer"]["pathSound"].get<std::string>());
+    std::shared_ptr<GameEngine::AudioComponent> shootSound = std::make_shared<GameEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
     container.bindComponentToEntity(entityId, shootSound);
     auto IdCharge = std::make_tuple(entityId, 0);
     eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
@@ -79,50 +83,55 @@ EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
                                GameEngine::Vect2 pos, PlayerNumber playerNumber) {
 
 try {
-    nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
+    ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
 
     size_t chargeAnimationID = createChargeAnimation(
         container,
-        config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
-        config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
-        config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
-        config["createChargeAnimation"]["frames"].get<int>(),
+        data.getString("/createChargeAnimation/spriteSheetPath"),
+        data.getInt("/createChargeAnimation/spriteSheetHeight"),
+        data.getInt("/createChargeAnimation/spriteSheetWidth"),
+        data.getInt("/createChargeAnimation/frames"),
         GameEngine::Vect2(
-            config["createChargeAnimation"]["pos"]["x"].get<float>(),
-            config["createChargeAnimation"]["pos"]["y"].get<float>()),
+            data.getFloat("/createChargeAnimation/pos/x"),
+            data.getFloat("/createChargeAnimation/pos/y")),
         GameEngine::Vect2(
-            config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-            config["createChargeAnimation"]["velocity"]["y"].get<float>()),
-        config["createChargeAnimation"]["scale"].get<float>(),
-        config["createChargeAnimation"]["rotation"].get<float>(),
+            data.getFloat("/createChargeAnimation/velocity/x"),
+            data.getFloat("/createChargeAnimation/velocity/y")),
+        data.getFloat("/createChargeAnimation/scale"),
+        data.getFloat("/createChargeAnimation/rotation"),
         GameEngine::ColorR(
-            config["createChargeAnimation"]["tint"]["r"].get<int>(),
-            config["createChargeAnimation"]["tint"]["g"].get<int>(),
-            config["createChargeAnimation"]["tint"]["b"].get<int>(),
-            config["createChargeAnimation"]["tint"]["a"].get<int>()),
-        config["createChargeAnimation"]["twoDirection"].get<bool>(),
-        config["createChargeAnimation"]["reverse"].get<bool>(),
-        config["createChargeAnimation"]["direction"].get<int>(),
+            data.getInt("/createChargeAnimation/tint/r"),
+            data.getInt("/createChargeAnimation/tint/g"),
+            data.getInt("/createChargeAnimation/tint/b"),
+            data.getInt("/createChargeAnimation/tint/a")),
+        data.getBool("/createChargeAnimation/twoDirection"),
+        data.getBool("/createChargeAnimation/reverse"),
+        data.getInt("/createChargeAnimation/direction"),
         static_cast<int>(playerNumber) + 1,
-        config["createChargeAnimation"]["layer"].get<int>());
+        data.getInt("/createChargeAnimation/layer"));
 
     size_t entityId = createSharhips(
-        container, config["createPlayer"]["spriteSheetPath"].get<std::string>(),
-        config["createPlayer"]["spriteSheetHeight"].get<int>(),
-        config["createPlayer"]["spriteSheetWidth"].get<int>(),
-        config["createPlayer"]["frames"].get<int>(),
-        config["createPlayer"]["twoDirections"].get<bool>(),
-        config["createPlayer"]["reverse"].get<bool>(), pos,
-        GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
-                          config["createPlayer"]["velocity"]["y"].get<float>()),
+        container,
+        data.getString("/createPlayer/spriteSheetPath"),
+        data.getInt("/createPlayer/spriteSheetHeight"),
+        data.getInt("/createPlayer/spriteSheetWidth"),
+        data.getInt("/createPlayer/frames"),
+        data.getBool("/createPlayer/twoDirections"),
+        data.getBool("/createPlayer/reverse"),
+        pos,
+        GameEngine::Vect2(
+            data.getFloat("/createPlayer/velocity/x"),
+            data.getFloat("/createPlayer/velocity/y")),
         static_cast<int>(playerNumber) + 1,
-        config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
-        config["createPlayer"]["rotation"].get<float>(),
-        GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
-                           config["createPlayer"]["tint"]["g"].get<int>(),
-                           config["createPlayer"]["tint"]["b"].get<int>(),
-                           config["createPlayer"]["tint"]["a"].get<int>()),
-        config["createPlayer"]["layer"].get<int>());
+        data.getFloat("/createPlayer/scale"), chargeAnimationID,
+        data.getFloat("/createPlayer/rotation"),
+        GameEngine::ColorR(
+            data.getInt("/createPlayer/tint/r"),
+            data.getInt("/createPlayer/tint/g"),
+            data.getInt("/createPlayer/tint/b"),
+            data.getInt("/createPlayer/tint/a")),
+        data.getInt("/createPlayer/layer"));
+
     eventHandler.scheduleEvent("animatePlayer", 15, entityId);
     eventHandler.scheduleEvent(
         "animate", 5,

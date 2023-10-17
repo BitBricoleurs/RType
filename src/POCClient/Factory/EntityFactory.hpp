@@ -33,6 +33,7 @@
 #include "AudioComponent.hpp"
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
+#include "LoadConfig.hpp"
 
 class EntityFactory {
 public:
@@ -69,9 +70,6 @@ public:
   size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
                                GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
-
-    nlohmann::json loadConfig(const std::string& filePath);
-
 
     void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
         _playerMap[entityId] = numberPlayer;

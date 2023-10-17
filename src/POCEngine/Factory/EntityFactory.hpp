@@ -70,9 +70,6 @@ public:
                                GameEngine::EventHandler &eventHandler,
                                GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
-    nlohmann::json loadConfig(const std::string& filePath);
-  nlohmann::json loadConfigMap(const std::string& filePath);
-
 private:
   EntityFactory() = default;
   ~EntityFactory() = default;

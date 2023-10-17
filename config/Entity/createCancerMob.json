@@ -1,6 +1,5 @@
 {
   "createCancerMob": {
-    "dropPowerup" : true,
     "spriteSheetPath": "assets/cancerMob.gif",
     "spriteSheetHeight": 34,
     "spriteSheetWidth": 200,
@@ -14,14 +13,14 @@
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
     "velocity": {
-      "x": -2,
-      "y": 0
+      "x": -2.0,
+      "y": 0.0
     },
     "maxHealth": 100,
     "damageValue": 10,
     "player": 0,
     "scale": 2.5,
-    "rotation": 0,
+    "rotation": 0.0,
     "tint": {
       "r": 255,
       "g": 255,
@@ -31,12 +30,12 @@
     "layer": 7
   },
   "shootingPos": {
-    "x": 0,
-    "y": 50
+    "x": 0.0,
+    "y": 50.0
   },
   "bulletVelocity": {
-    "x": -4,
-    "y": 0
+    "x": -4.0,
+    "y": 0.0
   },
   "typeBullet": 1,
   "shootDelay": 200

@@ -11,7 +11,6 @@ void PlayerHit::update(GameEngine::ComponentsContainer &componentsContainer, Gam
 
         if (firstEntityOptPlayer.has_value()) {
             return;
-            std::cout << "Player hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", firstEntity);
             std::vector<size_t> entities = {secondEntity};
             std::vector<std::any> args = {};
@@ -21,7 +20,6 @@ void PlayerHit::update(GameEngine::ComponentsContainer &componentsContainer, Gam
             componentsContainer.deleteEntity(secondEntity);
         } else {
             return;
-            std::cout << "Mob hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", secondEntity);
             std::vector<size_t> entities = {firstEntity};
             std::vector<std::any> args = {};

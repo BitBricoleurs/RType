@@ -1,16 +1,10 @@
 #pragma once
 
+#include "LoadConfig.hpp"
 #include "raylib.h"
 #include <string>
 #include <unordered_map>
 #include "AudioComponent.hpp"
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
-#elif defined(__linux__)
-#include <libgen.h>
-#include <limits.h>
-#include <unistd.h>
-#endif
 
 namespace GameEngine {
     class AudioEngine {

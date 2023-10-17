@@ -35,6 +35,7 @@
 #include "BulletUtils.hpp"
 #include "PlayerUtils.hpp"
 #include "MobUtils.hpp"
+#include "LoadConfig.hpp"
 
 class EntityFactory {
 public:
@@ -69,8 +70,6 @@ public:
                                GameEngine::EventHandler &eventHandler,
                                GameEngine::Vect2 pos, GameEngine::Vect2 velocity);
 
-    nlohmann::json loadConfig(const std::string& filePath);
-
     static void updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, GameEngine::Vect2 &pos, GameEngine::Vect2 &velocity);
 
     void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
@@ -93,7 +92,6 @@ public:
         return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
     }
 
-nlohmann::json loadConfigMap(const std::string& filePath);
 private:
   EntityFactory() = default;
   ~EntityFactory() = default;
