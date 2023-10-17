@@ -147,15 +147,19 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vecto
     mousePos.y = mousePosition.y;
 
     for (auto [id, button] : buttons) {
-        bool isHovering = (mousePosition.x >= button->pos.x && mousePosition.x <= button->pos.x + button->rect1.w * button->scale) &&
-                (mousePosition.y >= button->pos.y && mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
+      bool isHovering =
+          (mousePosition.x >= button->pos.x &&
+           mousePosition.x <=
+               button->pos.x + button->rect1.w * button->scale) &&
+          (mousePosition.y >= button->pos.y &&
+           mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
 
-        if (isHovering && button->state != ButtonComponent::HOVER && button->hoverEvent != "") {
-            button->state = ButtonComponent::HOVER;
-            eventHandler.queueEvent(button->hoverEvent, id);
-        } else if (!isHovering && button->state == ButtonComponent::HOVER) {
-            button->state = ButtonComponent::NORMAL;
-        }
+      if (isHovering && button->state != ButtonComponent::HOVER) {
+        button->state = ButtonComponent::HOVER;
+        eventHandler.queueEvent(button->hoverEvent, id);
+      } else if (!isHovering && button->state == ButtonComponent::HOVER) {
+        button->state = ButtonComponent::NORMAL;
+      }
         if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             eventHandler.queueEvent(button->clickEvent, id);
         }
