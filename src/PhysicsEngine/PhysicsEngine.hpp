@@ -7,6 +7,9 @@
 #include "AABBComponent2D.hpp"
 #include "PositionComponent2D.hpp"
 #include "AColliderComponent2D.hpp"
+#include "GravityComponent.hpp"
+#include "JumpComponent.hpp"
+#include "VelocityComponent.hpp"
 #include <utility>
 #include <tuple>
 #include <memory>
@@ -27,6 +30,11 @@ namespace GameEngine {
         void moveObject(PositionComponent2D& positionComponent, const Vect2& velocity) {
             positionComponent.pos = positionComponent.pos + velocity;
         }
+
+        void applyGravity(VelocityComponent& positionComponent, const Vect2& gravity) {
+            positionComponent.velocity = positionComponent.velocity + gravity;
+        }
+
 
     private:
     };

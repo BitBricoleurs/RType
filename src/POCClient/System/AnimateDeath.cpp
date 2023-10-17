@@ -19,6 +19,13 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
       GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
   if (deathOpt.has_value() && spriteOpt.has_value()) {
+        auto velocityOpt = componentsContainer.getComponent(
+      entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+
+    auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+        velocityOpt.value());
+    velocity->velocity.x = 0;
+    velocity->velocity.y = 0;
     auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(
         spriteOpt.value());
     auto deathAnim =
