@@ -22,7 +22,7 @@ namespace GameEngine {
     }
 
 void AudioEngine::Play(const AudioComponent& audioComponent) {
-    std::string binaryPath = LoadConfig::getInstance().getExecutablePath();
+        std::string binaryPath = LoadConfig::getInstance().getExecutablePath();
     std::string fullPath = binaryPath + audioComponent.audioPath;
 
     if (audioComponent.loop) {
