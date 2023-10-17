@@ -33,7 +33,6 @@ void NetworkShootClient::update(GameEngine::ComponentsContainer &componentsConta
     }
     auto type = static_cast<BulletTypeEntity>(argsVel[0]);
     int charge = argsVel[1];
-    std::cout << "type" << type << ":" << charge << std::endl;
     for (auto &entity : entitiesPlayers) {
         auto mayComp = componentsContainer.getComponent(entity, networkComp);
         if (!mayComp.has_value())

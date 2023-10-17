@@ -43,7 +43,6 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
         if (shooterComp->typeBullet == BulletTypeEntity::PlayerBullet) {
             if (charge >= 50) {
                 shootingPosition.y = shootingPosition.y - 15;
-                std::cout << "yes" << std::endl;
                 bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, GameEngine::Vect2(15,0), 1);
                 return ;
             } else {

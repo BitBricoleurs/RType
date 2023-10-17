@@ -34,7 +34,6 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/LoadConfig.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/System/NetworkClientConnection.cpp
@@ -59,7 +58,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
-target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC GameEngine PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC GameEngine PhysicsEngineLib NetworkLib LoadConfigLib)
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC Ws2_32.lib)

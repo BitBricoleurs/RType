@@ -133,7 +133,6 @@ size_t EntityFactory::createChargeAnimation(
   auto positionComponent =
       std::make_shared<GameEngine::PositionComponent2D>(pos);
   auto movementComp = std::make_shared<GameEngine::MovementComponent>();
-  std::cout << spriteSheetPath << ":" << frames << ":" << spriteSheetWidth << ":" << spriteSheetHeight << ":" <<twoDirection << ":" << reverse << ":" << direction << ":" << playerA << std::endl;
   auto chargeShootAnimation =
       initAnimation(spriteSheetPath, frames, spriteSheetWidth,
                     spriteSheetHeight, twoDirection, reverse, direction, playerA);
@@ -153,7 +152,6 @@ size_t EntityFactory::createChargeAnimation(
       rotation, tint);
   spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
- std::cout << chargeShootAnimation->frames << std::endl;
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);
   container.bindComponentToEntity(animationId, spriteComponent);

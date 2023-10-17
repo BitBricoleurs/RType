@@ -72,7 +72,6 @@ std::vector<std::uint8_t> Network::Serializer::serializeItem(const std::any &ite
         if (it != serializers.end()) {
             it->second(item, result);
         } else {
-            std::cout << item.type().name() << std::endl;
             throw std::runtime_error("Unsupported data type for serialization check Message.hpp file");
         }
     } catch (std::exception& e) {

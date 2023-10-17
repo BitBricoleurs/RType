@@ -7,6 +7,7 @@ add_subdirectory(POCProgram)
 add_subdirectory(NetworkLib)
 add_subdirectory(POCServer)
 add_subdirectory(POCClient)
+add_subdirectory(LoadConfig)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}

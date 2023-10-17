@@ -85,5 +85,4 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         args.clear();
         ids.clear();
     }
-    std::cout << "Update World" << std::endl;
 }

@@ -152,7 +152,6 @@ size_t EntityFactory::createChargeAnimation(
       rotation, tint);
   spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
- std::cout << chargeShootAnimation->frames << std::endl;
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);
   container.bindComponentToEntity(animationId, spriteComponent);

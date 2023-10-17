@@ -1,21 +1,11 @@
-/*
-** EPITECH PROJECT, 2023
-** RType
-** File description:
-** LoadConfig
-*/
+//
+// Created by alexandre on 17/10/23.
+//
 
-#include "EntityFactory.hpp"
+#include "LoadConfig.hpp"
 
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
-#elif defined(__linux__)
-#include <libgen.h>
-#include <limits.h>
-#include <unistd.h>
-#endif
-
-std::string getExecutablePath() {
+std::string LoadConfig::getExecutablePath()
+{
 #if defined(_WIN32) || defined(_WIN64)
   return "";
 #elif defined(__APPLE__)
@@ -43,14 +33,14 @@ std::string getExecutablePath() {
 #endif
 }
 
-nlohmann::json EntityFactory::loadConfig(const std::string& filePath) {
+ConfigData LoadConfig::loadConfig(const std::string& filePath)
+{
 
     std::string path = getExecutablePath();
     if (path.empty()) {
         path = "./";
     }
     path = path + filePath;
-    std::cout << "PATH:" << path << std::endl;
     std::ifstream file(path);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << path << std::endl;
@@ -63,11 +53,11 @@ nlohmann::json EntityFactory::loadConfig(const std::string& filePath) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
         throw;
     }
-    return config;
+    return ConfigData(config);
 }
 
-nlohmann::json EntityFactory::loadConfigMap(const std::string& filePath) {
-
+ConfigData LoadConfig::loadConfigWithoutPath(const std::string &filePath)
+{
     std::ifstream file(filePath);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filePath << std::endl;
@@ -80,5 +70,5 @@ nlohmann::json EntityFactory::loadConfigMap(const std::string& filePath) {
         std::cerr << "JSON parsing error: " << e.what() << std::endl;
         throw;
     }
-    return config;
+    return ConfigData(config);
 }

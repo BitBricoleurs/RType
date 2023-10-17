@@ -40,7 +40,6 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/CreatePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/EntityFactory.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Factory/LoadConfig.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Factory/MobSpawn.cpp
 
 
@@ -72,7 +71,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib LoadConfigLib)
 
 if(WIN32)
         target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC Ws2_32.lib)

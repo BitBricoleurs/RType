@@ -12,44 +12,42 @@ EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
                                GameEngine::Vect2 pos, PlayerNumber numberPlayer) {
 try {
-    nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
+    ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
 
     size_t chargeAnimationID = createChargeAnimation(
     container,
     GameEngine::Vect2(
-        config["createChargeAnimation"]["pos"]["x"].get<float>(),
-        config["createChargeAnimation"]["pos"]["y"].get<float>()
+        data.getFloat("/createChargeAnimation/pos/x"),
+        data.getFloat("/createChargeAnimation/pos/y")
     ),
     GameEngine::Vect2(
-        config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-        config["createChargeAnimation"]["velocity"]["y"].get<float>()
+        data.getFloat("/createChargeAnimation/velocity/x"),
+        data.getFloat("/createChargeAnimation/velocity/y")
     )
 );
     GameEngine::Vect2 velocity = GameEngine::Vect2(
-        config["createPlayer"]["velocity"]["x"].get<float>(),
-        config["createPlayer"]["velocity"]["y"].get<float>()
+        data.getFloat("/createPlayer/velocity/x"),
+        data.getFloat("/createPlayer/velocity/y")
     );
 size_t entityId = createPlayer(
     container,
-    config["createPlayer"]["hitboxHeight"].get<int>(),
-    config["createPlayer"]["hitboxWidth"].get<int>(),
+    data.getInt("/createPlayer/hitboxHeight"),
+    data.getInt("/createPlayer/hitboxWidth"),
     pos,
     velocity,
-    config["createPlayer"]["maxHealth"].get<int>(),
-    config["createPlayer"]["damageValue"].get<int>(),
-    config["createPlayer"]["bulletStartX"].get<int>(),
-    config["createPlayer"]["bulletStartY"].get<int>(),
-    config["createPlayer"]["scale"].get<float>(),
+    data.getInt("/createPlayer/maxHealth"),
+    data.getInt("/createPlayer/damageValue"),
+    data.getInt("/createPlayer/bulletStartX"),
+    data.getInt("/createPlayer/bulletStartY"),
+    data.getFloat("/createPlayer/scale"),
     chargeAnimationID,
-        GameEngine::Vect2(
-        config["createPlayer"]["bulletVelocity"]["x"].get<float>(),
-        config["createPlayer"]["bulletVelocity"]["y"].get<float>()
+    GameEngine::Vect2(
+        data.getFloat("/createPlayer/bulletVelocity/x"),
+        data.getFloat("/createPlayer/bulletVelocity/y")
     ),
-    config["createPlayer"]["typeBullet"].get<int>()
+    data.getInt("/createPlayer/typeBullet")
 );
-  eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-  auto IdCharge = std::make_tuple(entityId, 0);
-  eventHandler.scheduleEvent("ShootSystem", config["createPlayer"]["shootDelay"].get<int>(), IdCharge);
+ eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
   registerPlayer(entityId, numberPlayer);
   return entityId;
 } catch (const nlohmann::json::exception& e) {

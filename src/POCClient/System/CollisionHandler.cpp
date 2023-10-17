@@ -47,14 +47,12 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
 
             if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), firstEntity) == bullet->alreadyHit.end()) {
-                std::cout << "MobHit" << std::endl;
                 eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
             }
         } else if (secondEntityOptMob.has_value() && firstEntityOptBullet.has_value()) {
             auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
 
             if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
-                std::cout << "MobHit" << std::endl;
                 eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
             }
         }

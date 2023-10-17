@@ -1,82 +1,85 @@
-/*
-** EPITECH PROJECT, 2023
-** RType
-** File description:
-** CreateNewBullet
-*/
-
 #include "EntityFactory.hpp"
 
 size_t
 EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
                                   GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet) {
-    nlohmann::json config = loadConfig("config/Entity/createBulletPlayer.json");
+    try {
+        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
-    nlohmann::json bulletConfig = config["createBullet"]["bulletTypes"]["type" + std::to_string(typeBullet)];
-    nlohmann::json rectConfig = bulletConfig["rect"];
-    int rectH = rectConfig["h"].get<int>();
-    int rectW = rectConfig["w"].get<int>();
-    std::string path = bulletConfig["path"].get<std::string>();
+        std::string bulletKeyPath = "/createBullet/bulletTypes/type" + std::to_string(typeBullet);
+        std::string rectKeyPath = bulletKeyPath + "/rect";
 
-    size_t entityId = createBullet(
-        container,
-        path,
-        rectH,
-        rectW,
-        config["createBullet"]["frames"].get<int>(),
-        config["createBullet"]["twoDirections"].get<bool>(),
-        config["createBullet"]["reverse"].get<bool>(),
-        pos,
-        velocity,
-        config["createBullet"]["isPlayerBullet"].get<bool>(),
-        config["createBullet"]["playerA"].get<int>(),
-        config["createBullet"]["scale"].get<float>(),
-        config["createBullet"]["rotation"].get<float>(),
-        GameEngine::ColorR(
-            config["createBullet"]["tint"]["r"].get<int>(),
-            config["createBullet"]["tint"]["g"].get<int>(),
-            config["createBullet"]["tint"]["b"].get<int>(),
-            config["createBullet"]["tint"]["a"].get<int>()
-        ),
-        config["createBullet"]["layer"].get<int>()
-    );
+        int rectH = data.getInt(rectKeyPath + "/h");
+        int rectW = data.getInt(rectKeyPath + "/w");
+        std::string path = data.getString(bulletKeyPath + "/path");
 
-  return entityId;
+        size_t entityId = createBullet(
+            container,
+            path,
+            rectH,
+            rectW,
+            data.getInt("/createBullet/frames"),
+            data.getBool("/createBullet/twoDirections"),
+            data.getBool("/createBullet/reverse"),
+            pos,
+            velocity,
+            data.getBool("/createBullet/isPlayerBullet"),
+            data.getInt("/createBullet/playerA"),
+            data.getFloat("/createBullet/scale"),
+            data.getFloat("/createBullet/rotation"),
+            GameEngine::ColorR(
+                data.getInt("/createBullet/tint/r"),
+                data.getInt("/createBullet/tint/g"),
+                data.getInt("/createBullet/tint/b"),
+                data.getInt("/createBullet/tint/a")
+            ),
+            data.getInt("/createBullet/layer")
+        );
+
+        return entityId;
+    } catch(const std::runtime_error& e) {
+        std::cerr << "Error in createPlayerBullet: " << e.what() << std::endl;
+        exit(1);
+    }
 }
 
 size_t
 EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
                                      GameEngine::Vect2 pos, GameEngine::Vect2 velocity) {
+    try {
+        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createBulletEnemy.json");
 
-    nlohmann::json config = loadConfig("config/Entity/createBulletEnemy.json");
+        size_t entityId = createBullet(
+            container,
+            data.getString("/createBullet/spriteSheetPath"),
+            data.getInt("/createBullet/spriteSheetHeight"),
+            data.getInt("/createBullet/spriteSheetWidth"),
+            data.getInt("/createBullet/frames"),
+            data.getBool("/createBullet/twoDirections"),
+            data.getBool("/createBullet/reverse"),
+            pos,
+            velocity,
+            data.getBool("/createBullet/isPlayerBullet"),
+            data.getInt("/createBullet/playerA"),
+            data.getFloat("/createBullet/scale"),
+            data.getFloat("/createBullet/rotation"),
+            GameEngine::ColorR(
+                data.getInt("/createBullet/tint/r"),
+                data.getInt("/createBullet/tint/g"),
+                data.getInt("/createBullet/tint/b"),
+                data.getInt("/createBullet/tint/a")
+            ),
+            data.getInt("/createBullet/layer")
+        );
 
-    size_t entityId = createBullet(
-    container,
-    config["createBullet"]["spriteSheetPath"].get<std::string>(),
-    config["createBullet"]["spriteSheetHeight"].get<int>(),
-    config["createBullet"]["spriteSheetWidth"].get<int>(),
-    config["createBullet"]["frames"].get<int>(),
-    config["createBullet"]["twoDirections"].get<bool>(),
-    config["createBullet"]["reverse"].get<bool>(),
-    pos,
-    velocity,
-    config["createBullet"]["isPlayerBullet"].get<bool>(),
-    config["createBullet"]["playerA"].get<int>(),
-    config["createBullet"]["scale"].get<float>(),
-    config["createBullet"]["rotation"].get<float>(),
-    GameEngine::ColorR(
-        config["createBullet"]["tint"]["r"].get<int>(),
-        config["createBullet"]["tint"]["g"].get<int>(),
-        config["createBullet"]["tint"]["b"].get<int>(),
-        config["createBullet"]["tint"]["a"].get<int>()
-    ),
-    config["createBullet"]["layer"].get<int>()
-);
+        eventHandler.scheduleEvent(
+            "animate", 10, std::make_tuple(std::string("EnemyBullet"), entityId));
 
-  eventHandler.scheduleEvent(
-      "animate", 10, std::make_tuple(std::string("EnemyBullet"), entityId));
-
-  return entityId;
+        return entityId;
+    } catch(const std::runtime_error& e) {
+        std::cerr << "Error in createBaseEnemyBullet: " << e.what() << std::endl;
+        exit(1);
+    }
 }
