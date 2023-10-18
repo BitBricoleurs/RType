@@ -7,6 +7,9 @@
 
 #include "HeightVariation.hpp"
 
+namespace Server {
+
 size_t HeightVariation::getComponentType() {
   return GameEngine::ComponentsType::getNewComponentType("HeightVariation");
+}
 }

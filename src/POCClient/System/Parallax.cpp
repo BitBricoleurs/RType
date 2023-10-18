@@ -5,6 +5,7 @@
 #include "Parallax.hpp"
 #include "WindowInfoComponent.hpp"
 
+namespace Client {
 
 void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
               GameEngine::EventHandler &eventHandler) {
@@ -53,3 +54,4 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
       }
     }
   }
+}

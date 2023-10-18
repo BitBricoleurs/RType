@@ -14,8 +14,12 @@
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 
-class AnimateOnMove : public GameEngine::ISystem {
-public:
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
+
+    class AnimateOnMove : public GameEngine::ISystem {
+    public:
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+    };
+
+}

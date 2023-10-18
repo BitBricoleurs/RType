@@ -12,11 +12,13 @@
 #include "EntityFactory.hpp"
 #include "BulletUtils.hpp"
 
-class CreateBullet : public GameEngine::ISystem {
-public:
-    CreateBullet() = default;
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
 
+    class CreateBullet : public GameEngine::ISystem {
+    public:
+        CreateBullet() = default;
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    };
 
+}

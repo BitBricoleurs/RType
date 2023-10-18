@@ -11,12 +11,15 @@
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
 
-class CheckPositionClient : public GameEngine::ISystem {
-    public:
-        CheckPositionClient() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Server {
 
-};
+    class CheckPositionClient : public GameEngine::ISystem {
+        public:
+            CheckPositionClient() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
 
+    };
+
+}

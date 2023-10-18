@@ -11,12 +11,15 @@
 #include "SpriteComponent.hpp"
 #include <algorithm>
 
-class Parallax : public GameEngine::ISystem {
-public:
-  Parallax() = default;
+namespace Client {
 
-  ~Parallax() = default;
+    class Parallax : public GameEngine::ISystem {
+    public:
+      Parallax() = default;
 
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
-};
+      ~Parallax() = default;
+
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+    };
+}

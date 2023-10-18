@@ -9,12 +9,16 @@
 #include "AComponent.hpp"
 #include "Vect2.hpp"
 
-class Shooter : public GameEngine::AComponent {
-public:
-    Shooter(Utils::Vect2 shootPosition, size_t typeBullet);
+namespace Client {
 
-    size_t getComponentType() override;
+    class Shooter : public GameEngine::AComponent {
+    public:
+        Shooter(Utils::Vect2 shootPosition, size_t typeBullet);
 
-    Utils::Vect2 shootPosition;
-    size_t typeBullet;
-};
+        size_t getComponentType() override;
+
+        Utils::Vect2 shootPosition;
+        size_t typeBullet;
+    };
+
+}

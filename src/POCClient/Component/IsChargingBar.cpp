@@ -4,7 +4,10 @@
 
 #include "IsChargingBar.hpp"
 
+namespace Client {
 
-size_t IsChargingBar::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsChargingBar");
+    size_t IsChargingBar::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsChargingBar");
+    }
+
 }

@@ -10,24 +10,27 @@
 #include "VelocityComponent.hpp"
 #include "SpriteComponent.hpp"
 
-class ParallaxPlanet : public GameEngine::ISystem {
-public:
-    ParallaxPlanet();
-    explicit ParallaxPlanet(const std::vector<std::string>& paths);
-    ~ParallaxPlanet() = default;
+namespace Client {
 
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
+    class ParallaxPlanet : public GameEngine::ISystem {
+    public:
+        ParallaxPlanet();
+        explicit ParallaxPlanet(const std::vector<std::string>& paths);
+        ~ParallaxPlanet() = default;
 
-private:
-    int nextTickThreshold;
-    size_t lastPlanetLayer;
-    int lastPlanetY;
-    int ticksSinceLastPlanet;
-    std::vector<std::string> PlanetsPath;
-    std::vector<std::string> UsedPlanetsPath;
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
 
-    int randomTickThreshold();
-    void spawnPlanets(GameEngine::ComponentsContainer &componentsContainer);
-};
+    private:
+        int nextTickThreshold;
+        size_t lastPlanetLayer;
+        int lastPlanetY;
+        int ticksSinceLastPlanet;
+        std::vector<std::string> PlanetsPath;
+        std::vector<std::string> UsedPlanetsPath;
 
+        int randomTickThreshold();
+        void spawnPlanets(GameEngine::ComponentsContainer &componentsContainer);
+    };
+
+}

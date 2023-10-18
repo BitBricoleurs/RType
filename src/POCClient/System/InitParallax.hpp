@@ -11,11 +11,15 @@
 #include "EventHandler.hpp"
 #include "Parallax.hpp"
 
-class InitParallax : public GameEngine::ISystem {
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-public:
+namespace Client {
 
-private:
-  bool done = false;
-};
+    class InitParallax : public GameEngine::ISystem {
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    public:
+
+    private:
+      bool done = false;
+    };
+
+}

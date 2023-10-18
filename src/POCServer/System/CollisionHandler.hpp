@@ -11,7 +11,10 @@
 #include "PositionComponent2D.hpp"
 #include "Shooter.hpp"
 
-class CollisionHandler : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
-};
+namespace Server {
+
+    class CollisionHandler : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+    };
+}

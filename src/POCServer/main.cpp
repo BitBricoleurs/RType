@@ -29,11 +29,11 @@
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
-    auto networkStart = std::make_shared<NetworkStartServer>();
-    auto networkClientConnection = std::make_shared<NetworkClientConnection>();
+    auto networkStart = std::make_shared<Server::NetworkStartServer>();
+    auto networkClientConnection = std::make_shared<Server::NetworkClientConnection>();
     auto input = std::make_shared<NetworkInput>(queue);
     auto output = std::make_shared<NetworkOutput>(NetworkOutput::SERVER);
-    auto disconnecting = std::make_shared<NetworkClientDisconnecting>();
+    auto disconnecting = std::make_shared<Server::NetworkClientDisconnecting>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -45,11 +45,11 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
 
 void setup_sync_systems(GameEngine::GameEngine &engine)
 {
-    auto createWorld = std::make_shared<NetworkCreateWorld>();
-    auto updateWorld = std::make_shared<NetworkUpdateWorld>();
-    auto moveClient = std::make_shared<NetworkMoveClient>();
-    auto shootClient = std::make_shared<NetworkShootClient>();
-    auto shoot = std::make_shared<Shoot>();
+    auto createWorld = std::make_shared<Server::NetworkCreateWorld>();
+    auto updateWorld = std::make_shared<Server::NetworkUpdateWorld>();
+    auto moveClient = std::make_shared<Server::NetworkMoveClient>();
+    auto shootClient = std::make_shared<Server::NetworkShootClient>();
+    auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
 
@@ -67,12 +67,12 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 void setup_engine(GameEngine::GameEngine& engine)
 {
     auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
-    auto collisionHandler = std::make_shared<CollisionHandler>();
-    auto PlayerHit1 = std::make_shared<PlayerHit>();
-    auto MobHit1 = std::make_shared<MobHit>();
-    auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
+    auto collisionHandler = std::make_shared<Server::CollisionHandler>();
+    auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
+    auto MobHit1 = std::make_shared<Server::MobHit>();
+    auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
     std::string path = "config/map";
-    auto spawnMob = std::make_shared<SpawnMob>(path);
+    auto spawnMob = std::make_shared<Server::SpawnMob>(path);
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
 
     engine.addEvent("PlayerHit", PlayerHit1);
@@ -97,7 +97,7 @@ int main(void) {
         setup_network(engine, queue);
         setup_sync_systems(engine);
         setup_engine(engine);
-        auto position = std::make_shared<CheckPositionClient>();
+        auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
         engine.addSystem("PHYSICS", physicMVT, 1);
