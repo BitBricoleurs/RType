@@ -66,7 +66,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 
 void setup_engine(GameEngine::GameEngine& engine)
 {
-    auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
     auto collisionHandler = std::make_shared<CollisionHandler>();
     auto PlayerHit1 = std::make_shared<PlayerHit>();
     auto MobHit1 = std::make_shared<MobHit>();
@@ -94,7 +94,7 @@ int main(void) {
     setup_engine(engine);
     auto position = std::make_shared<CheckPositionClient>();
     engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
-    auto physicMVT = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+    auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     engine.addSystem("PHYSICS", physicMVT, 1);
     engine.run();
     return 0;

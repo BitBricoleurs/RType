@@ -11,5 +11,5 @@ void CreatePlayer::update(GameEngine::ComponentsContainer &componentsContainer,
                           GameEngine::EventHandler &eventHandler) {
 
   EntityFactory::getInstance().createNewPlayer(
-      componentsContainer, eventHandler, GameEngine::Vect2(200, 200));
+      componentsContainer, eventHandler, Utils::Vect2(200, 200));
 }

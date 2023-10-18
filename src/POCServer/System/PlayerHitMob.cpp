@@ -33,7 +33,7 @@ void PlayerHitMob::update(GameEngine::ComponentsContainer &componentsContainer, 
   auto velocityOpt = componentsContainer.getComponent(
       id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
 
-  auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+  auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
       velocityOpt.value());
   velocity->velocity.x = 0;
   velocity->velocity.y = 0;

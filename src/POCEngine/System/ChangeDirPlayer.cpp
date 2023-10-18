@@ -14,13 +14,13 @@
         auto velocityOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
         auto isPlayerOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsPlayer"));
         if (velocityOptional.has_value() && isPlayerOptional.has_value()) {
-             auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+             auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
              auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
-             auto speed = 7;
+             float speed = 7.0;
              if (isPlayer->entityIdForcePod != 0) {
                 auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
                 if (velocityForcePodOpt.has_value()) {
-                    auto velocityForcePod = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityForcePodOpt.value());
+                    auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
                     if (event.first == "UP_KEY_PRESSED") {
                         velocity->velocity.y = -speed;
                         velocityForcePod->velocity.y = -speed;

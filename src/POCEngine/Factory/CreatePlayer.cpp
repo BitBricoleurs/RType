@@ -9,11 +9,11 @@
 
 size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      GameEngine::Vect2 pos) {
+                                      Utils::Vect2 pos) {
     this->player++;
 
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
 
         size_t chargeAnimationID = createChargeAnimation(
             container,
@@ -21,17 +21,17 @@ size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container
             config.getInt("/createChargeAnimation/spriteSheetHeight"),
             config.getInt("/createChargeAnimation/spriteSheetWidth"),
             config.getInt("/createChargeAnimation/frames"),
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createChargeAnimation/pos/x"),
                 config.getFloat("/createChargeAnimation/pos/y")
             ),
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createChargeAnimation/velocity/x"),
                 config.getFloat("/createChargeAnimation/velocity/y")
             ),
             config.getFloat("/createChargeAnimation/scale"),
             config.getFloat("/createChargeAnimation/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createChargeAnimation/tint/r"),
                 config.getInt("/createChargeAnimation/tint/g"),
                 config.getInt("/createChargeAnimation/tint/b"),
@@ -53,7 +53,7 @@ size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container
             config.getBool("/createPlayer/twoDirections"),
             config.getBool("/createPlayer/reverse"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createPlayer/velocity/x"),
                 config.getFloat("/createPlayer/velocity/y")
             ),
@@ -65,7 +65,7 @@ size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container
             config.getFloat("/createPlayer/scale"),
             chargeAnimationID,
             config.getFloat("/createPlayer/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createPlayer/tint/r"),
                 config.getInt("/createPlayer/tint/g"),
                 config.getInt("/createPlayer/tint/b"),
@@ -78,7 +78,7 @@ size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
         eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
 
-        auto shootSound = std::make_shared<GameEngine::AudioComponent>("assets/music/Hit 2.wav");
+        auto shootSound = std::make_shared<AudioEngine::AudioComponent>("assets/music/Hit 2.wav");
         container.bindComponentToEntity(entityId, shootSound);
 
         auto IdCharge = std::make_tuple(entityId, 0);

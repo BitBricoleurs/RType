@@ -12,7 +12,7 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
         GameEngine::ComponentsType::getNewComponentType("IsParallax"));
     std::sort(parallaxEntities.begin(), parallaxEntities.end());
 
-    GameEngine::Vect2 Velocity(0.0f, 0);
+    Utils::Vect2 Velocity(0.0f, 0);
 
     for (auto entityID : parallaxEntities) {
       auto components = componentsContainer.getComponentsFromEntity(entityID);
@@ -22,7 +22,7 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
           continue;
         if (componentOpt.value()->getComponentType() ==
             GameEngine::ComponentsType::getNewComponentType("VelocityComponent")) {
-          auto velocityComponent = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+          auto velocityComponent = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
               componentOpt.value());
 
           if (velocityComponent) {
@@ -32,12 +32,12 @@ void Parallax::update(GameEngine::ComponentsContainer &componentsContainer,
         if (componentOpt.value()->getComponentType() ==
             GameEngine::ComponentsType::getNewComponentType("SpriteComponent")) {
           auto spriteComponent =
-              std::dynamic_pointer_cast<GameEngine::SpriteComponent>(componentOpt.value());
+              std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(componentOpt.value());
 
           if (spriteComponent) {
-            GameEngine::Vect2 newPos =
+            Utils::Vect2 newPos =
                 spriteComponent->pos -=
-                GameEngine::Vect2(0.5f * static_cast<float>(spriteComponent->layer) + Velocity.x, 0);
+                Utils::Vect2(0.5f * static_cast<float>(spriteComponent->layer) + Velocity.x, 0);
 
             if (newPos.x + spriteComponent->rect1.w < 0) {
               newPos.x = 1920;

@@ -9,7 +9,6 @@
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
 #include "ISystem.hpp"
-#include "Utils.hpp"
 #include <iostream>
 
 #include <iostream>
@@ -19,7 +18,7 @@
 
 class SpawnMob : public GameEngine::ISystem {
     public:
-    explicit SpawnMob(std::string  path);
+    explicit SpawnMob(std::string path);
 
     void changeLevel();
 
@@ -30,7 +29,7 @@ class SpawnMob : public GameEngine::ISystem {
         std::string directoryPath;
         std::vector<std::string> mapFiles;
         int mapIndex = 0;
-        ConfigData currentMapContent;
+        LoadConfig::ConfigData currentMapContent;
 
         void loadMapFiles(const std::string& path);
 

@@ -13,9 +13,9 @@ void CheckPositionClient::update(GameEngine::ComponentsContainer &componentsCont
 
     auto entities = componentsContainer.getEntitiesWithComponent(playerComp);
     for (auto &entity : entities) {
-        auto position = componentsContainer.getComponent(entity, positionComp);
-        if (position.has_value()) {
-            auto positionComp = std::static_pointer_cast<GameEngine::PositionComponent2D>(position.value());
+        auto positionOpt = componentsContainer.getComponent(entity, positionComp);
+        if (positionOpt.has_value()) {
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
         }
     }
 }

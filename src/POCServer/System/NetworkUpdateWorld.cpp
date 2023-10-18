@@ -26,7 +26,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
     std::shared_ptr<Network::AllUsersMessage> userMessage;
     // Updating Players (position, velocity)
     for (auto &player:  players) {
-        auto compPos = std::static_pointer_cast<GameEngine::PositionComponent2D>(componentsContainer.getComponent(player, positionType).value());
+        auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(player, positionType).value());
         args = {compPos->pos.x, compPos->pos.y};
         ids.push_back(player);
         message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
@@ -34,7 +34,7 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
         ids.clear();
-        auto compVel = std::static_pointer_cast<GameEngine::VelocityComponent>(componentsContainer.getComponent(player, velocityType).value());
+        auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(player, velocityType).value());
         args = {compVel->velocity.x, compVel->velocity.y};
         ids.push_back(player);
         message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
@@ -45,18 +45,18 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
     }
     // Updating Mobs (position, velocity)
     for (auto &mob:  mobs) {
-        auto compPos = std::static_pointer_cast<GameEngine::PositionComponent2D>(componentsContainer.getComponent(mob, positionType).value());
-        args.push_back(compPos->pos.x);
-        args.push_back(compPos->pos.y);
+        auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(mob, positionType).value());
+        args.emplace_back(compPos->pos.x);
+        args.emplace_back(compPos->pos.y);
         ids.push_back(mob);
         message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
         ids.clear();
-        auto compVel = std::static_pointer_cast<GameEngine::VelocityComponent>(componentsContainer.getComponent(mob, velocityType).value());
-        args.push_back(compVel->velocity.x);
-        args.push_back(compVel->velocity.y);
+        auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(mob, velocityType).value());
+        args.emplace_back(compVel->velocity.x);
+        args.emplace_back(compVel->velocity.y);
         ids.push_back(mob);
         message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::AllUsersMessage>(message);
@@ -66,18 +66,18 @@ void NetworkUpdateWorld::update(GameEngine::ComponentsContainer &componentsConta
     }
     // Updating Bullets (position, velocity)
     for (auto &bullet:  bullets) {
-        auto compPos = std::static_pointer_cast<GameEngine::PositionComponent2D>(componentsContainer.getComponent(bullet, positionType).value());
-        args.push_back(compPos->pos.x);
-        args.push_back(compPos->pos.y);
+        auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(bullet, positionType).value());
+        args.emplace_back(compPos->pos.x);
+        args.emplace_back(compPos->pos.y);
         ids.push_back(bullet);
         message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         args.clear();
         ids.clear();
-        auto compVel = std::static_pointer_cast<GameEngine::VelocityComponent>(componentsContainer.getComponent(bullet, velocityType).value());
-        args.push_back(compVel->velocity.x);
-        args.push_back(compVel->velocity.y);
+        auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(bullet, velocityType).value());
+        args.emplace_back(compVel->velocity.x);
+        args.emplace_back(compVel->velocity.y);
         ids.push_back(bullet);
         message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         userMessage = std::make_shared<Network::AllUsersMessage>(message);

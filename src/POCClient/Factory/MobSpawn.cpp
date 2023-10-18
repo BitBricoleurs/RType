@@ -9,11 +9,11 @@
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos, bool dropPowerup) {
+                                     Utils::Vect2 pos, bool dropPowerup) {
 
 
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
         size_t entityId = createBaseMob(
             container,
@@ -28,14 +28,14 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
             data.getInt("/createCancerMob/deathSpriteSheetWidth"),
             data.getInt("/createCancerMob/deathFrames"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 data.getFloat("/createCancerMob/velocity/x"),
                 data.getFloat("/createCancerMob/velocity/y")
             ),
             data.getInt("/createCancerMob/player"),
             data.getFloat("/createCancerMob/scale"),
             data.getFloat("/createCancerMob/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 data.getInt("/createCancerMob/tint/r"),
                 data.getInt("/createCancerMob/tint/g"),
                 data.getInt("/createCancerMob/tint/b"),
@@ -58,9 +58,9 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
-                                GameEngine::Vect2 pos, bool dropPowerup) {
+                                Utils::Vect2 pos, bool dropPowerup) {
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
         size_t entityId = createBaseMob(
             container,
@@ -75,14 +75,14 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
             data.getInt("/createPatapataMob/deathSpriteSheetWidth"),
             data.getInt("/createPatapataMob/deathFrames"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 data.getFloat("/createPatapataMob/velocity/x"),
                 data.getFloat("/createPatapataMob/velocity/y")
             ),
             data.getInt("/createPatapataMob/player"),
             data.getFloat("/createPatapataMob/scale"),
             data.getFloat("/createPatapataMob/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 data.getInt("/createPatapataMob/tint/r"),
                 data.getInt("/createPatapataMob/tint/g"),
                 data.getInt("/createPatapataMob/tint/b"),
@@ -103,10 +103,10 @@ EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, bool dropPowerup)
+                                  Utils::Vect2 pos, bool dropPowerup)
                                   {
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
     size_t entityId = createBaseMob(
         container,
@@ -121,14 +121,14 @@ size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
         data.getInt("/createBugMob/deathSpriteSheetWidth"),
         data.getInt("/createBugMob/deathFrames"),
         pos,
-        GameEngine::Vect2(
+        Utils::Vect2(
             data.getFloat("/createBugMob/velocity/x"),
             data.getFloat("/createBugMob/velocity/y")
         ),
         data.getInt("/createBugMob/player"),
         data.getFloat("/createBugMob/scale"),
         data.getFloat("/createBugMob/rotation"),
-        GameEngine::ColorR(
+        Utils::ColorR(
             data.getInt("/createBugMob/tint/r"),
             data.getInt("/createBugMob/tint/g"),
             data.getInt("/createBugMob/tint/b"),

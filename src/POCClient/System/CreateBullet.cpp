@@ -24,10 +24,10 @@ void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, 
         BulletOwner number = static_cast<BulletOwner>(std::any_cast<int>(args[arg_index]));
         BulletType typeBull = static_cast<BulletType>(std::any_cast<int>(args[arg_index + 1]));
         EntityFactory  &factory = EntityFactory::getInstance();
-        GameEngine::Vect2 pos = {0, 0};
+        Utils::Vect2 pos = {0, 0};
         size_t entityId = 0;
         std::string path = "";
-        GameEngine::Vect2 velocity = {0, 0};
+        Utils::Vect2 velocity = {0, 0};
         if (number == BulletOwner::PLAYER)
             entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
         else

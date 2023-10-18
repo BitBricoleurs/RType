@@ -5,18 +5,19 @@
 #pragma once
 
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "rect.hpp"
+#include "Circle.hpp"
 #include "AColliderComponent2D.hpp"
 #include "CircleColliderComponent2D.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
-    bool checkCollision(const rect& a, const rect& b) {
+    bool checkCollision(const Utils::rect& a, const Utils::rect& b) {
         return (a.left < b.right && a.right > b.left &&
                 a.top < b.bottom && a.bottom > b.top);
     }
 
-    bool checkCollision(const rect& r, const Circle& c) {
+    bool checkCollision(const Utils::rect& r, const Utils::Circle& c) {
         float closestX = std::clamp(c.center.x, r.left, r.right);
         float closestY = std::clamp(c.center.y, r.top, r.bottom);
 
@@ -31,23 +32,23 @@ namespace GameEngine {
     class RectangleColliderComponent : public AColliderComponent2D {
     public:
         RectangleColliderComponent() = default;
-        RectangleColliderComponent(const rect& collider) : collider(collider) {}
+        RectangleColliderComponent(const Utils::rect& collider) : collider(collider) {}
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("IColliderComponent");
+            return GameEngine::ComponentsType::getNewComponentType("IColliderComponent");
         }
 
-        rect getCollider() const { return collider; }
-        void setCollider(const rect& collider) { this->collider = collider; }
+        Utils::rect getCollider() const { return collider; }
+        void setCollider(const Utils::rect& collider) { this->collider = collider; }
 
-        bool collidesWith(AColliderComponent& other) override {
+        bool collidesWith(AColliderComponent2D& other) override {
             if(auto otherRect = dynamic_cast<RectangleColliderComponent*>(&other)) {
                 if (checkCollision(collider, otherRect->getCollider())) {
                     return true;
                 }
             }
 
-            if (auto otherCircle = dynamic_cast<CircleColliderComponent*>(&other)) {
+            if (auto otherCircle = dynamic_cast<CircleColliderComponent2D*>(&other)) {
                 if (checkCollision(collider, otherCircle->getCollider())) {
                     return true;
                 }
@@ -57,6 +58,6 @@ namespace GameEngine {
         }
 
     private:
-        rect collider;
+        Utils::rect collider;
     };
 }

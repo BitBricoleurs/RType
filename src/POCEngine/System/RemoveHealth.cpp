@@ -19,7 +19,7 @@ void RemoveHealth::update(GameEngine::ComponentsContainer &componentsContainer, 
             if (HealthBarId.size() > 0) {
                 auto HealthBarComponentOpt = (componentsContainer.getComponent(HealthBarId[0], GameEngine::ComponentsType::getComponentType("SpriteComponent")));
                 if (HealthBarComponentOpt.has_value()) {
-                    auto HealthBarComponent = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(HealthBarComponentOpt.value());
+                    auto HealthBarComponent = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(HealthBarComponentOpt.value());
                     HealthBarComponent->rect1.w = HealthComponent->currentHealth * 8;
                     if (HealthComponent->currentHealth > 3) {
                         HealthComponent->currentHealth = 3;

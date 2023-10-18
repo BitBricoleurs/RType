@@ -26,7 +26,7 @@ void CreatePlayer::update(GameEngine::ComponentsContainer &componentsContainer, 
 
             PlayerNumber number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
             EntityFactory  &factory = EntityFactory::getInstance();
-            GameEngine::Vect2 pos = {0, 0};
+            Utils::Vect2 pos = {0, 0};
             size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, number);
 
             factory.registerEntity(entityId, ids.front());

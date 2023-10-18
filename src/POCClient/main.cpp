@@ -31,6 +31,7 @@
 #include "InitAudioBackgroud.hpp"
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
+#include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
@@ -64,7 +65,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 
     auto updatePosition = std::make_shared<Client::UpdatePosition>();
     auto updateVelocity = std::make_shared<Client::UpdateVelocity>();
-    auto physicsEngineMovementSystem2D = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+    auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
 
@@ -102,10 +103,10 @@ void setup_game(GameEngine::GameEngine& engine)
     auto initParallax = std::make_shared<InitParallax>();
     auto parallax = std::make_shared<Parallax>();
     auto parallaxPlanet = std::make_shared<ParallaxPlanet>();
-    auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
     auto collisionHandler = std::make_shared<CollisionHandler>();
     auto MobHit1 = std::make_shared<MobHit>();
-    auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
+    auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<InitAudioBackgroud>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
@@ -147,7 +148,7 @@ int main() {
   setup_game(engine);
   setup_hud(engine);
   setup_animations(engine);
-  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
   engine.addSystem("RENDER", render, 4);
   engine.run();
   return 0;

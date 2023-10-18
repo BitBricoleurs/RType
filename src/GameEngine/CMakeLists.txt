@@ -1,12 +1,15 @@
+add_subdirectory(Components)
+add_subdirectory(Core)
+add_subdirectory(Event)
+add_subdirectory(Misc)
+add_subdirectory(Utilities)
+
 add_library(GameEngine STATIC
-        Dummy.hpp
-        Core/GameEngine.cpp
-        Core/ComponentContainer.cpp
-        Core/Registry.cpp
-        Event/EventHandler.cpp
-        Utilities/Timer.hpp
-        Misc/LayerType.hpp
-        Components/ComponentsType.cpp
+        ${GAMEENGINE_COMPONENTS_SOURCES}
+        ${GAMEENGINE_CORE_SOURCES}
+        ${GAMEENGINE_EVENT_SOURCES}
+        ${GAMEENGINE_MISC_SOURCES}
+        ${GAMEENGINE_UTILITIES_SOURCES}
         )
 
 target_include_directories(GameEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Core)

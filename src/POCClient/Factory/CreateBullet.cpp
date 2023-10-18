@@ -3,9 +3,9 @@
 size_t
 EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, GameEngine::Vect2 velocity, size_t typeBullet) {
+                                  Utils::Vect2 pos, Utils::Vect2 velocity, size_t typeBullet) {
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
         std::string bulletKeyPath = "/createBullet/bulletTypes/type" + std::to_string(typeBullet);
         std::string rectKeyPath = bulletKeyPath + "/rect";
@@ -28,7 +28,7 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
             data.getInt("/createBullet/playerA"),
             data.getFloat("/createBullet/scale"),
             data.getFloat("/createBullet/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 data.getInt("/createBullet/tint/r"),
                 data.getInt("/createBullet/tint/g"),
                 data.getInt("/createBullet/tint/b"),
@@ -47,9 +47,9 @@ EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos, GameEngine::Vect2 velocity) {
+                                     Utils::Vect2 pos, Utils::Vect2 velocity) {
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createBulletEnemy.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletEnemy.json");
 
         size_t entityId = createBullet(
             container,
@@ -65,7 +65,7 @@ EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
             data.getInt("/createBullet/playerA"),
             data.getFloat("/createBullet/scale"),
             data.getFloat("/createBullet/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 data.getInt("/createBullet/tint/r"),
                 data.getInt("/createBullet/tint/g"),
                 data.getInt("/createBullet/tint/b"),

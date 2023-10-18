@@ -3,14 +3,14 @@
 #include "RectangleColliderComponent2D.hpp"
 #include "CheckCollision.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
     RectangleColliderComponent2D::RectangleColliderComponent2D() = default;
 
-    RectangleColliderComponent2D::RectangleColliderComponent2D(const rect& collider) : collider(collider) {}
+    RectangleColliderComponent2D::RectangleColliderComponent2D(const Utils::rect& collider) : collider(collider) {}
 
     size_t RectangleColliderComponent2D::getComponentType() {
-        return ComponentsType::getNewComponentType("AColliderComponent2D");
+        return GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D");
     }
 
     bool RectangleColliderComponent2D::collidesWith(AColliderComponent2D& other) {

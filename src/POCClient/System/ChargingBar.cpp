@@ -45,7 +45,7 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
     auto entities = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getNewComponentType("IsChargingBar"));
     auto spriteOpt = componentsContainer.getComponent(entities, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
     if (spriteOpt.has_value()) {
-        auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
+        auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
         auto currentRect = sprite->rect1;
         currentRect.w = _charge * 2;
         sprite->rect1 = currentRect;

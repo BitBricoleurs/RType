@@ -12,10 +12,10 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
 
             if (isbullet.has_value()) {
                 auto isbulletcast = std::static_pointer_cast<IsBullet>(isbullet.value());
-                if (isbulletcast->passingThrough == false) {
+                if (! isbulletcast->passingThrough) {
                     auto spriteComponentMay = componentsContainer.getComponent(secondEntity, spriteCompType);
                     if (spriteComponentMay.has_value()) {
-                        auto spriteComponent = std::static_pointer_cast<GameEngine::SpriteComponent>(spriteComponentMay.value());
+                        auto spriteComponent = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteComponentMay.value());
                         spriteComponent->isVisible = false;
                     }
                 }
@@ -24,10 +24,10 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
             isbullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
             if (isbullet.has_value()) {
                 auto isbulletcast = std::static_pointer_cast<IsBullet>(*isbullet);
-                if (isbulletcast->passingThrough == false) {
+                if (! isbulletcast->passingThrough) {
                     auto spriteComponentMay = componentsContainer.getComponent(firstEntity, spriteCompType);
                     if (spriteComponentMay.has_value()) {
-                        auto spriteComponent = std::static_pointer_cast<GameEngine::SpriteComponent>(spriteComponentMay.value());
+                        auto spriteComponent = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteComponentMay.value());
                         spriteComponent->isVisible = false;
                     }
                 }

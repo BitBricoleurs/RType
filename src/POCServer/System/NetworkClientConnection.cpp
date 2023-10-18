@@ -11,7 +11,7 @@ void NetworkClientConnection::update(GameEngine::ComponentsContainer &components
         return;
     unsigned int netInterfaceId = queue.popBack();
     auto &factory = EntityFactory::getInstance();
-    GameEngine::Vect2 pos = {0, 0};
+    Utils::Vect2 pos = {0, 0};
     PlayerNumber nbr = factory.getNextPlayerNumber();
     size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
     auto netComp = std::make_shared<NetworkClientId>(netInterfaceId);

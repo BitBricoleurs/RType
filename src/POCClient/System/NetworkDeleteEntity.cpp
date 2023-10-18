@@ -16,7 +16,7 @@ void NetworkDeleteEntity::update(GameEngine::ComponentsContainer &componentsCont
             std::vector<size_t> ids = messageData->getIDs();
             std::vector<std::any> args = messageData->getArgs();
 
-        if (ids.size() < 1)
+        if (ids.empty())
             return;
 
         EntityFactory &entityFactory = EntityFactory::getInstance();

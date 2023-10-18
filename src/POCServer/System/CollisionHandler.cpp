@@ -77,7 +77,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         if (firstEntityOptPlayer.has_value() && secondEntityOptPowerUp.has_value()) {
             auto poscompplayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-            auto poscompplayercast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*poscompplayer);
+            auto poscompplayercast = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
             auto powerupcast = std::dynamic_pointer_cast<isPowerUpPickUp>(*secondEntityOptPowerUp);
             if (powerupcast->powerUpType == 1)
                 eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);
@@ -90,7 +90,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             //componentsContainer.deleteEntity(secondEntity);
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptPowerUp.has_value()) {
             auto poscompplayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-            auto poscompplayercast = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(*poscompplayer);
+            auto poscompplayercast = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
             auto powerupcast = std::dynamic_pointer_cast<isPowerUpPickUp>(*firstEntityOptPowerUp);
             if (powerupcast->powerUpType == 1)
                 eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);

@@ -14,8 +14,8 @@ void updateEntitySprite::update(GameEngine::ComponentsContainer &componentsConta
     auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
     if (animationOpt.has_value() && velocityOpt.has_value() && spriteOpt.has_value()) {
     auto animation = std::dynamic_pointer_cast<SpriteAnimation>(animationOpt.value());
-    auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOpt.value());
-    auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
+    auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOpt.value());
+    auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
     if (sprite->isVisible) {
       if (animation->twoDirections && velocity) {
         if (animation->currentFrameIndex >= animation->frames / 2)

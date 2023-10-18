@@ -10,8 +10,8 @@
 
 size_t EntityFactory::createBaseMob(
     GameEngine::ComponentsContainer &container,
-    int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, int maxHealth, int damageValue, float scale) {
+    int hitboxHeight, int hitboxWidth, Utils::Vect2 pos,
+    Utils::Vect2 velocity, int maxHealth, int damageValue, float scale) {
   size_t entityId = createBaseEntity(
       container, hitboxHeight, hitboxWidth, pos, velocity, scale);
 
@@ -27,8 +27,8 @@ size_t EntityFactory::createBaseMob(
 }
 
 size_t EntityFactory::createBossMob(
-    GameEngine::ComponentsContainer &container, int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, int maxHealth, int damageValue, int stageValue,
+    GameEngine::ComponentsContainer &container, int hitboxHeight, int hitboxWidth, Utils::Vect2 pos,
+    Utils::Vect2 velocity, int maxHealth, int damageValue, int stageValue,
     float scale) {
 
   size_t entityId = createBaseMob(container, hitboxHeight, hitboxWidth, pos, velocity, maxHealth, damageValue,scale);
@@ -46,16 +46,16 @@ size_t EntityFactory::createBossMob(
 
 size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
                                    int hitboxHeight, int hitboxWidth,
-                                   GameEngine::Vect2 pos,
-                                   GameEngine::Vect2 velocity, int maxHealth,
+                                   Utils::Vect2 pos,
+                                   Utils::Vect2 velocity, int maxHealth,
                                    int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                   GameEngine::Vect2 bulletVelocity, int typeBullet) {
+                                   Utils::Vect2 bulletVelocity, int typeBullet) {
   size_t entityId = createBaseEntity(
       container, hitboxHeight, hitboxWidth,
       pos, velocity, scale);
 
   auto healthComponent = std::make_shared<Health>(maxHealth);
-  auto shooterComp = std::make_shared<Shooter>(GameEngine::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
+  auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
   auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
 
   container.bindComponentToEntity(entityId, healthComponent);
@@ -67,8 +67,8 @@ size_t EntityFactory::createPlayer(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
                                    int hitboxHeight, int hitboxWidth,
-                                   GameEngine::Vect2 pos,
-                                   GameEngine::Vect2 velocity, int damageValue,
+                                   Utils::Vect2 pos,
+                                   Utils::Vect2 velocity, int damageValue,
                                    bool isPlayerBullet, float scale) {
   size_t entityId = createBaseEntity(
       container, hitboxHeight, hitboxWidth,
@@ -83,8 +83,8 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
 }
 
 size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
-                                    int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
-                                    GameEngine::Vect2 velocity, int playerA, float scale) {
+                                    int hitboxHeight, int hitboxWidth, Utils::Vect2 pos,
+                                    Utils::Vect2 velocity, int playerA, float scale) {
   size_t entityId = createBaseEntity(container, hitboxHeight, hitboxWidth, pos,
                                      velocity, scale);
   auto powerUpComponent = std::make_shared<IsPowerUp>();
@@ -93,11 +93,11 @@ size_t EntityFactory::createPowerUp(GameEngine::ComponentsContainer &container,
 }
 
 size_t EntityFactory::createChargeAnimation(
-    GameEngine::ComponentsContainer &container, GameEngine::Vect2 pos, GameEngine::Vect2 velocity) {
+    GameEngine::ComponentsContainer &container, Utils::Vect2 pos, Utils::Vect2 velocity) {
 
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(pos);
-  auto movementComp = std::make_shared<GameEngine::MovementComponent>();
-  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velocity);
+  auto positionComponent = std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
+  auto movementComp = std::make_shared<PhysicsEngine::MovementComponent>();
+  auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
 
   size_t animationId = container.createEntity();
@@ -109,15 +109,15 @@ size_t EntityFactory::createChargeAnimation(
 
 size_t EntityFactory::createBaseEntity(
     GameEngine::ComponentsContainer &container,
-    int hitboxHeight, int hitboxWidth, GameEngine::Vect2 pos,
-    GameEngine::Vect2 velocity, float scale) {
+    int hitboxHeight, int hitboxWidth, Utils::Vect2 pos,
+    Utils::Vect2 velocity, float scale) {
 
-  auto movementComponent = std::make_shared<GameEngine::MovementComponent>();
-  auto positionComponent = std::make_shared<GameEngine::PositionComponent2D>(pos);
-  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(velocity);
+  auto movementComponent = std::make_shared<PhysicsEngine::MovementComponent>();
+  auto positionComponent = std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
+  auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
-  auto AABBComponent = std::make_shared<GameEngine::AABBComponent2D>(pos, GameEngine::Vect2(pos.x + hitboxWidth * scale, pos.y + hitboxHeight * scale));
-  auto rectangleCollider = std::make_shared<GameEngine::RectangleColliderComponent2D>(GameEngine::rect(0, 0, hitboxWidth * scale, hitboxHeight * scale));
+  auto AABBComponent = std::make_shared<PhysicsEngine::AABBComponent2D>(pos, Utils::Vect2(pos.x + hitboxWidth * scale, pos.y + hitboxHeight * scale));
+  auto rectangleCollider = std::make_shared<PhysicsEngine::RectangleColliderComponent2D>(Utils::rect(0, 0, hitboxWidth * scale, hitboxHeight * scale));
 
 
   size_t entityId = container.createEntity();
@@ -131,7 +131,7 @@ size_t EntityFactory::createBaseEntity(
   return entityId;
 }
 
-void EntityFactory::updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, GameEngine::Vect2 &pos, GameEngine::Vect2 &velocity)
+void EntityFactory::updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity)
 {
     std::vector<size_t> ids = {entityId};
     std::vector<std::any> args = {};

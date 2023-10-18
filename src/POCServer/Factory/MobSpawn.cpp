@@ -9,11 +9,11 @@
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos, bool dropPowerup) {
+                                     Utils::Vect2 pos, bool dropPowerup) {
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
-        GameEngine::Vect2 velocity(config.getFloat("/createCancerMob/velocity/x"), config.getFloat("/createCancerMob/velocity/y"));
+        Utils::Vect2 velocity(config.getFloat("/createCancerMob/velocity/x"), config.getFloat("/createCancerMob/velocity/y"));
 
         size_t entityId = createBaseMob(
             container,
@@ -27,8 +27,8 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
         );
 
         auto shooterComp = std::make_shared<Shooter>(
-            GameEngine::Vect2(config.getFloat("/shootingPos/x"), config.getFloat("/shootingPos/y")),
-            GameEngine::Vect2(config.getFloat("/bulletVelocity/x"), config.getFloat("/bulletVelocity/y")),
+            Utils::Vect2(config.getFloat("/shootingPos/x"), config.getFloat("/shootingPos/y")),
+            Utils::Vect2(config.getFloat("/bulletVelocity/x"), config.getFloat("/bulletVelocity/y")),
             config.getInt("/typeBullet")
         );
 
@@ -54,11 +54,11 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                        GameEngine::EventHandler &eventHandler,
-                                       GameEngine::Vect2 pos, bool dropPowerup) {
+                                       Utils::Vect2 pos, bool dropPowerup) {
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
-        GameEngine::Vect2 velocity(config.getFloat("/createPatapataMob/velocity/x"), config.getFloat("/createPatapataMob/velocity/y"));
+        Utils::Vect2 velocity(config.getFloat("/createPatapataMob/velocity/x"), config.getFloat("/createPatapataMob/velocity/y"));
 
         size_t entityId = createBaseMob(
             container,
@@ -97,11 +97,11 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &containe
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, bool dropPowerup) {
+                                  Utils::Vect2 pos, bool dropPowerup) {
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
-        GameEngine::Vect2 velocity(config.getFloat("/createBugMob/velocity/x"), config.getFloat("/createBugMob/velocity/y"));
+        Utils::Vect2 velocity(config.getFloat("/createBugMob/velocity/x"), config.getFloat("/createBugMob/velocity/y"));
 
         size_t entityId = createBaseMob(
             container,

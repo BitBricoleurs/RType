@@ -27,7 +27,7 @@ void CreateMob::update(GameEngine::ComponentsContainer &componentsContainer, Gam
                 return;
             MobType typeMob = static_cast<MobType>(std::any_cast<int>(args[0]));
             EntityFactory  &factory = EntityFactory::getInstance();
-            GameEngine::Vect2 pos = {0, 0};
+            Utils::Vect2 pos = {0, 0};
 
             size_t entityId = 0;
             for (auto id : ids ) {

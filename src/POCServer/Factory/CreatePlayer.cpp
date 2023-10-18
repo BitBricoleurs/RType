@@ -10,22 +10,22 @@
 size_t
 EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos, PlayerNumber numberPlayer) {
+                               Utils::Vect2 pos, PlayerNumber numberPlayer) {
 try {
-    ConfigData data = LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
+    LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
 
     size_t chargeAnimationID = createChargeAnimation(
     container,
-    GameEngine::Vect2(
+    Utils::Vect2(
         data.getFloat("/createChargeAnimation/pos/x"),
         data.getFloat("/createChargeAnimation/pos/y")
     ),
-    GameEngine::Vect2(
+    Utils::Vect2(
         data.getFloat("/createChargeAnimation/velocity/x"),
         data.getFloat("/createChargeAnimation/velocity/y")
     )
 );
-    GameEngine::Vect2 velocity = GameEngine::Vect2(
+    Utils::Vect2 velocity = Utils::Vect2(
         data.getFloat("/createPlayer/velocity/x"),
         data.getFloat("/createPlayer/velocity/y")
     );
@@ -41,7 +41,7 @@ size_t entityId = createPlayer(
     data.getInt("/createPlayer/bulletStartY"),
     data.getFloat("/createPlayer/scale"),
     chargeAnimationID,
-    GameEngine::Vect2(
+    Utils::Vect2(
         data.getFloat("/createPlayer/bulletVelocity/x"),
         data.getFloat("/createPlayer/bulletVelocity/y")
     ),

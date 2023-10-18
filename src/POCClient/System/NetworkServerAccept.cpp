@@ -26,7 +26,7 @@ void NetworkServerAccept::update(GameEngine::ComponentsContainer &componentsCont
 
             PlayerNumber number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
             EntityFactory  &factory = EntityFactory::getInstance();
-            GameEngine::Vect2 pos = {0, 0};
+            Utils::Vect2 pos = {0, 0};
             size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, number);
             factory.registerEntity(entityId, ids.front());
     } catch (std::bad_any_cast &e) {
