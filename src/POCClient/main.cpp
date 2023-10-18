@@ -139,16 +139,28 @@ void setup_animations(GameEngine::GameEngine &engine) {
 int main() {
   GameEngine::GameEngine engine;
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-  Network::Endpoint endpoint("127.0.0.1", 4444);
 
-  Network::Client::init(1000, queue);
-  setup_network(engine, queue, endpoint);
-  setup_sync_systems(engine);
-  setup_game(engine);
-  setup_hud(engine);
-  setup_animations(engine);
-  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
-  engine.addSystem("RENDER", render, 4);
-  engine.run();
-  return 0;
+  try {
+      ConfigData data = LoadConfig::getInstance().loadConfig("config/Network/client.json");
+
+      std::string ip = data.getString("/client/ip");
+      int port = data.getInt("/client/port");
+      int tick = data.getInt("/client/tick");
+      Network::Endpoint endpoint(ip, port);
+
+      Network::Client::init(tick, queue);
+      setup_network(engine, queue, endpoint);
+      setup_sync_systems(engine);
+      setup_game(engine);
+      setup_hud(engine);
+      setup_animations(engine);
+      auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+      engine.addSystem("RENDER", render, 4);
+      engine.run();
+      return 0;
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return 84;
+  }
+
 }

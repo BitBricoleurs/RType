@@ -87,15 +87,24 @@ int main(void) {
     GameEngine::GameEngine engine;
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Server::init(4444, 2, 1000, queue);
+    try {
+        ConfigData data = LoadConfig::getInstance().loadConfig("config/Network/server.json");
+        int port = data.getInt("/server/port");
+        int nbClients = data.getInt("/server/nbMaxClients");
+        int tick = data.getInt("/server/tick");
+        Network::Server::init(port, nbClients, tick, queue);
 
-    setup_network(engine, queue);
-    setup_sync_systems(engine);
-    setup_engine(engine);
-    auto position = std::make_shared<CheckPositionClient>();
-    engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
-    auto physicMVT = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
-    engine.addSystem("PHYSICS", physicMVT, 1);
-    engine.run();
-    return 0;
+        setup_network(engine, queue);
+        setup_sync_systems(engine);
+        setup_engine(engine);
+        auto position = std::make_shared<CheckPositionClient>();
+        engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
+        auto physicMVT = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+        engine.addSystem("PHYSICS", physicMVT, 1);
+        engine.run();
+        return 0;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    }
 }
