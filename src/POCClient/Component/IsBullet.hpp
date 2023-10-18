@@ -14,7 +14,7 @@ public:
   IsBullet(bool playerBullet);
 
   size_t getComponentType() override;
-  bool playerBullet;
-  bool passingThrough;
+  bool playerBullet = false;
+  bool passingThrough = false;
   std::vector<size_t> alreadyHit;
 };
