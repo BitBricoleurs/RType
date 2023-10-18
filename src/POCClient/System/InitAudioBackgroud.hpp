@@ -8,6 +8,7 @@
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "AudioComponent.hpp"
+#include "LoadConfig.hpp"
 
 
 class InitAudioBackgroud : public GameEngine::ISystem {
