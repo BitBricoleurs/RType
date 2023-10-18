@@ -142,7 +142,7 @@ int main() {
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
 
   try {
-      ConfigData data = LoadConfig::getInstance().loadConfig("config/Network/client.json");
+      LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Network/client.json");
 
       std::string ip = data.getString("/client/ip");
       int port = data.getInt("/client/port");

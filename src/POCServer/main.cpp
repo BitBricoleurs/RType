@@ -88,7 +88,7 @@ int main(void) {
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
     try {
-        ConfigData data = LoadConfig::getInstance().loadConfig("config/Network/server.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Network/server.json");
         int port = data.getInt("/server/port");
         int nbClients = data.getInt("/server/nbMaxClients");
         int tick = data.getInt("/server/tick");
