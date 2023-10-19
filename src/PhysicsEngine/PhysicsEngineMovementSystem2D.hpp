@@ -11,14 +11,14 @@
 #include "EventHandler.hpp"
 #include "RectangleColliderComponent2D.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
-    class PhysicsEngineMovementSystem2D : public ISystem {
+    class PhysicsEngineMovementSystem2D : public GameEngine::ISystem {
     public:
         PhysicsEngineMovementSystem2D();
         ~PhysicsEngineMovementSystem2D()  = default;
 
-        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler);
+        void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) override;
     private:
         std::unique_ptr<PhysicsEngine> engine;
     };

@@ -1,0 +1,32 @@
+set(POCENGINE_SYSTEM_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateOnMove.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ChangeDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ResetDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RollBackBorder.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ParallaxPlanet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeleteEntities.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncPosSprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestInput.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateEntitySprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateDeath.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RemoveHealth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHitMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
+        CACHE INTERNAL ""
+)

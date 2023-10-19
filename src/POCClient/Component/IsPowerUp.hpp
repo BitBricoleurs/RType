@@ -8,9 +8,13 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsPowerUp : public GameEngine::AComponent {
-public:
-  IsPowerUp() = default;
+namespace Client {
 
-  size_t getComponentType() override;
-};
+    class IsPowerUp : public GameEngine::AComponent {
+        public:
+            IsPowerUp() = default;
+
+            size_t getComponentType() override;
+    };
+
+}

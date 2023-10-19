@@ -14,10 +14,13 @@
 #include "NetworkClientId.hpp"
 #include "SpriteComponent.hpp"
 
-class MobHit : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+namespace Client {
 
-  private:
-    void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
-};
+    class MobHit : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+
+      private:
+        static void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
+    };
+}

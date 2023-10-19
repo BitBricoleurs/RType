@@ -4,59 +4,63 @@
 
 #include "ConfigData.hpp"
 
-std::string ConfigData::getString(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_string()) {
-        return data[ptr].get<std::string>();
-    }
-    throw std::runtime_error("Key not found or value is not a string: " + keyPath);
-}
+namespace LoadConfig {
 
-int ConfigData::getInt(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_number_integer()) {
-        return data[ptr].get<int>();
+    std::string ConfigData::getString(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_string()) {
+            return data[ptr].get<std::string>();
+        }
+        throw std::runtime_error("Key not found or value is not a string: " + keyPath);
     }
-    throw std::runtime_error("Key not found or value is not an integer: " + keyPath);
-}
 
-bool ConfigData::getBool(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_boolean()) {
-        return data[ptr].get<bool>();
+    int ConfigData::getInt(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_number_integer()) {
+            return data[ptr].get<int>();
+        }
+        throw std::runtime_error("Key not found or value is not an integer: " + keyPath);
     }
-    throw std::runtime_error("Key not found or value is not a boolean: " + keyPath);
-}
 
-float ConfigData::getFloat(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_number_float()) {
-        return data[ptr].get<float>();
+    bool ConfigData::getBool(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_boolean()) {
+            return data[ptr].get<bool>();
+        }
+        throw std::runtime_error("Key not found or value is not a boolean: " + keyPath);
     }
-    throw std::runtime_error("Key not found or value is not a float: " + keyPath);
-}
 
-int ConfigData::getSize(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_array()) {
-        return data[ptr].size();
+    float ConfigData::getFloat(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_number_float()) {
+            return data[ptr].get<float>();
+        }
+        throw std::runtime_error("Key not found or value is not a float: " + keyPath);
     }
-    throw std::runtime_error("Key not found or value is not an array: " + keyPath);
-}
 
-bool ConfigData::keyExists(const std::string& keyPath) const {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr)) {
-        return true;
+    int ConfigData::getSize(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_array()) {
+            return data[ptr].size();
+        }
+        throw std::runtime_error("Key not found or value is not an array: " + keyPath);
     }
-    throw std::runtime_error("Key not found: " + keyPath);
-}
 
-void ConfigData::eraseKey(const std::string& keyPath, int index) {
-    nlohmann::json::json_pointer ptr(keyPath);
-    if (data.contains(ptr) && data[ptr].is_array() && index < data[ptr].size()) {
-        data[ptr].erase(data[ptr].begin() + index);
-        return;
+    bool ConfigData::keyExists(const std::string& keyPath) const {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr)) {
+            return true;
+        }
+        throw std::runtime_error("Key not found: " + keyPath);
     }
-    throw std::runtime_error("Key not found, value is not an array, or index out of bounds: " + keyPath + "[" + std::to_string(index) + "]");
+
+    void ConfigData::eraseKey(const std::string& keyPath, int index) {
+        nlohmann::json::json_pointer ptr(keyPath);
+        if (data.contains(ptr) && data[ptr].is_array() && index < data[ptr].size()) {
+            data[ptr].erase(data[ptr].begin() + index);
+            return;
+        }
+        throw std::runtime_error("Key not found, value is not an array, or index out of bounds: " + keyPath + "[" + std::to_string(index) + "]");
+    }
+
 }

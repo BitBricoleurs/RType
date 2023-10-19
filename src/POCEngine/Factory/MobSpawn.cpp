@@ -4,10 +4,10 @@
 
 size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     GameEngine::Vect2 pos, bool dropPowerup) {
+                                     Utils::Vect2 pos, bool dropPowerup) {
 
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
         size_t entityId = createBaseMob(
             container,
@@ -22,7 +22,7 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
             config.getInt("/createCancerMob/deathSpriteSheetWidth"),
             config.getInt("/createCancerMob/deathFrames"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createCancerMob/velocity/x"),
                 config.getFloat("/createCancerMob/velocity/y")
             ),
@@ -31,7 +31,7 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
             config.getInt("/createCancerMob/player"),
             config.getFloat("/createCancerMob/scale"),
             config.getFloat("/createCancerMob/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createCancerMob/tint/r"),
                 config.getInt("/createCancerMob/tint/g"),
                 config.getInt("/createCancerMob/tint/b"),
@@ -42,7 +42,7 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
         );
 
         auto shooterComp = std::make_shared<Shooter>(
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/shootingPos/x"),
                 config.getFloat("/shootingPos/y")
             ),
@@ -63,10 +63,10 @@ size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                        GameEngine::EventHandler &eventHandler,
-                                       GameEngine::Vect2 pos, bool dropPowerup) {
+                                       Utils::Vect2 pos, bool dropPowerup) {
 
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
         size_t entityId = createBaseMob(
             container,
@@ -81,7 +81,7 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &containe
             config.getInt("/createPatapataMob/deathSpriteSheetWidth"),
             config.getInt("/createPatapataMob/deathFrames"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createPatapataMob/velocity/x"),
                 config.getFloat("/createPatapataMob/velocity/y")
             ),
@@ -90,7 +90,7 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &containe
             config.getInt("/createPatapataMob/player"),
             config.getFloat("/createPatapataMob/scale"),
             config.getFloat("/createPatapataMob/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createPatapataMob/tint/r"),
                 config.getInt("/createPatapataMob/tint/g"),
                 config.getInt("/createPatapataMob/tint/b"),
@@ -122,10 +122,10 @@ size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &containe
 
 size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  GameEngine::Vect2 pos, bool dropPowerup) {
+                                  Utils::Vect2 pos, bool dropPowerup) {
 
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
         size_t entityId = createBaseMob(
             container,
@@ -140,7 +140,7 @@ size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
             config.getInt("/createBugMob/deathSpriteSheetWidth"),
             config.getInt("/createBugMob/deathFrames"),
             pos,
-            GameEngine::Vect2(
+            Utils::Vect2(
                 config.getFloat("/createBugMob/velocity/x"),
                 config.getFloat("/createBugMob/velocity/y")
             ),
@@ -149,7 +149,7 @@ size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
             config.getInt("/createBugMob/player"),
             config.getFloat("/createBugMob/scale"),
             config.getFloat("/createBugMob/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createBugMob/tint/r"),
                 config.getInt("/createBugMob/tint/g"),
                 config.getInt("/createBugMob/tint/b"),

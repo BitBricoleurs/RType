@@ -9,15 +9,13 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 
-// System of the client that send "DISCONNECTING"
+namespace Client {
 
-class NetworkReceiveDisconnect : public GameEngine::ISystem {
-    public:
-        NetworkReceiveDisconnect() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
-};
-
-
-
+    class NetworkReceiveDisconnect : public GameEngine::ISystem {
+        public:
+            NetworkReceiveDisconnect() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
+    };
+}

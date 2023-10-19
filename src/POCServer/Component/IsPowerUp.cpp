@@ -4,6 +4,9 @@
 
 #include "IsPowerUp.hpp"
 
-size_t IsPowerUp::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsPowerUp");
+namespace Server {
+
+    size_t IsPowerUp::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsPowerUp");
+    }
 }

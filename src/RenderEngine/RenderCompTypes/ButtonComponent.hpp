@@ -6,10 +6,10 @@
 
 #include "SpriteComponent.hpp"
 
-namespace GameEngine {
+namespace RenderEngine {
     class ButtonComponent : public SpriteComponent {
         public:
-        ButtonComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer, float scale, float rotation, ColorR tint)
+        ButtonComponent(const std::string& imagePath, Utils::Vect2 pos, Utils::rect rect1, size_t layer, float scale, float rotation, Utils::ColorR tint)
             : SpriteComponent(imagePath, pos, rect1, layer, scale, rotation, tint) {
             hoverColor.r = 255;
             hoverColor.b = 255;
@@ -29,10 +29,10 @@ namespace GameEngine {
 
         size_t getComponentType() override;
 
-        std::string hoverEvent = "";
-        std::string clickEvent = "";
+        std::string hoverEvent;
+        std::string clickEvent;
 
-        ColorR hoverColor;
+        Utils::ColorR hoverColor;
         private:
             bool isHovered = false;
 

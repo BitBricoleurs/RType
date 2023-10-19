@@ -35,7 +35,7 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
         if (currentTick == tick) {
             int posX = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/x");
             int posY = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/y");
-            GameEngine::Vect2 position(posX, posY);
+            Utils::Vect2 position(posX, posY);
 
             bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
 
@@ -58,7 +58,7 @@ void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, Game
 
 void SpawnMob::loadMapFiles(const std::string &path)
 {
-    std::string newPath = LoadConfig::getInstance().getExecutablePath();
+    std::string newPath = LoadConfig::LoadConfig::getInstance().getExecutablePath();
         newPath = newPath + path;
     for (const auto &entry : std::filesystem::directory_iterator(newPath)) {
         if (entry.path().extension() == ".json") {
@@ -70,7 +70,7 @@ void SpawnMob::loadMapFiles(const std::string &path)
 bool SpawnMob::loadMap(const std::string &filePath)
 {
     try {
-        currentMapContent = LoadConfig::getInstance().loadConfigWithoutPath(filePath);
+        currentMapContent = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath(filePath);
         return true;
     } catch (const std::exception& e) {
         std::cerr << "Error loading map: " << e.what() << std::endl;

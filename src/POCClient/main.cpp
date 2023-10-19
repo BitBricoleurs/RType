@@ -31,20 +31,21 @@
 #include "InitAudioBackgroud.hpp"
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
+#include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
-    auto networkConnect = std::make_shared<NetworkConnect>();
-    auto networkReceiveDisconnect = std::make_shared<NetworkReceiveDisconnect>();
-    auto networkReceiveDisconnectApply = std::make_shared<NetworkReceiveDisconnectApply>();
-    auto networkServerTimeout = std::make_shared<NetworkServerTimeout>();
+    auto networkConnect = std::make_shared<Client::NetworkConnect>();
+    auto networkReceiveDisconnect = std::make_shared<Client::NetworkReceiveDisconnect>();
+    auto networkReceiveDisconnectApply = std::make_shared<Client::NetworkReceiveDisconnectApply>();
+    auto networkServerTimeout = std::make_shared<Client::NetworkServerTimeout>();
     auto networkInput = std::make_shared<NetworkInput>(queue);
     auto networkOutput = std::make_shared<NetworkOutput>(NetworkOutput::CLIENT);
-    auto networkAccept = std::make_shared<NetworkServerAccept>();
-    auto createPlayer = std::make_shared<CreatePlayer>();
-    auto createMob = std::make_shared<CreateMob>();
-    auto createBullet = std::make_shared<CreateBullet>();
-    auto networkDeleteEntity = std::make_shared<NetworkDeleteEntity>();
+    auto networkAccept = std::make_shared<Client::NetworkServerAccept>();
+    auto createPlayer = std::make_shared<Client::CreatePlayer>();
+    auto createMob = std::make_shared<Client::CreateMob>();
+    auto createBullet = std::make_shared<Client::CreateBullet>();
+    auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -64,7 +65,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 
     auto updatePosition = std::make_shared<Client::UpdatePosition>();
     auto updateVelocity = std::make_shared<Client::UpdateVelocity>();
-    auto physicsEngineMovementSystem2D = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+    auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
 
@@ -83,8 +84,8 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
-    auto chargingBar = std::make_shared<ChargingBar>();
-    auto initHud = std::make_shared<InitHUD>();
+    auto chargingBar = std::make_shared<Client::ChargingBar>();
+    auto initHud = std::make_shared<Client::InitHUD>();
 
 
     engine.addEvent("InitEvent", initHud);
@@ -99,14 +100,14 @@ void setup_hud(GameEngine::GameEngine &engine) {
 
 void setup_game(GameEngine::GameEngine& engine)
 {
-    auto initParallax = std::make_shared<InitParallax>();
-    auto parallax = std::make_shared<Parallax>();
-    auto parallaxPlanet = std::make_shared<ParallaxPlanet>();
-    auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
-    auto collisionHandler = std::make_shared<CollisionHandler>();
-    auto MobHit1 = std::make_shared<MobHit>();
-    auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
-    auto initAudio = std::make_shared<InitAudioBackgroud>();
+    auto initParallax = std::make_shared<Client::InitParallax>();
+    auto parallax = std::make_shared<Client::Parallax>();
+    auto parallaxPlanet = std::make_shared<Client::ParallaxPlanet>();
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
+    auto collisionHandler = std::make_shared<Client::CollisionHandler>();
+    auto MobHit1 = std::make_shared<Client::MobHit>();
+    auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
+    auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -125,10 +126,10 @@ void setup_game(GameEngine::GameEngine& engine)
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {
-  auto killEntity = std::make_shared<KillEntity>();
-  auto mobDeath = std::make_shared<AnimateDeath>();
-  auto updateSprite = std::make_shared<updateEntitySprite>();
-  auto animateOnMove = std::make_shared<AnimateOnMove>();
+  auto killEntity = std::make_shared<Client::KillEntity>();
+  auto mobDeath = std::make_shared<Client::AnimateDeath>();
+  auto updateSprite = std::make_shared<Client::updateEntitySprite>();
+  auto animateOnMove = std::make_shared<Client::AnimateOnMove>();
 
   engine.addEvent("MobDeath", mobDeath);
   engine.addEvent("KillEntity", killEntity);
@@ -141,7 +142,7 @@ int main() {
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
 
   try {
-      ConfigData data = LoadConfig::getInstance().loadConfig("config/Network/client.json");
+      LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Network/client.json");
 
       std::string ip = data.getString("/client/ip");
       int port = data.getInt("/client/port");
@@ -154,7 +155,7 @@ int main() {
       setup_game(engine);
       setup_hud(engine);
       setup_animations(engine);
-      auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
       engine.addSystem("RENDER", render, 4);
       engine.run();
       return 0;

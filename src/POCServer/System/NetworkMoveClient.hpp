@@ -14,13 +14,16 @@
 #include "VelocityComponent.hpp"
 #include "IMessage.hpp"
 
-class NetworkMoveClient : public GameEngine::ISystem {
-    public:
-        NetworkMoveClient() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
+namespace Server {
 
-    private:
-        float _speed = 7;
+    class NetworkMoveClient : public GameEngine::ISystem {
+        public:
+            NetworkMoveClient() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
 
-};
+        private:
+            float _speed = 7;
+
+    };
+}

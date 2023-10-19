@@ -9,30 +9,30 @@
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
 #include "ISystem.hpp"
-#include "Utils.hpp"
-#include <iostream>
-
 #include <iostream>
 #include <filesystem>
 #include <utility>
 #include <vector>
 
-class SpawnMob : public GameEngine::ISystem {
-    public:
-    explicit SpawnMob(std::string  path);
+namespace Server {
 
-    void changeLevel();
+    class SpawnMob : public GameEngine::ISystem {
+        public:
+        explicit SpawnMob(std::string path);
 
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+        void changeLevel();
 
-    int currentTick = 0;
-    private:
-        std::string directoryPath;
-        std::vector<std::string> mapFiles;
-        int mapIndex = 0;
-        ConfigData currentMapContent;
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
 
-        void loadMapFiles(const std::string& path);
+        int currentTick = 0;
+        private:
+            std::string directoryPath;
+            std::vector<std::string> mapFiles;
+            int mapIndex = 0;
+            LoadConfig::ConfigData currentMapContent;
 
-        bool loadMap(const std::string& filePath);
-};
+            void loadMapFiles(const std::string& path);
+
+            bool loadMap(const std::string& filePath);
+    };
+}

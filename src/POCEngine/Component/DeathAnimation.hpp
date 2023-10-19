@@ -8,7 +8,7 @@
 #include <vector>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 
 class DeathAnimation : public GameEngine::AComponent {
 public:
@@ -20,6 +20,6 @@ public:
   int currentFrameIndex;
   int frames;
   std::string filepath;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositions;
+  Utils::Vect2 currentFrame;
+  std::vector<Utils::Vect2> spritePositions;
 };

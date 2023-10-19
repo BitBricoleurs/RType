@@ -13,22 +13,25 @@
 #include <unistd.h>
 #endif
 
-class LoadConfig {
-public:
-    static LoadConfig& getInstance() {
-        static LoadConfig instance;
-        return instance;
-    }
+namespace LoadConfig {
 
-    ConfigData loadConfig(const std::string& filePath);
-    ConfigData loadConfigWithoutPath(const std::string& filePath);
-    std::string getExecutablePath();
+    class LoadConfig {
+    public:
+        static LoadConfig& getInstance() {
+            static LoadConfig instance;
+            return instance;
+        }
 
-    LoadConfig(const LoadConfig&) = delete;
-    LoadConfig& operator=(const LoadConfig&) = delete;
+        ConfigData loadConfig(const std::string& filePath);
+        ConfigData loadConfigWithoutPath(const std::string& filePath);
+        std::string getExecutablePath();
 
-private:
-    LoadConfig() = default;
-    ~LoadConfig() = default;
+        LoadConfig(const LoadConfig&) = delete;
+        LoadConfig& operator=(const LoadConfig&) = delete;
 
-};
+    private:
+        LoadConfig() = default;
+        ~LoadConfig() = default;
+
+    };
+}

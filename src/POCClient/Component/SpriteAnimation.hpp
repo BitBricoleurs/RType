@@ -6,35 +6,39 @@
 
 #include <cstddef>
 #include <vector>
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class SpriteAnimation : public GameEngine::AComponent {
-public:
-  SpriteAnimation();
+namespace Client {
 
-  size_t getComponentType() override;
+    class SpriteAnimation : public GameEngine::AComponent {
+    public:
+        SpriteAnimation();
 
-  int frameHeight, frameWidth;
-  bool twoDirections;
-  int currentFrameIndex;
-  int frames;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositionsLeft;
-  std::vector<GameEngine::Vect2> spritePositionsRight;
-};
+      size_t getComponentType() override;
 
-class ChargeShootAnimation : public GameEngine::AComponent {
-public:
-  ChargeShootAnimation();
+      int frameHeight, frameWidth;
+      bool twoDirections;
+      int currentFrameIndex;
+      int frames;
+      Utils::Vect2 currentFrame;
+      std::vector<Utils::Vect2> spritePositionsLeft;
+      std::vector<Utils::Vect2> spritePositionsRight;
+    };
 
-  size_t getComponentType() override;
+    class ChargeShootAnimation : public GameEngine::AComponent {
+    public:
+      ChargeShootAnimation();
 
-  int frameHeight, frameWidth;
-  int currentFrameIndex;
-  int frames;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositionsLeft;
-  std::vector<GameEngine::Vect2> spritePositionsRight;
-};
+      size_t getComponentType() override;
+
+      int frameHeight, frameWidth;
+      int currentFrameIndex;
+      int frames;
+      Utils::Vect2 currentFrame;
+      std::vector<Utils::Vect2> spritePositionsLeft;
+      std::vector<Utils::Vect2> spritePositionsRight;
+    };
+
+}

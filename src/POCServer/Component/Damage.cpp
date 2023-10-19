@@ -4,9 +4,12 @@
 
 #include "Damage.hpp"
 
-Damage::Damage(int damageValue) : damageValue(damageValue) {}
+namespace Server {
 
-size_t Damage::getComponentType()
-{
-    return GameEngine::ComponentsType::getNewComponentType("Damage");
+    Damage::Damage(int damageValue) : damageValue(damageValue) {}
+
+    size_t Damage::getComponentType()
+    {
+        return GameEngine::ComponentsType::getNewComponentType("Damage");
+    }
 }
