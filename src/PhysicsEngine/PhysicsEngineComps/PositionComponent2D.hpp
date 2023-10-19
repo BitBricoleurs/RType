@@ -5,18 +5,18 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include "ComponentsType.hpp"
 
-namespace GameEngine {
-    class PositionComponent2D : public AComponent {
+namespace PhysicsEngine {
+    class PositionComponent2D : public GameEngine::AComponent {
     public:
         PositionComponent2D() = default;
-        PositionComponent2D(const Vect2& pos) : pos(pos) {}
+        explicit PositionComponent2D(const Utils::Vect2& pos) : pos(pos) {}
         ~PositionComponent2D() override = default;
 
-        size_t getComponentType() override { return ComponentsType::getNewComponentType("PositionComponent2D"); }
-        Vect2 pos;
+        size_t getComponentType() override { return GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"); }
+        Utils::Vect2 pos;
     private:
     };
 }

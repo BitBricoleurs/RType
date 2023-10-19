@@ -12,7 +12,7 @@ void RollBackBorder::update(GameEngine::ComponentsContainer &componentsContainer
     for (const auto &window : windows) {
         auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
         if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
+            auto windowSize = std::dynamic_pointer_cast<RenderEngine::WindowInfoComponent>(windowOpt.value());
             sizeWidth = windowSize->windowWidth;
             sizeHeight = windowSize->windowHeight;
             break;
@@ -26,9 +26,9 @@ void RollBackBorder::update(GameEngine::ComponentsContainer &componentsContainer
         auto spriteOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
         if (positionOptional.has_value() && velocityOptional.has_value() && spriteOptional.has_value()) {
-            auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
-            auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
-            auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOptional.value());
+            auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
+            auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
+            auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOptional.value());
             if (position->pos.x + velocity->velocity.x < 0 || position->pos.x + velocity->velocity.x + (sprite->rect1.w * sprite->scale) > sizeWidth) {
                 velocity->velocity.x = 0;
             }

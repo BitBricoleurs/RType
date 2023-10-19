@@ -36,7 +36,7 @@ namespace Client {
                 float x = std::any_cast<float>(args[0]);
                 float y = std::any_cast<float>(args[1]);
 
-                auto position = std::static_pointer_cast<GameEngine::PositionComponent2D>(positionComponent.value());
+                auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionComponent.value());
                 position->pos = {x, y};
             }
         } catch (std::bad_any_cast &e) {

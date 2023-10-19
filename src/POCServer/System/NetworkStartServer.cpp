@@ -4,8 +4,11 @@
 
 #include "NetworkStartServer.hpp"
 
-void NetworkStartServer::update(GameEngine::ComponentsContainer &componentsContainer,
-                                GameEngine::EventHandler &eventHandler)
-{
-    Network::Server::getInstance().start();
+namespace Server {
+
+    void NetworkStartServer::update(GameEngine::ComponentsContainer &componentsContainer,
+                                    GameEngine::EventHandler &eventHandler)
+    {
+        Network::Server::getInstance().start();
+    }
 }

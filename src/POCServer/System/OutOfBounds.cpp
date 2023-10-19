@@ -8,12 +8,12 @@ void Server::OutOfBounds::update(GameEngine::ComponentsContainer & componentsCon
     auto [eventName, eventData] = eventHandler.getTriggeredEvent();
 
     try {
-        size_t entityID = std::any_cast<size_t>(eventData);
+        auto entityID = std::any_cast<size_t>(eventData);
 
         auto positionOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
 
         if (positionOptional.has_value()) {
-            auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
+            auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
 
             if (position) {
                 if (position->pos.x < 0 - _offset || position->pos.x > _width + _offset || position->pos.y < 0 - _offset || position->pos.y > _height + _offset) {

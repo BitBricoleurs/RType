@@ -4,6 +4,10 @@
 
 #include "IsMob.hpp"
 
-size_t IsMob::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsMob");
+namespace Client {
+
+    size_t IsMob::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsMob");
+    }
+
 }

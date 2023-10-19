@@ -8,13 +8,17 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsChargingBar : public GameEngine::AComponent {
-    public:
-        IsChargingBar() { isChargingBar = true; }
-        ~IsChargingBar() = default;
+namespace Client {
 
-        size_t getComponentType() override;
-        bool isChargingBar;
+    class IsChargingBar : public GameEngine::AComponent {
+        public:
+            IsChargingBar() { isChargingBar = true; }
+            ~IsChargingBar() = default;
 
-    private:
-};
+            size_t getComponentType() override;
+            bool isChargingBar;
+
+        private:
+    };
+
+}

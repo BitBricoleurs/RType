@@ -9,13 +9,15 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
+#include "ColorR.hpp"
+#include "rect.hpp"
 #include <string>
 
-namespace GameEngine {
-    class SpriteComponent : public AComponent {
+namespace RenderEngine {
+    class SpriteComponent : public GameEngine::AComponent {
     public:
-        SpriteComponent(const std::string& imagePath, Vect2 pos, rect rect1, size_t layer, float scale, float rotation, ColorR tint) {
+        SpriteComponent(const std::string& imagePath, Utils::Vect2 pos, Utils::rect rect1, size_t layer, float scale, float rotation, Utils::ColorR tint) {
             this->imagePath = imagePath;
             this->pos = pos;
             this->rect1 = rect1;
@@ -23,24 +25,23 @@ namespace GameEngine {
             this->rotation = rotation;
             this->scale = scale;
             this->tint = tint;
-            this->origin = Vect2(0.0f,0.0f);
+            this->origin = Utils::Vect2(0.0f,0.0f);
         }
-        ~SpriteComponent() = default;
+        ~SpriteComponent() override = default;
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("SpriteComponent");
+            return GameEngine::ComponentsType::getNewComponentType("SpriteComponent");
         }
 
-        Vect2 pos;
-        rect rect1;
+        Utils::Vect2 pos;
+        Utils::rect rect1;
         float scale;
         float rotation;
         size_t layer;
         std::string imagePath;
-        Vect2 origin;
-        ColorR tint;
+        Utils::Vect2 origin;
+        Utils::ColorR tint;
         bool isVisible = true;
     private:
     };
 }
-

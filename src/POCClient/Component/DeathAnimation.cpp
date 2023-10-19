@@ -4,11 +4,15 @@
 
 #include "DeathAnimation.hpp"
 
-DeathAnimation::DeathAnimation() : currentFrameIndex(0) {
-    this->currentFrame.x = 0;
-    this->currentFrame.y = 0;
-}
+namespace Client {
 
-size_t DeathAnimation::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("DeathAnimation");
-}
+    DeathAnimation::DeathAnimation() : currentFrameIndex(0) {
+        this->currentFrame.x = 0;
+        this->currentFrame.y = 0;
+    }
+
+    size_t DeathAnimation::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("DeathAnimation");
+    }
+
+} // namespace POCClient

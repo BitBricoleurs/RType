@@ -7,13 +7,17 @@
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
 
-class Score : public GameEngine::AComponent {
-public:
-    Score() {
-        _score = 0;
-    }
-    ~Score() = default;
+namespace Client {
 
-    size_t getComponentType() override;
-    int _score;
-};
+    class Score : public GameEngine::AComponent {
+    public:
+        Score() {
+            _score = 0;
+        }
+        ~Score() override = default;
+
+        size_t getComponentType() override;
+        int _score;
+    };
+
+}

@@ -8,11 +8,14 @@
 
 #pragma once
 
-class Damage : public GameEngine::AComponent {
-public:
-  Damage(int damageValue);
+namespace Server {
 
-  size_t getComponentType() override;
+    class Damage : public GameEngine::AComponent {
+    public:
+      Damage(int damageValue);
 
-  int damageValue;
-};
+      size_t getComponentType() override;
+
+      int damageValue;
+    };
+}

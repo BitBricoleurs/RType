@@ -8,11 +8,14 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class Health : public GameEngine::AComponent {
-public:
-  Health(int maxHealth);
-  size_t getComponentType() override;
+namespace Server {
 
-  int maxHealth;
-  int currentHealth;
-};
+    class Health : public GameEngine::AComponent {
+    public:
+      Health(int maxHealth);
+      size_t getComponentType() override;
+
+      int maxHealth;
+      int currentHealth;
+    };
+}

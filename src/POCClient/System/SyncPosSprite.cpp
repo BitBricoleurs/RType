@@ -13,8 +13,8 @@ void Client::SyncPosSprite::update(GameEngine::ComponentsContainer &componentsCo
         auto spriteOptional = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
         if (positionOptional.has_value() && spriteOptional.has_value()) {
-            auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOptional.value());
-            auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOptional.value());
+            auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
+            auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOptional.value());
 
             if (position && sprite) {
                 sprite->pos = position->pos;

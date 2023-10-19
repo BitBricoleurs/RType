@@ -4,8 +4,11 @@
 
 #include "Health.hpp"
 
-Health::Health(int maxHealth) : maxHealth(maxHealth), currentHealth(maxHealth) {}
+namespace Server {
 
-size_t Health::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("Health");
+    Health::Health(int maxHealth) : maxHealth(maxHealth), currentHealth(maxHealth) {}
+
+    size_t Health::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("Health");
+    }
 }

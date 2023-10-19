@@ -4,8 +4,8 @@
 
 #include "ButtonComponent.hpp"
 
-namespace GameEngine {
+namespace RenderEngine {
     size_t ButtonComponent::getComponentType(){
-        return ComponentsType::getNewComponentType("ButtonComponent");
+        return GameEngine::ComponentsType::getNewComponentType("ButtonComponent");
     }
 } // GameEngine

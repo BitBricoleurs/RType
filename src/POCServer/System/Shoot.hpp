@@ -18,11 +18,14 @@
 #include "VelocityComponent.hpp"
 #include "Message.hpp"
 
-class Shoot : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-private:
-  bool done = false;
+namespace Server {
 
-};
+    class Shoot : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    private:
+      bool done = false;
+
+    };
+}

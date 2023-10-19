@@ -11,23 +11,26 @@
 #include "ComponentsType.hpp"
 #include <cstddef>
 
-class PataPata : public GameEngine::AComponent {
-public:
-  PataPata() = default;
+namespace Server {
 
-  size_t getComponentType() override;
-};
+    class PataPata : public GameEngine::AComponent {
+    public:
+      PataPata() = default;
 
-class Cancer : public GameEngine::AComponent {
-public:
-  Cancer() = default;
+      size_t getComponentType() override;
+    };
 
-  size_t getComponentType() override;
-};
+    class Cancer : public GameEngine::AComponent {
+    public:
+      Cancer() = default;
 
-class Bug : public GameEngine::AComponent {
-public:
-  Bug() = default;
+      size_t getComponentType() override;
+    };
 
-  size_t getComponentType() override;
-};
+    class Bug : public GameEngine::AComponent {
+    public:
+      Bug() = default;
+
+      size_t getComponentType() override;
+    };
+}

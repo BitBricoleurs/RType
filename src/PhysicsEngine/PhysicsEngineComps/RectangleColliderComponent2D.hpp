@@ -1,23 +1,23 @@
 #pragma once
 
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "rect.hpp"
 #include "AColliderComponent2D.hpp"
 #include "CircleColliderComponent2D.hpp"
 #include <algorithm>
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
     class CircleColliderComponent2D;
 
     class RectangleColliderComponent2D : public AColliderComponent2D {
     public:
         RectangleColliderComponent2D();
-        RectangleColliderComponent2D(const rect& collider);
+        explicit RectangleColliderComponent2D(const Utils::rect& collider);
 
         size_t getComponentType() override;
 
-        rect collider;
+        Utils::rect collider{};
 
         bool collidesWith(AColliderComponent2D& other) override;
 

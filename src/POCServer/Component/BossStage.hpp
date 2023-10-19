@@ -8,6 +8,9 @@
 
 #pragma once
 
+namespace Server {
+
+
 class BossStage : public GameEngine::AComponent {
     public:
       BossStage(int stage);
@@ -16,3 +19,5 @@ class BossStage : public GameEngine::AComponent {
 
       int stage;
 };
+
+}

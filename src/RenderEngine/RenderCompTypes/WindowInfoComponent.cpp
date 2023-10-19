@@ -4,10 +4,14 @@
 
 #include "WindowInfoComponent.hpp"
 
-WindowInfoComponent::WindowInfoComponent(size_t windowWidth, size_t windowHeight) : windowWidth(windowWidth), windowHeight(windowHeight)
-{}
+namespace RenderEngine {
 
-size_t WindowInfoComponent::getComponentType()
-{
-    return GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent");
+    WindowInfoComponent::WindowInfoComponent(size_t windowWidth, size_t windowHeight) : windowWidth(windowWidth), windowHeight(windowHeight)
+    {}
+
+    size_t WindowInfoComponent::getComponentType()
+    {
+        return GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent");
+    }
+
 }
