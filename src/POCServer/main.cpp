@@ -56,7 +56,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
-    //engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
+    engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
     engine.addEvent("SHOOT", shoot);
@@ -72,8 +72,8 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<MobHit>();
     auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
     std::string path = "config/map";
-    auto spawnMob = std::make_shared<SpawnMob>(path);
-    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    //auto spawnMob = std::make_shared<SpawnMob>(path);
+    //engine.addSystem("SPAWN_MOB", spawnMob, 2);
 
     engine.addEvent("PlayerHit", PlayerHit1);
     engine.addEvent("MobHit", MobHit1);
@@ -87,7 +87,7 @@ int main(void) {
     GameEngine::GameEngine engine;
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    Network::Server::init(4444, 2, 1000, queue);
+    Network::Server::init(4444, 3, 1000, queue);
 
     setup_network(engine, queue);
     setup_sync_systems(engine);

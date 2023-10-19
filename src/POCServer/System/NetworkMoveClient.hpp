@@ -13,6 +13,7 @@
 #include "NetworkClientId.hpp"
 #include "VelocityComponent.hpp"
 #include "IMessage.hpp"
+#include "Shooter.hpp"
 
 class NetworkMoveClient : public GameEngine::ISystem {
     public:

@@ -31,6 +31,11 @@ void Network::PacketIO::readPacket()
                     _endpoint = _tempEndpoint;
                 }
                 memcpy(&receivedPacket.header, _tempBuffer.data(), sizeof(PacketHeader));
+                if (receivedPacket.header.magicNumber != MAGIC_NUMBER) {
+                    readPacket();
+                    std::cout << "Error reading packet: magic number is not correct" << std::endl;
+                    return;
+                }
                 _lastSequenceNumber = receivedPacket.header.sequenceNumber;
                 receivedPacket.body.assign(_tempBuffer.begin() + sizeof(PacketHeader), _tempBuffer.begin() + length);
                 _packetQueue.pushBack(receivedPacket);

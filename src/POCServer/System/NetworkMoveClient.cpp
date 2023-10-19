@@ -48,6 +48,14 @@ void NetworkMoveClient::update(GameEngine::ComponentsContainer &componentsContai
             velComp->velocity.y += newVel.y;
             newVel = velComp->velocity;
             entityId = entity;
+            auto shooterTypes = GameEngine::ComponentsType::getComponentType("Shooter");
+            auto compShooter = componentsContainer.getComponent(entity, shooterTypes);
+            if (compShooter.has_value()) {
+                auto IShooter = compShooter.value();
+                auto shooterComp = std::static_pointer_cast<Shooter>(IShooter);
+                shooterComp->velocity.x += newVel.x;
+                shooterComp->velocity.y += newVel.y;
+            }
         }
     }
     std::vector<size_t> ids = {entityId};
