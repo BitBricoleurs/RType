@@ -53,7 +53,6 @@ jobs:
           LATEST_VERSION=$(gh release list | head -n 1 | awk '{print $1}')
           echo "Latest version is $LATEST_VERSION"
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
-        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -150,4 +149,3 @@ jobs:
           gh release upload ${{env.LATEST_VERSION}} ./artifacts/RTYPE-fedora/*.rpm  # <-- cette ligne
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
