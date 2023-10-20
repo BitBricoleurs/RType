@@ -25,10 +25,6 @@ void SyncPosSprite::update(GameEngine::ComponentsContainer &componentsContainer,
           spriteOptional.value());
 
       if (position && sprite) {
-        std::cout << "pos: " << position->pos.x << " " << position->pos.y
-                  << std::endl;
-        std::cout << "sprite: " << sprite->pos.x << " " << sprite->pos.y
-                  << std::endl;
         sprite->pos = position->pos;
       }
     }

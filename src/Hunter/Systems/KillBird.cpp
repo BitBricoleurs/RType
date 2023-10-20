@@ -12,5 +12,28 @@ void KillBird::update(GameEngine::ComponentsContainer &componentsContainer,
   size_t entityID =
       std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
 
-  componentsContainer.deleteEntity(entityID);
+  auto buttonOpt = componentsContainer.getComponent(
+      entityID,
+      GameEngine::ComponentsType::getComponentType("ButtonComponent"));
+
+  if (buttonOpt.has_value()) {
+    auto button = std::dynamic_pointer_cast<GameEngine::ButtonComponent>(
+        buttonOpt.value());
+    button->clickEvent = "";
+  }
+
+  //   auto velocityOpt = componentsContainer.getComponent(
+  //       entityID,
+  //       GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+
+  //   if (velocityOpt.has_value()) {
+  //     auto velocity =
+  //     std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+  //         velocityOpt.value());
+  //     velocity->velocity.x = 0;
+  //     velocity->velocity.y = 0;
+  //   }
+  eventHandler.queueEvent("PLAY_SOUND", entityID);
+
+  eventHandler.scheduleEvent("animateDeath", 5, entityID);
 }

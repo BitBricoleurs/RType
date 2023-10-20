@@ -18,7 +18,7 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
 
   GameEngine::Vect2 birdPos(-50, 200);
   GameEngine::ColorR tint = {255, 255, 255, 255};
-  GameEngine::Vect2 velocity(3, 0);
+  GameEngine::Vect2 velocity(6, 0);
   auto birdId = componentsContainer.createEntity();
 
   auto birdComponent = std::make_shared<Bird>();
@@ -35,12 +35,19 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
   auto positionComponent =
       std::make_shared<GameEngine::PositionComponent2D>(birdPos);
 
+  auto audioComponent =
+      std::make_shared<GameEngine::AudioComponent>("assets/hunter/splat.wav");
+
+  auto deathAnimation =
+      initDeathAnimation("assets/hunter/blood.png", 6, 3072, 512);
+
   componentsContainer.bindComponentToEntity(birdId, birdComponent);
   componentsContainer.bindComponentToEntity(birdId, buttonComponent);
   componentsContainer.bindComponentToEntity(birdId, animation);
   componentsContainer.bindComponentToEntity(birdId, velocityComponent);
   componentsContainer.bindComponentToEntity(birdId, movementComponent);
   componentsContainer.bindComponentToEntity(birdId, positionComponent);
+  componentsContainer.bindComponentToEntity(birdId, deathAnimation);
 
   eventHandler.scheduleEvent("animate", 15, birdId);
   return birdId;
@@ -79,4 +86,24 @@ std::shared_ptr<Animation> SpawnBird::initAnimation(int frames, int width,
     animation->currentFrame = animation->spritePositionsLeft[0];
 
   return animation;
+}
+
+std::shared_ptr<DeathAnimation>
+SpawnBird::initDeathAnimation(const std::string &filepath, int deathFrames,
+                              int deathWidth, int deathHeight) {
+  auto deathSpriteComponent = std::make_shared<DeathAnimation>();
+
+  deathSpriteComponent->filepath = filepath;
+  deathSpriteComponent->frameHeight = deathHeight;
+  deathSpriteComponent->frameWidth =
+      static_cast<float>(deathWidth) / deathFrames;
+  deathSpriteComponent->frames = deathFrames;
+
+  for (int i = 0; i < deathFrames; i++) {
+    GameEngine::Vect2 spritePos = {
+        i * static_cast<float>(deathWidth) / deathFrames, 0};
+    deathSpriteComponent->spritePositions.push_back(spritePos);
+  }
+
+  return deathSpriteComponent;
 }

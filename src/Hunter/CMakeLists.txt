@@ -13,6 +13,9 @@ target_sources(${PROJECT_NAME_HUNTER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/Animate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/KillBird.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/AnimateDeath.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/AnimateShot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/Shoot.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )

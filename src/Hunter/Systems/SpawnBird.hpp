@@ -8,9 +8,11 @@
 #pragma once
 
 #include "Animation.hpp"
+#include "AudioComponent.hpp"
 #include "Bird.hpp"
 #include "ButtonComponent.hpp"
 #include "ComponentsType.hpp"
+#include "DeathAnimation.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "MovementComponent2D.hpp"
@@ -33,4 +35,8 @@ private:
                                                   int height,
                                                   bool twoDirections,
                                                   int direction);
+
+  static std::shared_ptr<DeathAnimation>
+  initDeathAnimation(const std::string &filepath, int frames, int width,
+                     int height);
 };

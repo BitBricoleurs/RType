@@ -7,9 +7,11 @@
 
 #pragma once
 
+#include "ButtonComponent.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
+#include "VelocityComponent.hpp"
 
 class KillBird : public GameEngine::ISystem {
 public:
