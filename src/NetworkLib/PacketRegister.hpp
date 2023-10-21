@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 #include <mutex>
+#include <algorithm>
+#include <stdexcept>
 #include "PacketComponent.hpp"
 
 namespace Network {

@@ -114,7 +114,7 @@ std::vector<Network::Packet> Network::PacketRegister::getPacketsToResend(unsigne
     unsigned int lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {
-        if (!(ackMask & (1 << i))) {
+        if ((ackMask & (1 << i))) {
             packetId = lastPacketId - i;
             if (packetId >= 0)
                 try {

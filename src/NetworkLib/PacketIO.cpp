@@ -60,6 +60,14 @@ void Network::PacketIO::readPacket()
 }
 
 
+void Network::PacketIO::sendWaitingPackets()
+{
+    if (!_packetOutQueue.empty()) {
+        _packetOut = _packetOutQueue.popFront()  ;
+        writePacket();
+    }
+}
+
 void Network::PacketIO::serializePacket()
 {
     _serializedPacket.resize(sizeof(PacketHeader) + _packetOut.body.size());
@@ -72,12 +80,12 @@ void Network::PacketIO::writePacket()
     serializePacket();
     _socketOut.async_send_to(
         boost::asio::buffer(_serializedPacket.data(), _serializedPacket.size()), _endpoint,
-        [&](std::error_code ec, std::size_t length) {
+        [this](std::error_code ec, std::size_t length) {
             if (!ec) {
                 _tick.updateLastWriteTime();
+                sendWaitingPackets();
             } else {
-                std::cout << "Error writing packet" << ec.message()
-                          << std::endl;
+                std::cout << "Error writing packet" << ec.message() << std::endl;
             }
         });
 }
@@ -102,11 +110,13 @@ void Network::PacketIO::processIncomingMessages() {
             if (_type == Type::SERVER) {
                 _onConnect(_endpoint);
             }
-            fillResendQueue(endpoint);
-            resendPacket();
+            if (_headerIn.bodySize == 0) {
+                continue;
+            }
+            resendLostPacket(endpoint);
             size_t index = 0;
             unsigned int id = 0;
-            std::uint16_t size;
+            std::uint16_t size = 0;
             while (index < _headerIn.bodySize) {
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
                 size = ntohs(size);
@@ -154,8 +164,10 @@ void Network::PacketIO::processOutgoingMessages()
             _registerPacket.registerSentPacket(_id, _packetOut);
 
             _packetOut.body= _bodyOut.getData();
-            if (_packetOut.header.bodySize > 0)
-                writePacket();
+            if (_packetOut.header.bodySize > 0) {
+                _packetOutQueue.pushBack(_packetOut);
+                sendWaitingPackets();
+            }
     });
 }
 
@@ -164,7 +176,7 @@ size_t Network::PacketIO::getOutMessagesSize() const
     return _outMessages->count();
 }
 
-void Network::PacketIO::fillResendQueue(boost::asio::ip::udp::endpoint &endpoint)
+void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoint)
 {
     uint8_t ackMask = 0;
     std::vector<Network::Packet> packets = {};
@@ -177,29 +189,6 @@ void Network::PacketIO::fillResendQueue(boost::asio::ip::udp::endpoint &endpoint
     ackMask = _registerPacket.getAckMask(id);
     packets = _registerPacket.getPacketsToResend(id, ackMask);
     for (auto& packet : packets) {
-        auto pair = std::make_pair(endpoint, packet);
-        _resendQueue.pushBack(pair);
+        _packetOutQueue.pushBack(packet);
     }
-}
-
-void Network::PacketIO::resendPacket()
-{
-    if (_resendQueue.empty()) {
-        return;
-    }
-
-    Network::Packet packetToResend = _resendQueue.getFront().second;
-    std::vector<uint8_t> serializedPacket;
-    serializedPacket.resize(sizeof(PacketHeader) + packetToResend.body.size());
-    memcpy(serializedPacket.data(), &packetToResend.header, sizeof(PacketHeader));
-    memcpy(serializedPacket.data() + sizeof(PacketHeader), packetToResend.body.data(), packetToResend.body.size());
-
-    _socketOut.async_send_to(
-        boost::asio::buffer(serializedPacket.data(), serializedPacket.size()), _endpoint,
-        [&](std::error_code ec, std::size_t length) {
-            if (!ec) {
-            } else {
-                std::cout << "Error writing packet" << ec.message() << std::endl;
-            }
-        });
 }

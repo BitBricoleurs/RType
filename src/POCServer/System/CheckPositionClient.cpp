@@ -18,10 +18,10 @@ void CheckPositionClient::update(GameEngine::ComponentsContainer &componentsCont
         auto shooter = componentsContainer.getComponent(entity, shootComp);
         if (position.has_value()) {
             auto positionComp = std::static_pointer_cast<GameEngine::PositionComponent2D>(position.value());
-            std::cout << "Player num: "<< entity << "X: " << positionComp->pos.x << " Y: " << positionComp->pos.y << std::endl;
+            //std::cout << "Player num: "<< entity << "X: " << positionComp->pos.x << " Y: " << positionComp->pos.y << std::endl;
             if (shooter.has_value()) {
                 auto shooterComp = std::static_pointer_cast<Shooter>(shooter.value());
-                std::cout << "Player shoot num: "<< entity << "X: " << shooterComp->shootPosition.x << " Y: " << shooterComp->shootPosition.y << std::endl;
+                //std::cout << "Player shoot num: "<< entity << "X: " << shooterComp->shootPosition.x << " Y: " << shooterComp->shootPosition.y << std::endl;
             }
         }
     }

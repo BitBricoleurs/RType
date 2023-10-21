@@ -46,8 +46,8 @@ namespace Network {
         void processOutgoingMessages();
         void processIncomingMessages();
 
-        void fillResendQueue(boost::asio::ip::udp::endpoint &endpoint);
-        void resendPacket();
+        void resendLostPacket(boost::asio::ip::udp::endpoint &endpoint);
+        void sendWaitingPackets();
 
         size_t getOutMessagesSize() const;
 
@@ -77,6 +77,7 @@ namespace Network {
         Network::PacketHeader _headerOut;
         Network::Body _bodyOut;
         Network::Packet _packetOut;
+        Network::TSQueue<Network::Packet> _packetOutQueue;
 
         std::vector<unsigned char> _serializedPacket;
         std::mutex _socketMutex;
@@ -90,6 +91,5 @@ namespace Network {
         int _currentSequenceNumber;
         long _id;
         Network::PacketRegister &_registerPacket;
-        Network::TSQueue<std::pair<boost::asio::ip::udp::endpoint&, Network::Packet>> _resendQueue;
     };
 }

@@ -6,7 +6,7 @@
 
 void NetworkClientConnection::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    Network::TSQueue<unsigned int> &queue = Network::Server::getInstance().getConnectedClients();
+     Network::TSQueue<unsigned int> &queue = Network::Server::getInstance().getConnectedClients();
     if (queue.empty())
         return;
     unsigned int netInterfaceId = queue.popBack();
