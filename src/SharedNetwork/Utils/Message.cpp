@@ -133,8 +133,8 @@ Network::Message::Message(std::vector <std::uint8_t> &message)
     }
 }
 
-Network::Message::Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args)
-: AMessage(), _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size()), _NbrId(IDs.size())
+Network::Message::Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args, bool secure)
+: AMessage(secure), _action(action), _ArgType(typeArg), _args(args), _IDs(IDs), _NbrArgs(args.size()), _NbrId(IDs.size())
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {

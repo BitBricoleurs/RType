@@ -16,6 +16,8 @@ target_sources(${LIBRARY_NAME_NETLIB} PRIVATE
         EndpointGetter.hpp
         EndpointGetter.cpp
         AMessage.hpp
+        PacketRegister.cpp
+        PacketRegister.hpp
 )
 
 target_link_libraries(${LIBRARY_NAME_NETLIB} PRIVATE Threads::Threads)

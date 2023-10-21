@@ -18,6 +18,6 @@ void NetworkConnect::update(GameEngine::ComponentsContainer &componentsContainer
     Network::Client::getInstance().connect(endpoint.ip, endpoint.port);
     std::vector<size_t> ids = {};
     std::vector<std::any> args = {};
-    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CONNECT", ids, "", args);
+    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CONNECT", ids, "", args, true);
     eventHandler.queueEvent("SEND_NETWORK", message);
 }

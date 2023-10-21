@@ -139,7 +139,7 @@ void setup_animations(GameEngine::GameEngine &engine) {
 int main() {
   GameEngine::GameEngine engine;
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-  Network::Endpoint endpoint("10.15.189.230", 4444);
+  Network::Endpoint endpoint("127.0.0.1", 4444);
 
   Network::Client::init(1000, queue);
   setup_network(engine, queue, endpoint);
