@@ -36,4 +36,5 @@ void KillBird::update(GameEngine::ComponentsContainer &componentsContainer,
   eventHandler.queueEvent("PLAY_SOUND", entityID);
 
   eventHandler.scheduleEvent("animateDeath", 5, entityID);
+  eventHandler.queueEvent("updateScore", 1);
 }

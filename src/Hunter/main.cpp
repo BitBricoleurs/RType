@@ -13,12 +13,14 @@
 #include "KillBird.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
+#include "Score.hpp"
 #include "Shoot.hpp"
 #include "Shooter.hpp"
 #include "SpawnBird.hpp"
 #include "SpriteComponent.hpp"
 #include "SyncPosSprite.hpp"
 #include "ToggleFullScreen.hpp"
+#include "UpdateScore.hpp"
 #include "Utils.hpp"
 #include "VelocityComponent.hpp"
 #include "WindowInfoComponent.hpp"
@@ -87,11 +89,18 @@ void create_shooter(GameEngine::GameEngine &engine, float width, float height) {
   auto shooterComponent = std::make_shared<Shooter>();
   auto audioComponent =
       std::make_shared<GameEngine::AudioComponent>("assets/hunter/shoot.wav");
+  auto score = std::make_shared<Score>();
+  auto textComponent = std::make_shared<GameEngine::TextComponent>(
+      "Score: 0", GameEngine::Vect2(800, 0), 64, 100,
+      GameEngine::ColorR{255, 255, 255, 255});
 
+  engine.bindComponentToEntity(shooterID, audioComponent);
   engine.bindComponentToEntity(shooterID, animation);
   engine.bindComponentToEntity(shooterID, spriteComponent);
   engine.bindComponentToEntity(shooterID, positionComponent);
   engine.bindComponentToEntity(shooterID, shooterComponent);
+  engine.bindComponentToEntity(shooterID, score);
+  engine.bindComponentToEntity(shooterID, textComponent);
 }
 
 int main(int ac, char **av) {
@@ -113,6 +122,7 @@ int main(int ac, char **av) {
   auto shoot = std::make_shared<Shoot>();
   auto animateShot = std::make_shared<AnimateShot>();
   auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
+  auto scoreSys = std::make_shared<UpdateScore>();
 
   engine.addEvent("PLAY_SOUND", audioSys);
   engine.scheduleEvent("UPDATE_SOUNDS", 1);
@@ -130,6 +140,7 @@ int main(int ac, char **av) {
   engine.addEvent("animateDeath", animateDeath);
   engine.addEvent("MouseLeftButtonPressed", shoot);
   engine.addEvent("animateShot", animateShot);
+  engine.addEvent("updateScore", scoreSys);
 
   engine.run();
   return 0;
