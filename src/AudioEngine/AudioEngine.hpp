@@ -14,7 +14,7 @@
 #include <string>
 #include <unordered_map>
 #include "AudioComponent.hpp"
-#include "Utils.hpp"
+#include "Vect3.hpp"
 #include "OpenAL/al.h"
 #include "OpenAL/alc.h"
 
@@ -24,9 +24,9 @@ namespace AudioEngine {
         AudioEngine();
         ~AudioEngine();
 
-        void Play(const GameEngine::AudioComponent& audioComponent);
-        void Play(const GameEngine::AudioComponent& audioComponent, const GameEngine::Vect3& soundPos, const GameEngine::Vect3& listenerPos);
-        void Stop(const GameEngine::AudioComponent& audioComponent);
+        void Play(const AudioComponent& audioComponent);
+        void Play(const AudioComponent& audioComponent, const Utils::Vect3& soundPos, const Utils::Vect3& listenerPos);
+        void Stop(const AudioComponent& audioComponent);
         void Update();
 
     private:

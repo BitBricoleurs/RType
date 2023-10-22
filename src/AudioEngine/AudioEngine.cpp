@@ -74,11 +74,11 @@ namespace AudioEngine {
         alcCloseDevice(device);
     }
 
-    void AudioEngine::Play(const GameEngine::AudioComponent& audioComponent) {
+    void AudioEngine::Play(const AudioComponent& audioComponent) {
         Play(audioComponent, {0, 0, 0}, {0, 0, 0});
     }
 
-    void AudioEngine::Play(const GameEngine::AudioComponent& audioComponent, const GameEngine::Vect3& soundPos, const GameEngine::Vect3& listenerPos) {
+    void AudioEngine::Play(const AudioComponent& audioComponent, const Utils::Vect3& soundPos, const Utils::Vect3& listenerPos) {
         std::string binaryPath = "";
         #if defined(_WIN32) || defined(_WIN64)
             binaryPath = "";
@@ -149,7 +149,7 @@ namespace AudioEngine {
         alSourcePlay(source);
     }
 
-    void AudioEngine::Stop(const GameEngine::AudioComponent& audioComponent) {
+    void AudioEngine::Stop(const AudioComponent& audioComponent) {
         std::string binaryPath = "";
         #if defined(_WIN32) || defined(_WIN64)
             binaryPath = "";
