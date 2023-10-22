@@ -10,7 +10,7 @@
 namespace GameEngine {
 
     AudioEngineSystem::AudioEngineSystem() {
-        audioEngine = std::make_shared<AudioEngine>();
+        audioEngine = std::make_shared<AudioEngine::AudioEngine>();
     }
 
     AudioEngineSystem::~AudioEngineSystem() = default;
@@ -34,8 +34,14 @@ namespace GameEngine {
                 const auto audioComp = std::dynamic_pointer_cast<AudioComponent>(component.value());
                 audioEngine->Stop(*audioComp);
             }
-        } else if (triggeredEvent.first == "UPDATE_SOUNDS") {
-            audioEngine->Update();
+        } else if (triggeredEvent.first == "STOP_SOUND") {
+            auto [entityID, soundPos, listenerPos] = std::any_cast<std::tuple<size_t, Vect3, Vect3>>(triggeredEvent.second);
+            auto component = componentsContainer.getComponent(entityID, ComponentsType::getComponentType("AudioComponent"));
+
+            if (component) {
+                const auto audioComp = std::dynamic_pointer_cast<AudioComponent>(component.value());
+                audioEngine->Play(*audioComp, soundPos, listenerPos);
+            }
         }
     }
 

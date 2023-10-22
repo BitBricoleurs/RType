@@ -7,4 +7,5 @@ set(SOURCES
 add_library(AudioEngineLib STATIC ${SOURCES})
 target_include_directories(AudioEngineLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(AudioEngineLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/AudioCompTypes)
-target_link_libraries(AudioEngineLib GameEngine raylib)
+target_include_directories(AudioEngineLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../UtilsProject)
+target_link_libraries(AudioEngineLib GameEngine OpenAL dr_wav)
