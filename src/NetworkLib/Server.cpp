@@ -135,6 +135,7 @@ namespace Network {
                    _disconnetingClients.pushBack(id);
                    client.reset();
                    _clients.erase(_clients.begin() + i);
+                   std::cout << "Client disconnected : " << id << std::endl;
                }
                 i++;
            }

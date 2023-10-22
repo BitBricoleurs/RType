@@ -102,7 +102,7 @@ Network::Packet &Network::PacketRegister::getPacket(unsigned int remoteId, unsig
         if (packetIt != it->second.end())
             return *packetIt;
     }
-    if (_packetRegisterOut[remoteId].empty())
+    if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         throw std::runtime_error("PacketRegister::getPacket: PacketRegister is empty");
     return _packetRegisterOut[remoteId].front();
 }
@@ -114,13 +114,13 @@ std::vector<Network::Packet> Network::PacketRegister::getPacketsToResend(unsigne
     unsigned int lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {
-        if ((ackMask & (1 << i))) {
+        if (!(ackMask & (1 << i))) {
             packetId = lastPacketId - i;
             if (packetId >= 0)
                 try {
                     result.push_back(getPacket(remoteId, packetId));
                 } catch (std::exception& e) {
-                    break;
+                    return result;
                 }
         }
     }
