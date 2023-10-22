@@ -19,13 +19,7 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
       entityID,
       GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
-  std::cout << "entityID = " << entityID << std::endl;
-
-  std::cout << "deathOpt.has_value() = " << deathOpt.has_value() << std::endl;
-  std::cout << "spriteOpt.has_value() = " << spriteOpt.has_value() << std::endl;
-
   if (deathOpt.has_value() && spriteOpt.has_value()) {
-    std::cout << "hasValues" << std::endl;
     auto sprite = std::dynamic_pointer_cast<GameEngine::ButtonComponent>(
         spriteOpt.value());
     auto deathAnim =

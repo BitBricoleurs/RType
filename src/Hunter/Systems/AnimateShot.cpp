@@ -17,14 +17,7 @@ void AnimateShot::update(GameEngine::ComponentsContainer &componentsContainer,
       entityID,
       GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
-  std::cout << "entityID = " << entityID << std::endl;
-
-  std::cout << "animationOpt.has_value() = " << animationOpt.has_value()
-            << std::endl;
-  std::cout << "spriteOpt.has_value() = " << spriteOpt.has_value() << std::endl;
-
   if (animationOpt.has_value() && spriteOpt.has_value()) {
-    std::cout << "hasValues" << std::endl;
     auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(
         spriteOpt.value());
     auto animation = std::dynamic_pointer_cast<Animation>(animationOpt.value());
