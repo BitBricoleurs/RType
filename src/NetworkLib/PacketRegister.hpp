@@ -9,6 +9,7 @@
 #include <mutex>
 #include <algorithm>
 #include <stdexcept>
+#include <memory>
 #include "PacketComponent.hpp"
 
 namespace Network {
