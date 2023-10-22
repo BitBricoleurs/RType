@@ -16,7 +16,7 @@ namespace Network {
         };
 
         Interface(boost::asio::io_context &Context, TSQueue<std::shared_ptr<OwnedMessage>> &inMessages, std::optional<std::reference_wrapper<boost::asio::ip::udp::socket>> _inSocket,
-                  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardMessages, Network::Tick &tick, unsigned int id, Network::Interface::Type type = Network::Interface::Type::CLIENT);
+                  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardMessages, Network::Tick &tick, unsigned int id, Network::PacketRegister &packetRegister, Network::Interface::Type type = Network::Interface::Type::CLIENT);
 
         ~Interface();
 

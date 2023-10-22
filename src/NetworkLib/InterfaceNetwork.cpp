@@ -5,7 +5,7 @@
 #include "InterfaceNetwork.hpp"
 
 Network::Interface::Interface(boost::asio::io_context &Context, TSQueue<std::shared_ptr<OwnedMessage>> &inMessages, std::optional<std::reference_wrapper<boost::asio::ip::udp::socket>> inSocket,
-                  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardMessages, Network::Tick &tick, unsigned int id, Network::Interface::Type type) :
+                  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardMessages, Network::Tick &tick, unsigned int id, Network::PacketRegister &packetRegister, Network::Interface::Type type) :
         _context(Context), _socket(Context), _endpoint(), _resolver(Context), _outMessages(), _type(type), _tick(tick), _id(id)
 {
     if (type == Type::SERVER) {
@@ -14,7 +14,7 @@ Network::Interface::Interface(boost::asio::io_context &Context, TSQueue<std::sha
         else
             _socket.open(boost::asio::ip::udp::v6());
     }
-    _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, forwardMessages, _tick);
+    _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, forwardMessages, _tick, packetRegister);
 }
 
 Network::Interface::~Interface() {

@@ -50,12 +50,20 @@ namespace Server {
                 velComp->velocity.y += newVel.y;
                 newVel = velComp->velocity;
                 entityId = entity;
+                auto shooterTypes = GameEngine::ComponentsType::getComponentType("Shooter");
+                auto compShooter = componentsContainer.getComponent(entity, shooterTypes);
+                if (compShooter.has_value()) {
+                    auto IShooter = compShooter.value();
+                    auto shooterComp = std::static_pointer_cast<Shooter>(IShooter);
+                    shooterComp->velocity.x += newVel.x;
+                    shooterComp->velocity.y += newVel.y;
+                }
             }
-        }
         std::vector<size_t> ids = {entityId};
         std::vector<std::any> args = {newVel.x, newVel.y};
         std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
         std::shared_ptr<Network::NotUserMessage> userMessage = std::make_shared<Network::NotUserMessage>(networkId, messageOut);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
+    }
     }
 }
