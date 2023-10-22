@@ -10,12 +10,10 @@ void PlayerHit::update(GameEngine::ComponentsContainer &componentsContainer, Gam
         auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
         if (firstEntityOptPlayer.has_value()) {
-            std::cout << "Player hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", firstEntity);
             eventHandler.queueEvent("PLAY_SOUND", firstEntity);
             componentsContainer.deleteEntity(secondEntity);
         } else {
-            std::cout << "Mob hit" << std::endl;
             eventHandler.queueEvent("DAMAGE", secondEntity);
             eventHandler.queueEvent("PLAY_SOUND", secondEntity);
             componentsContainer.deleteEntity(firstEntity);

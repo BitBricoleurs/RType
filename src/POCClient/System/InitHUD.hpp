@@ -13,12 +13,17 @@
 #include "TextComponent.hpp"
 #include "Score.hpp"
 #include "isHealthBar.hpp"
+#include "LoadConfig.hpp"
 
-class InitHUD : public GameEngine::ISystem {
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-public:
+    namespace Client {
 
-private:
-  bool done = false;
-};
+    class InitHUD : public GameEngine::ISystem {
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    public:
+
+    private:
+      bool done = false;
+    };
+
+}

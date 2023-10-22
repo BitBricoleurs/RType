@@ -4,7 +4,10 @@
 
 #include "NetworkReceiveDisconnectApply.hpp"
 
-void NetworkReceiveDisconnectApply::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
-{
-    Network::Client::getInstance().disconnect();
+namespace Client {
+
+    void NetworkReceiveDisconnectApply::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+    {
+        Network::Client::getInstance().disconnect();
+    }
 }

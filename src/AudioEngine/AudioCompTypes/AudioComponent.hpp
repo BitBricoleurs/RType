@@ -11,8 +11,8 @@
 #include "ComponentsType.hpp"
 #include <string>
 
-namespace GameEngine {
-    class AudioComponent : public AComponent {
+namespace AudioEngine {
+    class AudioComponent : public GameEngine::AComponent {
     public:
         explicit AudioComponent(const std::string& audioPath, bool loop = false, int loopDuration = -1, int playDuration = -1) {
             this->audioPath = audioPath;
@@ -23,7 +23,7 @@ namespace GameEngine {
         ~AudioComponent() override = default;
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("AudioComponent");
+            return GameEngine::ComponentsType::getNewComponentType("AudioComponent");
           }
         std::string audioPath;
         int audioTimer{};

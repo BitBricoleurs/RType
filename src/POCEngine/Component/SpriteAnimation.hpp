@@ -6,7 +6,7 @@
 
 #include <cstddef>
 #include <vector>
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
@@ -20,9 +20,9 @@ public:
   bool twoDirections;
   int currentFrameIndex;
   int frames;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositionsLeft;
-  std::vector<GameEngine::Vect2> spritePositionsRight;
+  Utils::Vect2 currentFrame;
+  std::vector<Utils::Vect2> spritePositionsLeft;
+  std::vector<Utils::Vect2> spritePositionsRight;
 };
 
 class ChargeShootAnimation : public GameEngine::AComponent {
@@ -34,7 +34,7 @@ public:
   int frameHeight, frameWidth;
   int currentFrameIndex;
   int frames;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositionsLeft;
-  std::vector<GameEngine::Vect2> spritePositionsRight;
+  Utils::Vect2 currentFrame;
+  std::vector<Utils::Vect2> spritePositionsLeft;
+  std::vector<Utils::Vect2> spritePositionsRight;
 };

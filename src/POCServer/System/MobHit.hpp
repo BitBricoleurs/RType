@@ -15,10 +15,13 @@
 #include "UserMessage.hpp"
 #include "NetworkClientId.hpp"
 
-class MobHit : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+namespace Server {
 
-  private:
-    void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
-};
+    class MobHit : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+
+      private:
+        void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
+    };
+}

@@ -3,10 +3,11 @@ add_subdirectory(AudioEngine)
 add_subdirectory(RenderEngine)
 add_subdirectory(PhysicsEngine)
 add_subdirectory(POCEngine)
-add_subdirectory(POCProgram)
 add_subdirectory(NetworkLib)
 add_subdirectory(POCServer)
 add_subdirectory(POCClient)
+add_subdirectory(LoadConfig)
+add_subdirectory(UtilsProject)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}

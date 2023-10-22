@@ -26,8 +26,6 @@ namespace Network {
             if (ideaThread > maxThreads) {
                 ideaThread = maxThreads;
             }
-            std::cout << "Allocated Threads: " << ideaThread << std::endl;
-            std::cout << "Max Threads: " << maxThreads << std::endl;
             for (size_t i = 0; i < ideaThread; i++) {
                 _pool.push_back(std::thread([&]() { _context.run(); }));
             }

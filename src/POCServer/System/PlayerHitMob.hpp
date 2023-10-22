@@ -11,10 +11,14 @@
 #include "Damage.hpp"
 #include "VelocityComponent.hpp"
 
-class PlayerHitMob : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
-private:
-    void startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
-                       GameEngine::EventHandler &eventHandler, size_t id);
-};
+namespace Server {
+
+    class PlayerHitMob : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+    private:
+        void startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
+                           GameEngine::EventHandler &eventHandler, size_t id);
+    };
+
+}

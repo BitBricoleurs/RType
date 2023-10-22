@@ -12,10 +12,13 @@
 #include "EntityFactory.hpp"
 #include "MobUtils.hpp"
 
-class CreateMob : public GameEngine::ISystem {
-public:
-    CreateMob() = default;
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
 
+    class CreateMob : public GameEngine::ISystem {
+    public:
+        CreateMob() = default;
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    };
+
+}

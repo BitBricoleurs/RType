@@ -1,6 +1,5 @@
 {
   "createPatapataMob": {
-    "dropPowerup" : true,
     "spriteSheetPath": "assets/epitech_assets/patapataMob.gif",
     "spriteSheetHeight": 24,
     "spriteSheetWidth": 523,
@@ -14,14 +13,14 @@
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
     "velocity": {
-      "x": -4,
-      "y": 0
+      "x": -4.0,
+      "y": 0.0
     },
     "maxHealth": 100,
     "damageValue": 10,
     "player": 0,
     "scale": 2.5,
-    "rotation": 0,
+    "rotation": 0.0,
     "tint": {
       "r": 255,
       "g": 255,
@@ -35,6 +34,6 @@
     "y": 50
   },
   "typeBullet": 1,
-  "heightVarience" : 3,
-  "maxVar": 75
+  "heightVarience" : 3.0,
+  "maxVar": 75.0
 }

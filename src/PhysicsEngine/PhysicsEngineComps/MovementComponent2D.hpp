@@ -7,14 +7,14 @@
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
 
-namespace GameEngine {
-class MovementComponent : public AComponent {
-public:
-  MovementComponent() = default;
-  ~MovementComponent() override = default;
+namespace PhysicsEngine {
+    class MovementComponent : public GameEngine::AComponent {
+    public:
+      MovementComponent() = default;
+      ~MovementComponent() override = default;
 
-  size_t getComponentType() override {
-    return ComponentsType::getNewComponentType("MovementComponent2D");
-  }
-};
-} // namespace GameEngine
+      size_t getComponentType() override {
+        return GameEngine::ComponentsType::getNewComponentType("MovementComponent2D");
+      }
+    };
+} // namespace PhysicsEngine

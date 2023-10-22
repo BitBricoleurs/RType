@@ -37,7 +37,6 @@ bool LoadWavFile(const char* filename, drwav_int16** ppData, drwav_uint64* pTota
     return true;
 }
 
-
 namespace AudioEngine {
 
     AudioEngine::AudioEngine() {
@@ -149,7 +148,6 @@ namespace AudioEngine {
 
         alSourcePlay(source);
     }
-
 
     void AudioEngine::Stop(const GameEngine::AudioComponent& audioComponent) {
         std::string binaryPath = "";
