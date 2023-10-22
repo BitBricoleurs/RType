@@ -51,6 +51,7 @@
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
 #include "Utils.hpp"
+#include "PhysicsEngineGravitySystem.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
@@ -101,6 +102,7 @@ int main() {
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
   auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
+  auto gravitySystem = std::make_shared<GameEngine::PhysicsEngineGravitySystem>();
 
   auto window = engine.createEntity();
   engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));

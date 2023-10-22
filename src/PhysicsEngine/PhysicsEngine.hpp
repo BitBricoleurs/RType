@@ -31,8 +31,12 @@ namespace GameEngine {
             positionComponent.pos = positionComponent.pos + velocity;
         }
 
-        void applyGravity(VelocityComponent& positionComponent, const Vect2& gravity) {
-            positionComponent.velocity = positionComponent.velocity + gravity;
+        void applyGravity(VelocityComponent& positionComponent, const Vect2& gravity, const float weight, const float fallTime) {
+            positionComponent.velocity = positionComponent.velocity + gravity * weight * fallTime;
+        }
+
+        void applyJumpForce(VelocityComponent& velocityComponent, const float jumpSpeed) {
+            velocityComponent.velocity.y = jumpSpeed;
         }
 
 
