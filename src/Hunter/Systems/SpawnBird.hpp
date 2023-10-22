@@ -39,4 +39,6 @@ private:
   static std::shared_ptr<DeathAnimation>
   initDeathAnimation(const std::string &filepath, int frames, int width,
                      int height);
+
+  static GameEngine::Vect2 getRandomPosition();
 };

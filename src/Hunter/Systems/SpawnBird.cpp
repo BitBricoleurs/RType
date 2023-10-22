@@ -12,13 +12,26 @@ void SpawnBird::update(GameEngine::ComponentsContainer &componentsContainer,
   auto birdID = createBird(componentsContainer, eventHandler);
 }
 
+GameEngine::Vect2 SpawnBird::getRandomPosition() {
+  GameEngine::Vect2 pos;
+  // y is random between 0 and 600
+  // x is either -100 or 2000
+
+  pos.y = rand() % 600;
+  pos.x = rand() % 2 ? -100 : 2000;
+
+  return pos;
+}
+
 size_t
 SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
                       GameEngine::EventHandler &eventHandler) {
 
-  GameEngine::Vect2 birdPos(-50, 200);
+  GameEngine::Vect2 birdPos = getRandomPosition();
   GameEngine::ColorR tint = {255, 255, 255, 255};
   GameEngine::Vect2 velocity(6, 0);
+  if (birdPos.x > 0)
+    velocity.x = -velocity.x;
   auto birdId = componentsContainer.createEntity();
 
   auto birdComponent = std::make_shared<Bird>();
