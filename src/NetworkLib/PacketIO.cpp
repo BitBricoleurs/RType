@@ -178,6 +178,7 @@ size_t Network::PacketIO::getOutMessagesSize() const
 
 void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoint)
 {
+    return;
     uint8_t ackMask = 0;
     std::vector<Network::Packet> packets = {};
 
@@ -189,6 +190,7 @@ void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoin
     ackMask = _registerPacket.getAckMask(id);
     packets = _registerPacket.getPacketsToResend(id, ackMask);
     for (auto& packet : packets) {
+        packet.header.sequenceNumber = _currentSequenceNumber++;
         _packetOutQueue.pushBack(packet);
     }
 }
