@@ -3,11 +3,12 @@
 //
 
 #include "PacketRegister.hpp"
+#include <iostream>
 
 Network::PacketRegister::PacketRegister()
 {
     _packetIdRegisterIn = std::unordered_map<unsigned int, std::vector<unsigned int>>();
-    _packetRegisterOut = std::unordered_map<unsigned int, std::vector<Network::Packet>>();
+    _packetRegisterOut = std::unordered_map<unsigned int, std::vector<std::shared_ptr<Network::Packet>>>();
 }
 
 void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsigned int packetId)
@@ -77,11 +78,11 @@ unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
     return 0;
 }
 
-void Network::PacketRegister::registerSentPacket(unsigned int remoteId, Network::Packet packet)
+void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end())
-        _packetRegisterOut[remoteId] = std::vector<Network::Packet>();
+        _packetRegisterOut[remoteId] = std::vector<std::shared_ptr<Network::Packet>>();
 
     if (_packetRegisterOut[remoteId].size() >= _maxSize) {
         _packetRegisterOut[remoteId].erase(_packetRegisterOut[remoteId].begin());
@@ -90,26 +91,24 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId, Network:
     _mutex.unlock();
 }
 
-Network::Packet &Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
+std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
 {
     std::lock_guard<std::mutex> lock(_mutex);
+
     auto it = _packetRegisterOut.find(remoteId);
-    if (it != _packetRegisterOut.end() && !it->second.empty())
-    {
-        auto packetIt = std::find_if(it->second.begin(), it->second.end(), [packetId](const Network::Packet& packet) {
-            return packet.header.sequenceNumber == packetId;
-        });
-        if (packetIt != it->second.end())
-            return *packetIt;
+    if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
+        return nullptr;
+    for (auto& packet : _packetRegisterOut[remoteId]) {
+        if (packet->header.sequenceNumber == packetId)
+            return packet;
     }
-    if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
-        throw std::runtime_error("PacketRegister::getPacket: PacketRegister is empty");
-    return _packetRegisterOut[remoteId].front();
+    return nullptr;
 }
 
-std::vector<Network::Packet> Network::PacketRegister::getPacketsToResend(unsigned int remoteId, uint16_t ackMask)
+std::vector<std::shared_ptr<Network::Packet>> Network::PacketRegister::getPacketsToResend(unsigned int remoteId, uint16_t ackMask)
 {
-    std::vector<Network::Packet> result;
+    std::vector<std::shared_ptr<Network::Packet>> result;
+    std::shared_ptr<Network::Packet> tmpPacket;
     unsigned int packetId = 0;
     unsigned int lastPacketId = getLastPacketId(remoteId);
 
@@ -118,8 +117,11 @@ std::vector<Network::Packet> Network::PacketRegister::getPacketsToResend(unsigne
             packetId = lastPacketId - i;
             if (packetId >= 0)
                 try {
-                    result.push_back(getPacket(remoteId, packetId));
+                    tmpPacket = getPacket(remoteId, packetId);
+                    if (tmpPacket)
+                        result.push_back(tmpPacket);
                 } catch (std::exception& e) {
+                    std::cout << "Mysery error: " << e.what() << std::endl;
                     return result;
                 }
         }

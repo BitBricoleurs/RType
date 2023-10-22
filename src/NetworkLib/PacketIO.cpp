@@ -70,9 +70,9 @@ void Network::PacketIO::sendWaitingPackets()
 
 void Network::PacketIO::serializePacket()
 {
-    _serializedPacket.resize(sizeof(PacketHeader) + _packetOut.body.size());
-    memcpy(_serializedPacket.data(), &_packetOut.header, sizeof(PacketHeader));
-    memcpy(_serializedPacket.data() + sizeof(PacketHeader), _packetOut.body.data(), _packetOut.body.size());
+    _serializedPacket.resize(sizeof(PacketHeader) + _packetOut->body.size());
+    memcpy(_serializedPacket.data(), &_packetOut->header, sizeof(PacketHeader));
+    memcpy(_serializedPacket.data() + sizeof(PacketHeader), _packetOut->body.data(), _packetOut->body.size());
 }
 
 void Network::PacketIO::writePacket()
@@ -154,17 +154,18 @@ void Network::PacketIO::processOutgoingMessages()
                 _bodyOut.addData( message->getMessage() );
                 size+= message->getSize();
             }
-            _packetOut.header.bodySize= size;
-            _packetOut.header.sequenceNumber= _currentSequenceNumber++;
+            _packetOut = std::make_shared<Network::Packet>();
+            _packetOut->header.bodySize= size;
+            _packetOut->header.sequenceNumber= _currentSequenceNumber++;
             if (_id == -1) {
                 _id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
             }
-            _packetOut.header.ackMask= _registerPacket.getAckMask(_id);
-            _packetOut.header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
+            _packetOut->header.ackMask= _registerPacket.getAckMask(_id);
+            _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
             _registerPacket.registerSentPacket(_id, _packetOut);
 
-            _packetOut.body= _bodyOut.getData();
-            if (_packetOut.header.bodySize > 0) {
+            _packetOut->body= _bodyOut.getData();
+            if (_packetOut->header.bodySize > 0) {
                 _packetOutQueue.pushBack(_packetOut);
                 sendWaitingPackets();
             }
@@ -179,7 +180,7 @@ size_t Network::PacketIO::getOutMessagesSize() const
 void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoint)
 {
     uint8_t ackMask = 0;
-    std::vector<Network::Packet> packets = {};
+    std::vector<std::shared_ptr<Network::Packet>> packets = {};
 
     unsigned int id = EndpointGetter::getIdByEndpoint(endpoint, _clients);
 
@@ -189,7 +190,7 @@ void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoin
     ackMask = _registerPacket.getAckMask(id);
     packets = _registerPacket.getPacketsToResend(id, ackMask);
     for (auto& packet : packets) {
-        packet.header.sequenceNumber = _currentSequenceNumber++;
+        packet->header.sequenceNumber = _currentSequenceNumber++;
         _packetOutQueue.pushBack(packet);
     }
 }

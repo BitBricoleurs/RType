@@ -76,8 +76,8 @@ namespace Network {
 
         Network::PacketHeader _headerOut;
         Network::Body _bodyOut;
-        Network::Packet _packetOut;
-        Network::TSQueue<Network::Packet> _packetOutQueue;
+        std::shared_ptr<Network::Packet> _packetOut;
+        Network::TSQueue<std::shared_ptr<Network::Packet>> _packetOutQueue;
 
         std::vector<unsigned char> _serializedPacket;
         std::mutex _socketMutex;
