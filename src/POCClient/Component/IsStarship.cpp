@@ -4,10 +4,15 @@
 
 #include "IsStarship.hpp"
 
-size_t IsStarship::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsStarship");
-}
-IsStarship::IsStarship(size_t entityIdChargeAnimation) : entityIdChargeAnimation(entityIdChargeAnimation)
-{
+namespace Client {
+
+    size_t IsStarship::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsStarship");
+    }
+
+    IsStarship::IsStarship(size_t entityIdChargeAnimation) : entityIdChargeAnimation(entityIdChargeAnimation)
+    {
+
+    }
 
 }

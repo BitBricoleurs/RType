@@ -32,7 +32,7 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
     auto isPlayerOptional = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
     if (velocityOptional.has_value() && isPlayerOptional.has_value()) {
-        auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+        auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
 
         velocity->velocity.x += directionMap[event.first].first;
@@ -41,7 +41,7 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
-                auto velocityForcePod = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityForcePodOpt.value());
+                auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
                 velocityForcePod->velocity.x += directionMap[event.first].first;
                 velocityForcePod->velocity.y += directionMap[event.first].second;
                 size_t serverId = EntityFactory::getInstance().getServerId(isPlayer->entityIdForcePod);

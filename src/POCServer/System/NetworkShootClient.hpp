@@ -14,11 +14,15 @@
 #include "BulletUtils.hpp"
 #include "Shooter.hpp"
 
-class NetworkShootClient : public GameEngine::ISystem {
-    public:
-        NetworkShootClient() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Server {
 
-};
+    class NetworkShootClient : public GameEngine::ISystem {
+        public:
+            NetworkShootClient() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
+
+    };
+
+}

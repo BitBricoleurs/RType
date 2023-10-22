@@ -13,7 +13,6 @@
 #include "PositionComponent2D.hpp"
 #include "RectangleColliderComponent2D.hpp"
 #include "AABBComponent2D.hpp"
-#include "Utils.hpp"
 #include "IsPowerUp.hpp"
 #include "isPowerUpPickUp.hpp"
 

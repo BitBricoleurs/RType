@@ -6,17 +6,17 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 
-namespace GameEngine {
-    class VelocityComponent : public AComponent {
+namespace PhysicsEngine {
+    class VelocityComponent : public GameEngine::AComponent {
     public:
-        VelocityComponent(const Vect2 &velocity) : velocity(velocity) {}
+        explicit VelocityComponent(const Utils::Vect2 &velocity) : velocity(velocity) {}
         ~VelocityComponent() override = default;
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("VelocityComponent");
+            return GameEngine::ComponentsType::getNewComponentType("VelocityComponent");
         }
-        Vect2 velocity;
+        Utils::Vect2 velocity;
 };
 } // namespace GameEngine

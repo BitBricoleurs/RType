@@ -54,9 +54,14 @@ uint16_t Network::PacketRegister::getAckMask(unsigned int remoteId)
 
         for (unsigned int i = 0; i < 16; ++i)
         {
-            unsigned int packetId = highestPacketId - i;
-            if (std::find(it->second.begin(), it->second.end(), packetId) != it->second.end())
-                mask |= 1 << i;
+            for (unsigned int j = 0; j < it->second.size(); ++j)
+            {
+                if (it->second[j] == highestPacketId - i)
+                {
+                    mask |= 1 << i;
+                    break;
+                }
+            }
         }
     }
     return mask;

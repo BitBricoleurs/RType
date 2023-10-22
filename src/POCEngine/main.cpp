@@ -41,7 +41,9 @@
 #include "ToggleFullScreen.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "UpdateScore.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
+#include "ColorR.hpp"
+#include "rect.hpp"
 #include "VelocityComponent.hpp"
 #include "WiggleMob.hpp"
 #include "WindowInfoComponent.hpp"
@@ -50,12 +52,11 @@
 #include <memory>
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
-#include "Utils.hpp"
 
 int main() {
   GameEngine::GameEngine engine;
-  auto collision = std::make_shared<GameEngine::PhysicsEngineCollisionSystem2D>();
-  auto movement = std::make_shared<GameEngine::PhysicsEngineMovementSystem2D>();
+  auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
+  auto movement = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
   auto move = std::make_shared<ChangeDirPlayer>();
@@ -63,21 +64,21 @@ int main() {
   auto shoot = std::make_shared<Shoot>();
   auto sync = std::make_shared<SyncPosSprite>();
 
-  GameEngine::rect rect2(0, 0, 1920, 1080);
-  GameEngine::Vect2 pos2(0, 0);
-  GameEngine::Vect2 pos3(1920, 0);
+  Utils::rect rect2(0, 0, 1920, 1080);
+  Utils::Vect2 pos2(0, 0);
+  Utils::Vect2 pos3(1920, 0);
 
-     GameEngine::ColorR tint = {255,255,255,255};
+     Utils::ColorR tint = {255,255,255,255};
     float scale = 1.0f;
     float rotation = 0.0f;
 
   auto paralaxEntity = engine.createEntity();
   auto isParalaxComponent = std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity, isParalaxComponent);
-  auto velocityComponent = std::make_shared<GameEngine::VelocityComponent>(
-      GameEngine::Vect2(1.0f, 0.0f));
+  auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(
+      Utils::Vect2(1.0f, 0.0f));
   engine.bindComponentToEntity(paralaxEntity, velocityComponent);
-  auto spritecompoennt2 = std::make_shared<GameEngine::SpriteComponent>(
+  auto spritecompoennt2 = std::make_shared<RenderEngine::SpriteComponent>(
       "assets/background_1.png", pos2, rect2, 2, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity, spritecompoennt2);
 
@@ -85,17 +86,17 @@ int main() {
   auto isParalaxComponent1 =
       std::make_shared<IsParallax>();
   engine.bindComponentToEntity(paralaxEntity2, isParalaxComponent1);
-  auto spritecompoennt3 = std::make_shared<GameEngine::SpriteComponent>(
+  auto spritecompoennt3 = std::make_shared<RenderEngine::SpriteComponent>(
       "assets/background_1.png", pos3, rect2, 2, scale, rotation, tint);
   engine.bindComponentToEntity(paralaxEntity2, spritecompoennt3);
 
   auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
-  auto render = std::make_shared<GameEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
-  auto toggleFullScreen = std::make_shared<GameEngine::ToggleFullScreen>();
+  auto toggleFullScreen = std::make_shared<RenderEngine::ToggleFullScreen>();
   auto PlayerHit1 = std::make_shared<PlayerHit>();
   auto MobHit1 = std::make_shared<MobHit>();
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
@@ -103,7 +104,7 @@ int main() {
   auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
 
   auto window = engine.createEntity();
-  engine.bindComponentToEntity(window, std::make_shared<WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
+  engine.bindComponentToEntity(window, std::make_shared<RenderEngine::WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.addEvent("SpawnPowerUp", spawnPowerUp);
   engine.addEvent("PlayerHit", PlayerHit1);
@@ -142,21 +143,21 @@ int main() {
   auto chargingBarEntityLayer1 = engine.createEntity();
   auto isChargingBarComponent = std::make_shared<IsChargingBar>();
   engine.bindComponentToEntity(chargingBarEntityLayer1, isChargingBarComponent);
-  auto spritecompoennt5 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/HUD/BlueBar.png", GameEngine::Vect2(752, 1028),
-      GameEngine::rect(0, 0, 0, 26), 100, 2.0f, rotation, tint);
+  auto spritecompoennt5 = std::make_shared<RenderEngine::SpriteComponent>(
+      "assets/HUD/BlueBar.png", Utils::Vect2(752, 1028),
+      Utils::rect(0, 0, 0, 26), 100, 2.0f, rotation, tint);
   engine.bindComponentToEntity(chargingBarEntityLayer1, spritecompoennt5);
 
   auto chargingBarEntityLayer2 = engine.createEntity();
-  auto spritecompoennt6 = std::make_shared<GameEngine::SpriteComponent>(
-      "assets/HUD/EmptyBar.png", GameEngine::Vect2(752, 1028),
-      GameEngine::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
+  auto spritecompoennt6 = std::make_shared<RenderEngine::SpriteComponent>(
+      "assets/HUD/EmptyBar.png", Utils::Vect2(752, 1028),
+      Utils::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
   engine.bindComponentToEntity(chargingBarEntityLayer2, spritecompoennt6);
 
    auto buttonTest = engine.createEntity();
-  auto button = std::make_shared<GameEngine::ButtonComponent>(
-      "assets/HUD/EmptyBar.png", GameEngine::Vect2(0, 0),
-      GameEngine::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
+  auto button = std::make_shared<RenderEngine::ButtonComponent>(
+      "assets/HUD/EmptyBar.png", Utils::Vect2(0, 0),
+      Utils::rect(0, 0, 208, 26), 99, 2.0f, rotation, tint);
   engine.bindComponentToEntity(buttonTest, button);
 
   auto chargingBar = std::make_shared<ChargingBar>();
@@ -164,27 +165,27 @@ int main() {
   engine.addEvent("SPACE_KEY_PRESSED", chargingBar);
   engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
 
-GameEngine::Vect2 pos;
+Utils::Vect2 pos;
   pos.x = 100;
   pos.y = 100;
 
-  GameEngine::rect rect1;
+  Utils::rect rect1;
   rect1.w = 144;
   rect1.h = 59;
   rect1.x = 0;
   rect1.y = 0;
-  GameEngine::ColorR color;
+  Utils::ColorR color;
   color.r = 0;
   color.g = 0;
   color.b = 255;
   color.a = 255;
 
   auto emptyHealthBarEntity = engine.createEntity();
-  auto spritecompoennt7 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/HealthBar.png", GameEngine::Vect2(0,1040), GameEngine::rect(0, 0, 24, 10), 99, 4.0f, rotation, tint);
+  auto spritecompoennt7 = std::make_shared<RenderEngine::SpriteComponent>("assets/HUD/HealthBar.png", Utils::Vect2(0,1040), Utils::rect(0, 0, 24, 10), 99, 4.0f, rotation, tint);
   engine.bindComponentToEntity(emptyHealthBarEntity, spritecompoennt7);
 
   auto healthBarEntity = engine.createEntity();
-  auto spritecompoennt8 = std::make_shared<GameEngine::SpriteComponent>("assets/HUD/FullHealthBar.png", GameEngine::Vect2(0,1040), GameEngine::rect(0, 0, 24, 10), 100, 4.0f, rotation, tint);
+  auto spritecompoennt8 = std::make_shared<RenderEngine::SpriteComponent>("assets/HUD/FullHealthBar.png", Utils::Vect2(0,1040), Utils::rect(0, 0, 24, 10), 100, 4.0f, rotation, tint);
   engine.bindComponentToEntity(healthBarEntity, spritecompoennt8);
   auto isHealthBarComponent = std::make_shared<isHealthBar>();
   engine.bindComponentToEntity(healthBarEntity, isHealthBarComponent);
@@ -195,7 +196,7 @@ GameEngine::Vect2 pos;
   auto scoreEntity = engine.createEntity();
     auto scoreComponent = std::make_shared<Score>();
     engine.bindComponentToEntity(scoreEntity, scoreComponent);
-    auto scoreTextComponent = std::make_shared<GameEngine::TextComponent>("Score: 0", GameEngine::Vect2(800, 0), 64, 100, GameEngine::ColorR{255, 255, 255, 255});
+    auto scoreTextComponent = std::make_shared<RenderEngine::TextComponent>("Score: 0", Utils::Vect2(800, 0), 64, 100, Utils::ColorR{255, 255, 255, 255});
     engine.bindComponentToEntity(scoreEntity, scoreTextComponent);
 
     auto updateScore = std::make_shared<UpdateScore>();
@@ -208,10 +209,10 @@ GameEngine::Vect2 pos;
 
     engine.unscheduleEvent("UpdateScore", 100);
 
-  auto backgroundMusic = std::make_shared<GameEngine::AudioComponent>("assets/music/RTYPE.wav", true);
+  auto backgroundMusic = std::make_shared<AudioEngine::AudioComponent>("assets/music/RTYPE.wav", true);
   auto backgroundMusicEntity = engine.createEntity();
 
-  auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
+  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
 
   engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
   engine.addEvent("PLAY_SOUND", audioSys);
@@ -219,32 +220,32 @@ GameEngine::Vect2 pos;
 
   engine.scheduleEvent("UPDATE_SOUNDS", 1);
   engine.addEvent("UPDATE_SOUNDS", audioSys);
-  //   GameEngine::Vect2 pos;
+  //   GameEngineUtils::Vect2 pos;
   //   pos.x = 100;
   //   pos.y = 100;
 
-  //   GameEngine::rect rect1;
+  //   GameEngineUtils::rect rect1;
   //   rect1.w = 144;
   //   rect1.h = 59;
   //   rect1.x = 0;
   //   rect1.y = 0;
-  //   GameEngine::ColorR color;
+  //   GameEngineUtils::ColorR color;
   //   color.r = 0;
   //   color.g = 0;
   //   color.b = 255;
   //   color.a = 255;
 
   //   auto Player = engine.createEntity();
-  //   auto spritecompoennt = std::make_shared<GameEngine::SpriteComponent>(
+  //   auto spritecompoennt = std::make_shared<RenderEngine::SpriteComponent>(
   //       "assets/spaceship.png", pos, rect1, 4, scale, rotation, tint);
   //   auto isPLayerComponent = std::make_shared<IsPlayer>();
   //   auto movementComponent =
   //   std::make_shared<GameEngine::MovementComponent>(); auto
   //   positionComponent =
   //   std::make_shared<GameEngine::PositionComponent2D>(
-  //       GameEngine::Vect2(pos.x, pos.y));
+  //       GameEngineUtils::Vect2(pos.x, pos.y));
   //   auto velocity =
-  //       std::make_shared<GameEngine::VelocityComponent>(GameEngine::Vect2(0,
+  //       std::make_shared<GameEngine::VelocityComponent>(GameEngineUtils::Vect2(0,
   //       0));
   //   engine.bindComponentToEntity(Player, spritecompoennt);
   //   engine.bindComponentToEntity(Player, isPLayerComponent);

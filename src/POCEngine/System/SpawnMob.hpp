@@ -9,7 +9,6 @@
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
 #include "ISystem.hpp"
-#include "Utils.hpp"
 #include <iostream>
 #include "LoadConfig.hpp"
 
@@ -31,7 +30,7 @@ class SpawnMob : public GameEngine::ISystem {
         std::string directoryPath;
         std::vector<std::string> mapFiles;
         int mapIndex = 0;
-        ConfigData currentMapContent;
+        LoadConfig::ConfigData currentMapContent;
 
         void loadMapFiles(const std::string& path);
 

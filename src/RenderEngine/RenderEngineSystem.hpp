@@ -16,13 +16,13 @@
 #include <memory>
 #include "WindowInfoComponent.hpp"
 
-namespace GameEngine {
-    class RenderEngineSystem : public ISystem {
+namespace RenderEngine {
+    class RenderEngineSystem : public GameEngine::ISystem {
     public:
-        RenderEngineSystem(const char* windowTitle);
+        explicit RenderEngineSystem(const char* windowTitle);
         ~RenderEngineSystem();
 
-        void update(ComponentsContainer& componentsContainer, EventHandler &eventHandler) override;
+        void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;
 
         size_t getScreenHeight();
         size_t getScreenWidth();

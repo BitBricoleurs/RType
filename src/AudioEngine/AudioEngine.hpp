@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include "AudioComponent.hpp"
 
-namespace GameEngine {
+namespace AudioEngine {
     class AudioEngine {
     public:
         AudioEngine();

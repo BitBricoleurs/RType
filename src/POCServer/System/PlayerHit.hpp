@@ -13,8 +13,10 @@
 #include "UserMessage.hpp"
 #include "Message.hpp"
 
+namespace Server {
 
-class PlayerHit : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
-};
+    class PlayerHit : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+    };
+}

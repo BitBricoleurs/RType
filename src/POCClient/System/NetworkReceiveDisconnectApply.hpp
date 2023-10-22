@@ -7,14 +7,15 @@
 #include "ISystem.hpp"
 #include "Client.hpp"
 
-// Last system to be executed because it's cutting the connection with the server and the client
 
-class NetworkReceiveDisconnectApply : public GameEngine::ISystem {
-    public:
-        NetworkReceiveDisconnectApply() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Client {
 
-};
+    class NetworkReceiveDisconnectApply : public GameEngine::ISystem {
+        public:
+            NetworkReceiveDisconnectApply() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
 
+    };
+}

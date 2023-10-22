@@ -12,12 +12,15 @@
 #include "PositionComponent2D.hpp"
 #include "Shooter.hpp"
 
-class CheckPositionClient : public GameEngine::ISystem {
-    public:
-        CheckPositionClient() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Server {
 
-};
+    class CheckPositionClient : public GameEngine::ISystem {
+        public:
+            CheckPositionClient() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
 
+    };
+
+}

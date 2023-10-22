@@ -9,12 +9,15 @@
 #include "AComponent.hpp"
 #include "vector"
 
-class IsBullet : public GameEngine::AComponent {
-public:
-  IsBullet(bool playerBullet);
+namespace Server {
 
-  size_t getComponentType() override;
-  bool playerBullet = false;
-  bool passingThrough = false;
-  std::vector<size_t> alreadyHit;
-};
+    class IsBullet : public GameEngine::AComponent {
+    public:
+      explicit IsBullet(bool playerBullet);
+
+      size_t getComponentType() override;
+      bool playerBullet = false;
+      bool passingThrough = false;
+      std::vector<size_t> alreadyHit;
+    };
+}

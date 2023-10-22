@@ -12,10 +12,14 @@
 #include "UserMessage.hpp"
 #include "EntityFactory.hpp"
 
-class NetworkClientDisconnecting : public GameEngine::ISystem {
-    public:
-        NetworkClientDisconnecting() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
-};
+namespace Server {
+
+    class NetworkClientDisconnecting : public GameEngine::ISystem {
+        public:
+            NetworkClientDisconnecting() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
+    };
+
+}

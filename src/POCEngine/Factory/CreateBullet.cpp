@@ -7,11 +7,11 @@
 
 #include "EntityFactory.hpp"
 
-size_t EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity, const std::string &path, GameEngine::rect rect1, size_t type) {
+size_t EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, Utils::Vect2 pos, Utils::Vect2 velocity, const std::string &path, Utils::rect rect1, size_t type) {
     size_t entityId;
 
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
         if (type == 1) {
             entityId = createBullet(
@@ -30,7 +30,7 @@ size_t EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &contai
                 config.getString("/createBullet/pathSound"),
                 config.getFloat("/createBullet/scale"),
                 config.getFloat("/createBullet/rotation"),
-                GameEngine::ColorR(
+                Utils::ColorR(
                     config.getInt("/createBullet/tint/r"),
                     config.getInt("/createBullet/tint/g"),
                     config.getInt("/createBullet/tint/b"),
@@ -39,7 +39,7 @@ size_t EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &contai
                 config.getInt("/createBullet/layer")
             );
         } else if (type == 2) {
-            entityId = createBullet(container, path, 32, 512, 8, false, false, pos, velocity, 100, true, 0, "assets/music/Shoot 2.wav", 1.0f, 0.0f, GameEngine::ColorR(255, 255, 255, 255), 7);
+            entityId = createBullet(container, path, 32, 512, 8, false, false, pos, velocity, 100, true, 0, "assets/music/Shoot 2.wav", 1.0f, 0.0f, Utils::ColorR(255, 255, 255, 255), 7);
             auto isBulletopt = container.getComponent(entityId, GameEngine::ComponentsType::getComponentType("IsBullet"));
             auto bulletcast = std::dynamic_pointer_cast<IsBullet>(*isBulletopt);
             bulletcast->passingThrough = true;
@@ -54,9 +54,9 @@ size_t EntityFactory::createPlayerBullet(GameEngine::ComponentsContainer &contai
     return entityId;
 }
 
-size_t EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, GameEngine::Vect2 pos, GameEngine::Vect2 velocity) {
+size_t EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, Utils::Vect2 pos, Utils::Vect2 velocity) {
     try {
-        ConfigData config = LoadConfig::getInstance().loadConfig("config/Entity/createBulletEnemy.json");
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletEnemy.json");
 
         size_t entityId = createBullet(
             container,
@@ -74,7 +74,7 @@ size_t EntityFactory::createBaseEnemyBullet(GameEngine::ComponentsContainer &con
             config.getString("/createBullet/pathSound"),
             config.getFloat("/createBullet/scale"),
             config.getFloat("/createBullet/rotation"),
-            GameEngine::ColorR(
+            Utils::ColorR(
                 config.getInt("/createBullet/tint/r"),
                 config.getInt("/createBullet/tint/g"),
                 config.getInt("/createBullet/tint/b"),

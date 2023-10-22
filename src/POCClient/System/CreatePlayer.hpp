@@ -11,11 +11,14 @@
 #include "Message.hpp"
 #include "EntityFactory.hpp"
 
-class CreatePlayer : public GameEngine::ISystem {
-public:
-    CreatePlayer() = default;
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
+namespace Client {
 
-};
+    class CreatePlayer : public GameEngine::ISystem {
+    public:
+        CreatePlayer() = default;
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
 
+    };
+
+}
