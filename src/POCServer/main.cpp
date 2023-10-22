@@ -2,30 +2,36 @@
 // Created by Clément Lagasse on 06/10/2023.
 //
 
-#include "Server.hpp"
-#include "GameEngine.hpp"
-#include "NetworkClientConnection.hpp"
-#include "NetworkClientRequestDisconnect.hpp"
-#include "NetworkClientDisconnecting.hpp"
-#include "NetworkStartServer.hpp"
-#include "NetworkInput.hpp"
-#include "NetworkOutput.hpp"
-#include "NetworkCreateWorld.hpp"
-#include "NetworkUpdateWorld.hpp"
-#include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
 #include "CheckPositionClient.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-#include "NetworkShootClient.hpp"
-#include "Shoot.hpp"
-#include "NetworkClientDisconnecting.hpp"
-#include "OutOfBounds.hpp"
-#include "IndentifyOutOfBounds.hpp"
 #include "CollisionHandler.hpp"
-#include "PlayerHit.hpp"
+#include "GameEngine.hpp"
+#include "IndentifyOutOfBounds.hpp"
+#include "LuaFunctions.hpp"
 #include "MobHit.hpp"
-#include "PlayerHitMob.hpp"
+#include "NetworkClientConnection.hpp"
+#include "NetworkClientDisconnecting.hpp"
+#include "NetworkClientRequestDisconnect.hpp"
+#include "NetworkCreateWorld.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkMoveClient.hpp"
+#include "NetworkOutput.hpp"
+#include "NetworkShootClient.hpp"
+#include "NetworkStartServer.hpp"
+#include "NetworkUpdateWorld.hpp"
+#include "OutOfBounds.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "PlayerHit.hpp"
+#include "PlayerHitMob.hpp"
+#include "Server.hpp"
+#include "Shoot.hpp"
+#include "SpawnMob.hpp"
+
+extern "C" {
+#include "lauxlib.h"
+#include "lua.h"
+#include "lualib.h"
+}
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -83,28 +89,40 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("Collision", collisionHandler);
 }
 
+void setup_lua(GameEngine::GameEngine &engine, lua_State *L) {
+  luaL_openlibs(L);
+  lua_register(L, "getEntitiesWithComponent", l_getEntitiesWithComponent);
+}
+
 int main(void) {
-    GameEngine::GameEngine engine;
+  GameEngine::GameEngine engine;
+  Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
+  lua_State *L;
 
-    Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
-    try {
-        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Network/server.json");
-        int port = data.getInt("/server/port");
-        int nbClients = data.getInt("/server/nbMaxClients");
-        int tick = data.getInt("/server/tick");
-        Network::Server::init(port, nbClients, tick, queue);
+  try {
+    LoadConfig::ConfigData data =
+        LoadConfig::LoadConfig::getInstance().loadConfig(
+            "config/Network/server.json");
+    int port = data.getInt("/server/port");
+    int nbClients = data.getInt("/server/nbMaxClients");
+    int tick = data.getInt("/server/tick");
+    L = luaL_newstate();
+    Network::Server::init(port, nbClients, tick, queue);
 
-        setup_network(engine, queue);
-        setup_sync_systems(engine);
-        setup_engine(engine);
-        auto position = std::make_shared<Server::CheckPositionClient>();
-        engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
-        auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
-        engine.addSystem("PHYSICS", physicMVT, 1);
-        engine.run();
-        return 0;
-    } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
-        return 84;
-    }
+    setup_lua(engine, L);
+    setup_network(engine, queue);
+    setup_sync_systems(engine);
+    setup_engine(engine);
+    auto position = std::make_shared<Server::CheckPositionClient>();
+    engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
+    auto physicMVT =
+        std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
+    engine.addSystem("PHYSICS", physicMVT, 1);
+    engine.run();
+    lua_close(L);
+    return 0;
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return 84;
+  }
 }

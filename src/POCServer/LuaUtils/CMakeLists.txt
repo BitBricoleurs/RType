@@ -1,0 +1,4 @@
+set(POCSERVER_LUAUTILS_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/getEntitiesWithComponent.cpp
+        CACHE INTERNAL "" FORCE
+)
