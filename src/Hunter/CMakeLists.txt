@@ -17,6 +17,9 @@ target_sources(${PROJECT_NAME_HUNTER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/AnimateShot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/Shoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/DetectLifeLost.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/GameOver.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/StartNewGame.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )

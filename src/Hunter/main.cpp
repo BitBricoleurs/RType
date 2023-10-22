@@ -9,7 +9,9 @@
 #include "AnimateDeath.hpp"
 #include "AnimateShot.hpp"
 #include "AudioEngineSystem.hpp"
+#include "DetectLifeLost.hpp"
 #include "GameEngine.hpp"
+#include "GameOver.hpp"
 #include "KillBird.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
@@ -18,6 +20,7 @@
 #include "Shooter.hpp"
 #include "SpawnBird.hpp"
 #include "SpriteComponent.hpp"
+#include "StartNewGame.hpp"
 #include "SyncPosSprite.hpp"
 #include "ToggleFullScreen.hpp"
 #include "UpdateScore.hpp"
@@ -123,6 +126,9 @@ int main(int ac, char **av) {
   auto animateShot = std::make_shared<AnimateShot>();
   auto audioSys = std::make_shared<GameEngine::AudioEngineSystem>();
   auto scoreSys = std::make_shared<UpdateScore>();
+  auto gameOver = std::make_shared<GameOver>();
+  auto startNewGame = std::make_shared<StartNewGame>();
+  auto detectLifeLost = std::make_shared<DetectLifeLost>();
 
   engine.addEvent("PLAY_SOUND", audioSys);
   engine.scheduleEvent("UPDATE_SOUNDS", 1);
@@ -141,6 +147,9 @@ int main(int ac, char **av) {
   engine.addEvent("MouseLeftButtonPressed", shoot);
   engine.addEvent("animateShot", animateShot);
   engine.addEvent("updateScore", scoreSys);
+  engine.addEvent("gameOver", gameOver);
+  engine.addEvent("startNewGame", startNewGame);
+  engine.addSystem("detectLifeLost", detectLifeLost);
 
   engine.run();
   return 0;
