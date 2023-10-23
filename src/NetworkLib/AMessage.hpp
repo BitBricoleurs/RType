@@ -29,7 +29,8 @@ namespace Network {
             return _message.size();
         }
 
-        bool isMessageSecure() {return _secure;};
+        bool isSecure() override
+            {return _secure;};
     protected:
         std::vector<std::uint8_t> _message;
         bool _secure = false;

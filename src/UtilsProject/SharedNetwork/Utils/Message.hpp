@@ -46,7 +46,7 @@ namespace Network {
         std::vector<size_t> &getIDs() {return _IDs;};
         std::vector<std::any> &getArgs() {return _args;};
         uint16_t &getMessageSize() {return _messageSize;};
-        bool isMessageSecure() {return AMessage::isMessageSecure();};
+        bool isMessageSecure() {return AMessage::isSecure();};
     private:
         static std::string getActionByCode(uint8_t code);
 

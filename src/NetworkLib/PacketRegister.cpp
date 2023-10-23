@@ -8,7 +8,7 @@
 Network::PacketRegister::PacketRegister()
 {
     _packetIdRegisterIn = std::unordered_map<unsigned int, std::vector<unsigned int>>();
-    _packetRegisterOut = std::unordered_map<unsigned int, std::vector<std::shared_ptr<Network::Packet>>>();
+    _packetRegisterOut = std::unordered_map<unsigned int, std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>>();
 }
 
 void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsigned int packetId)
@@ -83,16 +83,16 @@ unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
     return 0;
 }
 
-void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet)
+void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet, bool secure)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end())
-        _packetRegisterOut[remoteId] = std::vector<std::shared_ptr<Network::Packet>>();
+        _packetRegisterOut[remoteId] = std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>();
 
     if (_packetRegisterOut[remoteId].size() >= _maxSize) {
         _packetRegisterOut[remoteId].erase(_packetRegisterOut[remoteId].begin());
     }
-    _packetRegisterOut[remoteId].push_back(packet);
+    _packetRegisterOut[remoteId].push_back(std::make_pair(secure, packet));
     _mutex.unlock();
 }
 
@@ -104,8 +104,8 @@ std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int
     if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         return nullptr;
     for (auto& packet : _packetRegisterOut[remoteId]) {
-        if (packet->header.sequenceNumber == packetId)
-            return packet;
+        if (packet.second->header.sequenceNumber == packetId && packet.first)
+            return packet.second;
     }
     return nullptr;
 }
