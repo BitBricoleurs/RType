@@ -4,23 +4,15 @@ namespace GameEngine {
     Registry::Registry() = default;
     Registry::~Registry() = default;
 
+    void Registry::clear() {
+        componentsContainer.clear();
+        systemMap.clear();
+        systemOrder.clear();
+        systemsNeedSorting = false;
+    }
+
     const ComponentsContainer& Registry::getComponentsContainer() const {
         return componentsContainer;
-    }
-
-    void Registry::bindSceneInitiation(const std::string& sceneName, std::function<void(Registry&)> sceneInitiation) {
-        sceneMap[sceneName] = sceneInitiation;
-    }
-
-    void Registry::changeScene(const std::string &sceneName) {
-        componentsContainer.clear();
-
-        auto it = sceneMap.find(sceneName);
-        if (it != sceneMap.end()) {
-            it->second(*this);
-        } else {
-            std::cerr << "Error: Scene '" << sceneName << "' not found!" << std::endl; // NE PAS OUBLIER LES CUSTOMS ERROS
-        }
     }
 
     std::vector<std::optional<std::shared_ptr<IComponent>>> Registry::getComponents(size_t componentType) {
