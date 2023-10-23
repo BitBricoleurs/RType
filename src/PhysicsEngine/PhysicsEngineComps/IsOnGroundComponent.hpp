@@ -13,7 +13,9 @@ namespace GameEngine {
         IsOnGroundComponent() = default;
         ~IsOnGroundComponent() override = default;
 
-        size_t componentType = ComponentsType::getNewComponentType("IsOnGroundComponent");
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("IsOnGroundComponent");
+        }
         bool onGround = false;
     private:
     };

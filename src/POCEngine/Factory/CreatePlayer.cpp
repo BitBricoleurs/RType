@@ -6,6 +6,9 @@
 */
 
 #include "EntityFactory.hpp"
+#include "GravitySystemComponent.hpp"
+#include "GravityComponent.hpp"
+#include "IsOnGroundComponent.hpp"
 
 size_t
 EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
@@ -80,6 +83,14 @@ size_t entityId = createPlayer(
       std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
   auto shootSound = std::make_shared<GameEngine::AudioComponent>("assets/music/Hit 2.wav");
   container.bindComponentToEntity(entityId, shootSound);
+  auto GravSystemComo = std::make_shared<GameEngine::GravitySystemComponent>();
+    container.bindComponentToEntity(entityId, GravSystemComo);
+    auto GravComo = std::make_shared<GameEngine::GravityComponent>(GameEngine::Vect2{0.5f, 0.5f}, 0.1f);
+    container.bindComponentToEntity(entityId, GravComo);
+    auto isOnGround = std::make_shared<GameEngine::IsOnGroundComponent>();
+    isOnGround->onGround = false;
+    container.bindComponentToEntity(entityId, isOnGround);
+
 
 
   auto IdCharge = std::make_tuple(entityId, 0);

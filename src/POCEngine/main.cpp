@@ -114,6 +114,7 @@ int main() {
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
+    engine.addSystem("GravitySystem", gravitySystem);
   engine.addSystem("CollisionSystem", collision);
   engine.addSystem("RollBackBorder", borderStop);
   engine.addSystem("MovementSystem", movement, 2);

@@ -13,7 +13,9 @@ namespace GameEngine {
         GravitySystemComponent() = default;
         ~GravitySystemComponent() override = default;
 
-        size_t componentType = ComponentsType::getNewComponentType("GravitySystemComponent");
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("GravitySystemComponent");
+        }
     private:
     };
 }

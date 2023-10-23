@@ -16,7 +16,9 @@ namespace GameEngine {
 
         ~GravityComponent() override = default;
 
-        size_t componentType = ComponentsType::getNewComponentType("GravityComponent");
+        size_t getComponentType() override {
+            return ComponentsType::getNewComponentType("GravityComponent");
+        }
         Vect2 baseGravity;
         float weight;
         int fallTime;
