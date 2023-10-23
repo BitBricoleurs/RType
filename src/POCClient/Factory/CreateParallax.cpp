@@ -22,11 +22,13 @@ namespace Client {
         auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(path, Utils::Vect2(0, 0), rect1, layer, scale, rotation, tint);
         auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(Utils::Vect2(0, 0));
         auto positionComponent = std::make_shared<PhysicsEngine::PositionComponent2D>(Utils::Vect2(0, 0));
+        auto movementComponent = std::make_shared<PhysicsEngine::MovementComponent>();
 
         container.bindComponentToEntity(entityId, parallaxComponent);
         container.bindComponentToEntity(entityId, spriteComponent);
         container.bindComponentToEntity(entityId, velocityComponent);
         container.bindComponentToEntity(entityId, positionComponent);
+        container.bindComponentToEntity(entityId, movementComponent);
 
         return entityId;
     }

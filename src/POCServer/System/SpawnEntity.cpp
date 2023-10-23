@@ -30,7 +30,6 @@ namespace Server {
     void SpawnEntity::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         currentTick++;
-
         int mobsSize = currentMapContent.getSize("/mobs");
         for (int i = 0; i < mobsSize;) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
@@ -66,21 +65,19 @@ namespace Server {
 
                 ParallaxType type = static_cast<ParallaxType>(currentMapContent.getInt("/parallax/" + std::to_string(i) + "/type"));
                 try {
-                LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath("config/Entity/createParallax.json");
-                int parallaxSizeType = data.getSize("/types");
-                for (int j = 0; j < parallaxSizeType; j++) {
-                    if (static_cast<ParallaxType>(data.getInt("/types/" + std::to_string(j) + "/type")) == type) {
-                        int layer = data.getInt("/types/" + std::to_string(j) + "/layer");
-                        bool isLooping = data.getBool("/types/" + std::to_string(j) + "/isLooping");
-                        EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, layer, type, isLooping);
+                    LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath("config/Entity/createParallax.json");
+                    int parallaxSizeType = data.getSize("/types");
+                    for (int j = 0; j < parallaxSizeType; j++) {
+                        if (static_cast<ParallaxType>(data.getInt("/types/" + std::to_string(j) + "/type")) == type) {
+                            int layer = data.getInt("/types/" + std::to_string(j) + "/layer");
+                            bool isLooping = data.getBool("/types/" + std::to_string(j) + "/isLooping");
+                            EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, layer, type, isLooping);
+                        }
                     }
-                }
                 } catch (const std::exception& e) {
                      std::cerr << "Error loading map: " << e.what() << std::endl;
                      exit(1);
                 }
-                currentMapContent.eraseKey("/parallax", i);
-                parallaxSize--;
             }
         }
     }

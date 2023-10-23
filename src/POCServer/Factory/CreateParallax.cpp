@@ -18,7 +18,7 @@ namespace Server {
         auto positionComponent = std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
 
 
-        auto velocity = Utils::Vect2(layer, 0);
+        auto velocity = Utils::Vect2(-layer * 0.1f, 0);
         auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
         auto movementComponent = std::make_shared<PhysicsEngine::MovementComponent>();
         container.bindComponentToEntity(entityId, parallaxComponent);

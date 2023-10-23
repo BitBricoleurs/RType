@@ -20,8 +20,7 @@ namespace Server {
                 if (parallaxOpt.has_value() && posOpt.has_value()) {
                     auto parallax = std::dynamic_pointer_cast<IsParallax>(parallaxOpt.value());
                     auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
-                    if (pos->pos.x < 0 && parallax->isLooping) {
-                        std::cout << "looping" << std::endl;
+                    if (pos->pos.x <= -1920 && parallax->isLooping) {
                         pos->pos.x = 1920;
                     }
                 }
