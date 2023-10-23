@@ -9,7 +9,7 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include <cstddef>
 
 class Animation : public GameEngine::AComponent {
@@ -24,7 +24,7 @@ public:
   bool twoDirections;
   int currentFrameIndex;
   int frames;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositionsLeft;
-  std::vector<GameEngine::Vect2> spritePositionsRight;
+  Utils::Vect2 currentFrame;
+  std::vector<Utils::Vect2> spritePositionsLeft;
+  std::vector<Utils::Vect2> spritePositionsRight;
 };

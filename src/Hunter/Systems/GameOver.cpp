@@ -24,19 +24,18 @@ void GameOver::update(GameEngine::ComponentsContainer &componentsContainer,
   auto playAgainId = componentsContainer.createEntity();
 
   // Define the position for the button.
-  GameEngine::Vect2 pos(1920 / 2 - (1300 * 0.6f) / 2,
-                        1080 / 2 - (1300 * 0.6f) / 2);
+  Utils::Vect2 pos(1920 / 2 - (1300 * 0.6f) / 2, 1080 / 2 - (1300 * 0.6f) / 2);
 
   // Create position component.
   auto positionComponent =
-      std::make_shared<GameEngine::PositionComponent2D>(pos);
+      std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
 
   // Create button component.
-  auto buttonComponent = std::make_shared<GameEngine::ButtonComponent>(
-      "assets/hunter/gameover.png", pos, GameEngine::rect{0, 0, 1300, 1300}, 3,
-      0.6f, 0,
-      GameEngine::ColorR{255, 255, 255,
-                         255}); // Assuming you have a Color struct or similar.
+  auto buttonComponent = std::make_shared<RenderEngine::ButtonComponent>(
+      "assets/hunter/gameover.png", pos, Utils::rect{0, 0, 1300, 1300}, 3, 0.6f,
+      0,
+      Utils::ColorR{255, 255, 255,
+                    255}); // Assuming you have a Color struct or similar.
 
   buttonComponent->clickEvent = "startNewGame";
 

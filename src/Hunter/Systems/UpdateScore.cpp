@@ -22,7 +22,7 @@ void UpdateScore::update(GameEngine::ComponentsContainer &componentsContainer,
   if (scoreOpt.has_value() && textOpt.has_value()) {
     auto score = std::dynamic_pointer_cast<Score>(scoreOpt.value());
     auto text =
-        std::dynamic_pointer_cast<GameEngine::TextComponent>(textOpt.value());
+        std::dynamic_pointer_cast<RenderEngine::TextComponent>(textOpt.value());
     score->_score += scoreToAdd;
     text->text = "Score: " + std::to_string(score->_score);
   }

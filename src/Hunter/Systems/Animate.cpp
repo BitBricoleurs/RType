@@ -25,9 +25,9 @@ void Animate::update(GameEngine::ComponentsContainer &componentsContainer,
       spriteOpt.has_value()) {
 
     auto animation = std::dynamic_pointer_cast<Animation>(animationOpt.value());
-    auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+    auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
         velocityOpt.value());
-    auto sprite = std::dynamic_pointer_cast<GameEngine::ButtonComponent>(
+    auto sprite = std::dynamic_pointer_cast<RenderEngine::ButtonComponent>(
         spriteOpt.value());
     if (sprite->isVisible) {
       if (animation->twoDirections && velocity) {

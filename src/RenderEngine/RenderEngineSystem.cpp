@@ -21,11 +21,11 @@ namespace RenderEngine {
     void RenderEngineSystem::update(GameEngine::ComponentsContainer &componentsContainer,
                                     GameEngine::EventHandler &eventHandler) {
 
-      std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents =
-          componentsContainer.getComponents(
+      std::vector<std::optional<std::shared_ptr<GameEngine::IComponent>>>
+          textComponents = componentsContainer.getComponents(
               GameEngine::ComponentsType::getComponentType("TextComponent"));
-      std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents =
-          componentsContainer.getComponents(
+      std::vector<std::optional<std::shared_ptr<GameEngine::IComponent>>>
+          spriteComponents = componentsContainer.getComponents(
               GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
       std::vector<size_t> buttonsIDS =
@@ -37,7 +37,7 @@ namespace RenderEngine {
 
       for (auto id : buttonsIDS) {
         auto button = std::dynamic_pointer_cast<ButtonComponent>(
-            std::any_cast<std::shared_ptr<IComponent>>(
+            std::any_cast<std::shared_ptr<GameEngine::IComponent>>(
                 componentsContainer
                     .getComponent(id,
                                   GameEngine::ComponentsType::getComponentType(

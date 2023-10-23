@@ -36,10 +36,11 @@ void DetectLifeLost::update(
       continue;
 
     auto birdVelocity =
-        std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+        std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
             birdVelocityOpt.value());
-    auto birdPos = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
-        birdPosOpt.value());
+    auto birdPos =
+        std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
+            birdPosOpt.value());
 
     if (birdVelocity->velocity.x > 0 && birdPos->pos.x > 1920 ||
         birdVelocity->velocity.x < 0 && birdPos->pos.x < -100) {

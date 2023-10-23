@@ -8,11 +8,12 @@
 #pragma once
 
 #include "ButtonComponent.hpp"
+#include "ColorR.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "PositionComponent2D.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 
 class GameOver : public GameEngine::ISystem {
 public:

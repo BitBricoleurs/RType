@@ -9,7 +9,6 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
 #include <cstddef>
 
 class Shooter : public GameEngine::AComponent {

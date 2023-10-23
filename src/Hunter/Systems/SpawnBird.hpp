@@ -11,6 +11,7 @@
 #include "AudioComponent.hpp"
 #include "Bird.hpp"
 #include "ButtonComponent.hpp"
+#include "ColorR.hpp"
 #include "ComponentsType.hpp"
 #include "DeathAnimation.hpp"
 #include "EventHandler.hpp"
@@ -19,7 +20,9 @@
 #include "PositionComponent2D.hpp"
 #include "SpriteComponent.hpp"
 #include "TextComponent.hpp"
+#include "Vect2.hpp"
 #include "VelocityComponent.hpp"
+#include "rect.hpp"
 #include <BaseVelocity.hpp>
 #include <cstddef>
 
@@ -41,5 +44,5 @@ private:
   initDeathAnimation(const std::string &filepath, int frames, int width,
                      int height);
 
-  static GameEngine::Vect2 getRandomPosition();
+  static Utils::Vect2 getRandomPosition();
 };

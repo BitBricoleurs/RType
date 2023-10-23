@@ -9,15 +9,15 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include <cstddef>
 
 class BaseVelocity : public GameEngine::AComponent {
 public:
-  BaseVelocity(const GameEngine::Vect2 &velocity) : velocity(velocity) {}
+  BaseVelocity(const Utils::Vect2 &velocity) : velocity(velocity) {}
 
   size_t getComponentType() {
     return GameEngine::ComponentsType::getNewComponentType("BaseVelocity");
   };
-  GameEngine::Vect2 velocity;
+  Utils::Vect2 velocity;
 };

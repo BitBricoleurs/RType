@@ -19,9 +19,9 @@ void SyncPosSprite::update(GameEngine::ComponentsContainer &componentsContainer,
 
     if (positionOptional.has_value() && spriteOptional.has_value()) {
       auto position =
-          std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
+          std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
               positionOptional.value());
-      auto sprite = std::dynamic_pointer_cast<GameEngine::ButtonComponent>(
+      auto sprite = std::dynamic_pointer_cast<RenderEngine::ButtonComponent>(
           spriteOptional.value());
 
       if (position && sprite) {

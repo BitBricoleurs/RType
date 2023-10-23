@@ -8,6 +8,7 @@
 #include "AComponent.hpp"
 #include "Animation.hpp"
 #include "ComponentsType.hpp"
+#include "Vect2.hpp"
 #include <cstddef>
 #include <string>
 
@@ -18,7 +19,7 @@ public:
   DeathAnimation() = default;
 
   std::string filepath;
-  std::vector<GameEngine::Vect2> spritePositions;
+  std::vector<Utils::Vect2> spritePositions;
 
   size_t getComponentType() {
     return GameEngine::ComponentsType::getNewComponentType("DeathAnimation");
