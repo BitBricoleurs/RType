@@ -17,13 +17,15 @@ set(PROJECT_NAME_POCENGINE POCEngine)
 set(PROJECT_NAME_POCSERVER POCServer)
 set(PROJECT_NAME_POCCLIENT POCClient)
 set(PROJECT_NAME_MAP_CREATOR MapCreator)
+set(LIBRARY_NAME_NETLIB NetworkLib)
+
 
 add_executable(${PROJECT_NAME_CLIENT} )
 add_executable(${PROJECT_NAME_SERVER} )
 add_executable(${PROJECT_NAME_POCENGINE})
 add_executable(${PROJECT_NAME_POCSERVER})
-add_executable(${PROJECT_NAME_POCCLIENT})
 add_executable(${PROJECT_NAME_MAP_CREATOR})
+add_library(${LIBRARY_NAME_NETLIB})
 
 add_subdirectory(lib)
 add_subdirectory(src)

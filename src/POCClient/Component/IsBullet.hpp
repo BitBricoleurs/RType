@@ -20,5 +20,4 @@ namespace Client {
       bool passingThrough = false;
       std::vector<size_t> alreadyHit;
     };
-
 }

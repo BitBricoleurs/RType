@@ -17,6 +17,7 @@
 #include "AMessage.hpp"
 #include "Tick.hpp"
 #include "EndpointGetter.hpp"
+#include "PacketRegister.hpp"
 
 namespace Network {
 
@@ -30,11 +31,11 @@ namespace Network {
         };
         PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
                   boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages,
-                  Network::Tick& tick);
+                  Network::Tick& tick, Network::PacketRegister &registerPacket);
 
         PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
                   boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages,
-                  Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client);
+                  Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client, Network::PacketRegister &registerPacket);
 
         ~PacketIO() = default;
 
@@ -44,6 +45,9 @@ namespace Network {
 
         void processOutgoingMessages();
         void processIncomingMessages();
+
+        void resendLostPacket(boost::asio::ip::udp::endpoint &endpoint);
+        void sendWaitingPackets();
 
         size_t getOutMessagesSize() const;
 
@@ -56,7 +60,7 @@ namespace Network {
 
         TSQueue<std::shared_ptr<IMessage>>* _outMessages;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>* _forwardMessages;
-        Network::TSQueue<Network::Packet> _packetQueue;
+        Network::TSQueue<std::pair<boost::asio::ip::udp::endpoint, Network::Packet>> _packetQueue;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_inMessages;
         Network::Tick& _tick;
         boost::asio::io_context& _context;
@@ -72,7 +76,8 @@ namespace Network {
 
         Network::PacketHeader _headerOut;
         Network::Body _bodyOut;
-        Network::Packet _packetOut;
+        std::shared_ptr<Network::Packet> _packetOut;
+        Network::TSQueue<std::shared_ptr<Network::Packet>> _packetOutQueue;
 
         std::vector<unsigned char> _serializedPacket;
         std::mutex _socketMutex;
@@ -84,6 +89,7 @@ namespace Network {
 
         std::vector<std::shared_ptr<Network::Interface>>* _clients;
         int _currentSequenceNumber;
-        int _lastSequenceNumber;
+        long _id;
+        Network::PacketRegister &_registerPacket;
     };
 }

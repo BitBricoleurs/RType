@@ -7,9 +7,11 @@
 #include <cstdint>
 #include "Pack.hpp"
 #define MAX_PACKET_SIZE 4096
+#define MAGIC_NUMBER 0x7F454C45
 
 namespace Network {
     struct PACK(PacketHeader {
+        unsigned magicNumber = MAGIC_NUMBER;
         int sequenceNumber;
         int lastPacketSeq;
         uint16_t ackMask;
