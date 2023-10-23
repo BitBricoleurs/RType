@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME_CLIENT} )
 add_executable(${PROJECT_NAME_SERVER} )
 add_executable(${PROJECT_NAME_POCENGINE})
 add_executable(${PROJECT_NAME_POCSERVER})
+add_executable(${PROJECT_NAME_POCCLIENT})
 add_executable(${PROJECT_NAME_MAP_CREATOR})
 add_library(${LIBRARY_NAME_NETLIB})
 
