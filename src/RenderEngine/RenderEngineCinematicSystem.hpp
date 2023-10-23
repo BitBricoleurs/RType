@@ -7,6 +7,7 @@
 #include "ISystem.hpp"
 #include "ComponentsType.hpp"
 #include "LoadConfig.hpp"
+#include "WindowInfoComponent.hpp"
 
 
 namespace RenderEngine {
@@ -22,10 +23,16 @@ namespace RenderEngine {
         std::string nextScene;
         bool isPlaying;
         float clock;
+        bool isPaused = false;
+        float clockNonPausable;
 
         void loadJSON(const std::string& path, GameEngine::ComponentsContainer& componentsContainer);
         void playCinematic(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler);
         void endCinematic();
+
+        float Lerp(float start, float end, float progress) {
+            return start + progress * (end - start);
+        }
     };
 }
 

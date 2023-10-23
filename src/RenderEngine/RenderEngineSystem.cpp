@@ -92,8 +92,11 @@ namespace RenderEngine {
 
 
       renderEngine->ClearBackgroundRender(BLACK);
-
+      auto windowID = componentsContainer.getComponents(
+            GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
+       auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[0].value());
       BeginDrawing();
+      BeginMode2D(windowcast->camera);
 
     std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
@@ -114,13 +117,8 @@ namespace RenderEngine {
                 renderEngine->Draw(arg);
             }, component);
         }
-
-
-
-
-
-
-      EndDrawing();
+        EndMode2D();
+        EndDrawing();
     }
     size_t RenderEngineSystem::getScreenHeight()
     {

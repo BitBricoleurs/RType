@@ -13,4 +13,4 @@ add_library(RenderEngineLib STATIC ${SOURCES})
 target_include_directories(RenderEngineLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(RenderEngineLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/RenderCompTypes)
 
-target_link_libraries(RenderEngineLib raylib GameEngine LoadConfigLib UtilsLib)
+target_link_libraries(RenderEngineLib raylib GameEngine LoadConfigLib UtilsLib PhysicsEngineLib)

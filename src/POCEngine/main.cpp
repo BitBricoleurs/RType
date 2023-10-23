@@ -55,7 +55,14 @@
 
 int main() {
   GameEngine::GameEngine engine;
-  auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
+  engine.bindSceneInitiation("Scene1", initScene);
+
+  return 0;
+}
+
+
+void initScene(GameEngine::Registry &engine) {
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
@@ -282,5 +289,4 @@ Utils::Vect2 pos;
   engine.addEvent("Collision", collisionHandler);
 
   engine.run();
-  return 0;
 }
