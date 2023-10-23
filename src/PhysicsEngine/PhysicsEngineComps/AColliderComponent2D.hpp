@@ -5,9 +5,9 @@
 #pragma once
 #include "AComponent.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
-    class AColliderComponent2D : public AComponent {
+    class AColliderComponent2D : public GameEngine::AComponent {
     public:
         virtual bool collidesWith(AColliderComponent2D &other) = 0;
     };

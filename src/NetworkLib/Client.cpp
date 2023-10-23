@@ -9,6 +9,7 @@
 #include "Client.hpp"
 #include "Tick.hpp"
 #include "TSqueue.hpp"
+#include "PacketRegister.hpp"
 #include "InterfaceNetwork.hpp"
 
 class Network::Client::Impl {
@@ -32,10 +33,11 @@ public:
 
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_forwardQueue;
     Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> _inMessages;
+    Network::PacketRegister _packetRegister;
 };
 
 void Network::Client::Impl::connect(const std::string &host, unsigned short port) {
-    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _forwardQueue, _tick, 0 , Network::Interface::Type::CLIENT);
+    _interface = std::make_unique<Network::Interface>(_context, _inMessages, std::nullopt, _forwardQueue, _tick, 0 , _packetRegister, Network::Interface::Type::CLIENT);
     _interface->connectToServer(host, port);
 
     _interface->getIO()->processIncomingMessages();

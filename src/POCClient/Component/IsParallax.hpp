@@ -8,10 +8,14 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsParallax : public GameEngine::AComponent {
-public:
-  IsParallax() = default;
-  ~IsParallax() = default;
+namespace Client {
 
-  size_t getComponentType() override;
-};
+    class IsParallax : public GameEngine::AComponent {
+    public:
+      IsParallax() = default;
+      ~IsParallax() = default;
+
+      size_t getComponentType() override;
+    };
+
+}

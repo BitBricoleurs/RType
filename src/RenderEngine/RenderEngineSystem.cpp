@@ -8,36 +8,43 @@
 #include "RenderEngineSystem.hpp"
 #include <algorithm>
 
-namespace GameEngine {
-RenderEngineSystem::RenderEngineSystem(const char *windowName)
-{
-    renderEngine = std::make_unique<RenderEngine>();
-    renderEngine->Initialize(windowName);
-}
+namespace RenderEngine {
 
-RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
+    RenderEngineSystem::RenderEngineSystem(const char *windowName)
+    {
+        renderEngine = std::make_unique<RenderEngine>();
+        renderEngine->Initialize(windowName);
+    }
 
-void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
-                                EventHandler &eventHandler) {
+    RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
 
-  std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents =
-      componentsContainer.getComponents(
-          ComponentsType::getComponentType("TextComponent"));
-  std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents =
-      componentsContainer.getComponents(
-          ComponentsType::getComponentType("SpriteComponent"));
+    void RenderEngineSystem::update(GameEngine::ComponentsContainer &componentsContainer,
+                                    GameEngine::EventHandler &eventHandler) {
 
-  std::vector<size_t> buttonsIDS = componentsContainer.getEntitiesWithComponent(
-          ComponentsType::getComponentType("ButtonComponent"));
+      std::vector<std::optional<std::shared_ptr<IComponent>>> textComponents =
+          componentsContainer.getComponents(
+              GameEngine::ComponentsType::getComponentType("TextComponent"));
+      std::vector<std::optional<std::shared_ptr<IComponent>>> spriteComponents =
+          componentsContainer.getComponents(
+              GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
-  std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>> sortedButtonComponents;
+      std::vector<size_t> buttonsIDS =
+          componentsContainer.getEntitiesWithComponent(
+              GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
-  for (auto id : buttonsIDS) {
-    auto button = std::dynamic_pointer_cast<ButtonComponent>(
-        std::any_cast<std::shared_ptr<IComponent>>(
-            componentsContainer.getComponent(id, ComponentsType::getComponentType("ButtonComponent")).value()));
-    sortedButtonComponents.push_back(std::make_pair(id, button));
-  }
+      std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>>
+          sortedButtonComponents;
+
+      for (auto id : buttonsIDS) {
+        auto button = std::dynamic_pointer_cast<ButtonComponent>(
+            std::any_cast<std::shared_ptr<IComponent>>(
+                componentsContainer
+                    .getComponent(id,
+                                  GameEngine::ComponentsType::getComponentType(
+                                      "ButtonComponent"))
+                    .value()));
+        sortedButtonComponents.push_back(std::make_pair(id, button));
+      }
 
   std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
     [](const std::pair<size_t, std::shared_ptr<ButtonComponent>>& p1,
@@ -54,55 +61,55 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
 
   renderEngine->PollEvents(eventHandler, sortedButtonComponents);
 
-  std::vector<TextComponent> sortedTextComponents;
-  std::vector<SpriteComponent> sortedSpriteComponents;
+      std::vector<TextComponent> sortedTextComponents;
+      std::vector<SpriteComponent> sortedSpriteComponents;
 
-  for (const auto &component : textComponents) {
-    if (component.has_value()) {
-      auto text = std::dynamic_pointer_cast<TextComponent>(
-          std::any_cast<std::shared_ptr<IComponent>>(component.value()));
-      if (text) {
-        sortedTextComponents.push_back(*text);
-      }
-    }
-  }
-  std::stable_sort(sortedTextComponents.begin(), sortedTextComponents.end(),
-    [](const TextComponent &a, const TextComponent &b) {
-        if(a.layer == b.layer) {
-            return a.pos.x < b.pos.x;
+      for (const auto &component : textComponents) {
+        if (component.has_value()) {
+          auto text = std::dynamic_pointer_cast<TextComponent>(
+              std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
+          if (text) {
+            sortedTextComponents.push_back(*text);
+          }
         }
-        return a.layer < b.layer;
-    });
-
-  for (const auto &component : spriteComponents) {
-    if (component.has_value()) {
-      auto sprite = std::dynamic_pointer_cast<SpriteComponent>(
-          std::any_cast<std::shared_ptr<IComponent>>(component.value()));
-      if (sprite) {
-        sortedSpriteComponents.push_back(*sprite);
       }
-    }
-  }
-  std::stable_sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
-    [](const SpriteComponent &a, const SpriteComponent &b) {
-        if(a.layer == b.layer) {
-            return a.pos.x < b.pos.x;
+      std::stable_sort(sortedTextComponents.begin(), sortedTextComponents.end(),
+        [](const TextComponent &a, const TextComponent &b) {
+            if(a.layer == b.layer) {
+                return a.pos.x < b.pos.x;
+            }
+            return a.layer < b.layer;
+        });
+
+      for (const auto &component : spriteComponents) {
+        if (component.has_value()) {
+          auto sprite = std::dynamic_pointer_cast<SpriteComponent>(
+              std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
+          if (sprite) {
+            sortedSpriteComponents.push_back(*sprite);
+          }
         }
-        return a.layer < b.layer;
-    });
+      }
+      std::stable_sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
+        [](const SpriteComponent &a, const SpriteComponent &b) {
+            if(a.layer == b.layer) {
+                return a.pos.x < b.pos.x;
+            }
+            return a.layer < b.layer;
+        });
 
 
-  renderEngine->ClearBackgroundRender(BLACK);
+      renderEngine->ClearBackgroundRender(BLACK);
 
-  BeginDrawing();
+      BeginDrawing();
 
-  for (const auto &component : sortedSpriteComponents) {
-    renderEngine->Draw(component);
-  }
+      for (const auto &component : sortedSpriteComponents) {
+        renderEngine->Draw(component);
+      }
 
-  for (const auto &component : sortedTextComponents) {
-    renderEngine->Draw(component);
-  }
+      for (const auto &component : sortedTextComponents) {
+        renderEngine->Draw(component);
+      }
 
   for (const auto &component : sortedButtonComponents) {
     renderEngine->Draw(*component.second);
@@ -112,8 +119,8 @@ void RenderEngineSystem::update(ComponentsContainer &componentsContainer,
 
 
 
-  EndDrawing();
-}
+      EndDrawing();
+    }
     size_t RenderEngineSystem::getScreenHeight()
     {
         return renderEngine->getScreenHeight();

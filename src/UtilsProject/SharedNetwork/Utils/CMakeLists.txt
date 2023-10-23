@@ -1,0 +1,4 @@
+set(SHARED_NETWORK_UTILS_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/Message.cpp
+        CACHE INTERNAL ""
+)

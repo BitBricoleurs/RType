@@ -18,17 +18,17 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
             auto positionChargeOpt = componentsContainer.getComponent(isPlayer->entityIdChargeAnimation, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
             auto shooterOpt = componentsContainer.getComponent(entityId, GameEngine::ComponentsType::getComponentType("Shooter"));
             if(positionOpt.has_value() && spriteChargeOpt.has_value() && shooterOpt.has_value() && positionChargeOpt.has_value()) {
-                auto spriteCharge = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteChargeOpt.value());
-                auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionOpt.value());
+                auto spriteCharge = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteChargeOpt.value());
+                auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
                 auto shooter = std::dynamic_pointer_cast<Shooter>(shooterOpt.value());
-                auto chargePos = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(positionChargeOpt.value());
+                auto chargePos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionChargeOpt.value());
                 if (events.first == "SPACE_KEY_PRESSED") {
                   _charge += 1;
                   if (_charge > _maxCharge) {
                     _charge = _maxCharge;
                   }
                   //if (!shoot) {
-                  GameEngine::Vect2 shootingPosition(position->pos.x + shooter->shootPosition.x, position->pos.y + shooter->shootPosition.y - 30);
+                  Utils::Vect2 shootingPosition(position->pos.x + shooter->shootPosition.x, position->pos.y + shooter->shootPosition.y - 30);
                   chargePos->pos = shootingPosition;
                   spriteCharge->isVisible = true;
                   shoot = true;
@@ -59,7 +59,7 @@ void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, G
     for (auto entityID : entities) {
         auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
         if (spriteOpt.has_value()) {
-            auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
+            auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
             auto currentRect = sprite->rect1;
             currentRect.w = _charge * 2;
             sprite->rect1 = currentRect;

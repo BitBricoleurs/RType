@@ -1,0 +1,4 @@
+set(GAMEENGINE_EVENT_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/EventHandler.cpp
+        CACHE INTERNAL ""
+)

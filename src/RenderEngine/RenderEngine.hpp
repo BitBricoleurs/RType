@@ -17,32 +17,35 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "LoadConfig.hpp"
 
-namespace GameEngine {
+namespace RenderEngine {
     class RenderEngine {
     public:
-      RenderEngine();
+      RenderEngine() = default;
       ~RenderEngine();
 
       void Initialize(const char *windowTitle);
-      void Draw(const TextComponent &textComponent);
+      void Draw(const TextComponent &textComponent) const;
       void Draw(const SpriteComponent &spriteComponent);
       void Draw(const ButtonComponent &buttonComponent);
-      void PollEvents(EventHandler &eventHandler,
-                      std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>> buttons);
+      void PollEvents(
+          GameEngine::EventHandler &eventHandler,
+          std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>>
+              buttons);
       void Shutdown();
       void ClearBackgroundRender(Color color);
 
-      size_t getScreenWidth();
-      size_t getScreenHeight();
+      size_t getScreenWidth() const;
+      size_t getScreenHeight() const;
 
     private:
-        size_t screenWidth;
-        size_t screenHeight;
+        size_t screenWidth{};
+        size_t screenHeight{};
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
-        float scaleX;
-        float scaleY;
+        float scaleX{};
+        float scaleY{};
 
 
             std::vector<KeyMapping> keyMappings = {

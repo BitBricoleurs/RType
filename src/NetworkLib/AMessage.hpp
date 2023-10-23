@@ -9,9 +9,16 @@
 namespace Network {
     class AMessage : public IMessage {
     public:
-        AMessage() = default;
+        AMessage(bool secure = false) {
+            _message = std::vector<std::uint8_t>();
+            this->_secure = secure;
+        }
         AMessage(std::vector<std::uint8_t> &message) {
             _message = message;
+        }
+        AMessage(std::vector<std::uint8_t> &message, bool secure) {
+            _message = message;
+            this->_secure = secure;
         }
         ~AMessage() override = default;
 
@@ -22,7 +29,10 @@ namespace Network {
             return _message.size();
         }
 
+        bool isSecure() override
+            {return _secure;};
     protected:
         std::vector<std::uint8_t> _message;
+        bool _secure = false;
     };
 };

@@ -4,8 +4,6 @@
 
 #pragma once
 
-// System of the SERVER that handle the timeout of the clients
-
 #include "ISystem.hpp"
 #include "Server.hpp"
 #include "ComponentContainer.hpp"
@@ -14,13 +12,15 @@
 #include "Message.hpp"
 #include "NetworkClientId.hpp"
 
-class NetworkClientTimeout : public GameEngine::ISystem {
-    public:
-        NetworkClientTimeout() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Server {
 
-};
+    class NetworkClientTimeout : public GameEngine::ISystem {
+        public:
+            NetworkClientTimeout() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
 
+    };
 
+}

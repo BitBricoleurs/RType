@@ -1,0 +1,109 @@
+{
+  "chargeBar": {
+    "blueBar" : {
+      "tint": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "rotation": 0.0,
+      "scale": 2.0,
+      "layer": 99,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.0,
+        "h": 26.0
+      },
+      "pos": {
+        "x": 752.0,
+        "y": 990.0
+      },
+      "spritePath" : "assets/HUD/BlueBar.png"
+    },
+    "emptyBar": {
+      "tint": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      "rotation": 0.0,
+        "scale": 2.0,
+        "layer": 100,
+        "rect": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 208.0,
+          "h": 26.0
+        },
+        "pos": {
+          "x": 752.0,
+          "y": 990.0
+        },
+        "spritePath" : "assets/HUD/EmptyBar.png"
+    }
+  },
+  "healthBar": {
+    "healthBar" : {
+      "tint": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+        "rotation": 0.0,
+        "scale": 4.0,
+        "layer": 99,
+        "rect": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 24.0,
+          "h": 10.0
+        },
+        "pos": {
+          "x": 0.0,
+          "y": 990.0
+        },
+        "spritePath" : "assets/HUD/HealthBar.png"
+    },
+    "fullHealthBar": {
+      "tint": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+        "rotation": 0.0,
+        "scale": 4.0,
+        "layer": 100,
+        "rect": {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 24.0,
+          "h": 10.0
+        },
+        "pos": {
+          "x": 0.0,
+          "y": 990.0
+        },
+        "spritePath" : "assets/HUD/FullHealthBar.png"
+      }
+    },
+  "score": {
+    "defaultScore": "Score: 0",
+    "scorePos": {
+      "x": 896.0,
+      "y": 0.0
+    },
+    "fontSize" : 64,
+    "layer": 100,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    }
+  }
+}

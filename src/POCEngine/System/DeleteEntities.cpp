@@ -13,7 +13,7 @@ void DeleteEntities::update(GameEngine::ComponentsContainer &componentsContainer
     for (const auto &window : windows) {
         auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
         if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
+            auto windowSize = std::dynamic_pointer_cast<RenderEngine::WindowInfoComponent>(windowOpt.value());
             sizeWidth = windowSize->windowWidth;
             break;
         }
@@ -40,8 +40,8 @@ void DeleteEntities::deleteBulletIfOutOfBounds(const size_t& entityID, size_t si
     auto posOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
     auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
     if (posOpt.has_value() && spriteOpt.has_value()) {
-        auto pos = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(posOpt.value());
-        auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
+        auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
+        auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
         if (pos->pos.x + sprite->rect1.w < 0 || pos->pos.x > sizeWidth) {
             componentsContainer.deleteEntity(entityID);
         }
@@ -53,8 +53,8 @@ void DeleteEntities::deleteMobParallaxIfOutsideLeft(const size_t& entityID, Game
     auto posOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
     auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
     if (posOpt.has_value() && spriteOpt.has_value()) {
-        auto pos = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(posOpt.value());
-        auto sprite = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
+        auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
+        auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
         if (pos->pos.x + sprite->rect1.w < 0) {
             componentsContainer.deleteEntity(entityID);
         }

@@ -24,7 +24,7 @@ void WiggleMob::update(GameEngine::ComponentsContainer &componentsContainer,
         pata,
         GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
 
-    auto position = std::dynamic_pointer_cast<GameEngine::PositionComponent2D>(
+    auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
         positionOpt.value());
 
     if (heightVarOpt.has_value()) {

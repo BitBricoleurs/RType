@@ -69,7 +69,7 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
     for (const auto &window : windows) {
         auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
         if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
+            auto windowSize = std::dynamic_pointer_cast<RenderEngine::WindowInfoComponent>(windowOpt.value());
             sizeWidth = windowSize->windowWidth;
             sizeHeight = windowSize->windowHeight;
             break;
@@ -87,11 +87,11 @@ void ParallaxPlanet::spawnPlanets(GameEngine::ComponentsContainer &componentsCon
         int random = rand() % (sizeHeight) - 200;
         float randomY = static_cast<float>(random);
 
-        GameEngine::ColorR tint = {255, 255, 255, 255};
+        Utils::ColorR tint = {255, 255, 255, 255};
         float rotation = 0.0f;
         auto parallaxEntity = componentsContainer.createEntity();
         auto isParallaxComponent = std::make_shared<IsParallax>();
         componentsContainer.bindComponentToEntity(parallaxEntity, isParallaxComponent);
-        auto spriteComponent = std::make_shared<GameEngine::SpriteComponent>(randomPath, GameEngine::Vect2{float(sizeWidth), randomY}, GameEngine::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint);
+        auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(randomPath, Utils::Vect2{float(sizeWidth), randomY}, Utils::rect{0, 0, 560, 560}, randomLayer, scaleFactor, rotation, tint);
         componentsContainer.bindComponentToEntity(parallaxEntity, spriteComponent);
     };

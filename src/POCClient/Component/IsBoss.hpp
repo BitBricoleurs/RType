@@ -8,9 +8,13 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsBoss : public GameEngine::AComponent {
-public:
-  IsBoss() = default;
+namespace Client {
 
-  size_t getComponentType() override;
-};
+    class IsBoss : public GameEngine::AComponent {
+    public:
+      IsBoss() = default;
+
+      size_t getComponentType() override;
+    };
+
+}

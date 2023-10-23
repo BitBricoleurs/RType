@@ -4,8 +4,11 @@
 
 #include "IsBullet.hpp"
 
-IsBullet::IsBullet(bool playerBullet) : playerBullet(playerBullet) {}
+namespace Server {
 
-size_t IsBullet::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsBullet");
+    IsBullet::IsBullet(bool playerBullet) : playerBullet(playerBullet) {}
+
+    size_t IsBullet::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsBullet");
+    }
 }

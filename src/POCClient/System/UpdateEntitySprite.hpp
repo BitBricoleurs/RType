@@ -11,8 +11,10 @@
 #include "VelocityComponent.hpp"
 #include "SpriteComponent.hpp"
 
-class updateEntitySprite : public GameEngine::ISystem {
-public:
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
+    class updateEntitySprite : public GameEngine::ISystem {
+    public:
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+    };
+}
