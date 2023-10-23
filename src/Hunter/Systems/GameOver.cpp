@@ -9,6 +9,7 @@
 
 void GameOver::update(GameEngine::ComponentsContainer &componentsContainer,
                       GameEngine::EventHandler &eventHandler) {
+
   eventHandler.unscheduleEvent("animateShot");
   eventHandler.unscheduleEvent("spawnBird");
 

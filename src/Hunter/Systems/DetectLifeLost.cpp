@@ -18,6 +18,8 @@ void DetectLifeLost::update(
       GameEngine::ComponentsType::getComponentType("Score"));
   auto scoreOpt = componentsContainer.getComponent(
       scoreId, GameEngine::ComponentsType::getComponentType("Score"));
+  if (!scoreOpt.has_value())
+    return;
   auto score = std::dynamic_pointer_cast<Score>(scoreOpt.value());
 
   for (auto &bird : birds) {
@@ -43,9 +45,11 @@ void DetectLifeLost::update(
         birdVelocity->velocity.x < 0 && birdPos->pos.x < -100) {
       componentsContainer.deleteEntity(bird);
       score->missed += 1;
+      std::cout << "missed: " << score->missed << std::endl;
     }
     if (score->missed >= 5) {
       eventHandler.queueEvent("gameOver");
+      return;
     }
   }
 }

@@ -27,9 +27,21 @@ size_t
 SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
                       GameEngine::EventHandler &eventHandler) {
 
+  auto game = componentsContainer.getEntityWithUniqueComponent(
+      GameEngine::ComponentsType::getComponentType("Game"));
+
+  auto baseVelocityOpt = componentsContainer.getComponent(
+      game, GameEngine::ComponentsType::getComponentType("BaseVelocity"));
+
+  if (!baseVelocityOpt.has_value())
+    return 0;
+
+  auto baseVelocity =
+      std::dynamic_pointer_cast<BaseVelocity>(baseVelocityOpt.value());
+
   GameEngine::Vect2 birdPos = getRandomPosition();
   GameEngine::ColorR tint = {255, 255, 255, 255};
-  GameEngine::Vect2 velocity(6, 0);
+  GameEngine::Vect2 velocity = {baseVelocity->velocity.x, 0};
   if (birdPos.x > 0)
     velocity.x = -velocity.x;
   auto birdId = componentsContainer.createEntity();

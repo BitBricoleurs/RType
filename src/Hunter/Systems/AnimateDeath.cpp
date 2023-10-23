@@ -10,7 +10,6 @@
 void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
                           GameEngine::EventHandler &eventHandler) {
 
-  std::cout << "AnimateDeath" << std::endl;
   auto entityID =
       std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
   auto deathOpt = componentsContainer.getComponent(

@@ -20,6 +20,7 @@
 #include "SpriteComponent.hpp"
 #include "TextComponent.hpp"
 #include "VelocityComponent.hpp"
+#include <BaseVelocity.hpp>
 #include <cstddef>
 
 class SpawnBird : public GameEngine::ISystem {

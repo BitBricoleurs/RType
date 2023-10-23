@@ -9,7 +9,9 @@
 #include "AnimateDeath.hpp"
 #include "AnimateShot.hpp"
 #include "AudioEngineSystem.hpp"
+#include "Components/BaseVelocity.hpp"
 #include "DetectLifeLost.hpp"
+#include "Game.hpp"
 #include "GameEngine.hpp"
 #include "GameOver.hpp"
 #include "KillBird.hpp"
@@ -23,6 +25,7 @@
 #include "StartNewGame.hpp"
 #include "SyncPosSprite.hpp"
 #include "Systems/CurveDown.hpp"
+#include "Systems/IncreaseDifficulty.hpp"
 #include "ToggleFullScreen.hpp"
 #include "UpdateScore.hpp"
 #include "Utils.hpp"
@@ -93,24 +96,34 @@ void create_shooter(GameEngine::GameEngine &engine, float width, float height) {
   auto shooterComponent = std::make_shared<Shooter>();
   auto audioComponent =
       std::make_shared<GameEngine::AudioComponent>("assets/hunter/shoot.wav");
-  auto score = std::make_shared<Score>();
-  auto textComponent = std::make_shared<GameEngine::TextComponent>(
-      "Score: 0", GameEngine::Vect2(800, 0), 64, 100,
-      GameEngine::ColorR{255, 255, 255, 255});
 
   engine.bindComponentToEntity(shooterID, audioComponent);
   engine.bindComponentToEntity(shooterID, animation);
   engine.bindComponentToEntity(shooterID, spriteComponent);
   engine.bindComponentToEntity(shooterID, positionComponent);
   engine.bindComponentToEntity(shooterID, shooterComponent);
-  engine.bindComponentToEntity(shooterID, score);
-  engine.bindComponentToEntity(shooterID, textComponent);
+}
+
+void init_game(GameEngine::GameEngine &engine) {
+  size_t id = engine.createEntity();
+  auto gameComp = std::make_shared<Game>();
+  auto veloComp = std::make_shared<BaseVelocity>(GameEngine::Vect2(6, 0));
+  auto scoreComp = std::make_shared<Score>();
+  auto textComponent = std::make_shared<GameEngine::TextComponent>(
+      "Score: 0", GameEngine::Vect2(800, 0), 64, 100,
+      GameEngine::ColorR{255, 255, 255, 255});
+
+  engine.bindComponentToEntity(id, scoreComp);
+  engine.bindComponentToEntity(id, textComponent);
+  engine.bindComponentToEntity(id, gameComp);
+  engine.bindComponentToEntity(id, veloComp);
 }
 
 int main(int ac, char **av) {
   GameEngine::GameEngine engine;
 
   create_background(engine);
+  init_game(engine);
 
   auto spawnBirdSystem = std::make_shared<SpawnBird>();
   auto renderSystem =
@@ -131,13 +144,14 @@ int main(int ac, char **av) {
   auto startNewGame = std::make_shared<StartNewGame>();
   auto detectLifeLost = std::make_shared<DetectLifeLost>();
   auto curveDown = std::make_shared<CurveDown>();
+  auto increaseDiff = std::make_shared<IncreaseDifficulty>();
 
   engine.addEvent("PLAY_SOUND", audioSys);
   engine.scheduleEvent("UPDATE_SOUNDS", 1);
   engine.addEvent("UPDATE_SOUNDS", audioSys);
 
   engine.addEvent("spawnBird", spawnBirdSystem);
-  engine.scheduleEvent("spawnBird", 120);
+  engine.scheduleEvent("spawnBird", 75);
 
   engine.addEvent("render", renderSystem);
   engine.addEvent("killBird", killBird);
@@ -153,6 +167,8 @@ int main(int ac, char **av) {
   engine.addEvent("startNewGame", startNewGame);
   engine.addSystem("detectLifeLost", detectLifeLost);
   engine.addEvent("curveDown", curveDown);
+  engine.addEvent("increaseDiff", increaseDiff);
+  engine.scheduleEvent("increaseDiff", (60 * 15));
 
   engine.run();
   return 0;
