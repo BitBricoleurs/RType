@@ -6,16 +6,16 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Vect2.hpp"
+#include "Utils.hpp"
 
-namespace PhysicsEngine {
-    class AccelerationComponent : public GameEngine::AComponent {
+namespace GameEngine {
+    class AccelerationComponent : public AComponent {
     public:
-        AccelerationComponent(const Utils::Vect2& acceleration) : acceleration(acceleration) {}
+        AccelerationComponent(const Vect2& acceleration) : acceleration(acceleration) {}
         ~AccelerationComponent() override = default;
 
-        size_t componentType = GameEngine::ComponentsType::getNewComponentType("AccelerationComponent");
-        Utils::Vect2 acceleration;
+        size_t componentType = ComponentsType::getNewComponentType("AccelerationComponent");
+        Vect2 acceleration;
     private:
     };
 }

@@ -10,6 +10,10 @@
     "deathSpriteSheetHeight": 64,
     "deathSpriteSheetWidth": 320,
     "deathFrames": 5,
+    "velocity": {
+        "x": 0,
+        "y": 0
+    },
     "playerA": 0,
     "scale": 2.0,
     "rotation": 0,
@@ -19,7 +23,10 @@
       "b": 255,
       "a": 255
     },
-    "layer": 7
+    "layer": 7,
+    "maxHealth": 500,
+    "damageValue": 100,
+    "stageValue": 1
   },
   "createBellmitePod": {
     "spriteSheetPath": "assets/bellmite-entities.png",
@@ -32,6 +39,10 @@
     "deathSpriteSheetHeight": 33,
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
+    "velocity": {
+        "x": 0,
+        "y": 0
+    },
     "playerA": 0,
     "scale": 3.0,
     "rotation": 0.0,
@@ -41,6 +52,9 @@
       "b": 255,
       "a": 255
     },
-    "layer": 7
+    "layer": 7,
+    "maxHealth": 100,
+    "damageValue": 10,
+    "stageValue": 1
   }
 }

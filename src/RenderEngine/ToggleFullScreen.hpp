@@ -10,13 +10,13 @@
 #include "EventHandler.hpp"
 #include "WindowInfoComponent.hpp"
 
-namespace RenderEngine {
-    class ToggleFullScreen : public GameEngine::ISystem {
+namespace GameEngine {
+    class ToggleFullScreen : public ISystem {
     public:
         ToggleFullScreen() = default;
         ~ToggleFullScreen() = default;
 
-        void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) override;
+        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
 
     private:
     };
