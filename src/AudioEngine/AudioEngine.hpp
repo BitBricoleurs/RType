@@ -15,8 +15,8 @@
 #include <unordered_map>
 #include "AudioComponent.hpp"
 #include "Vect3.hpp"
-#include "OpenAL/al.h"
-#include "OpenAL/alc.h"
+#include "al.h"
+#include "alc.h"
 
 namespace AudioEngine {
     class AudioEngine {
