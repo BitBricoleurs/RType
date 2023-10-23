@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME_HUNTER}
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/DetectLifeLost.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/GameOver.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Systems/StartNewGame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Systems/CurveDown.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )

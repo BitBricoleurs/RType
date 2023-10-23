@@ -34,6 +34,7 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
     if (deathAnim->currentFrameIndex == deathAnim->frames) {
       componentsContainer.deleteEntity(entityID);
       eventHandler.unscheduleEvent("animateDeath", entityID);
+      eventHandler.unscheduleEvent("curveDown", entityID);
       return;
     }
     deathAnim->currentFrame =

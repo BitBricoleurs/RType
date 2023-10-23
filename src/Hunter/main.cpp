@@ -22,6 +22,7 @@
 #include "SpriteComponent.hpp"
 #include "StartNewGame.hpp"
 #include "SyncPosSprite.hpp"
+#include "Systems/CurveDown.hpp"
 #include "ToggleFullScreen.hpp"
 #include "UpdateScore.hpp"
 #include "Utils.hpp"
@@ -129,6 +130,7 @@ int main(int ac, char **av) {
   auto gameOver = std::make_shared<GameOver>();
   auto startNewGame = std::make_shared<StartNewGame>();
   auto detectLifeLost = std::make_shared<DetectLifeLost>();
+  auto curveDown = std::make_shared<CurveDown>();
 
   engine.addEvent("PLAY_SOUND", audioSys);
   engine.scheduleEvent("UPDATE_SOUNDS", 1);
@@ -150,6 +152,7 @@ int main(int ac, char **av) {
   engine.addEvent("gameOver", gameOver);
   engine.addEvent("startNewGame", startNewGame);
   engine.addSystem("detectLifeLost", detectLifeLost);
+  engine.addEvent("curveDown", curveDown);
 
   engine.run();
   return 0;
