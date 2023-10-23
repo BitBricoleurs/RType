@@ -33,7 +33,7 @@ namespace Network {
 
     public:
 
-        Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args);
+        Message(const std::string &action, std::vector<size_t> IDs, const std::string &typeArg, std::vector<std::any> args, bool secure = false);
         Message(std::vector<std::uint8_t> &message);
         ~Message() override = default;
 
@@ -46,7 +46,7 @@ namespace Network {
         std::vector<size_t> &getIDs() {return _IDs;};
         std::vector<std::any> &getArgs() {return _args;};
         uint16_t &getMessageSize() {return _messageSize;};
-
+        bool isMessageSecure() {return AMessage::isSecure();};
     private:
         static std::string getActionByCode(uint8_t code);
 

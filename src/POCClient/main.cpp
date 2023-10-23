@@ -112,7 +112,6 @@ void setup_game(GameEngine::GameEngine& engine)
 
     engine.scheduleEvent("UPDATE_SOUNDS", 1);
     engine.addEvent("UPDATE_SOUNDS", audioSys);
-
     engine.queueEvent("InitParallax");
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);

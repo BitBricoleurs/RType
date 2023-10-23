@@ -57,7 +57,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
-    //engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
+    engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
     engine.addEvent("SHOOT", shoot);
