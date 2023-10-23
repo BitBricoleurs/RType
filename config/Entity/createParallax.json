@@ -1,0 +1,44 @@
+{
+    "types": [
+        {
+            "type": 0,
+            "path": "assets/background_1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "layer" : 1,
+            "isLooping": true
+        },
+        {
+            "type": 1,
+            "path": "assets/background_2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "layer" : 2,
+            "isLooping": true
+        }
+    ]
+}

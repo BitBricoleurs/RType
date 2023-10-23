@@ -28,10 +28,12 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto parallaxType = GameEngine::ComponentsType::getComponentType("IsParallax");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto parallax = componentsContainer.getEntitiesWithComponent(parallaxType);
 
         auto mobTypeCompCancer = GameEngine::ComponentsType::getComponentType("Cancer");
         auto mobTypeCompPataPata = GameEngine::ComponentsType::getComponentType("PataPata");
@@ -92,6 +94,21 @@ namespace Server {
             ids.clear();
             args.clear();
         }
+
+        // Creating Parallax
+        for (auto &para : parallax) {
+            if (!componentsContainer.getComponent(para, parallaxType).has_value())
+                continue;
+            auto compIsParallax = std::static_pointer_cast<IsParallax>(componentsContainer.getComponent(para, parallaxType).value());
+            args.push_back(static_cast<int>(compIsParallax->type));
+            ids.push_back(para);
+            message = std::make_shared<Network::Message>("CREATE_PARALLAX", ids, "INT", args);
+            userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            ids.clear();
+            args.clear();
+        }
+
         eventHandler.queueEvent("UPDATE_WORLD");
     }
 }

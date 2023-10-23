@@ -159,7 +159,8 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"UPDATE_POSITION", 0x09},
     {"MOVE", 0x10},
     {"CHARGE_SHOOT", 0x11},
-    {"DELETED_ENTITY", 0x12}
+    {"CREATE_PARALLAX", 0x12},
+    {"DELETED_ENTITY", 0x13},
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

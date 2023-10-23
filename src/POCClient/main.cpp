@@ -10,7 +10,6 @@
 #include "Endpoint.hpp"
 #include "GameEngine.hpp"
 #include "InitHUD.hpp"
-#include "InitParallax.hpp"
 #include "KillEntity.hpp"
 #include "NetworkConnect.hpp"
 #include "NetworkDeleteEntity.hpp"
@@ -20,8 +19,6 @@
 #include "NetworkReceiveDisconnectApply.hpp"
 #include "NetworkServerAccept.hpp"
 #include "NetworkServerTimeout.hpp"
-#include "Parallax.hpp"
-#include "ParallaxPlanet.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
@@ -33,6 +30,7 @@
 #include "CollisionHandler.hpp"
 #include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "CreateParallax.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -46,6 +44,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createMob = std::make_shared<Client::CreateMob>();
     auto createBullet = std::make_shared<Client::CreateBullet>();
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
+    auto parallax = std::make_shared<Client::CreateParallax>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -57,6 +56,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
+    engine.addEvent("CREATE_PARALLAX", parallax);
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
 }
@@ -100,9 +100,6 @@ void setup_hud(GameEngine::GameEngine &engine) {
 
 void setup_game(GameEngine::GameEngine& engine)
 {
-    auto initParallax = std::make_shared<Client::InitParallax>();
-    auto parallax = std::make_shared<Client::Parallax>();
-    auto parallaxPlanet = std::make_shared<Client::ParallaxPlanet>();
     auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
     auto collisionHandler = std::make_shared<Client::CollisionHandler>();
     auto MobHit1 = std::make_shared<Client::MobHit>();
@@ -116,9 +113,6 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.scheduleEvent("UPDATE_SOUNDS", 1);
     engine.addEvent("UPDATE_SOUNDS", audioSys);
 
-    engine.addSystem("ParallaxSystem", parallax);
-    engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
-    engine.addEvent("InitParallax", initParallax);
     engine.queueEvent("InitParallax");
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);

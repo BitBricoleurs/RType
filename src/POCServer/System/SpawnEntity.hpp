@@ -2,12 +2,13 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** SpawnMob
+** SpawnEntity
 */
 
 #pragma once
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
+#include "LoadConfig.hpp"
 #include "ISystem.hpp"
 #include <iostream>
 #include <filesystem>
@@ -16,9 +17,9 @@
 
 namespace Server {
 
-    class SpawnMob : public GameEngine::ISystem {
+    class SpawnEntity : public GameEngine::ISystem {
         public:
-        explicit SpawnMob(std::string path);
+        explicit SpawnEntity(std::string path);
 
         void changeLevel();
 

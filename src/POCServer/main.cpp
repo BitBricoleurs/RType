@@ -13,7 +13,7 @@
 #include "NetworkCreateWorld.hpp"
 #include "NetworkUpdateWorld.hpp"
 #include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
+#include "SpawnEntity.hpp"
 #include "CheckPositionClient.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
@@ -26,6 +26,7 @@
 #include "MobHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "Parallax.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -71,10 +72,12 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    std::string path = "config/map";
-    auto spawnMob = std::make_shared<Server::SpawnMob>(path);
-    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    auto Parallax = std::make_shared<Server::Parallax>();
 
+    auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
+
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addSystem("PARALLAX", Parallax, 2);
     engine.addEvent("PlayerHit", PlayerHit1);
     engine.addEvent("MobHit", MobHit1);
     engine.addEvent("PlayerHitMob", PlayerHitMob1);

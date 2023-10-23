@@ -8,7 +8,7 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkCreateWorld.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMoveClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Shoot.cpp
@@ -18,5 +18,6 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
         CACHE INTERNAL ""
 )

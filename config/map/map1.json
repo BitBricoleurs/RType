@@ -1,4 +1,30 @@
 {
+    "parallax" : [
+        {
+            "tick": 1,
+            "type": 0,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "tick": 1,
+            "type": 0,
+            "position": {
+                "x": 1920,
+                "y": 0
+            }
+        },
+        {
+            "tick": 60,
+            "type": 1,
+            "position": {
+                "x": 1920,
+                "y": 400
+            }
+        }
+    ],
     "mobs": [
         {
             "tick": 13,
