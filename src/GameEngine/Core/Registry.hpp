@@ -12,6 +12,7 @@
 #include <map>
 #include <functional>
 #include <memory>
+#include <future>
 
 #include "ComponentContainer.hpp"
 #include "IComponent.hpp"
