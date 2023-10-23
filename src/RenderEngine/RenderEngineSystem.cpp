@@ -7,6 +7,9 @@
 
 #include "RenderEngineSystem.hpp"
 #include <algorithm>
+#include <iostream>
+#include <map>
+#include <variant>
 
 namespace RenderEngine {
 
@@ -31,22 +34,22 @@ namespace RenderEngine {
           componentsContainer.getComponents(
               GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
-      std::vector<std::shared_ptr<ButtonComponent>> sortedButtonComponents;
+      std::vector<ButtonComponent> sortedButtonComponents;
 
       for (const auto &component : buttonComponents) {
         if (component.has_value()) {
           auto button = std::dynamic_pointer_cast<ButtonComponent>(component.value());
-            sortedButtonComponents.push_back(button);
+            sortedButtonComponents.push_back(*button);
         }
         }
 
-      std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
-        [](const std::shared_ptr<ButtonComponent> &a, const std::shared_ptr<ButtonComponent> &b) {
-            if(a->layer == b->layer) {
-                return a->pos.x < b->pos.x;
-            }
-            return a->layer < b->layer;
-        });
+        std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
+            [](const ButtonComponent &a, const ButtonComponent &b) {
+                if(a.layer == b.layer) {
+                    return a.pos.x < b.pos.x;
+                }
+                return a.layer < b.layer;
+            });
 
       renderEngine->PollEvents(eventHandler, sortedButtonComponents);
 
@@ -92,17 +95,26 @@ namespace RenderEngine {
 
       BeginDrawing();
 
-      for (const auto &component : sortedSpriteComponents) {
-        renderEngine->Draw(component);
-      }
+    std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
-      for (const auto &component : sortedTextComponents) {
-        renderEngine->Draw(component);
-      }
+        for (const auto &sprite : sortedSpriteComponents) {
+            drawMap.emplace(sprite.layer, sprite);
+        }
 
-      for (const auto &component : sortedButtonComponents) {
-        renderEngine->Draw(*component);
-      }
+        for (const auto &text : sortedTextComponents) {
+            drawMap.emplace(text.layer, text);
+        }
+
+        for (const auto &button : sortedButtonComponents) {
+            drawMap.emplace(button.layer, button);
+        }
+
+        for (const auto &[layer, component] : drawMap) {
+            std::visit([this](auto&& arg) {
+                renderEngine->Draw(arg);
+            }, component);
+        }
+
 
 
 

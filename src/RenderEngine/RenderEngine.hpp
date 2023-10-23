@@ -30,7 +30,7 @@ namespace RenderEngine {
       void Draw(const SpriteComponent &spriteComponent);
       void Draw(const ButtonComponent &buttonComponent);
       void PollEvents(GameEngine::EventHandler &eventHandler,
-                      std::vector<std::shared_ptr<ButtonComponent>> buttons);
+                      std::vector<ButtonComponent> buttons);
       static void Shutdown();
       static void ClearBackgroundRender(Color color);
 

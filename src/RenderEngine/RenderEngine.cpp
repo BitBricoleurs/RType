@@ -97,7 +97,7 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons) {
+    void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<ButtonComponent> buttons) {
         for (const auto& mapping : keyMappings) {
             if (mapping.checkFunction(mapping.key)) {
                 eventHandler.queueEvent(mapping.eventName);
@@ -109,18 +109,18 @@ namespace RenderEngine {
         mousePos.x = mousePosition.x;
         mousePos.y = mousePosition.y;
 
-        for (const auto& button : buttons) {
-            bool isHovering = (mousePosition.x >= button->pos.x && mousePosition.x <= button->pos.x + button->rect1.w * button->scale) &&
-                    (mousePosition.y >= button->pos.y && mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
+        for (auto& button : buttons) {
+            bool isHovering = (mousePosition.x >= button.pos.x && mousePosition.x <= button.pos.x + button.rect1.w * button.scale) &&
+                    (mousePosition.y >= button.pos.y && mousePosition.y <= button.pos.y + button.rect1.h * button.scale);
 
-            if (isHovering && button->state != ButtonComponent::HOVER && !button->hoverEvent.empty()) {
-                button->state = ButtonComponent::HOVER;
-                eventHandler.queueEvent(button->hoverEvent);
-            } else if (!isHovering && button->state == ButtonComponent::HOVER) {
-                button->state = ButtonComponent::NORMAL;
+            if (isHovering && button.state != ButtonComponent::HOVER && !button.hoverEvent.empty()) {
+                button.state = ButtonComponent::HOVER;
+                eventHandler.queueEvent(button.hoverEvent);
+            } else if (!isHovering && button.state == ButtonComponent::HOVER) {
+                button.state = ButtonComponent::NORMAL;
             }
             if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                eventHandler.queueEvent(button->clickEvent);
+                eventHandler.queueEvent(button.clickEvent);
             }
         }
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))

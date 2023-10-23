@@ -6,6 +6,7 @@
 
 #include "ISystem.hpp"
 #include "ComponentsType.hpp"
+#include "LoadConfig.hpp"
 
 
 namespace RenderEngine {

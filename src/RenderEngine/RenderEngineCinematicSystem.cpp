@@ -16,6 +16,7 @@ namespace RenderEngine {
 
         void RenderEngineCinematicSystem::loadJSON(const std::string &path, GameEngine::ComponentsContainer &componentsContainer) {
         std::ifstream file(path);
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig(path);
         if (!file.is_open()) {
             return;
         }
