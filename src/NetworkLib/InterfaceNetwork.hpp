@@ -5,6 +5,8 @@
 #pragma once
 
 #include <optional>
+#include <mutex>
+#include <chrono>
 #include "PacketIO.hpp"
 
 namespace Network {
@@ -28,6 +30,8 @@ namespace Network {
 
         void send(const std::shared_ptr<IMessage>& message);
 
+        std::chrono::steady_clock::time_point getLastPacketTime() const { return _lastPacketReceived; }
+        void updateLastPacketTime() { _lastPacketReceived = std::chrono::steady_clock::now(); }
 
         boost::asio::ip::udp::endpoint &getEndpoint();
         void setEndpoint(const boost::asio::ip::udp::endpoint &endpoint);
@@ -52,6 +56,7 @@ namespace Network {
 
             Network::Tick &_tick;
             std::shared_ptr<Network::PacketIO> _packetIO;
-
+            std::mutex _packetReceived;
+            std::chrono::steady_clock::time_point _lastPacketReceived = std::chrono::steady_clock::now();
     };
 };

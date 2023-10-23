@@ -24,6 +24,11 @@ void Network::Tick::setOutgoingFunction(std::function<void()> outFunc)
     processOutgoing = std::move(outFunc);
 }
 
+void Network::Tick::setTimeoutFunction(std::function<void()> timeoutFunc)
+{
+    processTimeout = std::move(timeoutFunc);
+}
+
 void Network::Tick::Start()
 {
     while (_running.load()) {
@@ -48,6 +53,9 @@ void Network::Tick::Start()
         }
         if (processOutgoing) {
             processOutgoing();
+        }
+        if (processTimeout) {
+            processTimeout();
         }
     }
 }

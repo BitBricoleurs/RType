@@ -53,7 +53,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ACCEPTED", networkAccept);
     engine.addEvent("gameEngineStop", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
+    engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
