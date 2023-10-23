@@ -9,7 +9,7 @@
 #include <optional>
 #include <vector>
 #include <memory>
-
+#include <mutex>
 #include "IComponent.hpp"
 
 namespace GameEngine {
