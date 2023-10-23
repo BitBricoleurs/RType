@@ -34,8 +34,14 @@ namespace AudioEngine {
                 const auto audioComp = std::dynamic_pointer_cast<AudioComponent>(component.value());
                 audioEngine->Stop(*audioComp);
             }
-        } else if (triggeredEvent.first == "UPDATE_SOUNDS") {
-            audioEngine->Update();
+        } else if (triggeredEvent.first == "STOP_SOUND") {
+            auto [entityID, soundPos, listenerPos] = std::any_cast<std::tuple<size_t, Utils::Vect3, Utils::Vect3>>(triggeredEvent.second);
+            auto component = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("AudioComponent"));
+
+            if (component) {
+                const auto audioComp = std::dynamic_pointer_cast<AudioComponent>(component.value());
+                audioEngine->Play(*audioComp, soundPos, listenerPos);
+            }
         }
     }
 
