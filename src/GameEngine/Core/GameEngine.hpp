@@ -30,8 +30,8 @@ namespace GameEngine {
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
         void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1);
 
-        void bindSceneInitiation(const std::string& sceneName, std::function<void(Registry&)> sceneInitiation);
-        void changeScene(const std::string& sceneName);
+        void bindSceneInitiation(const std::string& sceneName, std::function<void(GameEngine&)> sceneInitiation);
+        void changeScene(const std::any& sceneName);
 
         void setTickSpeed(double newTickSpeed);
         void scheduleEvent(const std::string& eventName, size_t interval, const std::any& eventData = {}, size_t repeat = 0);
@@ -55,6 +55,7 @@ namespace GameEngine {
 
         Registry registry;
         EventHandler eventHandler;
+        std::unordered_map<std::string, std::function<void(GameEngine&)>> sceneMap;
         double tickSpeed;
         bool isRunning;
     };
