@@ -10,6 +10,7 @@
 #include "UserMessage.hpp"
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
+#include "Shooter.hpp"
 
 namespace Server {
 

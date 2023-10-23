@@ -25,8 +25,11 @@ namespace GameEngine {
         EventHandler();
         ~EventHandler();
 
+        void clear();
+
         void addEvent(const std::string& eventName, std::shared_ptr<GameEngine::ISystem> system);
         void addEvent(const std::string& eventName, std::function<void()> function);
+        void addEvent(const std::string& eventName, std::function<void(const std::any&)> function);
         void addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems);
         void queueEvent(const std::string& eventName, const std::any& eventData = {});
         void processEventQueue(ComponentsContainer& componentsContainer);
@@ -42,6 +45,7 @@ namespace GameEngine {
     private:
         std::unordered_map<std::string, std::vector<std::shared_ptr<ISystem>>> eventMap;
         std::unordered_map<std::string, std::function<void()>> eventFunctionMap;
+        std::unordered_map<std::string, std::function<void(const std::any&)>> eventFunctionMapWithAny;
         std::map<std::string, std::pair<std::string, std::any>> continuousEvents;
         std::set<std::string> activeContinuousEvents;
         std::queue<std::pair<std::string, std::any>> eventQueue;

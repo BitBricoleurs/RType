@@ -20,10 +20,10 @@ namespace Server {
         componentsContainer.bindComponentToEntity(entityId, netComp);
         std::vector<size_t> ids = {entityId};
         std::vector<std::any> args = {static_cast<int>(nbr)};
-        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "INT", args);
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "INT", args, true);
         std::shared_ptr<Network::NotUserMessage> notMessage = std::make_shared<Network::NotUserMessage>(netInterfaceId, message);
         eventHandler.queueEvent("SEND_NETWORK", notMessage);
-        std::shared_ptr<Network::Message> message2 = std::make_shared<Network::Message>("ACCEPTED", ids, "INT", args);
+        std::shared_ptr<Network::Message> message2 = std::make_shared<Network::Message>("ACCEPTED", ids, "INT", args, true);
         std::shared_ptr<Network::UserMessage> userMessage = std::make_shared<Network::UserMessage>(netInterfaceId, message2);
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         eventHandler.queueEvent("CREATE_WORLD", entityId);

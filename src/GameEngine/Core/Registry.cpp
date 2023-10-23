@@ -4,23 +4,15 @@ namespace GameEngine {
     Registry::Registry() = default;
     Registry::~Registry() = default;
 
+    void Registry::clear() {
+        componentsContainer.clear();
+        systemMap.clear();
+        systemOrder.clear();
+        systemsNeedSorting = false;
+    }
+
     const ComponentsContainer& Registry::getComponentsContainer() const {
         return componentsContainer;
-    }
-
-    void Registry::bindSceneInitiation(const std::string& sceneName, std::function<void(Registry&)> sceneInitiation) {
-        sceneMap[sceneName] = sceneInitiation;
-    }
-
-    void Registry::changeScene(const std::string &sceneName) {
-        componentsContainer.clear();
-
-        auto it = sceneMap.find(sceneName);
-        if (it != sceneMap.end()) {
-            it->second(*this);
-        } else {
-            std::cerr << "Error: Scene '" << sceneName << "' not found!" << std::endl; // NE PAS OUBLIER LES CUSTOMS ERROS
-        }
     }
 
     std::vector<std::optional<std::shared_ptr<IComponent>>> Registry::getComponents(size_t componentType) {
@@ -80,9 +72,24 @@ namespace GameEngine {
             systemsNeedSorting = false;
         }
 
-        for (auto &name : systemOrder) {
-            std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
-            systemPair.first->update(componentsContainer, eventHandler);
+        const int numThreads = std::thread::hardware_concurrency();
+        std::vector<std::future<void>> futures;
+        for (int i = 0; i < numThreads; ++i) {
+            futures.push_back(std::async(std::launch::async, [&] {
+                const int chunkSize = systemOrder.size() / numThreads;
+                const int startIdx = i * chunkSize;
+                const int endIdx = (i == numThreads - 1) ? systemOrder.size() : startIdx + chunkSize;
+
+                for (int j = startIdx; j < endIdx; ++j) {
+                    auto& name = systemOrder[j];
+                    std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
+                    systemPair.first->update(componentsContainer, eventHandler);
+                }
+            }));
+        }
+
+        for (auto &f : futures) {
+            f.get();
         }
         eventHandler.processEventQueue(componentsContainer);
     }

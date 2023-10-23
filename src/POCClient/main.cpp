@@ -113,9 +113,6 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("Init", initAudio);
     engine.queueEvent("Init");
 
-    engine.scheduleEvent("UPDATE_SOUNDS", 1);
-    engine.addEvent("UPDATE_SOUNDS", audioSys);
-
     engine.addSystem("ParallaxSystem", parallax);
     engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
     engine.addEvent("InitParallax", initParallax);

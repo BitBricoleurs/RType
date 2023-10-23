@@ -8,6 +8,8 @@
 #include <deque>
 #include <mutex>
 #include <condition_variable>
+#include <algorithm>
+#include <functional>
 
 namespace Network {
 
@@ -17,7 +19,6 @@ namespace Network {
         TSQueue()
       : muxQueue()
       {
-            std::cout << "TSQueue created" << std::endl;
         }
 
         TSQueue(const TSQueue<T> &) = delete;
@@ -82,6 +83,15 @@ namespace Network {
 
         void unlock () {
             muxQueue.unlock();
+        }
+
+        std::size_t getMaxSize() {
+            return deqQueue.max_size();
+        }
+
+        void sortQueue(std::function<bool(const T&, const T&)> compFunc) {
+            std::scoped_lock lock(muxQueue);
+            std::sort(deqQueue.begin(), deqQueue.end(), compFunc);
         }
 
     private:
