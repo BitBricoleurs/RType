@@ -107,3 +107,35 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
   return 0;
 }
 } // namespace Server
+
+// size_t
+// EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
+//                                   GameEngine::EventHandler &eventHandler,
+//                                   GameEngine::Vect2 pos,
+//                                   GameEngine::Vect2 velocity) {
+//   size_t entityId = createBossMob(container, "assets/bellmite-core.png", 64,
+//   64,
+//                                   1, false, false, "assets/boss-explode.png",
+//                                   64, 320, 5, pos, velocity, 100, 10,
+//                                   1, 2.0f);
+//   auto bossCore = std::make_shared<isBossCore>();
+//   container.bindComponentToEntity(entityId, bossCore);
+//   container.unbindComponentFromEntity(
+//       entityId, GameEngine::ComponentsType::getComponentType("Health"));
+//   return entityId;
+// }
+
+// size_t
+// EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
+//                                  GameEngine::EventHandler &eventHandler,
+//                                  GameEngine::Vect2 pos,
+//                                  GameEngine::Vect2 velocity) {
+//   size_t entityId = createBossMob(
+//       container, "assets/bellmite-entities.png", 29, 124, 4, false, false,
+//       "assets/explode-mob.gif", 33, 200, 6, pos, velocity, 100, 50, 1, 3.0f);
+//   auto bossPod = std::make_shared<isBossPod>();
+//   container.bindComponentToEntity(entityId, bossPod);
+//   eventHandler.scheduleEvent("animate", 8,
+//                              std::make_tuple(std::string("Pods"), entityId));
+//   return entityId;
+// }
