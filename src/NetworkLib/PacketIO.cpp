@@ -142,6 +142,7 @@ void Network::PacketIO::processOutgoingMessages()
 {
     boost::asio::post(_context, [this]() {
             uint16_t size = 0;
+            bool isPacketSecure = false;
             if (!_outMessages || _outMessages->empty()) {
                 return;
             }
@@ -153,6 +154,8 @@ void Network::PacketIO::processOutgoingMessages()
                 _outMessages->popFront();
                 _bodyOut.addData( message->getMessage() );
                 size+= message->getSize();
+                if (message->isSecure())
+                    isPacketSecure = true;
             }
             _packetOut = std::make_shared<Network::Packet>();
             _packetOut->header.bodySize= size;
@@ -162,7 +165,7 @@ void Network::PacketIO::processOutgoingMessages()
             }
             _packetOut->header.ackMask= _registerPacket.getAckMask(_id);
             _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
-            _registerPacket.registerSentPacket(_id, _packetOut);
+            _registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
 
             _packetOut->body= _bodyOut.getData();
             if (_packetOut->header.bodySize > 0) {
