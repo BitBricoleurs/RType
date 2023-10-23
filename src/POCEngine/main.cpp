@@ -53,15 +53,8 @@
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
 
-int main() {
-  GameEngine::GameEngine engine;
-  engine.bindSceneInitiation("Scene1", initScene);
 
-  return 0;
-}
-
-
-void initScene(GameEngine::Registry &engine) {
+void initScene(GameEngine::GameEngine &engine) {
     auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
@@ -216,17 +209,7 @@ Utils::Vect2 pos;
 
     engine.unscheduleEvent("UpdateScore", 100);
 
-  auto backgroundMusic = std::make_shared<AudioEngine::AudioComponent>("assets/music/RTYPE.wav", true);
-  auto backgroundMusicEntity = engine.createEntity();
 
-  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
-
-  engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
-  engine.addEvent("PLAY_SOUND", audioSys);
-  engine.queueEvent("PLAY_SOUND", backgroundMusicEntity);
-
-  engine.scheduleEvent("UPDATE_SOUNDS", 1);
-  engine.addEvent("UPDATE_SOUNDS", audioSys);
   //   GameEngineUtils::Vect2 pos;
   //   pos.x = 100;
   //   pos.y = 100;
@@ -287,6 +270,17 @@ Utils::Vect2 pos;
   auto collisionHandler = std::make_shared<CollisionHandler>();
 
   engine.addEvent("Collision", collisionHandler);
-
-  engine.run();
 }
+
+
+int main() {
+  GameEngine::GameEngine engine;
+  engine.bindSceneInitiation("Scene1", initScene);
+  std::string sceneName = "Scene1";
+  engine.queueEvent("gameEngineChangeScene", sceneName);
+  engine.run();
+
+  return 0;
+}
+
+

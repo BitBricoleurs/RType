@@ -8,7 +8,7 @@ namespace GameEngine {
         componentsContainer.clear();
         systemMap.clear();
         systemOrder.clear();
-        systemsNeedSorting = false;
+        systemsNeedSorting = true;
     }
 
     const ComponentsContainer& Registry::getComponentsContainer() const {
@@ -57,7 +57,7 @@ namespace GameEngine {
         systemMap.erase(systemName);
     }
 
-    void Registry::updateSystems(EventHandler& eventHandler) {
+        void Registry::updateSystems(EventHandler& eventHandler) {
         if (systemsNeedSorting) {
             std::vector<std::pair<std::string, std::pair<std::shared_ptr<ISystem>, int>>> sortedSystems(systemMap.begin(), systemMap.end());
             std::sort(sortedSystems.begin(), sortedSystems.end(), [](const auto& a, const auto& b) {
@@ -72,24 +72,9 @@ namespace GameEngine {
             systemsNeedSorting = false;
         }
 
-        const int numThreads = std::thread::hardware_concurrency();
-        std::vector<std::future<void>> futures;
-        for (int i = 0; i < numThreads; ++i) {
-            futures.push_back(std::async(std::launch::async, [&] {
-                const int chunkSize = systemOrder.size() / numThreads;
-                const int startIdx = i * chunkSize;
-                const int endIdx = (i == numThreads - 1) ? systemOrder.size() : startIdx + chunkSize;
-
-                for (int j = startIdx; j < endIdx; ++j) {
-                    auto& name = systemOrder[j];
-                    std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
-                    systemPair.first->update(componentsContainer, eventHandler);
-                }
-            }));
-        }
-
-        for (auto &f : futures) {
-            f.get();
+        for (auto &name : systemOrder) {
+            std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
+            systemPair.first->update(componentsContainer, eventHandler);
         }
         eventHandler.processEventQueue(componentsContainer);
     }

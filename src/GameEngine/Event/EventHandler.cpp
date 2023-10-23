@@ -95,7 +95,9 @@ namespace GameEngine {
         while (!eventQueue.empty()) {
             auto[eventName, eventData] = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
-            eventQueue.pop();
+            if (eventName != "gameEngineChangeScene") {
+                eventQueue.pop();
+                }
         }
 
         for (const auto& eventName : activeContinuousEvents) {

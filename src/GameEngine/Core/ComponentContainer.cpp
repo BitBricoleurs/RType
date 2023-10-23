@@ -138,7 +138,9 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
         for (auto& componentTypePair : componentsContainer) {
             componentTypePair.second.clear();
         }
+        componentsContainer.clear();
         freeMemorySlots.clear();
+        maxEntityID = 1;
     }
 
 }
