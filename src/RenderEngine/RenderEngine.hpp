@@ -59,7 +59,7 @@ namespace RenderEngine {
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
         {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_F11, IsKeyPressed, "toggleFullScreen"}
+        {KEY_F11, IsKeyPressed, "toggleFullScreen"},
     };
 
     static bool fileExists(const std::string& path);

@@ -1,6 +1,8 @@
 //
-// Created by Clément Lagasse on 08/10/2023.
+// Created by Clément Lagasse on 23/10/2023.
 //
+
+#pragma once
 
 #pragma once
 
@@ -14,13 +16,12 @@
 
 namespace Client {
 
-    class NetworkServerAccept : public GameEngine::ISystem {
+    class NetworkReceiveStartGame : public GameEngine::ISystem {
         public:
-            NetworkServerAccept() = default;
+            NetworkReceiveStartGame() = default;
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
         private:
 
     };
-
 }
