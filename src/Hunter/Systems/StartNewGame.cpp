@@ -11,6 +11,11 @@ void StartNewGame::update(GameEngine::ComponentsContainer &componentsContainer,
                           GameEngine::EventHandler &eventHandler) {
   eventHandler.scheduleEvent("spawnBird", 120);
 
+  size_t entityID =
+      std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
+
+  componentsContainer.deleteEntity(entityID);
+
   auto scoreId = componentsContainer.getEntityWithUniqueComponent(
       GameEngine::ComponentsType::getComponentType("Score"));
   auto scoreOpt = componentsContainer.getComponent(
