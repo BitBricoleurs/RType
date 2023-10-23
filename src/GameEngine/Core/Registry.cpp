@@ -72,9 +72,24 @@ namespace GameEngine {
             systemsNeedSorting = false;
         }
 
-        for (auto &name : systemOrder) {
-            std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
-            systemPair.first->update(componentsContainer, eventHandler);
+        const int numThreads = std::thread::hardware_concurrency();
+        std::vector<std::future<void>> futures;
+        for (int i = 0; i < numThreads; ++i) {
+            futures.push_back(std::async(std::launch::async, [&] {
+                const int chunkSize = systemOrder.size() / numThreads;
+                const int startIdx = i * chunkSize;
+                const int endIdx = (i == numThreads - 1) ? systemOrder.size() : startIdx + chunkSize;
+
+                for (int j = startIdx; j < endIdx; ++j) {
+                    auto& name = systemOrder[j];
+                    std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
+                    systemPair.first->update(componentsContainer, eventHandler);
+                }
+            }));
+        }
+
+        for (auto &f : futures) {
+            f.get();
         }
         eventHandler.processEventQueue(componentsContainer);
     }
