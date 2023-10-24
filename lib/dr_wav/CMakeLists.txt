@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(DR_WAV_DOWNLOAD_DIR "${CMAKE_BINARY_DIR}/_deps/dr_wav")
-set(DR_WAV_HEADER "${DR_WAV_DOWNLOAD_DIR}/dr_wav.h")
+include(FetchContent)
 
-if(NOT EXISTS ${DR_WAV_HEADER})
-    file(DOWNLOAD "https://raw.githubusercontent.com/mackron/dr_libs/master/dr_wav.h"
-            ${DR_WAV_HEADER}
-            SHOW_PROGRESS)
-endif()
+FetchContent_Declare(
+        dr_wav
+        URL https://github.com/HarryTheoBartAlexClemDev/RType/releases/download/v0.0.0/dr_wav.tar.xz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
 
-add_library(dr_wav INTERFACE)
-target_include_directories(dr_wav INTERFACE ${DR_WAV_DOWNLOAD_DIR})
+FetchContent_MakeAvailable(dr_wav)
