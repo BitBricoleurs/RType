@@ -5,8 +5,8 @@
 #include "Server.hpp"
 #include "GameEngine.hpp"
 #include "NetworkClientConnection.hpp"
-#include "NetworkClientRequestDisconnect.hpp"
 #include "NetworkClientDisconnecting.hpp"
+#include "NetworkClientTimeout.hpp"
 #include "NetworkStartServer.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkOutput.hpp"
@@ -18,7 +18,6 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
 #include "Shoot.hpp"
-#include "NetworkClientDisconnecting.hpp"
 #include "OutOfBounds.hpp"
 #include "IndentifyOutOfBounds.hpp"
 #include "CollisionHandler.hpp"
@@ -34,6 +33,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto input = std::make_shared<NetworkInput>(queue);
     auto output = std::make_shared<NetworkOutput>(NetworkOutput::SERVER);
     auto disconnecting = std::make_shared<Server::NetworkClientDisconnecting>();
+    auto timeout = std::make_shared<Server::NetworkClientTimeout>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -41,6 +41,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addEvent("SEND_NETWORK", output);
     engine.addEvent("DISCONNECTING", disconnecting);
     engine.queueEvent("NETWORK_START_SERVER", std::make_any<size_t>(0));
+    engine.addSystem("NETWORK_TIMEOUT", timeout);
 }
 
 void setup_sync_systems(GameEngine::GameEngine &engine)
