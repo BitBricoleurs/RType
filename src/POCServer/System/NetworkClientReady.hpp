@@ -1,26 +1,27 @@
 //
-// Created by Clément Lagasse on 08/10/2023.
+// Created by Clément Lagasse on 23/10/2023.
 //
 
 #pragma once
 
-#include "UserMessage.hpp"
-#include "Message.hpp"
+#include "IsReady.hpp"
+#include "NetworkClientId.hpp"
+#include "Server.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
-#include "IsPlayer.hpp"
+#include "Message.hpp"
+#include "UserMessage.hpp"
 #include "EntityFactory.hpp"
-#include "GameState.hpp"
 
-namespace Client {
+namespace Server {
 
-    class NetworkServerAccept : public GameEngine::ISystem {
+    class NetworkClientReady : public GameEngine::ISystem {
         public:
-            NetworkServerAccept() = default;
+            NetworkClientReady() = default;
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
         private:
-
     };
 
 }
+
