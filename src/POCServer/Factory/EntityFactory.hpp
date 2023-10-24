@@ -137,15 +137,13 @@ private:
                                  Utils::Vect2 pos, Utils::Vect2 velocity,
                                  float scale);
 
-  size_t
-  EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
-                                    GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos);
+  size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                            GameEngine::EventHandler &eventHandler,
+                            Utils::Vect2 pos);
 
-  size_t
-  EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
-                                   GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos);
+  size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                           GameEngine::EventHandler &eventHandler,
+                           Utils::Vect2 pos);
 
   std::map<size_t, PlayerNumber> _playerMap;
 };
