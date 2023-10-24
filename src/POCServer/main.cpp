@@ -2,30 +2,31 @@
 // Created by Clément Lagasse on 06/10/2023.
 //
 
-#include "Server.hpp"
-#include "GameEngine.hpp"
-#include "NetworkClientConnection.hpp"
-#include "NetworkClientRequestDisconnect.hpp"
-#include "NetworkClientDisconnecting.hpp"
-#include "NetworkStartServer.hpp"
-#include "NetworkInput.hpp"
-#include "NetworkOutput.hpp"
-#include "NetworkCreateWorld.hpp"
-#include "NetworkUpdateWorld.hpp"
-#include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
+#include "BounceBoss.hpp"
 #include "CheckPositionClient.hpp"
-#include "PhysicsEngineMovementSystem2D.hpp"
-#include "NetworkShootClient.hpp"
-#include "Shoot.hpp"
-#include "NetworkClientDisconnecting.hpp"
-#include "OutOfBounds.hpp"
-#include "IndentifyOutOfBounds.hpp"
 #include "CollisionHandler.hpp"
-#include "PlayerHit.hpp"
+#include "GameEngine.hpp"
+#include "IndentifyOutOfBounds.hpp"
+#include "LaunchBossPods.hpp"
 #include "MobHit.hpp"
-#include "PlayerHitMob.hpp"
+#include "NetworkClientConnection.hpp"
+#include "NetworkClientDisconnecting.hpp"
+#include "NetworkClientRequestDisconnect.hpp"
+#include "NetworkCreateWorld.hpp"
+#include "NetworkInput.hpp"
+#include "NetworkMoveClient.hpp"
+#include "NetworkOutput.hpp"
+#include "NetworkShootClient.hpp"
+#include "NetworkStartServer.hpp"
+#include "NetworkUpdateWorld.hpp"
+#include "OutOfBounds.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "PhysicsEngineMovementSystem2D.hpp"
+#include "PlayerHit.hpp"
+#include "PlayerHitMob.hpp"
+#include "Server.hpp"
+#include "Shoot.hpp"
+#include "SpawnMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -73,6 +74,9 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
     std::string path = "config/map";
     auto spawnMob = std::make_shared<Server::SpawnMob>(path);
+    auto bounceBoss = std::make_shared<Server::BounceBoss>();
+    auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
+
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
 
     engine.addEvent("PlayerHit", PlayerHit1);
@@ -81,6 +85,9 @@ void setup_engine(GameEngine::GameEngine& engine)
 
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+
+    engine.addEvent("bounceBoss", bounceBoss);
+    engine.addEvent("launchBossPods", launchBossPods);
 }
 
 int main(void) {

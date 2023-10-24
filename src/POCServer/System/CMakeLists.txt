@@ -18,5 +18,8 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BounceBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LatchPodToBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LaunchBossPods.cpp
         CACHE INTERNAL ""
 )
