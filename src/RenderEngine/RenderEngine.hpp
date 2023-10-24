@@ -29,11 +29,12 @@ namespace RenderEngine {
       void Draw(const TextComponent &textComponent) const;
       void Draw(const SpriteComponent &spriteComponent);
       void Draw(const ButtonComponent &buttonComponent);
-      void PollEvents(GameEngine::EventHandler &eventHandler,
-                      std::vector<ButtonComponent> buttons);
-      static void Shutdown();
-      static void ClearBackgroundRender(Color color);
-
+      void PollEvents(
+          GameEngine::EventHandler &eventHandler,
+          std::vector<std::pair<size_t, ButtonComponent>>
+              buttons);
+      void Shutdown();
+      void ClearBackgroundRender(Color color);
       size_t getScreenWidth() const;
       size_t getScreenHeight() const;
 
@@ -59,7 +60,7 @@ namespace RenderEngine {
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
         {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_F11, IsKeyPressed, "toggleFullScreen"}
+        {KEY_F11, IsKeyPressed, "toggleFullScreen"},
     };
 
     static bool fileExists(const std::string& path);

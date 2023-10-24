@@ -7,15 +7,15 @@
 
 #pragma once
 
-
-#include "ISystem.hpp"
-#include "TextComponent.hpp"
-#include "SpriteComponent.hpp"
-#include "RenderEngine.hpp"
 #include "ComponentsType.hpp"
-#include <memory>
+#include "IComponent.hpp"
+#include "ISystem.hpp"
+#include "RenderEngine.hpp"
+#include "SpriteComponent.hpp"
+#include "TextComponent.hpp"
 #include "WindowInfoComponent.hpp"
 #include "GameEngine.hpp"
+#include <memory>
 
 namespace RenderEngine {
     class RenderEngineSystem : public GameEngine::ISystem {

@@ -6,13 +6,15 @@
 */
 
 #pragma once
-#include "ComponentsType.hpp"
-#include "EntityFactory.hpp"
-#include "ISystem.hpp"
+
 #include <iostream>
 #include <filesystem>
 #include <utility>
 #include <vector>
+#include "ComponentsType.hpp"
+#include "EntityFactory.hpp"
+#include "ISystem.hpp"
+#include "GameState.hpp"
 
 namespace Server {
 

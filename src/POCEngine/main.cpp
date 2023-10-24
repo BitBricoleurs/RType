@@ -93,7 +93,7 @@ void initScene(GameEngine::GameEngine &engine) {
   auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
-  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<RenderEngine::ToggleFullScreen>();

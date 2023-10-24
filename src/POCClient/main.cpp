@@ -33,6 +33,8 @@
 #include "CollisionHandler.hpp"
 #include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "NetworkReceiveStartGame.hpp"
+#include "NetworkSendReady.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -46,6 +48,8 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createMob = std::make_shared<Client::CreateMob>();
     auto createBullet = std::make_shared<Client::CreateBullet>();
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
+    auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
+    auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -53,12 +57,14 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ACCEPTED", networkAccept);
     engine.addEvent("gameEngineStop", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    engine.addEvent("NETWORK_SERVER_TIMEOUT", networkServerTimeout);
+    engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
+    engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
+    engine.addEvent("START_GAME", networkReceiveStartGame);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {
@@ -152,7 +158,7 @@ int main() {
       setup_game(engine);
       setup_hud(engine);
       setup_animations(engine);
-      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
       engine.addSystem("RENDER", render, 4);
       engine.run();
       return 0;
