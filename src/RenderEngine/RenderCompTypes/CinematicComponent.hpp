@@ -15,16 +15,20 @@ namespace RenderEngine {
     public:
         CinematicComponent(
             float playDuration = -1.0f,
-            Utils::Vect2 endPosition = Utils::Vect2()
+            Utils::Vect2 endPosition = Utils::Vect2(),
+            float inHowMuchTime = 0.0f
         ) :
             playDuration(playDuration),
-            endPosition(endPosition) {}
+            endPosition(endPosition),
+            inHowMuchTime(inHowMuchTime)
+            {}
 
         ~CinematicComponent() override = default;
 
         size_t getComponentType() override {
             return GameEngine::ComponentsType::getNewComponentType("CinematicComponent");
         }
+        float inHowMuchTime;
         float playDuration;
         Utils::Vect2 endPosition;
     };

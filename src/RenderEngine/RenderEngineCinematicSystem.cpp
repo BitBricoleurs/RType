@@ -80,6 +80,7 @@ namespace RenderEngine {
         }
 
         if (config.keyExists(basePath + "components/CinematicComponent")) {
+            float inHowMuchTime = config.getFloat(basePath + "components/CinematicComponent/inHowMuchTime");
             float playDuration = config.getFloat(basePath + "components/CinematicComponent/playDuration");
             float endPosX = config.getFloat(basePath + "components/CinematicComponent/endPosition/x");
             float endPosY = config.getFloat(basePath + "components/CinematicComponent/endPosition/y");
@@ -193,14 +194,13 @@ namespace RenderEngine {
                 componentsContainer.getComponent(entity, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D")).value()
             );
 
-            float completionRatio = clock / cinematicComponent->playDuration;
+            float elapsed = clock - cinematicComponent->inHowMuchTime;
+            float completionRatio = elapsed / cinematicComponent->playDuration;
 
-            if (completionRatio > 1.0f) {
-                completionRatio = 1.0f;
+            if (cinematicComponent->inHowMuchTime <= clock) {
+                Utils::Vect2 delta = cinematicComponent->endPosition - positionComponent->pos;
+                positionComponent->pos += delta * completionRatio;
             }
-
-            Utils::Vect2 delta = cinematicComponent->endPosition - positionComponent->pos;
-            positionComponent->pos += delta * completionRatio;
         }
     }
     auto eventsID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent"));

@@ -49,6 +49,7 @@
           },
           "CinematicComponent": {
             "playDuration": 5.0,
+            "inHowMuchTime": 2.0,
             "endPosition": {
               "x": 100.0,
               "y": 140.0
