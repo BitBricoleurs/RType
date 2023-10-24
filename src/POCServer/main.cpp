@@ -3,6 +3,7 @@
 //
 
 #include "BounceBoss.hpp"
+#include "CheckEveryClientReady.hpp"
 #include "CheckPositionClient.hpp"
 #include "CollisionHandler.hpp"
 #include "GameEngine.hpp"
@@ -11,8 +12,9 @@
 #include "MobHit.hpp"
 #include "NetworkClientConnection.hpp"
 #include "NetworkClientDisconnecting.hpp"
+#include "NetworkClientReady.hpp"
 #include "NetworkClientTimeout.hpp"
-#include "NetworkStartServer.hpp"
+#include "NetworkCreateWorld.hpp"
 #include "NetworkInput.hpp"
 #include "NetworkMoveClient.hpp"
 #include "NetworkOutput.hpp"
@@ -22,16 +24,10 @@
 #include "OutOfBounds.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
-#include "NetworkShootClient.hpp"
-#include "Shoot.hpp"
-#include "OutOfBounds.hpp"
-#include "IndentifyOutOfBounds.hpp"
-#include "CollisionHandler.hpp"
 #include "PlayerHit.hpp"
 #include "PlayerHitMob.hpp"
-#include "PhysicsEngineCollisionSystem2D.hpp"
-#include "NetworkClientReady.hpp"
-#include "CheckEveryClientReady.hpp"
+#include "Shoot.hpp"
+#include "SpawnMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
