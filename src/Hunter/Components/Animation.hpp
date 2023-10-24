@@ -11,6 +11,7 @@
 #include "ComponentsType.hpp"
 #include "Vect2.hpp"
 #include <cstddef>
+#include <vector>
 
 class Animation : public GameEngine::AComponent {
 public:

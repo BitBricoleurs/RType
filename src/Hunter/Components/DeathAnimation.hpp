@@ -11,6 +11,7 @@
 #include "Vect2.hpp"
 #include <cstddef>
 #include <string>
+#include <vector>
 
 #pragma once
 

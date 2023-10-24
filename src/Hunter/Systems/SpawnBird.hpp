@@ -25,6 +25,7 @@
 #include "rect.hpp"
 #include <BaseVelocity.hpp>
 #include <cstddef>
+#include <vector>
 
 class SpawnBird : public GameEngine::ISystem {
 public:
