@@ -31,11 +31,11 @@ namespace Network {
         };
         PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
                   boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, TSQueue<std::shared_ptr<IMessage>>& outMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages,
-                  Network::Tick& tick, Network::PacketRegister &registerPacket);
+                  Network::Tick& tick, Network::PacketRegister &registerPacket, std::function<void(unsigned int)> onReceivePacket);
 
         PacketIO( boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn,
                   boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages,
-                  Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client, Network::PacketRegister &registerPacket);
+                  Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)>, std::vector<std::shared_ptr<Network::Interface> > &client, Network::PacketRegister &registerPacket, std::function<void(unsigned int)> onReceivePacket);
 
         ~PacketIO() = default;
 
@@ -85,6 +85,7 @@ namespace Network {
         std::vector<std::uint8_t> _tempBuffer;
 
         std::function<void(boost::asio::ip::udp::endpoint &endpoint)> _onConnect;
+        std::function<void(unsigned int)> _onReceivePacket;
         Network::PacketIO::Type _type;
 
         std::vector<std::shared_ptr<Network::Interface>>* _clients;

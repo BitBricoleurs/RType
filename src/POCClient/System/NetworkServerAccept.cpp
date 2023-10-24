@@ -30,6 +30,9 @@ namespace Client {
                 EntityFactory  &factory = EntityFactory::getInstance();
                 Utils::Vect2 pos = {0, 0};
                 size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, number);
+                componentsContainer.createEntity();
+                auto gameState = std::make_shared<Utils::GameState>(Utils::GameState::State::WAITING);
+                componentsContainer.bindComponentToEntity(entityId, gameState);
                 factory.registerEntity(entityId, ids.front());
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from NetworkServerAccept System " << e.what() << std::endl;
