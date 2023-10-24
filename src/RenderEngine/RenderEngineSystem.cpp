@@ -13,10 +13,13 @@
 
 namespace RenderEngine {
 
-    RenderEngineSystem::RenderEngineSystem(const char *windowName)
+    RenderEngineSystem::RenderEngineSystem(const char *windowName, GameEngine::GameEngine &componentContainer)
     {
         renderEngine = std::make_unique<RenderEngine>();
         renderEngine->Initialize(windowName);
+        auto windowInfo = std::make_shared<WindowInfoComponent>(getScreenWidth(), getScreenHeight());
+        auto entity = componentContainer.createEntity();
+        componentContainer.bindComponentToEntity(entity, windowInfo);
     }
 
     RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
@@ -93,8 +96,8 @@ namespace RenderEngine {
 
       renderEngine->ClearBackgroundRender(BLACK);
       auto windowID = componentsContainer.getComponents(
-            GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
-       auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[0].value());
+            GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+       auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[1].value());
       BeginDrawing();
       BeginMode2D(windowcast->camera);
 

@@ -7,8 +7,6 @@
 #include "PositionComponent2D.hpp"
 #include "SpriteComponent.hpp"
 #include "TextComponent.hpp"
-#include "nlohmann/json.hpp"
-#include <fstream>
 #include <string>
 #include "CinematicEventComponent.hpp"
 #include "EventHandler.hpp"
@@ -19,6 +17,7 @@ namespace RenderEngine {
     LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig(path);
 
     int entitiesSize = config.getSize("/cinematic/entities");
+    CinematicDuration = config.getFloat("/cinematic/duration/time");
 
     for (int i = 0; i < entitiesSize; i++) {
         std::string basePath = "/cinematic/entities/" + std::to_string(i) + "/";
@@ -84,7 +83,7 @@ namespace RenderEngine {
             float playDuration = config.getFloat(basePath + "components/CinematicComponent/playDuration");
             float endPosX = config.getFloat(basePath + "components/CinematicComponent/endPosition/x");
             float endPosY = config.getFloat(basePath + "components/CinematicComponent/endPosition/y");
-
+            playDuration = playDuration;
             auto cinematicComponent = std::make_shared<RenderEngine::CinematicComponent>(
                 playDuration,
                 Utils::Vect2(endPosX, endPosY)
@@ -163,13 +162,17 @@ namespace RenderEngine {
 
 
     void RenderEngineCinematicSystem::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-        auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
+        if (clock == 0) {
+            auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
 
-        if (jsonPath != "") {
-            loadJSON(jsonPath, componentsContainer);
-            isPlaying = true;
+            if (jsonPath != "") {
+                loadJSON(jsonPath, componentsContainer);
+                isPlaying = true;
+            }
+            eventHandler.scheduleEvent("Cinematic", 1);
         }
         playCinematic(componentsContainer, eventHandler);
+        return;
 
         if (nextScene != "" && !isPlaying && !isPaused) {
             endCinematic();
@@ -202,7 +205,7 @@ namespace RenderEngine {
     }
     auto eventsID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent"));
     auto eventComponent = std::dynamic_pointer_cast<CinematicEventComponent>(
-            componentsContainer.getComponent(eventsID[0], GameEngine::ComponentsType::getNewComponentType("PositionComponent2D")).value()
+            componentsContainer.getComponent(eventsID[0], GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent")).value()
         );
     auto windowID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(
@@ -217,10 +220,12 @@ namespace RenderEngine {
             case CinematicEventType::MoveCamera: {
                 auto specificEvent = dynamic_cast<MoveCameraData*>(event.get());
                 if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
-
                     float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
                     windowcast->camera.target.x = Lerp(windowcast->camera.target.x, specificEvent->targetPosition.x, progress);
                     windowcast->camera.target.y = Lerp(windowcast->camera.target.y, specificEvent->targetPosition.y, progress);
+                    if (windowcast->camera.target.x == specificEvent->targetPosition.x && windowcast->camera.target.y == specificEvent->targetPosition.y) {
+                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                    }
                 }
                 break;
             }
@@ -228,35 +233,44 @@ namespace RenderEngine {
             case CinematicEventType::ZoomCamera: {
                 auto specificEvent = dynamic_cast<ZoomCameraData*>(event.get());
                 if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
-
                     float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
                     windowcast->camera.zoom = Lerp(windowcast->camera.zoom, specificEvent->zoomLevel, progress);
+                    if (windowcast->camera.zoom == specificEvent->zoomLevel) {
+                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                    }
                 }
                 break;
             }
             case CinematicEventType::Pause: {
                 auto specifcEvent = dynamic_cast<PauseData*>(event.get());
                 if (specifcEvent) {
-                    if (specifcEvent->inHowMuchTime >= clockNonPausable)
+                    if (specifcEvent->inHowMuchTime <= clockNonPausable) {
                         isPaused = true;
+                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                    }
                 }
             }
 
             case CinematicEventType::Resume: {
                 auto specifcEvent = dynamic_cast<ResumeData*>(event.get());
                 if (specifcEvent) {
-                    if (specifcEvent->inHowMuchTime >= clockNonPausable)
+                    if (specifcEvent->inHowMuchTime <= clockNonPausable) {
                         isPaused = false;
+                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                    }
                 }
             }
             default:
                 break;
         }
     }
+    if (clock >= CinematicDuration) {
+        isPlaying = false;
+        eventHandler.unscheduleEvent("Cinematic");
+        }
     if (!isPaused)
         clock += 1.0f / 60.0f;
     clockNonPausable += 1.0f / 60.0f;
-    //tamerelapute
 }
 
 

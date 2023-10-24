@@ -1,0 +1,94 @@
+{
+  "cinematic": {
+    "duration": {
+      "time": 10.0
+    },
+    "entities": [
+      {
+        "components": {
+          "PositionComponent2D": {
+            "x": 50.0,
+            "y": 70.0
+          },
+          "SpriteComponent": {
+            "imagePath": "assets/11.png",
+            "pos": {
+              "x": 50.0,
+              "y": 70.0
+            },
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 125,
+              "height": 72
+            },
+            "layer": 1,
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "TextComponent": {
+            "text": "Hello, World!",
+            "pos": {
+              "x": 50.0,
+              "y": 70.0
+            },
+            "fontSize": 14,
+            "layer": 1,
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            }
+          },
+          "CinematicComponent": {
+            "playDuration": 5.0,
+            "endPosition": {
+              "x": 100.0,
+              "y": 140.0
+            }
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "MoveCamera",
+        "data": {
+          "targetPosition": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "duration": 5.0,
+          "inHowMuchTime": 2.0
+        }
+      },
+      {
+        "type": "ZoomCamera",
+        "data": {
+          "zoomLevel": 2.0,
+          "duration": 5.0,
+          "inHowMuchTime": 2.0
+        }
+      },
+      {
+        "type": "Pause",
+        "data": {
+          "inHowMuchTime": 5.0
+        }
+      },
+      {
+        "type": "Resume",
+        "data": {
+          "inHowMuchTime": 7.0
+        }
+      }
+    ]
+  }
+}

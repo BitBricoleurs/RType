@@ -13,7 +13,7 @@
 namespace RenderEngine {
     class RenderEngineCinematicSystem : public GameEngine::ISystem {
     public:
-        RenderEngineCinematicSystem();
+        RenderEngineCinematicSystem() = default;
         ~RenderEngineCinematicSystem() = default;
 
         void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;
@@ -25,6 +25,7 @@ namespace RenderEngine {
         float clock;
         bool isPaused = false;
         float clockNonPausable;
+        float CinematicDuration;
 
         void loadJSON(const std::string& path, GameEngine::ComponentsContainer& componentsContainer);
         void playCinematic(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler);
