@@ -1,0 +1,13 @@
+{
+    "mobs": [
+        {
+            "tick": 60,
+            "mobType": "bellmite",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
+        }
+    ]
+}
