@@ -97,40 +97,45 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons) {
-        for (const auto& mapping : keyMappings) {
-            if (mapping.checkFunction(mapping.key)) {
-                eventHandler.queueEvent(mapping.eventName);
-            }
+void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>> buttons) {
+    for (const auto& mapping : keyMappings) {
+        if (mapping.checkFunction(mapping.key)) {
+            eventHandler.queueEvent(mapping.eventName);
         }
+    }
 
         Vector2 mousePosition = GetMousePosition();
         Utils::Vect2 mousePos;
         mousePos.x = mousePosition.x;
         mousePos.y = mousePosition.y;
 
-        for (const auto& button : buttons) {
-            bool isHovering = (mousePosition.x >= button->pos.x && mousePosition.x <= button->pos.x + button->rect1.w * button->scale) &&
-                    (mousePosition.y >= button->pos.y && mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
+    for (auto [id, button] : buttons) {
+      bool isHovering =
+          (mousePosition.x >= button->pos.x * scaleX &&
+           mousePosition.x <= button->pos.x * scaleX +
+                                  button->rect1.w * button->scale * scaleX) &&
+          (mousePosition.y >= button->pos.y * scaleY &&
+           mousePosition.y <= button->pos.y * scaleY +
+                                  button->rect1.h * button->scale * scaleY);
 
-            if (isHovering && button->state != ButtonComponent::HOVER && !button->hoverEvent.empty()) {
-                button->state = ButtonComponent::HOVER;
-                eventHandler.queueEvent(button->hoverEvent);
-            } else if (!isHovering && button->state == ButtonComponent::HOVER) {
-                button->state = ButtonComponent::NORMAL;
-            }
-            if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                eventHandler.queueEvent(button->clickEvent);
-            }
-        }
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-            eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
-        if (WindowShouldClose()) {
-            eventHandler.queueEvent("gameEngineStop");
+      if (isHovering && button->state != ButtonComponent::HOVER) {
+        button->state = ButtonComponent::HOVER;
+        eventHandler.queueEvent(button->hoverEvent, id);
+      } else if (!isHovering && button->state == ButtonComponent::HOVER) {
+        button->state = ButtonComponent::NORMAL;
+      }
+        if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            eventHandler.queueEvent(button->clickEvent, id);
         }
     }
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
+    if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
+    if (WindowShouldClose()) {
+        eventHandler.queueEvent("gameEngineStop");
+    }
+}
 
 
     void RenderEngine::ClearBackgroundRender(Color color) {
