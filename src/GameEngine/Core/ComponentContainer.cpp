@@ -7,12 +7,14 @@
 
 namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponents(size_t componentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         if (componentsContainer.find(componentType) != componentsContainer.end()) {
             return componentsContainer[componentType];
         }
         return {};
     }
     std::optional<std::shared_ptr<IComponent>> ComponentsContainer::getComponent(size_t entityID, size_t componentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         if (componentsContainer.find(componentType) != componentsContainer.end()) {
             if (entityID < componentsContainer[componentType].size()) {
                 return componentsContainer[componentType][entityID];
@@ -21,6 +23,7 @@ namespace GameEngine {
         return std::nullopt;
     }
     std::vector<size_t> ComponentsContainer::getEntitiesWithComponent(size_t componentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         std::vector<size_t> entities;
         if (componentType == 0) {
             return entities;
@@ -33,6 +36,7 @@ namespace GameEngine {
         return entities;
     }
     size_t ComponentsContainer::getEntityWithUniqueComponent(size_t componentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         if (componentType == 0) {
             return 0;
         }
@@ -44,6 +48,7 @@ namespace GameEngine {
         return 0;
     }
     std::vector<size_t> ComponentsContainer::getEntitiesWithComponent(size_t componentType, size_t secondComponentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         std::vector<size_t> entities;
         if (componentType == 0 || secondComponentType == 0) {
             return entities;
@@ -56,6 +61,7 @@ namespace GameEngine {
         return entities;
     }
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponentsFromEntity(size_t entityID) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         for (auto componentType : componentsContainer) {
             if (componentType.second.size() > entityID && componentType.second[entityID].has_value()) {
@@ -66,6 +72,7 @@ namespace GameEngine {
     }
 
     void ComponentsContainer::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         if (!component) {
             std::cout << "Error: Component is null" << std::endl;
             return;
@@ -84,6 +91,7 @@ namespace GameEngine {
 }
 
 void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t componentType) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         if(entityID < componentsContainer[componentType].size()) {
             componentsContainer[componentType][entityID] = std::nullopt;
 
@@ -95,6 +103,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
     }
 
     void ComponentsContainer::deleteEntity(size_t entityID) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         //freeMemorySlots.push_back(entityID);
 
         for (auto& [componentType, components] : componentsContainer) {
@@ -104,6 +113,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
         }
     }
     size_t ComponentsContainer::createEntity() {
+        std::lock_guard<std::mutex> lock(containerMutex);
         size_t entityID = 0;
         if (!freeMemorySlots.empty()) {
             entityID = freeMemorySlots.back();
@@ -115,6 +125,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
     }
 
     size_t ComponentsContainer::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
+        std::lock_guard<std::mutex> lock(containerMutex);
         size_t entityID = createEntity();
         for (size_t i = 0; i < components.size(); i++) {
             bindComponentToEntity(entityID, components[i]);
@@ -123,6 +134,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
     }
 
     void ComponentsContainer::clear() {
+        std::lock_guard<std::mutex> lock(containerMutex);
         for (auto& componentTypePair : componentsContainer) {
             componentTypePair.second.clear();
         }

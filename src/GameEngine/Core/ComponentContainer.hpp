@@ -9,7 +9,7 @@
 #include <optional>
 #include <vector>
 #include <memory>
-
+#include <mutex>
 #include "IComponent.hpp"
 
 namespace GameEngine {
@@ -38,5 +38,6 @@ namespace GameEngine {
         std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer;
         std::vector<size_t> freeMemorySlots;
         size_t maxEntityID = 1;
+        mutable std::mutex containerMutex;
     };
 }

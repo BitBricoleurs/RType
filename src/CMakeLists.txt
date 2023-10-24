@@ -9,6 +9,7 @@ add_subdirectory(POCClient)
 add_subdirectory(LoadConfig)
 add_subdirectory(UtilsProject)
 add_subdirectory(Hunter)
+add_subdirectory(MapCreator)
 
 target_sources(
         ${PROJECT_NAME_CLIENT}

@@ -35,8 +35,8 @@ namespace Server {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
-                int posX = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/x");
-                int posY = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/y");
+                float posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
+                float posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
                 Utils::Vect2 position(posX, posY);
 
                 bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
