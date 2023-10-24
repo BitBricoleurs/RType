@@ -8,6 +8,10 @@
 #pragma once
 
 #include "AABBComponent2D.hpp"
+#include "AudioComponent.hpp"
+#include "AudioEngineSystem.hpp"
+#include "BossComponent.hpp"
+#include "ColorR.hpp"
 #include "DeathAnimation.hpp"
 #include "EventHandler.hpp"
 #include "GameEngine.hpp"
@@ -16,25 +20,21 @@
 #include "IsMob.hpp"
 #include "IsPlayer.hpp"
 #include "IsPowerUp.hpp"
+#include "IsStarship.hpp"
+#include "LoadConfig.hpp"
 #include "MobComponents.hpp"
 #include "MovementComponent2D.hpp"
+#include "PlayerUtils.hpp"
 #include "PositionComponent2D.hpp"
 #include "RectangleColliderComponent2D.hpp"
 #include "RenderEngine.hpp"
 #include "SpriteAnimation.hpp"
 #include "Vect2.hpp"
-#include "ColorR.hpp"
 #include "VelocityComponent.hpp"
-#include "AudioComponent.hpp"
 #include <cstddef>
-#include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
-#include "AudioEngineSystem.hpp"
-#include "AudioComponent.hpp"
-#include "PlayerUtils.hpp"
-#include "IsStarship.hpp"
-#include "LoadConfig.hpp"
+#include <nlohmann/json.hpp>
 
 namespace Client {
 
@@ -74,9 +74,17 @@ namespace Client {
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
 
-        void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
-            _playerMap[entityId] = numberPlayer;
-        }
+      size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                               GameEngine::EventHandler &eventHandler,
+                               Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
+        _playerMap[entityId] = numberPlayer;
+      }
 
         const std::map<size_t, PlayerNumber>& getPlayerMap() const {
             return _playerMap;
@@ -185,5 +193,4 @@ namespace Client {
             std::map<size_t, PlayerNumber> _playerMap;
             std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
     };
-
 }

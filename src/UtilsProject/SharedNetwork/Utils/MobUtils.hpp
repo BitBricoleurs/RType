@@ -4,9 +4,4 @@
 
 #pragma once
 
-enum MobType {
-    CANCER,
-    PATAPATA,
-    BUG,
-    BOSS
-};
+enum MobType { CANCER, PATAPATA, BUG, BOSS, BELLMITE };

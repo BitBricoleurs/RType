@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AABBComponent2D.hpp"
+#include "BossComponent.hpp"
 #include "BossStage.hpp"
 #include "BulletUtils.hpp"
 #include "Damage.hpp"

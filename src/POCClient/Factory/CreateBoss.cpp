@@ -18,7 +18,7 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
-  td::string bossKey = "/createBellmiteBoss";
+  std::string bossKey = "/createBellmiteBoss";
   std::string path = data.getString(bossKey + "/spriteSheetPath");
 
   size_t entityId = createBossMob(
@@ -48,12 +48,11 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
-                                 GameEngine::Vect2 pos,
-                                 GameEngine::Vect2 velocity) {
+                                 Utils::Vect2 pos, Utils::Vect2 velocity) {
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
-  td::string podKey = "/createBellmitePod";
+  std::string podKey = "/createBellmitePod";
   std::string path = data.getString(podKey + "/spriteSheetPath");
 
   size_t entityId = createBossMob(

@@ -17,18 +17,18 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
-  td::string bossKey = "/createBellmiteBoss";
+  std::string bossKey = "/createBellmiteBoss";
   std::string path = data.getString(bossKey + "/spriteSheetPath");
 
-  size_t entityId =
-      createBossMob(container, data.getInt(bossKey + "/spriteSheetHeight"),
-                    data.getInt(bossKey + "/spriteSheetWidth"), pos,
-                    Utils::Vect2(data.getFloat(bossKey + "/velocity/x"),
-                                 data.getFloat(bossKey + "/velocity/y")),
-                    data.getInt(bossKey + "/maxHealth"),
-                    data.getInt(bossKey + "/damageValue"),
-                    data.getInt(bossKey + "/stageValue"),
-                    data.getFloat(bossKey + "/scale"), );
+  Utils::Vect2 velocity(data.getFloat(bossKey + "/velocity/x"),
+                        data.getFloat(bossKey + "/velocity/y"));
+
+  size_t entityId = createBossMob(
+      container, data.getInt(bossKey + "/spriteSheetHeight"),
+      data.getInt(bossKey + "/spriteSheetWidth"), pos, velocity,
+      data.getInt(bossKey + "/maxHealth"),
+      data.getInt(bossKey + "/damageValue"),
+      data.getInt(bossKey + "/stageValue"), data.getFloat(bossKey + "/scale"));
 
   auto bossCore = std::make_shared<isBossCore>();
   container.bindComponentToEntity(entityId, bossCore);
@@ -52,7 +52,7 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
-  td::string podKey = "/createBellmitePod";
+  std::string podKey = "/createBellmitePod";
 
   size_t entityId = createBossMob(
       container, data.getInt(podKey + "/spriteSheetHeight"),
