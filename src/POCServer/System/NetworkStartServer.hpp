@@ -7,6 +7,7 @@
 #include "Server.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "GameState.hpp"
 
 namespace Server {
 

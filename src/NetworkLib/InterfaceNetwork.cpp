@@ -14,7 +14,7 @@ Network::Interface::Interface(boost::asio::io_context &Context, TSQueue<std::sha
         else
             _socket.open(boost::asio::ip::udp::v6());
     }
-    _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, forwardMessages, _tick, packetRegister);
+    _packetIO = std::make_shared<Network::PacketIO>(_context, _endpoint, inSocket.has_value() ? inSocket->get() : _socket, _socket, inMessages, _outMessages, forwardMessages, _tick, packetRegister, [this](unsigned int) {updateLastPacketTime();});
 }
 
 Network::Interface::~Interface() {
