@@ -4,28 +4,30 @@
 
 #include "ToggleFullScreen.hpp"
 
+void RenderEngine::ToggleFullScreen::update(
+    GameEngine::ComponentsContainer &componentsContainer,
+    GameEngine::EventHandler &eventHandler) {
+  int display = GetCurrentMonitor();
+  SetWindowSize(300, 300);
+  if (IsWindowFullscreen()) {
+    SetWindowSize(0, 0);
+  } else {
+    SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
+  }
+  ToggleFullscreen();
+  auto windows = componentsContainer.getEntitiesWithComponent(
+      GameEngine::ComponentsType::getNewComponentType("WindowInfo"));
 
-
-void RenderEngine::ToggleFullScreen::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
-{
-    int display = GetCurrentMonitor();
-    SetWindowSize(300, 300);
-    if (IsWindowFullscreen()) {
-        SetWindowSize(0, 0);
-    } else {
-        SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
+  for (const auto &window : windows) {
+    auto windowOpt = componentsContainer.getComponent(
+        window, GameEngine::ComponentsType::getComponentType("WindowInfo"));
+    if (windowOpt.has_value()) {
+      auto windowSize =
+          std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
+      windowSize->windowWidth = GetScreenWidth();
+      windowSize->windowHeight = GetScreenHeight();
     }
-    ToggleFullscreen();
-    auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfo"));
+  }
 
-    for (const auto &window : windows) {
-        auto windowOpt = componentsContainer.getComponent(window, GameEngine::ComponentsType::getComponentType("WindowInfo"));
-        if (windowOpt.has_value()) {
-            auto windowSize = std::dynamic_pointer_cast<WindowInfoComponent>(windowOpt.value());
-            windowSize->windowWidth = GetScreenWidth();
-            windowSize->windowHeight = GetScreenHeight();
-        }
-    }
-
-    eventHandler.queueEvent("InitParallax");
+  eventHandler.queueEvent("InitParallax");
 }

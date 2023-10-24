@@ -4,20 +4,21 @@
 
 #pragma once
 
-#include "ISystem.hpp"
 #include "ComponentsType.hpp"
-#include "raylib.h"
 #include "EventHandler.hpp"
+#include "ISystem.hpp"
 #include "WindowInfoComponent.hpp"
+#include "raylib.h"
 
-namespace GameEngine {
-    class ToggleFullScreen : public ISystem {
-    public:
-        ToggleFullScreen() = default;
-        ~ToggleFullScreen() = default;
+namespace RenderEngine {
+class ToggleFullScreen : public GameEngine::ISystem {
+public:
+  ToggleFullScreen() = default;
+  ~ToggleFullScreen() = default;
 
-        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
+  void update(GameEngine::ComponentsContainer &componentsContainer,
+              GameEngine::EventHandler &eventHandler) override;
 
-    private:
-    };
-}
+private:
+};
+} // namespace RenderEngine
