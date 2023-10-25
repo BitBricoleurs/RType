@@ -9,6 +9,7 @@
 #include "ComponentsType.hpp"
 #include "isPowerUpPickUp.hpp"
 #include "PositionComponent2D.hpp"
+#include "BossComponent.hpp"
 #include "Shooter.hpp"
 
 namespace Server {

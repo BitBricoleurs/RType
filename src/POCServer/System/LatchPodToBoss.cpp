@@ -12,6 +12,7 @@ namespace Server {
 void LatchPodToBoss::update(
     GameEngine::ComponentsContainer &componentsContainer,
     GameEngine::EventHandler &eventHandler) {
+      std::cout << "latch to boss" << std::endl;
   auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(
       eventHandler.getTriggeredEvent().second);
   auto firstEntityOptBossCore = componentsContainer.getComponent(

@@ -13,10 +13,12 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto bossType = GameEngine::ComponentsType::getComponentType("IsBoss");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto bossEnts = componentsContainer.getEntitiesWithComponent(bossType);
 
         auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
         auto velocityType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
@@ -66,6 +68,28 @@ namespace Server {
             args.clear();
             ids.clear();
         }
+
+        for (auto &boss : bossEnts) {
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(boss, positionType).value());
+            args.emplace_back(compPos->pos.x);
+            args.emplace_back(compPos->pos.y);
+            ids.push_back(boss);
+            message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+            userMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            args.clear();
+            ids.clear();
+            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(boss, velocityType).value());
+            args.emplace_back(compVel->velocity.x);
+            args.emplace_back(compVel->velocity.y);
+            ids.push_back(boss);
+            message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+            userMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            args.clear();
+            ids.clear();
+        }
+
         // Updating Bullets (position, velocity)
         for (auto &bullet:  bullets) {
             auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(bullet, positionType).value());

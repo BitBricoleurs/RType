@@ -3,6 +3,7 @@
 //
 
 #include "BounceBoss.hpp"
+#include "BossHit.hpp"
 #include "CheckEveryClientReady.hpp"
 #include "CheckPositionClient.hpp"
 #include "CollisionHandler.hpp"
@@ -27,6 +28,7 @@
 #include "PlayerHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "Shoot.hpp"
+#include "LatchPodToBoss.hpp"
 #include "SpawnMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
@@ -83,11 +85,14 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto spawnMob = std::make_shared<Server::SpawnMob>(path);
     auto bounceBoss = std::make_shared<Server::BounceBoss>();
     auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
+    auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
+    auto bossHit = std::make_shared<Server::BossHit>();
 
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
 
     engine.addEvent("PlayerHit", PlayerHit1);
     engine.addEvent("MobHit", MobHit1);
+    engine.addEvent("BossHit", bossHit);
     engine.addEvent("PlayerHitMob", PlayerHitMob1);
 
     engine.addSystem("CollisionSystem", collision);
@@ -95,6 +100,8 @@ void setup_engine(GameEngine::GameEngine& engine)
 
     engine.addEvent("bounceBoss", bounceBoss);
     engine.addEvent("launchBossPods", launchBossPods);
+    engine.addEvent("latchPodToBoss", latchPodToBoss);
+
 }
 
 int main(void) {

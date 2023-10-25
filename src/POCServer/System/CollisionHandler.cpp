@@ -27,6 +27,15 @@ namespace Server {
             auto firstEntityOptForcePod = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsForcePod"));
             auto secondEntityOptForcePod = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsForcePod"));
 
+            auto firstEntityOptBossPod = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("isBossPod"));
+            auto secondEntityOptBossPod = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("isBossPod"));
+
+            auto secondEntityOptBossCore = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("isBossCore"));
+            auto firstEntityOptBossCore = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("isBossCore"));
+
+            auto firstEntityOptBoss = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsBoss"));
+            auto secondEntityOptBoss = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsBoss"));
+
             // Player vs Bullet
 
             if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
@@ -56,6 +65,22 @@ namespace Server {
 
                 if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
                     eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
+                }
+            }
+
+            // Boss vs Bullet
+
+            if (firstEntityOptBoss.has_value() && secondEntityOptBullet.has_value()) {
+                auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
+
+                if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), firstEntity) == bullet->alreadyHit.end()) {
+                    eventHandler.queueEvent("BossHit", std::make_pair(firstEntity, secondEntity));
+                }
+            } else if (secondEntityOptBoss.has_value() && firstEntityOptBullet.has_value()) {
+                auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
+
+                if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
+                    eventHandler.queueEvent("BossHit", std::make_pair(firstEntity, secondEntity));
                 }
             }
 
@@ -103,14 +128,35 @@ namespace Server {
                 }
                 //componentsContainer.deleteEntity(firstEntity);
             }
-            // Player vs forcepod
 
+            // Player vs forcepod
             if (firstEntityOptPlayer.has_value() && secondEntityOptForcePod.has_value()) {
                 eventHandler.queueEvent("ForcePodFix", firstEntity);
             } else if (secondEntityOptPlayer.has_value() && firstEntityOptForcePod.has_value()) {
                 eventHandler.queueEvent("ForcePodFix", secondEntity);
             }
 
+            // BossPod vs BossCore
+
+            if (firstEntityOptBossCore.has_value() &&
+                secondEntityOptBossPod.has_value()) {
+              auto bossPod =
+                  std::dynamic_pointer_cast<isBossPod>(*secondEntityOptBossPod);
+              if (bossPod->launched == true && bossPod->bounces > 2) {
+                eventHandler.queueEvent(
+                    "LatchPodToBoss",
+                    std::make_pair(firstEntity, secondEntity));
+              }
+            } else if (secondEntityOptBossCore.has_value() &&
+                       firstEntityOptBossPod.has_value()) {
+              auto bossPod =
+                  std::dynamic_pointer_cast<isBossPod>(*firstEntityOptBossPod);
+              if (bossPod->launched == true && bossPod->bounces > 2) {
+                eventHandler.queueEvent(
+                    "LatchPodToBoss",
+                    std::make_pair(firstEntity, secondEntity));
+              }
+            }
 
         } catch (const std::exception& e) {
             std::cout << "Standard exception: " << e.what() << std::endl;

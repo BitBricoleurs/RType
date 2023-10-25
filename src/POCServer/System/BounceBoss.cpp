@@ -52,21 +52,21 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
     auto podVelocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(podVelocityCompOpt.value());
 
 
-    if (bossPodComp->launched ) {
-       std::cout << "pod: " << bossPod << " is launched" << std::endl;
-       std::cout << "pod: " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
-       std::cout << "pod: " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
-    }
+    // if (bossPodComp->launched ) {
+    //    std::cout << "pod: " << bossPod << " is launched" << std::endl;
+    //    std::cout << "pod: " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
+    //    std::cout << "pod: " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
+    // }
 
 
     if (podPosComp->pos.x < 0 || podPosComp->pos.y < 0 ||
         podPosComp->pos.y > 1080 - 150 || // one of the pods is bouncing
         podPosComp->pos.x > 1920 - 150) {
 
-        std::cout << "detected bounce" << std::endl;
-        std::cout << "pod " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
-        std::cout << "pod " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
-        std::cout << "launched: " << bossPodComp->launched << std::endl;
+        // std::cout << "detected bounce" << std::endl;
+        // std::cout << "pod " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
+        // std::cout << "pod " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
+        // std::cout << "launched: " << bossPodComp->launched << std::endl;
 
       if (bossPodComp->launched) { // if pod is detached from the core
           std::cout << "pod: " << bossPod << " is detached" << std::endl;
@@ -121,24 +121,19 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   }
   // the boss has no more pods attached, check if boss is bouncing
   if (!changedDir) {
-    auto posBossCoreOpt = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-    if (!posBossCoreOpt.has_value())
-      return;
-    auto posBossCoreComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posBossCoreOpt.value());
-
-    if (posBossCoreComp->pos.x < 0 || posBossCoreComp->pos.y < 0 ||
-        posBossCoreComp->pos.y > 1080 - 150 || // boss is bouncing
-        posBossCoreComp->pos.x > 1920 - 150) {
+    if (bossPosComp->pos.x < 0 || bossPosComp->pos.y < 0 ||
+        bossPosComp->pos.y > 1080 - 150 || // boss is bouncing
+        bossPosComp->pos.x > 1920 - 150) {
 
       auto newVelocityOpt = handleDirectionChange(
-              posBossCoreComp->pos,
+              bossPosComp->pos,
               bossVelComp->velocity);    // core, and set all the pods
       if (!newVelocityOpt.has_value()) { // velocity to be the same
         return;
       }
       Utils::Vect2 newVelocity = newVelocityOpt.value();
       bossVelComp->velocity = newVelocity;
-        factory.updateEntityNetwork(eventHandler, bossCore, posBossCoreComp->pos,
+        factory.updateEntityNetwork(eventHandler, bossCore, bossPosComp->pos,
                                     bossVelComp->velocity);
     }
   }
