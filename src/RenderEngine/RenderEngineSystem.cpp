@@ -156,5 +156,4 @@ namespace RenderEngine {
         PreloadSceneAssets(assets);
     }
 
-
 } // namespace GameEngine
