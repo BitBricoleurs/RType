@@ -158,7 +158,7 @@ int main() {
       setup_game(engine);
       setup_hud(engine);
       setup_animations(engine);
-      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
       engine.addSystem("RENDER", render, 4);
       engine.run();
       return 0;

@@ -53,9 +53,9 @@
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
 
-int main() {
-  GameEngine::GameEngine engine;
-  auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
+
+void initScene(GameEngine::GameEngine &engine) {
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
@@ -93,7 +93,7 @@ int main() {
   auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
-  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<RenderEngine::ToggleFullScreen>();
@@ -209,17 +209,7 @@ Utils::Vect2 pos;
 
     engine.unscheduleEvent("UpdateScore", 100);
 
-  auto backgroundMusic = std::make_shared<AudioEngine::AudioComponent>("assets/music/RTYPE.wav", true);
-  auto backgroundMusicEntity = engine.createEntity();
 
-  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
-
-  engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
-  engine.addEvent("PLAY_SOUND", audioSys);
-  engine.queueEvent("PLAY_SOUND", backgroundMusicEntity);
-
-  engine.scheduleEvent("UPDATE_SOUNDS", 1);
-  engine.addEvent("UPDATE_SOUNDS", audioSys);
   //   GameEngineUtils::Vect2 pos;
   //   pos.x = 100;
   //   pos.y = 100;
@@ -280,7 +270,17 @@ Utils::Vect2 pos;
   auto collisionHandler = std::make_shared<CollisionHandler>();
 
   engine.addEvent("Collision", collisionHandler);
+}
 
+
+int main() {
+  GameEngine::GameEngine engine;
+  engine.bindSceneInitiation("Scene1", initScene);
+  std::string sceneName = "Scene1";
+  engine.queueEvent("gameEngineChangeScene", sceneName);
   engine.run();
+
   return 0;
 }
+
+
