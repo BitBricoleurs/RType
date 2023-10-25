@@ -6,9 +6,6 @@
 */
 
 #include "LaunchBossPods.hpp"
-#include <algorithm>
-#include <iostream>
-#include <random>
 
 namespace Server {
 
@@ -16,7 +13,8 @@ void LaunchBossPods::update(
     GameEngine::ComponentsContainer &componentsContainer,
     GameEngine::EventHandler &eventHandler) {
 
-  std::cout << "LaunchBossPods" << std::endl;
+  auto &factory = EntityFactory::getInstance();
+
   auto bossPods = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("isBossPod"));
 
@@ -42,16 +40,14 @@ void LaunchBossPods::update(
   }
   if (podToLaunch == 0)
     return;
-  auto podPositionOpt = componentsContainer.getComponent(
-      podToLaunch,
-      GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+
+  auto podPositionOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
   if (!podPositionOpt.has_value())
     return;
-  auto podPositionComp =
-      std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
-          podPositionOpt.value());
+  auto podPositionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPositionOpt.value());
 
   std::cout << "launching pod: " << podToLaunch << std::endl;
+
   auto players = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("IsPlayer"));
   Utils::Vect2 velocity;
@@ -73,14 +69,13 @@ void LaunchBossPods::update(
       }
     }
   }
-  auto velocityOpt = componentsContainer.getComponent(
-      podToLaunch,
-      GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-  if (!velocityOpt.has_value())
+  auto velocityOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+  auto positionOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+  if (!velocityOpt.has_value() || !positionOpt.has_value())
     return;
-  auto velocityComp =
-      std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
-          velocityOpt.value());
+  auto velocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOpt.value());
+  auto positionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
+
   if (closestDistance < std::numeric_limits<float>::max()) {
     float maxVal = std::max(std::abs(directionToClosestPlayer.x),
                             std::abs(directionToClosestPlayer.y));
@@ -88,6 +83,7 @@ void LaunchBossPods::update(
     velocity = directionToClosestPlayer * scaleFactor;
     velocityComp->velocity = velocity;
   }
+  factory.updateEntityNetwork(eventHandler, podToLaunch, positionComp->pos, velocityComp->velocity);
 }
 
 } // namespace Server

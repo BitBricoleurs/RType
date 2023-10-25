@@ -25,34 +25,27 @@ void LatchPodToBoss::update(
     bossCore = secondEntity;
     bossPod = firstEntity;
   }
-  auto bossCoreVelOpt = componentsContainer.getComponent(
-      bossCore,
-      GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-  if (!bossCoreVelOpt.has_value())
+  auto &factory = EntityFactory::getInstance();
+  auto bossCoreVelOpt = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+  auto bossCorePosOpt = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+  auto bossPodVelOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+  auto bossPodPosOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+  auto bossPodOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
+  if (!bossCoreVelOpt.has_value() || !bossPodVelOpt.has_value() || !bossPodOpt.has_value() || !bossCorePosOpt.has_value() || !bossPodPosOpt.has_value())
     return;
-  auto bossCoreVelComp =
-      std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
-          bossCoreVelOpt.value());
-
-  auto bossPodVelOpt = componentsContainer.getComponent(
-      bossPod,
-      GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-  if (!bossPodVelOpt.has_value())
-    return;
-  auto bossPodVelComp =
-      std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
-          bossPodVelOpt.value());
+  auto bossCoreVelComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(bossCoreVelOpt.value());
+  auto bossCorePosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(bossCorePosOpt.value());
+  auto bossPodVelComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(bossPodVelOpt.value());
+  auto bossPodPosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(bossPodPosOpt.value());
+  auto bossPodComp = std::dynamic_pointer_cast<isBossPod>(bossPodOpt.value());
 
   bossPodVelComp->velocity.x = bossCoreVelComp->velocity.x;
   bossPodVelComp->velocity.y = bossCoreVelComp->velocity.y;
 
-  auto bossPodOpt = componentsContainer.getComponent(
-      bossPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
-  if (!bossPodOpt.has_value())
-    return;
-  auto bossPodComp = std::dynamic_pointer_cast<isBossPod>(bossPodOpt.value());
   bossPodComp->launched = false;
   bossPodComp->bounces = 0;
   std::cout << "latched pod: " << secondEntity << std::endl;
+  factory.updateEntityNetwork(eventHandler, bossPod, bossPodPosComp->pos, bossPodVelComp->velocity);
+  factory.updateEntityNetwork(eventHandler, bossCore, bossCorePosComp->pos, bossCoreVelComp->velocity);
 }
 } // namespace Server

@@ -12,6 +12,8 @@
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "VelocityComponent.hpp"
+#include "EntityFactory.hpp"
+#include "PositionComponent2D.hpp"
 #include <cmath>
 
 namespace Server {

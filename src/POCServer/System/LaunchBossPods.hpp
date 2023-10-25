@@ -14,7 +14,11 @@
 #include "PositionComponent2D.hpp"
 #include "Vect2.hpp"
 #include "VelocityComponent.hpp"
+#include "EntityFactory.hpp"
 #include <cmath>
+#include <algorithm>
+#include <iostream>
+#include <random>
 
 namespace Server {
 class LaunchBossPods : public GameEngine::ISystem {

@@ -7,13 +7,14 @@
 
 #pragma once
 
-#include "BossComponent.hpp"
+#include "../Component/BossComponent.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "PositionComponent2D.hpp"
 #include "Vect2.hpp"
 #include "VelocityComponent.hpp"
+#include "../Factory/EntityFactory.hpp"
 #include <cstddef>
 
 namespace Server {
