@@ -129,7 +129,7 @@ int main(int ac, char **av) {
 
   auto spawnBirdSystem = std::make_shared<SpawnBird>();
   auto renderSystem =
-      std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+      std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
   create_shooter(engine, renderSystem->getScreenWidth(),
                  renderSystem->getScreenHeight());
 
