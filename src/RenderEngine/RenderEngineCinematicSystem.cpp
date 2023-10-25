@@ -10,6 +10,7 @@
 #include <string>
 #include "CinematicEventComponent.hpp"
 #include "EventHandler.hpp"
+#include "AnimationComponent.hpp"
 
 namespace RenderEngine {
 
@@ -90,6 +91,20 @@ namespace RenderEngine {
                 Utils::Vect2(endPosX, endPosY)
             );
             componentsContainer.bindComponentToEntity(newEntity, cinematicComponent);
+        }
+        if (config.keyExists(basePath + "components/AnimationComponent")) {
+            size_t framesCount = config.getInt(basePath + "components/AnimationComponent/framesCount");
+            std::vector<Utils::rect> frames;
+            for (size_t j = 0; j < framesCount; ++j) {
+                std::string frameBasePath = basePath + "components/AnimationComponent/frames/" + std::to_string(j) + "/";
+                int rectX = config.getInt(frameBasePath + "x");
+                int rectY = config.getInt(frameBasePath + "y");
+                int rectWidth = config.getInt(frameBasePath + "width");
+                int rectHeight = config.getInt(frameBasePath + "height");
+                frames.emplace_back(rectX, rectY, rectWidth, rectHeight);
+            }
+            auto animationComponent = std::make_shared<RenderEngine::AnimationComponent>(frames);
+            componentsContainer.bindComponentToEntity(newEntity, animationComponent);
         }
     }
     auto eventID = componentsContainer.createEntity();
