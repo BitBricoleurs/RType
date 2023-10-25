@@ -7,13 +7,19 @@
 
 #include "RenderEngineSystem.hpp"
 #include <algorithm>
+#include <iostream>
+#include <map>
+#include <variant>
 
 namespace RenderEngine {
 
-    RenderEngineSystem::RenderEngineSystem(const char *windowName)
+    RenderEngineSystem::RenderEngineSystem(const char *windowName, GameEngine::GameEngine &componentContainer)
     {
         renderEngine = std::make_unique<RenderEngine>();
         renderEngine->Initialize(windowName);
+        auto windowInfo = std::make_shared<WindowInfoComponent>(getScreenWidth(), getScreenHeight());
+        auto entity = componentContainer.createEntity();
+        componentContainer.bindComponentToEntity(entity, windowInfo);
     }
 
     RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
@@ -32,32 +38,26 @@ namespace RenderEngine {
           componentsContainer.getEntitiesWithComponent(
               GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
-      std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>>
-          sortedButtonComponents;
+      std::vector<std::pair<size_t, ButtonComponent>> sortedButtonComponents;
 
       for (auto id : buttonsIDS) {
-        auto button = std::dynamic_pointer_cast<ButtonComponent>(
-            std::any_cast<std::shared_ptr<GameEngine::IComponent>>(
-                componentsContainer
-                    .getComponent(id,
-                                  GameEngine::ComponentsType::getComponentType(
-                                      "ButtonComponent"))
-                    .value()));
-        sortedButtonComponents.push_back(std::make_pair(id, button));
+        auto button = std::dynamic_pointer_cast<ButtonComponent>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("ButtonComponent")).value());
+        if (button) {
+            sortedButtonComponents.push_back(std::make_pair(id, *button));
+        }
       }
 
   std::stable_sort(sortedButtonComponents.begin(), sortedButtonComponents.end(),
-    [](const std::pair<size_t, std::shared_ptr<ButtonComponent>>& p1,
-       const std::pair<size_t, std::shared_ptr<ButtonComponent>>& p2) {
+    [](const std::pair<size_t, ButtonComponent>& p1,
+       const std::pair<size_t, ButtonComponent>& p2) {
         const auto& a = p1.second;
         const auto& b = p2.second;
 
-        if (a->layer == b->layer) {
-            return a->pos.x < b->pos.x;
+        if (a.layer == b.layer) {
+            return a.pos.x < b.pos.x;
         }
-        return a->layer < b->layer;
+        return a.layer < b.layer;
     });
-
 
   renderEngine->PollEvents(eventHandler, sortedButtonComponents);
 
@@ -100,26 +100,35 @@ namespace RenderEngine {
 
 
       renderEngine->ClearBackgroundRender(BLACK);
-
+      auto windowID = componentsContainer.getComponents(
+            GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+      if (windowID.size() <= 1 && !windowID[1].has_value())
+        return;
+       auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[1].value());
       BeginDrawing();
+      BeginMode2D(windowcast->camera);
 
-      for (const auto &component : sortedSpriteComponents) {
-        renderEngine->Draw(component);
-      }
+    std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
-      for (const auto &component : sortedTextComponents) {
-        renderEngine->Draw(component);
-      }
+        for (const auto &sprite : sortedSpriteComponents) {
+            drawMap.emplace(sprite.layer, sprite);
+        }
 
-  for (const auto &component : sortedButtonComponents) {
-    renderEngine->Draw(*component.second);
-  }
+        for (const auto &text : sortedTextComponents) {
+            drawMap.emplace(text.layer, text);
+        }
 
+        for (const auto &button : sortedButtonComponents) {
+            drawMap.emplace(button.second.layer, button.second);
+        }
 
-
-
-
-      EndDrawing();
+        for (const auto &[layer, component] : drawMap) {
+            std::visit([this](auto&& arg) {
+                renderEngine->Draw(arg);
+            }, component);
+        }
+        EndMode2D();
+        EndDrawing();
     }
     size_t RenderEngineSystem::getScreenHeight()
     {
