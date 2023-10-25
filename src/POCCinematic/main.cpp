@@ -2,8 +2,6 @@
 // Created by Bartosz on 10/24/23.
 //
 
-
-#pragma once
 #include "RenderEngineCinematicSystem.hpp"
 #include "RenderEngineSystem.hpp"
 #include "GameEngine.hpp"
