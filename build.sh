@@ -7,4 +7,4 @@ fi
 cd build
 
 cmake ..
-cmake --build . -- -j
+cmake --build . -- -j32
