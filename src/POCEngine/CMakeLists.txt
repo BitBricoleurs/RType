@@ -18,4 +18,4 @@ target_sources(${PROJECT_NAME_POCENGINE}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCENGINE} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib LoadConfigLib UtilsLib)
+target_link_libraries(${PROJECT_NAME_POCENGINE} PRIVATE GameEngine dr_wav RenderEngineLib ${LIBRARY_NAME_AUDIO} PhysicsEngineLib NetworkLib LoadConfigLib ${LIBRARY_NAME_UTILS})

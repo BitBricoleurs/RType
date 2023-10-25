@@ -19,7 +19,7 @@ target_sources(${PROJECT_NAME_POCSERVER}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
-target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC GameEngine PhysicsEngineLib NetworkLib LoadConfigLib UtilsLib)
+target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC GameEngine PhysicsEngineLib NetworkLib LoadConfigLib ${LIBRARY_NAME_UTILS})
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME_POCSERVER} PUBLIC Ws2_32.lib)

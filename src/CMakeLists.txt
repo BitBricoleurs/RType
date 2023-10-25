@@ -11,18 +11,3 @@ add_subdirectory(UtilsProject)
 add_subdirectory(Hunter)
 add_subdirectory(MapCreator)
 
-target_sources(
-        ${PROJECT_NAME_CLIENT}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
-)
-
-target_sources(
-        ${PROJECT_NAME_SERVER}
-        PRIVATE
-
-        ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
-)
-
-target_link_libraries(${PROJECT_NAME_CLIENT} NetworkLib)
-target_link_libraries(${PROJECT_NAME_SERVER} NetworkLib)
