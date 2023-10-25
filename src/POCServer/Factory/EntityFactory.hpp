@@ -36,6 +36,8 @@
 #include "PlayerUtils.hpp"
 #include "MobUtils.hpp"
 #include "LoadConfig.hpp"
+#include "PowerUpUtils.hpp"
+#include "IsPower.hpp"
 
 namespace Server {
 
@@ -59,6 +61,13 @@ namespace Server {
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
                          Utils::Vect2 pos, bool dropPowerup);
+
+      size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
+                                         GameEngine::EventHandler &eventHandler,
+                                         Utils::Vect2 pos, PowerUpType type);
+      size_t spawnForcePod(GameEngine::ComponentsContainer &container,
+                                         GameEngine::EventHandler &eventHandler,
+                                         Utils::Vect2 pos);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
