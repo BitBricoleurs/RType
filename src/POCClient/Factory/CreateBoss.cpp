@@ -14,7 +14,7 @@ namespace Client {
 size_t
 EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  Utils::Vect2 pos, Utils::Vect2 velocity) {
+                                  Utils::Vect2 pos) {
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
@@ -30,7 +30,9 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
       data.getString(bossKey + "/deathSpriteSheetPath"),
       data.getInt(bossKey + "/deathSpriteSheetHeight"),
       data.getInt(bossKey + "/deathSpriteSheetWidth"),
-      data.getInt(bossKey + "/deathFrames"), pos, velocity,
+      data.getInt(bossKey + "/deathFrames"), pos,
+      Utils::Vect2(data.getFloat(bossKey + "/velocity/x"),
+                   data.getFloat(bossKey + "/velocity/y")),
       data.getInt(bossKey + "/playerA"), data.getFloat(bossKey + "/scale"),
       data.getFloat(bossKey + "/rotation"),
       Utils::ColorR(
@@ -48,7 +50,7 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
-                                 Utils::Vect2 pos, Utils::Vect2 velocity) {
+                                 Utils::Vect2 pos) {
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
@@ -63,7 +65,9 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
       data.getString(podKey + "/deathSpriteSheetPath"),
       data.getInt(podKey + "/deathSpriteSheetHeight"),
       data.getInt(podKey + "/deathSpriteSheetWidth"),
-      data.getInt(podKey + "/deathFrames"), pos, velocity,
+      data.getInt(podKey + "/deathFrames"), pos,
+      Utils::Vect2(data.getFloat(podKey + "/velocity/x"),
+                   data.getFloat(podKey + "/velocity/y")),
       data.getInt(podKey + "/playerA"), data.getFloat(podKey + "/scale"),
       data.getFloat(podKey + "/rotation"),
       Utils::ColorR(

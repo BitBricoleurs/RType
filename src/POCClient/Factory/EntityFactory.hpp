@@ -76,11 +76,11 @@ namespace Client {
 
       size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               Utils::Vect2 pos, Utils::Vect2 velocity);
+                               Utils::Vect2 pos);
 
       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
-                                Utils::Vect2 pos, Utils::Vect2 velocity);
+                                Utils::Vect2 pos);
 
       void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
         _playerMap[entityId] = numberPlayer;

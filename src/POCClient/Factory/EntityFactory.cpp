@@ -40,14 +40,14 @@ namespace Client {
         int spriteSheetWidth, int frames, bool twoDirections, bool reverse,
         const std::string &deathSpriteSheetPath, int deathSpriteSheetHeight,
         int deathSpriteSheetWidth, int deathFrames, Utils::Vect2 pos,
-        Utils::Vect2 velocity, int playerA,
-        float scale, float rotation, Utils::ColorR tint, int layer) {
+        Utils::Vect2 velocity, int playerA, float scale, float rotation,
+        Utils::ColorR tint, int layer) {
 
       size_t entityId = createBaseMob(
-          container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
-          twoDirections, reverse, deathSpriteSheetPath, deathSpriteSheetHeight,
-          deathSpriteSheetWidth, deathFrames, pos, velocity, playerA,
-          scale, rotation, tint, layer);
+          container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth,
+          frames, twoDirections, reverse, deathSpriteSheetPath,
+          deathSpriteSheetHeight, deathSpriteSheetWidth, deathFrames, pos,
+          velocity, playerA, scale, rotation, tint, layer);
 
       auto bossComponent = std::make_shared<IsBoss>();
 

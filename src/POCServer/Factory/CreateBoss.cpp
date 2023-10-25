@@ -35,7 +35,7 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
   container.unbindComponentFromEntity(
       entityId, GameEngine::ComponentsType::getComponentType("Health"));
   std::vector<size_t> ids = {entityId};
-  std::vector<std::any> args = {MobType::BELLMITE};
+  std::vector<std::any> args = {MobType::BELLMITECORE};
   std::shared_ptr<Network::Message> message =
       std::make_shared<Network::Message>("CREATED_MOB", ids, "", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg =
@@ -67,7 +67,7 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
   eventHandler.scheduleEvent("animate", 8,
                              std::make_tuple(std::string("Pods"), entityId));
   std::vector<size_t> ids = {entityId};
-  std::vector<std::any> args = {MobType::BELLMITE};
+  std::vector<std::any> args = {MobType::BELLMITEPOD};
   std::shared_ptr<Network::Message> message =
       std::make_shared<Network::Message>("CREATED_MOB", ids, "", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg =
@@ -79,6 +79,8 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
 size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
                                      Utils::Vect2 pos) {
+
+  std::cout << "creating Bellmite" << std::endl;
 
   const int totalPods = 21;
   const float podDiameter = 64.0 * 1.5f;

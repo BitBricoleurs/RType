@@ -11,8 +11,8 @@
     "deathSpriteSheetWidth": 320,
     "deathFrames": 5,
     "velocity": {
-        "x": 0,
-        "y": 0
+        "x": -6.0,
+        "y": 0.0
     },
     "playerA": 0,
     "scale": 2.0,
@@ -40,8 +40,8 @@
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
     "velocity": {
-        "x": 0,
-        "y": 0
+        "x": -6.0,
+        "y": 0.0
     },
     "playerA": 0,
     "scale": 3.0,
