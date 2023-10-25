@@ -18,6 +18,7 @@
 #include <string>
 #include <fstream>
 #include "LoadConfig.hpp"
+#include "ResourceManager.hpp"
 
 namespace RenderEngine {
     class RenderEngine {
@@ -26,9 +27,9 @@ namespace RenderEngine {
       ~RenderEngine();
 
       void Initialize(const char *windowTitle);
-      void Draw(const TextComponent &textComponent) const;
-      void Draw(const SpriteComponent &spriteComponent);
-      void Draw(const ButtonComponent &buttonComponent);
+      void Draw(const TextComponent &textComponent, std::shared_ptr<ResourceManager>& ResourceManager);
+      void Draw(const SpriteComponent &spriteComponent, std::shared_ptr<ResourceManager>& ResourceManager);
+      void Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager);
       void PollEvents(
           GameEngine::EventHandler &eventHandler,
           std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>>
@@ -42,7 +43,6 @@ namespace RenderEngine {
     private:
         size_t screenWidth{};
         size_t screenHeight{};
-        std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
         float scaleX{};
         float scaleY{};

@@ -13,6 +13,7 @@ namespace RenderEngine {
     RenderEngineSystem::RenderEngineSystem(const char *windowName)
     {
         renderEngine = std::make_unique<RenderEngine>();
+        resourceManager = std::make_shared<ResourceManager>();
         renderEngine->Initialize(windowName);
     }
 
@@ -104,20 +105,16 @@ namespace RenderEngine {
       BeginDrawing();
 
       for (const auto &component : sortedSpriteComponents) {
-        renderEngine->Draw(component);
+        renderEngine->Draw(component, resourceManager);
       }
 
       for (const auto &component : sortedTextComponents) {
-        renderEngine->Draw(component);
+        renderEngine->Draw(component, resourceManager);
       }
 
-  for (const auto &component : sortedButtonComponents) {
-    renderEngine->Draw(*component.second);
-  }
-
-
-
-
+      for (const auto &component : sortedButtonComponents) {
+        renderEngine->Draw(*component.second, resourceManager);
+      }
 
       EndDrawing();
     }
@@ -130,5 +127,34 @@ namespace RenderEngine {
     {
         return renderEngine->getScreenWidth();
     }
+
+    void RenderEngineSystem::PreloadSceneAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->LoadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->UnloadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets() {
+        resourceManager->ClearAllTextures();
+    }
+
+    void RenderEngineSystem::LoadAssetsFromJSON(const std::string path) {
+        std::vector<std::string> assets;
+
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig(path);
+        int assetssize = config.getSize("/assets");
+
+        for (int i = 0; i < assetssize; i++) {
+            assets.push_back(config.getString("/assets/" + std::to_string(i)));
+        }
+        PreloadSceneAssets(assets);
+    }
+
 
 } // namespace GameEngine
