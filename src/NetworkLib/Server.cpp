@@ -167,7 +167,7 @@ namespace Network {
             for (auto &client : _clients) {
                 std::chrono::steady_clock::time_point lastPacketReceived = client->getLastPacketTime();
                 std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-                if (std::chrono::duration_cast<std::chrono::seconds>(now - lastPacketReceived).count() > 30) {
+                if (std::chrono::duration_cast<std::chrono::seconds>(now - lastPacketReceived).count() > 120) {
                     notifyTimeout(client->getId());
                 }
             }

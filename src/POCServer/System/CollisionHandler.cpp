@@ -140,6 +140,7 @@ namespace Server {
 
             if (firstEntityOptBossCore.has_value() &&
                 secondEntityOptBossPod.has_value()) {
+                std::cout << "BossPod vs BossCore" << std::endl;
               auto bossPod =
                   std::dynamic_pointer_cast<isBossPod>(*secondEntityOptBossPod);
               if (bossPod->launched == true && bossPod->bounces > 2) {
@@ -149,6 +150,7 @@ namespace Server {
               }
             } else if (secondEntityOptBossCore.has_value() &&
                        firstEntityOptBossPod.has_value()) {
+              std::cout << "BossPod vs BossCore" << std::endl;
               auto bossPod =
                   std::dynamic_pointer_cast<isBossPod>(*firstEntityOptBossPod);
               if (bossPod->launched == true && bossPod->bounces > 2) {

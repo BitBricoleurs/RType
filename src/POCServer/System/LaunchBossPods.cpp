@@ -21,9 +21,9 @@ void LaunchBossPods::update(
   size_t podToLaunch = 0;
 
   // shuffle pods
-  std::random_device rd;
-  std::mt19937 g(rd());
-  std::shuffle(bossPods.begin(), bossPods.end(), g);
+  //std::random_device rd;
+  //std::mt19937 g(rd());
+  //std::shuffle(bossPods.begin(), bossPods.end(), g);
 
   for (auto &bossPod : bossPods) {
     auto bossPodOpt = componentsContainer.getComponent(
@@ -46,7 +46,7 @@ void LaunchBossPods::update(
     return;
   auto podPositionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPositionOpt.value());
 
-  std::cout << "launching pod: " << podToLaunch << std::endl;
+  // std::cout << "launching pod: " << podToLaunch << std::endl;
 
   auto players = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -83,7 +83,7 @@ void LaunchBossPods::update(
     velocity = directionToClosestPlayer * scaleFactor;
     velocityComp->velocity = velocity;
   }
-  factory.updateEntityNetwork(eventHandler, podToLaunch, positionComp->pos, velocityComp->velocity);
+  factory.updateEntityNetwork(eventHandler, podToLaunch,  velocityComp->velocity);
 }
 
 } // namespace Server

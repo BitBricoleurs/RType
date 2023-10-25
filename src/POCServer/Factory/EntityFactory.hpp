@@ -82,6 +82,9 @@ public:
                                   size_t entityId, Utils::Vect2 &pos,
                                   Utils::Vect2 &velocity);
 
+  static void updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity);
+
+
   void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
     _playerMap[entityId] = numberPlayer;
   }
