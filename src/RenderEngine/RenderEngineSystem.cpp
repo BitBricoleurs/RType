@@ -102,6 +102,8 @@ namespace RenderEngine {
       renderEngine->ClearBackgroundRender(BLACK);
       auto windowID = componentsContainer.getComponents(
             GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+      if (windowID.size() <= 1 && !windowID[1].has_value())
+        return;
        auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[1].value());
       BeginDrawing();
       BeginMode2D(windowcast->camera);

@@ -7,17 +7,23 @@
 
 namespace GameEngine {
     std::vector<std::optional<std::shared_ptr<IComponent>>> ComponentsContainer::getComponents(size_t componentType) {
-
+        std::vector<std::optional<std::shared_ptr<IComponent>>> components;
         if (componentsContainer.find(componentType) != componentsContainer.end()) {
-            return componentsContainer[componentType];
+            for (auto& component : componentsContainer[componentType]) {
+                if (component.has_value()) {
+                    components.push_back(component);
+                }
+            }
         }
-        return {};
+        return components;
     }
     std::optional<std::shared_ptr<IComponent>> ComponentsContainer::getComponent(size_t entityID, size_t componentType) {
 
         if (componentsContainer.find(componentType) != componentsContainer.end()) {
             if (entityID < componentsContainer[componentType].size()) {
-                return componentsContainer[componentType][entityID];
+                if (componentsContainer[componentType][entityID].has_value()) {
+                    return componentsContainer[componentType][entityID];
+                }
             }
         }
         return std::nullopt;
