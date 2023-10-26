@@ -32,8 +32,18 @@ namespace Server {
             auto forcePodId = std::get<1>(Ids);
             auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
             auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("Shooter")).value());
+            auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto forcePod = std::dynamic_pointer_cast<IsForcePod>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
+            auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
             if (isPlayer->entityIdForcePod == 0) {
+                forcePodVelocity->velocity.x = 0;
+                isPlayer->entityIdForcePod = forcePodId;
+                forcePod->entityId = playerId;
+                Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 13);
+                posForcePod->pos = shootingPosition;
                 shooter->shootPosition.x =  shooter->shootPosition.x + 45;
+                EntityFactory::getInstance().updateEntityNetwork(eventHandler, forcePodId, posForcePod->pos, forcePodVelocity->velocity);
 
                 auto netInterfaceId = std::dynamic_pointer_cast<NetworkClientId>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value())->id;
                 std::vector<size_t> ids = {playerId};
