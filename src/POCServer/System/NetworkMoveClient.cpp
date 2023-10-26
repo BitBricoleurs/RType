@@ -30,6 +30,8 @@ namespace Server {
                 return ;
             }
         }
+        if (argsVel.size() != 2)
+            return ;
         newVel.x = argsVel[0];
         newVel.y = argsVel[1];
         auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
@@ -46,8 +48,8 @@ namespace Server {
                 if (!mayComp2.has_value())
                     continue;
                 auto velComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayComp2.value());
-                velComp->velocity.x += newVel.x;
-                velComp->velocity.y += newVel.y;
+                velComp->velocity.x = newVel.x;
+                velComp->velocity.y = newVel.y;
                 newVel = velComp->velocity;
                 entityId = entity;
                 auto shooterTypes = GameEngine::ComponentsType::getComponentType("Shooter");
@@ -55,8 +57,20 @@ namespace Server {
                 if (compShooter.has_value()) {
                     auto IShooter = compShooter.value();
                     auto shooterComp = std::static_pointer_cast<Shooter>(IShooter);
-                    shooterComp->velocity.x += newVel.x;
-                    shooterComp->velocity.y += newVel.y;
+                    shooterComp->velocity.x = newVel.x;
+                    shooterComp->velocity.y = newVel.y;
+                }
+
+                auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+                if (isPlayer->entityIdForcePod != 0) {
+                    auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+                    forcePodVelocity->velocity.x = newVel.x;
+                    forcePodVelocity->velocity.y = newVel.y;
+                    std::vector<size_t> ids = {isPlayer->entityIdForcePod};
+                    std::vector<std::any> args = {newVel.x, newVel.y};
+                    std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+                    std::shared_ptr<Network::NotUserMessage> userMessage = std::make_shared<Network::NotUserMessage>(networkId, messageOut);
+                    eventHandler.queueEvent("SEND_NETWORK", userMessage);
                 }
             }
         std::vector<size_t> ids = {entityId};

@@ -16,6 +16,6 @@ namespace Server {
 
       size_t getComponentType() override;
 
-      size_t entityId;
+      size_t entityId = 0;
     };
 }

@@ -36,7 +36,7 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
                         ),
                         data.getInt("/powers/" + std::to_string(i) + "/layer")
                         );
-                eventHandler.scheduleEvent("animate", 30, std::make_tuple(std::string("PowerUp"), entityId));
+                eventHandler.scheduleEvent("animate", data.getInt("/powers/" + std::to_string(i) + "/animateSpeed") , std::make_tuple(std::string("PowerUp"), entityId));
                 return entityId;
             }
         }

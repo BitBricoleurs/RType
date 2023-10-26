@@ -32,7 +32,8 @@ size_t Client::EntityFactory::spawnForcePod(GameEngine::ComponentsContainer &con
                 ),
                 data.getInt("/layer")
                 );
-        eventHandler.scheduleEvent("animate", 15, std::make_tuple(std::string("ForcePod"), entityId));
+        eventHandler.scheduleEvent("animate", data.getInt("/animateSpeed"), std::make_tuple(std::string("ForcePod"), entityId));
+        std::cout << "Forcepod: " << entityId << std::endl;
         return entityId;
     } catch (std::bad_any_cast &e) {
         std::cerr << "Error from SpawnPowerUp System " << e.what() << std::endl;

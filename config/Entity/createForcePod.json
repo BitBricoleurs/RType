@@ -7,28 +7,28 @@
     "height" : 16
   },
   "frames" : 12,
-  "twoDirections" : false,
+  "twoDirections" : true,
   "reverse": false,
   "layer" : 10,
   "scale": 2.5,
-  "rotation": 0,
+  "rotation": 0.0,
   "tint" : {
     "r" : 255,
     "g" : 255,
     "b" : 255,
     "a" : 255
   },
-  "hitBoxWidth" : 0,
+  "hitBoxWidth" : 24,
   "hitBoxHeight" : 16,
   "velocity" : {
-    "x" : 3,
-    "y" : 0
+    "x" : 3.0,
+    "y" : 0.0
   },
   "shootPosition" : {
     "x" : 55,
     "y" : -13
   },
   "timingAppear" : 200,
-  "shootDelay": 100
-
+  "shootDelay": 100,
+  "animateSpeed" : 5
 }

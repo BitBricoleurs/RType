@@ -27,7 +27,6 @@ namespace Client {
                     return;
                 auto typePowerUp = static_cast<PowerUpType>(std::any_cast<int>(args[0]));
                 EntityFactory  &factory = EntityFactory::getInstance();
-                Utils::Vect2 pos = {0, 0};
 
                 size_t entityId = 0;
                 for (auto id : ids ) {

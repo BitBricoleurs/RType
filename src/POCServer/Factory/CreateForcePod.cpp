@@ -30,11 +30,11 @@ namespace Server {
                 velocity,
                 scale
             );
-
+            std::cout << "EntityId: " << entityId << std::endl;
             container.bindComponentToEntity(entityId, std::make_shared<IsForcePod>());
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {};
-            std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "INT", args);
+            std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
             EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);

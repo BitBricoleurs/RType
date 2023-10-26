@@ -13,7 +13,7 @@ namespace Server {
 
     class IsPower : public GameEngine::AComponent {
     public:
-      IsPower(PowerUpType type);
+      explicit IsPower(PowerUpType type);
 
       size_t getComponentType() override;
       PowerUpType type;

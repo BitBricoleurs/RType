@@ -18,6 +18,7 @@
 #include "IsPlayer.hpp"
 #include "Shooter.hpp"
 #include "EntityFactory.hpp"
+#include "NetworkClientId.hpp"
 
 namespace Server {
 

@@ -1,32 +1,30 @@
 //
-// Created by Clément Lagasse on 09/10/2023.
+// Created by alexandre on 26/10/23.
 //
 
 #pragma once
 
-#include "Server.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
-#include "ComponentsType.hpp"
 #include "Message.hpp"
-#include "UserMessage.hpp"
+#include "ComponentContainer.hpp"
+#include "ComponentsType.hpp"
 #include "NetworkClientId.hpp"
-#include "VelocityComponent.hpp"
-#include "IMessage.hpp"
-#include "Shooter.hpp"
-#include "IsForcePod.hpp"
 #include "IsPlayer.hpp"
+#include "PositionComponent2D.hpp"
+#include "Shooter.hpp"
+#include "VelocityComponent.hpp"
+#include "EntityFactory.hpp"
+#include "IsForcePod.hpp"
 
 namespace Server {
 
-    class NetworkMoveClient : public GameEngine::ISystem {
+    class NetworkUpdatePosForcePod : public GameEngine::ISystem {
         public:
-            NetworkMoveClient() = default;
+            NetworkUpdatePosForcePod() = default;
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
-
         private:
-            float _speed = 7;
-
     };
+
 }

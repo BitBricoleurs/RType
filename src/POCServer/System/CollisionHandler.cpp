@@ -56,9 +56,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             auto powerEntity = checkCollision("IsPlayer", "IsPower") ? secondEntity : firstEntity;
             auto playerComp = std::dynamic_pointer_cast<IsPlayer>(*getComponent(playerEntity, "IsPlayer"));
 
-            std::cout << "Enter PowerUp" << std::endl;
             if (playerComp->entityIdForcePod == 0) {
-                std::cout << "Enter PowerUp if statement" << std::endl;
                 auto posCompPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*getComponent(playerEntity, "PositionComponent2D"));
                 eventHandler.queueEvent("ForcePodSpawn", posCompPlayer->pos.y);
             } else {
@@ -74,8 +72,12 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs forcepod
         if (checkCollision("IsPlayer", "IsForcePod") || checkCollision("IsForcePod", "IsPlayer")) {
-            std::cout << "ForcePodFix" << std::endl;
-            eventHandler.queueEvent("ForcePodFix", checkCollision("IsPlayer", "IsForcePod") ? firstEntity : secondEntity);
+            size_t playerEntity = checkCollision("IsPlayer", "IsForcePod") ? firstEntity : secondEntity;
+            size_t forcePodEntity = checkCollision("IsPlayer", "IsForcePod") ? secondEntity : firstEntity;
+            auto isForcePod = std::dynamic_pointer_cast<IsForcePod>(*getComponent(forcePodEntity, "IsForcePod"));
+            if (isForcePod->entityId == 0) {
+                eventHandler.queueEvent("ForcePodFix", std::make_tuple(playerEntity, forcePodEntity));
+            }
         }
 
     } catch (const std::exception& e) {

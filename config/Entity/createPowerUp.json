@@ -22,7 +22,8 @@
         "a" : 255
       },
       "hitBoxHeight" : 16,
-      "hitBoxWidth" : 16
+      "hitBoxWidth" : 16,
+      "animateSpeed" : 20
       }
   ]
 }

@@ -37,22 +37,18 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
 
         velocity->velocity.x += directionMap[event.first].first;
         velocity->velocity.y += directionMap[event.first].second;
-      
+
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
                 auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
-                velocityForcePod->velocity.x += directionMap[event.first].first;
-                velocityForcePod->velocity.y += directionMap[event.first].second;
-                size_t serverId = EntityFactory::getInstance().getServerId(isPlayer->entityIdForcePod);
-                Network::Message message("UPDATE_VELOCITY", {serverId}, "float", {directionMap[event.first].first, directionMap[event.first].second});
-                eventHandler.queueEvent("SEND_NETWORK", std::make_shared<Network::Message>(message));
+                velocityForcePod->velocity.x = velocity->velocity.x;
+                velocityForcePod->velocity.y = velocity->velocity.y;
             }
         }
+        std::vector<size_t> ids = {};
+        std::vector<std::any> args = {velocity->velocity.x, velocity->velocity.y};
+        std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
+        eventHandler.queueEvent("SEND_NETWORK", message);
     }
-    std::vector<size_t> ids = {};
-    std::vector<float> argsF = {directionMap[event.first].first, directionMap[event.first].second};
-    std::vector<std::any> args = {directionMap[event.first].first, directionMap[event.first].second};
-    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
-    eventHandler.queueEvent("SEND_NETWORK", message);
 }

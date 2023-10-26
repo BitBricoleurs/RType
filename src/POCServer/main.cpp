@@ -29,6 +29,7 @@
 #include "CheckEveryClientReady.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
+#include "NetworkUpdatePosForcePod.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -61,16 +62,18 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
+    auto updatePosForcePod = std::make_shared<Server::NetworkUpdatePosForcePod>();
 
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
-    engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
+    engine.scheduleEvent("UPDATE_WORLD", 3000, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
+    engine.addEvent("UPDATE_POS_FORCE_POD", updatePosForcePod);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
@@ -90,6 +93,8 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addEvent("PlayerHitMob", PlayerHitMob1);
     engine.addEvent("ForcePodSpawn", forcePodSpawn);
+    engine.addEvent("ForcePodStop", forcePodSpawn);
+    engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
 }

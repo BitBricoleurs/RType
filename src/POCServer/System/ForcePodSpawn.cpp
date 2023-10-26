@@ -10,15 +10,13 @@ namespace Server {
     {
         auto anyEvent = eventHandler.getTriggeredEvent();
         if (anyEvent.first == "ForcePodSpawn") {
-            std::cout << "ForcePodSpawn" << std::endl;
             auto anyEventSecond = eventHandler.getTriggeredEvent().second;
             auto posY = std::any_cast<float>(anyEventSecond);
             size_t entityId = EntityFactory::getInstance().spawnForcePod(componentsContainer, eventHandler, Utils::Vect2(-100, posY));
-            eventHandler.scheduleEvent("ForcePodStop", 200, entityId);
+            eventHandler.scheduleEvent("ForcePodStop", 200, entityId, 1);
             auto IdCharge = std::make_tuple(entityId, 0);
-            eventHandler.scheduleEvent("ShootSystem", 100, IdCharge);
+            eventHandler.scheduleEvent("SHOOT", 100, IdCharge);
         } else if (anyEvent.first == "ForcePodStop") {
-            eventHandler.unscheduleEvent("ForcePodStop");
             auto anyEventSecond = anyEvent.second;
             auto entityId = std::any_cast<size_t>(anyEventSecond);
             auto velocityOpt = componentsContainer.getComponent(entityId, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
@@ -26,41 +24,23 @@ namespace Server {
                 auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOpt.value());
                 velocity->velocity.x = 0;
                 velocity->velocity.y = 0;
+                EntityFactory::getInstance().updateEntityNetworkWithVelocity(eventHandler, entityId, velocity->velocity);
             }
         } else if (anyEvent.first == "ForcePodFix") {
-            auto anyEventSecond = anyEvent.second;
-            auto entityIdPlayer = std::any_cast<size_t>(anyEventSecond);
-            auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsForcePod"));
-            for (const auto& entityID : entities) {
-                auto forcePodOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsForcePod"));
-                auto posForcePodOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                auto velocityForcePodOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-                if (forcePodOpt.has_value() && posForcePodOpt.has_value() && velocityForcePodOpt.has_value()) {
-                    auto forcePod = std::dynamic_pointer_cast<IsForcePod>(forcePodOpt.value());
-                    auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posForcePodOpt.value());
-                    auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
-                    velocityForcePod->velocity.x = 0;
-                    if (forcePod->entityId == 0) {
-                        forcePod->entityId = entityIdPlayer;
-                        auto entitiesPlayer = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
-                        for (const auto& entityIDPlayer : entitiesPlayer) {
-                            auto playerOpt = componentsContainer.getComponent(entityIDPlayer, GameEngine::ComponentsType::getComponentType("IsPlayer"));
-                            auto shooterOpt = componentsContainer.getComponent(entityIDPlayer, GameEngine::ComponentsType::getComponentType("Shooter"));
-                            auto posOpt = componentsContainer.getComponent(entityIDPlayer, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                            if (playerOpt.has_value() && shooterOpt.has_value() && posOpt.has_value()) {
-                                auto player = std::dynamic_pointer_cast<IsPlayer>(playerOpt.value());
-                                auto shooter = std::dynamic_pointer_cast<Shooter>(shooterOpt.value());
-                                auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
-                                if (player->entityIdForcePod == 0) {
-                                    player->entityIdForcePod = entityID;
-                                }
-                                Utils::Vect2 shootingPosition(pos->pos.x + shooter->shootPosition.x, pos->pos.y + shooter->shootPosition.y - 13);
-                                posForcePod->pos = shootingPosition;
-                                shooter->shootPosition.x =  shooter->shootPosition.x + 45;
-                            }
-                        }
-                    }
-                }
+            auto Ids = std::any_cast<std::tuple<size_t, size_t>>(anyEvent.second);
+            auto playerId = std::get<0>(Ids);
+            auto forcePodId = std::get<1>(Ids);
+            auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+            auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("Shooter")).value());
+            if (isPlayer->entityIdForcePod == 0) {
+                shooter->shootPosition.x =  shooter->shootPosition.x + 45;
+
+                auto netInterfaceId = std::dynamic_pointer_cast<NetworkClientId>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value())->id;
+                std::vector<size_t> ids = {playerId};
+                std::vector<std::any> args = {static_cast<int>(playerId), static_cast<int>(forcePodId)};
+                std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("SYNC_FORCE_POD_PLAYER", ids, "INT", args, true);
+                std::shared_ptr<Network::UserMessage> notMessage = std::make_shared<Network::UserMessage>(netInterfaceId, message);
+                eventHandler.queueEvent("SEND_NETWORK", notMessage);
             }
         }
     }
