@@ -16,7 +16,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             return componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType(componentName));
         };
 
-        auto checkCollision = [&](const std::string& componentName1, const std::string& componentName2) {
+        auto checkCollision = [=](const std::string& componentName1, const std::string& componentName2) {
             return getComponent(firstEntity, componentName1).has_value() && getComponent(secondEntity, componentName2).has_value();
         };
 
