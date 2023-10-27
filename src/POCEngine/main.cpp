@@ -104,7 +104,6 @@ void initScene(GameEngine::GameEngine &engine) {
   auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
 
   auto window = engine.createEntity();
-  engine.bindComponentToEntity(window, std::make_shared<RenderEngine::WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.addEvent("SpawnPowerUp", spawnPowerUp);
   engine.addEvent("PlayerHit", PlayerHit1);

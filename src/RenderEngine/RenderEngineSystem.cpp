@@ -102,11 +102,14 @@ namespace RenderEngine {
       renderEngine->ClearBackgroundRender(BLACK);
       auto windowID = componentsContainer.getComponents(
             GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
-      if (windowID.size() <= 1 && !windowID[1].has_value())
-        return;
-       auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(windowID[1].value());
+      std::shared_ptr<WindowInfoComponent> window;
+      if (windowID[0].has_value())
+        window = std::dynamic_pointer_cast<WindowInfoComponent>(
+            std::any_cast<std::shared_ptr<GameEngine::IComponent>>(windowID[0].value()));
+      if (window == nullptr)
+          return;
       BeginDrawing();
-      BeginMode2D(windowcast->camera);
+      BeginMode2D(window->camera);
 
     std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
