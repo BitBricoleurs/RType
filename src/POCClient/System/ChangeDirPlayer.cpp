@@ -42,8 +42,14 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
                 auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
+                auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("Shooter")).value());
+                auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 13);
+                posForcePod->pos = shootingPosition;
                 velocityForcePod->velocity.x = velocity->velocity.x;
                 velocityForcePod->velocity.y = velocity->velocity.y;
+
             }
         }
         std::vector<size_t> ids = {};

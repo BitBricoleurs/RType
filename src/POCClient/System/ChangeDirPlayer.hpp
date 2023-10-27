@@ -9,6 +9,7 @@
 #include "ComponentContainer.hpp"
 #include "EventHandler.hpp"
 #include <unordered_map>
+#include "Shooter.hpp"
 
 namespace Client {
     class ChangeDirPlayer : public GameEngine::ISystem {

@@ -36,6 +36,7 @@
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
 #include "PowerUpUtils.hpp"
+#include "Shooter.hpp"
 
 namespace Client {
 

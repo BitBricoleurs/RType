@@ -29,12 +29,9 @@ void Client::SyncForcePodPlayer::update(GameEngine::ComponentsContainer &compone
         auto clientPlayerId = EntityFactory::getInstance().getClientId(playerId);
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientPlayerId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
         isPlayer->entityIdForcePod = entityIdForcePod;
-
-        std::vector<size_t> idsRespond = {};
-        std::vector<std::any> argsRespond = {playerId, forcePodId};
-        std::shared_ptr<Network::IMessage> messageRespond = std::make_shared<Network::Message>("UPDATE_POS_FORCE_POD", idsRespond, "INT", argsRespond);
-        eventHandler.queueEvent("SEND_NETWORK", messageRespond);
-
+        auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+        auto playerVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(clientPlayerId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+        forcePodVelocity->velocity = playerVelocity->velocity;
         }
         catch (std::bad_any_cast &e) {
             std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;

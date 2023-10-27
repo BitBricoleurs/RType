@@ -37,13 +37,9 @@ namespace Server {
             auto forcePod = std::dynamic_pointer_cast<IsForcePod>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
             auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
             if (isPlayer->entityIdForcePod == 0) {
-                forcePodVelocity->velocity.x = 0;
+
                 isPlayer->entityIdForcePod = forcePodId;
-                forcePod->entityId = playerId;
-                Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 13);
-                posForcePod->pos = shootingPosition;
                 shooter->shootPosition.x =  shooter->shootPosition.x + 45;
-                EntityFactory::getInstance().updateEntityNetwork(eventHandler, forcePodId, posForcePod->pos, forcePodVelocity->velocity);
 
                 auto netInterfaceId = std::dynamic_pointer_cast<NetworkClientId>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value())->id;
                 std::vector<size_t> ids = {playerId};

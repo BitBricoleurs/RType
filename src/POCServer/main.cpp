@@ -29,7 +29,6 @@
 #include "CheckEveryClientReady.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
-#include "NetworkUpdatePosForcePod.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -62,7 +61,6 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
-    auto updatePosForcePod = std::make_shared<Server::NetworkUpdatePosForcePod>();
 
 
     engine.addEvent("CREATE_WORLD", createWorld);
@@ -73,7 +71,6 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
-    engine.addEvent("UPDATE_POS_FORCE_POD", updatePosForcePod);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
