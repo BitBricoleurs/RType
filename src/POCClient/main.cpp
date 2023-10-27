@@ -31,10 +31,15 @@
 #include "InitAudioBackgroud.hpp"
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
-#include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
+#include "InitScreenConnect.hpp"
+#include "ActionButtonConnectClick.hpp"
+#include "ButtonConnectAnimation.hpp"
+#include "MenuSelect.hpp"
+#include "MenuNavigate.hpp"
+#include "InputTextSystem.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -140,6 +145,44 @@ void setup_animations(GameEngine::GameEngine &engine) {
   engine.addEvent("animatePlayer", animateOnMove);
 }
 
+void setup_connect_screen(GameEngine::GameEngine &engine)
+{
+    auto initScreenConnect = std::make_shared<Client::InitScreenConnect>();
+    auto actionButtonConnectClick = std::make_shared<Client::ActionButtonConnectClick>();
+    auto buttonAnimHover = std::make_shared<Client::ButtonConnectAnimationHover>();
+    auto buttonAnimNormal = std::make_shared<Client::ButtonConnectAnimationNormal>();
+    auto menuSelect = std::make_shared<Client::MenuSelect>();
+    auto menuNav = std::make_shared<Client::MenuNavigate>();
+    auto inputText = std::make_shared<Client::InputTextSystem>();
+
+    engine.addEvent("InitScreenConnect", initScreenConnect);
+    engine.queueEvent("InitScreenConnect");
+    // Connect Button
+    engine.addEvent("CLICK_CONNECT", actionButtonConnectClick);
+    engine.addEvent("HOVER_CONNECT", buttonAnimHover);
+    engine.addEvent("NORMAL_CONNECT", buttonAnimNormal);
+    // Menu
+    engine.addEvent("UPDATE_SELECT", menuSelect);
+    engine.addEvent("UP_KEY_PRESSED", menuNav);
+    engine.addEvent("DOWN_KEY_PRESSED", menuNav);
+    engine.addEvent("LEFT_KEY_PRESSED", menuNav);
+    engine.addEvent("RIGHT_KEY_PRESSED", menuNav);
+    // Input
+    engine.addEvent("ZERO_KEY_PRESSED", inputText);
+    engine.addEvent("ONE_KEY_PRESSED", inputText);
+    engine.addEvent("TWO_KEY_PRESSED", inputText);
+    engine.addEvent("THREE_KEY_PRESSED", inputText);
+    engine.addEvent("FOUR_KEY_PRESSED", inputText);
+    engine.addEvent("FIVE_KEY_PRESSED", inputText);
+    engine.addEvent("SIX_KEY_PRESSED", inputText);
+    engine.addEvent("SEVEN_KEY_PRESSED", inputText);
+    engine.addEvent("EIGHT_KEY_PRESSED", inputText);
+    engine.addEvent("NINE_KEY_PRESSED", inputText);
+    engine.addEvent("S_KEY_PRESSED", inputText);
+    engine.addEvent("DELETE_KEY_PRESSED", inputText);
+    engine.addEvent("SPACE_KEY_PRESSED", inputText);
+}
+
 int main() {
   GameEngine::GameEngine engine;
   Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> queue;
@@ -152,12 +195,13 @@ int main() {
       int tick = data.getInt("/client/tick");
       Network::Endpoint endpoint(ip, port);
 
-      Network::Client::init(tick, queue);
-      setup_network(engine, queue, endpoint);
-      setup_sync_systems(engine);
-      setup_game(engine);
-      setup_hud(engine);
-      setup_animations(engine);
+      //Network::Client::init(tick, queue);
+      //setup_network(engine, queue, endpoint);
+      //setup_sync_systems(engine);
+      //setup_game(engine);
+      //setup_hud(engine);
+      //setup_animations(engine);
+      setup_connect_screen(engine);
       auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
       engine.addSystem("RENDER", render, 4);
       engine.run();

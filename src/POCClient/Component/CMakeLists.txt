@@ -14,6 +14,14 @@ set(POCCLIENT_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/IsChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/isHealthBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Score.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsBackgroundConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsMenuConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsMenuIp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsMenuPort.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsButtonConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InputText.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsSelected.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MenuNavigation.cpp
         CACHE INTERNAL ""
 
 )

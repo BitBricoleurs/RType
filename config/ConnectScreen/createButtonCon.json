@@ -1,0 +1,15 @@
+{
+  "button_con" : {
+    "spritePath": "assets/Connect_Screen/connect_button.png",
+    "spritePosX": 700,
+    "spritePosY": 850,
+    "scale": 0.80,
+    "frame" : 3,
+    "reverse": false,
+    "spriteSheetHeight": 128,
+    "spriteSheetWidth": 1722,
+    "hitboxHeight": 128,
+    "hitboxWidth": 574,
+    "layer": 9
+  }
+}

@@ -46,7 +46,7 @@ namespace RenderEngine {
         float scaleY{};
 
 
-            std::vector<KeyMapping> keyMappings = {
+        std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },
         { KEY_SPACE, IsKeyReleased, "SPACE_KEY_RELEASED" },
         { KEY_UP, IsKeyPressed, "UP_KEY_PRESSED" },
@@ -58,8 +58,21 @@ namespace RenderEngine {
         { KEY_RIGHT, IsKeyPressed, "RIGHT_KEY_PRESSED" },
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
-        {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_F11, IsKeyPressed, "toggleFullScreen"},
+        { KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
+        { KEY_F11, IsKeyPressed, "toggleFullScreen"},
+        { KEY_S, IsKeyPressed, "S_KEY_PRESSED"},
+        { KEY_DELETE, IsKeyPressed, "DELETE_KEY_PRESSED"},
+        { KEY_ZERO, IsKeyPressed, "ZERO_KEY_PRESSED"},
+        { KEY_ONE, IsKeyPressed, "ONE_KEY_PRESSED"},
+        { KEY_TWO, IsKeyPressed, "TWO_KEY_PRESSED"},
+        { KEY_THREE, IsKeyPressed, "THREE_KEY_PRESSED"},
+        { KEY_FOUR, IsKeyPressed, "FOUR_KEY_PRESSED"},
+        { KEY_FIVE, IsKeyPressed, "FIVE_KEY_PRESSED"},
+        { KEY_SIX, IsKeyPressed, "SIX_KEY_PRESSED"},
+        { KEY_SEVEN, IsKeyPressed, "SEVEN_KEY_PRESSED"},
+        { KEY_EIGHT, IsKeyPressed, "EIGHT_KEY_PRESSED"},
+        { KEY_NINE, IsKeyPressed, "NINE_KEY_PRESSED"},
+
     };
 
     static bool fileExists(const std::string& path);

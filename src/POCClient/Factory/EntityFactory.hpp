@@ -108,6 +108,18 @@ namespace Client {
             std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
+
+        size_t createBackGroundConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createMenuConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createConnectButton(GameEngine::ComponentsContainer &container);
+
+        size_t createInputIp(GameEngine::ComponentsContainer &container);
+
+        size_t createInputPort(GameEngine::ComponentsContainer &container);
+
+
     private:
       EntityFactory() = default;
       ~EntityFactory() = default;

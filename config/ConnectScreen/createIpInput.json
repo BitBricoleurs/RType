@@ -1,0 +1,27 @@
+{
+  "ip_input": {
+    "spritePath": "assets/Connect_Screen/ip_txt.png",
+    "spritePosX": 450,
+    "spritePosY": 500,
+    "frame" : 2,
+    "spriteSheetHeight": 128,
+    "spriteSheetWidth": 1364,
+    "hitboxHeight": 128,
+    "hitboxWidth": 681,
+    "scale": 0.80,
+    "reverse": false,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 9,
+    "delimiter": ".",
+    "nbrSection" : 4,
+    "maxSizeSection" : 3,
+    "maxSizeInput" : 16,
+    "relatixeTextPosX" : 105,
+    "relatixeTextPosY" : 32
+  }
+}

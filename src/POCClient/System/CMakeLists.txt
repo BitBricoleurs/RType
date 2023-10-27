@@ -26,5 +26,11 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/InitAudioBackgroud.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkSendReady.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveStartGame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitScreenConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActionButtonConnectClick.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ButtonConnectAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InputTextSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MenuSelect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MenuNavigate.cpp
         CACHE INTERNAL ""
 )
