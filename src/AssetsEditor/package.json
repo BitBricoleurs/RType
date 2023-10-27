@@ -1,0 +1,16 @@
+{
+  "name": "assetseditor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^27.0.2",
+    "pixi.js": "^7.3.2"
+  }
+}
