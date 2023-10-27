@@ -33,11 +33,21 @@ namespace Client {
                 auto positionComponent = componentsContainer.getComponent(entityToUpdate, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
                 if (!positionComponent.has_value())
                     return;
-                float x = std::any_cast<float>(args[0]);
-                float y = std::any_cast<float>(args[1]);
+                Utils::Vect2 targetPosition(std::any_cast<float>(args[0]), std::any_cast<float>(args[1]));
 
                 auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionComponent.value());
-                position->pos = {x, y};
+                float distance = position->pos.magnitude(targetPosition);
+                if (isEntityMotionless(componentsContainer, entityToUpdate)) {
+                    trySmoothingPosition(componentsContainer, entityToUpdate, targetPosition);
+                    return;
+                } else if (isEntitySmoothing(componentsContainer, entityToUpdate)) {
+                    return;
+                } else {
+                    tryRemovingSmoothing(componentsContainer, entityToUpdate);
+                }
+                if (distance > 50) {
+                    position->pos = targetPosition;
+                }
             }
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
@@ -45,3 +55,45 @@ namespace Client {
     }
 
 } // namespace Client
+
+bool Client::UpdatePosition::isEntityMotionless(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto velocityComponent = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+    if (!velocityComponent.has_value())
+        return false;
+    auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
+    return (velocity->velocity.x == 0 && velocity->velocity.y == 0);
+}
+
+void Client::UpdatePosition::trySmoothingPosition(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        auto smoothingComp = std::static_pointer_cast<Client::SmoothingMovement>(smoothing.value());
+        if (targetPosition.y != smoothingComp->_targetPosition.y && targetPosition.x != smoothingComp->_targetPosition.x) {
+            smoothingComp->_targetPosition = targetPosition;
+        }
+        return;
+    }
+    auto smoothingComp = std::make_shared<SmoothingMovement>(targetPosition);
+    componentsContainer.bindComponentToEntity(entity, smoothingComp);
+}
+
+void Client::UpdatePosition::tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    if (isEntitySmoothing(componentsContainer, entity)) {
+        componentsContainer.unbindComponentFromEntity(entity, smoothingType);
+    }
+}
+
+bool Client::UpdatePosition::isEntitySmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        return true;
+    }
+    return false;
+}

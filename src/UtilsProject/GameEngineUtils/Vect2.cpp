@@ -38,13 +38,10 @@ namespace Utils {
         return *this;
     }
 
-    float Vect2::magnitude() const { return std::sqrt(x * x + y * y); }
+    float Vect2::magnitude(const Vect2& v) const { return std::sqrt(x * v.x + y * v.y); }
 
-    Vect2 Vect2::normalize() const {
-        float mag = magnitude();
-        if (mag == 0) {
-            return Vect2(0, 0);
-        }
-        return Vect2(x / mag, y / mag);
+    Vect2 Vect2::normalize(const Vect2& v) const {
+        float mag = magnitude(v);
+        return { v.x / mag, v.y / mag };
     }
 }

@@ -26,5 +26,7 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/InitAudioBackgroud.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkSendReady.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveStartGame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/iAmAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SmoothMovementSystem.cpp
         CACHE INTERNAL ""
 )

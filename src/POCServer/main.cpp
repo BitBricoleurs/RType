@@ -27,6 +27,7 @@
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "NetworkClientReady.hpp"
 #include "CheckEveryClientReady.hpp"
+#include "NetworkClientAlive.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -38,6 +39,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto timeout = std::make_shared<Server::NetworkClientTimeout>();
     auto networkClientReady = std::make_shared<Server::NetworkClientReady>();
     auto checkEveryClientReady = std::make_shared<Server::CheckEveryClientReady>();
+    auto networkAlive = std::make_shared<Server::NetworkClientAlive>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -48,6 +50,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addSystem("NETWORK_TIMEOUT", timeout);
     engine.addEvent("READY", networkClientReady);
     engine.addEvent("CHECK_EVERY_CLIENT_READY", checkEveryClientReady);
+    engine.addEvent("ALIVE", networkAlive);
 }
 
 void setup_sync_systems(GameEngine::GameEngine &engine)
@@ -63,7 +66,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
-    engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
+    engine.scheduleEvent("UPDATE_WORLD", 10, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
     engine.addEvent("SHOOT", shoot);

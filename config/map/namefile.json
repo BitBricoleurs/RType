@@ -1,0 +1,508 @@
+{
+    "mobs": [
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 612.2999877929688
+            },
+            "tick": 151
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 141.29998779296875
+            },
+            "tick": 166
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 518.0999755859375
+            },
+            "tick": 166
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 196
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 329.6999816894531
+            },
+            "tick": 226
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 423.8999938964844
+            },
+            "tick": 226
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 659.3999633789063
+            },
+            "tick": 226
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 612.2999877929688
+            },
+            "tick": 241
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 47.099998474121094
+            },
+            "tick": 256
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 141.29998779296875
+            },
+            "tick": 331
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 800.699951171875
+            },
+            "tick": 346
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 329.6999816894531
+            },
+            "tick": 361
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 391
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 141.29998779296875
+            },
+            "tick": 421
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 282.5999755859375
+            },
+            "tick": 436
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 471.0
+            },
+            "tick": 451
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 235.5
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 282.5999755859375
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 329.6999816894531
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 376.79998779296875
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 423.8999938964844
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 471.0
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 518.0999755859375
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 586
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 601
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 616
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 631
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 646
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 661
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 235.5
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 282.5999755859375
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 329.6999816894531
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 376.79998779296875
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 423.8999938964844
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 471.0
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 518.0999755859375
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 691
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 706
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 706
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 721
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 721
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 736
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 736
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 751
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 751
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.39999389648438
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 235.5
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 282.5999755859375
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 329.6999816894531
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 376.79998779296875
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 423.8999938964844
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 471.0
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 518.0999755859375
+            },
+            "tick": 766
+        },
+        {
+            "dropPowerup": false,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.199951171875
+            },
+            "tick": 766
+        }
+    ]
+}

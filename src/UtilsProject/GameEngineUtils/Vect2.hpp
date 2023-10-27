@@ -20,7 +20,7 @@ namespace Utils {
         Vect2& operator-=(const Vect2& v);
         Vect2& operator*=(float scalar);
 
-        float magnitude() const;
-        Vect2 normalize() const;
+        float magnitude(const Vect2& v) const;
+        Vect2 normalize(const Vect2& v) const;
     };
 }

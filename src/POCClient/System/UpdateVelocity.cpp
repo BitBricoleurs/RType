@@ -29,6 +29,9 @@ namespace Client {
             EntityFactory &factory = EntityFactory::getInstance();
             for (auto &id : ids) {
                 size_t entityToUpdate = factory.getClientId(id);
+                if (isEntitySelf(componentsContainer, entityToUpdate)) {
+                    return;
+                }
                 auto velocityComponent = componentsContainer.getComponent(entityToUpdate, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
                 if (!velocityComponent.has_value())
                     return;
@@ -46,3 +49,16 @@ namespace Client {
     }
 
 } // namespace Client
+
+bool Client::UpdateVelocity::isEntitySelf(GameEngine::ComponentsContainer &componentsContainer, size_t entityToCheck)
+{
+    auto isPLayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+
+    auto entities = componentsContainer.getEntitiesWithComponent(isPLayerType);
+    for (auto entity: entities) {
+        if (entityToCheck == entity) {
+            return true;
+        }
+    }
+    return false;
+}

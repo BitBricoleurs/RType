@@ -35,6 +35,7 @@
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
+#include "iAmAlive.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -50,6 +51,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
+    auto imAlive = std::make_shared<Client::iAmAlive>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -65,6 +67,8 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
+    engine.addEvent("ALIVE", imAlive);
+    engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {

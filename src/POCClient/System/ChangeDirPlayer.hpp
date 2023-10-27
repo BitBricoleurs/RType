@@ -19,5 +19,6 @@ namespace Client {
         private:
             float speed;
             std::unordered_map<std::string, std::pair<float, float>> directionMap;
+            void tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
     };
 }

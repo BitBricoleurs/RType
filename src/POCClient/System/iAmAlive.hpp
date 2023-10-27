@@ -1,5 +1,5 @@
 //
-// Created by Theophilus Homawoo on 11/10/2023.
+// Created by Clément Lagasse on 27/10/2023.
 //
 
 #pragma once
@@ -10,15 +10,16 @@
 #include "VelocityComponent.hpp"
 #include "Message.hpp"
 #include "EntityFactory.hpp"
-#include "ComponentsType.hpp"
 
 namespace Client {
-    class UpdateVelocity : public GameEngine::ISystem {
+
+    class iAmAlive : public GameEngine::ISystem {
     public:
-        UpdateVelocity() = default;
+        iAmAlive() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
-    private:
-        bool isEntitySelf(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
+
     };
+
 }
+
