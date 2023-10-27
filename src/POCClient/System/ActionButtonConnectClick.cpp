@@ -3,6 +3,7 @@
 //
 
 #include "ActionButtonConnectClick.hpp"
+#include "Endpoint.hpp"
 
 void Client::ActionButtonConnectClick::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
@@ -21,5 +22,10 @@ void Client::ActionButtonConnectClick::update(GameEngine::ComponentsContainer &c
     auto buttonConnect = std::static_pointer_cast<RenderEngine::ButtonComponent>(mayComp.value());
 
     buttonConnect->rect1.x = buttonConnect->rect1.w * 2;
+    size_t entityId = componentsContainer.createEntity();
+    std::string host;
+    std::string port;
+    auto endpoint = std::make_shared<Client::Endpoint>(host, port);
+    componentsContainer.bindComponentToEntity(entityId, endpoint);
     eventHandler.scheduleEvent("NETWORK_CONNECT", 3, std::any());
 }
