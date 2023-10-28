@@ -23,6 +23,7 @@ set(LIBRARY_NAME_UTILS Utils)
 set(LIBRARY_NAME_AUDIO AudioEngineLib)
 set(LIBRARY_NAME_RENDER RenderEngineLib)
 set(LIBRARY_NAME_PHYSICS PhysicsEngineLib)
+set(PROJECT_NAME_CONSOLE Console)
 
 add_library(${LIBRARY_NAME_GAMEENGINE} STATIC)
 add_library(${LIBRARY_NAME_NETLIB} STATIC)
@@ -36,7 +37,7 @@ add_executable(${PROJECT_NAME_POCCLIENT})
 add_executable(${PROJECT_NAME_POCCinematic})
 add_executable(${PROJECT_NAME_MAP_CREATOR})
 add_executable(${PROJECT_NAME_HUNTER})
-
+add_executable(${PROJECT_NAME_CONSOLE})
 
 add_subdirectory(lib)
 add_subdirectory(src)

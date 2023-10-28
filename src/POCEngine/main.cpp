@@ -52,6 +52,7 @@
 #include <memory>
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
+#include "Logger.hpp"
 
 
 void initScene(GameEngine::GameEngine &engine) {
@@ -275,6 +276,8 @@ Utils::Vect2 pos;
 int main() {
   GameEngine::GameEngine engine;
   engine.bindSceneInitiation("Scene1", initScene);
+  std::thread server_thread([]{ GameEngine::Logger::startServer(12345); });
+    server_thread.detach();
   std::string sceneName = "Scene1";
   engine.queueEvent("gameEngineChangeScene", sceneName);
   engine.run();

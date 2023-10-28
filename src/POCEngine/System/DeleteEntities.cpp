@@ -4,9 +4,11 @@
 
 #include "DeleteEntities.hpp"
 #include "WindowInfoComponent.hpp"
+#include "Logger.hpp"
 
 void DeleteEntities::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
+    GameEngine::Logger::info("DeleteEntities::update");
     auto windows = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     size_t sizeWidth = 0;
 
