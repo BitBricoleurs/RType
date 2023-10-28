@@ -14,6 +14,7 @@ set(POCCLIENT_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/IsChargingBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/isHealthBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Score.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SmoothingMovement.cpp
         CACHE INTERNAL ""
 
 )

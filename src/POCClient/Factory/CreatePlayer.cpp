@@ -81,7 +81,7 @@ namespace Client {
     size_t
     EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos, PlayerNumber playerNumber) {
+                                   Utils::Vect2 pos, Utils::Vect2 vel, PlayerNumber playerNumber) {
 
     try {
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");

@@ -35,6 +35,7 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
 
+        tryRemovingSmoothing(componentsContainer, id);
         velocity->velocity.x += directionMap[event.first].first;
         velocity->velocity.y += directionMap[event.first].second;
 
@@ -56,5 +57,21 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         std::vector<std::any> args = {velocity->velocity.x, velocity->velocity.y};
         std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
         eventHandler.queueEvent("SEND_NETWORK", message);
+    }
+}
+
+void Client::ChangeDirPlayer::tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        auto velocityComponent = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+        if (!velocityComponent.has_value())
+            return;
+        auto velComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
+        velComp->velocity.x = 0;
+        velComp->velocity.y = 0;
+        componentsContainer.unbindComponentFromEntity(entity, smoothingType);
+
     }
 }

@@ -34,6 +34,8 @@
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
+#include "iAmAlive.hpp"
+#include "EndSmoothing.hpp"
 #include "CreatePowerUp.hpp"
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
@@ -53,6 +55,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
+    auto imAlive = std::make_shared<Client::iAmAlive>();
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
 
@@ -62,7 +65,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ACCEPTED", networkAccept);
     engine.addEvent("gameEngineStop", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    //engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
+    engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
@@ -72,6 +75,8 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
+    engine.addEvent("ALIVE", imAlive);
+    engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {
@@ -81,6 +86,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
+    auto endSmoothing = std::make_shared<Client::EndSmoothing>();
     auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
     auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
 
@@ -96,6 +102,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("DOWN_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("LEFT_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
+    engine.addSystem("END_SMOOTHING", endSmoothing, 1);
     engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
     engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
 }

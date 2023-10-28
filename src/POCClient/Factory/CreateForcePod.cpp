@@ -4,13 +4,11 @@
 
 #include "EntityFactory.hpp"
 
-size_t Client::EntityFactory::spawnForcePod(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler)
+size_t Client::EntityFactory::spawnForcePod(GameEngine::ComponentsContainer &container, Utils::Vect2 pos, Utils::Vect2 vel, GameEngine::EventHandler &eventHandler)
 {
     try {
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createForcePod.json");
 
-        Utils::Vect2 pos = {0, 0};
-        Utils::Vect2 velocity = {0, 0};
         size_t entityId = createBaseEntity(
                 container,
                 data.getString("/path"),
@@ -20,7 +18,7 @@ size_t Client::EntityFactory::spawnForcePod(GameEngine::ComponentsContainer &con
                 data.getBool("/twoDirections"),
                 data.getBool("/reverse"),
                 pos,
-                velocity,
+                vel,
                 0,
                 data.getFloat("/scale"),
                 data.getFloat("/rotation"),

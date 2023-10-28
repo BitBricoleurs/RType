@@ -4,7 +4,7 @@
 
 #include "EntityFactory.hpp"
 
-size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, PowerUpType type)
+size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, Utils::Vect2 pos, Utils::Vect2 vel, PowerUpType type)
 {
     try {
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPowerUp.json");
@@ -13,8 +13,6 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
         for (int i = 0; i < size; i++) {
             PowerUpType typeTab = static_cast<PowerUpType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
             if (typeTab == type) {
-                Utils::Vect2 pos = {0, 0};
-                Utils::Vect2 velocity = {0, 0};
                 size_t entityId = createBaseEntity(
                         container,
                         data.getString("/powers/" + std::to_string(i) + "/path"),
@@ -24,7 +22,7 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
                         data.getBool("/powers/" + std::to_string(i) + "/twoDirections"),
                         data.getBool("/powers/" + std::to_string(i) + "/reverse"),
                         pos,
-                        velocity,
+                        vel,
                         0,
                         data.getFloat("/powers/" + std::to_string(i) + "/scale"),
                         data.getFloat("/powers/" + std::to_string(i) + "/rotation"),

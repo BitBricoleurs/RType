@@ -21,15 +21,16 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-                if (ids.size() != 1)
+                if (ids.size() != 1 && (args.size() != (ids.size() * 4)))
                     return;
                 EntityFactory  &factory = EntityFactory::getInstance();
 
                 size_t entityId = 0;
+                int arg_index = 0;
                 for (auto id : ids ) {
-
-                    entityId = Client::EntityFactory::getInstance().spawnForcePod(componentsContainer, eventHandler);
-                    std::cout << "EntityId: " << entityId << std::endl;
+                    Utils::Vect2 pos(static_cast<float>(std::any_cast<int>(args[arg_index])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 1])) / 1000);
+                    Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 2])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000);
+                    entityId = Client::EntityFactory::getInstance().spawnForcePod(componentsContainer, pos, velocity, eventHandler);
                     factory.registerEntity(entityId, id);
                 }
             } catch (std::bad_any_cast &e) {

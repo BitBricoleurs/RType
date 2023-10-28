@@ -79,7 +79,7 @@ namespace GameEngine {
                 update();
                 lastTickTime = currentTime;
             } else {
-                int sleepTime = static_cast<int>((tickSpeed - (currentTime - lastTickTime)) * 1000);
+                int sleepTime = static_cast<int>(tickSpeed - (currentTime - lastTickTime) * 10000);
                 if (sleepTime > 0) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
                 }
