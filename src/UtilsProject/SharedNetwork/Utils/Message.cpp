@@ -163,7 +163,7 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"DELETED_ENTITY", 0x12},
     {"READY", 0x13},
     {"START_GAME", 0x14},
-    {"ALIVE", 0x15}
+    {"ALIVE", 0x15},
     {"CREATED_POWERUP", 0x16},
     {"CREATED_FORCEPOD", 0x17},
     {"SYNC_FORCE_POD_PLAYER", 0x18},
