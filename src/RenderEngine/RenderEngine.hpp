@@ -32,11 +32,10 @@ namespace RenderEngine {
       void Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager);
       void PollEvents(
           GameEngine::EventHandler &eventHandler,
-          std::vector<std::pair<size_t, std::shared_ptr<ButtonComponent>>>
+          std::vector<std::pair<size_t, ButtonComponent>>
               buttons);
       void Shutdown();
       void ClearBackgroundRender(Color color);
-
       size_t getScreenWidth() const;
       size_t getScreenHeight() const;
 

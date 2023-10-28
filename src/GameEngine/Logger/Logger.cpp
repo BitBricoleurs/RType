@@ -15,7 +15,7 @@ void Logger::setLogLevel(Logger::LogLevel level) {
 
 void Logger::log(LogLevel level, const std::string& message) {
     if (static_cast<int>(level) < static_cast<int>(currentLogLevel)) {
-        return;  // Skip messages below the current log level
+        return;
     }
     std::string log_level_str = levelToString(level);
     std::string timestamp = getCurrentTimestamp();
