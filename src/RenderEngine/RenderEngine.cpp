@@ -25,7 +25,7 @@ namespace RenderEngine {
         }
     }
 
-    void RenderEngine::Draw(const ButtonComponent &buttonComponent, ResourceManager& ResourceManager) {
+    void RenderEngine::Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
         if (!buttonComponent.isVisible) {
             return;
         }
@@ -49,7 +49,7 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::Draw(const TextComponent &textComponent, ResourceManager& ResourceManager) {
+    void RenderEngine::Draw(const TextComponent &textComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
         Vector2 position = { textComponent.pos.x * scaleX, textComponent.pos.y * scaleY };
         Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
 
@@ -59,10 +59,10 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::Draw(const SpriteComponent &spriteComponent, ResourceManager& resourceManager) {
+    void RenderEngine::Draw(const SpriteComponent &spriteComponent, std::shared_ptr<ResourceManager>& resourceManager) {
     if (spriteComponent.isVisible) {
         std::string path = _baseAssetPath + spriteComponent.imagePath;
-        Texture2D texture = resourceManager.LoadTexture(path);
+        Texture2D texture = resourceManager->LoadTexture(path);
 
         if (texture.id == 0) {
             std::cerr << "Log: Failed to load texture: " << path << std::endl;
