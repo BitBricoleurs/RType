@@ -60,14 +60,12 @@ namespace Client {
                 data.getInt("/createPlayer/tint/a")),
             data.getInt("/createPlayer/layer"));
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-        eventHandler.scheduleEvent(
-            "animate", 5,
-            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        
         std::shared_ptr<AudioEngine::AudioComponent> shootSound = std::make_shared<AudioEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
         container.bindComponentToEntity(entityId, shootSound);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
         registerPlayer(entityId, playerNumber);
         return entityId;
     } catch (const nlohmann::json::exception& e) {

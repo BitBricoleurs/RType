@@ -141,8 +141,8 @@ namespace Client {
       auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
       Utils::rect spriteRect;
-      spriteRect.w = chargeShootAnimation->frameWidth;
-      spriteRect.h = chargeShootAnimation->frameHeight;
+      spriteRect.w = spriteSheetWidth / frames;
+      spriteRect.h = spriteSheetHeight;
       spriteRect.x = chargeShootAnimation->currentFrame.x;
       spriteRect.y = chargeShootAnimation->currentFrame.y;
 
@@ -152,7 +152,7 @@ namespace Client {
       auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(
           spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
           rotation, tint);
-      spriteComponent->isVisible = false;
+      spriteComponent->isVisible = true;
       size_t animationId = container.createEntity();
       container.bindComponentToEntity(animationId, positionComponent);
       container.bindComponentToEntity(animationId, chargeShootAnimation);
