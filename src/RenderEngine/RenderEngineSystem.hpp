@@ -14,6 +14,7 @@
 #include "SpriteComponent.hpp"
 #include "TextComponent.hpp"
 #include "WindowInfoComponent.hpp"
+#include "GameEngine.hpp"
 #include <memory>
 #include "ResourceManager.hpp"
 #include "LoadConfig.hpp"
@@ -22,7 +23,7 @@
 namespace RenderEngine {
     class RenderEngineSystem : public GameEngine::ISystem {
     public:
-        explicit RenderEngineSystem(const char* windowTitle);
+        explicit RenderEngineSystem(const char* windowTitle, GameEngine::GameEngine& componentContainer);
         ~RenderEngineSystem();
 
         void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;

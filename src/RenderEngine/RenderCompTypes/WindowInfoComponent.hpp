@@ -7,6 +7,7 @@
 #include <cstddef>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
+#include "raylib.h"
 
 namespace RenderEngine {
 
@@ -18,6 +19,7 @@ namespace RenderEngine {
 
       size_t windowWidth;
       size_t windowHeight;
+      Camera2D camera;
     };
 
 } // namespace RenderEngine

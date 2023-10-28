@@ -12,8 +12,8 @@ set(SOURCES
         PhysicsEngineMovementSystem2D.cpp
         )
 
-add_library(PhysicsEngineLib STATIC ${SOURCES})
-target_link_libraries(PhysicsEngineLib PUBLIC GameEngine UtilsLib)
+target_sources(PhysicsEngineLib PRIVATE ${SOURCES})
+target_link_libraries(PhysicsEngineLib PRIVATE ${LIBRARY_NAME_GAMEENGINE} ${LIBRARY_NAME_UTILS})
 
 target_include_directories(PhysicsEngineLib PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps

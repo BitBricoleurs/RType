@@ -51,7 +51,7 @@ namespace LoadConfig {
         if (data.contains(ptr)) {
             return true;
         }
-        throw std::runtime_error("Key not found: " + keyPath);
+        return false;
     }
 
     void ConfigData::eraseKey(const std::string& keyPath, int index) {

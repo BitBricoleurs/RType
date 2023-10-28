@@ -48,6 +48,9 @@ namespace GameEngine {
             eventHandler.clear();
             registry.clear();
             sceneMap[sceneNameString](*this);
+            eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
+            eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
+
         } catch (const std::bad_any_cast& e) {
             std::cerr << "Error: Scene name must be a string!" << std::endl;
             return;

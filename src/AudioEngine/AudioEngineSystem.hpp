@@ -8,7 +8,6 @@
 #pragma once
 
 #include "ISystem.hpp"
-#include "AudioEngine.hpp"
 #include "AudioComponent.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
@@ -19,6 +18,7 @@
 #include <any>
 
 namespace AudioEngine {
+    class AudioEngine;
     class AudioEngineSystem : public GameEngine::ISystem {
     public:
         AudioEngineSystem();
