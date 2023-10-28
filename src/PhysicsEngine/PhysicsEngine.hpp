@@ -31,7 +31,7 @@ namespace PhysicsEngine {
             positionComponent.pos = positionComponent.pos + velocity;
         }
 
-        void applyGravity(VelocityComponent& positionComponent, const Vect2& gravity, const float weight, const float fallTime) {
+        void applyGravity(VelocityComponent& positionComponent, const Utils::Vect2& gravity, const float weight, const float fallTime) {
             positionComponent.velocity = positionComponent.velocity + gravity * weight * fallTime;
         }
 

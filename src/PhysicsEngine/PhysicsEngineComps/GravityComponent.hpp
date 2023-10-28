@@ -11,15 +11,15 @@
 namespace PhysicsEngine {
     class GravityComponent : public GameEngine::AComponent {
     public:
-        GravityComponent(const Vect2& baseGravity, float weight)
+        GravityComponent(const Utils::Vect2& baseGravity, float weight)
             : baseGravity(baseGravity), weight(weight), fallTime(0) {}
 
         ~GravityComponent() override = default;
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("GravityComponent");
+            return GameEngine::ComponentsType::getNewComponentType("GravityComponent");
         }
-        Vect2 baseGravity;
+        Utils::Vect2 baseGravity;
         float weight;
         int fallTime;
 

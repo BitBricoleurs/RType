@@ -9,13 +9,13 @@
 #include "AComponent.hpp"
 
 
-namespace GameEngine {
-    class JumpComponent : public AComponent {
+namespace PhysicsEngine {
+    class JumpComponent : public GameEngine::AComponent {
     public:
         JumpComponent(bool canJump, float jumpStrength, float jumpSpeed) : canJump(canJump), jumpStrength(jumpStrength), jumpSpeed(jumpSpeed) {}
         ~JumpComponent() override = default;
 
-        size_t componentType = ComponentsType::getNewComponentType("JumpComponent");
+        size_t componentType = GameEngine::ComponentsType::getNewComponentType("JumpComponent");
         bool canJump = true;
         bool isJumping = false;
         float jumpStrength;

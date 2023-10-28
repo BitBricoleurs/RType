@@ -7,14 +7,14 @@
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
 
-namespace GameEngine {
-    class IsOnGroundComponent : public AComponent {
+namespace PhysicsEngine {
+    class IsOnGroundComponent : public GameEngine::AComponent {
     public:
         IsOnGroundComponent() = default;
         ~IsOnGroundComponent() override = default;
 
         size_t getComponentType() override {
-            return ComponentsType::getNewComponentType("IsOnGroundComponent");
+            return GameEngine::ComponentsType::getNewComponentType("IsOnGroundComponent");
         }
         bool onGround = false;
     private:

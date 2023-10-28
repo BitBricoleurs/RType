@@ -23,6 +23,6 @@ namespace GameEngine {
         ~PhysicsEngineGravitySystem() = default;
         void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override;
     private:
-        std::unique_ptr<PhysicsEngine> physicsEngine;
+        std::unique_ptr<PhysicsEngine::PhysicsEngine> physicsEngine;
     };
 }

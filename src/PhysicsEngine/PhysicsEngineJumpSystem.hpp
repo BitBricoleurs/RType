@@ -5,7 +5,6 @@
 #pragma once
 
 #include "ISystem.hpp"
-#include "Utils.hpp"
 #include "EventHandler.hpp"
 #include "JumpComponent.hpp"
 #include "IsOnGroundComponent.hpp"
@@ -16,26 +15,26 @@
 #include "PhysicsEngine.hpp"
 
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
-    class JumpSystem : public ISystem {
+    class JumpSystem : public GameEngine::ISystem {
     public:
         JumpSystem() = default;
         ~JumpSystem() = default;
 
-        void update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) override {
+        void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) override {
             while (!eventHandler.getTriggeredEvent().first.empty() && eventHandler.getTriggeredEvent().first == "Jump") {
                 auto entity = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
 
-                auto jumpComp = componentsContainer.getComponent(entity, ComponentsType::getComponentType("JumpComponent"));
-                auto isOnGround1 = componentsContainer.getComponent(entity, ComponentsType::getComponentType("IsOnGroundComponent"));
+                auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
+                auto isOnGround1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsOnGroundComponent"));
 
                 auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
                 auto isOnGround = std::dynamic_pointer_cast<IsOnGroundComponent>(*isOnGround1);
 
                 if (isOnGround->onGround && jump->canJump) {
 
-                    auto gravity1 = componentsContainer.getComponent(entity, ComponentsType::getComponentType("GravityComponent"));
+                    auto gravity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("GravityComponent"));
                     auto gravity = std::dynamic_pointer_cast<GravityComponent>(*gravity1);
                     size_t jumpDuration = calculateJumpDuration(gravity->baseGravity, jump->jumpStrength);
 
@@ -49,8 +48,8 @@ namespace GameEngine {
             while (!eventHandler.getTriggeredEvent().first.empty() && eventHandler.getTriggeredEvent().first == "ContinueJump") {
                 auto [entity, jumpDuration] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
 
-                auto velocity1 = componentsContainer.getComponent(entity, ComponentsType::getComponentType("VelocityComponent"));
-                auto jumpComp = componentsContainer.getComponent(entity, ComponentsType::getComponentType("JumpComponent"));
+                auto velocity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+                auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
 
                 auto velocity = std::dynamic_pointer_cast<VelocityComponent>(*velocity1);
                 auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
@@ -66,7 +65,7 @@ namespace GameEngine {
         }
 
     private:
-        size_t calculateJumpDuration(const Vect2& baseGravity, float jumpStrength) {
+        size_t calculateJumpDuration(const Utils::Vect2& baseGravity, float jumpStrength) {
             return static_cast<size_t>(-baseGravity.y * jumpStrength);
         }
         std::unique_ptr<PhysicsEngine> physicsEngine;

@@ -12,10 +12,10 @@ void GameEngine::PhysicsEngineGravitySystem::update(GameEngine::ComponentsContai
         auto position1 = componentsContainer.getComponent(entity, ComponentsType::getNewComponentType("PositionComponent2D"));
         auto velocity1 = componentsContainer.getComponent(entity, ComponentsType::getNewComponentType("VelocityComponent"));
         auto gravity1 = componentsContainer.getComponent(entity, ComponentsType::getNewComponentType("GravityComponent"));
-        auto isOnGround = std::dynamic_pointer_cast<IsOnGroundComponent>(*isOnGround1);
-        auto position = std::dynamic_pointer_cast<PositionComponent2D>(*position1);
-        auto velocity = std::dynamic_pointer_cast<VelocityComponent>(*velocity1);
-        auto gravity = std::dynamic_pointer_cast<GravityComponent>(*gravity1);
+        auto isOnGround = std::dynamic_pointer_cast<PhysicsEngine::IsOnGroundComponent>(*isOnGround1);
+        auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*position1);
+        auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(*velocity1);
+        auto gravity = std::dynamic_pointer_cast<PhysicsEngine::GravityComponent>(*gravity1);
 
         if (!isOnGround->onGround) {
             gravity->fallTime++;
