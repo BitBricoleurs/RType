@@ -35,6 +35,7 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
+#include "Shooter.hpp"
 
 namespace Client {
 
@@ -125,6 +126,7 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBossMob(GameEngine::ComponentsContainer &container,
@@ -141,6 +143,7 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBullet(GameEngine::ComponentsContainer &container,

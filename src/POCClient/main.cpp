@@ -1,5 +1,6 @@
 
 #include "AnimateDeath.hpp"
+#include "SyncChargeAnimations.hpp"
 #include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
@@ -133,11 +134,13 @@ void setup_animations(GameEngine::GameEngine &engine) {
   auto mobDeath = std::make_shared<Client::AnimateDeath>();
   auto updateSprite = std::make_shared<Client::updateEntitySprite>();
   auto animateOnMove = std::make_shared<Client::AnimateOnMove>();
+  auto syncChargeAnimations = std::make_shared<Client::SyncChargeAnimations>();
 
   engine.addEvent("MobDeath", mobDeath);
   engine.addEvent("KillEntity", killEntity);
   engine.addEvent("animate", updateSprite);
   engine.addEvent("animatePlayer", animateOnMove);
+  engine.addSystem("SyncChargeAnimations", syncChargeAnimations);
 }
 
 int main() {
