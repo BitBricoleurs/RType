@@ -62,9 +62,11 @@ namespace Client {
                          Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
-                          GameEngine::EventHandler &eventHandler, PowerUpType type);
+                          GameEngine::EventHandler &eventHandler,
+                          Utils::Vect2 pos, Utils::Vect2 vel, PowerUpType type);
 
       size_t spawnForcePod(GameEngine::ComponentsContainer &container,
+                           Utils::Vect2 pos, Utils::Vect2 vel,
                            GameEngine::EventHandler &eventHandler);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,

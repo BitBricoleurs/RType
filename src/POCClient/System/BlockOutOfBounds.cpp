@@ -12,13 +12,9 @@ void Client::BlockOutOfBounds::update(GameEngine::ComponentsContainer &component
     auto isPlayerId = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
     if (isPlayerId == 0)
         return;
-    std::cout << "isPlayerId: " << isPlayerId << std::endl;
-    auto spriteComp = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("SpriteComponent")).value());
-    std::cout << "Pass" << std::endl;
-    auto velocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
-    std::cout << "Pass" << std::endl;
-    auto posComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-    std::cout << "Pass" << std::endl;
+    auto spriteComp = std::static_pointer_cast<RenderEngine::SpriteComponent>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("SpriteComponent")).value());
+    auto velocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+    auto posComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
 
     float leftBound = 0;
     float rightBound = screenWidth - spriteComp->rect1.w * spriteComp->scale;
