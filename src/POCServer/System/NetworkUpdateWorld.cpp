@@ -13,10 +13,14 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto powerType = GameEngine::ComponentsType::getComponentType("IsPower");
+        auto forcePodType = GameEngine::ComponentsType::getComponentType("IsForcePod");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto powers = componentsContainer.getEntitiesWithComponent(powerType);
+        auto forcePods = componentsContainer.getEntitiesWithComponent(forcePodType);
 
         auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
         auto velocityType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
@@ -99,6 +103,39 @@ namespace Server {
             args.emplace_back(compVel->velocity.x);
             args.emplace_back(compVel->velocity.y);
             ids.push_back(bullet);
+            message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+            userMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            args.clear();
+            ids.clear();
+        }
+        // Updating Powers (position)
+        for (auto &power:  powers) {
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(power, positionType).value());
+            args.emplace_back(compPos->pos.x);
+            args.emplace_back(compPos->pos.y);
+            ids.push_back(power);
+            message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+            userMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            args.clear();
+            ids.clear();
+        }
+        // Updating ForcePods (position, velocity)
+        for (auto &forcePod:  forcePods) {
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(forcePod, positionType).value());
+            args.emplace_back(compPos->pos.x);
+            args.emplace_back(compPos->pos.y);
+            ids.push_back(forcePod);
+            message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+            userMessage = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            args.clear();
+            ids.clear();
+            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(forcePod, velocityType).value());
+            args.emplace_back(compVel->velocity.x);
+            args.emplace_back(compVel->velocity.y);
+            ids.push_back(forcePod);
             message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
             userMessage = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);

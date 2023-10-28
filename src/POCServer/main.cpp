@@ -28,6 +28,8 @@
 #include "NetworkClientReady.hpp"
 #include "CheckEveryClientReady.hpp"
 #include "NetworkClientAlive.hpp"
+#include "SpawnPowerUp.hpp"
+#include "ForcePodSpawn.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -81,14 +83,18 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    std::string path = "config/map";
-    auto spawnMob = std::make_shared<Server::SpawnMob>(path);
-    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    auto spawnMob = std::make_shared<Server::SpawnMob>("config/map");
+    auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
+    auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
 
+    engine.addEvent("SpawnPowerUp", spawnPowerUp);
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
     engine.addEvent("PlayerHit", PlayerHit1);
     engine.addEvent("MobHit", MobHit1);
     engine.addEvent("PlayerHitMob", PlayerHitMob1);
-
+    engine.addEvent("ForcePodSpawn", forcePodSpawn);
+    engine.addEvent("ForcePodStop", forcePodSpawn);
+    engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
 }

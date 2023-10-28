@@ -40,6 +40,11 @@ namespace Server {
             auto IdCharge = std::make_tuple(entityId, 0);
             eventHandler.scheduleEvent("ShootSystem", config.getInt("/shootDelay"), IdCharge);
 
+            if (dropPowerup) {
+                auto powerUp = std::make_shared<IsPowerUp>();
+                container.bindComponentToEntity(entityId, powerUp);
+            }
+
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::CANCER)};
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
@@ -93,6 +98,12 @@ namespace Server {
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
 
+            if (dropPowerup) {
+                auto powerUp = std::make_shared<IsPowerUp>();
+                container.bindComponentToEntity(entityId, powerUp);
+            }
+
+
             return entityId;
             }  catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnPataPataMob: " << e.what() << std::endl;
@@ -130,6 +141,11 @@ namespace Server {
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+
+            if (dropPowerup) {
+                auto powerUp = std::make_shared<IsPowerUp>();
+                container.bindComponentToEntity(entityId, powerUp);
+            }
 
             return entityId;
             } catch(const std::runtime_error& e) {

@@ -28,10 +28,14 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto powerType = GameEngine::ComponentsType::getComponentType("IsPower");
+        auto forcePodType = GameEngine::ComponentsType::getComponentType("IsForcePod");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto powers = componentsContainer.getEntitiesWithComponent(powerType);
+        auto forcePods = componentsContainer.getEntitiesWithComponent(forcePodType);
 
         auto mobTypeCompCancer = GameEngine::ComponentsType::getComponentType("Cancer");
         auto mobTypeCompPataPata = GameEngine::ComponentsType::getComponentType("PataPata");
@@ -126,6 +130,28 @@ namespace Server {
             args.emplace_back(static_cast<int>(velocity->velocity.x * 1000));
             args.emplace_back(static_cast<int>(velocity->velocity.y * 1000));
             message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
+            userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            ids.clear();
+            args.clear();
+        }
+
+        // Creating Powers
+        for(auto &power : powers) {
+            auto compIsPower = std::static_pointer_cast<IsPower>(componentsContainer.getComponent(power, powerType).value());
+            args.push_back(static_cast<int>(compIsPower->type));
+            ids.push_back(power);
+            message = std::make_shared<Network::Message>("CREATED_POWERUP", ids, "INT", args);
+            userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            ids.clear();
+            args.clear();
+        }
+
+        // Creating ForcePods
+        for(auto &forcePod : forcePods) {
+            ids.push_back(forcePod);
+            message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "", args);
             userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             ids.clear();
