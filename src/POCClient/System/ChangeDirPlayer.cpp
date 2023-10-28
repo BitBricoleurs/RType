@@ -63,6 +63,13 @@ void Client::ChangeDirPlayer::tryRemovingSmoothing(GameEngine::ComponentsContain
     auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
     auto smoothing = componentsContainer.getComponent(entity, smoothingType);
     if (smoothing.has_value()) {
+        auto velocityComponent = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+        if (!velocityComponent.has_value())
+            return;
+        auto velComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
+        velComp->velocity.x = 0;
+        velComp->velocity.y = 0;
         componentsContainer.unbindComponentFromEntity(entity, smoothingType);
+
     }
 }

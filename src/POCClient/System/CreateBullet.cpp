@@ -18,25 +18,26 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-            if (ids.size() >= 1 && args.size() != (ids.size() * 2))
+            if (ids.size() >= 1 && args.size() != (ids.size() * 6))
                 return;
 
         int arg_index = 0;
         for (auto &id : ids) {
             BulletOwner number = static_cast<BulletOwner>(std::any_cast<int>(args[arg_index]));
             BulletType typeBull = static_cast<BulletType>(std::any_cast<int>(args[arg_index + 1]));
+
             EntityFactory  &factory = EntityFactory::getInstance();
-            Utils::Vect2 pos = {0, 0};
+            Utils::Vect2 pos(static_cast<float>(std::any_cast<int>(args[arg_index + 2])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000);
+            Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 5])) / 1000);
             size_t entityId = 0;
             std::string path = "";
-            Utils::Vect2 velocity = {0, 0};
             if (number == BulletOwner::PLAYER)
                 entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
             else
                 printf("CreateBulletSystem: BulletOwner not implemented\n");
             factory.registerEntity(entityId, id);
             eventHandler.queueEvent("PLAY_SOUND", entityId);
-            arg_index += 2;
+            arg_index += 6;
             }
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from CreateBulletSystem " << e.what() << std::endl;

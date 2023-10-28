@@ -11,6 +11,7 @@
 #include "Message.hpp"
 #include "EntityFactory.hpp"
 #include "ComponentsType.hpp"
+#include "SmoothingMovement.hpp"
 
 namespace Client {
     class UpdateVelocity : public GameEngine::ISystem {
@@ -20,5 +21,7 @@ namespace Client {
                     GameEngine::EventHandler &eventHandler) override;
     private:
         bool isEntitySelf(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
+        bool isEntitySmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
+        void stopSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
     };
 }

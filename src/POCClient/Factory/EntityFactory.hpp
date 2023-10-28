@@ -49,22 +49,22 @@ namespace Client {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
                              Utils::Vect2 pos, PlayerNumber numberPlayer);
       size_t createNewStarship(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos, PlayerNumber playerNumber);
+                                   Utils::Vect2 pos, Utils::Vect2 vel, PlayerNumber playerNumber);
 
       size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,

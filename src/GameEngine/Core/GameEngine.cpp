@@ -72,14 +72,16 @@ namespace GameEngine {
     void GameEngine::run() {
         Timer timer;
         double lastTickTime = 0.0;
+        double excessiveWaitedTime = 0.0;
 
         while (isRunning) {
-            double currentTime = timer.elapsedSeconds();
+            double currentTime = timer.elapsedSeconds() - excessiveWaitedTime;
             if (currentTime - lastTickTime >= tickSpeed) {
                 update();
                 lastTickTime = currentTime;
+                excessiveWaitedTime = (currentTime - lastTickTime) - tickSpeed;
             } else {
-                int sleepTime = static_cast<int>((tickSpeed - (currentTime - lastTickTime)) * 1000);
+                int sleepTime = static_cast<int>(tickSpeed - (currentTime - lastTickTime) * 10000 - excessiveWaitedTime);
                 if (sleepTime > 0) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
                 }

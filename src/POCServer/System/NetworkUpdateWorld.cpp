@@ -28,7 +28,10 @@ namespace Server {
         std::shared_ptr<Network::AllUsersMessage> userMessage;
         // Updating Players (position, velocity)
         for (auto &player:  players) {
-            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(player, positionType).value());
+            auto mayComp = componentsContainer.getComponent(player, positionType);
+            if (!mayComp.has_value())
+                continue;
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayComp.value());
             args = {compPos->pos.x, compPos->pos.y};
             ids.push_back(player);
             message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
@@ -36,7 +39,10 @@ namespace Server {
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             args.clear();
             ids.clear();
-            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(player, velocityType).value());
+            auto mayComp2 = componentsContainer.getComponent(player, velocityType);
+            if (!mayComp2.has_value())
+                continue;
+            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayComp2.value());
             args = {compVel->velocity.x, compVel->velocity.y};
             ids.push_back(player);
             message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
@@ -47,7 +53,10 @@ namespace Server {
         }
         // Updating Mobs (position, velocity)
         for (auto &mob:  mobs) {
-            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(mob, positionType).value());
+            auto mayComp = componentsContainer.getComponent(mob, positionType);
+            if (!mayComp.has_value())
+                continue;
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayComp.value());
             args.emplace_back(compPos->pos.x);
             args.emplace_back(compPos->pos.y);
             ids.push_back(mob);
@@ -56,7 +65,10 @@ namespace Server {
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             args.clear();
             ids.clear();
-            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(mob, velocityType).value());
+            auto mayComp2 = componentsContainer.getComponent(mob, velocityType);
+            if (!mayComp2.has_value())
+                continue;
+            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayComp2.value());
             args.emplace_back(compVel->velocity.x);
             args.emplace_back(compVel->velocity.y);
             ids.push_back(mob);
@@ -68,7 +80,10 @@ namespace Server {
         }
         // Updating Bullets (position, velocity)
         for (auto &bullet:  bullets) {
-            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(bullet, positionType).value());
+            auto mayComp = componentsContainer.getComponent(bullet, positionType);
+            if (!mayComp.has_value())
+                continue;
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayComp.value());
             args.emplace_back(compPos->pos.x);
             args.emplace_back(compPos->pos.y);
             ids.push_back(bullet);
@@ -77,7 +92,10 @@ namespace Server {
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             args.clear();
             ids.clear();
-            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(bullet, velocityType).value());
+            auto mayComp2 = componentsContainer.getComponent(bullet, velocityType);
+            if (!mayComp2.has_value())
+                continue;
+            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayComp2.value());
             args.emplace_back(compVel->velocity.x);
             args.emplace_back(compVel->velocity.y);
             ids.push_back(bullet);

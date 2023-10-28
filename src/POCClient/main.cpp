@@ -36,6 +36,7 @@
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
 #include "iAmAlive.hpp"
+#include "EndSmoothing.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -78,6 +79,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
+    auto endSmoothing = std::make_shared<Client::EndSmoothing>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -91,6 +93,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("DOWN_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("LEFT_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
+    engine.addSystem("END_SMOOTHING", endSmoothing, 1);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
