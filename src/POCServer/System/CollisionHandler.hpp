@@ -10,6 +10,9 @@
 #include "isPowerUpPickUp.hpp"
 #include "PositionComponent2D.hpp"
 #include "Shooter.hpp"
+#include "Message.hpp"
+#include "IsForcePod.hpp"
+#include "UserMessage.hpp"
 
 namespace Server {
 

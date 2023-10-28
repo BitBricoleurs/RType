@@ -35,6 +35,8 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
+#include "PowerUpUtils.hpp"
+#include "Shooter.hpp"
 
 namespace Client {
 
@@ -58,6 +60,12 @@ namespace Client {
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
                          Utils::Vect2 pos, bool dropPowerup);
+
+      size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
+                          GameEngine::EventHandler &eventHandler, PowerUpType type);
+
+      size_t spawnForcePod(GameEngine::ComponentsContainer &container,
+                           GameEngine::EventHandler &eventHandler);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,

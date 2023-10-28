@@ -31,10 +31,13 @@
 #include "InitAudioBackgroud.hpp"
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
-#include "RenderEngineSystem.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
+#include "CreatePowerUp.hpp"
+#include "CreateForcePod.hpp"
+#include "SyncForcePodPlayer.hpp"
+#include "BlockOutOfBounds.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -50,6 +53,8 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
+    auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
+    auto createForcePod = std::make_shared<Client::CreateForcePod>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -57,10 +62,12 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ACCEPTED", networkAccept);
     engine.addEvent("gameEngineStop", networkReceiveDisconnect);
     engine.addEvent("NETWORK_RECEIVE_DISCONNECT_APPLY", networkReceiveDisconnectApply);
-    engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
+    //engine.addSystem("NETWORK_TIMEOUT", networkServerTimeout);
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
+    engine.addEvent("CREATED_POWERUP", createPowerUp);
+    engine.addEvent("CREATED_FORCEPOD", createForcePod);
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
@@ -74,6 +81,8 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
+    auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
+    auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -87,6 +96,8 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("DOWN_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("LEFT_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
+    engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
+    engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
