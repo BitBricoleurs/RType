@@ -14,6 +14,7 @@ namespace Network {
         void disconnect();
         bool isConnected() const;
         void send(const std::shared_ptr<IMessage>& message);
+        bool isServerTimeout() const;
 
         ~Client();
 

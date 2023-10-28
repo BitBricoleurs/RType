@@ -4,10 +4,14 @@
 
 #include "IsPlayer.hpp"
 
-size_t IsPlayer::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsPlayer");
-}
-IsPlayer::IsPlayer(size_t entityIdChargeAnimation) : entityIdChargeAnimation(entityIdChargeAnimation)
-{
+namespace Client {
+
+    size_t IsPlayer::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsPlayer");
+    }
+    IsPlayer::IsPlayer(size_t entityIdChargeAnimation) : entityIdChargeAnimation(entityIdChargeAnimation)
+    {
+
+    }
 
 }

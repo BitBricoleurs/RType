@@ -1,0 +1,5 @@
+set(SHARED_NETWORK_SYSTEM_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkInput.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkOutput.cpp
+        CACHE INTERNAL ""
+)

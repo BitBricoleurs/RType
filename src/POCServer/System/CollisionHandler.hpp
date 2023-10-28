@@ -10,8 +10,14 @@
 #include "isPowerUpPickUp.hpp"
 #include "PositionComponent2D.hpp"
 #include "Shooter.hpp"
+#include "Message.hpp"
+#include "IsForcePod.hpp"
+#include "UserMessage.hpp"
 
-class CollisionHandler : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
-};
+namespace Server {
+
+    class CollisionHandler : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+    };
+}

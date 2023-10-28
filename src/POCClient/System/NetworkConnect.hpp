@@ -10,6 +10,8 @@
 #include "EventHandler.hpp"
 #include "Message.hpp"
 
+namespace Client {
+
 class NetworkConnect : public GameEngine::ISystem {
 
 public:
@@ -19,3 +21,4 @@ public:
     private:
 };
 
+}

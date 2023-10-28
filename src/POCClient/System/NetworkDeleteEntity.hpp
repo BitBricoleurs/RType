@@ -11,9 +11,12 @@
 #include "Message.hpp"
 #include "EntityFactory.hpp"
 
-class NetworkDeleteEntity : public GameEngine::ISystem {
-public:
-    NetworkDeleteEntity() = default;
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
+
+    class NetworkDeleteEntity : public GameEngine::ISystem {
+    public:
+        NetworkDeleteEntity() = default;
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    };
+}

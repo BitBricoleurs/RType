@@ -4,9 +4,12 @@
 
 #include "BossStage.hpp"
 
-BossStage::BossStage(int stage) : stage(stage) {}
+namespace Server {
 
-size_t BossStage::getComponentType()
-{
-    return GameEngine::ComponentsType::getNewComponentType("BossStage");
+    BossStage::BossStage(int stage) : stage(stage) {}
+
+    size_t BossStage::getComponentType()
+    {
+        return GameEngine::ComponentsType::getNewComponentType("BossStage");
+    }
 }

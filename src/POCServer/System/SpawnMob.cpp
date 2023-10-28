@@ -6,101 +6,88 @@
 */
 
 #include "SpawnMob.hpp"
-#include "SpawnMob.hpp"
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
-#elif defined(__linux__)
-#include <libgen.h>
-#include <limits.h>
-#include <unistd.h>
-#endif
 
+namespace Server {
 
-SpawnMob::SpawnMob(std::string path) : directoryPath(std::move(path))
-{
-    loadMapFiles(directoryPath);
-    if (!mapFiles.empty()) {
-        loadMap(mapFiles[mapIndex]);
+    SpawnMob::SpawnMob(std::string path) : directoryPath(std::move(path)), currentMapContent(nlohmann::json::object())
+    {
+        loadMapFiles(directoryPath);
+        if (!mapFiles.empty()) {
+            loadMap(mapFiles[mapIndex]);
+        }
     }
-}
 
-void SpawnMob::changeLevel() {
-    if (mapIndex + 1 < mapFiles.size()) {
-        mapIndex++;
-        loadMap(mapFiles[mapIndex]);
-        currentTick = 0;
-    } else {
-        std::cout << "Last map reached!" << std::endl;
+    void SpawnMob::changeLevel() {
+        if (mapIndex + 1 < mapFiles.size()) {
+            mapIndex++;
+            loadMap(mapFiles[mapIndex]);
+            currentTick = 0;
+        } else {
+            std::cout << "Last map reached!" << std::endl;
+        }
     }
-}
 
-void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
-{
-    currentTick++;
+    void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
 
-    auto &mobs = currentMapContent["mobs"];
-    for (auto it = mobs.begin(); it != mobs.end(); /* No increment here */) {
-        if (currentTick == (*it)["tick"].get<int>()) {
-            GameEngine::Vect2 position((*it)["position"]["x"].get<int>(), (*it)["position"]["y"].get<int>());
-            bool dropPowerup = (*it)["dropPowerup"].get<bool>();
+        auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
+        std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
+        if (gameStateEntities.empty())
+            return;
+        auto compMay = componentsContainer.getComponent(gameStateEntities[0], compTypeGameState);
+        if (!compMay.has_value())
+            return;
+        auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
+        if (gameStateComp->_state != Utils::GameState::State::RUNNING)
+            return;
+        currentTick++;
 
-            if ((*it)["mobType"] == "cancerMob") {
-                EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
-            } else if ((*it)["mobType"] == "pataPataMob") {
-                EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+        int mobsSize = currentMapContent.getSize("/mobs");
+        for (int i = 0; i < mobsSize;) {
+            int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
+
+            if (currentTick == tick) {
+                float posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
+                float posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
+                Utils::Vect2 position(posX, posY);
+
+                bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
+
+                std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
+
+                if (mobType == "cancerMob") {
+                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
+                } else if (mobType == "pataPataMob") {
+                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+                }
+
+                currentMapContent.eraseKey("/mobs", i);
+                mobsSize--;
+            } else {
+                i++;
             }
-
-            it = mobs.erase(it);
-        } else {
-            ++it;
         }
     }
-}
 
-void SpawnMob::loadMapFiles(const std::string &path)
-{
-    std::string newPath = std::string("");
-    #if defined(_WIN32) || defined(_WIN64)
-        newPath = "";
-    #elif defined(__APPLE__)
-        char pathd[1024];
-        uint32_t size = sizeof(pathd);
-        if (_NSGetExecutablePath(pathd, &size) == 0) {
-            std::string pathStr = std::string(pathd);
-            newPath = (pathStr.substr(0, pathStr.find_last_of("/")) + "/");
-        } else {
-            newPath = "";
-    }
-    #else
-        char result[PATH_MAX];
-        size_t count = readlink("/proc/self/exe", result, PATH_MAX);
-        if (count < 0 || count >= PATH_MAX) {
-            newPath = "";
-        }
-        result[count] = '\0';
-        char* dir = dirname(result);
-        if (dir == NULL) {
-            newPath = "";
-        }
-        std::string pathd = std::string(dir);
-        newPath = pathd + std::string("/");
-    #endif
-        newPath = newPath + path;
-        std::cout << "PATH: ->" << newPath << std::endl;
-    for (const auto &entry : std::filesystem::directory_iterator(newPath)) {
-        if (entry.path().extension() == ".json") {
-            mapFiles.push_back(entry.path().string());
+
+    void SpawnMob::loadMapFiles(const std::string &path)
+    {
+        std::string newPath = LoadConfig::LoadConfig::getInstance().getExecutablePath();
+            newPath = newPath + path;
+        for (const auto &entry : std::filesystem::directory_iterator(newPath)) {
+            if (entry.path().extension() == ".json") {
+                mapFiles.push_back(entry.path().string());
+            }
         }
     }
-}
 
-bool SpawnMob::loadMap(const std::string &filePath)
-{
-    try {
-        currentMapContent = EntityFactory::getInstance().loadConfigMap(filePath);
-        return true;
-    } catch (const std::exception& e) {
-        std::cerr << "Error loading map: " << e.what() << std::endl;
-        return false;
+    bool SpawnMob::loadMap(const std::string &filePath)
+    {
+        try {
+            currentMapContent = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath(filePath);
+            return true;
+        } catch (const std::exception& e) {
+            std::cerr << "Error loading map: " << e.what() << std::endl;
+            return false;
+        }
     }
 }

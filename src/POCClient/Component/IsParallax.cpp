@@ -4,7 +4,10 @@
 
 #include "IsParallax.hpp"
 
-size_t IsParallax::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsParallax");
-  }
+namespace Client {
 
+    size_t IsParallax::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsParallax");
+    }
+
+}

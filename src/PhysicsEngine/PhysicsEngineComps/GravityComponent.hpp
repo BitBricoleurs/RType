@@ -5,11 +5,11 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include "ComponentsType.hpp"
 
-namespace GameEngine {
-    class GravityComponent : public AComponent {
+namespace PhysicsEngine {
+    class GravityComponent : public GameEngine::AComponent {
     public:
         GravityComponent(const Vect2& baseGravity, float weight)
             : baseGravity(baseGravity), weight(weight), fallTime(0) {}

@@ -14,8 +14,11 @@
 #include "SpriteComponent.hpp"
 #include "EntityFactory.hpp"
 
-class KillEntity : public GameEngine::ISystem {
-public:
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
+
+    class KillEntity : public GameEngine::ISystem {
+    public:
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+    };
+}

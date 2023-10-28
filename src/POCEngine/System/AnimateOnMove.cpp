@@ -28,8 +28,8 @@ void AnimateOnMove::update(GameEngine::ComponentsContainer &componentsContainer,
   auto animation =
       std::dynamic_pointer_cast<SpriteAnimation>(animationOpt.value());
   auto sprite =
-      std::dynamic_pointer_cast<GameEngine::SpriteComponent>(spriteOpt.value());
-  auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(
+      std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
+  auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
       velocityOpt.value());
 
   int toAdd = 0;

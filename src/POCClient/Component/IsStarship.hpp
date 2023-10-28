@@ -8,11 +8,15 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsStarship : public GameEngine::AComponent {
-public:
-  explicit IsStarship(size_t entityIdChargeAnimation);
+namespace Client {
 
-  size_t getComponentType() override;
+    class IsStarship : public GameEngine::AComponent {
+    public:
+        explicit IsStarship(size_t entityIdChargeAnimation);
 
-   size_t entityIdChargeAnimation;
-};
+        size_t getComponentType() override;
+
+        size_t entityIdChargeAnimation;
+    };
+
+}

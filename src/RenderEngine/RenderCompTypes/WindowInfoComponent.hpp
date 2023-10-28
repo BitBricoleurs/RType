@@ -7,14 +7,19 @@
 #include <cstddef>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
-#include "Utils.hpp"
+#include "raylib.h"
 
-class WindowInfoComponent : public GameEngine::AComponent {
-public:
-  explicit WindowInfoComponent(size_t windowWidth, size_t windowHeight);
+namespace RenderEngine {
 
-  size_t getComponentType() override;
+    class WindowInfoComponent : public GameEngine::AComponent {
+    public:
+      explicit WindowInfoComponent(size_t windowWidth, size_t windowHeight);
 
-  size_t windowWidth;
-  size_t windowHeight;
-};
+      size_t getComponentType() override;
+
+      size_t windowWidth;
+      size_t windowHeight;
+      Camera2D camera;
+    };
+
+} // namespace RenderEngine

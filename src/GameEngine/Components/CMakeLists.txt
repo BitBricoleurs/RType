@@ -1,0 +1,4 @@
+set(GAMEENGINE_COMPONENTS_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/ComponentsType.cpp
+        CACHE INTERNAL ""
+)

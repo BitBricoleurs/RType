@@ -7,6 +7,8 @@
 
 #include "MobComponents.hpp"
 
+namespace Client {
+
 size_t PataPata::getComponentType() {
   return GameEngine::ComponentsType::getNewComponentType("PataPata");
 }
@@ -17,4 +19,6 @@ size_t Cancer::getComponentType() {
 
 size_t Bug::getComponentType() {
   return GameEngine::ComponentsType::getNewComponentType("Bug");
+}
+
 }

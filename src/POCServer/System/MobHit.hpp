@@ -13,12 +13,19 @@
 #include "IsBullet.hpp"
 #include "Message.hpp"
 #include "UserMessage.hpp"
+#include "PositionComponent2D.hpp"
 #include "NetworkClientId.hpp"
 
-class MobHit : public GameEngine::ISystem {
-public:
-    void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+namespace Server {
 
-  private:
-    void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
+    class MobHit : public GameEngine::ISystem {
+    public:
+        void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
+
+      private:
+        static void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
+        static void applyDamage(const std::shared_ptr<Health>& hpComponent, size_t damageEntity, GameEngine::ComponentsContainer& componentsContainer);
+        static void handleDeath(size_t deadEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
+        static void handleBullet(size_t bulletEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
 };
+}

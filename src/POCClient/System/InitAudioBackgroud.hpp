@@ -8,13 +8,17 @@
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "AudioComponent.hpp"
+#include "LoadConfig.hpp"
 
+namespace Client {
 
-class InitAudioBackgroud : public GameEngine::ISystem {
-    void update(GameEngine::ComponentsContainer &componentsContainer,
-                GameEngine::EventHandler &eventHandler) override;
-public:
+    class InitAudioBackgroud : public GameEngine::ISystem {
+        void update(GameEngine::ComponentsContainer &componentsContainer,
+                    GameEngine::EventHandler &eventHandler) override;
+    public:
 
-private:
-  bool done = false;
-};
+    private:
+      bool done = false;
+    };
+
+}

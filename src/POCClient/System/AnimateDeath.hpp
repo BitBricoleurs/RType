@@ -14,8 +14,12 @@
 #include "SpriteComponent.hpp"
 #include "EntityFactory.hpp"
 
-class AnimateDeath : public GameEngine::ISystem {
-public:
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
-};
+namespace Client {
+
+    class AnimateDeath : public GameEngine::ISystem {
+    public:
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+    };
+
+}

@@ -8,7 +8,6 @@ int main() {
     /*
     Network::Client client(1, forwardQueue);
     client.connect("127.0.0.1", 4444);
-    std::cout << "Hello, World!" << std::endl;
     std::string str = "Hello";
     std::vector< std::any> data = {std::any(str)};
     std::vector<unsigned int> ids = {1, 2, 3};

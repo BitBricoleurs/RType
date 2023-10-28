@@ -7,138 +7,150 @@
 
 #include "EntityFactory.hpp"
 
-size_t
-EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
-                               GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos, PlayerNumber playerNumber) {
+namespace Client {
 
-try {
-    nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
-    size_t chargeAnimationID = createChargeAnimation(
-        container,
-        config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
-        config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
-        config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
-        config["createChargeAnimation"]["frames"].get<int>(),
-        GameEngine::Vect2(
-            config["createChargeAnimation"]["pos"]["x"].get<float>(),
-            config["createChargeAnimation"]["pos"]["y"].get<float>()),
-        GameEngine::Vect2(
-            config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-            config["createChargeAnimation"]["velocity"]["y"].get<float>()),
-        config["createChargeAnimation"]["scale"].get<float>(),
-        config["createChargeAnimation"]["rotation"].get<float>(),
-        GameEngine::ColorR(
-            config["createChargeAnimation"]["tint"]["r"].get<int>(),
-            config["createChargeAnimation"]["tint"]["g"].get<int>(),
-            config["createChargeAnimation"]["tint"]["b"].get<int>(),
-            config["createChargeAnimation"]["tint"]["a"].get<int>()),
-        config["createChargeAnimation"]["twoDirection"].get<bool>(),
-        config["createChargeAnimation"]["reverse"].get<bool>(),
-        config["createChargeAnimation"]["direction"].get<int>(),
-        static_cast<int>(playerNumber) + 1,
-        config["createChargeAnimation"]["layer"].get<int>());
+    size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, Utils::Vect2 pos, PlayerNumber playerNumber) {
 
-    size_t entityId = createPlayer(
-        container, config["createPlayer"]["spriteSheetPath"].get<std::string>(),
-        config["createPlayer"]["spriteSheetHeight"].get<int>(),
-        config["createPlayer"]["spriteSheetWidth"].get<int>(),
-        config["createPlayer"]["frames"].get<int>(),
-        config["createPlayer"]["twoDirections"].get<bool>(),
-        config["createPlayer"]["reverse"].get<bool>(), pos,
-        GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
-                          config["createPlayer"]["velocity"]["y"].get<float>()),
-        static_cast<int>(playerNumber) + 1,
-        config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
-        config["createPlayer"]["rotation"].get<float>(),
-        GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
-                           config["createPlayer"]["tint"]["g"].get<int>(),
-                           config["createPlayer"]["tint"]["b"].get<int>(),
-                           config["createPlayer"]["tint"]["a"].get<int>()),
-        config["createPlayer"]["layer"].get<int>());
-    eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-    eventHandler.scheduleEvent(
-        "animate", 5,
-        std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-    std::shared_ptr<GameEngine::AudioComponent> shootSound = std::make_shared<GameEngine::AudioComponent>(config["createPlayer"]["pathSound"].get<std::string>());
-    container.bindComponentToEntity(entityId, shootSound);
-    auto IdCharge = std::make_tuple(entityId, 0);
-    eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-    eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-    registerPlayer(entityId, playerNumber);
-    return entityId;
-} catch (const nlohmann::json::exception& e) {
-    std::cerr << "JSON error in createPlayer: " << e.what() << std::endl;
-    exit(1);
-}
-}
+    try {
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
+        size_t chargeAnimationID = createChargeAnimation(
+            container,
+            data.getString("/createChargeAnimation/spriteSheetPath"),
+            data.getInt("/createChargeAnimation/spriteSheetHeight"),
+            data.getInt("/createChargeAnimation/spriteSheetWidth"),
+            data.getInt("/createChargeAnimation/frames"),
+            Utils::Vect2(
+                data.getFloat("/createChargeAnimation/pos/x"),
+                data.getFloat("/createChargeAnimation/pos/y")),
+            Utils::Vect2(
+                data.getFloat("/createChargeAnimation/velocity/x"),
+                data.getFloat("/createChargeAnimation/velocity/y")),
+            data.getFloat("/createChargeAnimation/scale"),
+            data.getFloat("/createChargeAnimation/rotation"),
+            Utils::ColorR(
+                data.getInt("/createChargeAnimation/tint/r"),
+                data.getInt("/createChargeAnimation/tint/g"),
+                data.getInt("/createChargeAnimation/tint/b"),
+                data.getInt("/createChargeAnimation/tint/a")),
+            data.getBool("/createChargeAnimation/twoDirection"),
+            data.getBool("/createChargeAnimation/reverse"),
+            data.getInt("/createChargeAnimation/direction"),
+            static_cast<int>(playerNumber) + 1,
+            data.getInt("/createChargeAnimation/layer"));
 
-size_t
-EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
-                               GameEngine::EventHandler &eventHandler,
-                               GameEngine::Vect2 pos, PlayerNumber playerNumber) {
+        size_t entityId = createPlayer(
+            container,
+            data.getString("/createPlayer/spriteSheetPath"),
+            data.getInt("/createPlayer/spriteSheetHeight"),
+            data.getInt("/createPlayer/spriteSheetWidth"),
+            data.getInt("/createPlayer/frames"),
+            data.getBool("/createPlayer/twoDirections"),
+            data.getBool("/createPlayer/reverse"),
+            pos,
+            Utils::Vect2(
+                data.getFloat("/createPlayer/velocity/x"),
+                data.getFloat("/createPlayer/velocity/y")),
+            static_cast<int>(playerNumber) + 1,
+            data.getFloat("/createPlayer/scale"), chargeAnimationID,
+            data.getFloat("/createPlayer/rotation"),
+            Utils::ColorR(
+                data.getInt("/createPlayer/tint/r"),
+                data.getInt("/createPlayer/tint/g"),
+                data.getInt("/createPlayer/tint/b"),
+                data.getInt("/createPlayer/tint/a")),
+            data.getInt("/createPlayer/layer"));
+        eventHandler.scheduleEvent("animatePlayer", 15, entityId);
+        eventHandler.scheduleEvent(
+            "animate", 5,
+            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        std::shared_ptr<AudioEngine::AudioComponent> shootSound = std::make_shared<AudioEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
+        container.bindComponentToEntity(entityId, shootSound);
+        auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY")), data.getInt("/createPlayer/typeBullet"));
+        container.bindComponentToEntity(entityId, shooterComp);
+        auto IdCharge = std::make_tuple(entityId, 0);
+        eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
+        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        registerPlayer(entityId, playerNumber);
+        return entityId;
+    } catch (const nlohmann::json::exception& e) {
+        std::cerr << "JSON error in createPlayer: " << e.what() << std::endl;
+        exit(1);
+    }
+    }
 
-try {
-    nlohmann::json config = loadConfig("config/Entity/createPlayer.json");
+    size_t
+    EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
+                                   GameEngine::EventHandler &eventHandler,
+                                   Utils::Vect2 pos, PlayerNumber playerNumber) {
 
-    size_t chargeAnimationID = createChargeAnimation(
-        container,
-        config["createChargeAnimation"]["spriteSheetPath"].get<std::string>(),
-        config["createChargeAnimation"]["spriteSheetHeight"].get<int>(),
-        config["createChargeAnimation"]["spriteSheetWidth"].get<int>(),
-        config["createChargeAnimation"]["frames"].get<int>(),
-        GameEngine::Vect2(
-            config["createChargeAnimation"]["pos"]["x"].get<float>(),
-            config["createChargeAnimation"]["pos"]["y"].get<float>()),
-        GameEngine::Vect2(
-            config["createChargeAnimation"]["velocity"]["x"].get<float>(),
-            config["createChargeAnimation"]["velocity"]["y"].get<float>()),
-        config["createChargeAnimation"]["scale"].get<float>(),
-        config["createChargeAnimation"]["rotation"].get<float>(),
-        GameEngine::ColorR(
-            config["createChargeAnimation"]["tint"]["r"].get<int>(),
-            config["createChargeAnimation"]["tint"]["g"].get<int>(),
-            config["createChargeAnimation"]["tint"]["b"].get<int>(),
-            config["createChargeAnimation"]["tint"]["a"].get<int>()),
-        config["createChargeAnimation"]["twoDirection"].get<bool>(),
-        config["createChargeAnimation"]["reverse"].get<bool>(),
-        config["createChargeAnimation"]["direction"].get<int>(),
-        static_cast<int>(playerNumber) + 1,
-        config["createChargeAnimation"]["layer"].get<int>());
+    try {
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
 
-    size_t entityId = createSharhips(
-        container, config["createPlayer"]["spriteSheetPath"].get<std::string>(),
-        config["createPlayer"]["spriteSheetHeight"].get<int>(),
-        config["createPlayer"]["spriteSheetWidth"].get<int>(),
-        config["createPlayer"]["frames"].get<int>(),
-        config["createPlayer"]["twoDirections"].get<bool>(),
-        config["createPlayer"]["reverse"].get<bool>(), pos,
-        GameEngine::Vect2(config["createPlayer"]["velocity"]["x"].get<float>(),
-                          config["createPlayer"]["velocity"]["y"].get<float>()),
-        static_cast<int>(playerNumber) + 1,
-        config["createPlayer"]["scale"].get<float>(), chargeAnimationID,
-        config["createPlayer"]["rotation"].get<float>(),
-        GameEngine::ColorR(config["createPlayer"]["tint"]["r"].get<int>(),
-                           config["createPlayer"]["tint"]["g"].get<int>(),
-                           config["createPlayer"]["tint"]["b"].get<int>(),
-                           config["createPlayer"]["tint"]["a"].get<int>()),
-        config["createPlayer"]["layer"].get<int>());
-    eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-    eventHandler.scheduleEvent(
-        "animate", 5,
-        std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-    std::shared_ptr<GameEngine::AudioComponent> shootSound =
-        std::make_shared<GameEngine::AudioComponent>("assets/music/Shoot.wav");
-    container.bindComponentToEntity(entityId, shootSound);
-    auto IdCharge = std::make_tuple(entityId, 0);
-    eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-    eventHandler.scheduleEvent(
-        "animate", 5,
-        std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-    registerPlayer(entityId, playerNumber);
-    return entityId;
-} catch (const nlohmann::json::exception& e) {
-    std::cerr << "JSON error in createPlayer: " << e.what() << std::endl;
-    exit(1);
-}
+        size_t chargeAnimationID = createChargeAnimation(
+            container,
+            data.getString("/createChargeAnimation/spriteSheetPath"),
+            data.getInt("/createChargeAnimation/spriteSheetHeight"),
+            data.getInt("/createChargeAnimation/spriteSheetWidth"),
+            data.getInt("/createChargeAnimation/frames"),
+            Utils::Vect2(
+                data.getFloat("/createChargeAnimation/pos/x"),
+                data.getFloat("/createChargeAnimation/pos/y")),
+            Utils::Vect2(
+                data.getFloat("/createChargeAnimation/velocity/x"),
+                data.getFloat("/createChargeAnimation/velocity/y")),
+            data.getFloat("/createChargeAnimation/scale"),
+            data.getFloat("/createChargeAnimation/rotation"),
+            Utils::ColorR(
+                data.getInt("/createChargeAnimation/tint/r"),
+                data.getInt("/createChargeAnimation/tint/g"),
+                data.getInt("/createChargeAnimation/tint/b"),
+                data.getInt("/createChargeAnimation/tint/a")),
+            data.getBool("/createChargeAnimation/twoDirection"),
+            data.getBool("/createChargeAnimation/reverse"),
+            data.getInt("/createChargeAnimation/direction"),
+            static_cast<int>(playerNumber) + 1,
+            data.getInt("/createChargeAnimation/layer"));
+
+        size_t entityId = createSharhips(
+            container,
+            data.getString("/createPlayer/spriteSheetPath"),
+            data.getInt("/createPlayer/spriteSheetHeight"),
+            data.getInt("/createPlayer/spriteSheetWidth"),
+            data.getInt("/createPlayer/frames"),
+            data.getBool("/createPlayer/twoDirections"),
+            data.getBool("/createPlayer/reverse"),
+            pos,
+            Utils::Vect2(
+                data.getFloat("/createPlayer/velocity/x"),
+                data.getFloat("/createPlayer/velocity/y")),
+            static_cast<int>(playerNumber) + 1,
+            data.getFloat("/createPlayer/scale"), chargeAnimationID,
+            data.getFloat("/createPlayer/rotation"),
+            Utils::ColorR(
+                data.getInt("/createPlayer/tint/r"),
+                data.getInt("/createPlayer/tint/g"),
+                data.getInt("/createPlayer/tint/b"),
+                data.getInt("/createPlayer/tint/a")),
+            data.getInt("/createPlayer/layer"));
+
+        eventHandler.scheduleEvent("animatePlayer", 15, entityId);
+        eventHandler.scheduleEvent(
+            "animate", 5,
+            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        std::shared_ptr<AudioEngine::AudioComponent> shootSound =
+            std::make_shared<AudioEngine::AudioComponent>("assets/music/Shoot.wav");
+        container.bindComponentToEntity(entityId, shootSound);
+        auto IdCharge = std::make_tuple(entityId, 0);
+        eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
+        eventHandler.scheduleEvent(
+            "animate", 5,
+            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        registerPlayer(entityId, playerNumber);
+        return entityId;
+    } catch (const nlohmann::json::exception& e) {
+        std::cerr << "JSON error in createPlayer: " << e.what() << std::endl;
+        exit(1);
+    }
+    }
+
 }

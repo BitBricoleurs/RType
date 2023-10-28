@@ -4,7 +4,9 @@
 
 #include "ToggleFullScreen.hpp"
 
-void GameEngine::ToggleFullScreen::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+
+
+void RenderEngine::ToggleFullScreen::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     int display = GetCurrentMonitor();
     SetWindowSize(300, 300);

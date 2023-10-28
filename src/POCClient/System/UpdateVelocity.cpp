@@ -35,7 +35,7 @@ namespace Client {
                 float x = std::any_cast<float>(args[0]);
                 float y = std::any_cast<float>(args[1]);
 
-                auto velocity = std::static_pointer_cast<GameEngine::VelocityComponent>(velocityComponent.value());
+                auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
                 velocity->velocity.x = x;
                 velocity->velocity.y = y;
             }

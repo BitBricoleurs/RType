@@ -4,15 +4,20 @@
 
 #pragma once
 
-#include "Utils.hpp"
+#include "Circle.hpp"
+#include "rect.hpp"
 #include <algorithm>
 
-class classCheckCollision {
-    public:
-    classCheckCollision() = default;
-    ~classCheckCollision() = default;
+namespace PhysicsEngine {
 
-    static bool checkCollision(const GameEngine::Circle& a, const GameEngine::Circle& b);
-    static bool checkCollision(const GameEngine::rect& r, const GameEngine::Circle& c);
-    static bool checkCollision(const GameEngine::rect& a, const GameEngine::rect& b);
-};
+    class classCheckCollision {
+        public:
+        classCheckCollision() = default;
+        ~classCheckCollision() = default;
+
+        static bool checkCollision(const Utils::Circle& a, const Utils::Circle& b);
+        static bool checkCollision(const Utils::rect& r, const Utils::Circle& c);
+        static bool checkCollision(const Utils::rect& a, const Utils::rect& b);
+    };
+
+}
