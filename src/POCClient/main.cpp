@@ -1,5 +1,6 @@
 
 #include "AnimateDeath.hpp"
+#include "NetworkActivateCharge.hpp"
 #include "SyncChargeAnimations.hpp"
 #include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
@@ -115,6 +116,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto activateCharge = std::make_shared<Client::ActivateCharge>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -127,6 +129,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("CHARGE", activateCharge);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {

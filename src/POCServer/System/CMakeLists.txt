@@ -20,5 +20,6 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientReady.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CheckEveryClientReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientCharge.cpp
         CACHE INTERNAL ""
 )

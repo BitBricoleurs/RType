@@ -14,8 +14,6 @@ void Client::SyncChargeAnimations::update(GameEngine::ComponentsContainer &compo
 
     auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsStarship"));
     auto thisPlayer = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
-    
-
     players.push_back(thisPlayer);
 
     for (const auto& playerID : players) {
@@ -29,26 +27,12 @@ void Client::SyncChargeAnimations::update(GameEngine::ComponentsContainer &compo
             auto player = std::dynamic_pointer_cast<IsPlayer>(playerOpt.value());
             if (player->entityIdChargeAnimation == 0)
                 continue;
-            // auto spriteOpt = componentsContainer.getComponent(player->entityIdChargeAnimation, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
-            // if (spriteOpt.has_value()) {
-            //     auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
-            //     std::cout << "entityID: " << player->entityIdChargeAnimation << std::endl;
-            //     std::cout << "rect1: " << sprite->rect1.x << " " << sprite->rect1.y << std::endl;
-            //     std::cout << "rectDim: " << sprite->rect1.w << " " << sprite->rect1.h << std::endl;
-            // }
             updateAnimationPos(player->entityIdChargeAnimation, playerID, componentsContainer);
         }
         if (starshipOpt.has_value()) {
             auto starship = std::dynamic_pointer_cast<IsStarship>(starshipOpt.value());
             if (starship->entityIdChargeAnimation == 0)
                 continue;
-            // auto spriteOpt = componentsContainer.getComponent(starship->entityIdChargeAnimation, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
-            // if (spriteOpt.has_value()) {
-            //     auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
-            //     std::cout << "entityID: " << starship->entityIdChargeAnimation << std::endl;
-            //     std::cout << "rect1: " << sprite->rect1.x << " " << sprite->rect1.y << std::endl;
-            //     std::cout << "rectDim: " << sprite->rect1.w << " " << sprite->rect1.h << std::endl;
-            // }
             updateAnimationPos(starship->entityIdChargeAnimation, playerID, componentsContainer);
         }   
     }
