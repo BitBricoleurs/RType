@@ -14,6 +14,10 @@
 #include "VelocityComponent.hpp"
 #include "IMessage.hpp"
 #include "Shooter.hpp"
+#include "IsForcePod.hpp"
+#include "IsPlayer.hpp"
+#include "PositionComponent2D.hpp"
+#include "EntityFactory.hpp"
 
 namespace Server {
 

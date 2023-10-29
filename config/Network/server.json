@@ -2,6 +2,6 @@
   "server": {
     "port": 4444,
     "nbMaxClients": 2,
-    "tick": 1000
+    "tick": 60
   }
 }

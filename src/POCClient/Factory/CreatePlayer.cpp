@@ -65,6 +65,8 @@ namespace Client {
         
         std::shared_ptr<AudioEngine::AudioComponent> shootSound = std::make_shared<AudioEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
         container.bindComponentToEntity(entityId, shootSound);
+        auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY")), data.getInt("/createPlayer/typeBullet"));
+        container.bindComponentToEntity(entityId, shooterComp);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
         registerPlayer(entityId, playerNumber);
@@ -78,7 +80,7 @@ namespace Client {
     size_t
     EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos, PlayerNumber playerNumber) {
+                                   Utils::Vect2 pos, Utils::Vect2 vel, PlayerNumber playerNumber) {
 
     try {
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
