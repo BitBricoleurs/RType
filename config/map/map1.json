@@ -2,7 +2,7 @@
     "mobs": [
         {
             "dropPowerup": false,
-            "mobType": "pataPataMob",
+            "mobType": "CancerMob",
             "position": {
                 "x": 2000.0,
                 "y": 376.79998779296875
@@ -11,7 +11,7 @@
         },
         {
             "dropPowerup": true,
-            "mobType": "pataPataMob",
+            "mobType": "CancerMob",
             "position": {
                 "x": 2000.0,
                 "y": 423.8999938964844
@@ -20,7 +20,7 @@
         },
         {
             "dropPowerup": false,
-            "mobType": "pataPataMob",
+            "mobType": "CancerMob",
             "position": {
                 "x": 2000.0,
                 "y": 471.0

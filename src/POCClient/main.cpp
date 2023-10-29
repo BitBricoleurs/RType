@@ -25,6 +25,7 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
+#include "System/NetworkReceiveFlash.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
@@ -40,6 +41,8 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "NetworkReceiveFlash.hpp"
+#include "FlashWhenHit.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -58,6 +61,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto imAlive = std::make_shared<Client::iAmAlive>();
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
+    auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -76,6 +80,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
     engine.addEvent("ALIVE", imAlive);
+    engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
@@ -132,6 +137,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -144,6 +150,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("flash", flashWhenHit);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {
