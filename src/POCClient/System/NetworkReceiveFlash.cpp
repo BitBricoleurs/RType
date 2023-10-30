@@ -23,16 +23,9 @@ void Client::NetworkReceiveFlash::update(GameEngine::ComponentsContainer &compon
         for (auto &id : ids) {
             clientId = entityFactory.getClientId(id);
         
-            if (clientId == 0) {
-                std::cout << "Error in NetworkReceiveFlash : mobIdClient == 0" << std::endl;
-                return;
-            }
-            std::cout << "mobIdClient : " << clientId << std::endl;
-           
             auto sprite = componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
             if (!sprite.has_value())
                 return;
-            std::cout << "sprite has value" << std::endl;
             auto spriteCast = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(sprite.value());
             spriteCast->flash = false;
         

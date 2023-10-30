@@ -18,7 +18,7 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-            if (ids.size() >= 1 && args.size() != (ids.size() * 6))
+            if (ids.size() > 1 && args.size() > 7)
                 return;
 
         int arg_index = 0;
@@ -31,9 +31,9 @@ namespace Client {
             Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 5])) / 1000);
             size_t entityId = 0;
             std::string path = "";
-            if (number == BulletOwner::PLAYER)
-                entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
-            else
+            if (number == BulletOwner::PLAYER) {
+                entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, static_cast<int>(std::any_cast<int>(args[arg_index + 6])));
+            } else
                 printf("CreateBulletSystem: BulletOwner not implemented\n");
             factory.registerEntity(entityId, id);
             eventHandler.queueEvent("PLAY_SOUND", entityId);
