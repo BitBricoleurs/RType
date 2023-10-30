@@ -38,8 +38,8 @@ namespace Server {
       auto stageComponent = std::make_shared<BossStage>(stageValue);
       auto bossComponent = std::make_shared<IsBoss>();
 
-      container.unbindComponentFromEntity(
-          entityId, GameEngine::ComponentsType::getComponentType("Mob"));
+      // container.unbindComponentFromEntity(
+      //     entityId, GameEngine::ComponentsType::getComponentType("Mob"));
       container.bindComponentToEntity(entityId, bossComponent);
       container.bindComponentToEntity(entityId, stageComponent);
 
@@ -149,7 +149,7 @@ namespace Server {
         allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     }
-    
+
     void EntityFactory::updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos)
     {
         std::vector<size_t> ids = {entityId};

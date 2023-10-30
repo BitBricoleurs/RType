@@ -15,7 +15,7 @@ namespace Server {
         try {
             entityId = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
         } catch (std::bad_any_cast &e) {
-            std::cerr << "Error from NetworkClientConnect System " << e.what() << std::endl;
+            std::cerr << "Error from NetworkCreateWorld System " << e.what() << std::endl;
             return;
         }
 
@@ -89,14 +89,10 @@ namespace Server {
                 typeMob = static_cast<int>(MobType::CANCER);
             } else if (componentsContainer.getComponent(mob, mobTypeCompPataPata).has_value()) {
                 typeMob = static_cast<int>(MobType::PATAPATA);
-            } else if (componentsContainer
-                           .getComponent(mob, bellmiteCoreTypeComp)
-                           .has_value()) {
-              typeMob = static_cast<int>(MobType::BELLMITECORE);
-            } else if (componentsContainer
-                           .getComponent(mob, bellmitePodTypeComp)
-                           .has_value()) {
-              typeMob = static_cast<int>(MobType::BELLMITEPOD);
+            } else if (componentsContainer.getComponent(mob, bellmiteCoreTypeComp).has_value()) {
+                typeMob = static_cast<int>(MobType::BELLMITECORE);
+            } else if (componentsContainer.getComponent(mob, bellmitePodTypeComp).has_value()) {
+                typeMob = static_cast<int>(MobType::BELLMITEPOD);
             } else {
               continue;
             }

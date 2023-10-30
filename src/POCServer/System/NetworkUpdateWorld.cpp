@@ -83,26 +83,26 @@ namespace Server {
             ids.clear();
         }
 
-        for (auto &boss : bossEnts) {
-            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(boss, positionType).value());
-            args.emplace_back(compPos->pos.x);
-            args.emplace_back(compPos->pos.y);
-            ids.push_back(boss);
-            message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
-            userMessage = std::make_shared<Network::AllUsersMessage>(message);
-            eventHandler.queueEvent("SEND_NETWORK", userMessage);
-            args.clear();
-            ids.clear();
-            auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(boss, velocityType).value());
-            args.emplace_back(compVel->velocity.x);
-            args.emplace_back(compVel->velocity.y);
-            ids.push_back(boss);
-            message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
-            userMessage = std::make_shared<Network::AllUsersMessage>(message);
-            eventHandler.queueEvent("SEND_NETWORK", userMessage);
-            args.clear();
-            ids.clear();
-        }
+        // for (auto &boss : bossEnts) {
+        //     auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(boss, positionType).value());
+        //     args.emplace_back(compPos->pos.x);
+        //     args.emplace_back(compPos->pos.y);
+        //     ids.push_back(boss);
+        //     message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+        //     userMessage = std::make_shared<Network::AllUsersMessage>(message);
+        //     eventHandler.queueEvent("SEND_NETWORK", userMessage);
+        //     args.clear();
+        //     ids.clear();
+        //     auto compVel = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(boss, velocityType).value());
+        //     args.emplace_back(compVel->velocity.x);
+        //     args.emplace_back(compVel->velocity.y);
+        //     ids.push_back(boss);
+        //     message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+        //     userMessage = std::make_shared<Network::AllUsersMessage>(message);
+        //     eventHandler.queueEvent("SEND_NETWORK", userMessage);
+        //     args.clear();
+        //     ids.clear();
+        // }
 
         // Updating Bullets (position, velocity)
         for (auto &bullet:  bullets) {

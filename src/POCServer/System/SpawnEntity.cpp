@@ -57,6 +57,8 @@ namespace Server {
                     EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
                 } else if (mobType == "pataPataMob") {
                     EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+                } else if (mobType == "bellmite") {
+                    EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position);
                 }
 
                 currentMapContent.eraseKey("/mobs", i);
