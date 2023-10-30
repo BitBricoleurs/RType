@@ -1,0 +1,13 @@
+{
+    "mobs": [
+        {
+            "tick": 13,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
+        }
+    ]
+}

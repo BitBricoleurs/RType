@@ -173,6 +173,7 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"SYNC_FORCE_POD_PLAYER", 0x18},
     {"UPDATE_POS_FORCE_POD", 0x19},
     {"BLOCK", 0x20}
+    {"CHARGE", 0x21},
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

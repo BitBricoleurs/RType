@@ -26,7 +26,7 @@
     "reverse": false,
     "direction": 1,
     "playerA": 0,
-    "layer": 7
+    "layer": 10
   },
 
   "createPlayer": {

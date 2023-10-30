@@ -31,6 +31,7 @@
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
+#include "NetworkClientCharge.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -67,6 +68,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
+    auto charge = std::make_shared<Server::NetworkClientCharge>();
 
 
     engine.addEvent("CREATE_WORLD", createWorld);
@@ -74,6 +76,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.scheduleEvent("UPDATE_WORLD", 10, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
+    engine.addEvent("CHARGE", charge);
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
