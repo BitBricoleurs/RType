@@ -84,6 +84,8 @@ namespace Client {
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, Utils::Vect2 velocity, size_t typeBullet);
 
+      std::vector<size_t> spawnPowerUpDualShoot(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, PowerUpType type, Utils::Vect2 pos, Utils::Vect2 pos2);
+
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
@@ -203,6 +205,6 @@ namespace Client {
             std::map<size_t, size_t> _entityIdMap;
             std::map<size_t, PlayerNumber> _playerMap;
             std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
-    };
+};
 
 }

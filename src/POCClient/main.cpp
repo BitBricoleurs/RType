@@ -40,6 +40,7 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "CreatePowerUpDual.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -59,6 +60,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto imAlive = std::make_shared<Client::iAmAlive>();
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
+    auto createPowerUpDual = std::make_shared<Client::CreatePowerUpDual>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -77,6 +79,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
+    engine.addEvent("CREATED_POWERUP_DUAL", createPowerUpDual);
     engine.addEvent("ALIVE", imAlive);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }

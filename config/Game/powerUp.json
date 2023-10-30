@@ -1,0 +1,74 @@
+{
+  "powers": [
+    {
+      "type": 0,
+      "name": "DualShoot",
+      "delay": 50,
+      "shootRed" : {
+        "frames": 2,
+        "twoDirections": false,
+        "reverse": false,
+        "damageValue": 50,
+        "isPlayerBullet": true,
+        "playerA": 0,
+        "scale": 2.5,
+        "rotation": 0.0,
+        "tint": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        },
+        "layer": 7,
+        "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 66,
+            "h": 4
+        },
+        "path" : "assets/dualShotRed.png",
+        "velocity": {
+          "x": 2.0,
+          "y": 0.0
+        },
+        "hitBoxHeight" : 4,
+        "hitBoxWidth" : 33
+        },
+      "shootBlue" : {
+        "frames": 2,
+        "twoDirections": false,
+        "reverse": false,
+        "damageValue": 50,
+        "isPlayerBullet": true,
+        "playerA": 0,
+        "scale": 2.5,
+        "rotation": 0.0,
+        "tint": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        },
+        "layer": 7,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "w": 66,
+          "h": 4
+        },
+        "path" : "assets/dualShootBlue.png",
+        "velocity": {
+          "x": 2.0,
+          "y": 0.0
+        },
+        "hitBoxHeight" : 4,
+        "hitBoxWidth" : 33
+      }
+    },
+    {
+      "type": 1,
+      "name": "",
+      "delay": 50
+    }
+  ]
+}

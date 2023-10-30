@@ -33,6 +33,7 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "PowerUpDualShoot.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -109,6 +110,14 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+}
+
+void setup_game_power_up(GameEngine::GameEngine& engine)
+{
+
+    auto powerUpDualShoot = std::make_shared<Server::PowerUpDualShoot>();
+
+    engine.addEvent("DualShoot", powerUpDualShoot);
 }
 
 int main(void) {

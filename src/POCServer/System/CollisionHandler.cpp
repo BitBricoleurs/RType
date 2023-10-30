@@ -70,7 +70,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
                 auto posCompPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
                 eventHandler.queueEvent("ForcePodSpawn", posCompPlayer->pos.y);
             } else {
-                // add weapon
+                eventHandler.queueEvent("ManagePowerUp", firstEntity);
             }
             componentsContainer.deleteEntity(secondEntity);
             std::vector<size_t> ids = {secondEntity};
@@ -83,7 +83,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
                 auto posCompPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
                 eventHandler.queueEvent("ForcePodSpawn", posCompPlayer->pos.y);
             } else {
-                // add weapon
+                eventHandler.queueEvent("ManagePowerUp", secondEntity);
             }
             componentsContainer.deleteEntity(firstEntity);
             std::vector<size_t> ids = {firstEntity};
