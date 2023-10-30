@@ -30,6 +30,7 @@
 #include "NetworkClientAlive.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
+#include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
@@ -43,6 +44,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto networkClientReady = std::make_shared<Server::NetworkClientReady>();
     auto checkEveryClientReady = std::make_shared<Server::CheckEveryClientReady>();
     auto networkAlive = std::make_shared<Server::NetworkClientAlive>();
+    auto blockWall = std::make_shared<Server::NetworkClientBlockWall>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -53,6 +55,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addSystem("NETWORK_TIMEOUT", timeout);
     engine.addEvent("READY", networkClientReady);
     engine.addEvent("CHECK_EVERY_CLIENT_READY", checkEveryClientReady);
+    engine.addEvent("BLOCK", blockWall);
     engine.addEvent("ALIVE", networkAlive);
 }
 
