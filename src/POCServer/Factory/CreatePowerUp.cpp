@@ -61,13 +61,13 @@ namespace Server {
 
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Game/powerUp.json");
         int size = data.getSize("/powers");
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < 2; i++) {
             auto typeJson = static_cast<PowerType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
             if (type == typeJson) {
                 int hitBoxHeight = data.getInt("/powers/" + std::to_string(i) + "/shootRed/hitBoxHeight");
                 int hitBoxWidth = data.getInt("/powers/" + std::to_string(i) + "/shootRed/hitBoxWidth");
                 float scale = data.getFloat("/powers/" + std::to_string(i) + "/shootRed/scale");
-                auto velocity = Utils::Vect2(data.getFloat("/powers/" + std::to_string(i) + "/shootRed/velocity/x"), data.getFloat("powers/" + std::to_string(i) + "/shootRed/velocity/y"));
+                auto velocity = Utils::Vect2(data.getFloat("/powers/" + std::to_string(i) + "/shootRed/velocity/x"), data.getFloat("/powers/" + std::to_string(i) + "/shootRed/velocity/y"));
                 int damageValue = data.getInt("/powers/" + std::to_string(i) + "/shootRed/damageValue");
                 bool isPlayerBullet = data.getBool("/powers/" + std::to_string(i) + "/shootRed/isPlayerBullet");
                 size_t entityId = createBullet(
@@ -83,7 +83,7 @@ namespace Server {
                 hitBoxHeight = data.getInt("/powers/" + std::to_string(i) + "/shootBlue/hitBoxHeight");
                 hitBoxWidth = data.getInt("/powers/" + std::to_string(i) + "/shootBlue/hitBoxWidth");
                 scale = data.getFloat("/powers/" + std::to_string(i) + "/shootBlue/scale");
-                velocity = Utils::Vect2(data.getFloat("/powers/" + std::to_string(i) + "/shootBlue/velocity/x"), data.getFloat("powers/" + std::to_string(i) + "/shootBlue/velocity/y"));
+                velocity = Utils::Vect2(data.getFloat("/powers/" + std::to_string(i) + "/shootBlue/velocity/x"), data.getFloat("/powers/" + std::to_string(i) + "/shootBlue/velocity/y"));
                 damageValue = data.getInt("/powers/" + std::to_string(i) + "/shootBlue/damageValue");
                 isPlayerBullet = data.getBool("/powers/" + std::to_string(i) + "/shootBlue/isPlayerBullet");
                 size_t entityId2 = createBullet(
@@ -96,6 +96,7 @@ namespace Server {
                     isPlayerBullet,
                     scale
                 );
+                std::cout << "YEAH" << std::endl;
                 std::vector<size_t> ids = {entityId, entityId2};
                 std::vector<std::any> args = {static_cast<int>(type)};
                 args.emplace_back(static_cast<int>(pos.x * 1000));

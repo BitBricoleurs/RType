@@ -35,6 +35,7 @@ void Client::NetworkReceiveFlash::update(GameEngine::ComponentsContainer &compon
             spriteCast->flash = false;
         
             eventHandler.scheduleEvent("flash", 3, clientId, 5);
+
         }
     } catch (std::exception &e) {
         std::cout << "Error in NetworkReceiveFlash : " << e.what() << std::endl;

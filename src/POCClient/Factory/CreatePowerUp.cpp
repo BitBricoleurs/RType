@@ -48,7 +48,7 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
 std::vector<size_t> Client::EntityFactory::spawnPowerUpDualShoot(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, PowerUpType type, Utils::Vect2 pos, Utils::Vect2 pos2)
 {
     try {
-        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPowerUp.json");
+        LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Game/powerUp.json");
 
         int size = data.getSize("/powers");
         for (int i = 0; i < size; i++) {
@@ -57,8 +57,8 @@ std::vector<size_t> Client::EntityFactory::spawnPowerUpDualShoot(GameEngine::Com
                 size_t entityId = createBaseEntity(
                         container,
                         data.getString("/powers/" + std::to_string(i) + "/shootRed/path"),
-                        data.getInt("/powers/" + std::to_string(i) + "/shootRed/rect/height"),
-                        data.getInt("/powers/" + std::to_string(i) + "/shootRed/rect/width"),
+                        data.getInt("/powers/" + std::to_string(i) + "/shootRed/rect/h"),
+                        data.getInt("/powers/" + std::to_string(i) + "/shootRed/rect/w"),
                         data.getInt("/powers/" + std::to_string(i) + "/shootRed/frames"),
                         data.getBool("/powers/" + std::to_string(i) + "/shootRed/twoDirections"),
                         data.getBool("/powers/" + std::to_string(i) + "/shootRed/reverse"),
@@ -78,8 +78,8 @@ std::vector<size_t> Client::EntityFactory::spawnPowerUpDualShoot(GameEngine::Com
                 size_t entityId2 = createBaseEntity(
                         container,
                         data.getString("/powers/" + std::to_string(i) + "/shootBlue/path"),
-                        data.getInt("/powers/" + std::to_string(i) + "/shootBlue/rect/height"),
-                        data.getInt("/powers/" + std::to_string(i) + "/shootBlue/rect/width"),
+                        data.getInt("/powers/" + std::to_string(i) + "/shootBlue/rect/h"),
+                        data.getInt("/powers/" + std::to_string(i) + "/shootBlue/rect/w"),
                         data.getInt("/powers/" + std::to_string(i) + "/shootBlue/frames"),
                         data.getBool("/powers/" + std::to_string(i) + "/shootBlue/twoDirections"),
                         data.getBool("/powers/" + std::to_string(i) + "/shootBlue/reverse"),
@@ -96,6 +96,8 @@ std::vector<size_t> Client::EntityFactory::spawnPowerUpDualShoot(GameEngine::Com
                         ),
                         data.getInt("/powers/" + std::to_string(i) + "/shootBlue/layer")
                         );
+                eventHandler.scheduleEvent("animate", data.getInt("/powers/" + std::to_string(i) + "/animateSpeed") , std::make_tuple(std::string("PowerUp"), entityId));
+                eventHandler.scheduleEvent("animate", data.getInt("/powers/" + std::to_string(i) + "/animateSpeed") , std::make_tuple(std::string("PowerUp"), entityId2));
                 std::vector<size_t> ids = {entityId, entityId2};
                 return ids;
             }

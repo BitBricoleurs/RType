@@ -3,7 +3,8 @@
     {
       "type": 0,
       "name": "DualShoot",
-      "delay": 50,
+      "delay": 300,
+      "animateSpeed": 5,
       "shootRed" : {
         "frames": 2,
         "twoDirections": false,

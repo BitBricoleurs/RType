@@ -124,6 +124,7 @@ namespace Client {
             // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
+        std::shared_ptr<SpriteAnimation> initAnimation(const std::string &spriteSheetPath, int frames, int width,int height, bool twoDirections, bool reverse, int direction, int player);
     private:
       EntityFactory() = default;
       ~EntityFactory() = default;
@@ -192,11 +193,6 @@ namespace Client {
                               int player, float scale,
                               float rotation,
                               Utils::ColorR tint, int layer);
-
-      static std::shared_ptr<SpriteAnimation>
-      initAnimation(const std::string &spriteSheetPath, int frames, int width,
-                    int height, bool twoDirections, bool reverse, int direction,
-                    int player);
 
       static std::shared_ptr<DeathAnimation>
       initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,

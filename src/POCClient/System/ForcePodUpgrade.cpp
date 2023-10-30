@@ -3,6 +3,8 @@
 //
 
 #include "ForcePodUpgrade.hpp"
+#include "EntityFactory.hpp"
+
 
 void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
@@ -20,16 +22,35 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
             return;
         auto id = std::any_cast<int>(args[0]);
         auto powerUp = std::any_cast<int>(args[1]);
-        auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
-        auto forcePod = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(componentsContainer.getComponent(player->entityIdForcePod, GameEngine::ComponentsType::getComponentType("SpriteComponent")).value());
+        auto &factory = EntityFactory::getInstance();
+        size_t clientId = factory.getClientId(id);
+        auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
         if (powerUp == 1) {
-            forcePod->imagePath = "assets/forcePod2.png";
-            forcePod->rect1 = {0, 0, 360, 21};
+            return;
+            try {
+                std::cout << "ForcePodUpgrade" << std::endl;
+                LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createForcePod.json");
+                componentsContainer.unbindComponentFromEntity(player->entityIdForcePod, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
+                auto spriteAnimationComponent = EntityFactory::getInstance().initAnimation(
+              data.getString("/involve/0/path"), data.getInt("/involve/0/frames"), data.getInt("/involve/0/rect/width"), data.getInt("/involve/0/rect/height"),
+              data.getBool("/involve/0/twoDirections"), data.getBool("/involve/0/reverse"), 2, 0);
+                Utils::rect spriteRect;
+
+              spriteRect.w = spriteAnimationComponent->frameWidth;
+              spriteRect.h = spriteAnimationComponent->frameHeight;
+              spriteRect.x = spriteAnimationComponent->currentFrame.x;
+              spriteRect.y = spriteAnimationComponent->currentFrame.y;
+
+            auto posComponent = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(player->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(data.getString("/involve/0/path"), posComponent->pos, spriteRect, static_cast<size_t>(data.getInt("/involve/0/layer")), data.getFloat("/involve/0/scale"), data.getFloat("/involve/0/rotation"), Utils::ColorR(data.getInt("/involve/0/tint/r"), data.getInt("/involve/0/tint/g") ,data.getInt("/involve/0/tint/b"), data.getInt("/involve/0/tint/a")));
+            componentsContainer.bindComponentToEntity(player->entityIdForcePod, spriteComponent);
+        } catch (std::exception &e) {
+            std::cout << "Error in ForcePodUpgrade : " << e.what() << std::endl;
+            }
         } else if (powerUp == 2) {
-            forcePod->imagePath = "assets/forcePod3.png";
-            forcePod->rect1 = {0, 0, 360, 21};
+            // other
         }
     } catch (std::exception &e) {
-        std::cout << "Error in NetworkReceiveFlash : " << e.what() << std::endl;
+        std::cout << "Error in ForcePodUpgrade : " << e.what() << std::endl;
     }
 }
