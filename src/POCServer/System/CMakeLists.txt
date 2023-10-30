@@ -25,5 +25,6 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientAlive.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientBlockWall.cpp
         CACHE INTERNAL ""
 )

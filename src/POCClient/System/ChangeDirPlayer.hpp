@@ -19,7 +19,8 @@ namespace Client {
                         GameEngine::EventHandler &eventHandler) override;
         private:
             float speed;
+            bool block = false;
             std::unordered_map<std::string, std::pair<float, float>> directionMap;
-            void tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
+            static void tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
     };
 }
