@@ -53,7 +53,7 @@
       "a": 255
     },
     "layer": 7,
-    "maxHealth": 100,
+    "maxHealth": 350,
     "damageValue": 10,
     "stageValue": 1
   }
