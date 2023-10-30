@@ -16,9 +16,7 @@
                 "g": 255,
                 "b": 255,
                 "a": 255
-            },
-            "layer" : 1,
-            "isLooping": true
+            }
         },
         {
             "type": 2,
@@ -36,9 +34,7 @@
                 "g": 255,
                 "b": 255,
                 "a": 255
-            },
-            "layer" : 2,
-            "isLooping": true
+            }
         },
         {
             "type": 3,
@@ -56,9 +52,25 @@
                 "g": 255,
                 "b": 255,
                 "a": 255
+            }
+        },
+        {
+            "type": 4,
+            "path": "assets/Planets/Planet_Furnace_01_560x560.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
             },
-            "layer" : 3,
-            "isLooping": true
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
         }
     ]
 }

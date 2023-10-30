@@ -61,7 +61,7 @@ namespace Client {
                          GameEngine::EventHandler &eventHandler,
                          Utils::Vect2 pos, bool dropPowerup);
 
-      size_t spawnParallax(GameEngine::ComponentsContainer & container, GameEngine::EventHandler & eventHandler, ParallaxType type);
+      size_t spawnParallax(GameEngine::ComponentsContainer & container, GameEngine::EventHandler & eventHandler, ParallaxType type, Utils::Vect2 pos, Utils::Vect2 velocity, float layer);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
@@ -123,8 +123,8 @@ namespace Client {
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
 
-      size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
-                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint);
+      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
 
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,

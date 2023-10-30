@@ -20,15 +20,21 @@ void Client::CreateParallax::update(GameEngine::ComponentsContainer &componentsC
         std::vector<std::any> args = messageData->getArgs();
         if (ids.size() != 1)
             return;
-        if (args.size() != 1)
+        if (args.size() != 5)
             return;
-        ParallaxType typeMob = static_cast<ParallaxType>(std::any_cast<int>(args[0]));
+        auto typeMob = static_cast<ParallaxType>(std::any_cast<int>(args[0]));
+        auto posXFloat = static_cast<float>(std::any_cast<int>(args[1])) / 1000;
+        auto posYFloat = static_cast<float>(std::any_cast<int>(args[2])) / 1000;
+        auto speedFloat = static_cast<float>(std::any_cast<int>(args[3])) / 1000;
+        Utils::Vect2 pos = {posXFloat, posYFloat};
+        Utils::Vect2 velocity = {speedFloat, 0};
+        auto layer = std::any_cast<int>(args[4]);
         EntityFactory  &factory = EntityFactory::getInstance();
 
         size_t entityId = 0;
 
         for (auto id : ids ) {
-            entityId = factory.spawnParallax(componentsContainer, eventHandler, typeMob);
+            entityId = factory.spawnParallax(componentsContainer, eventHandler, typeMob, pos, velocity, layer);
             factory.registerEntity(entityId, id);
         }
     } catch (std::bad_any_cast &e) {

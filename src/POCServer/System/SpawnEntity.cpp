@@ -61,23 +61,12 @@ namespace Server {
             if (currentTick == tick) {
                 int posX = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/position/x");
                 int posY = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/position/y");
+                int layer = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/layer");
+                bool isLooping = currentMapContent.getBool("/parallax/" + std::to_string(i) + "/isLooping");
+                float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/speed");
                 Utils::Vect2 position(posX, posY);
-
                 ParallaxType type = static_cast<ParallaxType>(currentMapContent.getInt("/parallax/" + std::to_string(i) + "/type"));
-                try {
-                    LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath("config/Entity/createParallax.json");
-                    int parallaxSizeType = data.getSize("/types");
-                    for (int j = 0; j < parallaxSizeType; j++) {
-                        if (static_cast<ParallaxType>(data.getInt("/types/" + std::to_string(j) + "/type")) == type) {
-                            int layer = data.getInt("/types/" + std::to_string(j) + "/layer");
-                            bool isLooping = data.getBool("/types/" + std::to_string(j) + "/isLooping");
-                            EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, layer, type, isLooping);
-                        }
-                    }
-                } catch (const std::exception& e) {
-                     std::cerr << "Error loading map: " << e.what() << std::endl;
-                     exit(1);
-                }
+                EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, -speed, layer, type, isLooping);
             }
         }
     }
