@@ -1,5 +1,7 @@
 
 #include "AnimateDeath.hpp"
+#include "NetworkActivateCharge.hpp"
+#include "SyncChargeAnimations.hpp"
 #include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
@@ -132,6 +134,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto activateCharge = std::make_shared<Client::ActivateCharge>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -144,6 +147,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("CHARGE", activateCharge);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {
@@ -151,11 +155,13 @@ void setup_animations(GameEngine::GameEngine &engine) {
   auto mobDeath = std::make_shared<Client::AnimateDeath>();
   auto updateSprite = std::make_shared<Client::updateEntitySprite>();
   auto animateOnMove = std::make_shared<Client::AnimateOnMove>();
+  auto syncChargeAnimations = std::make_shared<Client::SyncChargeAnimations>();
 
   engine.addEvent("MobDeath", mobDeath);
   engine.addEvent("KillEntity", killEntity);
   engine.addEvent("animate", updateSprite);
   engine.addEvent("animatePlayer", animateOnMove);
+  engine.addSystem("SyncChargeAnimations", syncChargeAnimations);
 }
 
 int main() {
