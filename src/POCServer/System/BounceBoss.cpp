@@ -18,19 +18,9 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   auto bossCore = componentsContainer.getEntityWithUniqueComponent(
       GameEngine::ComponentsType::getComponentType("isBossCore"));
 
-  std::cout << "boss pods: " << bossPods.size() << std::endl;
-
   auto &factory = EntityFactory::getInstance();
 
-  // check if boss exists and is in scope
-  if (bossCore == 0)
-    return;
-  if (!hasAppeared &&
-      !checkInScreen(bossCore, componentsContainer, eventHandler)) {
-    return;
-  }
   bool changedDir = false;
-
   auto bossVelOpt = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
   auto bossPosOpt = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
 
@@ -42,12 +32,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   int i = 0;
   // check if boss pods is bouncing on the screen
   for (auto &bossPod : bossPods) {
-
-      if (bossPods[i] == bossPod) {
-        std::cout << "pod 1 vel " << bossVelComp->velocity.x << " " << bossVelComp->velocity.y << std::endl;
-        std::cout << "pod 1 pos " << bossPosComp->pos.x << " " << bossPosComp->pos.y << std::endl;
-      }
-
       auto bossPodOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
       auto podPosCompOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
       auto podVelocityCompOpt = componentsContainer.getComponent(bossPod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
@@ -59,25 +43,11 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
     auto podPosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPosCompOpt.value());
     auto podVelocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(podVelocityCompOpt.value());
 
-
-    // if (bossPodComp->launched ) {
-    //    std::cout << "pod: " << bossPod << " is launched" << std::endl;
-    //    std::cout << "pod: " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
-    //    std::cout << "pod: " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
-    // }
-
-
     if (podPosComp->pos.x < 0 || podPosComp->pos.y < 0 ||
         podPosComp->pos.y > 1080 - 150 || // one of the pods is bouncing
         podPosComp->pos.x > 1920 - 150) {
 
-        // std::cout << "detected bounce" << std::endl;
-        // std::cout << "pod " << bossPod << " pos " << podPosComp->pos.x << " " << podPosComp->pos.y << std::endl;
-        // std::cout << "pod " << bossPod << " vel " << podVelocityComp->velocity.x << " " << podVelocityComp->velocity.y << std::endl;
-        // std::cout << "launched: " << bossPodComp->launched << std::endl;
-
       if (bossPodComp->launched) { // if pod is detached from the core
-          std::cout << "pod: " << bossPod << " is detached" << std::endl;
         auto newVelocityOpt =      // change only its velocity
             handleDirectionChange(
                 podPosComp->pos,
@@ -88,8 +58,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         Utils::Vect2 newVelocity = newVelocityOpt.value();
         podVelocityComp->velocity = newVelocity * 3;
         bossPodComp->bounces++;
-        factory.updateEntityNetworkWithVelocity(eventHandler, bossPod,
-                                    podVelocityComp->velocity);
+        factory.updateEntityNetworkWithVelocity(eventHandler, bossPod, podVelocityComp->velocity);
       } else if (!changedDir) {
 
         auto newVelocityOpt = // change velocity of the boss's
@@ -148,27 +117,6 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   }
 }
 
-bool BounceBoss::checkInScreen(
-    size_t bossCore, GameEngine::ComponentsContainer &componentsContainer,
-    GameEngine::EventHandler &eventHandler) {
-  auto pos = componentsContainer.getComponent(
-      bossCore,
-      GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-
-  if (pos == nullptr)
-    return false;
-  auto posComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
-      pos.value());
-  if (posComp->pos.x < 300 || posComp->pos.y < 300 ||
-      posComp->pos.y > 1080 - 300 || posComp->pos.x > 1920 - 300) {
-    return false;
-  }
-  if (!hasAppeared)
-    eventHandler.scheduleEvent("launchBossPods", 200);
-  hasAppeared = true;
-  return true;
-}
-
 float BounceBoss::randomizeVelocity(float currentVelocity) {
   float randomizedValue =
       1.0f + static_cast<float>(rand()) /
@@ -200,7 +148,6 @@ BounceBoss::handleDirectionChange(Utils::Vect2 pos, Utils::Vect2 velocity) {
   if (touchesTop || touchesBottom) {
     velocity.y = -velocity.y;
   }
-
   return velocity;
 }
 

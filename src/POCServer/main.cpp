@@ -38,6 +38,7 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "BossInScope.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -102,6 +103,7 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
     auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
     auto bossHit = std::make_shared<Server::BossHit>();
+    auto bossInScope = std::make_shared<Server::BossInScope>();
 
 
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
@@ -123,8 +125,8 @@ void setup_engine(GameEngine::GameEngine& engine)
 
     engine.addEvent("bounceBoss", bounceBoss);
     engine.addEvent("launchBossPods", launchBossPods);
-    engine.addEvent("latchPodToBoss", latchPodToBoss);
-
+    engine.addEvent("LatchPodToBoss", latchPodToBoss);
+    engine.addSystem("BossInScope", bossInScope);
 }
 
 int main(void) {

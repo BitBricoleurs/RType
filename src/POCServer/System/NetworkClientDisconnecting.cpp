@@ -14,7 +14,7 @@ void NetworkClientDisconnecting::update(
   try {
     entityId = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
   } catch (std::bad_any_cast &e) {
-    std::cerr << "Error from NetworkClientConnect System " << e.what()
+    std::cerr << "Error from NetworkClientDisconnecting System " << e.what()
               << std::endl;
   }
   size_t componentType =

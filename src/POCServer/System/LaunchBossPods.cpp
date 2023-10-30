@@ -18,12 +18,15 @@ void LaunchBossPods::update(
   auto bossPods = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("isBossPod"));
 
+  auto bossCore = componentsContainer.getEntityWithUniqueComponent(
+      GameEngine::ComponentsType::getComponentType("isBossCore"));
+
   size_t podToLaunch = 0;
 
   // shuffle pods
-  //std::random_device rd;
-  //std::mt19937 g(rd());
-  //std::shuffle(bossPods.begin(), bossPods.end(), g);
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(bossPods.begin(), bossPods.end(), g);
 
   for (auto &bossPod : bossPods) {
     auto bossPodOpt = componentsContainer.getComponent(
@@ -38,15 +41,19 @@ void LaunchBossPods::update(
     podToLaunch = bossPod;
     break;
   }
-  if (podToLaunch == 0)
+  if (podToLaunch == 0) {
+    LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig(
+          "config/Entity/createBellmite.json");
+    
+    auto healthComponent = std::make_shared<Health>(data.getInt("/createBellmiteBoss/maxHealth"));
+    componentsContainer.bindComponentToEntity(bossCore, healthComponent);
     return;
+  }
 
   auto podPositionOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
   if (!podPositionOpt.has_value())
     return;
   auto podPositionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPositionOpt.value());
-
-  // std::cout << "launching pod: " << podToLaunch << std::endl;
 
   auto players = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("IsPlayer"));

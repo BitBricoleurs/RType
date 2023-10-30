@@ -37,6 +37,10 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
   container.unbindComponentFromEntity(entityId, GameEngine::ComponentsType::getComponentType("Health"));
   std::vector<size_t> ids = {entityId};
   std::vector<std::any> args = {static_cast<int>(MobType::BELLMITECORE)};
+  args.emplace_back(static_cast<int>(pos.x * 1000));
+            args.emplace_back(static_cast<int>(pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity.y * 1000));
   std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
   eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
@@ -48,10 +52,10 @@ size_t
 EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
                                  Utils::Vect2 pos) {
-  LoadConfig::ConfigData data =
-      LoadConfig::LoadConfig::getInstance().loadConfig(
-          "config/Entity/createBellmite.json");
+  try {
+  LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBellmite.json");
   std::string podKey = "/createBellmitePod";
+
   Utils::Vect2 velocity(data.getFloat(podKey + "/velocity/x"),
                         data.getFloat(podKey + "/velocity/y"));
 
@@ -66,8 +70,13 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
   container.bindComponentToEntity(entityId, bossPod);
   eventHandler.scheduleEvent("animate", 8,
                              std::make_tuple(std::string("Pods"), entityId));
+      
   std::vector<size_t> ids = {entityId};
   std::vector<std::any> args = {static_cast<int>(MobType::BELLMITEPOD)};
+  args.emplace_back(static_cast<int>(pos.x * 1000));
+  args.emplace_back(static_cast<int>(pos.y * 1000));
+  args.emplace_back(static_cast<int>(velocity.x * 1000));
+  args.emplace_back(static_cast<int>(velocity.y * 1000));
   std::shared_ptr<Network::Message> message =
       std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
   std::shared_ptr<Network::AllUsersMessage> allUserMsg =
@@ -75,6 +84,10 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
   eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
   EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
   return entityId;
+  } catch(const std::runtime_error& e) {
+    std::cerr << "Error in createBellmitePod: " << e.what() << std::endl;
+    exit(1);
+  }
 }
 
 size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
@@ -108,7 +121,7 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
     podsInCurrentRadius += 6;
   }
 
-  eventHandler.scheduleEvent("bounceBoss", 2);
+  // eventHandler.scheduleEvent("bounceBoss", 2);
 
   return 0;
 }

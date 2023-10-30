@@ -176,13 +176,23 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
         if (firstEntityOptBossCore.has_value() && secondEntityOptBossPod.has_value()) {
             // std::cout << "BossPod vs BossCore" << std::endl;
             auto bossPod = std::dynamic_pointer_cast<isBossPod>(*secondEntityOptBossPod);
+            // std::cout << bossPod->bounces << std::endl;
+            if (bossPod->bounces > 2) {
+                std::cout << "Yes " <<  bossPod->bounces << std::endl;
+            }
             if (bossPod->launched == true && bossPod->bounces > 2) {
+                std::cout << "Latch" << std::endl;
                 eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
             }
         } else if (secondEntityOptBossCore.has_value() && firstEntityOptBossPod.has_value()) {
             // std::cout << "BossPod vs BossCore" << std::endl;
             auto bossPod = std::dynamic_pointer_cast<isBossPod>(*firstEntityOptBossPod);
+            // std::cout << bossPod->bounces << std::endl;
+            if (bossPod->bounces > 2) {
+                std::cout << "Yes " <<  bossPod->bounces << std::endl;
+            }
             if (bossPod->launched == true && bossPod->bounces > 2) {
+                std::cout << "Latch" << std::endl;
                 eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
             }
         }

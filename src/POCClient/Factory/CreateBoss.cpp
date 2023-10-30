@@ -44,6 +44,8 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
   container.bindComponentToEntity(entityId, bossCore);
   container.unbindComponentFromEntity(
       entityId, GameEngine::ComponentsType::getComponentType("Health"));
+
+  std::cout << "boss core: " << entityId << std::endl;
   return entityId;
 }
 
@@ -79,6 +81,8 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
   container.bindComponentToEntity(entityId, bossPod);
   eventHandler.scheduleEvent("animate", 8,
                              std::make_tuple(std::string("Pods"), entityId));
+
+    std::cout << "boss pod: " << entityId << std::endl;
   return entityId;
 }
 
