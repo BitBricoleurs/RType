@@ -8,5 +8,6 @@ enum PlayerNumber {
     Player1,
     Player2,
     Player3,
-    Player4
+    Player4,
+    Spectator
 };
