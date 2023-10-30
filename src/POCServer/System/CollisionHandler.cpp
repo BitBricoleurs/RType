@@ -96,6 +96,7 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
         if (firstEntityOptPlayer.has_value() && secondEntityOptForcePod.has_value()) {
             auto playerComp = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
             auto forcePodComp = std::dynamic_pointer_cast<IsForcePod>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
+            std::cout << "Id forcepod" << forcePodComp->entityId << "nb id:" << secondEntity << std::endl;
             if (forcePodComp->entityId == 0 && playerComp->entityIdForcePod == 0) {
                 eventHandler.queueEvent("ForcePodFix", std::make_tuple(firstEntity, secondEntity));
             }

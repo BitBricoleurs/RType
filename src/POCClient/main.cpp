@@ -12,7 +12,6 @@
 #include "Endpoint.hpp"
 #include "GameEngine.hpp"
 #include "InitHUD.hpp"
-#include "InitParallax.hpp"
 #include "KillEntity.hpp"
 #include "NetworkConnect.hpp"
 #include "NetworkDeleteEntity.hpp"
@@ -22,11 +21,10 @@
 #include "NetworkReceiveDisconnectApply.hpp"
 #include "NetworkServerAccept.hpp"
 #include "NetworkServerTimeout.hpp"
-#include "Parallax.hpp"
-#include "ParallaxPlanet.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
+#include "System/NetworkReceiveFlash.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
@@ -34,6 +32,7 @@
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "CreateParallax.hpp"
 #include "NetworkReceiveStartGame.hpp"
 #include "NetworkSendReady.hpp"
 #include "iAmAlive.hpp"
@@ -42,6 +41,8 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "NetworkReceiveFlash.hpp"
+#include "FlashWhenHit.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -55,11 +56,13 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createMob = std::make_shared<Client::CreateMob>();
     auto createBullet = std::make_shared<Client::CreateBullet>();
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
+    auto parallax = std::make_shared<Client::CreateParallax>();
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
     auto imAlive = std::make_shared<Client::iAmAlive>();
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
+    auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -71,6 +74,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
+    engine.addEvent("CREATE_PARALLAX", parallax);
     engine.addEvent("CREATED_POWERUP", createPowerUp);
     engine.addEvent("CREATED_FORCEPOD", createForcePod);
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
@@ -78,6 +82,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
     engine.addEvent("ALIVE", imAlive);
+    engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
@@ -126,27 +131,25 @@ void setup_hud(GameEngine::GameEngine &engine) {
 
 void setup_game(GameEngine::GameEngine& engine)
 {
-    auto initParallax = std::make_shared<Client::InitParallax>();
-    auto parallax = std::make_shared<Client::Parallax>();
-    auto parallaxPlanet = std::make_shared<Client::ParallaxPlanet>();
     auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
     auto collisionHandler = std::make_shared<Client::CollisionHandler>();
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
     auto activateCharge = std::make_shared<Client::ActivateCharge>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
     engine.queueEvent("Init");
 
-    engine.addSystem("ParallaxSystem", parallax);
-    engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
-    engine.addEvent("InitParallax", initParallax);
+    engine.scheduleEvent("UPDATE_SOUNDS", 1);
+    engine.addEvent("UPDATE_SOUNDS", audioSys);
     engine.queueEvent("InitParallax");
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("flash", flashWhenHit);
     engine.addEvent("CHARGE", activateCharge);
 }
 

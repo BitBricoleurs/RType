@@ -13,7 +13,7 @@ Network::PacketRegister::PacketRegister()
 
 void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsigned int packetId)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexIn);
     if (_packetIdRegisterIn.find(remoteId) == _packetIdRegisterIn.end())
         _packetIdRegisterIn[remoteId] = std::vector<unsigned int>();
 
@@ -22,13 +22,13 @@ void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsi
         _packetIdRegisterIn[remoteId].erase(_packetIdRegisterIn[remoteId].begin());
     }
     _packetIdRegisterIn[remoteId].push_back(packetId);
-    _mutex.unlock();
+    _mutexIn.unlock();
 }
 
 
 bool Network::PacketRegister::isPacketRegisteredIn(unsigned int remoteId, unsigned int packetId)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexIn);
     if (remoteId == -1)
         return false;
     auto it = _packetIdRegisterIn.find(remoteId);
@@ -43,7 +43,7 @@ bool Network::PacketRegister::isPacketRegisteredIn(unsigned int remoteId, unsign
 
 uint16_t Network::PacketRegister::getAckMask(unsigned int remoteId)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexIn);
     uint16_t mask = 0;
     auto it = _packetIdRegisterIn.find(remoteId);
     if (it != _packetIdRegisterIn.end() && !it->second.empty())
@@ -69,13 +69,13 @@ uint16_t Network::PacketRegister::getAckMask(unsigned int remoteId)
 
 void Network::PacketRegister::clear()
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexOut);
     _packetIdRegisterIn.clear();
 }
 
 unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexOut);
     std::sort(_packetIdRegisterIn[remoteId].begin(), _packetIdRegisterIn[remoteId].end());
     auto it = _packetIdRegisterIn.find(remoteId);
     if (it != _packetIdRegisterIn.end() && !it->second.empty())
@@ -85,7 +85,7 @@ unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
 
 void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet, bool secure)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexOut);
     if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end())
         _packetRegisterOut[remoteId] = std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>();
 
@@ -93,18 +93,18 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::sh
         _packetRegisterOut[remoteId].erase(_packetRegisterOut[remoteId].begin());
     }
     _packetRegisterOut[remoteId].push_back(std::make_pair(secure, packet));
-    _mutex.unlock();
+    _mutexOut.unlock();
 }
 
 std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_mutexIn);
 
     auto it = _packetRegisterOut.find(remoteId);
     if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         return nullptr;
     for (auto& packet : _packetRegisterOut[remoteId]) {
-        if (packet.second->header.sequenceNumber == packetId && packet.first)
+         if (packet.second->header.sequenceNumber == packetId && packet.first)
             return packet.second;
     }
     return nullptr;
@@ -114,7 +114,7 @@ std::vector<std::shared_ptr<Network::Packet>> Network::PacketRegister::getPacket
 {
     std::vector<std::shared_ptr<Network::Packet>> result;
     std::shared_ptr<Network::Packet> tmpPacket;
-    unsigned int packetId = 0;
+    long packetId = 0;
     unsigned int lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {

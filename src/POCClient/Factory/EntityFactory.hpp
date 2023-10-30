@@ -35,6 +35,8 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
+#include "ParallaxUtils.hpp"
+#include "IsParallax.hpp"
 #include "Shooter.hpp"
 #include "PowerUpUtils.hpp"
 
@@ -68,6 +70,8 @@ namespace Client {
       size_t spawnForcePod(GameEngine::ComponentsContainer &container,
                            Utils::Vect2 pos, Utils::Vect2 vel,
                            GameEngine::EventHandler &eventHandler);
+
+      size_t spawnParallax(GameEngine::ComponentsContainer & container, GameEngine::EventHandler & eventHandler, ParallaxType type, Utils::Vect2 pos, Utils::Vect2 velocity, float layer);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
@@ -115,7 +119,7 @@ namespace Client {
                     return it.first;
                 }
             }
-            std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
+            // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
     private:
@@ -128,6 +132,9 @@ namespace Client {
                         int deathSpriteSheetWidth, int deathFrames, Utils::Vect2 pos,
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
+
+      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
 
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,

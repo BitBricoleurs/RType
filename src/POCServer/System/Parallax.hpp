@@ -8,10 +8,10 @@
 #include "IsParallax.hpp"
 #include "ComponentsType.hpp"
 #include "VelocityComponent.hpp"
-#include "SpriteComponent.hpp"
+#include "PositionComponent2D.hpp"
 #include <algorithm>
 
-namespace Client {
+namespace Server {
 
     class Parallax : public GameEngine::ISystem {
     public:

@@ -15,7 +15,7 @@ Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::u
 }
 
 Network::PacketIO::PacketIO(boost::asio::io_context& context, boost::asio::ip::udp::endpoint& endpoint, boost::asio::ip::udp::socket& socketIn, boost::asio::ip::udp::socket& socketOut, TSQueue<std::shared_ptr<Network::OwnedMessage>>& inMessages, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>& forwardMessages, Network::Tick& tick, std::function<void(boost::asio::ip::udp::endpoint &endpoint)> onConnect, std::vector<std::shared_ptr<Network::Interface> > &clients, Network::PacketRegister &registerPacket, std::function<void(unsigned int)> onReceivePacket)
-    : _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _outMessages(nullptr), _clients(&clients), _forwardMessages(&forwardMessages), _currentSequenceNumber(0), _tempEndpoint(), _registerPacket(registerPacket), _onReceivePacket(std::move(onReceivePacket))
+    : _outMessages(nullptr), _context(context), _endpoint(endpoint), _socketIn(socketIn), _socketOut(socketOut), _inMessages(inMessages),_tick(tick), _headerIn(), _headerOut(), _bodyOut(), _bodyIn(), _socketMutex(), _packetIn(), _packetOut(), _tempBuffer(MAX_PACKET_SIZE + sizeof(PacketHeader)), _onConnect(std::move(onConnect)), _type(Type::SERVER), _clients(&clients), _forwardMessages(&forwardMessages), _currentSequenceNumber(0), _tempEndpoint(), _registerPacket(registerPacket), _onReceivePacket(std::move(onReceivePacket))
 {
     _headerIn.bodySize = 0;
     _id = -1;
@@ -150,6 +150,10 @@ void Network::PacketIO::processOutgoingMessages()
             _bodyOut.clear();
             while (!_outMessages->empty()) {
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
+                if (message == nullptr) {
+                    _outMessages->popFront();
+                    continue;
+                }
                 if (size + message->getSize() > MAX_PACKET_SIZE)
                     break;
                 _outMessages->popFront();
@@ -197,4 +201,9 @@ void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoin
         packet->header.sequenceNumber = _currentSequenceNumber++;
         _packetOutQueue.pushBack(packet);
     }
+}
+
+void Network::PacketIO::clearOutMessages()
+{
+    _outMessages->clear();
 }

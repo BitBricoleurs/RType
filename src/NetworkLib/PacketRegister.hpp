@@ -29,7 +29,8 @@ namespace Network {
         void clear();
     private:
         const size_t _maxSize = 16;
-        std::mutex _mutex;
+        std::mutex _mutexIn;
+        std::mutex _mutexOut;
         std::unordered_map<unsigned int, std::vector<unsigned int>> _packetIdRegisterIn;
         std::unordered_map<unsigned int, std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>>_packetRegisterOut;
     };

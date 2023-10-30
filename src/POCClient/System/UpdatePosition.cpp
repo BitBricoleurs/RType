@@ -37,7 +37,6 @@ namespace Client {
 
                 auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionComponent.value());
                 float distance = position->pos.distanceTo(targetPosition);
-
                 if (isEntityMotionless(componentsContainer, entityToUpdate) && isEntityChangedPosition(componentsContainer, entityToUpdate, targetPosition)) {
                     trySmoothingPosition(componentsContainer, entityToUpdate, targetPosition);
                     return;

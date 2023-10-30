@@ -58,6 +58,7 @@ namespace Server {
                 auto hpComponent = std::static_pointer_cast<Health>(hpComponentOpt.value());
 
                 applyDamage(hpComponent, otherEntity, componentsContainer);
+                flashMobNetwork(eventHandler, mobEntity);
 
                 if (hpComponent->currentHealth <= 0)
                     handleDeath(mobEntity, componentsContainer, eventHandler);
@@ -76,6 +77,14 @@ namespace Server {
          std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DELETED_ENTITY", entitiesToKill, "", std::vector<std::any>{});
          std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
          eventHandler.queueEvent("SEND_NETWORK", allMessage);
+    }
+
+    void MobHit::flashMobNetwork(GameEngine::EventHandler &eventHandler, size_t mobEntity)
+    {
+        std::vector<size_t> ids = {mobEntity};
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("FLASH_ENTITY", ids, "", std::vector<std::any>{});
+        std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allMessage);
     }
 
 }

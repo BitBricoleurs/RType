@@ -13,7 +13,7 @@
 #include "NetworkCreateWorld.hpp"
 #include "NetworkUpdateWorld.hpp"
 #include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
+#include "SpawnEntity.hpp"
 #include "CheckPositionClient.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
@@ -25,11 +25,13 @@
 #include "MobHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "Parallax.hpp"
 #include "NetworkClientReady.hpp"
 #include "CheckEveryClientReady.hpp"
 #include "NetworkClientAlive.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
+#include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
@@ -43,6 +45,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto networkClientReady = std::make_shared<Server::NetworkClientReady>();
     auto checkEveryClientReady = std::make_shared<Server::CheckEveryClientReady>();
     auto networkAlive = std::make_shared<Server::NetworkClientAlive>();
+    auto blockWall = std::make_shared<Server::NetworkClientBlockWall>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -53,6 +56,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addSystem("NETWORK_TIMEOUT", timeout);
     engine.addEvent("READY", networkClientReady);
     engine.addEvent("CHECK_EVERY_CLIENT_READY", checkEveryClientReady);
+    engine.addEvent("BLOCK", blockWall);
     engine.addEvent("ALIVE", networkAlive);
 }
 
@@ -86,7 +90,12 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    auto spawnMob = std::make_shared<Server::SpawnMob>("config/map");
+    auto Parallax = std::make_shared<Server::Parallax>();
+
+    auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
+
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addSystem("PARALLAX", Parallax, 2);
     auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
     auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
 
