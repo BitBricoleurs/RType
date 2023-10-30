@@ -13,7 +13,6 @@ void Client::FlashWhenHit::update(GameEngine::ComponentsContainer &componentsCon
     auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
     if (spriteOpt.has_value()) {
-        std::cout << "flash" << std::endl;
         auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
         if (!sprite->flash) {
             sprite->tint = {255, 255, 255, 255};

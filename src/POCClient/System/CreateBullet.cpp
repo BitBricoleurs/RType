@@ -9,7 +9,6 @@ namespace Client {
     void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         try {
-                std::cout << "CreateBulletSystem" << std::endl;
                 std::shared_ptr<Network::OwnedMessage> message;
 
                 message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
@@ -32,9 +31,7 @@ namespace Client {
             Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 5])) / 1000);
             size_t entityId = 0;
             std::string path = "";
-            std::cout << "receiving bullet from server" << std::endl;
             if (number == BulletOwner::PLAYER) {
-                std::cout << "player bullet with charge " << static_cast<int>(std::any_cast<int>(args[arg_index + 6])) << std::endl;
                 entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, static_cast<int>(std::any_cast<int>(args[arg_index + 6])));
             } else
                 printf("CreateBulletSystem: BulletOwner not implemented\n");

@@ -14,7 +14,6 @@ namespace Server {
                                       Utils::Vect2 pos, Utils::Vect2 velocity, size_t typeBullet) {
 
         try {
-            std::cout << "createPlayerBullet with charge " << typeBullet << std::endl;
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
             std::string bulletKeyPath = "/createBullet/bulletTypes/type" + std::to_string(typeBullet);

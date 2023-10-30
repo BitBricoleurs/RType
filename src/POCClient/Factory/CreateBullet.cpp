@@ -11,7 +11,6 @@ namespace Client {
             int spriteSheetHeight = data.getInt(bulletKeyPath + "/spriteSheetDimensions/h");
             int spriteSheetWidth = data.getInt(bulletKeyPath + "/spriteSheetDimensions/w");
             std::string path = data.getString(bulletKeyPath + "/path");
-            std::cout << "shooting with charge " << typeBullet << std::endl;
             size_t entityId = createBullet(
                 container,
                 path,
