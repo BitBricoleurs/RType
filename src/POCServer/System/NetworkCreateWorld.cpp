@@ -28,12 +28,14 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto parallaxType = GameEngine::ComponentsType::getComponentType("IsParallax");
         auto powerType = GameEngine::ComponentsType::getComponentType("IsPower");
         auto forcePodType = GameEngine::ComponentsType::getComponentType("IsForcePod");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto parallax = componentsContainer.getEntitiesWithComponent(parallaxType);
         auto powers = componentsContainer.getEntitiesWithComponent(powerType);
         auto forcePods = componentsContainer.getEntitiesWithComponent(forcePodType);
 
@@ -136,6 +138,25 @@ namespace Server {
             args.clear();
         }
 
+        // Creating Parallax
+        for (auto &para : parallax) {
+            if (!componentsContainer.getComponent(para, parallaxType).has_value())
+                continue;
+            auto compIsParallax = std::static_pointer_cast<IsParallax>(componentsContainer.getComponent(para, parallaxType).value());
+            auto posParallax = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto velocityParallax = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+            args.emplace_back(static_cast<int>(compIsParallax->type));
+            args.emplace_back(static_cast<int>(posParallax->pos.x * 1000));
+            args.emplace_back(static_cast<int>(posParallax->pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocityParallax->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(compIsParallax->layer));
+            ids.push_back(para);
+            message = std::make_shared<Network::Message>("CREATE_PARALLAX", ids, "INT", args);
+            userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            ids.clear();
+            args.clear();
+        }
         // Creating Powers
         for(auto &power : powers) {
             auto compIsPower = std::static_pointer_cast<IsPower>(componentsContainer.getComponent(power, powerType).value());

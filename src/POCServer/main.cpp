@@ -13,7 +13,7 @@
 #include "NetworkCreateWorld.hpp"
 #include "NetworkUpdateWorld.hpp"
 #include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
+#include "SpawnEntity.hpp"
 #include "CheckPositionClient.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
@@ -25,6 +25,7 @@
 #include "MobHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "Parallax.hpp"
 #include "NetworkClientReady.hpp"
 #include "CheckEveryClientReady.hpp"
 #include "NetworkClientAlive.hpp"
@@ -89,7 +90,12 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    auto spawnMob = std::make_shared<Server::SpawnMob>("config/map");
+    auto Parallax = std::make_shared<Server::Parallax>();
+
+    auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
+
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addSystem("PARALLAX", Parallax, 2);
     auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
     auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
 

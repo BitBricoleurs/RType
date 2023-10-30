@@ -1,25 +1,26 @@
 //
-// Created by Theophilus Homawoo on 15/10/2023.
+// Created by Clément Lagasse on 13/10/2023.
 //
 
 #pragma once
 
+#include "EventHandler.hpp"
 #include "ISystem.hpp"
+#include "Message.hpp"
+#include "UserMessage.hpp"
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
-#include "EventHandler.hpp"
-#include "IsParallax.hpp"
-#include <map>
+#include "Shooter.hpp"
 
 namespace Server {
-    class IndentifyOutOfBounds : public GameEngine::ISystem {
+
+    class CheckPositionClient : public GameEngine::ISystem {
         public:
+            CheckPositionClient() = default;
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
         private:
-            int _width = 1920;
-            int _height = 1080;
-            int _offset = 100;
-            std::map<size_t, int> _idTimer;
+
     };
+
 }

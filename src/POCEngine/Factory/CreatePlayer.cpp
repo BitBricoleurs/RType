@@ -6,6 +6,9 @@
 */
 
 #include "EntityFactory.hpp"
+#include "GravitySystemComponent.hpp"
+#include "GravityComponent.hpp"
+#include "IsOnGroundComponent.hpp"
 
 size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
