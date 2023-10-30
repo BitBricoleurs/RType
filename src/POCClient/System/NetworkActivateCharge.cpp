@@ -25,7 +25,7 @@ void Client::ActivateCharge::update(GameEngine::ComponentsContainer &componentsC
         auto playerToUpdateServer = std::any_cast<int>(args[1]);
         
         size_t playerToUpdate = EntityFactory::getInstance().getClientId(playerToUpdateServer);
-
+        
         auto isPlayerOpt = componentsContainer.getComponent(playerToUpdate, GameEngine::ComponentsType::getComponentType("IsPlayer"));
         if (isPlayerOpt.has_value())
             return;

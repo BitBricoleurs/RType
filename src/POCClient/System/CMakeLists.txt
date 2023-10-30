@@ -33,5 +33,8 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BlockOutOfBounds.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlashWhenHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveFlash.cpp
+
         CACHE INTERNAL ""
 )

@@ -27,5 +27,6 @@ namespace Server {
         static void applyDamage(const std::shared_ptr<Health>& hpComponent, size_t damageEntity, GameEngine::ComponentsContainer& componentsContainer);
         static void handleDeath(size_t deadEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
         static void handleBullet(size_t bulletEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
+        static void flashMobNetwork(GameEngine::EventHandler &eventHandler, size_t mobEntity);
 };
 }

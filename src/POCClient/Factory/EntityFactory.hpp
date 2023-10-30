@@ -131,7 +131,7 @@ namespace Client {
                     return it.first;
                 }
             }
-            std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
+            // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
     private:
