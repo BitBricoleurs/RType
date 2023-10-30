@@ -35,6 +35,8 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
+#include "Shooter.hpp"
+#include "PowerUpUtils.hpp"
 
 namespace Client {
 
@@ -49,22 +51,30 @@ namespace Client {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+
+      size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
+                          GameEngine::EventHandler &eventHandler,
+                          Utils::Vect2 pos, Utils::Vect2 vel, PowerUpType type);
+
+      size_t spawnForcePod(GameEngine::ComponentsContainer &container,
+                           Utils::Vect2 pos, Utils::Vect2 vel,
+                           GameEngine::EventHandler &eventHandler);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
                              Utils::Vect2 pos, PlayerNumber numberPlayer);
       size_t createNewStarship(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos, PlayerNumber playerNumber);
+                                   Utils::Vect2 pos, Utils::Vect2 vel, PlayerNumber playerNumber);
 
       size_t createPlayerBullet(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
@@ -137,6 +147,7 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBossMob(GameEngine::ComponentsContainer &container,
@@ -153,6 +164,7 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBullet(GameEngine::ComponentsContainer &container,

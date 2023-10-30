@@ -52,6 +52,7 @@ namespace Client {
                 data.getFloat("/createPlayer/velocity/y")),
             static_cast<int>(playerNumber) + 1,
             data.getFloat("/createPlayer/scale"), chargeAnimationID,
+            data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY"),
             data.getFloat("/createPlayer/rotation"),
             Utils::ColorR(
                 data.getInt("/createPlayer/tint/r"),
@@ -60,14 +61,14 @@ namespace Client {
                 data.getInt("/createPlayer/tint/a")),
             data.getInt("/createPlayer/layer"));
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-        eventHandler.scheduleEvent(
-            "animate", 5,
-            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        
         std::shared_ptr<AudioEngine::AudioComponent> shootSound = std::make_shared<AudioEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
         container.bindComponentToEntity(entityId, shootSound);
+        auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY")), data.getInt("/createPlayer/typeBullet"));
+        container.bindComponentToEntity(entityId, shooterComp);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
         registerPlayer(entityId, playerNumber);
         return entityId;
     } catch (const nlohmann::json::exception& e) {
@@ -79,7 +80,7 @@ namespace Client {
     size_t
     EntityFactory::createNewStarship(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
-                                   Utils::Vect2 pos, PlayerNumber playerNumber) {
+                                   Utils::Vect2 pos, Utils::Vect2 vel, PlayerNumber playerNumber) {
 
     try {
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPlayer.json");
@@ -123,6 +124,7 @@ namespace Client {
                 data.getFloat("/createPlayer/velocity/y")),
             static_cast<int>(playerNumber) + 1,
             data.getFloat("/createPlayer/scale"), chargeAnimationID,
+            data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY"),
             data.getFloat("/createPlayer/rotation"),
             Utils::ColorR(
                 data.getInt("/createPlayer/tint/r"),
@@ -132,17 +134,12 @@ namespace Client {
             data.getInt("/createPlayer/layer"));
 
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
-        eventHandler.scheduleEvent(
-            "animate", 5,
-            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
         std::shared_ptr<AudioEngine::AudioComponent> shootSound =
             std::make_shared<AudioEngine::AudioComponent>("assets/music/Shoot.wav");
         container.bindComponentToEntity(entityId, shootSound);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-        eventHandler.scheduleEvent(
-            "animate", 5,
-            std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
         registerPlayer(entityId, playerNumber);
         return entityId;
     } catch (const nlohmann::json::exception& e) {

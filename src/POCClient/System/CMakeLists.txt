@@ -32,5 +32,13 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/InputTextSystem.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MenuSelect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MenuNavigate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncChargeAnimations.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkActivateCharge.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/iAmAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EndSmoothing.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BlockOutOfBounds.cpp
         CACHE INTERNAL ""
 )

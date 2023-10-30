@@ -150,7 +150,7 @@ size_t EntityFactory::createChargeAnimation(
   auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(
       spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
       rotation, tint);
-  spriteComponent->isVisible = false;
+  // spriteComponent->isVisible = false;
   size_t animationId = container.createEntity();
   container.bindComponentToEntity(animationId, positionComponent);
   container.bindComponentToEntity(animationId, chargeShootAnimation);

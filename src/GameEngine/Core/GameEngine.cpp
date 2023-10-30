@@ -48,6 +48,9 @@ namespace GameEngine {
             eventHandler.clear();
             registry.clear();
             sceneMap[sceneNameString](*this);
+            eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
+            eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
+
         } catch (const std::bad_any_cast& e) {
             std::cerr << "Error: Scene name must be a string!" << std::endl;
             return;
@@ -76,7 +79,7 @@ namespace GameEngine {
                 update();
                 lastTickTime = currentTime;
             } else {
-                int sleepTime = static_cast<int>((tickSpeed - (currentTime - lastTickTime)) * 1000);
+                int sleepTime = static_cast<int>(tickSpeed - (currentTime - lastTickTime) * 10000);
                 if (sleepTime > 0) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
                 }

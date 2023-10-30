@@ -1,5 +1,7 @@
 
 #include "AnimateDeath.hpp"
+#include "NetworkActivateCharge.hpp"
+#include "SyncChargeAnimations.hpp"
 #include "AnimateOnMove.hpp"
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
@@ -40,6 +42,12 @@
 #include "MenuSelect.hpp"
 #include "MenuNavigate.hpp"
 #include "InputTextSystem.hpp"
+#include "iAmAlive.hpp"
+#include "EndSmoothing.hpp"
+#include "CreatePowerUp.hpp"
+#include "CreateForcePod.hpp"
+#include "SyncForcePodPlayer.hpp"
+#include "BlockOutOfBounds.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -55,6 +63,9 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkDeleteEntity = std::make_shared<Client::NetworkDeleteEntity>();
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
+    auto imAlive = std::make_shared<Client::iAmAlive>();
+    auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
+    auto createForcePod = std::make_shared<Client::CreateForcePod>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -66,10 +77,14 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
+    engine.addEvent("CREATED_POWERUP", createPowerUp);
+    engine.addEvent("CREATED_FORCEPOD", createForcePod);
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
+    engine.addEvent("ALIVE", imAlive);
+    engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {
@@ -79,6 +94,9 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto physicsEngineMovementSystem2D = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
     auto syncPosSprite = std::make_shared<Client::SyncPosSprite>();
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
+    auto endSmoothing = std::make_shared<Client::EndSmoothing>();
+    auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
+    auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -92,6 +110,9 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("DOWN_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("LEFT_KEY_RELEASED", changeDirPlayer);
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
+    engine.addSystem("END_SMOOTHING", endSmoothing, 1);
+    engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
+    engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
@@ -119,6 +140,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto activateCharge = std::make_shared<Client::ActivateCharge>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -131,6 +153,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("CHARGE", activateCharge);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {
@@ -138,11 +161,13 @@ void setup_animations(GameEngine::GameEngine &engine) {
   auto mobDeath = std::make_shared<Client::AnimateDeath>();
   auto updateSprite = std::make_shared<Client::updateEntitySprite>();
   auto animateOnMove = std::make_shared<Client::AnimateOnMove>();
+  auto syncChargeAnimations = std::make_shared<Client::SyncChargeAnimations>();
 
   engine.addEvent("MobDeath", mobDeath);
   engine.addEvent("KillEntity", killEntity);
   engine.addEvent("animate", updateSprite);
   engine.addEvent("animatePlayer", animateOnMove);
+  engine.addSystem("SyncChargeAnimations", syncChargeAnimations);
 }
 
 void setup_connect_screen(GameEngine::GameEngine &engine)
@@ -202,7 +227,8 @@ int main() {
       //setup_hud(engine);
       //setup_animations(engine);
       setup_connect_screen(engine);
-      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+      Network::Client::init(tick, queue);
+      auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
       engine.addSystem("RENDER", render, 4);
       engine.run();
       return 0;
