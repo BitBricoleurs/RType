@@ -41,10 +41,13 @@ foreach(lib ${BOOSTASIO_INCLUDE_LIBRARIES})
             PRIVATE
             Boost::${lib}
     )
-    target_include_directories(
-            ${LIBRARY_NAME_NETLIB}
+    target_link_libraries(
+            ${LIBRARY_NAME_GAMEENGINE}
             PRIVATE
             Boost::${lib}
     )
 endforeach()
+
+
+
 

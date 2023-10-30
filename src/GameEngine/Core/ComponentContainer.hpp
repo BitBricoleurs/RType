@@ -15,7 +15,7 @@
 namespace GameEngine {
     class ComponentsContainer {
     public:
-        ComponentsContainer() : componentsContainer(), freeMemorySlots(), maxEntityID(0) {};
+        ComponentsContainer() : componentsContainer(), freeMemorySlots(), maxEntityID(1) {};
         ~ComponentsContainer() = default;
 
         std::vector<std::optional<std::shared_ptr<IComponent>>> getComponents(size_t componentType);

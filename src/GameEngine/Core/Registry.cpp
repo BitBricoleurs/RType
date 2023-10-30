@@ -8,7 +8,7 @@ namespace GameEngine {
         componentsContainer.clear();
         systemMap.clear();
         systemOrder.clear();
-        systemsNeedSorting = false;
+        systemsNeedSorting = true;
     }
 
     const ComponentsContainer& Registry::getComponentsContainer() const {
@@ -57,7 +57,7 @@ namespace GameEngine {
         systemMap.erase(systemName);
     }
 
-    void Registry::updateSystems(EventHandler& eventHandler) {
+        void Registry::updateSystems(EventHandler& eventHandler) {
         if (systemsNeedSorting) {
             std::vector<std::pair<std::string, std::pair<std::shared_ptr<ISystem>, int>>> sortedSystems(systemMap.begin(), systemMap.end());
             std::sort(sortedSystems.begin(), sortedSystems.end(), [](const auto& a, const auto& b) {
@@ -76,7 +76,6 @@ namespace GameEngine {
             std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
             systemPair.first->update(componentsContainer, eventHandler);
         }
-
         eventHandler.processEventQueue(componentsContainer);
     }
 }

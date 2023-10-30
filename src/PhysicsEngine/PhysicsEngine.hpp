@@ -7,6 +7,9 @@
 #include "AABBComponent2D.hpp"
 #include "PositionComponent2D.hpp"
 #include "AColliderComponent2D.hpp"
+#include "GravityComponent.hpp"
+#include "JumpComponent.hpp"
+#include "VelocityComponent.hpp"
 #include <utility>
 #include <tuple>
 #include <memory>
@@ -27,6 +30,15 @@ namespace PhysicsEngine {
         static void moveObject(PositionComponent2D& positionComponent, const Utils::Vect2& velocity) {
             positionComponent.pos = positionComponent.pos + velocity;
         }
+
+        void applyGravity(VelocityComponent& positionComponent, const Utils::Vect2& gravity, const float weight, const float fallTime) {
+            positionComponent.velocity = positionComponent.velocity + gravity * weight * fallTime;
+        }
+
+        void applyJumpForce(VelocityComponent& velocityComponent, const float jumpSpeed) {
+            velocityComponent.velocity.y = jumpSpeed;
+        }
+
 
     private:
     };

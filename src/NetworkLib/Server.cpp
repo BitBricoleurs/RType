@@ -138,6 +138,7 @@ namespace Network {
           int i = 0;
            for (auto &client : _clients) {
                if (client && client->isConnected() && client->getId() == id) {
+                   client->getIO()->clearOutMessages();
                    client->disconnect();
                    _disconnetingClients.pushBack(id);
                    client.reset();

@@ -22,14 +22,23 @@
 #include "NetworkShootClient.hpp"
 #include "NetworkStartServer.hpp"
 #include "NetworkUpdateWorld.hpp"
+#include "NetworkMoveClient.hpp"
+#include "SpawnEntity.hpp"
+#include "CheckPositionClient.hpp"
 #include "OutOfBounds.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "PlayerHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "Shoot.hpp"
+#include "Parallax.hpp"
 #include "LatchPodToBoss.hpp"
 #include "SpawnMob.hpp"
+#include "NetworkClientAlive.hpp"
+#include "SpawnPowerUp.hpp"
+#include "ForcePodSpawn.hpp"
+#include "NetworkClientBlockWall.hpp"
+#include "NetworkClientCharge.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -41,6 +50,8 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto timeout = std::make_shared<Server::NetworkClientTimeout>();
     auto networkClientReady = std::make_shared<Server::NetworkClientReady>();
     auto checkEveryClientReady = std::make_shared<Server::CheckEveryClientReady>();
+    auto networkAlive = std::make_shared<Server::NetworkClientAlive>();
+    auto blockWall = std::make_shared<Server::NetworkClientBlockWall>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -51,6 +62,8 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addSystem("NETWORK_TIMEOUT", timeout);
     engine.addEvent("READY", networkClientReady);
     engine.addEvent("CHECK_EVERY_CLIENT_READY", checkEveryClientReady);
+    engine.addEvent("BLOCK", blockWall);
+    engine.addEvent("ALIVE", networkAlive);
 }
 
 void setup_sync_systems(GameEngine::GameEngine &engine)
@@ -62,13 +75,15 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
+    auto charge = std::make_shared<Server::NetworkClientCharge>();
 
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
-    engine.scheduleEvent("UPDATE_WORLD", 200, std::any(), 0);
+    engine.scheduleEvent("UPDATE_WORLD", 10, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
+    engine.addEvent("CHARGE", charge);
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
@@ -81,20 +96,29 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    std::string path = "config/map";
-    auto spawnMob = std::make_shared<Server::SpawnMob>(path);
+    auto Parallax = std::make_shared<Server::Parallax>();
+
+    auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
     auto bounceBoss = std::make_shared<Server::BounceBoss>();
     auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
     auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
     auto bossHit = std::make_shared<Server::BossHit>();
 
-    engine.addSystem("SPAWN_MOB", spawnMob, 2);
 
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addSystem("PARALLAX", Parallax, 2);
+    auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
+    auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
+
+    engine.addEvent("SpawnPowerUp", spawnPowerUp);
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
     engine.addEvent("PlayerHit", PlayerHit1);
     engine.addEvent("MobHit", MobHit1);
     engine.addEvent("BossHit", bossHit);
     engine.addEvent("PlayerHitMob", PlayerHitMob1);
-
+    engine.addEvent("ForcePodSpawn", forcePodSpawn);
+    engine.addEvent("ForcePodStop", forcePodSpawn);
+    engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
 

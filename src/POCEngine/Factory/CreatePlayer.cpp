@@ -6,6 +6,9 @@
 */
 
 #include "EntityFactory.hpp"
+#include "GravitySystemComponent.hpp"
+#include "GravityComponent.hpp"
+#include "IsOnGroundComponent.hpp"
 
 size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
@@ -83,7 +86,6 @@ size_t EntityFactory::createNewPlayer(GameEngine::ComponentsContainer &container
 
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
-        eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
 
         return entityId;
 

@@ -64,14 +64,17 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer) {
       size_t entityId = createBaseEntity(
           container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
           twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
+      auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), 0);
 
       container.bindComponentToEntity(entityId, playerComponent);
+      container.bindComponentToEntity(entityId, shooterComp);
 
       return entityId;
     }
@@ -82,14 +85,17 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer) {
       size_t entityId = createBaseEntity(
           container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
           twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
       auto playerComponent = std::make_shared<IsStarship>(entityCharge);
+      auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), 0);
 
       container.bindComponentToEntity(entityId, playerComponent);
+      container.bindComponentToEntity(entityId, shooterComp);
 
       return entityId;
     }
@@ -137,12 +143,12 @@ namespace Client {
       auto movementComp = std::make_shared<PhysicsEngine::MovementComponent>();
       auto chargeShootAnimation =
           initAnimation(spriteSheetPath, frames, spriteSheetWidth,
-                        spriteSheetHeight, twoDirection, reverse, direction, playerA);
+                        spriteSheetHeight, twoDirection, reverse, direction, 0);
       auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
       Utils::rect spriteRect;
-      spriteRect.w = chargeShootAnimation->frameWidth;
-      spriteRect.h = chargeShootAnimation->frameHeight;
+      spriteRect.w = spriteSheetWidth / frames;
+      spriteRect.h = spriteSheetHeight;
       spriteRect.x = chargeShootAnimation->currentFrame.x;
       spriteRect.y = chargeShootAnimation->currentFrame.y;
 
@@ -152,6 +158,7 @@ namespace Client {
       auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(
           spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
           rotation, tint);
+
       spriteComponent->isVisible = false;
       size_t animationId = container.createEntity();
       container.bindComponentToEntity(animationId, positionComponent);

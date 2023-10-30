@@ -6,6 +6,7 @@
 */
 
 #include "AudioEngineSystem.hpp"
+#include "AudioEngine.hpp"
 
 namespace AudioEngine {
 

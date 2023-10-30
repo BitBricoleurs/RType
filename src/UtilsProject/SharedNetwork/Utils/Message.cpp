@@ -139,6 +139,10 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
+        for (auto id :IDs) {
+            if (id == 0)
+                std::cout << "MHHHHH" << std::endl;
+        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);
@@ -160,9 +164,17 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"UPDATE_POSITION", 0x09},
     {"MOVE", 0x10},
     {"CHARGE_SHOOT", 0x11},
-    {"DELETED_ENTITY", 0x12},
-    {"READY", 0x13},
-    {"START_GAME", 0x14},
+    {"CREATE_PARALLAX", 0x12},
+    {"DELETED_ENTITY", 0x13},
+    {"READY", 0x15},
+    {"START_GAME", 0x16},
+    {"ALIVE", 0x17},
+    {"CREATED_POWERUP", 0x18},
+    {"CREATED_FORCEPOD", 0x19},
+    {"SYNC_FORCE_POD_PLAYER", 0x20},
+    {"UPDATE_POS_FORCE_POD", 0x21},
+    {"CHARGE", 0x22},
+    {"BLOCK", 0x23},
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

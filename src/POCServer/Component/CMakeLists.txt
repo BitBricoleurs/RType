@@ -12,6 +12,9 @@ set(POCSERVER_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Shooter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BossComponent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsPower.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsForcePod.cpp
         CACHE INTERNAL ""
 )
