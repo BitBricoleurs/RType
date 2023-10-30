@@ -9,6 +9,10 @@
 #include "EventHandler.hpp"
 #include "IsPlayer.hpp"
 #include "LoadConfig.hpp"
+#include "NetworkClientId.hpp"
+#include "Message.hpp"
+#include "IMessage.hpp"
+#include "UserMessage.hpp"
 
 namespace Server {
     class ManagePowerUp : public GameEngine::ISystem {
@@ -16,6 +20,5 @@ namespace Server {
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
         private:
-            int PowerUp = 0;
     };
 }

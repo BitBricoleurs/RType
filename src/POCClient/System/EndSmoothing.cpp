@@ -24,14 +24,11 @@ void Client::EndSmoothing::update(GameEngine::ComponentsContainer &componentsCon
         auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayPosition.value());
         auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayVelocity.value());
 
-        std::cout <<"Target position :" << smoothing->_targetPosition.x << " " << smoothing->_targetPosition.y << std::endl;
-        std::cout <<"Position :" << position->pos.x << " " << position->pos.y << std::endl;
         float dist = position->pos.distanceTo(smoothing->_targetPosition);
         if (dist <= 10) {
             componentsContainer.unbindComponentFromEntity(entity, smoothingType);
             velocity->velocity.x = 0;
             velocity->velocity.y = 0;
-            std::cout << "End Smoothing" << std::endl;
         } else {
             if (isVelocitySmoothing(componentsContainer, entity) == false) {
                 smoothPosition(componentsContainer, entity, smoothing->_targetPosition);}

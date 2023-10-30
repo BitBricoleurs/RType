@@ -42,7 +42,16 @@
                 "x": 2000.0,
                 "y": 575.0
             },
-            "dropPowerup": false
+            "dropPowerup": true
+        },
+        {
+            "tick": 18,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": true
         }
     ]
 }

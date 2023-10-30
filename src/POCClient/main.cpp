@@ -24,6 +24,7 @@
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
+#include "System/NetworkReceiveFlash.hpp"
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
@@ -41,6 +42,9 @@
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
 #include "CreatePowerUpDual.hpp"
+#include "NetworkReceiveFlash.hpp"
+#include "FlashWhenHit.hpp"
+#include "ForcePodUpgrade.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -61,6 +65,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
     auto createPowerUpDual = std::make_shared<Client::CreatePowerUpDual>();
+    auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -81,6 +86,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("START_GAME", networkReceiveStartGame);
     engine.addEvent("CREATED_POWERUP_DUAL", createPowerUpDual);
     engine.addEvent("ALIVE", imAlive);
+    engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
 }
 
@@ -94,6 +100,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto endSmoothing = std::make_shared<Client::EndSmoothing>();
     auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
     auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
+    auto forcePodUpgrade = std::make_shared<Client::ForcePodUpgrade>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -110,6 +117,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addSystem("END_SMOOTHING", endSmoothing, 1);
     engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
     engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
+    engine.addEvent("FORCE_POD_UPGRADE", forcePodUpgrade);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
@@ -134,6 +142,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Client::MobHit>();
     auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+    auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
     auto activateCharge = std::make_shared<Client::ActivateCharge>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
@@ -146,6 +155,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("MobHit", MobHit1);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addEvent("flash", flashWhenHit);
     engine.addEvent("CHARGE", activateCharge);
 }
 
