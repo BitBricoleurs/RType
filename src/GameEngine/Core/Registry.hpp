@@ -12,6 +12,7 @@
 #include <map>
 #include <functional>
 #include <memory>
+#include <future>
 
 #include "ComponentContainer.hpp"
 #include "IComponent.hpp"
@@ -26,9 +27,6 @@ namespace GameEngine {
         ~Registry();
 
         const ComponentsContainer& getComponentsContainer() const;
-
-        void bindSceneInitiation(const std::string& sceneName, std::function<void(Registry&)> sceneInitiation);
-        void changeScene(const std::string& sceneName);
 
         std::vector<std::optional<std::shared_ptr<IComponent>>> getComponents(size_t componentType);
         std::optional<std::shared_ptr<IComponent>> getComponent(size_t entityID, size_t componentType);
@@ -48,10 +46,11 @@ namespace GameEngine {
 
         void updateSystems(EventHandler& eventHandler);
 
+        void clear();
+
     private:
         ComponentsContainer componentsContainer;
         std::unordered_map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
-        std::unordered_map<std::string, std::function<void(Registry&)>> sceneMap;
         std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
     };

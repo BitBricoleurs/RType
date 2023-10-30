@@ -31,7 +31,7 @@ namespace Server {
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATE_PARALLAX", ids, "INT", args);
         std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
-        EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
+        EntityFactory::getInstance().updateEntityNetwork(eventHandler, entityId, pos, velocity);
 
 
         return entityId;

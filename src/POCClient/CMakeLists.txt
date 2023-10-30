@@ -17,7 +17,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib AudioEngineLib PhysicsEngineLib NetworkLib LoadConfigLib UtilsLib)
+target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC GameEngine RenderEngineLib ${LIBRARY_NAME_AUDIO} PhysicsEngineLib NetworkLib LoadConfigLib ${LIBRARY_NAME_UTILS})
 
 if(WIN32)
         target_link_libraries(${PROJECT_NAME_POCCLIENT} PUBLIC Ws2_32.lib)

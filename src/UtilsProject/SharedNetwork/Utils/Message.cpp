@@ -162,6 +162,15 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"CHARGE_SHOOT", 0x11},
     {"CREATE_PARALLAX", 0x12},
     {"DELETED_ENTITY", 0x13},
+    {"DELETED_ENTITY", 0x14},
+    {"READY", 0x15},
+    {"START_GAME", 0x16},
+    {"ALIVE", 0x17},
+    {"CREATED_POWERUP", 0x18},
+    {"CREATED_FORCEPOD", 0x19},
+    {"SYNC_FORCE_POD_PLAYER", 0x20},
+    {"UPDATE_POS_FORCE_POD", 0x21},
+    {"CHARGE", 0x22},
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

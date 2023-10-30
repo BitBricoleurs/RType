@@ -14,6 +14,7 @@
 #include "BulletUtils.hpp"
 #include "Message.hpp"
 #include "Shooter.hpp"
+#include "GameState.hpp"
 
 namespace Client {
 

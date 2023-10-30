@@ -29,14 +29,24 @@ namespace Server {
 
     void SpawnEntity::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
+        auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
+        std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
+        if (gameStateEntities.empty())
+            return;
+        auto compMay = componentsContainer.getComponent(gameStateEntities[0], compTypeGameState);
+        if (!compMay.has_value())
+            return;
+        auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
+        if (gameStateComp->_state != Utils::GameState::State::RUNNING)
+            return;
         currentTick++;
         int mobsSize = currentMapContent.getSize("/mobs");
         for (int i = 0; i < mobsSize;) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
-                int posX = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/x");
-                int posY = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/y");
+                float posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
+                float posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
                 Utils::Vect2 position(posX, posY);
 
                 bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");

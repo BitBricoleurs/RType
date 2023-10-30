@@ -29,15 +29,20 @@ namespace Client {
             EntityFactory &factory = EntityFactory::getInstance();
             for (auto &id : ids) {
                 size_t entityToUpdate = factory.getClientId(id);
+                if (isEntitySelf(componentsContainer, entityToUpdate)) {
+                    return;
+                }
                 auto velocityComponent = componentsContainer.getComponent(entityToUpdate, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
                 if (!velocityComponent.has_value())
                     return;
-                float x = std::any_cast<float>(args[0]);
-                float y = std::any_cast<float>(args[1]);
+                Utils::Vect2 newVelocity(std::any_cast<float>(args[0]), std::any_cast<float>(args[1]));
+                if (isEntitySmoothing(componentsContainer, entityToUpdate) && (newVelocity.x != 0 && newVelocity.y != 0)) {
+                    std::cout << "Stop Smoothing" << std::endl;
+                    stopSmoothing(componentsContainer, entityToUpdate);
+                }
 
                 auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
-                velocity->velocity.x = x;
-                velocity->velocity.y = y;
+                velocity->velocity = newVelocity;
             }
 
         } catch (std::bad_any_cast &e) {
@@ -46,3 +51,35 @@ namespace Client {
     }
 
 } // namespace Client
+
+bool Client::UpdateVelocity::isEntitySelf(GameEngine::ComponentsContainer &componentsContainer, size_t entityToCheck)
+{
+    auto isPLayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+
+    auto entities = componentsContainer.getEntitiesWithComponent(isPLayerType);
+    for (auto entity: entities) {
+        if (entityToCheck == entity) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Client::UpdateVelocity::isEntitySmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        return true;
+    }
+    return false;
+}
+
+void Client::UpdateVelocity::stopSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        componentsContainer.unbindComponentFromEntity(entity, smoothingType);
+    }
+}

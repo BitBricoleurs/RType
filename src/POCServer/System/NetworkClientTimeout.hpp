@@ -11,6 +11,7 @@
 #include "UserMessage.hpp"
 #include "Message.hpp"
 #include "NetworkClientId.hpp"
+#include "EntityFactory.hpp"
 
 namespace Server {
 

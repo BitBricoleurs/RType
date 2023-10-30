@@ -4,9 +4,12 @@
 
 #include "GameEngine.hpp"
 
+#include <utility>
+
 namespace GameEngine {
     GameEngine::GameEngine() : tickSpeed(1.0 / 60.0), isRunning(true) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
+        eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
     }
 
     GameEngine::~GameEngine() = default;
@@ -31,12 +34,27 @@ namespace GameEngine {
         registry.addSystem(systemName, std::move(system), priority);
     }
 
-    void GameEngine::bindSceneInitiation(const std::string& sceneName, std::function<void(Registry&)> sceneInitiation) {
-        registry.bindSceneInitiation(sceneName, std::move(sceneInitiation));
+    void GameEngine::bindSceneInitiation(const std::string& sceneName, std::function<void(GameEngine&)> sceneInitiation) {
+        sceneMap[sceneName] = std::move(sceneInitiation);
     }
 
-    void GameEngine::changeScene(const std::string& sceneName) {
-        registry.changeScene(sceneName);
+    void GameEngine::changeScene(const std::any& sceneName) {
+        try {
+            auto sceneNameString = std::any_cast<std::string>(sceneName);
+            if (sceneMap.find(sceneNameString) == sceneMap.end()) {
+                std::cerr << "Error: Scene name not found!" << std::endl;
+                return;
+            }
+            eventHandler.clear();
+            registry.clear();
+            sceneMap[sceneNameString](*this);
+            eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
+            eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
+
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Error: Scene name must be a string!" << std::endl;
+            return;
+        }
     }
 
     void GameEngine::setTickSpeed(double newTickSpeed) {
@@ -61,7 +79,7 @@ namespace GameEngine {
                 update();
                 lastTickTime = currentTime;
             } else {
-                int sleepTime = static_cast<int>((tickSpeed - (currentTime - lastTickTime)) * 1000);
+                int sleepTime = static_cast<int>(tickSpeed - (currentTime - lastTickTime) * 10000);
                 if (sleepTime > 0) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
                 }

@@ -10,6 +10,7 @@
 #include "ISystem.hpp"
 #include "IsPlayer.hpp"
 #include "EntityFactory.hpp"
+#include "GameState.hpp"
 
 namespace Client {
 
