@@ -32,7 +32,7 @@ namespace Client {
             size_t entityId = 0;
             std::string path = "";
             if (number == BulletOwner::PLAYER)
-                entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
+                entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, static_cast<int>(std::any_cast<int>(args[arg_index + 6])));
             else
                 printf("CreateBulletSystem: BulletOwner not implemented\n");
             factory.registerEntity(entityId, id);

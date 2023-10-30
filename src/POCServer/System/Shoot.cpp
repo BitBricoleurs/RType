@@ -49,10 +49,13 @@ namespace Server {
 
             Utils::Vect2 shootingPosition(posComp->pos.x + shooterComp->shootPosition.x, posComp->pos.y + shooterComp->shootPosition.y);
             if (shooterComp->typeBullet == BulletTypeEntity::PlayerBullet) {
-                if (charge >= 50) {
+                if (charge >= 20) {
                     shootingPosition.y = shootingPosition.y - 15;
-                    EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(15,0), 1);
-                    return ;
+                    size_t chargeValue = ((charge - 20) / 20 + 1);
+                    if (charge == 100)
+                        chargeValue = 5;
+                    EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(25,0), chargeValue);
+                    return;
                 } else {
                     EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(20,0), 0);
                 }
