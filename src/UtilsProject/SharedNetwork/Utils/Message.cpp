@@ -139,6 +139,10 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
+        for (auto id :IDs) {
+            if (id == 0)
+                std::cout << "MHHHHH" << std::endl;
+        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);
@@ -168,7 +172,8 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"CREATED_FORCEPOD", 0x17},
     {"SYNC_FORCE_POD_PLAYER", 0x18},
     {"UPDATE_POS_FORCE_POD", 0x19},
-    {"CHARGE", 0x20},
+    {"BLOCK", 0x20},
+    {"CHARGE", 0x21}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

@@ -14,6 +14,10 @@
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
 #include "PositionComponent2D.hpp"
+#include "EntityFactory.hpp"
+#include "IMessage.hpp"
+#include "IsPlayer.hpp"
+#include "Message.hpp"
 
 namespace Client {
 

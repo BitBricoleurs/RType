@@ -141,6 +141,18 @@ namespace Server {
             auto compIsPower = std::static_pointer_cast<IsPower>(componentsContainer.getComponent(power, powerType).value());
             args.push_back(static_cast<int>(compIsPower->type));
             ids.push_back(power);
+            auto mayPosition = componentsContainer.getComponent(power, positionType);
+            if (!mayPosition.has_value())
+                continue;
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayPosition.value());
+            args.emplace_back(static_cast<int>(position->pos.x * 1000));
+            args.emplace_back(static_cast<int>(position->pos.y * 1000));
+            auto mayVelocity = componentsContainer.getComponent(power, velocityType);
+            if (!mayVelocity.has_value())
+                continue;
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayVelocity.value());
+            args.emplace_back(static_cast<int>(velocity->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity->velocity.y * 1000));
             message = std::make_shared<Network::Message>("CREATED_POWERUP", ids, "INT", args);
             userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
@@ -151,7 +163,19 @@ namespace Server {
         // Creating ForcePods
         for(auto &forcePod : forcePods) {
             ids.push_back(forcePod);
-            message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "", args);
+            auto mayPosition = componentsContainer.getComponent(forcePod, positionType);
+            if (!mayPosition.has_value())
+                continue;
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayPosition.value());
+            args.emplace_back(static_cast<int>(position->pos.x * 1000));
+            args.emplace_back(static_cast<int>(position->pos.y * 1000));
+            auto mayVelocity = componentsContainer.getComponent(forcePod, velocityType);
+            if (!mayVelocity.has_value())
+                continue;
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayVelocity.value());
+            args.emplace_back(static_cast<int>(velocity->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity->velocity.y * 1000));
+            message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "INT", args);
             userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             ids.clear();
