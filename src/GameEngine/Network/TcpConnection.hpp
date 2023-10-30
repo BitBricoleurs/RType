@@ -20,11 +20,17 @@ namespace GameEngine {
 
         void sendLog(const std::string& message);
 
+        void receiveMessage();
+
     private:
         TcpConnection(boost::asio::io_service& io_service);
 
         void handleWrite(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/);
 
         boost::asio::ip::tcp::socket socket_;
+
+        void handleRead(const boost::system::error_code& /*error*/, size_t  /*bytes_transferred*/);
+
+        boost::asio::streambuf buffer_;
     };
 }

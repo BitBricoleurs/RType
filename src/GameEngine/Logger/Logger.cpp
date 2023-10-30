@@ -6,13 +6,12 @@
 #include <ctime>
 #include <sstream>
 #include <thread>
-#include <boost/bind/bind.hpp>
-
+#include "LoggerImpl.hpp"
 
 namespace GameEngine {
     Logger::LogLevel Logger::currentLogLevel = Logger::LogLevel::INFO;
-    GameEngine::TcpConnection::pointer Logger::connection;
-    boost::asio::io_service Logger::io_service;
+    bool Logger::wantsToReceiveLogs = false;
+    std::unique_ptr<LoggerImpl> Logger::loggerImpl = std::make_unique<LoggerImpl>();
 
     void Logger::setLogLevel(Logger::LogLevel level) {
         currentLogLevel = level;
@@ -25,9 +24,8 @@ namespace GameEngine {
         std::string log_level_str = levelToString(level);
         std::string timestamp = getCurrentTimestamp();
         std::string full_message = "[" + timestamp + "] [" + log_level_str + "] " + message + "\n";
-        if (connection) {
-            std::cout << "Sending log to client:" << std::endl;
-            connection->sendLog(full_message);
+        if (wantsToReceiveLogs) {
+            loggerImpl->sendLog(full_message);
         } else {
             std::cout << full_message;
         }
@@ -54,8 +52,6 @@ namespace GameEngine {
         }
     }
 
-
-
     std::string Logger::getCurrentTimestamp() {
         std::time_t now = std::time(nullptr);
         std::tm* local_time = std::localtime(&now);
@@ -65,16 +61,8 @@ namespace GameEngine {
     }
 
     void Logger::startServer(unsigned short port) {
-        try {
-            boost::asio::ip::tcp::acceptor acceptor(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
-            while (true) {
-                TcpConnection::pointer new_connection = TcpConnection::create(io_service);
-                acceptor.accept(new_connection->socket());
-                connection = new_connection;
-            }
-        } catch (std::exception& e) {
-            std::cerr << "Server Error: " << e.what() << std::endl;
-        }
+        loggerImpl->startServer(port);
     }
-}
 
+
+}

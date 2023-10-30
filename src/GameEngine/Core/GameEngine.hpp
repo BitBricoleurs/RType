@@ -9,16 +9,19 @@
 #include <vector>
 #include <tuple>
 #include <functional>
+#include <sstream>
 
 #include "Registry.hpp"
 #include "EventHandler.hpp"
 #include "ISystem.hpp"
 #include "IComponent.hpp"
 #include "Timer.hpp"
+#include "Logger.hpp"
 
 namespace GameEngine {
 
     class GameEngine {
+        using CommandFunction = std::function<std::string(const std::vector<std::string>&)>;
     public:
         GameEngine();
         ~GameEngine();
@@ -49,6 +52,8 @@ namespace GameEngine {
 
         void deleteEvent(const std::string& eventName);
 
+        static std::string handleDevConsole(std::string command);
+        static void registerCommand(const std::string& command, CommandFunction function);
     private:
         void update();
         void stop();
@@ -58,5 +63,6 @@ namespace GameEngine {
         std::unordered_map<std::string, std::function<void(GameEngine&)>> sceneMap;
         double tickSpeed;
         bool isRunning;
+        static std::map<std::string, CommandFunction> commands;
     };
 } // namespace GameEngine

@@ -276,7 +276,7 @@ Utils::Vect2 pos;
 int main() {
   GameEngine::GameEngine engine;
   engine.bindSceneInitiation("Scene1", initScene);
-  std::thread server_thread([]{ GameEngine::Logger::startServer(12345); });
+  std::thread server_thread([]{ GameEngine::Logger::startServer(9191); });
     server_thread.detach();
   std::string sceneName = "Scene1";
   engine.queueEvent("gameEngineChangeScene", sceneName);

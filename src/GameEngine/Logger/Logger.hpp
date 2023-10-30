@@ -6,11 +6,9 @@
 
 #include <iostream>
 #include <string>
-#include <boost/asio.hpp>
-#include "TcpConnection.hpp"
-
 
 namespace GameEngine {
+    class LoggerImpl;
     class Logger {
     public:
         enum class LogLevel {
@@ -25,12 +23,13 @@ namespace GameEngine {
         static void warning(const std::string& message);
         static void error(const std::string& message);
         static void startServer(unsigned short port);
+        static bool wantsToReceiveLogs;
 
     private:
         static LogLevel currentLogLevel;
-        static TcpConnection::pointer connection;
-        static boost::asio::io_service io_service;
+        static std::unique_ptr<LoggerImpl> loggerImpl;
         static std::string levelToString(LogLevel level);
         static std::string getCurrentTimestamp();
+
     };
 }

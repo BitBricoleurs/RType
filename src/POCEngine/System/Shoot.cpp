@@ -10,7 +10,10 @@
 #include "IsBullet.hpp"
 #include "VelocityComponent.hpp"
 #include <cmath>
+#include "Logger.hpp"
+
 void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+    GameEngine::Logger::info("Shoot system update");
     auto charge = 0;
     auto event = eventHandler.getTriggeredEvent().second;
    auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(event);

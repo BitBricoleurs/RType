@@ -11,28 +11,32 @@
 #include <deque>
 #include <string>
 #include <boost/asio.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
 
-class ConsoleClient {
+
+class ConsoleClient : public std::enable_shared_from_this<ConsoleClient> {
 public:
-    ConsoleClient(const std::string& host, const std::string& port);
+    ConsoleClient(boost::asio::io_context& io_service, const std::string& host, const std::string& port);
     ~ConsoleClient();
-
     void start();
     void stop();
 
 private:
-    void connect(const std::string& host, const std::string& port);
-    void read();
-    void ioLoop();
-    void inputLoop();
-
     boost::asio::io_service io_service;
     boost::asio::ip::tcp::socket socket;
-    std::thread io_thread, input_thread;
-    std::mutex output_mutex;
-    std::condition_variable cv;
-    std::deque<std::string> pending_messages;
-    std::string current_input;
+    boost::asio::strand<boost::asio::io_service::executor_type> strand;
+    boost::asio::posix::stream_descriptor input_descriptor;
+    std::thread io_thread;
+    std::string input_data;
+    std::string user_input_buffer;
     std::string input_buffer;
+    std::mutex input_mutex;
+    std::mutex mutex;
+    std::thread input_thread;
     bool running;
+    std::condition_variable cv;
+
+    void connect(const std::string& host, const std::string& port);
+    void start_input_thread();
+    void read();
 };

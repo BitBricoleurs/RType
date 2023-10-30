@@ -1,12 +1,31 @@
 #include "ConsoleClient.hpp"
+#include <iostream>
 
-ConsoleClient::ConsoleClient(const std::string& host, const std::string& port)
-    : socket(io_service), running(false) {
+ConsoleClient::ConsoleClient(boost::asio::io_context& io_service, const std::string& host, const std::string& port)
+    : socket(io_service), strand(io_service.get_executor()), input_descriptor(io_service, ::dup(STDIN_FILENO)), running(false) {
     connect(host, port);
 }
 
 ConsoleClient::~ConsoleClient() {
     stop();
+}
+
+void ConsoleClient::start() {
+    running = true;
+    io_thread = std::thread([this] { io_service.run(); });
+    start_input_thread();
+    read();
+}
+
+void ConsoleClient::stop() {
+    running = false;
+    if (input_thread.joinable()) {
+        input_thread.join();
+    }
+    io_service.stop();
+    if (io_thread.joinable()) {
+        io_thread.join();
+    }
 }
 
 void ConsoleClient::connect(const std::string& host, const std::string& port) {
@@ -15,81 +34,61 @@ void ConsoleClient::connect(const std::string& host, const std::string& port) {
     boost::asio::connect(socket, resolver.resolve(query));
 }
 
-void ConsoleClient::start() {
-    running = true;
-    io_thread = std::thread(&ConsoleClient::ioLoop, this);
-    input_thread = std::thread(&ConsoleClient::inputLoop, this);
-    read();
-}
-
-void ConsoleClient::stop() {
-    running = false;
-    cv.notify_all();
-    io_service.stop();
-    if (io_thread.joinable()) {
-        io_thread.join();
-    }
-    if (input_thread.joinable()) {
-        input_thread.join();
-    }
-}
-
 void ConsoleClient::read() {
-    boost::asio::async_read_until(socket, boost::asio::dynamic_buffer(input_buffer), '\n',
-        [this](const boost::system::error_code& error, std::size_t length) {
-            if (!error) {
-                std::string message = input_buffer.substr(0, length);
-                input_buffer.erase(0, length);
-                std::lock_guard<std::mutex> lock(output_mutex);
-                std::cout << "Received message from server: " << message << std::endl;
-                pending_messages.push_back(message);
-                cv.notify_all();
-                read();
-            } else {
-                stop();
+        boost::asio::async_read_until(socket, boost::asio::dynamic_buffer(input_buffer), '\n',
+            [this](const boost::system::error_code& error, std::size_t length) {
+                if (!error) {
+                    std::string line(input_buffer.substr(0, length));
+                    input_buffer.erase(0, length);
+
+                    std::string user_input_copy;
+                    {
+                        std::lock_guard<std::mutex> lock(mutex);
+                        user_input_copy = user_input_buffer;
+                    }
+
+                    std::cout << "\r\033[2K"
+                              << line << user_input_copy.size()
+                              << user_input_copy
+                              << std::flush;
+                    read();
+                } else {
+                    stop();
+                }
             }
-        }
-    );
-}
+        );
+    }
 
-void ConsoleClient::ioLoop() {
-    while (running) {
-        std::unique_lock<std::mutex> lock(output_mutex);
-        cv.wait(lock, [this] { return !running || !pending_messages.empty(); });
+void ConsoleClient::start_input_thread() {
+    input_thread = std::thread([this] {
+        while (running) {
+            std::string local_input_buffer;
+            std::getline(std::cin, local_input_buffer);
+            if (!running) break;
 
-        if (!running) {
-            break;
-        }
+            local_input_buffer += '\n';
 
-        while (!pending_messages.empty()) {
-            const auto& message = pending_messages.front();
-            std::cout << "\r\033[K" << message;
-            if (message.back() != '\n') {
-                std::cout << std::endl;
+            {
+                std::lock_guard<std::mutex> lock(mutex);
+                user_input_buffer = local_input_buffer;
             }
-            std::cout << "> " << current_input << std::flush;
-            pending_messages.pop_front();
+
+            boost::asio::post(strand, [this, local_input_buffer]() {
+                boost::asio::async_write(socket, boost::asio::buffer(local_input_buffer),
+                    [this, local_input_buffer](const boost::system::error_code& error, std::size_t /*length*/) {
+                        if (error) {
+                            stop();
+                        } else {
+                            {
+                                std::lock_guard<std::mutex> lock(mutex);
+                                user_input_buffer.clear();
+                            }
+                        }
+                    }
+                );
+            });
+
         }
-    }
+    });
 }
 
-void ConsoleClient::inputLoop() {
-    while (running) {
-        std::string input;
-        {
-            std::unique_lock<std::mutex> lock(output_mutex);
-            std::cout << "> " << std::flush;
-        }
-        std::getline(std::cin, input);
-        if (!running) {
-            break;
-        }
-        {
-            std::lock_guard<std::mutex> lock(output_mutex);
-            // Do something with the input here
-            // For example, send it to the server
-            // sendToServer(input + "\n");
-            current_input = "";
-        }
-    }
-}

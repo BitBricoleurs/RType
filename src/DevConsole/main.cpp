@@ -3,19 +3,25 @@
 //
 
 #include "ConsoleClient/ConsoleClient.hpp"
+#include <memory>
+
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        std::cerr << "Usage: ConsoleClient <host> <port>" << std::endl;
-        return 84;
-    }
-    if (std::string(argv[2]).find_first_not_of("0123456789") != std::string::npos) {
-        std::cerr << "Port must be a number" << std::endl;
-        return 84;
+        std::cerr << "Usage: ConsoleClient <host> <port>\n";
+        return 1;
     }
 
-    ConsoleClient client(argv[1], argv[2]);
-    client.start();
-    while (true) {}
+    auto const host = std::string(argv[1]);
+    auto const port = std::string(argv[2]);
+
+    boost::asio::io_service io_service;
+
+    auto client = std::make_shared<ConsoleClient>(io_service, host, port);
+
+    client->start();
+    io_service.run();
+
     return 0;
 }
+
