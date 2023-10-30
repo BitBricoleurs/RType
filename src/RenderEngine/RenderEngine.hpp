@@ -10,37 +10,41 @@
 #include "raylib.h"
 #include "TextComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "ButtonComponent.hpp"
 #include "EventHandler.hpp"
 #include <unordered_map>
 #include "KeyMapping.hpp"
 #include <vector>
 #include <string>
 #include <fstream>
+#include "LoadConfig.hpp"
 
-namespace GameEngine {
+namespace RenderEngine {
     class RenderEngine {
     public:
-        RenderEngine();
-        ~RenderEngine();
+      RenderEngine() = default;
+      ~RenderEngine();
 
-        void Initialize(const char* windowTitle);
-        void Draw(const TextComponent& textComponent);
-        void Draw(const SpriteComponent& spriteComponent);
-        void PollEvents(EventHandler& eventHandler);
-        void Shutdown();
-        void ClearBackgroundRender(Color colosr);
-
-        size_t getScreenWidth();
-        size_t getScreenHeight();
+      void Initialize(const char *windowTitle);
+      void Draw(const TextComponent &textComponent) const;
+      void Draw(const SpriteComponent &spriteComponent);
+      void Draw(const ButtonComponent &buttonComponent);
+      void PollEvents(
+          GameEngine::EventHandler &eventHandler,
+          std::vector<std::pair<size_t, ButtonComponent>>
+              buttons);
+      void Shutdown();
+      void ClearBackgroundRender(Color color);
+      size_t getScreenWidth() const;
+      size_t getScreenHeight() const;
 
     private:
-        size_t screenWidth;
-        size_t screenHeight;
+        size_t screenWidth{};
+        size_t screenHeight{};
         std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
-        Font font;
-        float scaleX;
-        float scaleY;
+        float scaleX{};
+        float scaleY{};
 
 
             std::vector<KeyMapping> keyMappings = {
@@ -56,8 +60,7 @@ namespace GameEngine {
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
         {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_ESCAPE, IsKeyPressed, "gameEngineStop"},
-        {KEY_F11, IsKeyPressed, "toggleFullScreen"}
+        {KEY_F11, IsKeyPressed, "toggleFullScreen"},
     };
 
     static bool fileExists(const std::string& path);

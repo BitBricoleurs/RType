@@ -1,0 +1,19 @@
+set(POCSERVER_COMPONENT_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/BossStage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Damage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Health.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/HeightVariation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/isPowerUpPickUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MobComponents.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Shooter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsBullet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsPower.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsForcePod.cpp
+        CACHE INTERNAL ""
+)

@@ -4,7 +4,11 @@
 
 #include "IsBoss.hpp"
 
-size_t IsBoss::getComponentType()
-{
-    return GameEngine::ComponentsType::getNewComponentType("IsBoss");
+namespace Client {
+
+    size_t IsBoss::getComponentType()
+    {
+        return GameEngine::ComponentsType::getNewComponentType("IsBoss");
+    }
+
 }

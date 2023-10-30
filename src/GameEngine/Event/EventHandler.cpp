@@ -45,6 +45,17 @@ namespace GameEngine {
     EventHandler::EventHandler() = default;
     EventHandler::~EventHandler() = default;
 
+    void EventHandler::clear() {
+        std::lock_guard<std::mutex> lock(eventMutex);
+        eventMap.clear();
+        eventFunctionMap.clear();
+        eventFunctionMapWithAny.clear();
+        continuousEvents.clear();
+        activeContinuousEvents.clear();
+        eventQueue = std::queue<std::pair<std::string, std::any>>();
+        scheduledEvents.clear();
+    }
+
     void EventHandler::addEvent(const std::string& eventName, std::shared_ptr<GameEngine::ISystem> system) {
         std::lock_guard<std::mutex> lock(eventMutex);
         eventMap[eventName].push_back(system);
@@ -53,6 +64,12 @@ namespace GameEngine {
     void EventHandler::addEvent(const std::string& eventName, std::function<void()> function) {
         std::lock_guard<std::mutex> lock(eventMutex);
         eventFunctionMap[eventName] = function;
+    }
+
+
+    void EventHandler::addEvent(const std::string& eventName, std::function<void(const std::any&)> function) {
+        std::lock_guard<std::mutex> lock(eventMutex);
+        eventFunctionMapWithAny[eventName] = function;
     }
 
     void EventHandler::addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems) {
@@ -78,7 +95,9 @@ namespace GameEngine {
         while (!eventQueue.empty()) {
             auto[eventName, eventData] = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
-            eventQueue.pop();
+            if (eventName != "gameEngineChangeScene") {
+                eventQueue.pop();
+                }
         }
 
         for (const auto& eventName : activeContinuousEvents) {
@@ -94,6 +113,15 @@ namespace GameEngine {
         }
         if (eventFunctionMap.find(eventName) != eventFunctionMap.end()) {
             eventFunctionMap[eventName]();
+        }
+        if (eventFunctionMapWithAny.find(eventName) != eventFunctionMapWithAny.end()) {
+            auto it = eventQueue.front();
+            if (it.second.type() == typeid(void)) {
+                std::any empty;
+                eventFunctionMapWithAny[eventName](empty);
+            } else {
+                eventFunctionMapWithAny[eventName](eventQueue.front().second);
+            }
         }
     }
 

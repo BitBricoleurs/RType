@@ -4,11 +4,15 @@
 
 #include "Shooter.hpp"
 
-size_t Shooter::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("Shooter");
-}
+namespace Client {
 
-Shooter::Shooter(GameEngine::Vect2 shootPosition, size_t typeBullet) : shootPosition(shootPosition), typeBullet(typeBullet)
-{
+    size_t Shooter::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("Shooter");
+    }
+
+    Shooter::Shooter(Utils::Vect2 shootPosition, size_t typeBullet) : shootPosition(shootPosition), typeBullet(typeBullet)
+    {
+
+    }
 
 }

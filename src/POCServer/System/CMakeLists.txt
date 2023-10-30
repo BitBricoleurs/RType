@@ -1,0 +1,30 @@
+set(POCSERVER_SYSTEM_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientConnection.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientDisconnecting.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientRequestDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientTimeout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkStartServer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkUpdateWorld.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkCreateWorld.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMoveClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Shoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OutOfBounds.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IndentifyOutOfBounds.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHitMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckEveryClientReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientCharge.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientBlockWall.cpp
+        CACHE INTERNAL ""
+)

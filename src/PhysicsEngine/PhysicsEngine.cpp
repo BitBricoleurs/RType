@@ -4,7 +4,7 @@
 
 #include "PhysicsEngine.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
     bool PhysicsEngine::broadPhase(const AABBComponent2D& comp, const AABBComponent2D& comp2) {
         return !(comp.maxExtents.x < comp2.minExtents.x ||

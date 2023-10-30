@@ -4,6 +4,10 @@
 
 #include "isHealthBar.hpp"
 
-size_t isHealthBar::getComponentType() {
-    return GameEngine::ComponentsType::getNewComponentType("IsHealthBar");
+namespace Client {
+
+    size_t isHealthBar::getComponentType() {
+        return GameEngine::ComponentsType::getNewComponentType("IsHealthBar");
+    }
+
 }

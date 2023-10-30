@@ -1,0 +1,37 @@
+set(POCCLIENT_SYSTEM_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveDisconnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveDisconnectApply.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ChargingBar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitHUD.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkServerTimeout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkServerAccept.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkDeleteEntity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdatePosition.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateVelocity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncPosSprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ChangeDirPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateBullet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/KillEntity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateDeath.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateOnMove.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateEntitySprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitAudioBackgroud.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkSendReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveStartGame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncChargeAnimations.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkActivateCharge.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/iAmAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EndSmoothing.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BlockOutOfBounds.cpp
+        CACHE INTERNAL ""
+)

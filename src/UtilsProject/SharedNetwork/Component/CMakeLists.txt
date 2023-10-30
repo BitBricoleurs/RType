@@ -1,0 +1,5 @@
+
+set(SHARED_NETWORK_COMPONENT_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientId.cpp
+        CACHE INTERNAL ""
+)

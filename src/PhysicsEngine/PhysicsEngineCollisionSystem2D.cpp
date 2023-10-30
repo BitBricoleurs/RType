@@ -4,22 +4,22 @@
 
 #include "PhysicsEngineCollisionSystem2D.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
     PhysicsEngineCollisionSystem2D::PhysicsEngineCollisionSystem2D()
             : physicsEngine(std::make_unique<PhysicsEngine>()) {}
 
     PhysicsEngineCollisionSystem2D::~PhysicsEngineCollisionSystem2D() = default;
 
-    void PhysicsEngineCollisionSystem2D::update(ComponentsContainer& componentsContainer, EventHandler& eventHandler) {
+    void PhysicsEngineCollisionSystem2D::update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) {
         potentialCollisions.clear();
 
-        auto entitiesWithAABB = componentsContainer.getEntitiesWithComponent(ComponentsType::getComponentType("AABBComponent2D"));
+        auto entitiesWithAABB = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("AABBComponent2D"));
 
         for (size_t i = 0; i < entitiesWithAABB.size(); i++) {
             for (size_t j = i + 1; j < entitiesWithAABB.size(); j++) {
-                auto optAABB1 = componentsContainer.getComponent(entitiesWithAABB[i], ComponentsType::getComponentType("AABBComponent2D"));
-                auto optAABB2 = componentsContainer.getComponent(entitiesWithAABB[j], ComponentsType::getComponentType("AABBComponent2D"));
+                auto optAABB1 = componentsContainer.getComponent(entitiesWithAABB[i], GameEngine::ComponentsType::getComponentType("AABBComponent2D"));
+                auto optAABB2 = componentsContainer.getComponent(entitiesWithAABB[j], GameEngine::ComponentsType::getComponentType("AABBComponent2D"));
 
                 if (!optAABB1 || !optAABB2) continue;
 
@@ -31,15 +31,15 @@ namespace GameEngine {
                 if (physicsEngine->broadPhase(*aabb1, *aabb2)) {
                     size_t smaller = std::min(entitiesWithAABB[i], entitiesWithAABB[j]);
                     size_t larger = std::max(entitiesWithAABB[i], entitiesWithAABB[j]);
-                    potentialCollisions.push_back({smaller, larger});
+                    potentialCollisions.emplace_back(smaller, larger);
                 }
             }
         }
         for (const auto& pair : potentialCollisions) {
-            auto optCollider1 = componentsContainer.getComponent(pair.first, ComponentsType::getNewComponentType("AColliderComponent2D"));
-            auto optPosition1 = componentsContainer.getComponent(pair.first, ComponentsType::getNewComponentType("PositionComponent2D"));
-            auto optCollider2 = componentsContainer.getComponent(pair.second, ComponentsType::getNewComponentType("AColliderComponent2D"));
-            auto optPosition2 = componentsContainer.getComponent(pair.second, ComponentsType::getNewComponentType("PositionComponent2D"));
+            auto optCollider1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D"));
+            auto optPosition1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"));
+            auto optCollider2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D"));
+            auto optPosition2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"));
 
             if (!optCollider1.has_value() || !optPosition1.has_value() || !optCollider2.has_value() || !optPosition2.has_value()) continue;
 

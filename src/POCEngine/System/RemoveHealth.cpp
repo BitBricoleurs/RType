@@ -12,16 +12,19 @@ void RemoveHealth::update(GameEngine::ComponentsContainer &componentsContainer, 
         if (HealthComponentOpt.has_value()) {
             auto HealthComponent = std::dynamic_pointer_cast<Health>(HealthComponentOpt.value());
             HealthComponent->currentHealth -= 1;
-            int currentHealth = HealthComponent->currentHealth;
-            if (currentHealth <= 0) {
-                eventHandler.queueEvent("DEATH", id);
+            if (HealthComponent->currentHealth <= 0) {
+                eventHandler.queueEvent("Death", id);
             }
             auto HealthBarId = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsHealthBar"));
             if (HealthBarId.size() > 0) {
                 auto HealthBarComponentOpt = (componentsContainer.getComponent(HealthBarId[0], GameEngine::ComponentsType::getComponentType("SpriteComponent")));
                 if (HealthBarComponentOpt.has_value()) {
-                    auto HealthBarComponent = std::dynamic_pointer_cast<GameEngine::SpriteComponent>(HealthBarComponentOpt.value());
+                    auto HealthBarComponent = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(HealthBarComponentOpt.value());
                     HealthBarComponent->rect1.w = HealthComponent->currentHealth * 8;
+                    if (HealthComponent->currentHealth > 3) {
+                        HealthComponent->currentHealth = 3;
+                        HealthBarComponent->rect1.w = 24;
+                    }
                 }
             }
         }

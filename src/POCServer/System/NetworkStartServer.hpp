@@ -7,12 +7,16 @@
 #include "Server.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "GameState.hpp"
 
-class NetworkStartServer : public GameEngine::ISystem {
-    public:
-        NetworkStartServer() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
-};
+namespace Server {
 
+    class NetworkStartServer : public GameEngine::ISystem {
+        public:
+            NetworkStartServer() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
+    };
+
+}

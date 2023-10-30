@@ -7,6 +7,7 @@
 #include <cstddef>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
+#include "vector"
 
 class IsBullet : public GameEngine::AComponent {
 public:
@@ -14,4 +15,6 @@ public:
 
   size_t getComponentType() override;
   bool playerBullet;
+  bool passingThrough;
+  std::vector<size_t> alreadyHit;
 };

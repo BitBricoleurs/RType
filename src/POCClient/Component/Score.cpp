@@ -4,7 +4,11 @@
 
 #include "Score.hpp"
 
-size_t Score::getComponentType()
-{
-    return GameEngine::ComponentsType::getNewComponentType("Score");
+namespace Client {
+
+    size_t Score::getComponentType()
+    {
+        return GameEngine::ComponentsType::getNewComponentType("Score");
+    }
+
 }

@@ -3,21 +3,21 @@
 #include "CircleColliderComponent2D.hpp"
 #include "CheckCollision.hpp"
 
-namespace GameEngine {
+namespace PhysicsEngine {
 
     CircleColliderComponent2D::CircleColliderComponent2D() = default;
 
-    CircleColliderComponent2D::CircleColliderComponent2D(const Circle& collider) : collider(collider) {}
+    CircleColliderComponent2D::CircleColliderComponent2D(const Utils::Circle& collider) : collider(collider) {}
 
     size_t CircleColliderComponent2D::getComponentType() {
-        return ComponentsType::getNewComponentType("AColliderComponent2D");
+        return GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D");
     }
 
-    Circle CircleColliderComponent2D::getCollider() const {
+    Utils::Circle CircleColliderComponent2D::getCollider() const {
         return collider;
     }
 
-    void CircleColliderComponent2D::setCollider(const Circle& collider) {
+    void CircleColliderComponent2D::setCollider(const Utils::Circle& collider) {
         this->collider = collider;
     }
 

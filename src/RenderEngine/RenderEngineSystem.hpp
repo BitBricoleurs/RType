@@ -7,22 +7,23 @@
 
 #pragma once
 
-
-#include "ISystem.hpp"
-#include "TextComponent.hpp"
-#include "SpriteComponent.hpp"
-#include "RenderEngine.hpp"
 #include "ComponentsType.hpp"
-#include <memory>
+#include "IComponent.hpp"
+#include "ISystem.hpp"
+#include "RenderEngine.hpp"
+#include "SpriteComponent.hpp"
+#include "TextComponent.hpp"
 #include "WindowInfoComponent.hpp"
+#include "GameEngine.hpp"
+#include <memory>
 
-namespace GameEngine {
-    class RenderEngineSystem : public ISystem {
+namespace RenderEngine {
+    class RenderEngineSystem : public GameEngine::ISystem {
     public:
-        RenderEngineSystem(const char* windowTitle);
+        explicit RenderEngineSystem(const char* windowTitle, GameEngine::GameEngine& componentContainer);
         ~RenderEngineSystem();
 
-        void update(ComponentsContainer& componentsContainer, EventHandler &eventHandler) override;
+        void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;
 
         size_t getScreenHeight();
         size_t getScreenWidth();

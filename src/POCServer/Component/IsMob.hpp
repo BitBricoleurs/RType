@@ -8,9 +8,12 @@
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
 
-class IsMob : public GameEngine::AComponent {
-public:
-  IsMob() = default;
+namespace Server {
 
-  size_t getComponentType() override;
-};
+    class IsMob : public GameEngine::AComponent {
+    public:
+      IsMob() = default;
+
+      size_t getComponentType() override;
+    };
+}

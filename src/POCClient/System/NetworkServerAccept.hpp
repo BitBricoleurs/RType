@@ -10,14 +10,17 @@
 #include "ISystem.hpp"
 #include "IsPlayer.hpp"
 #include "EntityFactory.hpp"
+#include "GameState.hpp"
 
-class NetworkServerAccept : public GameEngine::ISystem {
-    public:
-        NetworkServerAccept() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
+namespace Client {
 
-};
+    class NetworkServerAccept : public GameEngine::ISystem {
+        public:
+            NetworkServerAccept() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
 
+    };
 
+}

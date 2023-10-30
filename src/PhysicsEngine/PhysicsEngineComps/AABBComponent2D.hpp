@@ -5,19 +5,19 @@
 #pragma once
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 
-namespace GameEngine {
-    class AABBComponent2D : public AComponent {
+namespace PhysicsEngine {
+    class AABBComponent2D : public GameEngine::AComponent {
     public:
         AABBComponent2D() = default;
-        AABBComponent2D(const Vect2& min, const Vect2& max) : minExtents(min), maxExtents(max) {}
+        AABBComponent2D(const Utils::Vect2& min, const Utils::Vect2& max) : minExtents(min), maxExtents(max) {}
         ~AABBComponent2D() override = default;
 
-        size_t getComponentType() override { return ComponentsType::getNewComponentType("AABBComponent2D"); }
+        size_t getComponentType() override { return GameEngine::ComponentsType::getNewComponentType("AABBComponent2D"); }
 
-        Vect2 minExtents;
-        Vect2 maxExtents;
+        Utils::Vect2 minExtents;
+        Utils::Vect2 maxExtents;
     private:
     };
 

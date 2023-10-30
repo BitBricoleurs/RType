@@ -11,11 +11,14 @@
 #include "ComponentsType.hpp"
 #include "NetworkClientId.hpp"
 
-class NetworkClientRequestDisconnect : public  GameEngine::ISystem {
-    public:
-        NetworkClientRequestDisconnect() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
-    private:
-};
+namespace Server {
 
+    class NetworkClientRequestDisconnect : public  GameEngine::ISystem {
+        public:
+            NetworkClientRequestDisconnect() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
+        private:
+    };
+
+}

@@ -9,14 +9,15 @@
 
 #include "AComponent.hpp"
 #include <string>
-#include "Utils.hpp"
+#include "Vect2.hpp"
 #include "raylib.h"
+#include "ColorR.hpp"
 #include "ComponentsType.hpp"
 
-namespace GameEngine {
-    class TextComponent : public AComponent {
+namespace RenderEngine {
+    class TextComponent : public GameEngine::AComponent {
     public:
-        TextComponent(const std::string& text, Vect2 pos, int fontSize, size_t layer, ColorR color) {
+        TextComponent(const std::string& text, Utils::Vect2 pos, int fontSize, size_t layer, Utils::ColorR color) {
             this->text = text;
             this->fontSize = fontSize;
             this->layer = layer;
@@ -24,12 +25,13 @@ namespace GameEngine {
             this->pos = pos;
         }
         ~TextComponent() override = default;
+        size_t getComponentType() override { return GameEngine::ComponentsType::getNewComponentType("TextComponent"); }
 
         size_t layer;
         std::string text;
-        Vect2 pos;
+        Utils::Vect2 pos;
         int fontSize;
-        ColorR color{};
+        Utils::ColorR color{};
         bool isVisible = true;
 
     private:

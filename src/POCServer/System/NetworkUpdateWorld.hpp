@@ -19,13 +19,16 @@
 #include "BulletUtils.hpp"
 #include "EntityFactory.hpp"
 
-class NetworkUpdateWorld : public GameEngine::ISystem {
-    public:
-        NetworkUpdateWorld() = default;
-        void update(GameEngine::ComponentsContainer &componentsContainer,
-                    GameEngine::EventHandler &eventHandler) override;
+namespace Server {
 
-    private:
+    class NetworkUpdateWorld : public GameEngine::ISystem {
+        public:
+            NetworkUpdateWorld() = default;
+            void update(GameEngine::ComponentsContainer &componentsContainer,
+                        GameEngine::EventHandler &eventHandler) override;
 
-};
+        private:
 
+    };
+
+}

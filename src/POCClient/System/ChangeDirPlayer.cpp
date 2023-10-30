@@ -32,28 +32,54 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
     auto isPlayerOptional = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
     if (velocityOptional.has_value() && isPlayerOptional.has_value()) {
-        auto velocity = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityOptional.value());
+        auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
 
-        velocity->velocity.x += directionMap[event.first].first;
-        velocity->velocity.y += directionMap[event.first].second;
+        tryRemovingSmoothing(componentsContainer, id);
+        if (event.first == "LEFT_KEY_RELEASED" && velocity->velocity.x == 0 || event.first == "RIGHT_KEY_RELEASED" && velocity->velocity.x == 0) {
+            velocity->velocity.x = 0;
+        } else {
+            velocity->velocity.x += directionMap[event.first].first;
+        }
+        if (event.first == "UP_KEY_RELEASED" && velocity->velocity.y == 0 || event.first == "DOWN_KEY_RELEASED" && velocity->velocity.y == 0) {
+            velocity->velocity.y = 0;
+        } else {
+            velocity->velocity.y += directionMap[event.first].second;
+        }
 
-            std::cout << "New dir " << velocity->velocity.x << " " << velocity->velocity.y << std::endl;
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
-                auto velocityForcePod = std::dynamic_pointer_cast<GameEngine::VelocityComponent>(velocityForcePodOpt.value());
-                velocityForcePod->velocity.x += directionMap[event.first].first;
-                velocityForcePod->velocity.y += directionMap[event.first].second;
-                size_t serverId = EntityFactory::getInstance().getServerId(isPlayer->entityIdForcePod);
-                Network::Message message("UPDATE_VELOCITY", {serverId}, "float", {directionMap[event.first].first, directionMap[event.first].second});
-                eventHandler.queueEvent("SEND_NETWORK", std::make_shared<Network::Message>(message));
+                auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
+                auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("Shooter")).value());
+                auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 13);
+                posForcePod->pos = shootingPosition;
+                velocityForcePod->velocity.x = velocity->velocity.x;
+                velocityForcePod->velocity.y = velocity->velocity.y;
+
             }
         }
+        std::vector<size_t> ids = {};
+        std::vector<std::any> args = {velocity->velocity.x, velocity->velocity.y};
+        std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
+        eventHandler.queueEvent("SEND_NETWORK", message);
     }
-    std::vector<size_t> ids = {};
-    std::vector<float> argsF = {directionMap[event.first].first, directionMap[event.first].second};
-    std::vector<std::any> args = {directionMap[event.first].first, directionMap[event.first].second};
-    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("MOVE", ids, "FLOAT", args);
-    eventHandler.queueEvent("SEND_NETWORK", message);
+}
+
+void Client::ChangeDirPlayer::tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto smoothingType = GameEngine::ComponentsType::getComponentType("SmoothingMovement");
+    auto smoothing = componentsContainer.getComponent(entity, smoothingType);
+    if (smoothing.has_value()) {
+        auto velocityComponent = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+        if (!velocityComponent.has_value())
+            return;
+        auto velComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
+        velComp->velocity.x = 0;
+        velComp->velocity.y = 0;
+        componentsContainer.unbindComponentFromEntity(entity, smoothingType);
+
+    }
 }

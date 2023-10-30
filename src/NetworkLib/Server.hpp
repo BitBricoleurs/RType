@@ -24,6 +24,7 @@ namespace Network {
 
         Network::TSQueue<unsigned int> &getConnectedClients();
         Network::TSQueue<unsigned int> &getDisconnectedClients();
+        Network::TSQueue<unsigned int> &getTimeOutClients();
 
     private:
         Server();

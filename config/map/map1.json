@@ -1,326 +1,46 @@
 {
+    "parallax" : [
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": true,
+            "speed": 0.5,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": true,
+            "speed": 0.5,
+            "position": {
+                "x": 1920,
+                "y": 0
+            }
+        },
+        {
+            "tick": 60,
+            "type": 4,
+            "layer" : 2,
+            "isLooping": false,
+            "speed": 1.0,
+            "position": {
+                "x": 2000,
+                "y": 400
+            }
+        }
+    ],
     "mobs": [
         {
             "tick": 13,
             "mobType": "cancerMob",
             "position": {
-                "x": 2000,
-                "y": 575
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 57,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 151
-            },
-            "dropPowerup": true
-        },
-        {
-            "tick": 154,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 400
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 206,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 583
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 265,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 146
-            },
-            "dropPowerup": true
-        },
-        {
-            "tick": 290,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 560
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 302,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 247
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 315,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 277
-            },
-            "dropPowerup": true
-        },
-        {
-            "tick": 345,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 768
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 373,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 94
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 436,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 291
-            },
-            "dropPowerup": true
-        },
-        {
-            "tick": 461,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 359
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 510,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 294
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 522,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 438
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 598,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 744
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 611,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 247
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 652,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 454
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 658,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 218
-            },
-            "dropPowerup": true
-        },
-        {
-            "tick": 726,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 779
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 731,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 323
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 818,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 99
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 874,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 242
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 914,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 667
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 979,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 128
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1027,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 293
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1095,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 254
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1134,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 156
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1147,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 920
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1181,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 834
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1277,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 946
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1340,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 265
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1415,
-            "mobType": "cancerMob",
-            "position": {
-                "x": 2000,
-                "y": 379
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1460,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 255
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 1488,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 289
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 2959,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000,
-                "y": 765
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 16285,
-            "mobType": "boss",
-            "position": {
-                "x": 2000,
-                "y": 400
+                "x": 2000.0,
+                "y": 575.0
             },
             "dropPowerup": false
         }

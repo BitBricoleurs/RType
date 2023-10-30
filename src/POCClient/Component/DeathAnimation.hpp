@@ -8,18 +8,21 @@
 #include <vector>
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"
-#include "Utils.hpp"
+#include "Vect2.hpp"
 
-class DeathAnimation : public GameEngine::AComponent {
-public:
-  DeathAnimation();
+namespace Client {
 
-  size_t getComponentType() override;
+    class DeathAnimation : public GameEngine::AComponent {
+    public:
+      DeathAnimation();
 
-  int frameHeight, frameWidth;
-  int currentFrameIndex;
-  int frames;
-  std::string filepath;
-  GameEngine::Vect2 currentFrame;
-  std::vector<GameEngine::Vect2> spritePositions;
-};
+      size_t getComponentType() override;
+
+      int frameHeight{}, frameWidth{};
+      int currentFrameIndex;
+      int frames{};
+      std::string filepath;
+      Utils::Vect2 currentFrame;
+      std::vector<Utils::Vect2> spritePositions;
+    };
+}

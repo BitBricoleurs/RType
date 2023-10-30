@@ -7,14 +7,18 @@
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
 
-class isHealthBar : public GameEngine::AComponent {
-public:
-    isHealthBar() {
-        _healthBar = true;
-    }
-    ~isHealthBar() override = default;
+namespace Client {
 
-    size_t getComponentType() override;
-private:
-    bool _healthBar;
-};
+    class isHealthBar : public GameEngine::AComponent {
+    public:
+        isHealthBar() {
+            _healthBar = true;
+        }
+        ~isHealthBar() override = default;
+
+        size_t getComponentType() override;
+    private:
+        bool _healthBar;
+    };
+
+}

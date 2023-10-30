@@ -7,14 +7,18 @@
 
 #include "MobComponents.hpp"
 
-size_t PataPata::getComponentType() {
-  return GameEngine::ComponentsType::getNewComponentType("PataPata");
-}
+namespace Server {
 
-size_t Cancer::getComponentType() {
-  return GameEngine::ComponentsType::getNewComponentType("Cancer");
-}
+    size_t PataPata::getComponentType() {
+      return GameEngine::ComponentsType::getNewComponentType("PataPata");
+    }
 
-size_t Bug::getComponentType() {
-  return GameEngine::ComponentsType::getNewComponentType("Bug");
+    size_t Cancer::getComponentType() {
+      return GameEngine::ComponentsType::getNewComponentType("Cancer");
+    }
+
+    size_t Bug::getComponentType() {
+      return GameEngine::ComponentsType::getNewComponentType("Bug");
+    }
+
 }

@@ -14,15 +14,20 @@
 #include "BulletUtils.hpp"
 #include "Message.hpp"
 #include "Shooter.hpp"
+#include "GameState.hpp"
 
-class ChargingBar : public GameEngine::ISystem {
-public:
-  void update(GameEngine::ComponentsContainer &componentsContainer,
-              GameEngine::EventHandler &eventHandler) override;
+namespace Client {
 
-private:
-  int _charge = 0;
-  int _maxCharge = 103;
-  bool shoot = false;
-  bool endShoot = true;
-};
+    class ChargingBar : public GameEngine::ISystem {
+    public:
+      void update(GameEngine::ComponentsContainer &componentsContainer,
+                  GameEngine::EventHandler &eventHandler) override;
+
+    private:
+      int _charge = 0;
+      int _maxCharge = 103;
+      bool shoot = false;
+      bool endShoot = true;
+    };
+
+}

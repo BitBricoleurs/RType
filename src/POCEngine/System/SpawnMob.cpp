@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** SpawnMob
+** SpawnEntity
 */
 
 #include "SpawnMob.hpp"
 
-SpawnMob::SpawnMob(std::string path) : directoryPath(std::move(path))
+SpawnMob::SpawnMob(std::string path) : directoryPath(std::move(path)), currentMapContent(nlohmann::json::object())
 {
     loadMapFiles(directoryPath);
     if (!mapFiles.empty()) {
@@ -25,31 +25,42 @@ void SpawnMob::changeLevel() {
     }
 }
 
-void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
-{
+void SpawnMob::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     currentTick++;
 
-    auto &mobs = currentMapContent["mobs"];
-    for (auto it = mobs.begin(); it != mobs.end(); /* No increment here */) {
-        if (currentTick == (*it)["tick"].get<int>()) {
-            GameEngine::Vect2 position((*it)["position"]["x"].get<int>(), (*it)["position"]["y"].get<int>());
-            bool dropPowerup = (*it)["dropPowerup"].get<bool>();
+    int mobsSize = currentMapContent.getSize("/mobs");
+    for (int i = 0; i < mobsSize;) {
+        int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
-            if ((*it)["mobType"] == "cancerMob") {
+        if (currentTick == tick) {
+            int posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
+            int posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
+            Utils::Vect2 position(posX, posY);
+
+            bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
+
+            std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
+
+            if (mobType == "cancerMob") {
                 EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
-            } else if ((*it)["mobType"] == "pataPataMob") {
+            } else if (mobType == "pataPataMob") {
                 EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
             }
 
-            it = mobs.erase(it);
+            currentMapContent.eraseKey("/mobs", i);
+            mobsSize--;
         } else {
-            ++it;
+            i++;
         }
     }
 }
 
-void SpawnMob::loadMapFiles(const std::string &path){
-    for (const auto &entry : std::filesystem::directory_iterator(path)) {
+
+void SpawnMob::loadMapFiles(const std::string &path)
+{
+    std::string newPath = LoadConfig::LoadConfig::getInstance().getExecutablePath();
+        newPath = newPath + path;
+    for (const auto &entry : std::filesystem::directory_iterator(newPath)) {
         if (entry.path().extension() == ".json") {
             mapFiles.push_back(entry.path().string());
         }
@@ -59,7 +70,7 @@ void SpawnMob::loadMapFiles(const std::string &path){
 bool SpawnMob::loadMap(const std::string &filePath)
 {
     try {
-        currentMapContent = EntityFactory::getInstance().loadConfig(filePath);
+        currentMapContent = LoadConfig::LoadConfig::getInstance().loadConfigWithoutPath(filePath);
         return true;
     } catch (const std::exception& e) {
         std::cerr << "Error loading map: " << e.what() << std::endl;

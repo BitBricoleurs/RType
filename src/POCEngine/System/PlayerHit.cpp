@@ -10,21 +10,11 @@ void PlayerHit::update(GameEngine::ComponentsContainer &componentsContainer, Gam
         auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
         if (firstEntityOptPlayer.has_value()) {
-            auto hpComponent = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
-            hpComponentCast->currentHealth -= 1;
-            if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", firstEntity);
-            }
+            eventHandler.queueEvent("DAMAGE", firstEntity);
             eventHandler.queueEvent("PLAY_SOUND", firstEntity);
             componentsContainer.deleteEntity(secondEntity);
         } else {
-            auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);
-                hpComponentCast->currentHealth -= 1;
-            if (hpComponentCast->currentHealth <= 0) {
-                eventHandler.queueEvent("Death", secondEntity);
-            }
+            eventHandler.queueEvent("DAMAGE", secondEntity);
             eventHandler.queueEvent("PLAY_SOUND", secondEntity);
             componentsContainer.deleteEntity(firstEntity);
         }

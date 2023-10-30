@@ -6,9 +6,8 @@
     "damageValue": 50,
     "isPlayerBullet": true,
     "playerA": 0,
-    "pathSound": "assets/music/Shoot.wav",
     "scale": 2.5,
-    "rotation": 0,
+    "rotation": 0.0,
     "tint": {
       "r": 255,
       "g": 255,
@@ -16,6 +15,7 @@
       "a": 255
     },
     "layer": 7,
+    "pathSound": "assets/music/Shoot.wav",
     "bulletTypes": {
       "type0": {
         "rect": {
