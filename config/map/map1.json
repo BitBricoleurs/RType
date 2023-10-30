@@ -1,31 +1,13 @@
 {
     "mobs": [
         {
-            "dropPowerup": false,
-            "mobType": "CancerMob",
+            "tick": 13,
+            "mobType": "cancerMob",
             "position": {
                 "x": 2000.0,
-                "y": 376.79998779296875
+                "y": 575.0
             },
-            "tick": 1
-        },
-        {
-            "dropPowerup": true,
-            "mobType": "CancerMob",
-            "position": {
-                "x": 2000.0,
-                "y": 423.8999938964844
-            },
-            "tick": 1
-        },
-        {
-            "dropPowerup": false,
-            "mobType": "CancerMob",
-            "position": {
-                "x": 2000.0,
-                "y": 471.0
-            },
-            "tick": 1
+            "dropPowerup": false
         }
     ]
 }
