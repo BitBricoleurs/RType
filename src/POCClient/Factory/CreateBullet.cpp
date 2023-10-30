@@ -7,12 +7,11 @@ namespace Client {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
             std::string bulletKeyPath = "/createBullet/bulletTypes/type" + std::to_string(typeBullet);
-            std::string rectKeyPath = bulletKeyPath + "/rect";
 
-            int spriteSheetHeight = data.getInt(rectKeyPath + "spriteSheetDimensions/h");
-            int spriteSheetWidth = data.getInt(rectKeyPath + "spriteSheetDimensions/w");
+            int spriteSheetHeight = data.getInt(bulletKeyPath + "/spriteSheetDimensions/h");
+            int spriteSheetWidth = data.getInt(bulletKeyPath + "/spriteSheetDimensions/w");
             std::string path = data.getString(bulletKeyPath + "/path");
-
+            std::cout << "shooting with charge " << typeBullet << std::endl;
             size_t entityId = createBullet(
                 container,
                 path,

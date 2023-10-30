@@ -9,6 +9,7 @@ namespace Client {
     void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         try {
+                std::cout << "CreateBulletSystem" << std::endl;
                 std::shared_ptr<Network::OwnedMessage> message;
 
                 message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
@@ -18,7 +19,7 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-            if (ids.size() >= 1 && args.size() != (ids.size() * 6))
+            if (ids.size() > 1 && args.size() > 7)
                 return;
 
         int arg_index = 0;
@@ -31,9 +32,11 @@ namespace Client {
             Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 5])) / 1000);
             size_t entityId = 0;
             std::string path = "";
-            if (number == BulletOwner::PLAYER)
+            std::cout << "receiving bullet from server" << std::endl;
+            if (number == BulletOwner::PLAYER) {
+                std::cout << "player bullet with charge " << static_cast<int>(std::any_cast<int>(args[arg_index + 6])) << std::endl;
                 entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, static_cast<int>(std::any_cast<int>(args[arg_index + 6])));
-            else
+            } else
                 printf("CreateBulletSystem: BulletOwner not implemented\n");
             factory.registerEntity(entityId, id);
             eventHandler.queueEvent("PLAY_SOUND", entityId);

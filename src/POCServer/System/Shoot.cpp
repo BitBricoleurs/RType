@@ -55,7 +55,6 @@ namespace Server {
                     if (charge == 100)
                         chargeValue = 5;
                     EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(25,0), chargeValue);
-                    return;
                 } else {
                     EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(20,0), 0);
                 }
