@@ -8,19 +8,3 @@ add_subdirectory(POCServer)
 add_subdirectory(POCClient)
 add_subdirectory(LoadConfig)
 add_subdirectory(UtilsProject)
-
-target_sources(
-        ${PROJECT_NAME_CLIENT}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
-)
-
-target_sources(
-        ${PROJECT_NAME_SERVER}
-        PRIVATE
-
-        ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
-)
-
-target_link_libraries(${PROJECT_NAME_CLIENT} NetworkLib)
-target_link_libraries(${PROJECT_NAME_SERVER} NetworkLib)

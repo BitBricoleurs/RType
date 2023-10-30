@@ -11,9 +11,9 @@
 
 namespace Client {
 
-    class Endpoint : public GameEngine::AComponent {
+    class EndpointGame : public GameEngine::AComponent {
     public:
-      Endpoint(std::string &host, std::string &port):
+      EndpointGame(std::string &host, std::string &port):
         _host(host), _port(port) {};
 
       size_t getComponentType() override;
