@@ -89,7 +89,7 @@ public:
   size_t spawnParallax(GameEngine::ComponentsContainer &container,
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
-                           
+
   size_t createBellmite(GameEngine::ComponentsContainer &container,
                         GameEngine::EventHandler &eventHandler,
                         Utils::Vect2 pos);
@@ -154,24 +154,14 @@ private:
         Utils::Vect2 velocity, float scale);
       static size_t CreateParallax(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
-      private:
-            std::map<size_t, PlayerNumber> _playerMap;
-
-};
-}
-  static size_t createBaseEntity(GameEngine::ComponentsContainer &container,
-                                 int hitboxHeight, int hitboxWidth,
-                                 Utils::Vect2 pos, Utils::Vect2 velocity,
-                                 float scale);
-
-  size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+      size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
                             Utils::Vect2 pos);
 
-  size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+      size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos);
 
-  std::map<size_t, PlayerNumber> _playerMap;
+      std::map<size_t, PlayerNumber> _playerMap;
 };
 } // namespace Server

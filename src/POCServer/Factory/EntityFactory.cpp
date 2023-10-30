@@ -149,16 +149,7 @@ namespace Server {
         allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     }
-    void EntityFactory::updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity) {
-        std::cout << velocity.x << " " << velocity.y << std::endl;
-        std::vector<size_t> ids = {entityId};
-        std::vector<std::any> args = {};
-        args.push_back(velocity.x);
-        args.push_back(velocity.y);
-        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
-        std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
-        eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
-    }
+    
     void EntityFactory::updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos)
     {
         std::vector<size_t> ids = {entityId};

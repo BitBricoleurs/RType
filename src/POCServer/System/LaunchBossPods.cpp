@@ -83,7 +83,7 @@ void LaunchBossPods::update(
     velocity = directionToClosestPlayer * scaleFactor;
     velocityComp->velocity = velocity;
   }
-  factory.updateEntityNetwork(eventHandler, podToLaunch,  velocityComp->velocity);
+  factory.updateEntityNetworkWithVelocity(eventHandler, podToLaunch,  velocityComp->velocity);
 }
 
 } // namespace Server

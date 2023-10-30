@@ -88,7 +88,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         Utils::Vect2 newVelocity = newVelocityOpt.value();
         podVelocityComp->velocity = newVelocity * 3;
         bossPodComp->bounces++;
-        factory.updateEntityNetwork(eventHandler, bossPod,
+        factory.updateEntityNetworkWithVelocity(eventHandler, bossPod,
                                     podVelocityComp->velocity);
       } else if (!changedDir) {
 
@@ -101,7 +101,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
         }
         Utils::Vect2 newVelocity = newVelocityOpt.value();
         bossVelComp->velocity = newVelocity;
-        factory.updateEntityNetwork(eventHandler, bossCore,
+        factory.updateEntityNetworkWithVelocity(eventHandler, bossCore,
                                            bossVelComp->velocity);
         for (auto &otherPod : bossPods) {
 
@@ -120,7 +120,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
 
           otherPodVelocityComp->velocity.x = bossVelComp->velocity.x;
           otherPodVelocityComp->velocity.y = bossVelComp->velocity.y;
-          factory.updateEntityNetwork(eventHandler, otherPod,
+          factory.updateEntityNetworkWithVelocity(eventHandler, otherPod,
                                       otherPodVelocityComp->velocity);
         }
         changedDir = true;
@@ -142,7 +142,7 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
       }
       Utils::Vect2 newVelocity = newVelocityOpt.value();
       bossVelComp->velocity = newVelocity;
-        factory.updateEntityNetwork(eventHandler, bossCore,
+        factory.updateEntityNetworkWithVelocity(eventHandler, bossCore,
                                     bossVelComp->velocity);
     }
   }

@@ -33,7 +33,6 @@
 #include "Shoot.hpp"
 #include "Parallax.hpp"
 #include "LatchPodToBoss.hpp"
-#include "SpawnMob.hpp"
 #include "NetworkClientAlive.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
