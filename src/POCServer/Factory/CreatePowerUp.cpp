@@ -96,7 +96,6 @@ namespace Server {
                     isPlayerBullet,
                     scale
                 );
-                std::cout << "YEAH" << std::endl;
                 std::vector<size_t> ids = {entityId, entityId2};
                 std::vector<std::any> args = {static_cast<int>(type)};
                 args.emplace_back(static_cast<int>(pos.x * 1000));

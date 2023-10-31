@@ -3,8 +3,8 @@
     {
       "type": 0,
       "name": "DualShoot",
-      "delay": 300,
-      "animateSpeed": 5,
+      "delay": 120,
+      "animateSpeed": 7,
       "shootRed" : {
         "frames": 2,
         "twoDirections": false,
@@ -22,19 +22,19 @@
         },
         "layer": 7,
         "rect": {
-            "x": 0,
-            "y": 0,
-            "w": 66,
-            "h": 4
+          "x": 0,
+          "y": 0,
+          "w": 66,
+          "h": 4
         },
         "path" : "assets/dualShotRed.png",
         "velocity": {
-          "x": 2.0,
+          "x": 25.0,
           "y": 0.0
         },
         "hitBoxHeight" : 4,
         "hitBoxWidth" : 33
-        },
+      },
       "shootBlue" : {
         "frames": 2,
         "twoDirections": false,
@@ -59,7 +59,7 @@
         },
         "path" : "assets/dualShootBlue.png",
         "velocity": {
-          "x": 2.0,
+          "x": 25.0,
           "y": 0.0
         },
         "hitBoxHeight" : 4,

@@ -21,7 +21,8 @@ namespace Server {
                     auto parallax = std::dynamic_pointer_cast<IsParallax>(parallaxOpt.value());
                     auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
                     if (pos->pos.x <= -1920 && parallax->isLooping) {
-                        pos->pos.x = 1920;
+                        pos->pos.x = pos->pos.x * -1;
+                        EntityFactory::getInstance().updateEntityNetworkWithPos(eventHandler, entityID, pos->pos);
                     }
                 }
             }

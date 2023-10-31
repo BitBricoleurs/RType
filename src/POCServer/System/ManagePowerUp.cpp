@@ -15,7 +15,6 @@ void Server::ManagePowerUp::update(GameEngine::ComponentsContainer &componentsCo
         LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Game/powerUp.json");
         auto event = data.getString("/powers/" + std::to_string(player->PowerUp) + "/name");
         auto delay = data.getInt("/powers/" + std::to_string(player->PowerUp) + "/delay");
-        std::cout << "Event: " << event << " delay: " << delay << std::endl;
         eventHandler.scheduleEvent(event, delay, id);
         player->PowerUp++;
         if (player->PowerUp == 1 || player->PowerUp == 2) {
