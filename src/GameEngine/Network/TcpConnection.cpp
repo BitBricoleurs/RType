@@ -30,6 +30,7 @@ namespace GameEngine {
     void TcpConnection::handleWrite(const boost::system::error_code& error, size_t bytes_transferred) {
         if (!error) {
         } else {
+            Logger::wantsToReceiveLogs = false;
             std::cerr << "Failed to send message: " << error.message() << "\n";
         }
     }

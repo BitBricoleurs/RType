@@ -12,6 +12,7 @@ namespace GameEngine {
     GameEngine::GameEngine() : tickSpeed(1.0 / 60.0), isRunning(true) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
         eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
+        eventHandler.addEvent("ENTER_KEY_PRESSED", [this] { this->launch_cpp_program("Console", "localhost 9191"); });
 
         registerCommand("print", [this](const std::vector<std::string>& args) -> std::string {
             if (args.size() > 0) {
@@ -53,7 +54,7 @@ namespace GameEngine {
 
         registerCommand("changeScene", [this](const std::vector<std::string>& args) -> std::string {
             if (args.size() >= 1) {
-                this->changeScene(args[0]);
+                queueEvent("gameEngineChangeScene", args[0]);
                 return "Scene changed to " + args[0] + "\n";
             } else {
                 return "Not enough arguments provided for changeScene command.\n";
@@ -115,6 +116,12 @@ namespace GameEngine {
             bool actualState = Logger::wantsToReceiveLogs;
             Logger::wantsToReceiveLogs = !actualState;
             return "Logger state changed to " + std::to_string(!actualState) + "\n";
+        });
+
+        registerCommand("pause", [this](const std::vector<std::string>& args) -> std::string {
+            bool actualState = pause;
+            pause = !actualState;
+            return "Pause state changed to " + std::to_string(!actualState) + "\n";
         });
     }
 
@@ -179,9 +186,11 @@ namespace GameEngine {
         Timer timer;
         double lastTickTime = 0.0;
 
+        std::thread server_thread([]{ Logger::startServer(9191); });
+        server_thread.detach();
         while (isRunning) {
             double currentTime = timer.elapsedSeconds();
-            if (currentTime - lastTickTime >= tickSpeed) {
+            if ((currentTime - lastTickTime >= tickSpeed) && !pause) {
                 update();
                 lastTickTime = currentTime;
             } else {

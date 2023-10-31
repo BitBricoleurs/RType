@@ -48,7 +48,7 @@ void ConsoleClient::read() {
                     }
 
                     std::cout << "\r\033[2K"
-                              << line << user_input_copy.size()
+                              << line
                               << user_input_copy
                               << std::flush;
                     read();

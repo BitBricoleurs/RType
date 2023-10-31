@@ -23,3 +23,5 @@ target_include_directories(${LIBRARY_NAME_GAMEENGINE} PUBLIC ${CMAKE_CURRENT_SOU
 target_include_directories(${LIBRARY_NAME_GAMEENGINE} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Misc)
 target_include_directories(${LIBRARY_NAME_GAMEENGINE} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Logger)
 target_include_directories(${LIBRARY_NAME_GAMEENGINE} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Network)
+
+target_link_libraries(${LIBRARY_NAME_GAMEENGINE} PUBLIC LoadConfigLib)

@@ -47,11 +47,6 @@ foreach(lib ${BOOSTASIO_INCLUDE_LIBRARIES})
             Boost::${lib}
     )
     target_link_libraries(
-            ${PROJECT_NAME_POCENGINE}
-            PRIVATE
-            Boost::${lib}
-    )
-    target_link_libraries(
             ${PROJECT_NAME_CONSOLE}
             PRIVATE
             Boost::${lib}

@@ -3,32 +3,17 @@
 //
 
 #include "Logger.hpp"
+#include "LoggerImpl.hpp"
 #include <ctime>
 #include <sstream>
 #include <thread>
-#include "LoggerImpl.hpp"
 
 namespace GameEngine {
-    Logger::LogLevel Logger::currentLogLevel = Logger::LogLevel::INFO;
+    LogLevel Logger::currentLogLevel = LogLevel::INFO;
     bool Logger::wantsToReceiveLogs = false;
-    std::unique_ptr<LoggerImpl> Logger::loggerImpl = std::make_unique<LoggerImpl>();
 
-    void Logger::setLogLevel(Logger::LogLevel level) {
+    void Logger::setLogLevel(LogLevel level) {
         currentLogLevel = level;
-    }
-
-    void Logger::log(LogLevel level, const std::string& message) {
-        if (static_cast<int>(level) < static_cast<int>(currentLogLevel)) {
-            return;
-        }
-        std::string log_level_str = levelToString(level);
-        std::string timestamp = getCurrentTimestamp();
-        std::string full_message = "[" + timestamp + "] [" + log_level_str + "] " + message + "\n";
-        if (wantsToReceiveLogs) {
-            loggerImpl->sendLog(full_message);
-        } else {
-            std::cout << full_message;
-        }
     }
 
     void Logger::info(const std::string& message) {
@@ -59,10 +44,4 @@ namespace GameEngine {
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", local_time);
         return buffer;
     }
-
-    void Logger::startServer(unsigned short port) {
-        loggerImpl->startServer(port);
-    }
-
-
 }
