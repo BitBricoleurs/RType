@@ -4,13 +4,6 @@
 
 #pragma once
 
-
-#ifdef _WIN32
-    #include <Windows.h>
-    #include <boost/asio/windows/stream_handle.hpp>
-#else
-    #include <boost/asio/posix/stream_descriptor.hpp>
-#endif
 #include <iostream>
 #include <thread>
 #include <mutex>
