@@ -59,6 +59,7 @@ namespace Server {
       auto healthComponent = std::make_shared<Health>(maxHealth);
       auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
+      auto cooldownHitComponent = std::make_shared<CooldownHit>(0.5f);
 
       container.bindComponentToEntity(entityId, healthComponent);
       container.bindComponentToEntity(entityId, playerComponent);

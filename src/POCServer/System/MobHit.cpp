@@ -58,10 +58,11 @@ namespace Server {
                 auto hpComponent = std::static_pointer_cast<Health>(hpComponentOpt.value());
 
                 applyDamage(hpComponent, otherEntity, componentsContainer);
-                flashMobNetwork(eventHandler, mobEntity);
 
                 if (hpComponent->currentHealth <= 0)
                     handleDeath(mobEntity, componentsContainer, eventHandler);
+                else
+                    flashMobNetwork(eventHandler, mobEntity);
             }
 
             handleBullet(otherEntity, componentsContainer, eventHandler);

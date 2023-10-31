@@ -54,8 +54,6 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             }
         }
 
-
-
         // Player vs Mob
         if(firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
