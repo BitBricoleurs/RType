@@ -72,6 +72,19 @@ namespace Server {
                 data.getBool("/createBullet/isPlayerBullet"),
                 data.getFloat("/createBullet/scale")
             );
+
+            std::vector<size_t> ids = {entityId};
+            std::vector<std::any> args = {static_cast<int>(BulletOwner::ENEMY)};
+            args.emplace_back(static_cast<int>(BulletType::NORMAL));
+            args.emplace_back(static_cast<int>(pos.x * 1000));
+            args.emplace_back(static_cast<int>(pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity.y * 1000));
+            args.emplace_back(static_cast<int>(0));
+            std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
+            std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+            return entityId;
           return entityId;
         } catch(const std::runtime_error& e) {
             std::cerr << "Error in createBaseEnemyBullet: " << e.what() << std::endl;
