@@ -85,7 +85,6 @@ namespace RenderEngine {
             float playDuration = config.getFloat(basePath + "components/CinematicComponent/playDuration");
             float endPosX = config.getFloat(basePath + "components/CinematicComponent/endPosition/x");
             float endPosY = config.getFloat(basePath + "components/CinematicComponent/endPosition/y");
-            playDuration = playDuration;
             auto cinematicComponent = std::make_shared<RenderEngine::CinematicComponent>(
                 playDuration,
                 Utils::Vect2(endPosX, endPosY)

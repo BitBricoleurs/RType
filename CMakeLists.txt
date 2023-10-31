@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-fPIC)
 
 project(RTYPE LANGUAGES CXX)
 
@@ -68,7 +69,6 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION ${CMAKE_INSTA
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/config" DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 include(InstallRequiredSystemLibraries)
-
 
 message(STATUS "CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}")
 

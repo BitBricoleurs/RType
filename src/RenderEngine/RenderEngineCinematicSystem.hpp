@@ -17,6 +17,9 @@ namespace RenderEngine {
         ~RenderEngineCinematicSystem() = default;
 
         void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;
+        void loadJSON(const std::string& path, GameEngine::ComponentsContainer& componentsContainer);
+        void playCinematic(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler);
+        void endCinematic();
 
     private:
         std::string jsonPath;
@@ -26,10 +29,6 @@ namespace RenderEngine {
         bool isPaused = false;
         float clockNonPausable;
         float CinematicDuration;
-
-        void loadJSON(const std::string& path, GameEngine::ComponentsContainer& componentsContainer);
-        void playCinematic(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler);
-        void endCinematic();
 
         float Lerp(float start, float end, float progress) {
             return start + progress * (end - start);
