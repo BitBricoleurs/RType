@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "src": "/assets/pata.gif",
+    "name": "Image 1",
+    "rect": {
+        "width": 35,
+        "height": 24
+    },
+    "scale" : 2
+  },
+  {
+    "id": 2,
+    "src": "/assets/bellmite.png",
+    "name": "Image 2",
+    "rect": {
+        "width": 64,
+        "height": 64
+    },
+    "scale" : 2
+  }
+]

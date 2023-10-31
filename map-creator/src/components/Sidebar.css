@@ -1,0 +1,25 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -200px;  /* Ajusté pour que 50px de la sidebar reste visible */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.sidebar.closed {
+    right: -200px;
+}
+
+.sidebar-toggle-button {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}

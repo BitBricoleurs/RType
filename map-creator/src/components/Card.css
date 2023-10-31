@@ -1,0 +1,27 @@
+.card {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    scroll-snap-align: center;
+    user-select: none;
+    height: 6vh;
+}
+
+.card-text {
+    text-align: center;
+    color: #000000;
+    user-select: none;
+}
+
+.card.selected {
+    border-color: #106ba3;
+}
+
+.card img {
+    width: 50px;
+    height: auto;
+    display: block;
+    margin-bottom: 5px;
+}
