@@ -46,7 +46,7 @@ void Network::PacketIO::readPacket()
                     _id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
                 }
                 receivedPacket.body.assign(_tempBuffer.begin() + sizeof(PacketHeader), _tempBuffer.begin() + length);
-                if ( _registerPacket.isPacketRegisteredIn(_id, receivedPacket.header.sequenceNumber)) {
+                if (_registerPacket.isPacketRegisteredIn(_id, receivedPacket.header.sequenceNumber)) {
                     readPacket();
                     return;
                 }
@@ -163,6 +163,8 @@ void Network::PacketIO::processOutgoingMessages()
                     isPacketSecure = true;
             }
             _packetOut = std::make_shared<Network::Packet>();
+            if (_packetOut == nullptr)
+                return;
             _packetOut->header.bodySize= size;
             _packetOut->header.sequenceNumber= _currentSequenceNumber++;
             if (_id == -1) {

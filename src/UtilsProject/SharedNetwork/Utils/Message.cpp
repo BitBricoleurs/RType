@@ -139,10 +139,6 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
-        for (auto id :IDs) {
-            if (id == 0)
-                std::cout << "MHHHHH" << std::endl;
-        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);

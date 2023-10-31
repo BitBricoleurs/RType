@@ -38,6 +38,11 @@ namespace Network {
             return deqQueue.back();
         }
 
+        const T&getIndex(size_t index) {
+            std::scoped_lock lock(muxQueue);
+            return deqQueue[index];
+        }
+
         T popFront() {
             std::scoped_lock lock(muxQueue);
             auto t = std::move(deqQueue.front());

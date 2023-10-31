@@ -53,9 +53,35 @@ namespace Network {
                 }
             }
             });
+            _tick.setEraseClientFunction([this]() {
+                if (_disconnetingClients.empty()) {
+                    return;
+                }
+                int count = 0;
+                count = _disconnetingClients.count();
+                int index = 0;
+                while (count > 0) {
+                    unsigned int id = _disconnetingClients.getIndex(index);
+                    eraseClient(id);
+                    count--;
+                }
+            });
             _tick.setTimeoutFunction([this]() {checkTimeout();});
             _packetIO->readPacket();
             _packetIO->processIncomingMessages();
+        }
+
+        void eraseClient(unsigned int id) {
+            int i = 0;
+            for (auto &client : _clients) {
+                if (client && client->isConnected() && client->getId() == id) {
+                    client->disconnect();
+                    client.reset();
+                    _clients.erase(_clients.begin() + i);
+                    std::cout << "Client disconnected : " << id << std::endl;
+                }
+                i++;
+            }
         }
 
         void stop() {
@@ -141,9 +167,6 @@ namespace Network {
                    client->getIO()->clearOutMessages();
                    client->disconnect();
                    _disconnetingClients.pushBack(id);
-                   client.reset();
-                   _clients.erase(_clients.begin() + i);
-                   std::cout << "Client disconnected : " << id << std::endl;
                }
                 i++;
            }
