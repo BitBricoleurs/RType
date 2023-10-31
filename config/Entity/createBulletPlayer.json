@@ -1,9 +1,7 @@
 {
   "createBullet": {
-    "frames": 1,
     "twoDirections": false,
     "reverse": false,
-    "damageValue": 50,
     "isPlayerBullet": true,
     "playerA": 0,
     "scale": 2.5,
@@ -22,14 +20,79 @@
           "h": 4,
           "w": 16
         },
-        "path" : "assets/shoot.gif"
+        "spriteSheetDimensions":{
+          "h": 4,
+          "w": 16
+        },
+        "path" : "assets/shoot.gif",
+        "damageValue": 50,
+        "frames": 1
       },
       "type1": {
+        "rect": {
+          "h": 12,
+          "w": 16
+        },
+        "spriteSheetDimensions":{
+          "h": 12,
+          "w": 32
+        },
+        "path" : "assets/bullets/charge1.png",
+        "damageValue": 70,
+        "frames": 2
+      }
+      ,
+      "type2": {
+        "rect": {
+          "h": 12,
+          "w": 32
+        },
+        "spriteSheetDimensions":{
+          "h": 12,
+          "w": 64
+        },
+        "path" : "assets/bullets/charge2.png",
+        "damageValue": 80,
+        "frames": 2
+      },
+      "type3": {
+        "rect": {
+          "h": 14,
+          "w": 48
+        },
+        "spriteSheetDimensions":{
+          "h": 14,
+          "w": 96
+        },
+        "path" : "assets/bullets/charge3.png",
+        "damageValue": 90,
+        "frames": 2
+      },
+      "type4": {
+        "rect": {
+          "h": 14,
+          "w": 64
+        },
+        "spriteSheetDimensions":{
+          "h": 14,
+          "w": 128
+        },
+        "path" : "assets/bullets/charge4.png",
+        "damageValue": 100,
+        "frames": 2
+      },
+      "type5": {
         "rect": {
           "h": 16,
           "w": 80
         },
-        "path" : "assets/ShootCharge.gif"
+        "spriteSheetDimensions":{
+          "h": 16,
+          "w": 160
+        },
+        "path" : "assets/bullets/charge5.png",
+        "damageValue": 150,
+        "frames": 2
       }
     }
   }

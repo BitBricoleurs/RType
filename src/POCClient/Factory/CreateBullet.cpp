@@ -7,18 +7,16 @@ namespace Client {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBulletPlayer.json");
 
             std::string bulletKeyPath = "/createBullet/bulletTypes/type" + std::to_string(typeBullet);
-            std::string rectKeyPath = bulletKeyPath + "/rect";
 
-            int rectH = data.getInt(rectKeyPath + "/h");
-            int rectW = data.getInt(rectKeyPath + "/w");
+            int spriteSheetHeight = data.getInt(bulletKeyPath + "/spriteSheetDimensions/h");
+            int spriteSheetWidth = data.getInt(bulletKeyPath + "/spriteSheetDimensions/w");
             std::string path = data.getString(bulletKeyPath + "/path");
-
             size_t entityId = createBullet(
                 container,
                 path,
-                rectH,
-                rectW,
-                data.getInt("/createBullet/frames"),
+                spriteSheetHeight,
+                spriteSheetWidth,
+                data.getInt(bulletKeyPath + "/frames"),
                 data.getBool("/createBullet/twoDirections"),
                 data.getBool("/createBullet/reverse"),
                 pos,
@@ -35,6 +33,11 @@ namespace Client {
                 ),
                 data.getInt("/createBullet/layer")
             );
+
+            if (typeBullet > 0) {
+                eventHandler.scheduleEvent(
+                    "animate", 10, std::make_tuple(std::string("PlayerBullet"), entityId));
+            }
 
             return entityId;
         } catch(const std::runtime_error& e) {
