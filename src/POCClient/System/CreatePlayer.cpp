@@ -3,6 +3,7 @@
 //
 
 #include "CreatePlayer.hpp"
+#include "UserGameMode.hpp"
 
 namespace Client {
 
@@ -26,12 +27,13 @@ namespace Client {
                 if (ids.size() != 1)
                     return;
 
-                if (args.size() != (ids.size() * 5))
+                if (args.size() != (ids.size() * 6))
                     return;
                 PlayerNumber number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
+                Utils::UserGameMode::State game = static_cast<Utils::UserGameMode::State>(std::any_cast<int>(args[1]));
                 EntityFactory  &factory = EntityFactory::getInstance();
-                Utils::Vect2 pos = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[1])) / 1000, static_cast<float>(std::any_cast<int>(args[2])) / 1000);
-                Utils ::Vect2 velocity = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[3])) / 1000, static_cast<float>(std::any_cast<int>(args[4])) / 1000);
+                Utils::Vect2 pos = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[2])) / 1000, static_cast<float>(std::any_cast<int>(args[3])) / 1000);
+                Utils ::Vect2 velocity = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[4])) / 1000, static_cast<float>(std::any_cast<int>(args[5])) / 1000);
                 size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, velocity, number);
 
                 factory.registerEntity(entityId, ids.front());

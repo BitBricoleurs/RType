@@ -53,6 +53,9 @@ void Network::Tick::Start()
             std::this_thread::sleep_for(timeToWait);
         }
 
+        if (processEraseClient) {
+            processEraseClient();
+        }
         if (processIncoming) {
             processIncoming();
         }
@@ -61,9 +64,6 @@ void Network::Tick::Start()
         }
         if (processTimeout) {
             processTimeout();
-        }
-        if (processEraseClient) {
-            processEraseClient();
         }
     }
 }

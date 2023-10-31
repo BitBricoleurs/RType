@@ -3,6 +3,7 @@
 //
 
 #include "NetworkCreateWorld.hpp"
+#include "UserGameMode.hpp"
 
 namespace Server {
 
@@ -58,6 +59,7 @@ namespace Server {
             if (player == entityId)
                 continue;
             args.emplace_back(static_cast<int>(numb));
+            args.emplace_back(static_cast<int>(Utils::UserGameMode::PLAYER));
             ids.push_back(player);
             auto mayPosition = componentsContainer.getComponent(player, positionType);
             if (!mayPosition.has_value())

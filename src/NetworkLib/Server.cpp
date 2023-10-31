@@ -57,13 +57,8 @@ namespace Network {
                 if (_disconnetingClients.empty()) {
                     return;
                 }
-                int count = 0;
-                count = _disconnetingClients.count();
-                int index = 0;
-                while (count > 0) {
-                    unsigned int id = _disconnetingClients.getIndex(index);
-                    eraseClient(id);
-                    count--;
+                while (!_disconnetingClients.empty()) {
+                    eraseClient(_disconnetingClients.getFront());
                 }
             });
             _tick.setTimeoutFunction([this]() {checkTimeout();});
@@ -78,6 +73,8 @@ namespace Network {
                     client->disconnect();
                     client.reset();
                     _clients.erase(_clients.begin() + i);
+                    _disconnectedClients.pushBack(id);
+                    _disconnetingClients.popFront();
                     std::cout << "Client disconnected : " << id << std::endl;
                 }
                 i++;
@@ -152,7 +149,7 @@ namespace Network {
 
         Network::TSQueue<unsigned int>& getDisconnectedClients()
         {
-            return _disconnetingClients;
+            return _disconnectedClients;
         }
 
         Network::TSQueue<unsigned int> &getTimeOutClients()
@@ -165,7 +162,6 @@ namespace Network {
            for (auto &client : _clients) {
                if (client && client->isConnected() && client->getId() == id) {
                    client->getIO()->clearOutMessages();
-                   client->disconnect();
                    _disconnetingClients.pushBack(id);
                }
                 i++;
@@ -250,6 +246,7 @@ namespace Network {
         size_t _maxClients;
         size_t _indexId;
         std::mutex _queueMutex;
+        Network::TSQueue<unsigned int> _disconnectedClients;
         Network::TSQueue<unsigned int> _disconnetingClients;
         Network::TSQueue<unsigned int> _connectingClients;
         Network::TSQueue<unsigned int> _timeoutClients;

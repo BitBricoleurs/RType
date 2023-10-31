@@ -18,14 +18,16 @@ namespace Server {
         PlayerNumber nbr = factory.getNextPlayerNumber();
         size_t entityId = 0;
         std::vector<std::any> args = {static_cast<int>(nbr)};
-        std::vector<size_t> ids = {entityId};
+        std::vector<size_t> ids = {};
         std::shared_ptr<Utils::UserGameMode> userGameMode = nullptr;
         if (nbr == PlayerNumber::Spectator)  {
             entityId = componentsContainer.createEntity();
+            ids.emplace_back(entityId);
             userGameMode = std::make_shared<Utils::UserGameMode>(Utils::UserGameMode::SPECTATOR);
             args.emplace_back(static_cast<int>(userGameMode->_state));
         } else {
             entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
+            ids.emplace_back(entityId);
             userGameMode = std::make_shared<Utils::UserGameMode>(Utils::UserGameMode::PLAYER);
             args.emplace_back(static_cast<int>(userGameMode->_state));
             auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
