@@ -35,6 +35,7 @@
 #include "NetworkClientCharge.hpp"
 #include "PowerUpDualShoot.hpp"
 #include "ManagePowerUp.hpp"
+#include "WiggleMob.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -93,6 +94,7 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
     auto Parallax = std::make_shared<Server::Parallax>();
+    auto wigglePata = std::make_shared<Server::WiggleMob>();
 
     auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
 
@@ -111,6 +113,7 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addSystem("wiggleMob", wigglePata);
 }
 
 void setup_game_power_up(GameEngine::GameEngine& engine)

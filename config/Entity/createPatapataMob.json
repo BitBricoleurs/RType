@@ -1,7 +1,7 @@
 {
   "createPatapataMob": {
     "spriteSheetPath": "assets/epitech_assets/patapataMob.gif",
-    "spriteSheetHeight": 24,
+    "spriteSheetHeight": 34,
     "spriteSheetWidth": 523,
     "hitboxHeight": 34,
     "hitboxWidth": 32,
@@ -14,7 +14,7 @@
     "deathFrames": 6,
     "velocity": {
       "x": -4.0,
-      "y": 0.0
+      "y": 2.0
     },
     "maxHealth": 100,
     "damageValue": 10,
@@ -34,6 +34,6 @@
     "y": 50
   },
   "typeBullet": 1,
-  "heightVarience" : 3.0,
+  "heightVarience" : 5.0,
   "maxVar": 75.0
 }
