@@ -6,8 +6,10 @@
 */
 
 #include "EntityFactory.hpp"
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstddef>
+
 
 namespace Server {
 size_t
