@@ -6,78 +6,85 @@
 
 namespace Server {
 
+    void MobHit::applyDamage(const std::shared_ptr<Health>& hpComponent, size_t damageEntity, GameEngine::ComponentsContainer &componentsContainer) {
+        auto damageComponentOpt = componentsContainer.getComponent(damageEntity, GameEngine::ComponentsType::getComponentType("Damage"));
+        if (damageComponentOpt.has_value()) {
+            auto damageComponent = std::dynamic_pointer_cast<Damage>(damageComponentOpt.value());
+            if (damageComponent)
+                hpComponent->currentHealth -= damageComponent->damageValue;
+        }
+    }
+
+    void MobHit::handleDeath(size_t deadEntity, GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+        auto isPowerUp = componentsContainer.getComponent(deadEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
+        auto posPowerUp = componentsContainer.getComponent(deadEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+        if (isPowerUp.has_value() && posPowerUp.has_value()) {
+            auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posPowerUp.value())->pos;
+
+            eventHandler.queueEvent("SpawnPowerUp", pos);
+        }
+        std::vector<size_t> ids = {deadEntity};
+        killMobNetwork(eventHandler, ids);
+        componentsContainer.deleteEntity(deadEntity);
+    }
+
+    void MobHit::handleBullet(size_t bulletEntity, GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+        auto isBulletOpt = componentsContainer.getComponent(bulletEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
+        if (isBulletOpt.has_value()) {
+            auto isBullet = std::static_pointer_cast<IsBullet>(isBulletOpt.value());
+            if (!isBullet->passingThrough) {
+                std::vector<size_t> ids = {bulletEntity};
+                killMobNetwork(eventHandler, ids);
+                componentsContainer.deleteEntity(bulletEntity);
+            }
+        }
+    }
+
     void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         try {
             auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
-            auto firstEntityOptMob = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
-            if (firstEntityOptMob.has_value()) {
-                auto hpComponent = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Health"));
-                if (!hpComponent.has_value())
-                    return;
-                auto hpComponentCast = std::static_pointer_cast<Health>(hpComponent.value());
-                auto DamageBullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Damage"));
-                if (DamageBullet.has_value()) {
-                    auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(*DamageBullet);
-                    if (DamageBulletCast != nullptr)
-                        hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
-                }
-                if (hpComponentCast->currentHealth <= 0) {
-                    auto ispowerup = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
-                    if (ispowerup.has_value())
-                        eventHandler.queueEvent("SpawnPowerUp", firstEntity);
-                    std::vector<size_t> ids = {firstEntity};
-                    killMobNetwork(eventHandler, ids);
-                    componentsContainer.deleteEntity(firstEntity);
-                }
-                auto isbullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
-                if (isbullet.has_value()) {
-                    auto isbulletcast = std::static_pointer_cast<IsBullet>(isbullet.value());
-                    if (isbulletcast->passingThrough == false) {
-                        std::vector<size_t> idsBullet = {secondEntity};
-                        killMobNetwork(eventHandler, idsBullet);
-                        componentsContainer.deleteEntity(secondEntity);
-                    }
 
-                }
+            size_t mobEntity = 0, otherEntity = 0;
+            if (componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob")).has_value()) {
+                mobEntity = firstEntity;
+                otherEntity = secondEntity;
             } else {
-                auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
-                if (!hpComponent.has_value())
-                    return;
-                auto hpComponentCast = std::static_pointer_cast<Health>(hpComponent.value());
-                auto DamageBullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Damage"));
-                if (DamageBullet.has_value()) {
-                    auto DamageBulletCast = std::dynamic_pointer_cast<Damage>(DamageBullet.value());
-                    if (DamageBulletCast != nullptr)
-                        hpComponentCast->currentHealth -= DamageBulletCast->damageValue;
-                }
-                if (hpComponentCast->currentHealth <= 0) {
-                    auto ispowerup = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
-                    if (ispowerup.has_value())
-                        eventHandler.queueEvent("SpawnPowerUp", secondEntity);
-                    std::vector<size_t> ids = {secondEntity};
-                    killMobNetwork(eventHandler, ids);
-                    componentsContainer.deleteEntity(secondEntity);
-                }
-                auto isbullet = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
-                if (isbullet.has_value()) {
-                    auto isbulletcast = std::static_pointer_cast<IsBullet>(*isbullet);
-                    if (isbulletcast->passingThrough == false) {
-                        componentsContainer.deleteEntity(firstEntity);
-                        std::vector<size_t> idsBullet = {firstEntity};
-                        killMobNetwork(eventHandler, idsBullet);
-                    }
-                }
+                mobEntity = secondEntity;
+                otherEntity = firstEntity;
             }
-        } catch (std::exception &e) {
 
+            auto hpComponentOpt = componentsContainer.getComponent(mobEntity, GameEngine::ComponentsType::getComponentType("Health"));
+            if (hpComponentOpt.has_value()) {
+                auto hpComponent = std::static_pointer_cast<Health>(hpComponentOpt.value());
+
+                applyDamage(hpComponent, otherEntity, componentsContainer);
+                flashMobNetwork(eventHandler, mobEntity);
+
+                if (hpComponent->currentHealth <= 0)
+                    handleDeath(mobEntity, componentsContainer, eventHandler);
+            }
+
+            handleBullet(otherEntity, componentsContainer, eventHandler);
+
+        } catch (std::exception &e) {
+            std::cerr << "Error in MobHit::update: " << e.what() << std::endl;
         }
     }
+
 
     void MobHit::killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill)
     {
          std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DELETED_ENTITY", entitiesToKill, "", std::vector<std::any>{});
          std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
          eventHandler.queueEvent("SEND_NETWORK", allMessage);
+    }
+
+    void MobHit::flashMobNetwork(GameEngine::EventHandler &eventHandler, size_t mobEntity)
+    {
+        std::vector<size_t> ids = {mobEntity};
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("FLASH_ENTITY", ids, "", std::vector<std::any>{});
+        std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allMessage);
     }
 
 }

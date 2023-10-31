@@ -8,6 +8,7 @@
 #include "ComponentsType.hpp"
 #include "PositionComponent2D.hpp"
 #include "EventHandler.hpp"
+#include "IsParallax.hpp"
 #include <map>
 
 namespace Server {

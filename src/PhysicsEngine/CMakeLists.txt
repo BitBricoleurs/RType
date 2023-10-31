@@ -10,6 +10,11 @@ set(SOURCES
         PhysicsEngine.cpp
         PhysicsEngineCollisionSystem2D.cpp
         PhysicsEngineMovementSystem2D.cpp
+        PhysicsEngineGravitySystem.cpp
+        PhysicsEngineJumpSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/CircleColliderComponent2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/RectangleColliderComponent2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsEngineComps/CheckCollision.cpp
         )
 
 target_sources(PhysicsEngineLib PRIVATE ${SOURCES})

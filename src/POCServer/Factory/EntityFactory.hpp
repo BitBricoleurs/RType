@@ -36,6 +36,10 @@
 #include "PlayerUtils.hpp"
 #include "MobUtils.hpp"
 #include "LoadConfig.hpp"
+#include "IsParallax.hpp"
+#include "ParallaxUtils.hpp"
+#include "PowerUpUtils.hpp"
+#include "IsPower.hpp"
 
 namespace Server {
 
@@ -60,6 +64,13 @@ namespace Server {
                          GameEngine::EventHandler &eventHandler,
                          Utils::Vect2 pos, bool dropPowerup);
 
+      size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
+                                         GameEngine::EventHandler &eventHandler,
+                                         Utils::Vect2 pos, PowerUpType type);
+      size_t spawnForcePod(GameEngine::ComponentsContainer &container,
+                                         GameEngine::EventHandler &eventHandler,
+                                         Utils::Vect2 pos);
+
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
                              Utils::Vect2 pos, PlayerNumber numberPlayer);
@@ -71,8 +82,13 @@ namespace Server {
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+      size_t spawnParallax(GameEngine::ComponentsContainer &container,
+                           GameEngine::EventHandler &eventHandler,
+                           Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
-        static void updateEntityNetwork(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity);
+        void updateEntityNetwork(GameEngine::EventHandler& eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity);
+        void updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos);
+        void updateEntityNetworkWithVelocity(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;
@@ -82,7 +98,7 @@ namespace Server {
             _playerMap.erase(entityId);
         }
 
-        const std::map<size_t, PlayerNumber>& getPlayerMap() const {
+        [[nodiscard]] const std::map<size_t, PlayerNumber>& getPlayerMap() const {
             return _playerMap;
         }
 
@@ -127,9 +143,10 @@ namespace Server {
       static size_t createBaseEntity(GameEngine::ComponentsContainer &container,
         int hitboxHeight, int hitboxWidth, Utils::Vect2 pos,
         Utils::Vect2 velocity, float scale);
+      static size_t CreateParallax(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
       private:
             std::map<size_t, PlayerNumber> _playerMap;
 
-    };
+};
 }

@@ -42,22 +42,21 @@ namespace Server {
         std::vector<std::any> args = {};
         std::shared_ptr<Network::IMessage> messageOut;
         std::shared_ptr<Network::AllUsersMessage> userMessage;
-        BulletType bulletType;
-        BulletOwner bulletOwner;
 
-       size_t bullet = 0;
        if (positionOptional.has_value() && shooterOptional.has_value()) {
             auto posComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
             auto shooterComp = std::static_pointer_cast<Shooter>(shooterOptional.value());
 
             Utils::Vect2 shootingPosition(posComp->pos.x + shooterComp->shootPosition.x, posComp->pos.y + shooterComp->shootPosition.y);
             if (shooterComp->typeBullet == BulletTypeEntity::PlayerBullet) {
-                if (charge >= 50) {
+                if (charge >= 20) {
                     shootingPosition.y = shootingPosition.y - 15;
-                    bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(15,0), 1);
-                    return ;
+                    size_t chargeValue = ((charge - 20) / 20 + 1);
+                    if (charge == 100)
+                        chargeValue = 5;
+                    EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(25,0), chargeValue);
                 } else {
-                    bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(20,0), 0);
+                    EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(20,0), 0);
                 }
             } else if (shooterComp->typeBullet == BulletTypeEntity::EnemyBullet) {
                 auto players = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -79,10 +78,9 @@ namespace Server {
                     float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
                     float scaleFactor = 6.0f / maxVal;
                     auto velocity = directionToClosestPlayer * scaleFactor;
-                    bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
+                    EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
             }
             }
-            eventHandler.queueEvent("PLAY_SOUND", bullet);
         }
     }
 }

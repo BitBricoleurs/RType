@@ -18,8 +18,18 @@ namespace Server {
         size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
         auto netComp = std::make_shared<NetworkClientId>(netInterfaceId);
         componentsContainer.bindComponentToEntity(entityId, netComp);
+        auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+
         std::vector<size_t> ids = {entityId};
         std::vector<std::any> args = {static_cast<int>(nbr)};
+        auto mayComp = componentsContainer.getComponent(entityId, positionType);
+        if (!mayComp.has_value())
+            return;
+        auto comp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayComp.value());
+        args.emplace_back(static_cast<int>(comp->pos.x * 1000));
+        args.emplace_back(static_cast<int>(comp->pos.y * 1000));
+        args.emplace_back(0);
+        args.emplace_back(0);
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_USER", ids, "INT", args, true);
         std::shared_ptr<Network::NotUserMessage> notMessage = std::make_shared<Network::NotUserMessage>(netInterfaceId, message);
         eventHandler.queueEvent("SEND_NETWORK", notMessage);

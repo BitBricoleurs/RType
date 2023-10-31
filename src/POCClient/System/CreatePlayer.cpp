@@ -26,13 +26,15 @@ namespace Client {
                 if (ids.size() != 1)
                     return;
 
+                if (args.size() != (ids.size() * 5))
+                    return;
                 PlayerNumber number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
                 EntityFactory  &factory = EntityFactory::getInstance();
-                Utils::Vect2 pos = {0, 0};
-                size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, number);
+                Utils::Vect2 pos = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[1])) / 1000, static_cast<float>(std::any_cast<int>(args[2])) / 1000);
+                Utils ::Vect2 velocity = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[3])) / 1000, static_cast<float>(std::any_cast<int>(args[4])) / 1000);
+                size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, velocity, number);
 
                 factory.registerEntity(entityId, ids.front());
-
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
             }

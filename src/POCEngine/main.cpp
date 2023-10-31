@@ -53,6 +53,7 @@
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
 #include "Logger.hpp"
+#include "PhysicsEngineGravitySystem.hpp"
 
 
 void initScene(GameEngine::GameEngine &engine) {
@@ -103,6 +104,7 @@ void initScene(GameEngine::GameEngine &engine) {
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
   auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
+  auto gravitySystem = std::make_shared<GameEngine::PhysicsEngineGravitySystem>();
 
   auto window = engine.createEntity();
 
@@ -113,6 +115,7 @@ void initScene(GameEngine::GameEngine &engine) {
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
+    engine.addSystem("GravitySystem", gravitySystem);
   engine.addSystem("CollisionSystem", collision);
   engine.addSystem("RollBackBorder", borderStop);
   engine.addSystem("MovementSystem", movement, 2);

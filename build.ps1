@@ -5,4 +5,4 @@ if (-not (Test-Path ./build)) {
 cd ./build
 
 cmake ..
-cmake --build .
+cmake --build . -- /m
