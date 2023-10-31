@@ -26,5 +26,6 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientBlockWall.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
         CACHE INTERNAL ""
 )
