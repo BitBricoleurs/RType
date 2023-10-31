@@ -13,7 +13,7 @@ namespace GameEngine {
     enum class LogLevel {
         INFO,
         WARNING,
-        ERROR
+        ERROR,
     };
 
     class TcpConnection;

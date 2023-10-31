@@ -6,10 +6,10 @@
 
 
 #ifdef _WIN32
-#include <Windows.h>
-#include <boost/asio/windows/stream_handle.hpp>
+    #include <Windows.h>
+    #include <boost/asio/windows/stream_handle.hpp>
 #else
-#include <boost/asio/posix/stream_descriptor.hpp>
+    #include <boost/asio/posix/stream_descriptor.hpp>
 #endif
 #include <iostream>
 #include <thread>
@@ -18,7 +18,6 @@
 #include <deque>
 #include <string>
 #include <boost/asio.hpp>
-#include <boost/asio/posix/stream_descriptor.hpp>
 
 
 class ConsoleClient : public std::enable_shared_from_this<ConsoleClient> {

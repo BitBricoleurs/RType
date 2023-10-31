@@ -17,10 +17,15 @@ int main(int argc, char* argv[]) {
 
     boost::asio::io_service io_service;
 
-    auto client = std::make_shared<ConsoleClient>(io_service, host, port);
+    try {
+        auto client = std::make_shared<ConsoleClient>(io_service, host, port);
+        client->start();
+        io_service.run();
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << "\n";
+        return 84;
+    }
 
-    client->start();
-    io_service.run();
 
     return 0;
 }
