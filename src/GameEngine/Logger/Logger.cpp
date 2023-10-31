@@ -9,7 +9,7 @@
 #include <thread>
 
 namespace GameEngine {
-    LogLevel Logger::currentLogLevel = LogLevel::INFO;
+    Logger::LogLevel Logger::currentLogLevel = LogLevel::INFO;
     bool Logger::wantsToReceiveLogs = false;
 
     void Logger::setLogLevel(LogLevel level) {
