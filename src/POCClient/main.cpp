@@ -86,7 +86,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ALIVE", imAlive);
     engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
-    engine.addEvent("LIFE_LOST", networkReceiveLifeLost);
+    engine.addEvent("LIFE_LOST", receiveLifeLost);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {
