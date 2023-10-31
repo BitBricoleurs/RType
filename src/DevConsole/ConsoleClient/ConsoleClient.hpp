@@ -31,11 +31,6 @@ private:
     boost::asio::io_service io_service;
     boost::asio::ip::tcp::socket socket;
     boost::asio::strand<boost::asio::io_service::executor_type> strand;
-    #ifdef _WIN32
-    boost::asio::windows::stream_handle input_descriptor;
-    #else
-    boost::asio::posix::stream_descriptor input_descriptor;
-    #endif
     std::thread io_thread;
     std::string input_data;
     std::string user_input_buffer;

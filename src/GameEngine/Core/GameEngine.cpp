@@ -12,7 +12,6 @@ namespace GameEngine {
     GameEngine::GameEngine() : tickSpeed(1.0 / 60.0), isRunning(true) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
         eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
-        eventHandler.addEvent("ENTER_KEY_PRESSED", [this] { this->launch_cpp_program("Console", "localhost 9191"); });
 
         registerCommand("print", [this](const std::vector<std::string>& args) -> std::string {
             if (args.size() > 0) {

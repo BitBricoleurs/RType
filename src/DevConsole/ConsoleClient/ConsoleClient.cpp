@@ -1,26 +1,10 @@
 #include "ConsoleClient.hpp"
 #include <iostream>
 
-#ifdef _WIN32
-    ConsoleClient::ConsoleClient(boost::asio::io_context& io_service, const std::string& host, const std::string& port)
-        : socket(io_service), strand(io_service.get_executor()), input_descriptor(io_service), running(false) {
-
-        HANDLE stdinHandle = GetStdHandle(STD_INPUT_HANDLE);
-        HANDLE duplicateHandle;
-        if (!DuplicateHandle(GetCurrentProcess(), stdinHandle, GetCurrentProcess(), &duplicateHandle, 0, TRUE, DUPLICATE_SAME_ACCESS)) {
-            throw std::runtime_error("Failed to duplicate standard input handle");
-        }
-
-        input_descriptor.assign(duplicateHandle);
-
-        connect(host, port);
-    }
-#else
-    ConsoleClient::ConsoleClient(boost::asio::io_context& io_service, const std::string& host, const std::string& port)
-        : socket(io_service), strand(io_service.get_executor()), input_descriptor(io_service, ::dup(STDIN_FILENO)), running(false) {
-        connect(host, port);
-    }
-#endif
+ConsoleClient::ConsoleClient(boost::asio::io_context& io_service, const std::string& host, const std::string& port)
+    : socket(io_service), strand(io_service.get_executor()), running(false) {
+    connect(host, port);
+}
 
 ConsoleClient::~ConsoleClient() {
     stop();

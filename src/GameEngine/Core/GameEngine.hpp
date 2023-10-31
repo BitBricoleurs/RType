@@ -19,9 +19,6 @@
 #include "Timer.hpp"
 #include "Logger.hpp"
 #include "LoadConfig.hpp"
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-#endif
 
 namespace GameEngine {
 
@@ -66,28 +63,7 @@ namespace GameEngine {
         Registry registry;
         EventHandler eventHandler;
         std::unordered_map<std::string, std::function<void(GameEngine&)>> sceneMap;
-        void launch_cpp_program(std::string path, const std::string args = "") {
-            std::string basePath = LoadConfig::LoadConfig::getInstance().getExecutablePath();
-            path = basePath + "/" + path;
-            std::cout << "Launching: " << path << std::endl;
-            #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-                std::string command = "xterm -e";
-                command += "\"" + path + " " + args + "\" &";
-                int ret = std::system(command.c_str());
-                if (ret == -1) {
-                    throw std::runtime_error("Failed to open terminal.");
-                }
-            #elif defined(_WIN32) || defined(_WIN64)
-                std::string command = "start cmd /k ";
-                command += "\"" + path + " " + args + "\"";
-                int ret = std::system(command.c_str());
-                if (ret == -1) {
-                    throw std::runtime_error("Failed to open CMD.");
-                }
-            #else
-                std::cout << "Unsupported OS" << std::endl;
-            #endif
-        }
+
         double tickSpeed;
         bool isRunning;
         static std::map<std::string, CommandFunction> commands;
