@@ -16,8 +16,6 @@ namespace GameEngine {
         ERROR,
     };
 
-    class TcpConnection;
-
     class Logger {
     public:
         static void setLogLevel(LogLevel level);
