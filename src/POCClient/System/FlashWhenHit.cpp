@@ -10,6 +10,7 @@
 void Client::FlashWhenHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     
     auto entityID = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
+    std::cout << "flash when hit " << entityID << std::endl;
     auto spriteOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
     if (spriteOpt.has_value()) {

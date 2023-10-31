@@ -64,6 +64,7 @@ namespace Server {
       container.bindComponentToEntity(entityId, healthComponent);
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
+      container.bindComponentToEntity(entityId, cooldownHitComponent);
 
       return entityId;
     }

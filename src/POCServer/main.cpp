@@ -33,6 +33,7 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "PhysicsEngineUpdateHitboxes.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -128,7 +129,10 @@ int main(void) {
         auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
+        auto syncHitbox = std::make_shared<PhysicsEngine::PhysicsEngineUpdateHitboxes>();
         engine.addSystem("PHYSICS", physicMVT, 1);
+        engine.addSystem("SYNC_HITBOX", syncHitbox, 3);
+
         engine.run();
         return 0;
     } catch (std::exception &e) {

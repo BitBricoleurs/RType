@@ -53,8 +53,12 @@ namespace Server {
                 otherEntity = firstEntity;
             }
 
+            auto isBulletOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
             auto hpComponentOpt = componentsContainer.getComponent(mobEntity, GameEngine::ComponentsType::getComponentType("Health"));
-            if (hpComponentOpt.has_value()) {
+            if (hpComponentOpt.has_value() && isBulletOpt.has_value()) {
+                auto isBullet = std::static_pointer_cast<IsBullet>(isBulletOpt.value());
+                if (!isBullet->playerBullet)
+                    return;
                 auto hpComponent = std::static_pointer_cast<Health>(hpComponentOpt.value());
 
                 applyDamage(hpComponent, otherEntity, componentsContainer);

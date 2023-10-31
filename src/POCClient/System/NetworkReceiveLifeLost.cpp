@@ -28,22 +28,20 @@ void Client::NetworkReceiveLifeLost::update(GameEngine::ComponentsContainer &com
         size_t clientId = 0;
         for (auto &id : ids) {
             clientId = entityFactory.getClientId(id);
-            auto isPlayerOpt = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer"));
-            if (!isPlayerOpt.has_value())
-                continue;
             if (lives <= 0) {
+                std::cout << "Game Over" << std::endl;
                 auto spriteOpt = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
                 if (spriteOpt.has_value()) {
-                    auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
+                    auto sprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
                     sprite->isVisible = false;
+                    std::cout << "player hidden" << std::endl;
                 }
-                dead = true;
             }
             auto HealthBarId = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsHealthBar"));
             if (HealthBarId != 0) {
                 auto HealthBarComponentOpt = (componentsContainer.getComponent(HealthBarId, GameEngine::ComponentsType::getComponentType("SpriteComponent")));
                 if (HealthBarComponentOpt.has_value()) {
-                    auto HealthBarComponent = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(HealthBarComponentOpt.value());
+                    auto HealthBarComponent = std::static_pointer_cast<RenderEngine::SpriteComponent>(HealthBarComponentOpt.value());
                     HealthBarComponent->rect1.w = lives;
                     if (lives == 3) {
                         HealthBarComponent->rect1.w = 24;

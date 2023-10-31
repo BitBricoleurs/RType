@@ -85,7 +85,6 @@ namespace Server {
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
             return entityId;
-          return entityId;
         } catch(const std::runtime_error& e) {
             std::cerr << "Error in createBaseEnemyBullet: " << e.what() << std::endl;
             exit(1);

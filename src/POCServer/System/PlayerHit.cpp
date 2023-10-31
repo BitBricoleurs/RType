@@ -7,14 +7,12 @@
 #include <vector>
 
 namespace Server {
-
     void PlayerHit::applyDamage(const std::shared_ptr<Health>& hpComponent, size_t damageEntity, GameEngine::ComponentsContainer &componentsContainer) {
         auto damageComponentOpt = componentsContainer.getComponent(damageEntity, GameEngine::ComponentsType::getComponentType("Damage"));
         if (damageComponentOpt.has_value()) {
-            auto damageComponent = std::dynamic_pointer_cast<Damage>(damageComponentOpt.value());
+            auto damageComponent = std::static_pointer_cast<Damage>(damageComponentOpt.value());
             if (damageComponent)
                 hpComponent->currentHealth -= damageComponent->damageValue;
-                std::cout << "Player health: " << hpComponent->currentHealth << std::endl;
         }
     }
 
@@ -29,7 +27,7 @@ namespace Server {
             }
         } else {
             hpComponent->currentHealth = hpComponent->maxHealth;
-            flashMobNetwork(eventHandler, playerId);
+            flashNetwork(eventHandler, playerId);
         }
         std::vector<size_t> ids = {playerId};
         std::vector<std::any> args = {hpComponent->lives};
@@ -59,9 +57,9 @@ namespace Server {
          eventHandler.queueEvent("SEND_NETWORK", allMessage);
     }
 
-    void PlayerHit::flashMobNetwork(GameEngine::EventHandler &eventHandler, size_t mobEntity)
+    void PlayerHit::flashNetwork(GameEngine::EventHandler &eventHandler, size_t entity)
     {
-        std::vector<size_t> ids = {mobEntity};
+        std::vector<size_t> ids = {entity};
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("FLASH_ENTITY", ids, "", std::vector<std::any>{});
         std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allMessage);
@@ -81,14 +79,28 @@ namespace Server {
                 otherEntity = firstEntity;
             }
 
+            auto playerGameStateOpt = componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("UserGameMode"));
+            if (!playerGameStateOpt.has_value())
+                return;
+            auto playerGameState = std::static_pointer_cast<Utils::UserGameMode>(playerGameStateOpt.value());
+            if (playerGameState->_state != Utils::UserGameMode::State::PLAYER)
+                return;
+
+            auto isBulletOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
             auto hpComponentOpt = componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("Health"));
             auto lastHitComponentOpt = componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("CooldownHit"));
             if (hpComponentOpt.has_value() && lastHitComponentOpt.has_value()) {
                 auto cooldownComponent = std::static_pointer_cast<CooldownHit>(lastHitComponentOpt.value());
                 auto hpComponent = std::static_pointer_cast<Health>(hpComponentOpt.value());
+                if (isBulletOpt.has_value()) {
+                    auto isBullet = std::static_pointer_cast<IsBullet>(isBulletOpt.value());
+                    if (isBullet->playerBullet)
+                        return;
+                }
 
                 if (cooldownComponent->lastHit + std::chrono::milliseconds(90) > std::chrono::system_clock::now())
                     return;
+                    
                 cooldownComponent->lastHit = std::chrono::system_clock::now();
 
                 applyDamage(hpComponent, otherEntity, componentsContainer);

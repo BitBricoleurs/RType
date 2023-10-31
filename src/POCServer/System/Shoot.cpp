@@ -27,8 +27,6 @@ namespace Server {
        auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
        size_t entityID = std::get<0>(tupleIdCharge);
        auto charge = std::get<1>(tupleIdCharge);
-
-       auto isMob = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("IsMob"));
      
        auto entityComp = componentsContainer.getComponentsFromEntity(entityID);
 
@@ -38,13 +36,6 @@ namespace Server {
        auto positionOptional = componentsContainer.getComponent(entityID, posType);
        auto shooterOptional = componentsContainer.getComponent(entityID, shooterType);
 
-        if (isMob.has_value()) {
-            std::cout << "mob shoot" << std::endl;
-        } else {
-            std::cout << "player shoot" << std::endl;
-        }
-
-
         std::vector<size_t> ids = {};
         std::vector<std::any> args = {};
         std::shared_ptr<Network::IMessage> messageOut;
@@ -53,8 +44,6 @@ namespace Server {
        if (positionOptional.has_value() && shooterOptional.has_value()) {
             auto posComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
             auto shooterComp = std::static_pointer_cast<Shooter>(shooterOptional.value());
-
-            std::cout << "Bullet type: " << shooterComp->typeBullet << std::endl;
 
             Utils::Vect2 shootingPosition(posComp->pos.x + shooterComp->shootPosition.x, posComp->pos.y + shooterComp->shootPosition.y);
             if (shooterComp->typeBullet == BulletTypeEntity::PlayerBullet) {
@@ -73,7 +62,7 @@ namespace Server {
                 Utils::Vect2 directionToClosestPlayer;
                 for (auto &player : players) {
                     auto positionOpt = componentsContainer.getComponent(player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                    auto positionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
+                    auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
                     if (positionComp) {
                         Utils::Vect2 directionToPlayer = positionComp->pos - shootingPosition;
                         float distanceToPlayer = directionToPlayer.magnitude();
@@ -87,7 +76,6 @@ namespace Server {
                     float maxVal = std::max(std::abs(directionToClosestPlayer.x), std::abs(directionToClosestPlayer.y));
                     float scaleFactor = 6.0f / maxVal;
                     auto velocity = directionToClosestPlayer * scaleFactor;
-                    std::cout << "creating an enemy bullet" << std::endl;
                     EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
             }
             }
