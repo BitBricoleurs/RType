@@ -30,36 +30,26 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs Bullet
         if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
-            auto bullet = std::static_pointer_cast<IsBullet>(*secondEntityOptBullet);
-            if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
-            }
+            std::cout << "Player vs Bullet" << std::endl;
+            eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptBullet.has_value()) {
-            auto bullet = std::static_pointer_cast<IsBullet>(*firstEntityOptBullet);
-            if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
-            }
+            std::cout << "Player vs Bullet" << std::endl;
+            eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         }
 
         // Mob vs Bullet
         if (firstEntityOptMob.has_value() && secondEntityOptBullet.has_value()) {
-            auto bullet = std::static_pointer_cast<IsBullet>(*secondEntityOptBullet);
-            if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), firstEntity) == bullet->alreadyHit.end()) {
-                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptMob.has_value() && firstEntityOptBullet.has_value()) {
-            auto bullet = std::static_pointer_cast<IsBullet>(*firstEntityOptBullet);
-            if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
-                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
         }
-
-
 
         // Player vs Mob
         if(firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
+            std::cout << "Player vs Mob" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptMob.has_value()) {
+            std::cout << "Player vs Mob" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         }
 

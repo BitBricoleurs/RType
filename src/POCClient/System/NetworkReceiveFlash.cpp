@@ -17,7 +17,6 @@ void Client::NetworkReceiveFlash::update(GameEngine::ComponentsContainer &compon
         std::shared_ptr<Network::Message> messageData = std::make_shared<Network::Message>(IMessage->getMessage());
 
         std::vector<size_t> ids = messageData->getIDs();
-
         EntityFactory &entityFactory = EntityFactory::getInstance();
         size_t clientId = 0;
         for (auto &id : ids) {
@@ -26,7 +25,7 @@ void Client::NetworkReceiveFlash::update(GameEngine::ComponentsContainer &compon
             auto sprite = componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
             if (!sprite.has_value())
                 return;
-            auto spriteCast = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(sprite.value());
+            auto spriteCast = std::static_pointer_cast<RenderEngine::SpriteComponent>(sprite.value());
             spriteCast->flash = false;
         
             eventHandler.scheduleEvent("flash", 3, clientId, 5);

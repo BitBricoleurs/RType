@@ -9,5 +9,5 @@ enum PlayerNumber {
     Player2,
     Player3,
     Player4,
-    Spectator
+    Spectator,
 };

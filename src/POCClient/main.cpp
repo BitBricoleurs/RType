@@ -43,6 +43,7 @@
 #include "BlockOutOfBounds.hpp"
 #include "NetworkReceiveFlash.hpp"
 #include "FlashWhenHit.hpp"
+#include "NetworkReceiveLifeLost.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -63,6 +64,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
     auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
+    auto receiveLifeLost = std::make_shared<Client::NetworkReceiveLifeLost>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -84,6 +86,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("ALIVE", imAlive);
     engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
+    engine.addEvent("LIFE_LOST", receiveLifeLost);
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {

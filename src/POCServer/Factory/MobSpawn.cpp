@@ -38,7 +38,7 @@ namespace Server {
             container.bindComponentToEntity(entityId, shooterComp);
 
             auto IdCharge = std::make_tuple(entityId, 0);
-            eventHandler.scheduleEvent("ShootSystem", config.getInt("/shootDelay"), IdCharge);
+            eventHandler.scheduleEvent("SHOOT", config.getInt("/shootDelay"), IdCharge);
 
             if (dropPowerup) {
                 auto powerUp = std::make_shared<IsPowerUp>();

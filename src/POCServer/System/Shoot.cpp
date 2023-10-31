@@ -27,9 +27,7 @@ namespace Server {
        auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
        size_t entityID = std::get<0>(tupleIdCharge);
        auto charge = std::get<1>(tupleIdCharge);
-
-
-
+     
        auto entityComp = componentsContainer.getComponentsFromEntity(entityID);
 
        auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
@@ -64,7 +62,7 @@ namespace Server {
                 Utils::Vect2 directionToClosestPlayer;
                 for (auto &player : players) {
                     auto positionOpt = componentsContainer.getComponent(player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                    auto positionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
+                    auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
                     if (positionComp) {
                         Utils::Vect2 directionToPlayer = positionComp->pos - shootingPosition;
                         float distanceToPlayer = directionToPlayer.magnitude();
