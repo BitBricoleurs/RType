@@ -7,6 +7,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 #include <optional>
 #include <vector>
 #include <memory>
