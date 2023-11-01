@@ -23,9 +23,10 @@ public:
     }
 
     void UnloadTexture(const std::string& fileName) {
-        if (textures.find(fileName) != textures.end()) {
-            UnloadTexture(fileName.c_str());
-            textures.erase(fileName);
+        auto it = textures.find(fileName);
+        if (it != textures.end()) {
+            ::UnloadTexture(it->second);
+            textures.erase(it);
         }
     }
 
