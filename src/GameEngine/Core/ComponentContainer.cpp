@@ -157,7 +157,10 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
                 }
                 components[i] = std::nullopt;
             }
-            components.erase(std::remove(components.begin(), components.end(), std::nullopt), components.end());
+            components.erase(std::remove_if(components.begin(), components.end(),
+            [](const std::optional<std::shared_ptr<GameEngine::IComponent>>& component) {
+                return !component.has_value();
+            }), components.end());
         }
         freeMemorySlots.clear();
         maxEntityID = lastPersistentEntity + 1;
