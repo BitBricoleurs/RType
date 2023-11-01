@@ -159,6 +159,8 @@ namespace Server {
 
             eventHandler.scheduleEvent("BugSystem", 1, entityId);
 
+            std::cout << "Bug mob spawned" << std::endl;
+
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnBugMob: " << e.what() << std::endl;
@@ -173,9 +175,12 @@ namespace Server {
         std::vector<size_t> bugGroup;
 
         auto pathPoints = generatePathPoints();
+
+        float offset = 0;
         
         for (int i = 0; i < 5; i++) {
-            Utils::Vect2 newPos(pos.x + 50, pos.y);
+            Utils::Vect2 newPos(pos.x + offset, pos.y);
+            offset += 75;
             if (dropPowerup && i == 2) {
                 bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, true, pathPoints));
                 continue;

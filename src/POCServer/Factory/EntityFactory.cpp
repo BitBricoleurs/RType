@@ -173,17 +173,21 @@ namespace Server {
     std::vector<Utils::Vect2> EntityFactory::generatePathPoints() {
         std::vector<Utils::Vect2> pathPoints;
         int numPoints = rand() % 3 + 5;
-    
+
+        int screenWidth = 1920;
+        int sectionWidth = screenWidth / numPoints;
+
         for (int i = 0; i < numPoints; ++i) {
             Utils::Vect2 point;
-            point.x = rand() % 1920;
+            point.x = rand() % sectionWidth + (i * sectionWidth); // Random point within the section
             point.y = rand() % 1080;
             pathPoints.push_back(point);
         }
-    
+        
         std::sort(pathPoints.begin(), pathPoints.end(), [](const Utils::Vect2& a, const Utils::Vect2& b) {
-            return a.x > b.x;
+              return a.x > b.x;
         });
+
         return pathPoints;
     }
 }
