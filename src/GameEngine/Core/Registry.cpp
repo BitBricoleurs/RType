@@ -1,7 +1,6 @@
 #include "Registry.hpp"
 
 namespace GameEngine {
-    Registry::Registry() = default;
     Registry::~Registry() = default;
 
     void Registry::clear() {
@@ -57,7 +56,7 @@ namespace GameEngine {
         systemMap.erase(systemName);
     }
 
-        void Registry::updateSystems(EventHandler& eventHandler) {
+    void Registry::updateSystems(EventHandler& eventHandler) {
         if (systemsNeedSorting) {
             std::vector<std::pair<std::string, std::pair<std::shared_ptr<ISystem>, int>>> sortedSystems(systemMap.begin(), systemMap.end());
             std::sort(sortedSystems.begin(), sortedSystems.end(), [](const auto& a, const auto& b) {
@@ -72,9 +71,25 @@ namespace GameEngine {
             systemsNeedSorting = false;
         }
 
-        for (auto &name : systemOrder) {
-            std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
-            systemPair.first->update(componentsContainer, eventHandler);
+        if(isMultiThreaded) {
+            std::vector<std::thread> threads;
+            for (auto &name : systemOrder) {
+                std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
+                threads.push_back(std::thread([systemPair, &eventHandler, this]() {
+                    systemPair.first->update(componentsContainer, eventHandler);
+                }));
+            }
+
+            for (auto &thread : threads) {
+                if(thread.joinable()) {
+                    thread.join();
+                }
+            }
+        } else {
+            for (auto &name : systemOrder) {
+                std::pair<std::shared_ptr<ISystem>, int> systemPair = systemMap[name];
+                systemPair.first->update(componentsContainer, eventHandler);
+            }
         }
         eventHandler.processEventQueue(componentsContainer);
     }

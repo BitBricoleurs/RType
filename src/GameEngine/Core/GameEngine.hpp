@@ -20,7 +20,7 @@ namespace GameEngine {
 
     class GameEngine {
     public:
-        GameEngine();
+        GameEngine(bool isMultiThreaded = false);
         ~GameEngine();
 
         size_t createEntity();

@@ -7,7 +7,7 @@
 #include <utility>
 
 namespace GameEngine {
-    GameEngine::GameEngine() : tickSpeed(1.0 / 60.0), isRunning(true) {
+    GameEngine::GameEngine(bool isMultiThreaded) : tickSpeed(1.0 / 60.0), isRunning(true), registry(isMultiThreaded) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
         eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
     }
