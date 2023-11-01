@@ -13,6 +13,7 @@
 #include <iostream>
 #include "AABBComponent2D.hpp"
 #include "BossStage.hpp"
+#include "BossComponent.hpp"
 #include "Damage.hpp"
 #include "EventHandler.hpp"
 #include "GameEngine.hpp"
@@ -82,6 +83,11 @@ namespace Server {
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      size_t createBellmite(GameEngine::ComponentsContainer &container,
+                            GameEngine::EventHandler &eventHandler,
+                            Utils::Vect2 pos);
+
       size_t spawnParallax(GameEngine::ComponentsContainer &container,
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
@@ -149,8 +155,15 @@ namespace Server {
         Utils::Vect2 velocity, float scale);
       static size_t CreateParallax(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
-      private:
-            std::map<size_t, PlayerNumber> _playerMap;
+      size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos);
+
+      size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                               GameEngine::EventHandler &eventHandler,
+                               Utils::Vect2 pos);
+      
+      std::map<size_t, PlayerNumber> _playerMap;
 
 };
 }

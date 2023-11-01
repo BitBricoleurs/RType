@@ -78,7 +78,43 @@
                 "x": 2000.0,
                 "y": 575.0
             },
-            "dropPowerup": true
+            "dropPowerup": false
+        },
+        {
+            "tick": 130,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 150,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 170,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 400,
+            "mobType": "bellmite",
+            "position": {
+                "x": 2000.0,
+                "y": 575.0
+            },
+            "dropPowerup": false
         }
     ]
 }
