@@ -17,7 +17,7 @@ public:
         if (textures.find(fileName) != textures.end()) {
             return textures[fileName];
         }
-        Texture2D texture = LoadTexture(fileName.c_str());
+        Texture2D texture = ::LoadTexture(fileName.c_str());
         textures[fileName] = texture;
         return texture;
     }
