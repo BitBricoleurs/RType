@@ -23,12 +23,12 @@ namespace GameEngine {
         GameEngine();
         ~GameEngine();
 
-        size_t createEntity();
-        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components);
+        size_t createEntity(bool persistent = false);
+        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent = false);
 
         void bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component);
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
-        void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1);
+        void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1, bool persistent = false);
 
         void bindSceneInitiation(const std::string& sceneName, std::function<void(GameEngine&)> sceneInitiation);
         void changeScene(const std::any& sceneName);

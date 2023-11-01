@@ -118,7 +118,7 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
             }
         }
     }
-    size_t ComponentsContainer::createEntity() {
+    size_t ComponentsContainer::createEntity(bool persistent) {
 
         size_t entityID = 0;
         if (!freeMemorySlots.empty()) {
@@ -127,12 +127,16 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
         } else {
             entityID = maxEntityID++;
         }
+
+        if (persistent) {
+            persistentEntities.insert(entityID);
+        }
         return entityID;
     }
 
-    size_t ComponentsContainer::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
+    size_t ComponentsContainer::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent) {
 
-        size_t entityID = createEntity();
+        size_t entityID = createEntity(persistent);
         for (size_t i = 0; i < components.size(); i++) {
             bindComponentToEntity(entityID, components[i]);
         }
@@ -140,13 +144,23 @@ void ComponentsContainer::unbindComponentFromEntity(size_t entityID, size_t comp
     }
 
     void ComponentsContainer::clear() {
+        size_t lastPersistentEntity = 0;
 
         for (auto& componentTypePair : componentsContainer) {
-            componentTypePair.second.clear();
+            auto& components = componentTypePair.second;
+            for (size_t i = 0; i < components.size(); ++i) {
+                if (persistentEntities.find(i) != persistentEntities.end()) {
+                    if (i > lastPersistentEntity) {
+                        lastPersistentEntity = i;
+                    }
+                    continue;
+                }
+                components[i] = std::nullopt;
+            }
+            components.erase(std::remove(components.begin(), components.end(), std::nullopt), components.end());
         }
-        componentsContainer.clear();
         freeMemorySlots.clear();
-        maxEntityID = 1;
+        maxEntityID = lastPersistentEntity + 1;
+        persistentEntities.clear();
     }
-
 }

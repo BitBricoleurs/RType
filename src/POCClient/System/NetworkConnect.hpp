@@ -9,6 +9,8 @@
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
 #include "Message.hpp"
+#include "ComponentsType.hpp"
+#include "EndpointGame.hpp"
 
 namespace Client {
 

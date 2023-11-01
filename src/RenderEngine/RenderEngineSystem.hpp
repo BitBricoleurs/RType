@@ -29,5 +29,6 @@ namespace RenderEngine {
         size_t getScreenWidth();
     private:
         std::unique_ptr<RenderEngine> renderEngine;
+        std::shared_ptr<WindowInfoComponent> windowInfo;
 };
 }

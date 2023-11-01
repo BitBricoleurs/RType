@@ -23,7 +23,6 @@ public:
 
 private:
     static LogLevel currentLogLevel;
-
     static std::string levelToString(LogLevel level);
     static std::string getCurrentTimestamp();
 };

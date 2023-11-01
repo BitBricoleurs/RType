@@ -14,6 +14,7 @@ target_sources(${PROJECT_NAME_POCCLIENT}
         ${POCCLIENT_COMPONENT_SOURCES}
         ${POCCLIENT_FACTORY_SOURCES}
         ${POCCLIENT_SYSTEM_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/MainProgram.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 

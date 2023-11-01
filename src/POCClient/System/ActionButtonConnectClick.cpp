@@ -22,10 +22,19 @@ void Client::ActionButtonConnectClick::update(GameEngine::ComponentsContainer &c
     auto buttonConnect = std::static_pointer_cast<RenderEngine::ButtonComponent>(mayComp.value());
 
     buttonConnect->rect1.x = buttonConnect->rect1.w * 2;
-    size_t entityId = componentsContainer.createEntity();
-    std::string host;
-    std::string port;
+    size_t entityId = componentsContainer.createEntity(true);
+    size_t menuIpEntity = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsMenuIp"));
+    auto mayCompIp = componentsContainer.getComponent(menuIpEntity, GameEngine::ComponentsType::getComponentType("TextComponent"));
+    size_t menuPortEntity = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsMenuPort"));
+    auto mayCompPort = componentsContainer.getComponent(menuPortEntity, GameEngine::ComponentsType::getComponentType("TextComponent"));
+    if (!mayCompIp.has_value() || !mayCompPort.has_value()) {
+        return;
+    }
+    auto textIp = std::static_pointer_cast<RenderEngine::TextComponent>(mayCompIp.value());
+    auto textPort = std::static_pointer_cast<RenderEngine::TextComponent>(mayCompPort.value());
+    std::string host = textIp->text;
+    std::string port = textPort->text;
     auto endpoint = std::make_shared<Client::EndpointGame>(host, port);
     componentsContainer.bindComponentToEntity(entityId, endpoint);
-    eventHandler.scheduleEvent("NETWORK_CONNECT", 3, std::any());
+    eventHandler.queueEvent("gameEngineChangeScene", std::string("Game"));
 }

@@ -14,12 +14,12 @@ namespace GameEngine {
 
     GameEngine::~GameEngine() = default;
 
-    size_t GameEngine::createEntity() {
-        return registry.createEntity();
+    size_t GameEngine::createEntity(bool persistent) {
+        return registry.createEntity(persistent);
     }
 
-    size_t GameEngine::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
-        return registry.createEntity(std::move(components));
+    size_t GameEngine::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent) {
+        return registry.createEntity(std::move(components), persistent);
     }
 
     void GameEngine::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
@@ -30,8 +30,8 @@ namespace GameEngine {
         registry.unbindComponentFromEntity(entityID, componentType);
     }
 
-    void GameEngine::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority) {
-        registry.addSystem(systemName, std::move(system), priority);
+    void GameEngine::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority, bool persistent) {
+        registry.addSystem(systemName, std::move(system), priority, persistent);
     }
 
     void GameEngine::bindSceneInitiation(const std::string& sceneName, std::function<void(GameEngine&)> sceneInitiation) {

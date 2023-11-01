@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 #include <optional>
 #include <vector>
 #include <memory>
@@ -29,15 +30,15 @@ namespace GameEngine {
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
 
         void deleteEntity(size_t entityID);
-        size_t createEntity();
-        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components);
+        size_t createEntity(bool persistent = false);
+        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent = false);
 
         void clear();
-
     private:
         std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer;
         std::vector<size_t> freeMemorySlots;
         size_t maxEntityID = 1;
         mutable std::mutex containerMutex;
+        std::unordered_set<size_t> persistentEntities;
     };
 }
