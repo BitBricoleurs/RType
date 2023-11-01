@@ -1,0 +1,12 @@
+/* src/components/ParallaxCard.css */
+.entity-list {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    height: 10vh;
+    background-color: #ffffff;
+}
+
+.entity-list::-webkit-scrollbar {
+    display: none;
+}

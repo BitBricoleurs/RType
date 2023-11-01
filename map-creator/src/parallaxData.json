@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "path": "/assets/P0.png",
+    "name" : "P0",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "speed": 0,
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 2,
+    "path": "/assets/P1.png",
+    "name" : "P1",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "speed": 0,
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 3,
+    "path": "/path/to/image3.png",
+    "name" : "P2",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "speed": 0,
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 4,
+    "path": "/assets/V1.png",
+    "name" : "P2",
+    "rect": {
+      "width": 653,
+      "height": 230
+    },
+    "scale": 1,
+    "layer": 0,
+    "speed": 0,
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  }
+]

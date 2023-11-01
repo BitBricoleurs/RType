@@ -3,12 +3,19 @@ import React, { useState, useCallback } from 'react';
 import { MenuItem, Menu } from '@blueprintjs/core';
 import './Map.css';
 
-function Map({ onMapClick, mapItems, onDeleteItem }) {
+function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCard, selectedParallax, onParallaxRightClick }) {
+    const sortedBackgroundImages = backgroundImages.sort((a, b) => b.layer - a.layer);
+
     const [contextMenuState, setContextMenuState] = useState({ isOpen: false, x: 0, y: 0, item: null });
 
     const handleContextMenu = useCallback((event, item) => {
         event.preventDefault();
-        setContextMenuState({ isOpen: true, x: event.clientX, y: event.clientY, item });
+        setContextMenuState({
+            isOpen: true,
+            x: event.clientX,
+            y: event.clientY,
+            item
+        });
     }, []);
 
     const handleCloseContextMenu = useCallback(() => {
@@ -16,7 +23,7 @@ function Map({ onMapClick, mapItems, onDeleteItem }) {
     }, []);
 
     const handleMenuItemClick = useCallback((event, action) => {
-        event.stopPropagation();  // Stop event propagation
+        event.stopPropagation();
         if (action === 'Modifier') {
             console.log('Modifier', contextMenuState.item);
         } else if (action === 'Supprimer') {
@@ -25,8 +32,36 @@ function Map({ onMapClick, mapItems, onDeleteItem }) {
         handleCloseContextMenu();
     }, [contextMenuState.item, handleCloseContextMenu, onDeleteItem]);
 
+    const handleMapClickInternal = useCallback((event) => {
+        onMapClick(event);
+    }, [onMapClick]);
+
+    const handleParallaxContextMenu = useCallback((event, parallaxItem) => {
+        event.preventDefault();
+        onParallaxRightClick(parallaxItem);
+    }, [onParallaxRightClick]);
+
     return (
-        <div className="map" onClick={onMapClick}>
+        <div className="map" onClick={handleMapClickInternal}>
+            {sortedBackgroundImages.map((bg, index) => {
+                const style = {
+                    position: 'absolute',
+                    left: bg.x + 'px',
+                    top: bg.y + 'px',
+                    backgroundImage: `url(${process.env.PUBLIC_URL + bg.path})`,
+                    backgroundSize: 'cover',
+                    width: bg.rect.width + 'px',
+                    height: bg.rect.height + 'px',
+                    zIndex: bg.layer
+                };
+                return (
+                    <div
+                        key={`bg-${index}`}
+                        style={style}
+                        onContextMenu={(event) => handleParallaxContextMenu(event, bg)}
+                    />
+                );
+            })}
             {mapItems.map((item, index) => (
                 <div
                     key={index}
@@ -38,6 +73,7 @@ function Map({ onMapClick, mapItems, onDeleteItem }) {
                         backgroundSize: 'cover',
                         width: item.rect.width * item.scale + 'px',
                         height: item.rect.height * item.scale + 'px',
+                        zIndex: 1000
                     }}
                     onContextMenu={(event) => handleContextMenu(event, item)}
                 />
@@ -48,7 +84,7 @@ function Map({ onMapClick, mapItems, onDeleteItem }) {
                         position: 'fixed',
                         left: contextMenuState.x,
                         top: contextMenuState.y,
-                        zIndex: 1000
+                        zIndex: 2000
                     }}
                     onMouseLeave={handleCloseContextMenu}
                 >

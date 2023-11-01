@@ -1,6 +1,6 @@
-html, body, #root, .App {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrer les éléments horizontalement */
+  height: 100vh; /* Utiliser toute la hauteur de la vue */
 }
