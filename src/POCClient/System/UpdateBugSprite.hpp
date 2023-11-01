@@ -13,6 +13,7 @@
 #include "VelocityComponent.hpp"
 #include "SpriteAnimation.hpp"
 #include "MobComponents.hpp"
+#include "SpriteComponent.hpp"
 
 namespace Client {
     class UpdateBugSprite : public GameEngine::ISystem {
