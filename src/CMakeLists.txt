@@ -11,5 +11,4 @@ add_subdirectory(LoadConfig)
 add_subdirectory(POCCinematic)
 add_subdirectory(Hunter)
 add_subdirectory(MapCreator)
-add_subdirectory(RenderEngine/PythonBidings)
-
+add_subdirectory(LuaScriptingEngine)
