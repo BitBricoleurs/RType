@@ -9,16 +9,10 @@
 #include <string>
 
 namespace GameEngine {
-
     class Logger {
     public:
-        enum class LogLevel {
-            INFO,
-            WARNING,
-            ERROR,
-        };
-        static void setLogLevel(LogLevel level);
-        static void log(LogLevel level, const std::string& message);
+        static void setLogLevel(int level);
+        static void log(int level, const std::string& message);
         static void info(const std::string& message);
         static void warning(const std::string& message);
         static void error(const std::string& message);
@@ -28,8 +22,8 @@ namespace GameEngine {
 
     private:
         static std::unique_ptr<LoggerImpl> pimpl;
-        static LogLevel currentLogLevel;
-        static std::string levelToString(LogLevel level);
+        static int currentLogLevel;
+        static std::string levelToString(int level);
         static std::string getCurrentTimestamp();
     };
 

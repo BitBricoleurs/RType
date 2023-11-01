@@ -9,30 +9,30 @@
 #include <thread>
 
 namespace GameEngine {
-    Logger::LogLevel Logger::currentLogLevel = LogLevel::INFO;
+    int Logger::currentLogLevel = 1;
     bool Logger::wantsToReceiveLogs = false;
 
-    void Logger::setLogLevel(LogLevel level) {
+    void Logger::setLogLevel(int level) {
         currentLogLevel = level;
     }
 
     void Logger::info(const std::string& message) {
-        log(LogLevel::INFO, message);
+        log(1, message);
     }
 
     void Logger::warning(const std::string& message) {
-        log(LogLevel::WARNING, message);
+        log(2, message);
     }
 
     void Logger::error(const std::string& message) {
-        log(LogLevel::ERROR, message);
+        log(3, message);
     }
 
-    std::string Logger::levelToString(LogLevel level) {
+    std::string Logger::levelToString(int level) {
         switch (level) {
-            case LogLevel::INFO: return "\033[32mINFO\033[0m";
-            case LogLevel::WARNING: return "\033[33mWARNING\033[0m";
-            case LogLevel::ERROR: return "\033[31mERROR\033[0m";
+            case 1: return "\033[32mINFO\033[0m";
+            case 2: return "\033[33mWARNING\033[0m";
+            case 3: return "\033[31mERROR\033[0m";
             default: return "UNKNOWN";
         }
     }

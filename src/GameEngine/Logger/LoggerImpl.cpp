@@ -19,8 +19,8 @@ namespace GameEngine {
     TcpConnection::pointer Logger::LoggerImpl::connection;
     boost::asio::io_service Logger::LoggerImpl::io_service;
 
-    void Logger::log(LogLevel level, const std::string& message) {
-        if (static_cast<int>(level) < static_cast<int>(currentLogLevel)) {
+    void Logger::log(int level, const std::string& message) {
+        if (level < currentLogLevel) {
             return;
         }
         std::string log_level_str = levelToString(level);
