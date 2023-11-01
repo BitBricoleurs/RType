@@ -38,8 +38,6 @@ namespace Server {
       auto stageComponent = std::make_shared<BossStage>(stageValue);
       auto bossComponent = std::make_shared<IsBoss>();
 
-      container.unbindComponentFromEntity(
-          entityId, GameEngine::ComponentsType::getComponentType("Mob"));
       container.bindComponentToEntity(entityId, bossComponent);
       container.bindComponentToEntity(entityId, stageComponent);
 

@@ -39,6 +39,10 @@
 #include "IsParallax.hpp"
 #include "Shooter.hpp"
 #include "PowerUpUtils.hpp"
+#include "BossComponent.hpp"
+#include "IsStarship.hpp"
+#include "LoadConfig.hpp"
+#include "PlayerUtils.hpp"
 
 namespace Client {
 
@@ -87,6 +91,14 @@ namespace Client {
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+
+        size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos);
+
+       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                 GameEngine::EventHandler &eventHandler,
+                                 Utils::Vect2 pos);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;

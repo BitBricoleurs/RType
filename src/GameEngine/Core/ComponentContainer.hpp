@@ -34,6 +34,8 @@ namespace GameEngine {
 
         void clear();
 
+        std::mutex getContainerMutex() const;
+
     private:
         std::unordered_map<size_t, std::vector<std::optional<std::shared_ptr<IComponent>>>> componentsContainer;
         std::vector<size_t> freeMemorySlots;

@@ -33,6 +33,11 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "WiggleMob.hpp"
+#include "BounceBoss.hpp"
+#include "BossInScope.hpp"
+#include "LatchPodToBoss.hpp"
+#include "LaunchBossPods.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -91,6 +96,11 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
     auto Parallax = std::make_shared<Server::Parallax>();
+    auto wigglePata = std::make_shared<Server::WiggleMob>();
+    auto bounceBoss = std::make_shared<Server::BounceBoss>();
+    auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
+    auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
+    auto bossInScope = std::make_shared<Server::BossInScope>();
 
     auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
 
@@ -109,6 +119,11 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addSystem("wiggleMob", wigglePata);
+    engine.addEvent("bounceBoss", bounceBoss);
+    engine.addEvent("launchBossPods", launchBossPods);
+    engine.addEvent("LatchPodToBoss", latchPodToBoss);
+    engine.addSystem("BossInScope", bossInScope);
 }
 
 int main(void) {

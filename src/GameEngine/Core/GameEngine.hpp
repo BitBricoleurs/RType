@@ -25,7 +25,7 @@ namespace GameEngine {
     class GameEngine {
         using CommandFunction = std::function<std::string(const std::vector<std::string>&)>;
     public:
-        GameEngine();
+        GameEngine(bool isMultiThreaded = false);
         ~GameEngine();
 
         size_t createEntity();
