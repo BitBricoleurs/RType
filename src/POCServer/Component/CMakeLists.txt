@@ -15,5 +15,6 @@ set(POCSERVER_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/IsReady.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsPower.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsForcePod.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BossComponent.cpp
         CACHE INTERNAL ""
 )

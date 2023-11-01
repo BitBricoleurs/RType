@@ -42,6 +42,10 @@ namespace Client {
                         entityId = factory.spawnCancerMob(componentsContainer, eventHandler, pos, velocity, false);
                     } else if (typeMob == MobType::PATAPATA) {
                         entityId = factory.spawnPataPataMob(componentsContainer, eventHandler, pos, velocity, false);
+                     } else if (typeMob == MobType::BELLMITECORE) {
+                        entityId = factory.createBellmiteBoss(componentsContainer, eventHandler, pos);
+                     } else if (typeMob == MobType::BELLMITEPOD) {
+                        entityId = factory.createBellmitePod(componentsContainer, eventHandler, pos);
                     } else {
                         entityId = factory.spawnBugMob(componentsContainer, eventHandler, pos, velocity, false);
                     }

@@ -13,6 +13,7 @@
 #include "Message.hpp"
 #include "IsForcePod.hpp"
 #include "UserMessage.hpp"
+#include "BossComponent.hpp"
 
 namespace Server {
 
