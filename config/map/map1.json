@@ -64,7 +64,7 @@
         },
         {
             "tick": 90,
-            "mobType": "pataPataMob",
+            "mobType": "bugMob",
             "position": {
                 "x": 2000.0,
                 "y": 575.0
@@ -72,44 +72,8 @@
             "dropPowerup": false
         },
         {
-            "tick": 110,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000.0,
-                "y": 575.0
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 130,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000.0,
-                "y": 575.0
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 150,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000.0,
-                "y": 575.0
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 170,
-            "mobType": "pataPataMob",
-            "position": {
-                "x": 2000.0,
-                "y": 575.0
-            },
-            "dropPowerup": false
-        },
-        {
-            "tick": 400,
-            "mobType": "bellmite",
+            "tick": 300,
+            "mobType": "bugGroup",
             "position": {
                 "x": 2000.0,
                 "y": 575.0

@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include <cstddef>
 
 namespace Server {
 
@@ -115,7 +116,7 @@ namespace Server {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup) {
+                                      Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
@@ -132,7 +133,14 @@ namespace Server {
                 config.getFloat("/createBugMob/scale")
             );
 
-            container.bindComponentToEntity(entityId, std::make_shared<Bug>());
+            auto bug = std::make_shared<Bug>();
+            if (pathPoints.empty()) {
+                pathPoints = generatePathPoints();
+            }
+            bug->directionChangePoints = pathPoints;
+            bug->currentDestinationI = 0;
+
+            container.bindComponentToEntity(entityId, bug);
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::BUG)};
@@ -149,10 +157,31 @@ namespace Server {
                 container.bindComponentToEntity(entityId, powerUp);
             }
 
+            eventHandler.scheduleEvent("BugSystem", 1, entityId);
+
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnBugMob: " << e.what() << std::endl;
             exit(1);
         }
+    }
+    
+    std::vector<size_t> EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, bool dropPowerup) {
+
+        std::vector<size_t> bugGroup;
+
+        auto pathPoints = generatePathPoints();
+        
+        for (int i = 0; i < 5; i++) {
+            Utils::Vect2 newPos(pos.x + 50, pos.y);
+            if (dropPowerup && i == 2) {
+                bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, true, pathPoints));
+                continue;
+            }
+            bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, false, pathPoints));
+        }
+        return bugGroup;
     }
 }

@@ -169,4 +169,21 @@ namespace Server {
          std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     }
+
+    std::vector<Utils::Vect2> EntityFactory::generatePathPoints() {
+        std::vector<Utils::Vect2> pathPoints;
+        int numPoints = rand() % 3 + 5;
+    
+        for (int i = 0; i < numPoints; ++i) {
+            Utils::Vect2 point;
+            point.x = rand() % 1920;
+            point.y = rand() % 1080;
+            pathPoints.push_back(point);
+        }
+    
+        std::sort(pathPoints.begin(), pathPoints.end(), [](const Utils::Vect2& a, const Utils::Vect2& b) {
+            return a.x > b.x;
+        });
+        return pathPoints;
+    }
 }
