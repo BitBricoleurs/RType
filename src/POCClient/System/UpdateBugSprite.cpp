@@ -25,19 +25,16 @@ namespace Client {
             auto bugSprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(bugSpriteOpt.value());
 
             if (bugVelocity->velocity.x == 0 && bugVelocity->velocity.y == 0) {
-                return; // Error case: velocity is zero, no direction
+                return;
             }
 
-            // Calculate the angle of the velocity vector
             double angle = std::atan2(bugVelocity->velocity.y, bugVelocity->velocity.x); // Returns a value [-PI, PI]
-            angle = angle * (180.0 / M_PI); // Convert to degrees
+            angle = angle * (180.0 / M_PI);
 
-             // Normalize angle to [0, 360)
             if (angle < 0) {
                 angle += 360;
             }
 
-            // Calculate frame index
             int frames = 16;
             double anglePerFrame = 360.0 / frames;
             int frameIndex = static_cast<int>(angle / anglePerFrame);
@@ -45,7 +42,6 @@ namespace Client {
             bugSpriteCollection->currentFrameIndex = frameIndex;
             bugSpriteCollection->currentFrame = bugSpriteCollection->spritePositionsLeft[bugSpriteCollection->currentFrameIndex];
 
-            // Set the sprite
             bugSprite->rect1.x = bugSpriteCollection->currentFrame.x;
             bugSprite->rect1.y = bugSpriteCollection->currentFrame.y;
 
