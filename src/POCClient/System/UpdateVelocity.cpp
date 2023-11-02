@@ -43,6 +43,10 @@ namespace Client {
 
                 auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityComponent.value());
                 velocity->velocity = newVelocity;
+
+                auto bug = componentsContainer.getComponent(entityToUpdate, GameEngine::ComponentsType::getComponentType("Bug"));
+                if (bug.has_value())
+                    eventHandler.queueEvent("UpdateBugSprite", entityToUpdate);
             }
 
         } catch (std::bad_any_cast &e) {

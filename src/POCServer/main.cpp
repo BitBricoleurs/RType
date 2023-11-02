@@ -33,6 +33,7 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "BugDirectionChange.hpp"
 #include "WiggleMob.hpp"
 #include "BounceBoss.hpp"
 #include "BossInScope.hpp"
@@ -101,6 +102,7 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
     auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
     auto bossInScope = std::make_shared<Server::BossInScope>();
+    auto bugSystem = std::make_shared<Server::BugDirectionChange>();
 
     auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
 
@@ -124,6 +126,7 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("launchBossPods", launchBossPods);
     engine.addEvent("LatchPodToBoss", latchPodToBoss);
     engine.addSystem("BossInScope", bossInScope);
+    engine.addEvent("BugSystem", bugSystem);
 }
 
 int main(void) {

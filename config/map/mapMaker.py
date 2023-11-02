@@ -2,16 +2,17 @@ import json
 import random
 
 def generate_mob(current_tick):
-    mob_types = ["cancerMob", "pataPataMob"]
+    mob_types = ["cancerMob", "pataPataMob", "bugGroup"]
     mob_type = random.choice(mob_types)
-    position_y = random.randint(0, 950)
+    position_y = random.uniform(10.5, 900.5)
+
     drop_powerup = random.choices([True, False], weights=[10, 90], k=1)[0]
 
     return {
         "tick": current_tick,
         "mobType": mob_type,
         "position": {
-            "x": 2000,
+            "x": 2000.0,
             "y": position_y
         },
         "dropPowerup": drop_powerup
@@ -31,10 +32,10 @@ def main():
     current_tick += random.randint(200, 500)
     mobs.append({
         "tick": current_tick,
-        "mobType": "boss",
+        "mobType": "bellmite",
         "position": {
-            "x": 2000,
-            "y": 475
+            "x": 2000.0,
+            "y": 475.0
         },
         "dropPowerup": False
     })

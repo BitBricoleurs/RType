@@ -63,7 +63,11 @@ namespace Server {
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup);
+                         Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
+
+      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
@@ -158,6 +162,8 @@ namespace Server {
       size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
                                Utils::Vect2 pos);
+
+      std::vector<Utils::Vect2> generatePathPoints();
       
       std::map<size_t, PlayerNumber> _playerMap;
 

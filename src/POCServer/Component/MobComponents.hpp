@@ -9,6 +9,8 @@
 
 #include "AComponent.hpp"
 #include "ComponentsType.hpp"
+#include "Vect2.hpp"
+#include <vector>
 #include <cstddef>
 
 namespace Server {
@@ -32,5 +34,7 @@ namespace Server {
       Bug() = default;
 
       size_t getComponentType() override;
+      std::vector<Utils::Vect2> directionChangePoints;
+      size_t currentDestinationI;
     };
 }
