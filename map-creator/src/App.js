@@ -3,7 +3,7 @@ import Toolbar from './components/Toolbar';
 import Map from './components/Map';
 import ParallaxModal from './components/ParallaxModal';
 import './App.css';
-const { ipcRenderer } = window.require('electron');
+const {ipcRenderer} = window.require('electron');
 
 function App() {
 
@@ -92,13 +92,20 @@ function App() {
     }, [mapItems, backgroundImages]);
 
     useEffect(() => {
+        // Écoutez les messages provenant du processus principal
         ipcRenderer.on('menu-action', (event, action) => {
             if (action === 'new') {
-                console.log('New');
+                // Votre logique ici pour 'New'
             }
+            if (action === 'save') {
+                console.log('Save');
+                // Votre logique ici pour 'Open'
+            }
+            // Traitez d'autres actions ici
         });
 
         return () => {
+            // Nettoyage : retirez l'écouteur lorsque le composant est démonté
             ipcRenderer.removeAllListeners('menu-action');
         };
     }, []);

@@ -1,6 +1,8 @@
 // src/electron/main.js
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcRenderer } = require('electron');
 const isDev = require('electron-is-dev');  // ajoutez cette ligne
+const fs = require('fs');
+const path = require('path');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -24,7 +26,12 @@ function createWindow() {
             submenu: [
                 { label: 'Open', click: () => { /* Votre logique ici */ } },
                 { type: 'separator' },
-                { label: 'Save', click: () => { /* Votre logique ici */ } },
+                {
+                    label: 'Save',
+                    click: () => {
+                        win.webContents.send('menu-action', 'save');
+                    }
+                },
                 {
                     label: 'New',
                     click: () => { win.webContents.send('menu-action', 'new'); }
