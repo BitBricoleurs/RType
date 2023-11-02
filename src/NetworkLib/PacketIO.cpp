@@ -122,7 +122,7 @@ void Network::PacketIO::processIncomingMessages() {
             unsigned int id = 0;
             std::uint16_t size = 0;
             while (index < _headerIn.bodySize) {
-                if (_inMessages.count() > _inMessages.getMaxSize()) {
+                if (_inMessages.count() == _inMessages.getMaxSize() - 1) {
                     break;
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
@@ -164,7 +164,7 @@ void Network::PacketIO::processOutgoingMessages()
                     break;
                 _outMessages->popFront();
                 _bodyOut.addData( message->getMessage() );
-                size+= message->getSize();
+                size += message->getSize();
                 if (message->isSecure())
                     isPacketSecure = true;
             }
@@ -195,6 +195,7 @@ size_t Network::PacketIO::getOutMessagesSize() const
 
 void Network::PacketIO::resendLostPacket(boost::asio::ip::udp::endpoint &endpoint)
 {
+    return;
     uint16_t ackMask = 0;
     std::vector<std::shared_ptr<Network::Packet>> packets = {};
 

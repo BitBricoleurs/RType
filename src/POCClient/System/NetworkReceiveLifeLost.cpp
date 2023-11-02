@@ -28,15 +28,6 @@ void Client::NetworkReceiveLifeLost::update(GameEngine::ComponentsContainer &com
         size_t clientId = 0;
         for (auto &id : ids) {
             clientId = entityFactory.getClientId(id);
-            if (lives <= 0) {
-                std::cout << "Game Over" << std::endl;
-                auto spriteOpt = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
-                if (spriteOpt.has_value()) {
-                    auto sprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
-                    sprite->isVisible = false;
-                    std::cout << "player hidden" << std::endl;
-                }
-            }
             auto HealthBarId = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsHealthBar"));
             if (HealthBarId != 0) {
                 auto HealthBarComponentOpt = (componentsContainer.getComponent(HealthBarId, GameEngine::ComponentsType::getComponentType("SpriteComponent")));

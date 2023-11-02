@@ -15,7 +15,8 @@ namespace Utils {
         enum State {
             WAITING,
             RUNNING,
-            FINISHED
+            WIN,
+            LOSE
         };
       GameState(State state);
 

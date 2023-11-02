@@ -28,5 +28,6 @@ namespace Server {
         void killMobNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &entitiesToKill);
         void lifeLostNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &players, std::vector<std::any> &args);
         void flashNetwork(GameEngine::EventHandler &eventHandler, size_t entity);
+        void sendDeathMessage(GameEngine::EventHandler &eventHandler, size_t entity);
     };
 }

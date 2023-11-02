@@ -20,7 +20,7 @@ namespace Server {
         std::vector<std::any> args = {static_cast<int>(nbr)};
         std::vector<size_t> ids = {};
         std::shared_ptr<Utils::UserGameMode> userGameMode = nullptr;
-        if (nbr == PlayerNumber::Spectator)  {
+        if (nbr == PlayerNumber::Spectator || isGamePlaying(componentsContainer))  {
             entityId = componentsContainer.createEntity();
             ids.emplace_back(entityId);
             userGameMode = std::make_shared<Utils::UserGameMode>(Utils::UserGameMode::SPECTATOR);
@@ -28,7 +28,7 @@ namespace Server {
         } else {
             entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, nbr);
             ids.emplace_back(entityId);
-            userGameMode = std::make_shared<Utils::UserGameMode>(Utils::UserGameMode::PLAYER);
+            userGameMode = std::make_shared<Utils::UserGameMode>(Utils::UserGameMode::ALIVE);
             args.emplace_back(static_cast<int>(userGameMode->_state));
             auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
             auto mayComp = componentsContainer.getComponent(entityId, positionType);
@@ -52,4 +52,15 @@ namespace Server {
         eventHandler.queueEvent("SEND_NETWORK", userMessage);
         eventHandler.queueEvent("CREATE_WORLD", entityId);
     }
+}
+
+bool Server::NetworkClientConnection::isGamePlaying(GameEngine::ComponentsContainer &componentsContainer)
+{
+    auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
+    size_t gameStateEntity = componentsContainer.getEntityWithUniqueComponent(compTypeGameState);
+    auto compMay = componentsContainer.getComponent(gameStateEntity, compTypeGameState);
+    if (!compMay.has_value())
+        return false;
+    auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
+    return gameStateComp->_state == Utils::GameState::State::RUNNING;
 }

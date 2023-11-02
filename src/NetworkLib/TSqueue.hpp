@@ -57,12 +57,23 @@ namespace Network {
             return t;
         }
 
+        bool isQueueFull() {
+            std::scoped_lock lock(muxQueue);
+            return deqQueue.size() == deqQueue.max_size();
+        }
+
         void pushBack(const T &item) {
+            if (isQueueFull()) {
+                popFront();
+            }
             std::scoped_lock lock(muxQueue);
             deqQueue.emplace_back(std::move(item));
         }
 
         void pushFront(const T &item) {
+            if (isQueueFull()) {
+                popBack();
+            }
             std::scoped_lock lock(muxQueue);
             deqQueue.emplace_front(std::move(item));
         }

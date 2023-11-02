@@ -82,7 +82,6 @@ void Client::UpdatePosition::trySmoothingPosition(GameEngine::ComponentsContaine
     auto smoothingComp = std::make_shared<SmoothingMovement>(targetPosition);
     componentsContainer.bindComponentToEntity(entity, smoothingComp);
     smoothPosition(componentsContainer, entity, targetPosition);
-    std::cout << "Start Smoothing" << std::endl;
 }
 
 void Client::UpdatePosition::tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
@@ -137,8 +136,7 @@ void Client::UpdatePosition::smoothPosition(GameEngine::ComponentsContainer &com
     Utils::Vect2 normalizedDirection = directionToB.normalize();
     int speed = 2;
     velComp->velocity = normalizedDirection * speed;
-    std::cout << "Smooth Velocity" << " x: " << velComp->velocity.x << " y: " << velComp->velocity.y << std::endl;
-}
+    }
 
 bool Client::UpdatePosition::isEntityChangedPosition(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition)
 {

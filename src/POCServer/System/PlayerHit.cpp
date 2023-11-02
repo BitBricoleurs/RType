@@ -19,12 +19,13 @@ namespace Server {
     void PlayerHit::handleLifeLoss(size_t playerId, const std::shared_ptr<Health>& hpComponent, GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         hpComponent->lives -= 1;
         std::cout << "Player lives: " << hpComponent->lives << std::endl;
-        if (hpComponent->lives <= 0) {
+        if (hpComponent->lives < 0) {
             auto playerGameStageOpt = componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("UserGameMode"));
             if (playerGameStageOpt.has_value()) {
                 auto playerGameStage = std::static_pointer_cast<Utils::UserGameMode>(playerGameStageOpt.value());
                 playerGameStage->_state = Utils::UserGameMode::State::DEAD;
             }
+             sendDeathMessage(eventHandler, playerId);
         } else {
             hpComponent->currentHealth = hpComponent->maxHealth;
             flashNetwork(eventHandler, playerId);
@@ -83,7 +84,7 @@ namespace Server {
             if (!playerGameStateOpt.has_value())
                 return;
             auto playerGameState = std::static_pointer_cast<Utils::UserGameMode>(playerGameStateOpt.value());
-            if (playerGameState->_state != Utils::UserGameMode::State::PLAYER)
+            if (playerGameState->_state != Utils::UserGameMode::State::ALIVE)
                 return;
 
             auto isBulletOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
@@ -113,4 +114,13 @@ namespace Server {
             std::cerr << "Error in PlayerHit::update: " << e.what() << std::endl;
         }
     }
+}
+
+void Server::PlayerHit::sendDeathMessage(GameEngine::EventHandler &eventHandler, size_t entity)
+{
+    std::vector<size_t> ids = {entity};
+    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DEATH", ids, "", std::vector<std::any>{});
+    std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+    eventHandler.queueEvent("SEND_NETWORK", allMessage);
+    std::cout << "Player " << entity << " died" << std::endl;
 }

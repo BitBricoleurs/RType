@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "BulletComponent.hpp"
 
 namespace Server {
 
@@ -34,16 +35,22 @@ namespace Server {
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(BulletOwner::PLAYER)};
+            auto bulletOwner = BulletOwner::PLAYER;
+            auto bulleType = BulletType::NORMAL;
             if (typeBullet == 0) {
                 args.emplace_back(static_cast<int>(BulletType::NORMAL));
             } else if (typeBullet >= 1) {
-                args.emplace_back(static_cast<int>(BulletType::CHARGED));
+                args.emplace_back(static_cast<int>(static_cast<BulletType>(typeBullet)));
+                bulleType = static_cast<BulletType>(typeBullet);
             }
+            auto bulletOwnerComp = std::make_shared<BulletOwnerComp>(bulletOwner);
+            auto bulletComp = std::make_shared<BulletTypeComp>(bulleType);
+            container.bindComponentToEntity(entityId, bulletOwnerComp);
+            container.bindComponentToEntity(entityId, bulletComp);
             args.emplace_back(static_cast<int>(pos.x * 1000));
             args.emplace_back(static_cast<int>(pos.y * 1000));
             args.emplace_back(static_cast<int>(velocity.x * 1000));
             args.emplace_back(static_cast<int>(velocity.y * 1000));
-            args.emplace_back(static_cast<int>(typeBullet));
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
@@ -76,11 +83,14 @@ namespace Server {
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(BulletOwner::ENEMY)};
             args.emplace_back(static_cast<int>(BulletType::NORMAL));
+            auto bulletOwnerComp = std::make_shared<BulletOwnerComp>(BulletOwner::ENEMY);
+            auto bulletComp = std::make_shared<BulletTypeComp>(BulletType::NORMAL);
+            container.bindComponentToEntity(entityId, bulletOwnerComp);
+            container.bindComponentToEntity(entityId, bulletComp);
             args.emplace_back(static_cast<int>(pos.x * 1000));
             args.emplace_back(static_cast<int>(pos.y * 1000));
             args.emplace_back(static_cast<int>(velocity.x * 1000));
             args.emplace_back(static_cast<int>(velocity.y * 1000));
-            args.emplace_back(static_cast<int>(0));
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_BULLET", ids, "INT", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);

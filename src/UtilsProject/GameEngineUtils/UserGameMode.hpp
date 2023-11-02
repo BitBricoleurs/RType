@@ -13,7 +13,7 @@ namespace Utils {
     class UserGameMode : public GameEngine::AComponent {
     public:
         enum State {
-            PLAYER,
+            ALIVE,
             DEAD,
             SPECTATOR,
         };

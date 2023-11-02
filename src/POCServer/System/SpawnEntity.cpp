@@ -23,17 +23,22 @@ namespace Server {
             loadMap(mapFiles[mapIndex]);
             currentTick = 0;
         } else {
-            std::cout << "Last map reached!" << std::endl;
+            mapIndex = 0;
+            loadMap(mapFiles[mapIndex]);
+            currentTick = 0;
         }
+    }
+
+    void SpawnEntity::resetCurrentLevel() {
+        loadMap(mapFiles[mapIndex]);
+        currentTick = 0;
     }
 
     void SpawnEntity::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
-        std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
-        if (gameStateEntities.empty())
-            return;
-        auto compMay = componentsContainer.getComponent(gameStateEntities[0], compTypeGameState);
+        size_t gameStateEntity = componentsContainer.getEntityWithUniqueComponent(compTypeGameState);
+        auto compMay = componentsContainer.getComponent(gameStateEntity, compTypeGameState);
         if (!compMay.has_value())
             return;
         auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
@@ -41,6 +46,11 @@ namespace Server {
             return;
         currentTick++;
         int mobsSize = currentMapContent.getSize("/mobs");
+        int winTick = currentMapContent.getInt("/winCondition/tick");
+        if (currentTick >= winTick) {
+            winLevel(eventHandler);
+            return;
+        }
         for (int i = 0; i < mobsSize;) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
@@ -102,5 +112,11 @@ namespace Server {
             std::cerr << "Error loading map: " << e.what() << std::endl;
             return false;
         }
+    }
+
+    void SpawnEntity::winLevel(GameEngine::EventHandler &eventHandler)
+    {
+        eventHandler.queueEvent("WIN_LEVEL");
+        std::cout << "Level won" << std::endl;
     }
 }

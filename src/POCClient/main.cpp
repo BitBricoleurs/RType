@@ -41,9 +41,12 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
-#include "NetworkReceiveFlash.hpp"
 #include "FlashWhenHit.hpp"
 #include "NetworkReceiveLifeLost.hpp"
+#include "DeathPlayer.hpp"
+#include "GameOverSystem.hpp"
+#include "GoBackToTheLobby.hpp"
+#include "RevivePlayer.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -61,10 +64,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto networkReceiveStartGame = std::make_shared<Client::NetworkReceiveStartGame>();
     auto networkSendReady = std::make_shared<Client::NetworkSendReady>();
     auto imAlive = std::make_shared<Client::iAmAlive>();
-    auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
-    auto createForcePod = std::make_shared<Client::CreateForcePod>();
-    auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
-    auto receiveLifeLost = std::make_shared<Client::NetworkReceiveLifeLost>();
+
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
     engine.addEvent("SEND_NETWORK", networkOutput);
@@ -76,17 +76,15 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.addEvent("CREATED_USER", createPlayer);
     engine.addEvent("CREATED_MOB", createMob);
     engine.addEvent("CREATED_BULLET", createBullet);
-    engine.addEvent("CREATE_PARALLAX", parallax);
-    engine.addEvent("CREATED_POWERUP", createPowerUp);
-    engine.addEvent("CREATED_FORCEPOD", createForcePod);
+    engine.addEvent("CREATED_PARALLAX", parallax);
+
     engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
     engine.addEvent("ALIVE", imAlive);
-    engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
-    engine.addEvent("LIFE_LOST", receiveLifeLost);
+
 }
 
 void setup_sync_systems(GameEngine::GameEngine& engine) {
@@ -141,6 +139,14 @@ void setup_game(GameEngine::GameEngine& engine)
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
     auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
     auto activateCharge = std::make_shared<Client::ActivateCharge>();
+    auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
+    auto createForcePod = std::make_shared<Client::CreateForcePod>();
+    auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
+    auto receiveLifeLost = std::make_shared<Client::NetworkReceiveLifeLost>();
+    auto deathPlayer = std::make_shared<Client::DeathPlayer>();
+    auto gameOver = std::make_shared<Client::GameOverSystem>();
+    auto goBackToTheLobby = std::make_shared<Client::GoBackToTheLobby>();
+    auto revivePlayer = std::make_shared<Client::RevivePlayer>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -154,6 +160,14 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("Collision", collisionHandler);
     engine.addEvent("flash", flashWhenHit);
     engine.addEvent("CHARGE", activateCharge);
+    engine.addEvent("CREATED_POWERUP", createPowerUp);
+    engine.addEvent("CREATED_FORCEPOD", createForcePod);
+    engine.addEvent("FLASH_ENTITY", receiveFlash);
+    engine.addEvent("LIFE_LOST", receiveLifeLost);
+    engine.addEvent("DEATH", deathPlayer);
+    engine.addEvent("GAME_OVER", gameOver);
+    engine.addEvent("JOIN_LOBBY", goBackToTheLobby);
+    engine.addEvent("REVIVE_PLAYER", revivePlayer);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {

@@ -18,7 +18,7 @@ namespace Client {
             std::vector<size_t> ids = messageData->getIDs();
             std::vector<std::any> args = messageData->getArgs();
 
-            if (ids.size() > 1 && args.size() > 7)
+            if (ids.size() > 1 && args.size() != (ids.size() * 6))
                 return;
 
             int arg_index = 0;
@@ -32,7 +32,7 @@ namespace Client {
                 size_t entityId = 0;
                 std::string path = "";
                 if (number == BulletOwner::PLAYER) {
-                    entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, static_cast<int>(std::any_cast<int>(args[arg_index + 6])));
+                    entityId = factory.createPlayerBullet(componentsContainer, eventHandler, pos, velocity, typeBull);
                 } else {
                     entityId = factory.createBaseEnemyBullet(componentsContainer, eventHandler, pos, velocity);
                 }

@@ -23,7 +23,7 @@ namespace Network {
 
     class Interface;
 
-    class PacketIO : public std::enable_shared_from_this<PacketIO>{
+    class PacketIO {
       public:
         enum class Type {
             SERVER,

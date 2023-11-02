@@ -26,5 +26,13 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientBlockWall.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckGameEnded.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RevivePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WinSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoseSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GoBackToTheLobbySystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntityEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeleteParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeleteMobs.cpp
         CACHE INTERNAL ""
 )

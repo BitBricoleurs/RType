@@ -32,6 +32,7 @@ namespace Server {
 
        auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
        auto shooterType = GameEngine::ComponentsType::getComponentType("Shooter");
+       auto gameModeType = GameEngine::ComponentsType::getComponentType("UserGameMode");
 
        auto positionOptional = componentsContainer.getComponent(entityID, posType);
        auto shooterOptional = componentsContainer.getComponent(entityID, shooterType);
@@ -63,7 +64,11 @@ namespace Server {
                 for (auto &player : players) {
                     auto positionOpt = componentsContainer.getComponent(player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
                     auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
-                    if (positionComp) {
+                    auto userGameModeOpt = componentsContainer.getComponent(player, gameModeType);
+                    if (!userGameModeOpt.has_value())
+                        continue;
+                    auto userGameMode = std::static_pointer_cast<Utils::UserGameMode>(userGameModeOpt.value());
+                    if (positionComp && userGameMode->_state == Utils::UserGameMode::ALIVE) {
                         Utils::Vect2 directionToPlayer = positionComp->pos - shootingPosition;
                         float distanceToPlayer = directionToPlayer.magnitude();
                         if (distanceToPlayer < closestDistance) {

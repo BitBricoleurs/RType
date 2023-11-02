@@ -30,10 +30,8 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs Bullet
         if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
-            std::cout << "Player vs Bullet" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptBullet.has_value()) {
-            std::cout << "Player vs Bullet" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         }
 
@@ -46,10 +44,8 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs Mob
         if(firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
-            std::cout << "Player vs Mob" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptMob.has_value()) {
-            std::cout << "Player vs Mob" << std::endl;
             eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         }
 

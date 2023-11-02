@@ -172,8 +172,12 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"CHARGE", 0x21},
     {"BLOCK", 0x22},
     {"CHARGE", 0x23},
-    {"CREATE_PARALLAX", 0x24},
-    {"LIFE_LOST", 0x25}
+    {"CREATED_PARALLAX", 0x24},
+    {"LIFE_LOST", 0x25},
+    {"DEATH", 0x26},
+    {"GAME_OVER", 0x27},
+    {"JOIN_LOBBY", 0x28},
+    {"REVIVE_PLAYER", 0x29}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

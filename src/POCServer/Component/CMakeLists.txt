@@ -16,5 +16,6 @@ set(POCSERVER_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/IsPower.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsForcePod.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CooldownHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BulletComponent.cpp
         CACHE INTERNAL ""
 )

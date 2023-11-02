@@ -1,6 +1,7 @@
 //
 // Created by clagasse on 10/31/23.
 //
+
 #include <cstddef>
 #include <chrono>
 #include "AComponent.hpp"

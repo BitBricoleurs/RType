@@ -35,6 +35,16 @@ namespace Client {
                 Utils::Vect2 pos = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[2])) / 1000, static_cast<float>(std::any_cast<int>(args[3])) / 1000);
                 Utils ::Vect2 velocity = Utils::Vect2(static_cast<float>(std::any_cast<int>(args[4])) / 1000, static_cast<float>(std::any_cast<int>(args[5])) / 1000);
                 size_t entityId = factory.createNewStarship(componentsContainer, eventHandler, pos, velocity, number);
+                auto gameMode = std::make_shared<Utils::UserGameMode>(game);
+                componentsContainer.bindComponentToEntity(entityId, gameMode);
+                if (game != Utils::UserGameMode::State::ALIVE) {
+                    auto spriteType = GameEngine::ComponentsType::getComponentType("SpriteComponent");
+                    auto spriteComponentOpt = componentsContainer.getComponent(entityId, spriteType);
+                    if (spriteComponentOpt.has_value()) {
+                        auto spriteComponent = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteComponentOpt.value());
+                        spriteComponent->isVisible = false;
+                    }
+                }
 
                 factory.registerEntity(entityId, ids.front());
             } catch (std::bad_any_cast &e) {
