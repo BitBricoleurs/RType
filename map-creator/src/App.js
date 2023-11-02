@@ -3,7 +3,8 @@ import Toolbar from './components/Toolbar';
 import Map from './components/Map';
 import ParallaxModal from './components/ParallaxModal';
 import './App.css';
-const { ipcRenderer } = window.require('electron');
+const { ipcRenderer } = require('electron');
+const { dialog } = require('electron').remote;
 
 function App() {
 
@@ -77,31 +78,46 @@ function App() {
         setBackgroundImages(prevImages => prevImages.filter(bg => bg.id !== parallaxToDelete.id));
     };
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === 's' || event.key === 'S') {
-                event.preventDefault();
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [mapItems, backgroundImages]);
 
     useEffect(() => {
         ipcRenderer.on('menu-action', (event, action) => {
             if (action === 'new') {
                 console.log('New');
             }
+            if (action === 'save') {
+                console.log('Save');
+
+                handleSave();
+            }
         });
 
         return () => {
             ipcRenderer.removeAllListeners('menu-action');
         };
-    }, []);
+    }, [mapItems, backgroundImages]);
+
+    console.log('Map items', mapItems);
+    console.log('Background images', backgroundImages);
+
+    const handleSave = async () => {
+        const dataToSave = {
+            mapItems: mapItems,
+            backgroundImages: backgroundImages
+        };
+        const { filePath } = await dialog.showSaveDialog({
+            title: 'Enregistrer le fichier',
+            defaultPath: 'mapData.json',
+            filters: [
+                { name: 'JSON Files', extensions: ['json'] },
+                { name: 'All Files', extensions: ['*'] }
+            ]
+        });
+
+        if (filePath) {
+            // Sauvegardez les données dans le fichier choisi
+            ipcRenderer.send('save-data', dataToSave, filePath);
+        }
+    };
 
     return (
         <div className="App">
