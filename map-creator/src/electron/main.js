@@ -69,18 +69,22 @@ function createWindow() {
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
 
-    ipcMain.on('save-dialog', (event) => {
+    ipcMain.on('save-dialog', (event, mapItems, backgroundImages ) => {
+
         dialog.showSaveDialog({
             title: 'Sauvegarder les données',
-            // Spécifiez d'autres options ici si nécessaire
+            filters: [{ name: 'JSON', extensions: ['json'] }]
         }).then(file => {
-            if (!file.canceled) {
-                fs.writeFileSync(file.filePath.toString(), JSON.stringify({
-                    // Vous devez envoyer les données à enregistrer depuis le processus de rendu
-                }));
+            if (!file.canceled && file.filePath) {
+                console.log(mapItems, backgroundImages);
+                const content = JSON.stringify({ backgroundImages, mapItems }, null, 2);
+                fs.writeFileSync(file.filePath.toString(), content);
+                event.sender.send('save-success');
             }
         }).catch(err => {
             console.log(err);
+            // Inform the renderer process that the save failed
+            event.sender.send('save-failed');
         });
     });
 

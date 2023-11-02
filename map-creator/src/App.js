@@ -93,27 +93,27 @@ function App() {
     }, [mapItems, backgroundImages]);
 
     useEffect(() => {
-        // Écoutez les messages provenant du processus principal
         ipcRenderer.on('menu-action', (event, action) => {
             if (action === 'new') {
-                // Votre logique ici pour 'New'
             }
             if (action === 'save') {
                 console.log('Save');
                 handleSave();
             }
-            // Traitez d'autres actions ici
         });
 
         return () => {
-            // Nettoyage : retirez l'écouteur lorsque le composant est démonté
             ipcRenderer.removeAllListeners('menu-action');
         };
-    }, []);
+    }, [mapItems, backgroundImages]);
 
     const handleSave = () => {
-        ipcRenderer.send('save-dialog');
+        const formattedMapItems = JSON.stringify(mapItems, null, 2);
+        const formattedBackgroundImages = JSON.stringify(backgroundImages, null, 2);
+
+        ipcRenderer.send('save-dialog', mapItems, backgroundImages);
     };
+
 
 
     return (
