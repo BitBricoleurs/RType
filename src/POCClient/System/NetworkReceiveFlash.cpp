@@ -27,8 +27,10 @@ void Client::NetworkReceiveFlash::update(GameEngine::ComponentsContainer &compon
             if (!sprite.has_value())
                 return;
             auto spriteCast = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(sprite.value());
-            spriteCast->flash = false;
-        
+            if (spriteCast->flash)
+                return;
+            spriteCast->flash = true;
+            spriteCast->isVisible = !spriteCast->isVisible;
             eventHandler.scheduleEvent("flash", 3, clientId, 5);
         }
     } catch (std::exception &e) {
