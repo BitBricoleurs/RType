@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { MenuItem, Menu } from '@blueprintjs/core';
 import './Map.css';
 
-function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCard, selectedParallax, onParallaxRightClick }) {
+function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCard, selectedParallax, onParallaxRightClick, OnPowerUp }) {
     const sortedBackgroundImages = backgroundImages.sort((a, b) => b.layer - a.layer);
 
     const [contextMenuState, setContextMenuState] = useState({ isOpen: false, x: 0, y: 0, item: null });
@@ -28,9 +28,11 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
             console.log('Modifier', contextMenuState.item);
         } else if (action === 'Supprimer') {
             onDeleteItem(contextMenuState.item);
+        } else if (action === 'PowerUp') {
+            OnPowerUp(contextMenuState.item);
         }
         handleCloseContextMenu();
-    }, [contextMenuState.item, handleCloseContextMenu, onDeleteItem]);
+    }, [contextMenuState.item, handleCloseContextMenu, onDeleteItem, OnPowerUp]);
 
     const handleMapClickInternal = useCallback((event) => {
         onMapClick(event);
@@ -73,7 +75,10 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
                         backgroundSize: 'cover',
                         width: item.rect.width * item.scale + 'px',
                         height: item.rect.height * item.scale + 'px',
-                        zIndex: 1000
+                        zIndex: 1000,
+                        border: item.powerUp ? '3px solid gold' : 'none',
+                        boxShadow: item.powerUp ? '0 0 10px gold' : 'none',
+                        animation: item.powerUp ? 'pulse 2s infinite' : 'none',
                     }}
                     onContextMenu={(event) => handleContextMenu(event, item)}
                 />
@@ -89,6 +94,11 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
                     onMouseLeave={handleCloseContextMenu}
                 >
                     <Menu>
+                        <MenuItem
+                            text="PowerUp"
+                            onClick={(event) => handleMenuItemClick(event, 'PowerUp')}
+                            icon={contextMenuState.item.powerUp ? "tick" : null}
+                        />
                         <MenuItem text="Modifier" onClick={(event) => handleMenuItemClick(event, 'Modifier')} />
                         <MenuItem text="Supprimer" onClick={(event) => handleMenuItemClick(event, 'Supprimer')} />
                     </Menu>

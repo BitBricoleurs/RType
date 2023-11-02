@@ -1,5 +1,5 @@
 // src/electron/main.js
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');  // ajoutez cette ligne
 
 function createWindow() {
@@ -8,6 +8,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
+            contextIsolation: false,
         },
     });
 
@@ -16,6 +17,51 @@ function createWindow() {
         : `file://${__dirname}/../../build/index.html`;  // en production, charge le fichier HTML buildé
 
     win.loadURL(url);
+
+    const menuTemplate = [
+        {
+            label: 'File',
+            submenu: [
+                { label: 'Open', click: () => { /* Votre logique ici */ } },
+                { type: 'separator' },
+                { label: 'Save', click: () => { /* Votre logique ici */ } },
+                {
+                    label: 'New',
+                    click: () => { win.webContents.send('menu-action', 'new'); }
+                }
+            ]
+        },
+        {
+            label: 'Edit',
+            submenu: [
+                {
+                    label: 'Undo', click: () => { /* Votre logique ici */
+                    }
+                },
+            ]
+        },
+        {
+            label: 'Layers',
+            submenu: [
+                {
+                    label: 'View layer', click: () => { /* Votre logique ici */
+                    }
+                },
+            ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forceReload' },
+                { role: 'toggleDevTools' },
+                ]
+        }
+    ];
+
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
+
 }
 
 app.whenReady().then(createWindow);

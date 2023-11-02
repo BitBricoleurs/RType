@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Toolbar from './components/Toolbar';
 import Map from './components/Map';
 import ParallaxModal from './components/ParallaxModal';
 import './App.css';
+const { ipcRenderer } = window.require('electron');
 
 function App() {
+
     const [selectedCard, setSelectedCard] = useState(null);
     const [selectedParallax, setSelectedParallax] = useState(null);
     const [mapItems, setMapItems] = useState([]);
     const [backgroundImages, setBackgroundImages] = useState([]);
-    const [isParallaxModalOpen, setIsParallaxModalOpen] = useState(false); // État pour gérer l'ouverture de la modale
+    const [isParallaxModalOpen, setIsParallaxModalOpen] = useState(false);
 
     const handleDeleteItem = (itemToDelete) => {
         setMapItems(prevItems => prevItems.filter(item => item !== itemToDelete));
     };
 
+    const handlePowerUp = (itemToPowerUp) => {
+        itemToPowerUp.powerUp = !itemToPowerUp.powerUp;
+    }
+
     const handleSelectLayer = (parallaxData) => {
-        setIsParallaxModalOpen(true); // Ouvrir la modale
+        setIsParallaxModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsParallaxModalOpen(false); // Fermer la modale
+        setIsParallaxModalOpen(false);
     };
 
     const handleMapClick = (event) => {
@@ -47,7 +53,7 @@ function App() {
 
     function placeParallaxEntities(parallaxData) {
         if (parallaxData.isBackgroundEnabled) {
-            const mapWidth = 192000; // Remplacez par la largeur réelle de votre map
+            const mapWidth = 192000;
             const entityWidth = parallaxData.rect.width * parallaxData.scale;
             const entitiesToPlace = Math.ceil(mapWidth / entityWidth);
 
@@ -71,6 +77,32 @@ function App() {
         setBackgroundImages(prevImages => prevImages.filter(bg => bg.id !== parallaxToDelete.id));
     };
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 's' || event.key === 'S') {
+                event.preventDefault();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [mapItems, backgroundImages]);
+
+    useEffect(() => {
+        ipcRenderer.on('menu-action', (event, action) => {
+            if (action === 'new') {
+                console.log('New');
+            }
+        });
+
+        return () => {
+            ipcRenderer.removeAllListeners('menu-action');
+        };
+    }, []);
+
     return (
         <div className="App">
             <Map
@@ -81,6 +113,7 @@ function App() {
                 selectedCard={selectedCard}
                 selectedParallax={selectedParallax}
                 onParallaxRightClick={handleParallaxRightClick}
+                OnPowerUp={handlePowerUp}
             />
             <Toolbar
                 setSelectedCard={setSelectedCard}
