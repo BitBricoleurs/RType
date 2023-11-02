@@ -1,5 +1,5 @@
 // src/electron/main.js
-const { app, BrowserWindow, Menu, ipcRenderer } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');  // ajoutez cette ligne
 const fs = require('fs');
 const path = require('path');
@@ -68,6 +68,21 @@ function createWindow() {
 
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
+
+    ipcMain.on('save-dialog', (event) => {
+        dialog.showSaveDialog({
+            title: 'Sauvegarder les données',
+            // Spécifiez d'autres options ici si nécessaire
+        }).then(file => {
+            if (!file.canceled) {
+                fs.writeFileSync(file.filePath.toString(), JSON.stringify({
+                    // Vous devez envoyer les données à enregistrer depuis le processus de rendu
+                }));
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 
 }
 

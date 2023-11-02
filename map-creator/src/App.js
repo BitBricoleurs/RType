@@ -4,6 +4,7 @@ import Map from './components/Map';
 import ParallaxModal from './components/ParallaxModal';
 import './App.css';
 const {ipcRenderer} = window.require('electron');
+const {fs} = window.require('fs');
 
 function App() {
 
@@ -99,7 +100,7 @@ function App() {
             }
             if (action === 'save') {
                 console.log('Save');
-                // Votre logique ici pour 'Open'
+                handleSave();
             }
             // Traitez d'autres actions ici
         });
@@ -109,6 +110,11 @@ function App() {
             ipcRenderer.removeAllListeners('menu-action');
         };
     }, []);
+
+    const handleSave = () => {
+        ipcRenderer.send('save-dialog');
+    };
+
 
     return (
         <div className="App">
