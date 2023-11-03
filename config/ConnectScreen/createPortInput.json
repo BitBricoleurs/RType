@@ -5,9 +5,9 @@
     "spritePosY": 500,
     "frame" : 2,
     "spriteSheetHeight": 128,
-    "spriteSheetWidth": 1117,
+    "spriteSheetWidth": 868,
     "hitboxHeight": 128,
-    "hitboxWidth": 558,
+    "hitboxWidth": 434,
     "scale": 0.80,
     "reverse": false,
     "tint": {
@@ -22,6 +22,7 @@
     "maxSizeSection" : 5,
     "maxSizeInput" : 5,
     "relatixeTextPosX" : 175,
-    "relatixeTextPosY" : 32
+    "relatixeTextPosY" : 32,
+    "padding" : 0.0
   }
 }

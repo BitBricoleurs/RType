@@ -22,6 +22,7 @@
     "maxSizeSection" : 3,
     "maxSizeInput" : 16,
     "relatixeTextPosX" : 105,
-    "relatixeTextPosY" : 32
+    "relatixeTextPosY" : 32,
+    "padding" : 2.0
   }
 }

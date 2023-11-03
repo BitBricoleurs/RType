@@ -12,6 +12,7 @@
 #include "EntityFactory.hpp"
 #include "IsButtonConnect.hpp"
 #include "ButtonComponent.hpp"
+#include <regex>
 
 namespace Client {
 
@@ -20,5 +21,7 @@ namespace Client {
       void update(GameEngine::ComponentsContainer &componentsContainer,
                   GameEngine::EventHandler &eventHandler) override;
     };
+    bool isIpValid (const std::string &ip);
+    bool isPortValid (const std::string &port);
 
 }

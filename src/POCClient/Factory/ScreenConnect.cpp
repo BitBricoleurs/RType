@@ -12,6 +12,7 @@
 #include "InputText.hpp"
 #include "MenuNavigation.hpp"
 #include "IsSelected.hpp"
+#include "PaddingMenu.hpp"
 
 size_t Client::EntityFactory::createBackGroundConnect(GameEngine::ComponentsContainer &container)
 {
@@ -98,6 +99,7 @@ size_t Client::EntityFactory::createInputIp(GameEngine::ComponentsContainer &con
             rotation, tint);
 
     auto isIpInput = std::make_shared<Client::IsMenuIp>();
+    auto paddingMenu = std::make_shared<Client::PaddingMenu>(data.getFloat("/ip_input/padding"));
 
     int nbrSection = data.getInt("/ip_input/nbrSection");
     int maxSizeSection = data.getInt("/ip_input/maxSizeSection");
@@ -117,6 +119,7 @@ size_t Client::EntityFactory::createInputIp(GameEngine::ComponentsContainer &con
     container.bindComponentToEntity(entityId, inputText);
     container.bindComponentToEntity(entityId, menuNavigation);
     container.bindComponentToEntity(entityId, IsSelected);
+    container.bindComponentToEntity(entityId, paddingMenu);
 
     return entityId;
     } catch (const std::exception &e) {
@@ -158,12 +161,14 @@ size_t Client::EntityFactory::createInputPort(GameEngine::ComponentsContainer &c
 
     auto menuNavigation = std::make_shared<Client::MenuNavigation>();
 
+    auto paddingMenu = std::make_shared<Client::PaddingMenu>(data.getFloat("/port_input/padding"));
     size_t entityId = container.createEntity();
     container.bindComponentToEntity(entityId, spriteComponent);
     container.bindComponentToEntity(entityId, isIpInput);
     container.bindComponentToEntity(entityId, menuNavigation);
     container.bindComponentToEntity(entityId, inputText);
     container.bindComponentToEntity(entityId, text);
+    container.bindComponentToEntity(entityId, paddingMenu);
     return entityId;
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;

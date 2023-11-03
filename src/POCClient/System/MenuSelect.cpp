@@ -41,7 +41,14 @@ void Client::MenuSelect::update(GameEngine::ComponentsContainer &componentsConta
             componentsContainer.unbindComponentFromEntity(entity, selectedComp);
         }
     }
-    float padding = 3.0;
+    auto paddingCompType = GameEngine::ComponentsType::getComponentType("PaddingMenu");
+    auto paddingCompMay = componentsContainer.getComponent(entities[0], paddingCompType);
+    float padding = 0;
+    if (paddingCompMay.has_value()) {
+        auto comp = paddingCompMay.value();
+        auto paddingC = std::static_pointer_cast<Client::PaddingMenu>(comp);
+        padding = paddingC->_padding;
+    }
     auto spriteCompMay = componentsContainer.getComponent(entities[0], spriteCompType);
     if (spriteCompMay.has_value()) {
         auto comp = spriteCompMay.value();

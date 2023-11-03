@@ -8,6 +8,7 @@
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
 #include "LoadConfig.hpp"
+#include "PaddingMenu.hpp"
 
 namespace Client {
     class MenuSelect : public GameEngine::ISystem {

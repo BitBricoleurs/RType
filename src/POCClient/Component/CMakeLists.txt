@@ -24,6 +24,7 @@ set(POCCLIENT_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/MenuNavigation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EndpointGame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SmoothingMovement.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PaddingMenu.cpp
         CACHE INTERNAL ""
 
 )

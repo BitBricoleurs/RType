@@ -24,5 +24,6 @@ namespace Client {
       int _cursorIndex;
       int _cursorSection;
       std::vector<std::vector<char>> _inPutSection;
+      std::string getText();
     };
 }

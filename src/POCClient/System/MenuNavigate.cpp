@@ -52,7 +52,6 @@ void Client::MenuNavigate::update(GameEngine::ComponentsContainer &componentsCon
 
     auto mayMenuNew = componentsContainer.getComponent(newSelected, menuNavigatorType);
     if (!mayMenuNew.has_value()) {
-        std::cerr << "Tried to select an Entitty that does not have MenuNavigation Comp check MenuNavigation.cpp";
         return;
     }
     auto selectComp = std::make_shared<Client::IsSelected>();
