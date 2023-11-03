@@ -40,6 +40,7 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "InitNotification.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -110,6 +111,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
 void setup_hud(GameEngine::GameEngine &engine) {
     auto chargingBar = std::make_shared<Client::ChargingBar>();
     auto initHud = std::make_shared<Client::InitHUD>();
+    auto initNotification = std::make_shared<Client::InitNotification>();
 
 
     engine.addEvent("InitEvent", initHud);
@@ -118,7 +120,8 @@ void setup_hud(GameEngine::GameEngine &engine) {
     engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
     engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
     engine.setContinuousEvent("SPACE_KEY_RELEASED", "STOP_UNCHARGING");
-
+    engine.addEvent("INIT_NOTIFICATION", initNotification);
+    engine.queueEvent("INIT_NOTIFICATION");
 
 }
 

@@ -5,5 +5,6 @@ set(POCCLIENT_FACTORY_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/MobSpawn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateNotification.cpp
         CACHE INTERNAL ""
 )
