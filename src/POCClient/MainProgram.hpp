@@ -18,7 +18,6 @@
 #include "Endpoint.hpp"
 #include "GameEngine.hpp"
 #include "InitHUD.hpp"
-#include "InitParallax.hpp"
 #include "KillEntity.hpp"
 #include "NetworkConnect.hpp"
 #include "NetworkDeleteEntity.hpp"
@@ -28,8 +27,6 @@
 #include "NetworkReceiveDisconnectApply.hpp"
 #include "NetworkServerAccept.hpp"
 #include "NetworkServerTimeout.hpp"
-#include "Parallax.hpp"
-#include "ParallaxPlanet.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "RenderEngineSystem.hpp"
 #include "SyncPosSprite.hpp"
@@ -54,6 +51,14 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "FlashWhenHit.hpp"
+#include "NetworkReceiveFlash.hpp"
+#include "NetworkReceiveLifeLost.hpp"
+#include "DeathPlayer.hpp"
+#include "GameOverSystem.hpp"
+#include "GoBackToTheLobby.hpp"
+#include "RevivePlayer.hpp"
+#include "CreateParallax.hpp"
 
 namespace Client {
     class MainProgram {

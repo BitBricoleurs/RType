@@ -21,7 +21,7 @@ namespace Network {
         void registerReceivedPacket(unsigned int remoteId, unsigned int packetId);
         bool isPacketRegisteredIn(unsigned int remoteId, unsigned int packetId);
         void registerSentPacket(unsigned int remoteId, std::shared_ptr<Network::Packet> packet, bool secure = false);
-        std::shared_ptr<Network::Packet> getPacket(unsigned int remoteId, unsigned int packetId);
+        std::shared_ptr<Network::Packet> getPacket(unsigned int remoteId, long packetId);
         std::vector<std::shared_ptr<Network::Packet>> getPacketsToResend(unsigned int remoteId, uint16_t ackMask);
         uint16_t getAckMask(unsigned int remoteId);
         unsigned int getLastPacketId(unsigned int remoteId);
@@ -29,7 +29,8 @@ namespace Network {
         void clear();
     private:
         const size_t _maxSize = 16;
-        std::mutex _mutex;
+        std::mutex _mutexIn;
+        std::mutex _mutexOut;
         std::unordered_map<unsigned int, std::vector<unsigned int>> _packetIdRegisterIn;
         std::unordered_map<unsigned int, std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>>_packetRegisterOut;
     };

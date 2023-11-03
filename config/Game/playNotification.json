@@ -1,0 +1,13 @@
+{
+  "createPlay": {
+    "spriteSheetPath": "assets/HUD/playNotif.png",
+    "spriteSheetHeight": 1080,
+    "spriteSheetWidth": 49920,
+    "hitboxHeight": 1080,
+    "hitboxWidth": 1920,
+    "animateFrame": 25,
+    "staticFrame": 26,
+    "scale": 1,
+    "layer": 40
+  }
+}

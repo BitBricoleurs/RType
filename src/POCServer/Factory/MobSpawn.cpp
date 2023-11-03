@@ -38,7 +38,7 @@ namespace Server {
             container.bindComponentToEntity(entityId, shooterComp);
 
             auto IdCharge = std::make_tuple(entityId, 0);
-            eventHandler.scheduleEvent("ShootSystem", config.getInt("/shootDelay"), IdCharge);
+            eventHandler.scheduleEvent("SHOOT", config.getInt("/shootDelay"), IdCharge);
 
             if (dropPowerup) {
                 auto powerUp = std::make_shared<IsPowerUp>();
@@ -47,11 +47,13 @@ namespace Server {
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::CANCER)};
+            args.emplace_back(static_cast<int>(pos.x * 1000));
+            args.emplace_back(static_cast<int>(pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity.y * 1000));
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
-            EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
-
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnCancerMob: " << e.what() << std::endl;

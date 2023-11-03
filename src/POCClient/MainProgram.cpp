@@ -37,6 +37,7 @@ namespace Client {
         auto imAlive = std::make_shared<Client::iAmAlive>();
         auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
         auto createForcePod = std::make_shared<Client::CreateForcePod>();
+        auto createParallax = std::make_shared<Client::CreateParallax>();
 
         engine.addSystem("NETWORK_INPUT", networkInput, 0);
         engine.addEvent("SEND_NETWORK", networkOutput);
@@ -50,6 +51,7 @@ namespace Client {
         engine.addEvent("CREATED_BULLET", createBullet);
         engine.addEvent("CREATED_POWERUP", createPowerUp);
         engine.addEvent("CREATED_FORCEPOD", createForcePod);
+        engine.addEvent("CREATED_PARALLAX", createParallax);
         engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
         engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
         engine.addEvent("START_GAME", networkReceiveStartGame);
@@ -103,28 +105,39 @@ namespace Client {
 
     void MainProgram::setup_game(GameEngine::GameEngine& engine)
     {
-        auto initParallax = std::make_shared<Client::InitParallax>();
-        auto parallax = std::make_shared<Client::Parallax>();
-        auto parallaxPlanet = std::make_shared<Client::ParallaxPlanet>();
         auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
         auto collisionHandler = std::make_shared<Client::CollisionHandler>();
         auto MobHit1 = std::make_shared<Client::MobHit>();
         auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
         auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
         auto activateCharge = std::make_shared<Client::ActivateCharge>();
+        auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
+        auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
+        auto createForcePod = std::make_shared<Client::CreateForcePod>();
+        auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
+        auto receiveLifeLost = std::make_shared<Client::NetworkReceiveLifeLost>();
+        auto deathPlayer = std::make_shared<Client::DeathPlayer>();
+        auto gameOver = std::make_shared<Client::GameOverSystem>();
+        auto goBackToTheLobby = std::make_shared<Client::GoBackToTheLobby>();
+        auto revivePlayer = std::make_shared<Client::RevivePlayer>();
 
         engine.addEvent("PLAY_SOUND", audioSys);
         engine.addEvent("Init", initAudio);
         engine.queueEvent("Init");
 
-        engine.addSystem("ParallaxSystem", parallax);
-        engine.addSystem("ParallaxPlanetSystem", parallaxPlanet);
-        engine.addEvent("InitParallax", initParallax);
-        engine.queueEvent("InitParallax");
         engine.addEvent("MobHit", MobHit1);
         engine.addSystem("CollisionSystem", collision);
         engine.addEvent("Collision", collisionHandler);
         engine.addEvent("CHARGE", activateCharge);
+        engine.addEvent("CREATED_POWERUP", createPowerUp);
+        engine.addEvent("CREATED_FORCEPOD", createForcePod);
+        engine.addEvent("flash", flashWhenHit);
+        engine.addEvent("FLASH_ENTITY", receiveFlash);
+        engine.addEvent("LIFE_LOST", receiveLifeLost);
+        engine.addEvent("DEATH", deathPlayer);
+        engine.addEvent("GAME_OVER", gameOver);
+        engine.addEvent("JOIN_LOBBY", goBackToTheLobby);
+        engine.addEvent("REVIVE_PLAYER", revivePlayer);
     }
 
     void MainProgram::setup_animations(GameEngine::GameEngine &engine) {

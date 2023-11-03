@@ -1,11 +1,2740 @@
 {
+    "parallax" : [
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": true,
+            "speed": 0.5,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": true,
+            "speed": 0.5,
+            "position": {
+                "x": 1920,
+                "y": 0
+            }
+        },
+        {
+            "tick": 60,
+            "type": 4,
+            "layer" : 2,
+            "isLooping": false,
+            "speed": 1.0,
+            "position": {
+                "x": 2000,
+                "y": 400
+            }
+        }
+    ],
+    "winCondition" :  {
+        "tick" : 1000000
+    },
     "mobs": [
         {
-            "tick": 13,
+            "tick": 45,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 433.7073914534043
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 135,
             "mobType": "cancerMob",
             "position": {
                 "x": 2000.0,
-                "y": 575.0
+                "y": 239.05372294095528
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 234,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 367.81662667206143
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 308,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 135.90089559161552
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 406,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 603.3997693574544
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 484,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 203.06614618313992
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 525,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 915.9230833275287
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 607,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 886.2299897836591
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 678,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 161.58905380740754
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 746,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 334.8788291787843
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 836,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 594.1345551035887
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 877,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 44.94313643998089
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 893,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 830.4740524151697
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 953,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 923.9975160260991
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1043,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 922.5459324451836
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1111,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 891.5749147409168
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1188,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 835.5112077981684
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1209,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 790.8297911341305
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1256,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 382.0171748853556
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1350,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 139.46675584343268
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1450,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 412.605578778967
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1526,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 27.091997279598505
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1595,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 632.0344372188059
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1634,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 565.9121283391157
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1661,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 936.2384790900404
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1666,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 50.71489161176331
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1712,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 156.4373469212183
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1724,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 890.3542233416304
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1800,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 840.8944589924438
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1890,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 501.75143772530095
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 1976,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 48.1394292043674
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2008,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 579.3330056592041
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2067,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 214.0778748404398
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2117,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 32.18470029194622
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 2166,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 258.53785624313286
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2259,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 765.1261354395543
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 2329,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 170.6181534859049
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2416,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 284.95465474564736
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2430,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 209.79016699315542
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2464,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 134.6844594093571
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2512,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 453.77464245010793
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2603,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 562.9849194034954
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2640,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 644.5489358660436
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2667,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 617.0928792226764
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 2682,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 595.5169580702135
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2692,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 643.497372300102
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2700,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 909.0439778775228
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2782,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 291.46586307299395
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2823,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 44.638473250147186
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2845,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 536.0377344677213
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2856,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 68.34615694494376
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2870,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 349.52748747965325
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2892,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 698.4743410747574
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2952,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 583.720985682463
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2966,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 514.3724139351475
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2978,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 708.2580547527643
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 2997,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 798.6700252942652
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3073,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 834.4334517881198
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3122,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 88.28965005082823
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3214,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 234.71278820713033
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3301,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 273.80538972504706
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3386,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 163.20769828580364
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3451,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 803.1375926501737
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3540,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 189.58236663060632
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3591,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 616.808655132149
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3683,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 484.7947386915946
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3750,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 210.4259928068716
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3796,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 642.7373864698815
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3812,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 192.29330461293645
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3885,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 693.6370997715366
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 3969,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 750.9349520458153
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4015,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 704.9149472447352
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4107,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 585.4726793470619
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4154,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 54.80689115922604
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4233,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 624.9758779557322
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4314,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 192.4590181581127
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4407,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 416.75780759490266
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4501,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 799.1753647738925
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4539,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 315.0892298565058
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4621,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 292.14822275384415
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4632,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 22.600934515768486
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4695,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 123.5409614417989
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4738,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 644.1000562767374
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4785,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 138.15480522590036
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 4829,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 228.78187640443522
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4922,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 216.92505001105914
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 4994,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 705.1988385714085
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5037,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 702.6350010137534
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5131,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 898.3630315413877
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5194,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 829.9016884439789
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5237,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 841.4401284760789
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5332,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 792.8010753379403
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5339,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 805.4976127394807
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5380,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 281.7295261579552
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5408,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 219.26044164955118
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5487,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 799.5514161062994
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5532,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 932.2280628081905
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5537,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 829.9252883158772
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5636,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 768.1230304319578
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5680,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 758.8647403672458
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5724,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 545.6978725363335
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 5752,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 38.651301783109325
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5770,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 518.1297295913798
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5788,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 383.16226624088586
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5832,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 108.90696610011241
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5891,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 449.2020305434441
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5906,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 792.521222095262
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 5992,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 779.9884169056393
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6060,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 471.4421050138995
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6072,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 779.1083254601822
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 6161,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 702.5725662404428
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6225,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 808.2120122943389
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6294,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 458.2038319468485
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6315,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 216.93336153624364
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 6345,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 501.5079018576558
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6382,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 76.44880786607482
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6389,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 702.5655272718603
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6439,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 898.5675546729045
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6488,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 566.0390724833268
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6505,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 116.63687330421449
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6600,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 139.22597925955537
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6612,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 442.3966348685685
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6630,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 132.36231799977412
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6698,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 452.14688414849974
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6794,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 824.0728575659772
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6815,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 849.8727026549753
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6845,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 467.9036144485762
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6940,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 671.0333967555446
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 6994,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 845.8178056875438
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7010,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 391.41595160549195
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 7060,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 548.3080169614294
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7136,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 861.3610737746413
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7197,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 296.99845073951485
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 7294,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 788.1337909957568
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7376,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 718.1710977465755
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7437,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 228.71687982450794
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7530,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 519.5334050149328
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7568,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 629.8722670575962
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7610,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 878.2697959475877
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7671,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 13.942169579245691
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7704,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 214.53456686898838
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7771,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 241.46506016951207
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7854,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 711.6109697930144
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7906,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 219.51010056621178
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7915,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 792.9932549500136
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7925,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 128.09148316601247
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 7956,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 611.6607958721244
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8031,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 549.3941755511235
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8080,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 483.22670581393567
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 8138,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 411.1211065813828
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8221,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 693.9532470266405
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8257,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 885.2842456107396
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8276,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 459.45196418019304
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8325,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 713.3011652308402
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8349,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 577.2161699237824
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8410,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 661.8720303630422
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 8438,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 289.3847900334921
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8504,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 511.71453012390896
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8519,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 265.4539125601005
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8524,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 560.4721827072535
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8532,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 234.30422778035216
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8556,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 869.228465813298
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8651,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 128.50184146227872
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8688,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 615.8604569620999
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8706,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 848.8257720792164
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8730,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 350.8814939380834
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8799,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 712.4377609605839
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8840,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 128.9933040613911
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 8900,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 218.87625226018432
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8966,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 674.7993736360355
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 8980,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 433.57369755565475
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9003,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 84.94949516511414
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9025,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 739.7242191390679
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9048,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 541.7638565204218
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9107,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 387.94752942184346
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9178,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 372.42880134053974
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9191,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 782.4129462109939
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9288,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 55.0095870579691
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9382,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 158.06839875265422
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9463,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 482.44740574104156
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9541,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 460.852146958749
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9571,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 323.3488895688634
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9651,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 383.1725779806333
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 9696,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 79.00511867403617
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9776,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 433.4372057822272
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 9806,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 102.03759101480165
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9817,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 416.30314720220474
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9873,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 928.8917087805039
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9882,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 272.6460873851198
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 9925,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 84.40440120023034
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10008,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 407.70862485827894
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10093,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 698.1404597570702
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10102,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 947.1703022034021
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10107,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 404.0046603389587
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10148,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 259.05064229209484
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10238,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 325.0843315544974
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10332,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 410.9422142700537
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10355,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 624.5152633455245
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10445,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 284.9684371931247
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10519,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 188.95098664366063
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10597,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 195.5681817165877
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10623,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 151.48056864547684
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10701,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 608.5745786128512
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10723,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 526.3861844219716
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10767,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 923.6322286230404
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 10862,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 563.5753464156762
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 10949,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 174.29659127239174
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 11048,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 655.8214332477991
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11100,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 828.2687187413036
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11107,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 739.703917712623
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11145,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 535.7146606404239
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11160,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 182.20945994648523
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11207,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 727.5181049773921
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 11239,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 193.94590157990993
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11318,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 728.9997207891587
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 11381,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 664.6198818620439
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11414,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 707.5893285694716
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 11489,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 796.5025648435686
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11503,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 783.7939182287108
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11561,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 229.84636688632258
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11604,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 315.234745972787
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11686,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 184.79846154335985
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11691,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 515.6899678665093
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11766,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 84.67470754102958
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11833,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 172.51207418557672
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11912,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 842.7877935548983
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 11989,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 258.4190458343992
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12042,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 682.5348782556786
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12092,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 825.5378258491476
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12108,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 489.58210569001335
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12189,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 621.4673710367396
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12283,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 78.66201801017671
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12362,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 303.67036855477085
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12391,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 472.7409213528615
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12457,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 554.7506050086258
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12556,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 559.9544838416093
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12618,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 171.12530474952428
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12670,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 695.2153698875649
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12736,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 431.6178759146572
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12758,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 53.74461690902152
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12820,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 16.842404021869193
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12846,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 201.2612586116855
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12868,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 13.256156419297156
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 12964,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 861.2217015049604
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12987,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 474.3113093719587
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 12995,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 62.099918980402705
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13073,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 359.9275398302166
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13104,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 408.98740452230635
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13174,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 637.1258059779753
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13239,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 554.1965113742299
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13329,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 816.492097343142
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13362,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 586.5184439821269
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13445,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 933.7531376533157
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13521,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 603.6109517699829
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13574,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 775.597877701479
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13594,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 739.243085884844
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13648,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 715.3835793088252
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13707,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 27.34607891326162
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13757,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 400.88278414735953
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13764,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 563.3181894899462
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13823,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 769.3513709141392
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13874,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 107.71442940737377
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 13952,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 82.03689000727235
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14012,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 366.5164809670614
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14022,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 137.71834512215253
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14052,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 881.7920080210653
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14099,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 531.8382996959349
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14145,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 528.9731909906161
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14173,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 512.5615777503642
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 14187,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 737.316061649745
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14222,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 102.68494761916622
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 14283,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 819.0621351249818
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14378,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 711.2854273128866
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14392,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 449.5757244014902
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 14487,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 92.77336309457435
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14530,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 554.7646988278408
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14623,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 339.1614359672865
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14711,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 247.83471049451788
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14769,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 626.9975379171474
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14815,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 39.1598415052967
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14889,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 744.1304398485764
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14917,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 628.4822067002542
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 14938,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 435.7393522831912
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15033,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 89.84726216747471
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15038,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 220.97471995258744
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 15059,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 12.227325601663232
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15118,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 234.31011692888524
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15158,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 910.1461839129412
+            },
+            "dropPowerup": true
+        },
+        {
+            "tick": 15255,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 799.6184539906141
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15270,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 508.8447302157088
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15332,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 582.8575690188219
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15365,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 675.621225970917
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15372,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 673.8375950125036
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15378,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 109.71458820591492
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15453,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 645.0300595751519
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15537,
+            "mobType": "cancerMob",
+            "position": {
+                "x": 2000.0,
+                "y": 95.79941676075228
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15545,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 246.12685922153565
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15618,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 424.52055414496533
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 15631,
+            "mobType": "pataPataMob",
+            "position": {
+                "x": 2000.0,
+                "y": 274.3473851982579
+            },
+            "dropPowerup": false
+        },
+        {
+            "tick": 16111,
+            "mobType": "bellmite",
+            "position": {
+                "x": 2000,
+                "y": 475
             },
             "dropPowerup": false
         }

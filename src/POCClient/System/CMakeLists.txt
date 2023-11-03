@@ -12,9 +12,7 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreatePlayer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/InitParallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ParallaxPlanet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/KillEntity.cpp
@@ -24,6 +22,7 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/InitAudioBackgroud.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkSendReady.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveStartGame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/InitScreenConnect.cpp
@@ -40,5 +39,15 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BlockOutOfBounds.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlashWhenHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveFlash.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveLifeLost.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeathPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GameOverSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GoBackToTheLobby.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RevivePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateStartNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateStartNotification.cpp
         CACHE INTERNAL ""
 )

@@ -3,6 +3,7 @@
 //
 
 #include "NetworkCreateWorld.hpp"
+#include "UserGameMode.hpp"
 
 namespace Server {
 
@@ -28,12 +29,17 @@ namespace Server {
         auto playersType = GameEngine::ComponentsType::getComponentType("IsPlayer");
         auto mobType = GameEngine::ComponentsType::getComponentType("IsMob");
         auto bulletType = GameEngine::ComponentsType::getComponentType("IsBullet");
+        auto parallaxType = GameEngine::ComponentsType::getComponentType("IsParallax");
         auto powerType = GameEngine::ComponentsType::getComponentType("IsPower");
         auto forcePodType = GameEngine::ComponentsType::getComponentType("IsForcePod");
+        auto bulletTypeType = GameEngine::ComponentsType::getComponentType("BulletType");
+        auto bulletOwnerType = GameEngine::ComponentsType::getComponentType("BulletOwner");
+        auto gameModeType = GameEngine::ComponentsType::getComponentType("UserGameMode");
 
         auto players = componentsContainer.getEntitiesWithComponent(playersType);
         auto mobs = componentsContainer.getEntitiesWithComponent(mobType);
         auto bullets = componentsContainer.getEntitiesWithComponent(bulletType);
+        auto parallax = componentsContainer.getEntitiesWithComponent(parallaxType);
         auto powers = componentsContainer.getEntitiesWithComponent(powerType);
         auto forcePods = componentsContainer.getEntitiesWithComponent(forcePodType);
 
@@ -56,6 +62,11 @@ namespace Server {
             if (player == entityId)
                 continue;
             args.emplace_back(static_cast<int>(numb));
+            auto mayGameMode = componentsContainer.getComponent(player, gameModeType);
+            if (!mayGameMode.has_value())
+                continue;
+            auto gameMode = std::static_pointer_cast<Utils::UserGameMode>(mayGameMode.value());
+            args.emplace_back(static_cast<int>(gameMode->_state));
             ids.push_back(player);
             auto mayPosition = componentsContainer.getComponent(player, positionType);
             if (!mayPosition.has_value())
@@ -114,8 +125,14 @@ namespace Server {
 
         // Creating Bullets
         for (auto &bullet : bullets) {
-            auto compIsBullet = std::static_pointer_cast<IsBullet>(componentsContainer.getComponent(bullet, bulletType).value());
-            args.emplace_back(compIsBullet->playerBullet);
+            auto mayBulletType = componentsContainer.getComponent(bullet, bulletTypeType);
+            auto mayBulletOwner = componentsContainer.getComponent(bullet, bulletOwnerType);
+            if (!mayBulletType.has_value() || !mayBulletOwner.has_value())
+                continue;
+            auto bulletTypeComp = std::static_pointer_cast<BulletTypeComp>(mayBulletType.value());
+            auto bulletOwnerComp = std::static_pointer_cast<BulletOwnerComp>(mayBulletOwner.value());
+            args.emplace_back(static_cast<int>(bulletOwnerComp->owner));
+            args.emplace_back(static_cast<int>(bulletTypeComp->type));
             ids.push_back(bullet);
             auto mayPosition = componentsContainer.getComponent(bullet, positionType);
             if (!mayPosition.has_value())
@@ -136,11 +153,42 @@ namespace Server {
             args.clear();
         }
 
+        // Creating Parallax
+        for (auto &para : parallax) {
+            if (!componentsContainer.getComponent(para, parallaxType).has_value())
+                continue;
+            auto compIsParallax = std::static_pointer_cast<IsParallax>(componentsContainer.getComponent(para, parallaxType).value());
+            auto posParallax = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto velocityParallax = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+            args.emplace_back(static_cast<int>(compIsParallax->type));
+            args.emplace_back(static_cast<int>(posParallax->pos.x * 1000));
+            args.emplace_back(static_cast<int>(posParallax->pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocityParallax->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(compIsParallax->layer));
+            ids.push_back(para);
+            message = std::make_shared<Network::Message>("CREATED_PARALLAX", ids, "INT", args);
+            userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
+            eventHandler.queueEvent("SEND_NETWORK", userMessage);
+            ids.clear();
+            args.clear();
+        }
         // Creating Powers
         for(auto &power : powers) {
             auto compIsPower = std::static_pointer_cast<IsPower>(componentsContainer.getComponent(power, powerType).value());
             args.push_back(static_cast<int>(compIsPower->type));
             ids.push_back(power);
+            auto mayPosition = componentsContainer.getComponent(power, positionType);
+            if (!mayPosition.has_value())
+                continue;
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayPosition.value());
+            args.emplace_back(static_cast<int>(position->pos.x * 1000));
+            args.emplace_back(static_cast<int>(position->pos.y * 1000));
+            auto mayVelocity = componentsContainer.getComponent(power, velocityType);
+            if (!mayVelocity.has_value())
+                continue;
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayVelocity.value());
+            args.emplace_back(static_cast<int>(velocity->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity->velocity.y * 1000));
             message = std::make_shared<Network::Message>("CREATED_POWERUP", ids, "INT", args);
             userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
@@ -151,7 +199,19 @@ namespace Server {
         // Creating ForcePods
         for(auto &forcePod : forcePods) {
             ids.push_back(forcePod);
-            message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "", args);
+            auto mayPosition = componentsContainer.getComponent(forcePod, positionType);
+            if (!mayPosition.has_value())
+                continue;
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayPosition.value());
+            args.emplace_back(static_cast<int>(position->pos.x * 1000));
+            args.emplace_back(static_cast<int>(position->pos.y * 1000));
+            auto mayVelocity = componentsContainer.getComponent(forcePod, velocityType);
+            if (!mayVelocity.has_value())
+                continue;
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayVelocity.value());
+            args.emplace_back(static_cast<int>(velocity->velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity->velocity.y * 1000));
+            message = std::make_shared<Network::Message>("CREATED_FORCEPOD", ids, "INT", args);
             userMessage = std::make_shared<Network::UserMessage>(netIdComp->id, message);
             eventHandler.queueEvent("SEND_NETWORK", userMessage);
             ids.clear();

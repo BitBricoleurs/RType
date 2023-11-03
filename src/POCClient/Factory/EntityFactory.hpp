@@ -35,6 +35,8 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
+#include "ParallaxUtils.hpp"
+#include "IsParallax.hpp"
 #include "Shooter.hpp"
 #include "PowerUpUtils.hpp"
 
@@ -69,6 +71,8 @@ namespace Client {
                            Utils::Vect2 pos, Utils::Vect2 vel,
                            GameEngine::EventHandler &eventHandler);
 
+      size_t spawnParallax(GameEngine::ComponentsContainer & container, GameEngine::EventHandler & eventHandler, ParallaxType type, Utils::Vect2 pos, Utils::Vect2 velocity, float layer);
+
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
                              Utils::Vect2 pos, PlayerNumber numberPlayer);
@@ -83,6 +87,19 @@ namespace Client {
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      size_t createPlayNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler,
+                                    Utils::Vect2 pos);
+
+        size_t createLoseNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler,
+                                    Utils::Vect2 pos);
+
+        size_t createWinNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler,
+                                    Utils::Vect2 pos);
+
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;
@@ -115,7 +132,7 @@ namespace Client {
                     return it.first;
                 }
             }
-            std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
+            // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
 
@@ -140,6 +157,9 @@ namespace Client {
                         int deathSpriteSheetWidth, int deathFrames, Utils::Vect2 pos,
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
+
+      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
 
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,

@@ -39,6 +39,7 @@ namespace Server {
             if (isPlayer->entityIdForcePod == 0) {
 
                 isPlayer->entityIdForcePod = forcePodId;
+                forcePod->entityId = playerId;
                 shooter->shootPosition.x =  shooter->shootPosition.x + 45;
 
                 auto netInterfaceId = std::dynamic_pointer_cast<NetworkClientId>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value())->id;

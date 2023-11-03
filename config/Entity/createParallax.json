@@ -1,0 +1,76 @@
+{
+    "types": [
+        {
+            "type": 1,
+            "path": "assets/background_1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 2,
+            "path": "assets/background_2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 3,
+            "path": "assets/background_3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 4,
+            "path": "assets/Planets/Planet_Furnace_01_560x560.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        }
+    ]
+}

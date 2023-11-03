@@ -11,7 +11,12 @@
 namespace AudioEngine {
 
     AudioEngineSystem::AudioEngineSystem() {
+        try {
         audioEngine = std::make_shared<AudioEngine>();
+         } catch (const std::exception& e) {
+            std::cerr << "Exception caught: " << e.what() << '\n';
+            audioEngine = nullptr;
+        }
     }
 
     AudioEngineSystem::~AudioEngineSystem() = default;
@@ -19,6 +24,7 @@ namespace AudioEngine {
     void AudioEngineSystem::update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) {
         auto triggeredEvent = eventHandler.getTriggeredEvent();
 
+        if (audioEngine == nullptr) return;
         if (triggeredEvent.first == "PLAY_SOUND") {
             auto entityID = std::any_cast<size_t>(triggeredEvent.second);
             auto component = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("AudioComponent"));
