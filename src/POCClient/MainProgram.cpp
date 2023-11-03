@@ -91,6 +91,13 @@ namespace Client {
     void MainProgram::setup_hud(GameEngine::GameEngine &engine) {
         auto chargingBar = std::make_shared<Client::ChargingBar>();
         auto initHud = std::make_shared<Client::InitHUD>();
+        auto initNotif = std::make_shared<Client::InitNotification>();
+        auto AnimstartNotif = std::make_shared<Client::AnimateStartNotification>();
+        auto clearAnimStartNotif = std::make_shared<Client::ClearAnimateStartNotification>();
+        auto AnimLoseNotif = std::make_shared<Client::AnimateLoseNotification>();
+        auto clearAnimLoseNotif = std::make_shared<Client::ClearAnimateLoseNotification>();
+        auto AnimWinNotif = std::make_shared<Client::AnimateWinNotification>();
+        auto clearAnimWinNotif = std::make_shared<Client::ClearAnimateWinNotification>();
 
 
         engine.addEvent("InitEvent", initHud);
@@ -99,8 +106,14 @@ namespace Client {
         engine.addEvent("SPACE_KEY_RELEASED", chargingBar);
         engine.setContinuousEvent("SPACE_KEY_PRESSED", "SPACE_KEY_RELEASED");
         engine.setContinuousEvent("SPACE_KEY_RELEASED", "STOP_UNCHARGING");
-
-
+        engine.addEvent("INIT_NOTIF", initNotif);
+        engine.queueEvent("INIT_NOTIF");
+        engine.addEvent("START_NOTIF_PLAY", AnimstartNotif);
+        engine.addEvent("CLEAR_NOTIF_PLAY", clearAnimStartNotif);
+        engine.addEvent("START_NOTIF_LOSE", AnimLoseNotif);
+        engine.addEvent("CLEAR_NOTIF_LOSE", clearAnimLoseNotif);
+        engine.addEvent("START_NOTIF_WIN", AnimWinNotif);
+        engine.addEvent("CLEAR_NOTIF_WIN", clearAnimWinNotif);
     }
 
     void MainProgram::setup_game(GameEngine::GameEngine& engine)

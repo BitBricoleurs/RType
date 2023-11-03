@@ -2,23 +2,12 @@
 // Created by Clément Lagasse on 03/11/2023.
 //
 
-#include "AnimateStartNotification.hpp"
+#include "AnimateWinNotification.hpp"
 
-void Client::AnimateStartNotification::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
+void Client::AnimateWinNotification::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
-    size_t gameStateEntity = componentsContainer.getEntityWithUniqueComponent(compTypeGameState);
-    auto compMay = componentsContainer.getComponent(gameStateEntity, compTypeGameState);
-    if (!compMay.has_value())
-        return;
-    auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
-    if (gameStateComp->_state == Utils::GameState::State::RUNNING) {
-        eventHandler.unscheduleEvent("START_NOTIF_PLAY");
-        eventHandler.queueEvent("CLEAR_NOTIF_PLAY");
-        return;
-    }
     auto SpriteCompType = GameEngine::ComponentsType::getComponentType("SpriteComponent");
-    auto PlayNotifAnimType = GameEngine::ComponentsType::getComponentType("PlayNotifAnimation");
+    auto PlayNotifAnimType = GameEngine::ComponentsType::getComponentType("WinNotifAnimation");
 
     auto playnotifMay = componentsContainer.getEntityWithUniqueComponent(PlayNotifAnimType);
 
@@ -26,25 +15,25 @@ void Client::AnimateStartNotification::update(GameEngine::ComponentsContainer &c
     if (!playCompMay.has_value())
         return;
 
-    auto playComp = std::static_pointer_cast<Client::PlayNotifAnimation>(playCompMay.value());
+    auto playComp = std::static_pointer_cast<Client::WinNotifAnimation>(playCompMay.value());
     // If First call then start animation
     if (playComp->currentImagesIndex == -1) {
         componentsContainer.bindComponentToEntity(playnotifMay, playComp->spriteComponents[0]);
         playComp->currentImagesIndex = 0;
         playComp->spriteComponents[0]->isVisible = true;
-        playComp->state = Client::PlayNotifAnimation::AnimationState::FRAME1;
+        playComp->state = Client::WinNotifAnimation::AnimationState::FRAME1;
         return;
     }
     playComp->currentFrameIndex++;
     // if last frame of image
     if (playComp->currentFrameIndex > playComp->nbrFramePerImages[playComp->currentImagesIndex] - 1) {
         // if last image of last frame
-        if (playComp->state == Client::PlayNotifAnimation::AnimationState::FRAME3) {
-            eventHandler.unscheduleEvent("START_NOTIF_PLAY");
+        if (playComp->state == Client::WinNotifAnimation::AnimationState::FRAME4) {
+            eventHandler.unscheduleEvent("START_NOTIF_WIN");
             return;
         }
         // if not the last image of last frame
-        playComp->state = static_cast<Client::PlayNotifAnimation::AnimationState>(playComp->state + 1);
+        playComp->state = static_cast<Client::WinNotifAnimation::AnimationState>(playComp->state + 1);
         playComp->currentFrameIndex = 0;
         playComp->spriteComponents[playComp->currentImagesIndex]->isVisible = false;
         playComp->currentImagesIndex++;

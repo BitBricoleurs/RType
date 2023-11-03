@@ -27,6 +27,9 @@ void Client::GoBackToTheLobby::update(GameEngine::ComponentsContainer &component
             auto receivedGameState = static_cast<Utils::GameState::State>(std::any_cast<int>(args[0]));
             gameStateComp->_state = receivedGameState;
             std::cout << "Press 'Enter' to play again" << std::endl;
+            eventHandler.queueEvent("CLEAR_NOTIF_LOSE");
+            eventHandler.queueEvent("CLEAR_NOTIF_WIN");
+            eventHandler.scheduleEvent("START_NOTIF_PLAY", 3, std::any(), 0);
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from goBackToTheLOOOOBY " << e.what() << std::endl;
         }

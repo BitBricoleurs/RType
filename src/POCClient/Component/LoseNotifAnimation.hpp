@@ -1,5 +1,5 @@
 //
-// Created by Clément Lagasse on 02/11/2023.
+// Created by Clément Lagasse on 03/11/2023.
 //
 
 #pragma once
@@ -13,16 +13,16 @@
 
 namespace Client {
 
-    struct PlayNotifAnimation : public GameEngine::AComponent {
+    struct LoseNotifAnimation : public GameEngine::AComponent {
 
         enum AnimationState {
            HIDE,
            FRAME1,
            FRAME2,
            FRAME3,
-           PRESSED
+           FRAME4,
         };
-        PlayNotifAnimation() = default;
+        LoseNotifAnimation() = default;
 
       size_t getComponentType() override;
 

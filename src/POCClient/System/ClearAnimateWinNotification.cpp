@@ -2,12 +2,12 @@
 // Created by Clément Lagasse on 03/11/2023.
 //
 
-#include "ClearAnimateStartNotification.hpp"
+#include "ClearAnimateWinNotification.hpp"
 
-void Client::ClearAnimateStartNotification::update(GameEngine::ComponentsContainer &componentsContainer,
+void Client::ClearAnimateWinNotification::update(GameEngine::ComponentsContainer &componentsContainer,
                                                    GameEngine::EventHandler &eventHandler) {
     auto SpriteCompType = GameEngine::ComponentsType::getComponentType("SpriteComponent");
-    auto PlayNotifAnimType = GameEngine::ComponentsType::getComponentType("PlayNotifAnimation");
+    auto PlayNotifAnimType = GameEngine::ComponentsType::getComponentType("WinNotifAnimation");
 
     auto playnotifMay = componentsContainer.getEntityWithUniqueComponent(PlayNotifAnimType);
 
@@ -16,11 +16,11 @@ void Client::ClearAnimateStartNotification::update(GameEngine::ComponentsContain
     if (!playCompMay.has_value() || !spriteCompMay.has_value())
         return;
 
-    auto playComp = std::static_pointer_cast<Client::PlayNotifAnimation>(playCompMay.value());
+    auto playComp = std::static_pointer_cast<Client::WinNotifAnimation>(playCompMay.value());
     auto spriteComp = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteCompMay.value());
-    playComp->state = Client::PlayNotifAnimation::AnimationState::HIDE;
+    playComp->state = Client::WinNotifAnimation::AnimationState::HIDE;
 
-    eventHandler.unscheduleEvent("START_NOTIF_PLAY");
+    eventHandler.unscheduleEvent("START_NOTIF_WIN");
     if (spriteComp->isVisible) {
         spriteComp->isVisible = false;
     }

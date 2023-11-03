@@ -89,16 +89,13 @@ namespace Client {
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
 
       size_t createPlayNotification(GameEngine::ComponentsContainer &container,
-                                    GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos);
+                                    GameEngine::EventHandler &eventHandler);
 
         size_t createLoseNotification(GameEngine::ComponentsContainer &container,
-                                    GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos);
+                                    GameEngine::EventHandler &eventHandler);
 
         size_t createWinNotification(GameEngine::ComponentsContainer &container,
-                                    GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos);
+                                    GameEngine::EventHandler &eventHandler);
 
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {

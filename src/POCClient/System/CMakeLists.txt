@@ -49,5 +49,9 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/RevivePlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AnimateStartNotification.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateStartNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateLoseNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateLoseNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateWinNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateWinNotification.cpp
         CACHE INTERNAL ""
 )

@@ -9,9 +9,10 @@ void Client::InitNotification::update(GameEngine::ComponentsContainer &component
 {
     if (done)
         return;
-    auto &factoru = EntityFactory::getInstance();
+    auto &factory = EntityFactory::getInstance();
 
-    factoru.createPlayNotification(componentsContainer, eventHandler, {0, 0});
-
+    factory.createPlayNotification(componentsContainer, eventHandler);
+    factory.createLoseNotification(componentsContainer, eventHandler);
+    factory.createWinNotification(componentsContainer, eventHandler);
     done = true;
 }

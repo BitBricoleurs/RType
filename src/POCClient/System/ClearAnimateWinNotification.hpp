@@ -10,12 +10,11 @@
 #include "ISystem.hpp"
 #include "SpriteComponent.hpp"
 #include "EntityFactory.hpp"
-#include "PlayNotifAnimation.hpp"
-#include "GameState.hpp"
+#include "WinNotifAnimation.hpp"
 
 namespace Client {
 
-    class AnimateStartNotification : public GameEngine::ISystem {
+    class ClearAnimateWinNotification : public GameEngine::ISystem {
     public:
       void update(GameEngine::ComponentsContainer &componentsContainer,
                   GameEngine::EventHandler &eventHandler) override;

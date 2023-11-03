@@ -46,10 +46,12 @@ namespace Server {
             return;
         currentTick++;
         int mobsSize = currentMapContent.getSize("/mobs");
-        int winTick = currentMapContent.getInt("/winCondition/tick");
-        if (currentTick >= winTick) {
-            winLevel(eventHandler);
-            return;
+        if (currentMapContent.keyExists("/winCondition/tick")) {
+            int winTick = currentMapContent.getInt("/winCondition/tick");
+            if (currentTick >= winTick) {
+                winLevel(eventHandler);
+                return;
+            };
         }
         for (int i = 0; i < mobsSize;) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");

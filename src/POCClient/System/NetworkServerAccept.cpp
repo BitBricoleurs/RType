@@ -42,6 +42,7 @@ namespace Client {
                 auto gameState = std::make_shared<Utils::GameState>(Utils::GameState::State::WAITING);
                 componentsContainer.bindComponentToEntity(entityId, gameState);
                 factory.registerEntity(entityId, ids.front());
+                eventHandler.scheduleEvent("START_NOTIF_PLAY", 3, std::any(), 0);
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from NetworkServerAccept System " << e.what() << std::endl;
         }

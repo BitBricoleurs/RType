@@ -59,6 +59,13 @@
 #include "GoBackToTheLobby.hpp"
 #include "RevivePlayer.hpp"
 #include "CreateParallax.hpp"
+#include "InitNotification.hpp"
+#include "AnimateStartNotification.hpp"
+#include "ClearAnimateStartNotification.hpp"
+#include "AnimateLoseNotification.hpp"
+#include "ClearAnimateLoseNotification.hpp"
+#include "AnimateWinNotification.hpp"
+#include "ClearAnimateWinNotification.hpp"
 
 namespace Client {
     class MainProgram {

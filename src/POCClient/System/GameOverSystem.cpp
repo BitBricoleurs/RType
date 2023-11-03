@@ -27,9 +27,9 @@ void Client::GameOverSystem::update(GameEngine::ComponentsContainer &componentsC
             auto receivedGameState = static_cast<Utils::GameState::State>(std::any_cast<int>(args[0]));
             gameStateComp->_state = receivedGameState;
             if (gameStateComp->_state == Utils::GameState::State::LOSE) {
-                std::cout << "You lose" << std::endl;
+                eventHandler.scheduleEvent("START_NOTIF_LOSE", 3, std::any(), 0);
             } else if (gameStateComp->_state == Utils::GameState::State::WIN) {
-                std::cout << "You win" << std::endl;
+                eventHandler.scheduleEvent("START_NOTIF_WIN", 3, std::any(), 0);
             }
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from GameOverSystem " << e.what() << std::endl;
