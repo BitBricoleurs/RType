@@ -5,7 +5,6 @@ import './ParallaxModal.css';
 
 function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParallaxEntities, onDeleteParallax }) {
     const [layer, setLayer] = useState(parallaxData.layer);
-    const [speed, setSpeed] = useState(parallaxData.speed);
     const [isLooping, setIsLooping] = useState(parallaxData.isLooping);
     const [isBackgroundEnabled, setIsBackgroundEnabled] = useState(parallaxData.isBackgroundEnabled);
 
@@ -13,7 +12,6 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
         const updatedParallax = {
             ...parallaxData,
             layer: layer,
-            speed: speed,
             isLooping: isLooping,
             isBackgroundEnabled: isBackgroundEnabled
         };
@@ -28,6 +26,24 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
         onClose();
     };
 
+    const handleBackgroundChange = () => {
+        const newIsBackgroundEnabled = !isBackgroundEnabled;
+        setIsBackgroundEnabled(newIsBackgroundEnabled);
+        // Lorsque isBackgroundEnabled est activé, isLooping est également activé.
+        if (newIsBackgroundEnabled) {
+            setIsLooping(true);
+        }
+    };
+
+    const handleLoopingChange = () => {
+        const newIsLooping = !isLooping;
+        setIsLooping(newIsLooping);
+        // Lorsque isLooping est désactivé et isBackgroundEnabled est activé, désactiver les deux.
+        if (!newIsLooping && isBackgroundEnabled) {
+            setIsBackgroundEnabled(false);
+        }
+    };
+
 
     return (
         <Dialog
@@ -40,27 +56,23 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
                 <FormGroup label="Layer" labelFor="layer-input">
                     <NumericInput id="layer-input" value={layer} onValueChange={setLayer} min={0} />
                 </FormGroup>
-                <FormGroup label="Speed" labelFor="speed-input">
-                    <NumericInput id="speed-input" value={speed} onValueChange={setSpeed} min={0} />
-                </FormGroup>
                 <FormGroup label="Is Looping" labelFor="is-looping-switch">
-                    <Switch id="is-looping-switch" checked={isLooping} onChange={() => setIsLooping(!isLooping)} />
+                    <Switch id="is-looping-switch" checked={isLooping} onChange={handleLoopingChange} />
                 </FormGroup>
                 <FormGroup label="Background" labelFor="is-background-switch">
                     <Switch
                         id="is-background-switch"
                         checked={isBackgroundEnabled}
-                        onChange={() => setIsBackgroundEnabled(!isBackgroundEnabled)}
+                        onChange={handleBackgroundChange}
                     />
                 </FormGroup>
             </DialogBody>
-            <DialogFooter actions={
-                <div>
-                    <Button text="Annuler" onClick={onClose} />
-                    <Button intent="danger" text="Supprimer" onClick={handleDelete} />
-                    <Button intent="primary" text="Sauvegarder" onClick={handleSave} />
+            <DialogFooter>
+                <div className="button-group">
+                    <Button text="Annuler" onClick={onClose} className="button-spacing cancel-button" />
+                    <Button intent="danger" text="Supprimer" onClick={handleDelete} className="button-spacing" />
+                    <Button intent="primary" text="Sauvegarder" onClick={handleSave} className="button-spacing" />
                 </div>
-            }>
             </DialogFooter>
         </Dialog>
     );

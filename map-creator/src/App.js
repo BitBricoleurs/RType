@@ -1,12 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import { Position, Toaster, Intent } from "@blueprintjs/core";
 import Toolbar from './components/Toolbar';
 import Map from './components/Map';
 import ParallaxModal from './components/ParallaxModal';
 import './App.css';
 const {ipcRenderer} = window.require('electron');
-const {fs} = window.require('fs');
+
+const AppToaster = Toaster.create({
+    className: "recipe-toaster",
+    position: Position.TOP,
+}, document.body );
 
 function App() {
+
+    const showSuccessToast = (message) => {
+        AppToaster.show({ message, intent: Intent.SUCCESS });
+    };
+
+    const showErrorToast = (message) => {
+        const showErrorToast = (message) => {
+            AppToaster.show({ message, intent: Intent.DANGER });
+        };
+    };
 
     const [selectedCard, setSelectedCard] = useState(null);
     const [selectedParallax, setSelectedParallax] = useState(null);
@@ -38,15 +53,15 @@ function App() {
         if (selectedCard) {
             const newItem = {
                 ...selectedCard,
-                x: x - (selectedCard.rect.width * selectedCard.scale / 2),
-                y: y - (selectedCard.rect.height * selectedCard.scale / 2),
+                x: x,
+                y: y,
             };
             setMapItems([...mapItems, newItem]);
         } else if (selectedParallax) {
             const newParallaxItem = {
                 ...selectedParallax,
-                x: x - (selectedParallax.rect.width * selectedParallax.scale / 2),
-                y: y - (selectedParallax.rect.height * selectedParallax.scale / 2),
+                x: x,
+                y: y,
             };
             setBackgroundImages([...backgroundImages, newParallaxItem]);
         }
@@ -75,7 +90,11 @@ function App() {
     };
 
     const onDeleteParallax = (parallaxToDelete) => {
+        if (parallaxToDelete.isBackgroundEnabled) {
         setBackgroundImages(prevImages => prevImages.filter(bg => bg.id !== parallaxToDelete.id));
+        } else {
+        setBackgroundImages(prevImages => prevImages.filter(bg => bg !== parallaxToDelete));
+        }
     };
 
     useEffect(() => {
@@ -93,27 +112,100 @@ function App() {
     }, [mapItems, backgroundImages]);
 
     useEffect(() => {
+        const handleSaveSuccess = (_, args) => {
+            showSuccessToast('Save was successful!');
+        };
+
+        const handleSaveFailed = (_, args) => {
+            showErrorToast('Save failed, please try again.');
+        };
+
         ipcRenderer.on('menu-action', (event, action) => {
             if (action === 'new') {
             }
             if (action === 'save') {
-                console.log('Save');
                 handleSave();
             }
         });
 
+        ipcRenderer.on('save-success', handleSaveSuccess);
+        ipcRenderer.on('save-failed', handleSaveFailed);
+
         return () => {
             ipcRenderer.removeAllListeners('menu-action');
+            ipcRenderer.removeListener('save-success', handleSaveSuccess);
+            ipcRenderer.removeListener('save-failed', handleSaveFailed);
         };
     }, [mapItems, backgroundImages]);
 
+
     const handleSave = () => {
-        const formattedMapItems = JSON.stringify(mapItems, null, 2);
-        const formattedBackgroundImages = JSON.stringify(backgroundImages, null, 2);
+        const enabledBackgroundImages = backgroundImages.filter(img => img.isBackgroundEnabled).slice(0, 2);
 
-        ipcRenderer.send('save-dialog', mapItems, backgroundImages);
+        const parallaxWithBackground = enabledBackgroundImages.map(image => ({
+            tick: 1,
+            type: image.name,
+            layer: image.layer,
+            isLooping: image.isLooping,
+            velocity : {
+                x: parseFloat(image.velocity.x).toFixed(1),
+                y: parseFloat(image.velocity.y).toFixed(1)
+            },
+            position: {
+                x: image.x,
+                y: image.y
+            },
+            isBackgroundEnabled: image.isBackgroundEnabled
+        }));
+
+        const otherParallaxItems = backgroundImages.filter(image => !image.isBackgroundEnabled).map(image => ({
+            tick: image.velocity.x === 0 ? 1 : Math.round(image.x / Math.abs(image.velocity.x)),
+            type: image.name,
+            layer: image.layer,
+            isLooping: image.isLooping,
+            velocity : {
+                x: parseFloat(image.velocity.x).toFixed(1),
+                y: parseFloat(image.velocity.y).toFixed(1)
+            },
+            position: {
+                x: 2000,
+                y: image.y
+            },
+            isBackgroundEnabled: image.isBackgroundEnabled
+        }));
+
+        const mobs = mapItems.map(item => ({
+            tick: item.velocity.x === 0 ? 1 : Math.round(item.x /  Math.abs(item.velocity.x)),
+            mobType: item.name,
+            velocity : {
+                x: item.velocity.x.toFixed(1),
+                y: item.velocity.y.toFixed(1),
+            },
+            position: {
+                x: 2000,
+                y: item.y
+            },
+
+            dropPowerUp: item.powerUp,
+        }));
+        const combinedParallaxItems = [...parallaxWithBackground, ...otherParallaxItems];
+
+        const formattedData = {
+            parallax: combinedParallaxItems,
+            mobs: mobs
+        };
+
+        let formattedJson = JSON.stringify(formattedData, null, 2);
+
+        formattedJson = formattedJson.replace(/"(-?\d+\.\d+)"/g, (match, p1) => {
+            return `${parseFloat(p1).toFixed(1)}`;
+        });
+
+        // Optionally add line breaks where you want them
+        formattedJson = formattedJson.replace(/},/g, '},\n');
+
+        ipcRenderer.send('save-dialog', formattedJson);
     };
-
 
 
     return (

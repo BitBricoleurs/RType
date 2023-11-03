@@ -9,7 +9,10 @@
     },
     "scale": 1,
     "layer": 0,
-    "speed": 0,
+    "velocity": {
+      "x": 0,
+      "y": 0
+    },
     "isLooping": false,
     "isBackgroundEnabled": false
   },
@@ -23,7 +26,8 @@
     },
     "scale": 1,
     "layer": 0,
-    "speed": 0,
+    "speedX": 0,
+    "speedY": 0,
     "isLooping": false,
     "isBackgroundEnabled": false
   },
@@ -37,7 +41,10 @@
     },
     "scale": 1,
     "layer": 0,
-    "speed": 0,
+    "velocity": {
+        "x": 0,
+        "y": 0
+    },
     "isLooping": false,
     "isBackgroundEnabled": false
   },
@@ -51,7 +58,10 @@
     },
     "scale": 1,
     "layer": 0,
-    "speed": 0,
+    "velocity": {
+      "x": 0,
+      "y": 0
+    },
     "isLooping": false,
     "isBackgroundEnabled": false
   }

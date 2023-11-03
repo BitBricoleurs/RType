@@ -2,13 +2,17 @@
   {
     "id": 1,
     "src": "/assets/pata.gif",
-    "name": "Image 1",
+    "name": "pataPataMob",
     "rect": {
         "width": 35,
         "height": 24
     },
     "scale" : 2,
-    "powerUp": false
+    "powerUp": false,
+    "velocity": {
+      "x": -2,
+      "y": 0
+    }
   },
   {
     "id": 2,
@@ -19,6 +23,11 @@
         "height": 64
     },
     "scale" : 2,
-    "powerUp": false
+    "powerUp": false,
+    "velocity": {
+        "x": -2,
+        "y": 0
+    }
+
   }
 ]

@@ -53,3 +53,17 @@
 .parallax-modal {
     user-select: none; /* Empêche la sélection du texte dans la modale */
 }
+
+/* ParallaxModal.css */
+.button-spacing {
+    margin: 0 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancel-button {
+    margin-right: auto;
+}

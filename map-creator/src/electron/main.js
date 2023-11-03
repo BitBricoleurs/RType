@@ -1,6 +1,6 @@
 // src/electron/main.js
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
-const isDev = require('electron-is-dev');  // ajoutez cette ligne
+const isDev = require('electron-is-dev');
 const fs = require('fs');
 const path = require('path');
 
@@ -15,8 +15,8 @@ function createWindow() {
     });
 
     const url = isDev
-        ? 'http://localhost:3000'  // en mode développement, charge localhost:3000
-        : `file://${__dirname}/../../build/index.html`;  // en production, charge le fichier HTML buildé
+        ? 'http://localhost:3000'
+        : `file://${__dirname}/../../build/index.html`;
 
     win.loadURL(url);
 
@@ -42,7 +42,7 @@ function createWindow() {
             label: 'Edit',
             submenu: [
                 {
-                    label: 'Undo', click: () => { /* Votre logique ici */
+                    label: 'Undo', click: () => {
                     }
                 },
             ]
@@ -51,7 +51,7 @@ function createWindow() {
             label: 'Layers',
             submenu: [
                 {
-                    label: 'View layer', click: () => { /* Votre logique ici */
+                    label: 'View layer', click: () => {
                     }
                 },
             ]
@@ -69,24 +69,24 @@ function createWindow() {
     const menu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(menu);
 
-    ipcMain.on('save-dialog', (event, mapItems, backgroundImages ) => {
-
-        dialog.showSaveDialog({
+    ipcMain.on('save-dialog', (event, formattedJson) => {
+        const mainWindow = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
+        dialog.showSaveDialog(mainWindow, {
             title: 'Sauvegarder les données',
-            filters: [{ name: 'JSON', extensions: ['json'] }]
+            filters: [{ name: 'JSON', extensions: ['json'] }],
+            modal: true
         }).then(file => {
             if (!file.canceled && file.filePath) {
-                console.log(mapItems, backgroundImages);
-                const content = JSON.stringify({ backgroundImages, mapItems }, null, 2);
-                fs.writeFileSync(file.filePath.toString(), content);
+                console.log(formattedJson);
+                fs.writeFileSync(file.filePath.toString(), formattedJson);
                 event.sender.send('save-success');
             }
         }).catch(err => {
             console.log(err);
-            // Inform the renderer process that the save failed
             event.sender.send('save-failed');
         });
     });
+
 
 }
 
