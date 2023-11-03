@@ -15,6 +15,7 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
             isLooping: isLooping,
             isBackgroundEnabled: isBackgroundEnabled
         };
+        console.log('Parallax updated', updatedParallax);
 
         setSelectedParallax(updatedParallax); // Mise à jour du parallax courant
         placeParallaxEntities(updatedParallax); // Placement des entités parallax sur la map
@@ -38,7 +39,6 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
     const handleLoopingChange = () => {
         const newIsLooping = !isLooping;
         setIsLooping(newIsLooping);
-        // Lorsque isLooping est désactivé et isBackgroundEnabled est activé, désactiver les deux.
         if (!newIsLooping && isBackgroundEnabled) {
             setIsBackgroundEnabled(false);
         }

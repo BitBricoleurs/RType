@@ -1,6 +1,6 @@
 // src/components/ParallaxEntityList.js
 import React from 'react';
-import './ParallaxEntityList.css';
+import './EntityList.css';
 import ParallaxCard from './ParallaxCard';
 import parallaxData from '../parallaxData.json';
 

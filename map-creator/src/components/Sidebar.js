@@ -1,16 +1,15 @@
-// src/components/Sidebar.js
 import React from 'react';
-import { Button } from '@blueprintjs/core';
+import { Button, ButtonGroup, Icon } from '@blueprintjs/core';
 import './Sidebar.css';
 
-function Sidebar({ isOpen, onClose }) {
-
+function Sidebar({ isOpen, onClose, isAnimating, toggleAnimation, onResetAnimation }) {
     const Close = () => {
-        console.log(onClose);  // Ajoutez cette ligne dans votre fonction Sidebar ou Close
-
         onClose();
     }
 
+    const handleAnimationClick = () => {
+        toggleAnimation();
+    }
 
     return (
         <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
@@ -18,10 +17,14 @@ function Sidebar({ isOpen, onClose }) {
                 icon="menu"
                 className="sidebar-toggle-button"
                 onClick={Close}
-
             />
             <div className="sidebar-content">
                 <h1>Map Creator</h1>
+                <div className="sidebar-controls">
+                    <ButtonGroup minimal={true}>
+                        <Button icon={<Icon icon={isAnimating ? "pause" : "play"} />} onClick={handleAnimationClick} />
+                    </ButtonGroup>
+                </div>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "src": "/assets/pata.gif",
+    "src": "/assets/Entities/pata.png",
     "name": "pataPataMob",
     "rect": {
         "width": 35,
@@ -16,17 +16,33 @@
   },
   {
     "id": 2,
-    "src": "/assets/bellmite.png",
-    "name": "Image 2",
+    "src": "/assets/Entities/cancerMob.png",
+    "name": "cancerMob",
     "rect": {
-        "width": 64,
-        "height": 64
+        "width": 32,
+        "height": 31
     },
     "scale" : 2,
     "powerUp": false,
     "velocity": {
         "x": -2,
         "y": 0
+    }
+
+  },
+  {
+    "id": 3,
+    "src": "/assets/Entities/bugMob.png",
+    "name": "bugMob",
+    "rect": {
+      "width": 22,
+      "height": 22
+    },
+    "scale" : 2,
+    "powerUp": false,
+    "velocity": {
+      "x": -2,
+      "y": 0
     }
 
   }

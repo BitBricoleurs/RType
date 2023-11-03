@@ -1,4 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import entities from './data.json';
+import parallax from './parallaxData.json'
+import React, {useEffect, useState} from 'react';
 import { Position, Toaster, Intent } from "@blueprintjs/core";
 import Toolbar from './components/Toolbar';
 import Map from './components/Map';
@@ -13,14 +15,14 @@ const AppToaster = Toaster.create({
 
 function App() {
 
+    const [isAnimating, setIsAnimating] = useState(false);
+
     const showSuccessToast = (message) => {
         AppToaster.show({ message, intent: Intent.SUCCESS });
     };
 
     const showErrorToast = (message) => {
-        const showErrorToast = (message) => {
             AppToaster.show({ message, intent: Intent.DANGER });
-        };
     };
 
     const [selectedCard, setSelectedCard] = useState(null);
@@ -53,15 +55,15 @@ function App() {
         if (selectedCard) {
             const newItem = {
                 ...selectedCard,
-                x: x,
-                y: y,
+                x: x - selectedCard.rect.width / 2,
+                y: y - selectedCard.rect.height / 2,
             };
             setMapItems([...mapItems, newItem]);
         } else if (selectedParallax) {
             const newParallaxItem = {
                 ...selectedParallax,
-                x: x,
-                y: y,
+                x: x - selectedParallax.rect.width / 2,
+                y: y - selectedParallax.rect.height / 2,
             };
             setBackgroundImages([...backgroundImages, newParallaxItem]);
         }
@@ -85,6 +87,7 @@ function App() {
     }
 
     const handleParallaxRightClick = (parallaxItem) => {
+        console.log(parallaxItem)
         setSelectedParallax(parallaxItem);
         setIsParallaxModalOpen(true);
     };
@@ -120,31 +123,69 @@ function App() {
             showErrorToast('Save failed, please try again.');
         };
 
+        const handleFileContent = (_, content) => {
+            handleLoad(content);
+            showSuccessToast('Load was successful!');
+        };
+
+        const handleFileReadFailed = (_, args) => {
+            showErrorToast('Failed to read the file, please try again.');
+        };
+
+        const handleFileDialogOpenFailed = (_, args) => {
+            showErrorToast('Failed to open the file dialog, please try again.');
+        };
+
+        const handleOpen = () => {
+            ipcRenderer.send('open-file-dialog');
+        };
+
         ipcRenderer.on('menu-action', (event, action) => {
             if (action === 'new') {
             }
             if (action === 'save') {
                 handleSave();
             }
+            if (action === 'open') {
+                handleOpen();
+            }
         });
 
         ipcRenderer.on('save-success', handleSaveSuccess);
         ipcRenderer.on('save-failed', handleSaveFailed);
+        ipcRenderer.on('file-content', handleFileContent);
+        ipcRenderer.on('file-read-failed', handleFileReadFailed);
+        ipcRenderer.on('file-dialog-open-failed', handleFileDialogOpenFailed);
 
         return () => {
             ipcRenderer.removeAllListeners('menu-action');
             ipcRenderer.removeListener('save-success', handleSaveSuccess);
             ipcRenderer.removeListener('save-failed', handleSaveFailed);
+            ipcRenderer.removeListener('file-content', handleFileContent);
+            ipcRenderer.removeListener('file-read-failed', handleFileReadFailed);
+            ipcRenderer.removeListener('file-dialog-open-failed', handleFileDialogOpenFailed);
         };
-    }, [mapItems, backgroundImages]);
+    }, [showSuccessToast, showErrorToast]); // Ajoutez d'autres dépendances ici si nécessaire
 
+
+    const getEntityByNameEntities = (name) => {
+        const entity = entities.find(entity => entity.name === name);
+
+        return entity;
+    }
+
+    const getEntityByNameParallax = (name) => {
+        const entity = parallax.find(entity => entity.name === name);
+
+        return entity;
+    }
 
     const handleSave = () => {
         const enabledBackgroundImages = backgroundImages.filter(img => img.isBackgroundEnabled).slice(0, 2);
 
         const parallaxWithBackground = enabledBackgroundImages.map(image => ({
             tick: 1,
-            type: image.name,
+            name: image.name,
             layer: image.layer,
             isLooping: image.isLooping,
             velocity : {
@@ -155,12 +196,18 @@ function App() {
                 x: image.x,
                 y: image.y
             },
-            isBackgroundEnabled: image.isBackgroundEnabled
+            isBackgroundEnabled: image.isBackgroundEnabled,
+            rect: {
+                width: image.rect.width,
+                height: image.rect.height
+            },
+            scale: image.scale,
+            path: image.path
         }));
 
         const otherParallaxItems = backgroundImages.filter(image => !image.isBackgroundEnabled).map(image => ({
             tick: image.velocity.x === 0 ? 1 : Math.round(image.x / Math.abs(image.velocity.x)),
-            type: image.name,
+            name: image.name,
             layer: image.layer,
             isLooping: image.isLooping,
             velocity : {
@@ -171,7 +218,14 @@ function App() {
                 x: 2000,
                 y: image.y
             },
-            isBackgroundEnabled: image.isBackgroundEnabled
+            isBackgroundEnabled: image.isBackgroundEnabled,
+            rect: {
+                width: image.rect.width,
+                height: image.rect.height
+            },
+            scale: image.scale,
+            path: image.path
+
         }));
 
         const mobs = mapItems.map(item => ({
@@ -208,6 +262,59 @@ function App() {
     };
 
 
+    const handleLoad = (content) => {
+        try {
+            console.log('content', content);
+            const data = JSON.parse(content);
+
+            const mobsTabs = data.mobs.map(mob => {
+                const entity = getEntityByNameEntities(mob.mobType);
+
+                return {
+                    ...mob,
+                    x: Math.abs(mob.velocity.x) * mob.tick,
+                    y: mob.position.y,
+                    powerUp: mob.dropPowerUp,
+                    src: entity ? entity.src : undefined,
+                    rect: entity ? entity.rect : undefined,
+                    scale: entity ? entity.scale : undefined,
+                };
+            });
+
+
+            const backgroundImagesExtended = data.parallax.flatMap(image => {
+                const entity = getEntityByNameParallax(image.name);
+
+                if (image.isBackgroundEnabled && image.position.x === 0 && image.position.y === 0) {
+                    return Array.from({ length: 100 }, (_, i) => ({
+                        ...image,
+                        x: image.position.x + (i * image.rect.width),
+                        y: image.position.y,
+                        path: entity ? entity.path : undefined,
+                        rect: entity ? entity.rect : undefined,
+                        scale: entity ? entity.scale : undefined,
+                    }));
+                } else {
+                    return [{
+                        ...image,
+                        x: Math.abs(image.velocity.x) * image.tick,
+                        y: image.position.y,
+                        path: entity ? entity.path : undefined,
+                        rect: entity ? entity.rect : undefined,
+                        scale: entity ? entity.scale : undefined,
+                    }];
+                }
+            });
+
+            setMapItems(mobsTabs);
+            setBackgroundImages(backgroundImagesExtended);
+
+        } catch (error) {
+            console.error(error);
+            showErrorToast('Failed to load the file, please try again.');
+        }
+    }
+
     return (
         <div className="App">
             <Map
@@ -219,6 +326,7 @@ function App() {
                 selectedParallax={selectedParallax}
                 onParallaxRightClick={handleParallaxRightClick}
                 OnPowerUp={handlePowerUp}
+                isAnimating={isAnimating}
             />
             <Toolbar
                 setSelectedCard={setSelectedCard}
@@ -226,6 +334,8 @@ function App() {
                 setSelectedParallax={setSelectedParallax}
                 selectedParallax={selectedParallax}
                 onSelectParallax={handleSelectLayer}
+                isAnimating={isAnimating}
+                toggleAnimation={() => setIsAnimating(!isAnimating)}
             />
 
             {isParallaxModalOpen && (

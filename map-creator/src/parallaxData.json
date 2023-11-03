@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "path": "/assets/P0.png",
-    "name" : "P0",
+    "path": "/assets/map1/P0.png",
+    "name" : "map1 - P0",
     "rect": {
       "width": 1920,
       "height": 1080
@@ -10,7 +10,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": 0,
+      "x": -0.1,
       "y": 0
     },
     "isLooping": false,
@@ -18,23 +18,8 @@
   },
   {
     "id": 2,
-    "path": "/assets/P1.png",
-    "name" : "P1",
-    "rect": {
-      "width": 1920,
-      "height": 1080
-    },
-    "scale": 1,
-    "layer": 0,
-    "speedX": 0,
-    "speedY": 0,
-    "isLooping": false,
-    "isBackgroundEnabled": false
-  },
-  {
-    "id": 3,
-    "path": "/path/to/image3.png",
-    "name" : "P2",
+    "path": "/assets/map1/P1.png",
+    "name" : "map1 - P1",
     "rect": {
       "width": 1920,
       "height": 1080
@@ -42,16 +27,84 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-        "x": 0,
-        "y": 0
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 3,
+    "path": "/assets/map1/P2.png",
+    "name" : "map1 - P2",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
     },
     "isLooping": false,
     "isBackgroundEnabled": false
   },
   {
     "id": 4,
-    "path": "/assets/V1.png",
-    "name" : "P2",
+    "path": "/assets/map1/P3.png",
+    "name" : "map1 - P3",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 5,
+    "path": "/assets/map2/P0.png",
+    "name" : "map2 - P0",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 6,
+    "path": "/assets/map2/P1.png",
+    "name" : "map2 - P1",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 7,
+    "path": "/assets/map2/V1.png",
+    "name" : "map2 - V1",
     "rect": {
       "width": 653,
       "height": 230
@@ -59,7 +112,230 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": 0,
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 8,
+    "path": "/assets/map2/V2.png",
+    "name" : "map2 - V2",
+    "rect": {
+      "width": 414,
+      "height": 497
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 9,
+    "path": "/assets/map2/V3.png",
+    "name" : "map2 - V3",
+    "rect": {
+      "width": 413,
+      "height": 191
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+
+
+  {
+    "id": 10,
+    "path": "/assets/map3/P0.png",
+    "name" : "map3 - P0",
+    "rect": {
+      "width": 1920,
+      "height": 1080
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 11,
+    "path": "/assets/map3/EB1.png",
+    "name" : "map3 - EB1",
+    "rect": {
+      "width": 300,
+      "height": 102
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 12,
+    "path": "/assets/map3/EB2.png",
+    "name" : "map3 - EB2",
+    "rect": {
+      "width": 300,
+      "height": 103
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 13,
+    "path": "/assets/map3/EB3.png",
+    "name" : "map3 - EB3",
+    "rect": {
+      "width": 300,
+      "height": 420
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 14,
+    "path": "/assets/map3/EB4.png",
+    "name" : "map3 - EB4",
+    "rect": {
+      "width": 300,
+      "height": 236
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 15,
+    "path": "/assets/map3/EB5.png",
+    "name" : "map3 - EB5",
+    "rect": {
+      "width": 900,
+      "height": 166
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 16,
+    "path": "/assets/map3/EH1.png",
+    "name" : "map3 - EH1",
+    "rect": {
+      "width": 300,
+      "height": 102
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 17,
+    "path": "/assets/map3/EH2.png",
+    "name" : "map3 - EH2",
+    "rect": {
+      "width": 300,
+      "height": 103
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 17,
+    "path": "/assets/map3/EH3.png",
+    "name" : "map3 - EH3",
+    "rect": {
+      "width": 300,
+      "height": 420
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 17,
+    "path": "/assets/map3/EH4.png",
+    "name" : "map3 - EH4",
+    "rect": {
+      "width": 300,
+      "height": 236
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 17,
+    "path": "/assets/map3/EH5.png",
+    "name" : "map3 - EH5",
+    "rect": {
+      "width": 900,
+      "height": 166
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
       "y": 0
     },
     "isLooping": false,

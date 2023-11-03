@@ -1,11 +1,23 @@
 .entity-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row; /* Si vous voulez une liste horizontale */
+    flex-wrap: nowrap; /* Pour empêcher le wrap */
+    gap: var(--card-margin);
     overflow-x: auto;
-    height: 10vh;
-    background-color: #ffffff;
+    background-color: var(--primary-bg-color);
+    padding: var(--card-padding);
+    scroll-snap-type: x mandatory;
 }
 
 .entity-list::-webkit-scrollbar {
-    display: none;
+    height: 4px;
+}
+
+.entity-list::-webkit-scrollbar-thumb {
+    background: var(--shadow-color);
+    border-radius: 2px;
+}
+
+.entity-list::-webkit-scrollbar-track {
+    background: var(--primary-bg-color);
 }

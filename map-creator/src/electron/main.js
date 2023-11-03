@@ -2,7 +2,6 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 const fs = require('fs');
-const path = require('path');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -24,7 +23,7 @@ function createWindow() {
         {
             label: 'File',
             submenu: [
-                { label: 'Open', click: () => { /* Votre logique ici */ } },
+                { label: 'Open', click: () => { win.webContents.send('menu-action', 'open') } },
                 { type: 'separator' },
                 {
                     label: 'Save',
@@ -84,6 +83,30 @@ function createWindow() {
         }).catch(err => {
             console.log(err);
             event.sender.send('save-failed');
+        });
+    });
+
+    ipcMain.on('open-file-dialog', (event) => {
+        const mainWindow = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
+        dialog.showOpenDialog(mainWindow, {
+            title: 'Ouvrir un fichier',
+            filters: [{ name: 'JSON', extensions: ['json'] }],
+            properties: ['openFile']
+        }).then(result => {
+            if (!result.canceled && result.filePaths && result.filePaths.length > 0) {
+                const filePath = result.filePaths[0];
+                fs.readFile(filePath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error('An error occurred reading the file:', err);
+                        event.sender.send('file-read-failed');
+                        return;
+                    }
+                    event.sender.send('file-content', data);
+                });
+            }
+        }).catch(err => {
+            console.error('An error occurred opening the dialog:', err);
+            event.sender.send('file-dialog-open-failed');
         });
     });
 
