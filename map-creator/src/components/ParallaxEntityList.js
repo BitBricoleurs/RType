@@ -16,7 +16,6 @@ function ParallaxEntityList({ setSelectedParallax, selectedParallax, onSelectPar
                     onClick={() => {
                         setSelectedParallax(parallaxData);
                         onSelectParallax(parallaxData);
-                        console.log('Parallax selected', parallaxData);
                     }}
                 />
             ))}

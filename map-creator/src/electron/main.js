@@ -76,12 +76,10 @@ function createWindow() {
             modal: true
         }).then(file => {
             if (!file.canceled && file.filePath) {
-                console.log(formattedJson);
                 fs.writeFileSync(file.filePath.toString(), formattedJson);
                 event.sender.send('save-success');
             }
         }).catch(err => {
-            console.log(err);
             event.sender.send('save-failed');
         });
     });

@@ -25,7 +25,6 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
     const handleMenuItemClick = useCallback((event, action) => {
         event.stopPropagation();
         if (action === 'Modifier') {
-            console.log('Modifier', contextMenuState.item);
         } else if (action === 'Supprimer') {
             onDeleteItem(contextMenuState.item);
         } else if (action === 'PowerUp') {
@@ -41,20 +40,23 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
     const handleParallaxContextMenu = useCallback((event, parallaxItem) => {
         event.preventDefault();
         onParallaxRightClick(parallaxItem);
-        console.log('Parallax right clicked', parallaxItem);
     }, [onParallaxRightClick]);
-
-    const [backgroundOffsets, setBackgroundOffsets] = useState(backgroundImages.map(() => 0));
 
     const animationFrameRef = useRef();
 
-    const [itemOffsets, setItemOffsets] = useState(mapItems.map(() => ({ x: 0, y: 0 })));
+    const [backgroundOffsets, setBackgroundOffsets] = useState(backgroundImages.map(() => 0));
 
     const animate = useCallback(() => {
         if (isAnimating) {
             setBackgroundOffsets(currentOffsets =>
                 currentOffsets.map((offset, index) => offset + backgroundImages[index].velocity.x)
             );
+            sortedBackgroundImages.forEach((image, index) => {
+                image.offset = {
+                    x: (image.offset?.x || 0) + image.velocity.x,
+                    y: (image.offset?.y || 0) + image.velocity.y,
+                };
+            });
             mapItems.forEach((item, index) => {
                 item.offset = {
                     x: (item.offset?.x || 0) + item.velocity.x,
@@ -75,27 +77,14 @@ function Map({ onMapClick, mapItems, onDeleteItem, backgroundImages, selectedCar
     }, [isAnimating, animate]);
 
 
-    useEffect(() => {
-        setItemOffsets(prevItemOffsets => mapItems.map((item, index) =>
-            prevItemOffsets.length > index ? prevItemOffsets[index] : { x: 0, y: 0 }
-        ));
-    }, [mapItems]);
-
-    useEffect(() => {
-        setBackgroundOffsets(prevOffsets => backgroundImages.map((image, index) =>
-            prevOffsets.length > index ? prevOffsets[index] : 0
-        ));
-    }, [backgroundImages]);
-
-
     return (
         <div className="map" onClick={handleMapClickInternal}>
             {sortedBackgroundImages.map((bg, index) => {
-                const xOffset = backgroundOffsets[index] || 0;
+                const itemOffset = bg.offset || { x: 0, y: 0 };
                 const style = {
                     position: 'absolute',
-                    left: `${bg.x + xOffset}px`,
-                    top: `${bg.y}px`,
+                    left: `${bg.x + itemOffset.x}px`,
+                    top: `${bg.y + itemOffset.y}px`,
                     backgroundImage: `url(${process.env.PUBLIC_URL + bg.path})`,
                     backgroundSize: 'cover',
                     width: bg.rect.width + 'px',

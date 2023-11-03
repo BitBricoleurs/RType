@@ -7,7 +7,7 @@ import EntityList from './EntityList';
 import ParallaxEntityList from './ParallaxEntityList';
 import Sidebar from './Sidebar';
 
-function Toolbar({ setSelectedCard, selectedCard, setSelectedParallax, selectedParallax, onSelectParallax, isAnimating, toggleAnimation, onResetAnimation }) {
+function Toolbar({ setSelectedCard, selectedCard, setSelectedParallax, selectedParallax, onSelectParallax, isAnimating, toggleAnimation, OnReset }) {
     const [selectedTabId, setSelectedTabId] = useState('entity');
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -28,7 +28,6 @@ function Toolbar({ setSelectedCard, selectedCard, setSelectedParallax, selectedP
         setSelectedParallax(parallax);
         setSelectedCard(null);
         onSelectParallax(parallax);
-        console.log('Parallax selected', parallax)
     };
 
     return (
@@ -39,7 +38,7 @@ function Toolbar({ setSelectedCard, selectedCard, setSelectedParallax, selectedP
                     <ParallaxEntityList setSelectedParallax={handleSelectParallax} selectedParallax={selectedParallax} onSelectParallax={onSelectParallax} />
                 } />
             </Tabs>
-            <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarToggle} isAnimating={isAnimating} toggleAnimation={toggleAnimation}  />
+            <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarToggle} isAnimating={isAnimating} toggleAnimation={toggleAnimation} />
         </div>
     );
 }

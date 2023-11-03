@@ -14,20 +14,20 @@
     width: var(--card-width);
     background: var(--primary-bg-color);
     box-shadow: 0 2px 5px var(--shadow-color);
-    border-radius: 10px; /* Adjust radius to your liking */
-    background: var(--secondary-bg-color); /* Updated to the secondary background color */
+    border-radius: 10px;
+    background: var(--secondary-bg-color);
 }
 
 .card-text {
     text-align: center;
     color: var(--card-text-color);
     user-select: none;
-    font-size: 1.1rem; /* Slightly larger font size */
+    font-size: 1.1rem;
 }
 
 .card.selected {
     border-color: var(--highlight-border-color);
-    transform: translateY(-5px); /* small lift effect */
+    transform: translateY(-5px);
 }
 
 .card img {

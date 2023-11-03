@@ -87,7 +87,6 @@ function App() {
     }
 
     const handleParallaxRightClick = (parallaxItem) => {
-        console.log(parallaxItem)
         setSelectedParallax(parallaxItem);
         setIsParallaxModalOpen(true);
     };
@@ -165,7 +164,7 @@ function App() {
             ipcRenderer.removeListener('file-read-failed', handleFileReadFailed);
             ipcRenderer.removeListener('file-dialog-open-failed', handleFileDialogOpenFailed);
         };
-    }, [showSuccessToast, showErrorToast]); // Ajoutez d'autres dépendances ici si nécessaire
+    }, [showSuccessToast, showErrorToast]);
 
 
     const getEntityByNameEntities = (name) => {
@@ -255,7 +254,6 @@ function App() {
             return `${parseFloat(p1).toFixed(1)}`;
         });
 
-        // Optionally add line breaks where you want them
         formattedJson = formattedJson.replace(/},/g, '},\n');
 
         ipcRenderer.send('save-dialog', formattedJson);
@@ -264,7 +262,6 @@ function App() {
 
     const handleLoad = (content) => {
         try {
-            console.log('content', content);
             const data = JSON.parse(content);
 
             const mobsTabs = data.mobs.map(mob => {

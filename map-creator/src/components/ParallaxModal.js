@@ -15,22 +15,20 @@ function ParallaxModal({ parallaxData, onClose, setSelectedParallax, placeParall
             isLooping: isLooping,
             isBackgroundEnabled: isBackgroundEnabled
         };
-        console.log('Parallax updated', updatedParallax);
 
-        setSelectedParallax(updatedParallax); // Mise à jour du parallax courant
-        placeParallaxEntities(updatedParallax); // Placement des entités parallax sur la map
+        setSelectedParallax(updatedParallax);
+        placeParallaxEntities(updatedParallax);
         onClose();
     };
 
     const handleDelete = () => {
-        onDeleteParallax(parallaxData); // Appelle la fonction de suppression passée en props
+        onDeleteParallax(parallaxData);
         onClose();
     };
 
     const handleBackgroundChange = () => {
         const newIsBackgroundEnabled = !isBackgroundEnabled;
         setIsBackgroundEnabled(newIsBackgroundEnabled);
-        // Lorsque isBackgroundEnabled est activé, isLooping est également activé.
         if (newIsBackgroundEnabled) {
             setIsLooping(true);
         }

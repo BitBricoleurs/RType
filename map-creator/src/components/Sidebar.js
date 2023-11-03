@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Icon } from '@blueprintjs/core';
 import './Sidebar.css';
 
-function Sidebar({ isOpen, onClose, isAnimating, toggleAnimation, onResetAnimation }) {
+function Sidebar({ isOpen, onClose, isAnimating, toggleAnimation }) {
     const Close = () => {
         onClose();
     }

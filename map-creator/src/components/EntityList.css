@@ -1,7 +1,7 @@
 .entity-list {
     display: flex;
-    flex-direction: row; /* Si vous voulez une liste horizontale */
-    flex-wrap: nowrap; /* Pour empêcher le wrap */
+    flex-direction: row;
+    flex-wrap: nowrap;
     gap: var(--card-margin);
     overflow-x: auto;
     background-color: var(--primary-bg-color);

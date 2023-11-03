@@ -1,21 +1,21 @@
 /* src/components/ParallaxModal.css */
 .parallax-modal .bp3-dialog {
-    width: 400px; /* Largeur fixe pour une apparence cohérente */
-    border-radius: 8px; /* Coins arrondis */
+    width: 400px;
+    border-radius: 8px;
 }
 
 .parallax-modal .bp3-dialog-header {
-    background-color: #f4f4f4; /* Couleur de fond pour l'en-tête */
-    border-bottom: 1px solid #e1e1e1; /* Ligne de séparation */
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #e1e1e1;
 }
 
 .parallax-modal .bp3-dialog-header .bp3-icon {
-    color: #106ba3; /* Couleur de l'icône */
+    color: #106ba3;
 }
 
 .parallax-modal .bp3-dialog-body {
     padding: 20px;
-    background-color: #fff; /* Fond blanc pour le corps */
+    background-color: #fff;
 }
 
 .parallax-modal .bp3-dialog-footer {
@@ -34,27 +34,26 @@
 }
 
 .parallax-modal .bp3-button {
-    margin-left: 10px; /* Espacement entre les boutons */
+    margin-left: 10px;
 }
 
 .parallax-modal .bp3-button.bp3-intent-primary {
-    background-color: #106ba3; /* Couleur principale pour le bouton de sauvegarde */
+    background-color: #106ba3;
     color: #fff;
 }
 
 .parallax-modal .bp3-button:hover {
-    opacity: 0.8; /* Effet de survol */
+    opacity: 0.8;
 }
 
 .parallax-modal .bp3-input, .parallax-modal .bp3-switch {
-    width: 100%; /* Largeur complète pour les champs de saisie */
+    width: 100%;
 }
 
 .parallax-modal {
-    user-select: none; /* Empêche la sélection du texte dans la modale */
+    user-select: none;
 }
 
-/* ParallaxModal.css */
 .button-spacing {
     margin: 0 10px;
 }
