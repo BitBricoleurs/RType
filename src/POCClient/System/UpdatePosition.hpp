@@ -28,5 +28,6 @@ namespace Client {
         bool isVelocitySmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition);
         void smoothPosition(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition);
         bool isEntityPlayer(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
+        bool isEntitySmoothable(GameEngine::ComponentsContainer &componentsContainer, size_t entity);
     };
 }

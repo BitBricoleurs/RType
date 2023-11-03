@@ -13,7 +13,7 @@
 #include "NetworkCreateWorld.hpp"
 #include "NetworkUpdateWorld.hpp"
 #include "NetworkMoveClient.hpp"
-#include "SpawnMob.hpp"
+#include "SpawnEntity.hpp"
 #include "CheckPositionClient.hpp"
 #include "PhysicsEngineMovementSystem2D.hpp"
 #include "NetworkShootClient.hpp"
@@ -25,11 +25,23 @@
 #include "MobHit.hpp"
 #include "PlayerHitMob.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
+#include "Parallax.hpp"
 #include "NetworkClientReady.hpp"
 #include "CheckEveryClientReady.hpp"
 #include "NetworkClientAlive.hpp"
 #include "SpawnPowerUp.hpp"
 #include "ForcePodSpawn.hpp"
+#include "NetworkClientBlockWall.hpp"
+#include "NetworkClientCharge.hpp"
+#include "PhysicsEngineUpdateHitboxes.hpp"
+#include "RevivePlayer.hpp"
+#include "WinSystem.hpp"
+#include "LoseSystem.hpp"
+#include "CheckGameEnded.hpp"
+#include "GoBackToTheLobbySystem.hpp"
+#include "SpawnEntityEvent.hpp"
+#include "DeleteMobs.hpp"
+#include "DeleteParallax.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -42,6 +54,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     auto networkClientReady = std::make_shared<Server::NetworkClientReady>();
     auto checkEveryClientReady = std::make_shared<Server::CheckEveryClientReady>();
     auto networkAlive = std::make_shared<Server::NetworkClientAlive>();
+    auto blockWall = std::make_shared<Server::NetworkClientBlockWall>();
 
     engine.addEvent("NETWORK_START_SERVER", networkStart);
     engine.addEvent("CONNECT", networkClientConnection);
@@ -52,6 +65,7 @@ void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_
     engine.addSystem("NETWORK_TIMEOUT", timeout);
     engine.addEvent("READY", networkClientReady);
     engine.addEvent("CHECK_EVERY_CLIENT_READY", checkEveryClientReady);
+    engine.addEvent("BLOCK", blockWall);
     engine.addEvent("ALIVE", networkAlive);
 }
 
@@ -64,16 +78,31 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto shoot = std::make_shared<Server::Shoot>();
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
-
+    auto charge = std::make_shared<Server::NetworkClientCharge>();
+    auto checkGameLose = std::make_shared<Server::CheckGameEnded>();
+    auto win = std::make_shared<Server::WinSystem>();
+    auto loose = std::make_shared<Server::LoseSystem>();
+    auto goBackToTheLobby = std::make_shared<Server::GoBackToTheLobbySystem>();
+    auto revivePlayer = std::make_shared<Server::RevivePlayer>();
+    auto deleteParallax = std::make_shared<Server::DeleteParallax>();
+    auto deleteMobs = std::make_shared<Server::DeleteMobs>();
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
     engine.scheduleEvent("UPDATE_WORLD", 10, std::any(), 0);
     engine.addEvent("MOVE", moveClient);
     engine.addEvent("CHARGE_SHOOT", shootClient);
+    engine.addEvent("CHARGE", charge);
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
+    engine.addSystem("CHECK_GAME_LOSE", checkGameLose);
+    engine.addEvent("LOSE_LEVEL", loose);
+    engine.addEvent("WIN_LEVEL", win);
+    engine.addEvent("GO_BACK_TO_THE_LOBBY", goBackToTheLobby);
+    engine.addEvent("REVIVE_PLAYER", revivePlayer);
+    engine.addEvent("DELETE_PARALLAX", deleteParallax);
+    engine.addEvent("DELETE_MOBS", deleteMobs);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
@@ -83,10 +112,21 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto PlayerHit1 = std::make_shared<Server::PlayerHit>();
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
-    auto spawnMob = std::make_shared<Server::SpawnMob>("config/map");
+    auto Parallax = std::make_shared<Server::Parallax>();
+    auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
+    auto spawnEntityChangeLevel = std::make_shared<Server::SpawnEntityChangeLevel>(spawnMob);
+    auto spawnEntityResetLevel = std::make_shared<Server::SpawnEntityResetLevel>(spawnMob);
+
+
+    engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addEvent("CHANGE_LEVEL", spawnEntityChangeLevel);
+    engine.addEvent("RESET_LEVEL", spawnEntityResetLevel);
+    engine.addSystem("PARALLAX", Parallax, 2);
     auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
     auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
+    auto revivePlayer = std::make_shared<Server::RevivePlayer>();
 
+    engine.addEvent("RevivePlayer", revivePlayer);
     engine.addEvent("SpawnPowerUp", spawnPowerUp);
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
     engine.addEvent("PlayerHit", PlayerHit1);
@@ -116,7 +156,10 @@ int main(void) {
         auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
+        auto syncHitbox = std::make_shared<PhysicsEngine::PhysicsEngineUpdateHitboxes>();
         engine.addSystem("PHYSICS", physicMVT, 1);
+        engine.addSystem("SYNC_HITBOX", syncHitbox, 3);
+
         engine.run();
         return 0;
     } catch (std::exception &e) {

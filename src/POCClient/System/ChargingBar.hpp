@@ -15,6 +15,7 @@
 #include "Message.hpp"
 #include "Shooter.hpp"
 #include "GameState.hpp"
+#include "UserGameMode.hpp"
 
 namespace Client {
 
@@ -25,7 +26,7 @@ namespace Client {
 
     private:
       int _charge = 0;
-      int _maxCharge = 103;
+      int _maxCharge = 100;
       bool shoot = false;
       bool endShoot = true;
     };

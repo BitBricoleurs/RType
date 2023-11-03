@@ -16,6 +16,7 @@ set(POCCLIENT_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Score.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SmoothingMovement.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/PlayNotifAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsSmoothableEntity.cpp
         CACHE INTERNAL ""
 
 )

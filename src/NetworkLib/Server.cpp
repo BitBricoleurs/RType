@@ -53,9 +53,32 @@ namespace Network {
                 }
             }
             });
+            _tick.setEraseClientFunction([this]() {
+                if (_disconnetingClients.empty()) {
+                    return;
+                }
+                while (!_disconnetingClients.empty()) {
+                    eraseClient(_disconnetingClients.getFront());
+                }
+            });
             _tick.setTimeoutFunction([this]() {checkTimeout();});
             _packetIO->readPacket();
             _packetIO->processIncomingMessages();
+        }
+
+        void eraseClient(unsigned int id) {
+            int i = 0;
+            for (auto &client : _clients) {
+                if (client && client->isConnected() && client->getId() == id) {
+                    client->disconnect();
+                    client.reset();
+                    _clients.erase(_clients.begin() + i);
+                    _disconnectedClients.pushBack(id);
+                    _disconnetingClients.popFront();
+                    std::cout << "Client disconnected : " << id << std::endl;
+                }
+                i++;
+            }
         }
 
         void stop() {
@@ -126,7 +149,7 @@ namespace Network {
 
         Network::TSQueue<unsigned int>& getDisconnectedClients()
         {
-            return _disconnetingClients;
+            return _disconnectedClients;
         }
 
         Network::TSQueue<unsigned int> &getTimeOutClients()
@@ -138,11 +161,8 @@ namespace Network {
           int i = 0;
            for (auto &client : _clients) {
                if (client && client->isConnected() && client->getId() == id) {
-                   client->disconnect();
+                   client->getIO()->clearOutMessages();
                    _disconnetingClients.pushBack(id);
-                   client.reset();
-                   _clients.erase(_clients.begin() + i);
-                   std::cout << "Client disconnected : " << id << std::endl;
                }
                 i++;
            }
@@ -226,6 +246,7 @@ namespace Network {
         size_t _maxClients;
         size_t _indexId;
         std::mutex _queueMutex;
+        Network::TSQueue<unsigned int> _disconnectedClients;
         Network::TSQueue<unsigned int> _disconnetingClients;
         Network::TSQueue<unsigned int> _connectingClients;
         Network::TSQueue<unsigned int> _timeoutClients;

@@ -2,11 +2,15 @@
 ** EPITECH PROJECT, 2023
 ** RType
 ** File description:
-** SpawnMob
+** SpawnEntity
 */
 
 #pragma once
 
+#include "ComponentsType.hpp"
+#include "EntityFactory.hpp"
+#include "LoadConfig.hpp"
+#include "ISystem.hpp"
 #include <iostream>
 #include <filesystem>
 #include <utility>
@@ -18,15 +22,15 @@
 
 namespace Server {
 
-    class SpawnMob : public GameEngine::ISystem {
+    class SpawnEntity : public GameEngine::ISystem {
         public:
-        explicit SpawnMob(std::string path);
-
-        void changeLevel();
+        explicit SpawnEntity(std::string path);
 
         void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
 
         int currentTick = 0;
+        void resetCurrentLevel();
+        void changeLevel();
         private:
             std::string directoryPath;
             std::vector<std::string> mapFiles;
@@ -36,5 +40,6 @@ namespace Server {
             void loadMapFiles(const std::string& path);
 
             bool loadMap(const std::string& filePath);
+            void winLevel(GameEngine::EventHandler &eventHandler);
     };
 }

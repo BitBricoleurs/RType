@@ -35,8 +35,10 @@
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
-#include "PowerUpUtils.hpp"
+#include "ParallaxUtils.hpp"
+#include "IsParallax.hpp"
 #include "Shooter.hpp"
+#include "PowerUpUtils.hpp"
 
 namespace Client {
 
@@ -68,6 +70,8 @@ namespace Client {
       size_t spawnForcePod(GameEngine::ComponentsContainer &container,
                            Utils::Vect2 pos, Utils::Vect2 vel,
                            GameEngine::EventHandler &eventHandler);
+
+      size_t spawnParallax(GameEngine::ComponentsContainer & container, GameEngine::EventHandler & eventHandler, ParallaxType type, Utils::Vect2 pos, Utils::Vect2 velocity, float layer);
 
       size_t createNewPlayer(GameEngine::ComponentsContainer &container,
                              GameEngine::EventHandler &eventHandler,
@@ -128,7 +132,7 @@ namespace Client {
                     return it.first;
                 }
             }
-            std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
+            // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
     private:
@@ -142,12 +146,16 @@ namespace Client {
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
 
+      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
+
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,
                                        int spriteSheetHeight, int spriteSheetWidth,
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBossMob(GameEngine::ComponentsContainer &container,
@@ -164,6 +172,7 @@ namespace Client {
                                        int frames, bool twoDirections, bool reverse,
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int playerA, float scale, size_t entityCharge,
+                                       int bulletStartX, int bulletStartY,
                                        float rotation, Utils::ColorR tint, int layer);
 
       size_t createBullet(GameEngine::ComponentsContainer &container,

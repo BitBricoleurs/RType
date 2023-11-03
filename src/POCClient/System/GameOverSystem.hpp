@@ -1,25 +1,21 @@
 //
-// Created by alexandre on 06/10/23.
+// Created by clagasse on 11/1/23.
 //
 
-#pragma once
-
 #include "ISystem.hpp"
-#include "ComponentsType.hpp"
-#include "SpriteComponent.hpp"
-#include "VelocityComponent.hpp"
 #include "EventHandler.hpp"
-#include "Parallax.hpp"
+#include "ComponentsType.hpp"
+#include "UserMessage.hpp"
+#include "Message.hpp"
+#include "GameState.hpp"
+#include "SpriteComponent.hpp"
 
 namespace Client {
 
-    class InitParallax : public GameEngine::ISystem {
+    class GameOverSystem : public GameEngine::ISystem {
+    public:
+        GameOverSystem() = default;
         void update(GameEngine::ComponentsContainer &componentsContainer,
                     GameEngine::EventHandler &eventHandler) override;
-    public:
-
-    private:
-      bool done = false;
     };
-
 }

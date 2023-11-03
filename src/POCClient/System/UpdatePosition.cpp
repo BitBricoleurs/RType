@@ -3,6 +3,7 @@
 //
 
 #include "UpdatePosition.hpp"
+#include "IsSmoothableEntity.hpp"
 
 namespace Client {
 
@@ -37,14 +38,15 @@ namespace Client {
 
                 auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionComponent.value());
                 float distance = position->pos.distanceTo(targetPosition);
-
-                if (isEntityMotionless(componentsContainer, entityToUpdate) && isEntityChangedPosition(componentsContainer, entityToUpdate, targetPosition)) {
-                    trySmoothingPosition(componentsContainer, entityToUpdate, targetPosition);
-                    return;
-                } else if (isEntitySmoothing(componentsContainer, entityToUpdate, targetPosition)) {
-                    return;
-                } else {
-                    tryRemovingSmoothing(componentsContainer, entityToUpdate);
+                if (isEntitySmoothable(componentsContainer, entityToUpdate)) {
+                    if (isEntityMotionless(componentsContainer, entityToUpdate) && isEntityChangedPosition(componentsContainer, entityToUpdate, targetPosition)) {
+                        trySmoothingPosition(componentsContainer, entityToUpdate, targetPosition);
+                        return;
+                    } else if (isEntitySmoothing(componentsContainer, entityToUpdate, targetPosition)) {
+                        return;
+                    } else {
+                        tryRemovingSmoothing(componentsContainer, entityToUpdate);
+                    }
                 }
                 if (distance > 50 && !isEntityPlayer(componentsContainer, entityToUpdate)) {
                     position->pos = targetPosition;
@@ -80,7 +82,6 @@ void Client::UpdatePosition::trySmoothingPosition(GameEngine::ComponentsContaine
     auto smoothingComp = std::make_shared<SmoothingMovement>(targetPosition);
     componentsContainer.bindComponentToEntity(entity, smoothingComp);
     smoothPosition(componentsContainer, entity, targetPosition);
-    std::cout << "Start Smoothing" << std::endl;
 }
 
 void Client::UpdatePosition::tryRemovingSmoothing(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
@@ -135,8 +136,7 @@ void Client::UpdatePosition::smoothPosition(GameEngine::ComponentsContainer &com
     Utils::Vect2 normalizedDirection = directionToB.normalize();
     int speed = 2;
     velComp->velocity = normalizedDirection * speed;
-    std::cout << "Smooth Velocity" << " x: " << velComp->velocity.x << " y: " << velComp->velocity.y << std::endl;
-}
+    }
 
 bool Client::UpdatePosition::isEntityChangedPosition(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition)
 {
@@ -159,4 +159,14 @@ bool Client::UpdatePosition::isEntityPlayer(GameEngine::ComponentsContainer &com
     if (it == mapPlayer.end())
         return false;
     return true;
+}
+
+bool Client::UpdatePosition::isEntitySmoothable(GameEngine::ComponentsContainer &componentsContainer, size_t entity)
+{
+    auto isSmoothableType = GameEngine::ComponentsType::getComponentType("IsSmoothableEntity");
+    auto isSmoothable = componentsContainer.getComponent(entity, isSmoothableType);
+    if (isSmoothable.has_value()) {
+        return true;
+    }
+    return false;
 }
