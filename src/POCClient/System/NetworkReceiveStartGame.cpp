@@ -15,5 +15,4 @@ void Client::NetworkReceiveStartGame::update(GameEngine::ComponentsContainer &co
         return;
     auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
     gameStateComp->_state = Utils::GameState::State::RUNNING;
-    std::cout << "Game is starting" << std::endl;
 }

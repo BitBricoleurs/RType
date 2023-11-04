@@ -32,6 +32,7 @@ namespace Client {
                     Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000);
                     entityId = Client::EntityFactory::getInstance().spawnPowerUp(componentsContainer, eventHandler, pos, velocity, typePowerUp);
                     factory.registerEntity(entityId, id);
+                    arg_index += 5;
                 }
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from createPowerUp System " << e.what() << std::endl;

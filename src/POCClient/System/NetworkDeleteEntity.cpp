@@ -18,9 +18,10 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-            if (ids.empty())
+            if (ids.empty()) {
+                std::cout << "No entity to delete" << std::endl;
                 return;
-
+            }
             EntityFactory &entityFactory = EntityFactory::getInstance();
             size_t clientId = 0;
             for (auto &id : ids) {

@@ -159,7 +159,6 @@ namespace Server {
 
             eventHandler.scheduleEvent("BugSystem", 1, entityId);
 
-            std::cout << "Bug mob spawned" << std::endl;
 
             return entityId;
             } catch(const std::runtime_error& e) {
