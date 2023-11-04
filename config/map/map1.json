@@ -35,7 +35,7 @@
         }
     ],
     "winCondition" :  {
-        "tick" : 100
+        "tick" : 100000
     },
     "mobs": [
         {

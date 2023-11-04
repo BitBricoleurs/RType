@@ -107,9 +107,13 @@ namespace Client {
                                 GameEngine::EventHandler &eventHandler,
                                 Utils::Vect2 pos);
 
-       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+        size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
                                  Utils::Vect2 pos);
+        
+        size_t createHealthBar(GameEngine::ComponentsContainer &container,
+            const std::string &spriteSheetPath, int spriteSheetHeight,
+            int spriteSheetWidth, int frames, Utils::Vect2 pos, float scale, float rotation, Utils::ColorR tint, int layer);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;
