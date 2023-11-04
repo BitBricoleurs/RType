@@ -185,7 +185,7 @@ namespace GameEngine {
         Timer timer;
         double lastTickTime = 0.0;
 
-        std::thread server_thread([]{ Logger::startServer(9191); });
+        std::thread server_thread([]{ Logger::startServer(9192); });
         server_thread.detach();
         while (isRunning) {
             double currentTime = timer.elapsedSeconds();

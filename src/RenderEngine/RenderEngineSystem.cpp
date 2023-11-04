@@ -18,6 +18,9 @@ namespace RenderEngine {
         renderEngine = std::make_unique<RenderEngine>();
         resourceManager = std::make_shared<ResourceManager>();
         renderEngine->Initialize(windowName);
+        auto windowInfo = std::make_shared<WindowInfoComponent>(getScreenWidth(), getScreenHeight());
+        auto entity = componentContainer.createEntity();
+        componentContainer.bindComponentToEntity(entity, windowInfo);
     }
 
     RenderEngineSystem::~RenderEngineSystem() { renderEngine->Shutdown(); }
@@ -97,8 +100,16 @@ namespace RenderEngine {
         });
 
       renderEngine->ClearBackgroundRender(BLACK);
-      BeginDrawing();
-      BeginMode2D(windowInfo->camera);
+      auto windoInfoCompType = GameEngine::ComponentsType::getComponentType("WindowInfoComponent");
+      auto windowID = componentsContainer.getEntityWithUniqueComponent(
+            windoInfoCompType);
+      std::shared_ptr<WindowInfoComponent> window;
+      auto windowInfoCompMay = componentsContainer.getComponent(windowID, windoInfoCompType);
+      if (windowInfoCompMay.has_value()) {
+          auto windowInfo = std::static_pointer_cast<WindowInfoComponent>(windowInfoCompMay.value());
+          BeginDrawing();
+        BeginMode2D(windowInfo->camera);
+      }
 
     std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
