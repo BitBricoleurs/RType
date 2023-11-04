@@ -57,15 +57,15 @@ namespace Client {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                           GameEngine::EventHandler &eventHandler,

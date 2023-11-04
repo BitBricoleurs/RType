@@ -45,6 +45,7 @@
 #include "NetworkReceiveFlash.hpp"
 #include "FlashWhenHit.hpp"
 #include "ForcePodUpgrade.hpp"
+#include "UpdateBugSprite.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
     auto networkConnect = std::make_shared<Client::NetworkConnect>();
@@ -144,6 +145,7 @@ void setup_game(GameEngine::GameEngine& engine)
     auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
     auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
     auto activateCharge = std::make_shared<Client::ActivateCharge>();
+    auto bugSprite = std::make_shared<Client::UpdateBugSprite>();
 
     engine.addEvent("PLAY_SOUND", audioSys);
     engine.addEvent("Init", initAudio);
@@ -157,6 +159,7 @@ void setup_game(GameEngine::GameEngine& engine)
     engine.addEvent("Collision", collisionHandler);
     engine.addEvent("flash", flashWhenHit);
     engine.addEvent("CHARGE", activateCharge);
+    engine.addEvent("UpdateBugSprite", bugSprite);
 }
 
 void setup_animations(GameEngine::GameEngine &engine) {
