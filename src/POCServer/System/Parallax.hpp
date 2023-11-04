@@ -9,6 +9,7 @@
 #include "ComponentsType.hpp"
 #include "VelocityComponent.hpp"
 #include "PositionComponent2D.hpp"
+#include "EntityFactory.hpp"
 #include <algorithm>
 
 namespace Server {

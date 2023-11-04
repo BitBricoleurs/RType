@@ -1,0 +1,37 @@
+{
+  "createWin": {
+    "scale": 1,
+    "layer": 12,
+    "spritePosX" : 279.0,
+    "spritePosY" : 200.0,
+    "hitboxHeight": 506,
+    "hitboxWidth": 1363,
+    "numberImages": 4,
+    "images" : [
+      {
+        "spriteSheetPath": "assets/HUD/WinNotif1.png",
+        "spriteSheetHeight": 506,
+        "spriteSheetWidth": 8178,
+        "frame": 6
+      },
+      {
+        "spriteSheetPath": "assets/HUD/WinNotif2.png",
+        "spriteSheetHeight": 506,
+        "spriteSheetWidth": 8178,
+        "frame": 6
+      },
+      {
+        "spriteSheetPath": "assets/HUD/WinNotif3.png",
+        "spriteSheetHeight": 506,
+        "spriteSheetWidth": 8178,
+        "frame": 6
+      },
+      {
+        "spriteSheetPath": "assets/HUD/WinNotif4.png",
+        "spriteSheetHeight": 506,
+        "spriteSheetWidth": 8178,
+        "frame": 6
+      }
+    ]
+  }
+}

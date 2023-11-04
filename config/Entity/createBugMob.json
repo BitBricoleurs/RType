@@ -14,14 +14,14 @@
     "deathSpriteSheetWidth": 200,
     "deathFrames": 6,
     "velocity": {
-      "x": -2,
-      "y": 0
+      "x": -2.0,
+      "y": 0.0
     },
     "maxHealth": 100,
     "damageValue": 10,
     "player": 0,
     "scale": 2.5,
-    "rotation": 0,
+    "rotation": 0.0,
     "tint": {
       "r": 255,
       "g": 255,

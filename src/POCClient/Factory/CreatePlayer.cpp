@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "IsSmoothableEntity.hpp"
 
 namespace Client {
 
@@ -69,6 +70,8 @@ namespace Client {
         container.bindComponentToEntity(entityId, shooterComp);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
+        auto smoothable = std::make_shared<IsSmoothableEntity>();
+        container.bindComponentToEntity(entityId, smoothable);
         registerPlayer(entityId, playerNumber);
         return entityId;
     } catch (const nlohmann::json::exception& e) {
@@ -140,6 +143,8 @@ namespace Client {
         container.bindComponentToEntity(entityId, shootSound);
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
+        auto smoothable = std::make_shared<IsSmoothableEntity>();
+        container.bindComponentToEntity(entityId, smoothable);
         registerPlayer(entityId, playerNumber);
         return entityId;
     } catch (const nlohmann::json::exception& e) {

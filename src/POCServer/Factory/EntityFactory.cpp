@@ -57,6 +57,7 @@ namespace Server {
       auto healthComponent = std::make_shared<Health>(maxHealth);
       auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
+      auto cooldownHitComponent = std::make_shared<CooldownHit>();
 
       Utils::Vect2 topLeft = Utils::Vect2(0, 0);
       Utils::Vect2 bottomRight = Utils::Vect2(1820, 975);
@@ -67,6 +68,7 @@ namespace Server {
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
       container.bindComponentToEntity(entityId, movementLimitComponent);
+      container.bindComponentToEntity(entityId, cooldownHitComponent);
 
       return entityId;
     }
@@ -174,5 +176,26 @@ namespace Server {
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
          std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+    }
+
+    std::vector<Utils::Vect2> EntityFactory::generatePathPoints() {
+        std::vector<Utils::Vect2> pathPoints;
+        int numPoints = rand() % 3 + 5;
+
+        int screenWidth = 1920;
+        int sectionWidth = screenWidth / numPoints;
+
+        for (int i = 0; i < numPoints; ++i) {
+            Utils::Vect2 point;
+            point.x = rand() % sectionWidth + (i * sectionWidth); // Random point within the section
+            point.y = rand() % 1080;
+            pathPoints.push_back(point);
+        }
+        
+        std::sort(pathPoints.begin(), pathPoints.end(), [](const Utils::Vect2& a, const Utils::Vect2& b) {
+              return a.x > b.x;
+        });
+
+        return pathPoints;
     }
 }

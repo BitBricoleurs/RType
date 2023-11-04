@@ -18,8 +18,6 @@ namespace Client {
     {
         size_t entityId = container.createEntity();
 
-        std::cout << "Create parallax" << std::endl;
-        std::cout << "Speed: " << velocity.x << std::endl;
         auto parallaxComponent = std::make_shared<IsParallax>();
         auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(path, pos, rect1, layer, scale, rotation, tint);
         auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);

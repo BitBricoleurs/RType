@@ -33,6 +33,18 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "PhysicsEngineUpdateHitboxes.hpp"
+#include "RevivePlayer.hpp"
+#include "WinSystem.hpp"
+#include "LoseSystem.hpp"
+#include "CheckGameEnded.hpp"
+#include "GoBackToTheLobbySystem.hpp"
+#include "SpawnEntityEvent.hpp"
+#include "DeleteMobs.hpp"
+#include "DeleteParallax.hpp"
+#include "PowerUpDualShoot.hpp"
+#include "ManagePowerUp.hpp"
+#include "BugDirectionChange.hpp"
 #include "WiggleMob.hpp"
 #include "BounceBoss.hpp"
 #include "BossInScope.hpp"
@@ -75,7 +87,13 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto identifyOutOfBounds = std::make_shared<Server::IndentifyOutOfBounds>();
     auto outOfBounds = std::make_shared<Server::OutOfBounds>();
     auto charge = std::make_shared<Server::NetworkClientCharge>();
-
+    auto checkGameLose = std::make_shared<Server::CheckGameEnded>();
+    auto win = std::make_shared<Server::WinSystem>();
+    auto loose = std::make_shared<Server::LoseSystem>();
+    auto goBackToTheLobby = std::make_shared<Server::GoBackToTheLobbySystem>();
+    auto revivePlayer = std::make_shared<Server::RevivePlayer>();
+    auto deleteParallax = std::make_shared<Server::DeleteParallax>();
+    auto deleteMobs = std::make_shared<Server::DeleteMobs>();
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
@@ -86,6 +104,13 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("SHOOT", shoot);
     engine.addSystem("IDENTIFY_OUT_OF_BOUNDS", identifyOutOfBounds);
     engine.addEvent("OUT_OF_BOUNDS", outOfBounds);
+    engine.addSystem("CHECK_GAME_LOSE", checkGameLose);
+    engine.addEvent("LOSE_LEVEL", loose);
+    engine.addEvent("WIN_LEVEL", win);
+    engine.addEvent("GO_BACK_TO_THE_LOBBY", goBackToTheLobby);
+    engine.addEvent("REVIVE_PLAYER", revivePlayer);
+    engine.addEvent("DELETE_PARALLAX", deleteParallax);
+    engine.addEvent("DELETE_MOBS", deleteMobs);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
@@ -101,14 +126,22 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
     auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
     auto bossInScope = std::make_shared<Server::BossInScope>();
+    auto bugSystem = std::make_shared<Server::BugDirectionChange>();
 
     auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
+    auto spawnEntityChangeLevel = std::make_shared<Server::SpawnEntityChangeLevel>(spawnMob);
+    auto spawnEntityResetLevel = std::make_shared<Server::SpawnEntityResetLevel>(spawnMob);
+
 
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
+    engine.addEvent("CHANGE_LEVEL", spawnEntityChangeLevel);
+    engine.addEvent("RESET_LEVEL", spawnEntityResetLevel);
     engine.addSystem("PARALLAX", Parallax, 2);
     auto spawnPowerUp = std::make_shared<Server::SpawnPowerUp>();
     auto forcePodSpawn = std::make_shared<Server::ForcePodSpawn>();
+    auto revivePlayer = std::make_shared<Server::RevivePlayer>();
 
+    engine.addEvent("RevivePlayer", revivePlayer);
     engine.addEvent("SpawnPowerUp", spawnPowerUp);
     engine.addSystem("SPAWN_MOB", spawnMob, 2);
     engine.addEvent("PlayerHit", PlayerHit1);
@@ -124,6 +157,17 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("launchBossPods", launchBossPods);
     engine.addEvent("LatchPodToBoss", latchPodToBoss);
     engine.addSystem("BossInScope", bossInScope);
+    engine.addEvent("BugSystem", bugSystem);
+}
+
+void setup_game_power_up(GameEngine::GameEngine& engine)
+{
+
+    auto managePowerUp = std::make_shared<Server::ManagePowerUp>();
+    auto powerUpDualShoot = std::make_shared<Server::PowerUpDualShoot>();
+
+    engine.addEvent("ManagePowerUp", managePowerUp);
+    engine.addEvent("DualShoot", powerUpDualShoot);
 }
 
 int main(void) {
@@ -140,10 +184,14 @@ int main(void) {
         setup_network(engine, queue);
         setup_sync_systems(engine);
         setup_engine(engine);
+        setup_game_power_up(engine);
         auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
+        auto syncHitbox = std::make_shared<PhysicsEngine::PhysicsEngineUpdateHitboxes>();
         engine.addSystem("PHYSICS", physicMVT, 1);
+        engine.addSystem("SYNC_HITBOX", syncHitbox, 3);
+
         engine.run();
         return 0;
     } catch (std::exception &e) {

@@ -96,15 +96,17 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::sh
     _mutexOut.unlock();
 }
 
-std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
+std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, long packetId)
 {
     std::lock_guard<std::mutex> lock(_mutexIn);
 
+    if (remoteId < 0)
+        return nullptr;
     auto it = _packetRegisterOut.find(remoteId);
     if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         return nullptr;
     for (auto& packet : _packetRegisterOut[remoteId]) {
-         if (packet.second->header.sequenceNumber == packetId && packet.first)
+         if (packet.first && packet.second->header.sequenceNumber == packetId)
             return packet.second;
     }
     return nullptr;
@@ -115,7 +117,7 @@ std::vector<std::shared_ptr<Network::Packet>> Network::PacketRegister::getPacket
     std::vector<std::shared_ptr<Network::Packet>> result;
     std::shared_ptr<Network::Packet> tmpPacket;
     long packetId = 0;
-    unsigned int lastPacketId = getLastPacketId(remoteId);
+    long lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {
         if (!(ackMask & (1 << i))) {

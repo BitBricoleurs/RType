@@ -139,10 +139,6 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
-        for (auto id :IDs) {
-            if (id == 0)
-                std::cout << "MHHHHH" << std::endl;
-        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);
@@ -176,7 +172,26 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"CHARGE", 0x21},
     {"BLOCK", 0x22},
     {"CHARGE", 0x23},
-    {"CREATE_PARALLAX", 0x24},
+    {"CREATED_PARALLAX", 0x24},
+    {"LIFE_LOST", 0x25},
+    {"DEATH", 0x26},
+    {"GAME_OVER", 0x27},
+    {"JOIN_LOBBY", 0x28},
+    {"REVIVE_PLAYER", 0x29},
+    {"CREATE_PARALLAX", 0x30},
+    {"DELETED_ENTITY", 0x31},
+    {"READY", 0x32},
+    {"START_GAME", 0x33},
+    {"ALIVE", 0x34},
+    {"CREATED_POWERUP", 0x35},
+    {"CREATED_FORCEPOD", 0x36},
+    {"SYNC_FORCE_POD_PLAYER", 0x37},
+    {"UPDATE_POS_FORCE_POD", 0x38},
+    {"CHARGE", 0x39},
+    {"BLOCK", 0x40},
+    {"CREATED_POWERUP_DUAL", 0x41},
+    {"FLASH_ENTITY", 0x42},
+    {"FORCE_POD_UPGRADE", 0x43}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

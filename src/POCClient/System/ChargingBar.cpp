@@ -11,14 +11,19 @@ namespace Client {
     void ChargingBar::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
     auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
+    auto compTypeIsPlayer = GameEngine::ComponentsType::getComponentType("IsPlayer");
+    auto compTypeGameMode = GameEngine::ComponentsType::getComponentType("UserGameMode");
     std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
+    size_t entityCheckPlayer = componentsContainer.getEntityWithUniqueComponent(compTypeIsPlayer);
     if (gameStateEntities.empty())
         return;
+    auto mayCompGameMode = componentsContainer.getComponent(entityCheckPlayer, compTypeGameMode);
     auto compMay = componentsContainer.getComponent(gameStateEntities[0], compTypeGameState);
-    if (!compMay.has_value())
+    if (!compMay.has_value() || !mayCompGameMode.has_value())
         return;
+    auto gameMode = std::static_pointer_cast<Utils::UserGameMode>(mayCompGameMode.value());
     auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
-    if (gameStateComp->_state != Utils::GameState::State::RUNNING)
+    if (gameStateComp->_state != Utils::GameState::State::RUNNING || gameMode->_state != Utils::UserGameMode::State::ALIVE)
         return;
     auto events = eventHandler.getTriggeredEvent();
     auto isPlayerId = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));

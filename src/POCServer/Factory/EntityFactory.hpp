@@ -40,8 +40,9 @@
 #include "IsParallax.hpp"
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
-#include "IsPower.hpp"
+#include "IsPower.hpp"x
 #include "MovementLimits.hpp"
+#include "CooldownHit.hpp"x
 
 namespace Server {
 
@@ -64,7 +65,11 @@ namespace Server {
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup);
+                         Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
+
+      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
@@ -93,6 +98,10 @@ namespace Server {
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
+      std::vector<size_t> spawnPowersDualShoot(GameEngine::ComponentsContainer &container,
+                                             GameEngine::EventHandler &eventHandler,
+                                             PowerType type, Utils::Vect2 pos, Utils::Vect2 pos2);
+
         void updateEntityNetwork(GameEngine::EventHandler& eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity);
         void updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos);
         void updateEntityNetworkWithVelocity(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity);
@@ -114,6 +123,7 @@ namespace Server {
                 return PlayerNumber::Player1;
             auto it = _playerMap.end();
             it--;
+            
             return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
         }
 
@@ -159,6 +169,8 @@ namespace Server {
       size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
                                Utils::Vect2 pos);
+
+      std::vector<Utils::Vect2> generatePathPoints();
       
       std::map<size_t, PlayerNumber> _playerMap;
 
