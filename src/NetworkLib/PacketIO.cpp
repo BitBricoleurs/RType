@@ -38,7 +38,8 @@ void Network::PacketIO::readPacket()
                     std::cout << "Error reading packet: magic number is not correct" << std::endl;
                     return;
                 }
-                if (_packetQueue.count() >= _packetQueue.getMaxSize()) {
+
+                if (_packetQueue.isQueueFull()) {
                     readPacket();
                     return;
                 }
@@ -121,13 +122,13 @@ void Network::PacketIO::processIncomingMessages() {
             size_t index = 0;
             unsigned int id = 0;
             std::uint16_t size = 0;
-            while (index < _headerIn.bodySize) {
-                if (_inMessages.count() == _inMessages.getMaxSize() - 1) {
+            while (index <= _headerIn.bodySize) {
+                if (_inMessages.isQueueFull()) {
                     break;
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
                 size = ntohs(size);
-                if (size > _headerIn.bodySize || index > _headerIn.bodySize) {
+                if (size > _headerIn.bodySize || index > _headerIn.bodySize || size == 0) {
                     break;
                 }
                 std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
@@ -141,8 +142,15 @@ void Network::PacketIO::processIncomingMessages() {
         }
         while (!_inMessages.empty()) {
             std::shared_ptr<OwnedMessage> message = _inMessages.getFront();
+            if (message == nullptr && !_inMessages.empty()) {
+                _inMessages.popFront();
+                continue;
+            }
             _forwardMessages->pushBack(message);
-            _inMessages.popFront();
+            if (!_inMessages.empty()) {
+                _inMessages.popFront();
+            }
+
         }
     });
 }
