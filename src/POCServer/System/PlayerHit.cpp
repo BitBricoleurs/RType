@@ -18,8 +18,7 @@ namespace Server {
 
     void PlayerHit::handleLifeLoss(size_t playerId, const std::shared_ptr<Health>& hpComponent, GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         hpComponent->lives -= 1;
-        std::cout << "Player lives: " << hpComponent->lives << std::endl;
-        if (hpComponent->lives < 0) {
+        if (hpComponent->lives < 1) {
             auto playerGameStageOpt = componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("UserGameMode"));
             if (playerGameStageOpt.has_value()) {
                 auto playerGameStage = std::static_pointer_cast<Utils::UserGameMode>(playerGameStageOpt.value());
@@ -37,8 +36,20 @@ namespace Server {
 
     void PlayerHit::handleOtherEntity(size_t otherEntity, GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         auto isBossOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBoss"));
+        auto isMobOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
+        auto scoreEntity = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("Score"));
+        auto scoreComponentOpt = componentsContainer.getComponent(scoreEntity, GameEngine::ComponentsType::getComponentType("Score"));
         if (isBossOpt.has_value())
             return;
+        if (isMobOpt.has_value() && scoreComponentOpt.has_value()) {
+            auto mobHpComponentOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("Health"));
+            if (mobHpComponentOpt.has_value()) {
+                auto mobHpComponent = std::static_pointer_cast<Health>(mobHpComponentOpt.value());
+                auto scoreComponent = std::static_pointer_cast<Score>(scoreComponentOpt.value());
+                scoreComponent->score += mobHpComponent->maxHealth;
+                updateScoreNetwork(eventHandler, scoreComponent->score);
+            }
+        }
         std::vector<size_t> ids = {otherEntity};
         killMobNetwork(eventHandler, ids);
         componentsContainer.deleteEntity(otherEntity);
@@ -62,6 +73,15 @@ namespace Server {
     {
         std::vector<size_t> ids = {entity};
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("FLASH_ENTITY", ids, "", std::vector<std::any>{});
+        std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allMessage);
+    }
+
+    void PlayerHit::updateScoreNetwork(GameEngine::EventHandler &eventHandler, size_t score)
+    {
+        std::vector<size_t> ids = {};
+        int scoreInt = score;
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_SCORE", ids, "INT", std::vector<std::any>{scoreInt});
         std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allMessage);
     }
@@ -122,5 +142,4 @@ void Server::PlayerHit::sendDeathMessage(GameEngine::EventHandler &eventHandler,
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("DEATH", ids, "", std::vector<std::any>{});
     std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
     eventHandler.queueEvent("SEND_NETWORK", allMessage);
-    std::cout << "Player " << entity << " died" << std::endl;
 }

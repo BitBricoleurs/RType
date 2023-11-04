@@ -156,7 +156,6 @@ namespace Server {
 
             eventHandler.scheduleEvent("BugSystem", 1, entityId);
 
-            std::cout << "Bug mob spawned" << std::endl;
 
             return entityId;
             } catch(const std::runtime_error& e) {
@@ -165,25 +164,23 @@ namespace Server {
         }
     }
     
-    std::vector<size_t> EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+    size_t EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
-
-        std::vector<size_t> bugGroup;
 
         auto pathPoints = generatePathPoints();
 
         float offset = 0;
-        
+        auto entityId = 0;
         for (int i = 0; i < 5; i++) {
             Utils::Vect2 newPos(pos.x + offset, pos.y);
             offset += 75;
             if (dropPowerup && i == 2) {
-                bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, velocity, true, pathPoints));
+                entityId = spawnBugMob(container, eventHandler, newPos, velocity, true, pathPoints);
                 continue;
             }
-            bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, velocity, false, pathPoints));
+            entityId = spawnBugMob(container, eventHandler, newPos, velocity, false, pathPoints);
         }
-        return bugGroup;
+        return entityId;
     }
 }

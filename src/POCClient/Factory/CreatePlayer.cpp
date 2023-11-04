@@ -38,7 +38,6 @@ namespace Client {
             data.getInt("/createChargeAnimation/direction"),
             static_cast<int>(playerNumber) + 1,
             data.getInt("/createChargeAnimation/layer"));
-
         size_t entityId = createPlayer(
             container,
             data.getString("/createPlayer/spriteSheetPath"),

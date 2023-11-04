@@ -50,8 +50,6 @@ namespace Client {
         engine.addEvent("CREATED_USER", createPlayer);
         engine.addEvent("CREATED_MOB", createMob);
         engine.addEvent("CREATED_BULLET", createBullet);
-        engine.addEvent("CREATED_POWERUP", createPowerUp);
-        engine.addEvent("CREATED_FORCEPOD", createForcePod);
         engine.addEvent("CREATED_PARALLAX", createParallax);
         engine.addEvent("DELETED_ENTITY", networkDeleteEntity);
         engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
@@ -100,7 +98,6 @@ namespace Client {
         auto clearAnimLoseNotif = std::make_shared<Client::ClearAnimateLoseNotification>();
         auto AnimWinNotif = std::make_shared<Client::AnimateWinNotification>();
         auto clearAnimWinNotif = std::make_shared<Client::ClearAnimateWinNotification>();
-
 
         engine.addEvent("InitEvent", initHud);
         engine.queueEvent("InitEvent");

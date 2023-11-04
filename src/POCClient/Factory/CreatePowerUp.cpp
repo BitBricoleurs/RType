@@ -12,6 +12,7 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
         int size = data.getSize("/powers");
         for (int i = 0; i < size; i++) {
             PowerUpType typeTab = static_cast<PowerUpType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
+            auto isPowerUp = std::make_shared<Client::IsPowerUp>();
             if (typeTab == type) {
                 size_t entityId = createBaseEntity(
                         container,
@@ -34,6 +35,7 @@ size_t Client::EntityFactory::spawnPowerUp(GameEngine::ComponentsContainer &cont
                         ),
                         data.getInt("/powers/" + std::to_string(i) + "/layer")
                         );
+                container.bindComponentToEntity(entityId, isPowerUp);
                 eventHandler.scheduleEvent("animate", data.getInt("/powers/" + std::to_string(i) + "/animateSpeed") , std::make_tuple(std::string("PowerUp"), entityId));
                 return entityId;
             }
@@ -52,7 +54,7 @@ std::vector<size_t> Client::EntityFactory::spawnPowerUpDualShoot(GameEngine::Com
 
         int size = data.getSize("/powers");
         for (int i = 0; i < size; i++) {
-            PowerUpType typeTab = static_cast<PowerUpType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
+            PowerType typeTab = static_cast<PowerType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
             if (typeTab == type) {
                 size_t entityId = createBaseEntity(
                         container,

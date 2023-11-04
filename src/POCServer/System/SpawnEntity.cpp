@@ -53,7 +53,8 @@ namespace Server {
                 return;
             };
         }
-        for (int i = 0; i < mobsSize;) {
+        auto entityId = 0;
+        for (int i = 0; i < mobsSize; i++) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
@@ -63,25 +64,28 @@ namespace Server {
 
                 float velocityX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/x");
                 float velocityY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/y");
-
-                Utils::Vect2 velocity(static_cast<float>(velocityX), static_cast<float>(velocityY));
+                Utils::Vect2 velocity(velocityX, velocityY);
 
                 bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerUp");
-
                 std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
+                bool isLastMob = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/isLastMob");
+
                 if (mobType == "cancerMob") {
-                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "pataPataMob") {
-                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "bellmite") {
-                     EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                     entityId = EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "bugMob") {
-                    EntityFactory::getInstance().spawnBugMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                    entityId= EntityFactory::getInstance().spawnBugMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "bugGroup") {
-                    EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                    entityId= EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                }
+                if (isLastMob) {
+                    std::cout << "isLastMob" << std::endl;
+                    componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsLastMob>());
                 }
             }
-            i++;
         }
         int parallaxSize = currentMapContent.getSize("/parallax");
         for (int i = 0; i < parallaxSize; i++) {

@@ -49,9 +49,9 @@ namespace Server {
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int maxHealth,
                                        int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                       Utils::Vect2 bulletVelocity, int typeBullet) {
+                                       Utils::Vect2 bulletVelocity, int typeBullet, int nbrFrame) {
       size_t entityId = createBaseEntity(
-          container, hitboxHeight, hitboxWidth,
+          container, hitboxHeight / nbrFrame, hitboxWidth,
           pos, velocity, scale);
 
       auto healthComponent = std::make_shared<Health>(maxHealth);

@@ -67,7 +67,7 @@ namespace Server {
                          Utils::Vect2 pos, Utils::Vect2 velocity,
                          bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
 
-      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+      size_t spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
@@ -143,7 +143,7 @@ namespace Server {
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int maxHealth,
                                        int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                       Utils::Vect2 bulletVelocity, int typeBullet);
+                                       Utils::Vect2 bulletVelocity, int typeBullet, int nbrFrame);
 
       size_t createBullet(GameEngine::ComponentsContainer &container,
                                        int hitboxHeight, int hitboxWidth,

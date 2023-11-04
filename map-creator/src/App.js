@@ -229,7 +229,7 @@ function App() {
         const mobs = mapItems.map(item => ({
             tick: item.velocity.x === 0 ? 1 : Math.round(item.x /  Math.abs(item.velocity.x)),
             mobType: item.name,
-            velocity : {
+            velocity: {
                 x: item.velocity.x.toFixed(1),
                 y: item.velocity.y.toFixed(1),
             },
@@ -237,14 +237,20 @@ function App() {
                 x: 2000,
                 y: Math.round(item.y),
             },
-
             dropPowerUp: item.powerUp,
         }));
+
+        const sortedMobs = mobs.sort((a, b) => a.tick - b.tick);
+
+        const enhancedMobs = sortedMobs.map((mob, index, array) => {
+            const isLastMob = index === array.length - 1;
+            return { ...mob, isLastMob };
+        });
         const combinedParallaxItems = [...parallaxWithBackground, ...otherParallaxItems];
 
         const formattedData = {
             parallax: combinedParallaxItems,
-            mobs: mobs
+            mobs: enhancedMobs
         };
 
         let formattedJson = JSON.stringify(formattedData, null, 2);

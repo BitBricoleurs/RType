@@ -46,7 +46,8 @@ namespace Server {
             data.getFloat("/createPlayer/bulletVelocity/x"),
             data.getFloat("/createPlayer/bulletVelocity/y")
         ),
-        data.getInt("/createPlayer/typeBullet")
+        data.getInt("/createPlayer/typeBullet"),
+        data.getInt("/createPlayer/frames")
     );
      eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
       registerPlayer(entityId, numberPlayer);
