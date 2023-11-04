@@ -14,12 +14,13 @@ void Client::FlashWhenHit::update(GameEngine::ComponentsContainer &componentsCon
 
     if (spriteOpt.has_value()) {
         auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
-        if (!sprite->flash) {
-            sprite->tint = {255, 255, 255, 255};
-            sprite->flash = true;
-        } else {
-            sprite->tint = {255, 255, 255, 0};
+        if (sprite->flash) {
+            sprite->isVisible = !sprite->isVisible;
+            sprite->flashtimer++;
+        }
+        if (sprite->flashtimer >= 5) {
             sprite->flash = false;
+            sprite->flashtimer = 0;
         }
     }
 }

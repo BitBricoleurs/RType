@@ -27,6 +27,7 @@ namespace RenderEngine {
             this->tint = tint;
             this->flash = false;
             this->origin = Utils::Vect2(0.0f,0.0f);
+            this->flashtimer = 0;
         }
         ~SpriteComponent() override = default;
 
@@ -44,6 +45,7 @@ namespace RenderEngine {
         Utils::ColorR tint;
         bool isVisible = true;
         bool flash = false;
+        int flashtimer = 0;
     private:
     };
 }
