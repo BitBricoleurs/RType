@@ -132,6 +132,7 @@ namespace Client {
         auto gameOver = std::make_shared<Client::GameOverSystem>();
         auto goBackToTheLobby = std::make_shared<Client::GoBackToTheLobby>();
         auto revivePlayer = std::make_shared<Client::RevivePlayer>();
+        auto animateBugSprite = std::make_shared<Client::UpdateBugSprite>();
 
         engine.addEvent("PLAY_SOUND", audioSys);
         engine.addEvent("Init", initAudio);
@@ -150,6 +151,7 @@ namespace Client {
         engine.addEvent("GAME_OVER", gameOver);
         engine.addEvent("JOIN_LOBBY", goBackToTheLobby);
         engine.addEvent("REVIVE_PLAYER", revivePlayer);
+        engine.addEvent("UpdateBugSprite", animateBugSprite);
     }
 
     void MainProgram::setup_animations(GameEngine::GameEngine &engine) {
