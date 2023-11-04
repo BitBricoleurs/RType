@@ -2,9 +2,9 @@ import json
 import random
 
 def generate_mob(current_tick):
-    mob_types = ["cancerMob", "pataPataMob", "bugGroup"]
-    mob_type = random.choice(mob_types)
-    position_y = random.uniform(10.5, 950.5)
+    mob_types = ["cancerMob", "pataPataMob", "bugGroup", "bugMob"]
+    mob_type = random.choice(mob_types, weights=[30, 30, 10, 30], k=1)[0]
+    position_y = random.uniform(10.5, 900.5)
 
     drop_powerup = random.choices([True, False], weights=[10, 90], k=1)[0]
 
@@ -22,7 +22,7 @@ def main():
     mobs = []
     current_tick = 0
 
-    for _ in range(299):
+    for _ in range(100):
         tick_interval = random.randint(5, 100)
         current_tick += tick_interval
         mob = generate_mob(current_tick)
@@ -40,8 +40,50 @@ def main():
         "dropPowerup": False
     })
 
+    parallax = [
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": True,
+            "speed": 0.5,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "tick": 1,
+            "type": 1,
+            "layer" : 1,
+            "isLooping": True,
+            "speed": 0.5,
+            "position": {
+                "x": 1920,
+                "y": 0
+            }
+        },
+        {
+            "tick": 60,
+            "type": 4,
+            "layer" : 2,
+            "isLooping": False,
+            "speed": 1.0,
+            "position": {
+                "x": 2000,
+                "y": 400
+            }
+        }
+    ],
+
+
+    data = {
+        "parallax": parallax,
+        "mobs": mobs
+    }
+
     with open("map1.json", "w") as outfile:
-        json.dump({"mobs": mobs}, outfile, indent=4)
+        json.dump(data, outfile, indent=4)
 
 if __name__ == "__main__":
     main()
