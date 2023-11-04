@@ -168,6 +168,8 @@ void Network::PacketIO::processOutgoingMessages()
             while (!_outMessages->empty()) {
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
                 if (message == nullptr) {
+                    if (_outMessages->empty())
+                        break;
                     _outMessages->popFront();
                     continue;
                 }

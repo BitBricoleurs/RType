@@ -20,7 +20,7 @@ namespace Client {
                 int port = std::stoi(endpointPtr->_port);
                 Network::Endpoint endpoint(endpointPtr->_host, port);
                 std::cout << "Connecting to " << endpoint.ip << ":" << endpoint.port << std::endl;
-                Network::Client::getInstance().connect("localhost", 4444);
+                Network::Client::getInstance().connect(endpoint.ip, endpoint.port);
                 std::vector<size_t> ids = {};
                 std::vector<std::any> args = {};
                 std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("CONNECT", ids, "", args);

@@ -9,9 +9,12 @@
 
 void Animate::update(GameEngine::ComponentsContainer &componentsContainer,
                      GameEngine::EventHandler &eventHandler) {
+    try {
   size_t entityID =
       std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
-
+    } catch (std::bad_any_cast &e) {
+        return;
+    }
   auto animationOpt = componentsContainer.getComponent(
       entityID, GameEngine::ComponentsType::getComponentType("Animation"));
   auto velocityOpt = componentsContainer.getComponent(

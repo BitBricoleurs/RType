@@ -12,8 +12,13 @@ namespace Client {
     void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
                               GameEngine::EventHandler &eventHandler) {
 
-      auto entityID =
-          std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
+        size_t entityID = 0;
+        try {
+            entityID =
+                    std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
+        } catch (std::bad_any_cast &e) {
+            return;
+        };
       auto deathOpt = componentsContainer.getComponent(
           entityID, GameEngine::ComponentsType::getComponentType("DeathAnimation"));
       auto spriteOpt = componentsContainer.getComponent(

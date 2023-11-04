@@ -22,7 +22,6 @@ void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsi
         _packetIdRegisterIn[remoteId].erase(_packetIdRegisterIn[remoteId].begin());
     }
     _packetIdRegisterIn[remoteId].push_back(packetId);
-    _mutexIn.unlock();
 }
 
 
@@ -93,7 +92,6 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::sh
         _packetRegisterOut[remoteId].erase(_packetRegisterOut[remoteId].begin());
     }
     _packetRegisterOut[remoteId].push_back(std::make_pair(secure, packet));
-    _mutexOut.unlock();
 }
 
 std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, long packetId)

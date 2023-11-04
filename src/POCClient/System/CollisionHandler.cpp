@@ -9,7 +9,16 @@ namespace Client {
 
     void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         try {
-            auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+            size_t firstEntity = 0;
+            size_t secondEntity = 0;
+            std::pair<size_t, size_t> data;
+            try {
+                data = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+                firstEntity = data.first;
+                secondEntity = data.second;
+            } catch (std::bad_any_cast &e) {
+                return;
+            }
 
             auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
             auto secondEntityOptPlayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
