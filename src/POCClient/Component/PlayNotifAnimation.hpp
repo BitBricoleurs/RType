@@ -6,6 +6,8 @@
 
 #include <cstddef>
 #include <vector>
+#include <memory>
+#include <vector>
 #include "Vect2.hpp"
 #include "ComponentsType.hpp"
 #include "AComponent.hpp"

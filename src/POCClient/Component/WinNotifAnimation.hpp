@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 #include <vector>
 #include "Vect2.hpp"
 #include "ComponentsType.hpp"

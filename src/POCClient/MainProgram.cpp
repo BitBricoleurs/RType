@@ -38,6 +38,7 @@ namespace Client {
         auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
         auto createForcePod = std::make_shared<Client::CreateForcePod>();
         auto createParallax = std::make_shared<Client::CreateParallax>();
+        auto updateScore = std::make_shared<Client::UpdateScore>();
 
         engine.addSystem("NETWORK_INPUT", networkInput, 0);
         engine.addEvent("SEND_NETWORK", networkOutput);
@@ -58,6 +59,7 @@ namespace Client {
         engine.addEvent("ALIVE", imAlive);
         engine.scheduleEvent("ALIVE", 500, std::any(), 0);
         engine.queueEvent("NETWORK_CONNECT");
+        engine.addEvent("UPDATE_SCORE", updateScore);
     }
 
     void MainProgram::setup_sync_systems(GameEngine::GameEngine& engine) {

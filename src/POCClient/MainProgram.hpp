@@ -66,6 +66,7 @@
 #include "ClearAnimateLoseNotification.hpp"
 #include "AnimateWinNotification.hpp"
 #include "ClearAnimateWinNotification.hpp"
+#include "UpdateScore.hpp"
 
 namespace Client {
     class MainProgram {
