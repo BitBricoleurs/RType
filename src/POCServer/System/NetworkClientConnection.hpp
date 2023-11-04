@@ -12,6 +12,7 @@
 #include "ISystem.hpp"
 #include "IMessage.hpp"
 #include "EntityFactory.hpp"
+#include "GameState.hpp"
 
 namespace Server {
 
@@ -21,5 +22,6 @@ namespace Server {
             void update(GameEngine::ComponentsContainer &componentsContainer,
                         GameEngine::EventHandler &eventHandler) override;
         private:
+            bool isGamePlaying(GameEngine::ComponentsContainer &componentsContainer);
     };
 }

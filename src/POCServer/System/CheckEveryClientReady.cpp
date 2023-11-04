@@ -22,6 +22,9 @@ void Server::CheckEveryClientReady::update(GameEngine::ComponentsContainer &comp
     std::vector<size_t> networkClientIdEntities = componentsContainer.getEntitiesWithComponent(compTypeNetworkClientId);
     if (isReadyEntities.size() == networkClientIdEntities.size()) {
         gameStateComp->_state = Utils::GameState::State::RUNNING;
+        for (auto &entity : isReadyEntities) {
+            componentsContainer.unbindComponentFromEntity(entity, compTypeIsReady);
+        }
         std::cout << "Game is starting" << std::endl;
         std::vector<size_t> ids = {};
         std::vector<std::any> args = {};

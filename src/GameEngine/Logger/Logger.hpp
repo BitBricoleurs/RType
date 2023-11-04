@@ -5,25 +5,26 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include <string>
 
-class Logger {
-public:
-    enum class LogLevel {
-        INFO,
-        WARNING,
-        ERROR
+namespace GameEngine {
+    class Logger {
+    public:
+        static void setLogLevel(int level);
+        static void log(int level, const std::string& message);
+        static void info(const std::string& message);
+        static void warning(const std::string& message);
+        static void error(const std::string& message);
+        static void startServer(unsigned short port);
+        static bool wantsToReceiveLogs;
+        struct LoggerImpl;
+
+    private:
+        static std::unique_ptr<LoggerImpl> pimpl;
+        static int currentLogLevel;
+        static std::string levelToString(int level);
+        static std::string getCurrentTimestamp();
     };
 
-    static void setLogLevel(LogLevel level);
-    static void log(LogLevel level, const std::string& message);
-    static void info(const std::string& message);
-    static void warning(const std::string& message);
-    static void error(const std::string& message);
-
-private:
-    static LogLevel currentLogLevel;
-
-    static std::string levelToString(LogLevel level);
-    static std::string getCurrentTimestamp();
-};
+}

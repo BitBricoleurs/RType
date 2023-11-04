@@ -13,6 +13,7 @@
 #include <iostream>
 #include "AABBComponent2D.hpp"
 #include "BossStage.hpp"
+#include "BossComponent.hpp"
 #include "Damage.hpp"
 #include "EventHandler.hpp"
 #include "GameEngine.hpp"
@@ -40,6 +41,7 @@
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
 #include "IsPower.hpp"
+#include "CooldownHit.hpp"
 
 namespace Server {
 
@@ -62,7 +64,12 @@ namespace Server {
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 velocity,
+                         bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
+
+      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
@@ -82,9 +89,18 @@ namespace Server {
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      size_t createBellmite(GameEngine::ComponentsContainer &container,
+                            GameEngine::EventHandler &eventHandler,
+                            Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
+
       size_t spawnParallax(GameEngine::ComponentsContainer &container,
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
+
+      std::vector<size_t> spawnPowersDualShoot(GameEngine::ComponentsContainer &container,
+                                             GameEngine::EventHandler &eventHandler,
+                                             PowerType type, Utils::Vect2 pos, Utils::Vect2 pos2);
 
         void updateEntityNetwork(GameEngine::EventHandler& eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity);
         void updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos);
@@ -107,6 +123,7 @@ namespace Server {
                 return PlayerNumber::Player1;
             auto it = _playerMap.end();
             it--;
+            
             return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
         }
 
@@ -145,8 +162,17 @@ namespace Server {
         Utils::Vect2 velocity, float scale);
       static size_t CreateParallax(GameEngine::ComponentsContainer& container, GameEngine::EventHandler& eventHandler, Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
-      private:
-            std::map<size_t, PlayerNumber> _playerMap;
+      size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
+
+      size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                               GameEngine::EventHandler &eventHandler,
+                               Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      std::vector<Utils::Vect2> generatePathPoints();
+      
+      std::map<size_t, PlayerNumber> _playerMap;
 
 };
 }

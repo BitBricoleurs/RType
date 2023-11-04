@@ -291,7 +291,7 @@
     "isBackgroundEnabled": false
   },
   {
-    "id": 17,
+    "id": 18,
     "path": "/assets/map3/EH3.png",
     "name" : "map3 - EH3",
     "rect": {
@@ -308,7 +308,7 @@
     "isBackgroundEnabled": false
   },
   {
-    "id": 17,
+    "id": 19,
     "path": "/assets/map3/EH4.png",
     "name" : "map3 - EH4",
     "rect": {
@@ -325,7 +325,7 @@
     "isBackgroundEnabled": false
   },
   {
-    "id": 17,
+    "id": 20,
     "path": "/assets/map3/EH5.png",
     "name" : "map3 - EH5",
     "rect": {

@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include <cstddef>
 
 namespace Server {
 
@@ -37,7 +38,7 @@ namespace Server {
             container.bindComponentToEntity(entityId, shooterComp);
 
             auto IdCharge = std::make_tuple(entityId, 0);
-            eventHandler.scheduleEvent("ShootSystem", config.getInt("/shootDelay"), IdCharge);
+            eventHandler.scheduleEvent("SHOOT", config.getInt("/shootDelay"), IdCharge);
 
             if (dropPowerup) {
                 auto powerUp = std::make_shared<IsPowerUp>();
@@ -113,7 +114,7 @@ namespace Server {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup, std::vector<Utils::Vect2> pathPoints) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
@@ -129,7 +130,14 @@ namespace Server {
                 config.getFloat("/createBugMob/scale")
             );
 
-            container.bindComponentToEntity(entityId, std::make_shared<Bug>());
+            auto bug = std::make_shared<Bug>();
+            if (pathPoints.empty()) {
+                pathPoints = generatePathPoints();
+            }
+            bug->directionChangePoints = pathPoints;
+            bug->currentDestinationI = 0;
+
+            container.bindComponentToEntity(entityId, bug);
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::BUG)};
@@ -146,10 +154,36 @@ namespace Server {
                 container.bindComponentToEntity(entityId, powerUp);
             }
 
+            eventHandler.scheduleEvent("BugSystem", 1, entityId);
+
+            std::cout << "Bug mob spawned" << std::endl;
+
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnBugMob: " << e.what() << std::endl;
             exit(1);
         }
+    }
+    
+    std::vector<size_t> EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
+
+        std::vector<size_t> bugGroup;
+
+        auto pathPoints = generatePathPoints();
+
+        float offset = 0;
+        
+        for (int i = 0; i < 5; i++) {
+            Utils::Vect2 newPos(pos.x + offset, pos.y);
+            offset += 75;
+            if (dropPowerup && i == 2) {
+                bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, velocity, true, pathPoints));
+                continue;
+            }
+            bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, velocity, false, pathPoints));
+        }
+        return bugGroup;
     }
 }

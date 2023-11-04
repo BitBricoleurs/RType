@@ -23,7 +23,7 @@ namespace Network {
 
     class Interface;
 
-    class PacketIO : public std::enable_shared_from_this<PacketIO>{
+    class PacketIO {
       public:
         enum class Type {
             SERVER,
@@ -62,7 +62,7 @@ namespace Network {
 
         TSQueue<std::shared_ptr<IMessage>>* _outMessages;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>>* _forwardMessages;
-        Network::TSQueue<std::pair<boost::asio::ip::udp::endpoint, Network::Packet>> _packetQueue;
+        Network::TSQueue<std::pair<boost::asio::ip::udp::endpoint, std::shared_ptr<Network::Packet>>> _packetQueue;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_inMessages;
         Network::Tick& _tick;
         boost::asio::io_context& _context;

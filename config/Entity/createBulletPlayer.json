@@ -38,7 +38,7 @@
           "w": 32
         },
         "path" : "assets/bullets/charge1.png",
-        "damageValue": 70,
+        "damageValue": 100,
         "frames": 2
       }
       ,
@@ -52,7 +52,7 @@
           "w": 64
         },
         "path" : "assets/bullets/charge2.png",
-        "damageValue": 80,
+        "damageValue": 115,
         "frames": 2
       },
       "type3": {
@@ -65,7 +65,7 @@
           "w": 96
         },
         "path" : "assets/bullets/charge3.png",
-        "damageValue": 90,
+        "damageValue": 135,
         "frames": 2
       },
       "type4": {
@@ -78,7 +78,7 @@
           "w": 128
         },
         "path" : "assets/bullets/charge4.png",
-        "damageValue": 100,
+        "damageValue": 150,
         "frames": 2
       },
       "type5": {
@@ -91,7 +91,7 @@
           "w": 160
         },
         "path" : "assets/bullets/charge5.png",
-        "damageValue": 150,
+        "damageValue": 200,
         "frames": 2
       }
     }

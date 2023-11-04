@@ -39,6 +39,10 @@
 #include "IsParallax.hpp"
 #include "Shooter.hpp"
 #include "PowerUpUtils.hpp"
+#include "BossComponent.hpp"
+#include "IsStarship.hpp"
+#include "LoadConfig.hpp"
+#include "PlayerUtils.hpp"
 
 namespace Client {
 
@@ -53,15 +57,15 @@ namespace Client {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                           GameEngine::EventHandler &eventHandler,
@@ -84,9 +88,28 @@ namespace Client {
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, Utils::Vect2 velocity, size_t typeBullet);
 
+      std::vector<size_t> spawnPowerUpDualShoot(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, PowerUpType type, Utils::Vect2 pos, Utils::Vect2 pos2);
+
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
+
+      size_t createPlayNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
+        size_t createLoseNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
+        size_t createWinNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
+        size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos);
+
+       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                 GameEngine::EventHandler &eventHandler,
+                                 Utils::Vect2 pos);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;
@@ -122,6 +145,19 @@ namespace Client {
             // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
+
+        size_t createBackGroundConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createMenuConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createConnectButton(GameEngine::ComponentsContainer &container);
+
+        size_t createInputIp(GameEngine::ComponentsContainer &container);
+
+        size_t createInputPort(GameEngine::ComponentsContainer &container);
+
+
+        std::shared_ptr<SpriteAnimation> initAnimation(const std::string &spriteSheetPath, int frames, int width,int height, bool twoDirections, bool reverse, int direction, int player);
     private:
       EntityFactory() = default;
       ~EntityFactory() = default;
@@ -191,11 +227,6 @@ namespace Client {
                               float rotation,
                               Utils::ColorR tint, int layer);
 
-      static std::shared_ptr<SpriteAnimation>
-      initAnimation(const std::string &spriteSheetPath, int frames, int width,
-                    int height, bool twoDirections, bool reverse, int direction,
-                    int player);
-
       static std::shared_ptr<DeathAnimation>
       initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                          int deathWidth, int deathHeight);
@@ -203,6 +234,6 @@ namespace Client {
             std::map<size_t, size_t> _entityIdMap;
             std::map<size_t, PlayerNumber> _playerMap;
             std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
-    };
+};
 
 }

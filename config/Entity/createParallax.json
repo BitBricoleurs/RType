@@ -2,7 +2,7 @@
     "types": [
         {
             "type": 1,
-            "path": "assets/background_1.png",
+            "path": "assets/map1/P0.png",
             "rect": {
                 "x": 0,
                 "y": 0,
@@ -20,7 +20,7 @@
         },
         {
             "type": 2,
-            "path": "assets/background_2.png",
+            "path": "assets/map1/P1.png",
             "rect": {
                 "x": 0,
                 "y": 0,
@@ -38,7 +38,7 @@
         },
         {
             "type": 3,
-            "path": "assets/background_3.png",
+            "path": "assets/map1/P2.png",
             "rect": {
                 "x": 0,
                 "y": 0,
@@ -56,7 +56,295 @@
         },
         {
             "type": 4,
-            "path": "assets/Planets/Planet_Furnace_01_560x560.png",
+            "path": "assets/map1/P3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 5,
+            "path": "assets/map2/P0.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 6,
+            "path": "assets/map2/P1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 7,
+            "path": "assets/map2/V1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 8,
+            "path": "assets/map2/V2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 9,
+            "path": "assets/map2/V3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 10,
+            "path": "assets/map3/P0.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 11,
+            "path": "assets/map3/EB1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 12,
+            "path": "assets/map3/EB2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 13,
+            "path": "assets/map3/EB3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 14,
+            "path": "assets/map3/EB4.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 15,
+            "path": "assets/map3/EB5.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 16,
+            "path": "assets/map3/EH1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 17,
+            "path": "assets/map3/EH2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 18,
+            "path": "assets/map3/EH3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 19,
+            "path": "/assets/map3/EH4.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            }
+        },
+        {
+            "type": 20,
+            "path": "assets/map3/EH5.png",
             "rect": {
                 "x": 0,
                 "y": 0,

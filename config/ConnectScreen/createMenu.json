@@ -1,0 +1,18 @@
+{
+  "menu" : {
+    "spritePath": "assets/Connect_Screen/menu.png",
+    "spritePosX": 0,
+    "spritePosY": 0,
+    "spriteWidth": 2400,
+    "spriteHeight": 1350,
+    "scale": 0.80,
+    "reverse": false,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 8
+  }
+}
