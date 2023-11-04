@@ -15,6 +15,7 @@
 #include "Message.hpp"
 #include "Shooter.hpp"
 #include "GameState.hpp"
+#include "UserGameMode.hpp"
 
 namespace Client {
 

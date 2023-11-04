@@ -41,6 +41,7 @@
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
 #include "IsPower.hpp"
+#include "CooldownHit.hpp"
 
 namespace Server {
 
@@ -96,6 +97,10 @@ namespace Server {
                            GameEngine::EventHandler &eventHandler,
                            Utils::Vect2 pos, float speed, float layer, ParallaxType type, bool isLooping);
 
+      std::vector<size_t> spawnPowersDualShoot(GameEngine::ComponentsContainer &container,
+                                             GameEngine::EventHandler &eventHandler,
+                                             PowerType type, Utils::Vect2 pos, Utils::Vect2 pos2);
+
         void updateEntityNetwork(GameEngine::EventHandler& eventHandler, size_t entityId, Utils::Vect2 &pos, Utils::Vect2 &velocity);
         void updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos);
         void updateEntityNetworkWithVelocity(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity);
@@ -117,6 +122,7 @@ namespace Server {
                 return PlayerNumber::Player1;
             auto it = _playerMap.end();
             it--;
+            
             return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
         }
 

@@ -95,9 +95,11 @@ namespace GameEngine {
         while (!eventQueue.empty()) {
             auto[eventName, eventData] = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
-            if (eventName != "gameEngineChangeScene") {
+            if (eventName == eventQueue.front().first) {
                 eventQueue.pop();
-                }
+            } else {
+                break;
+            }
         }
 
         for (const auto& eventName : activeContinuousEvents) {
@@ -141,7 +143,7 @@ namespace GameEngine {
                 if (eventData.type() == typeid(void)) {
                     return name == eventName;
                 }
-                return name == eventName && GameEngine::compareAny(data, eventData);
+                return name == eventName && compareAny(data, eventData);
             }),
         scheduledEvents.end());
     }

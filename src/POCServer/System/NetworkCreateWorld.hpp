@@ -18,6 +18,7 @@
 #include "PlayerUtils.hpp"
 #include "BulletUtils.hpp"
 #include "EntityFactory.hpp"
+#include "BulletComponent.hpp"
 
 namespace Server {
 

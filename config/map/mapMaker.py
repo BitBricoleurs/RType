@@ -4,7 +4,7 @@ import random
 def generate_mob(current_tick):
     mob_types = ["cancerMob", "pataPataMob", "bugGroup"]
     mob_type = random.choice(mob_types)
-    position_y = random.uniform(10.5, 900.5)
+    position_y = random.uniform(10.5, 950.5)
 
     drop_powerup = random.choices([True, False], weights=[10, 90], k=1)[0]
 

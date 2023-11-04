@@ -4,6 +4,7 @@
 
 #include "DeleteEntities.hpp"
 #include "WindowInfoComponent.hpp"
+#include "Logger.hpp"
 
 void DeleteEntities::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {

@@ -7,6 +7,7 @@ set(GAME_ENGINE_UTILS_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Vect2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Vect3.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GameState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UserGameMode.cpp
         CACHE INTERNAL "Game Engine Utils sources"
 )
 

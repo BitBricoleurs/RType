@@ -142,7 +142,7 @@ namespace Client {
           std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
       auto movementComp = std::make_shared<PhysicsEngine::MovementComponent>();
       auto chargeShootAnimation =
-          initAnimation(spriteSheetPath, frames, spriteSheetWidth,
+          EntityFactory::getInstance().initAnimation(spriteSheetPath, frames, spriteSheetWidth,
                         spriteSheetHeight, twoDirection, reverse, direction, 0);
       auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 

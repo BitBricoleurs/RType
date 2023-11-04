@@ -20,8 +20,7 @@ namespace PhysicsEngine {
         void setCollider(const Utils::Circle& collider);
 
         bool collidesWith(AColliderComponent2D& other) override;
-
-    private:
         Utils::Circle collider;
+    private:
     };
 }

@@ -3,6 +3,7 @@
 //
 
 #include "NetworkServerAccept.hpp"
+#include "UserGameMode.hpp"
 
 namespace Client {
 
@@ -23,17 +24,25 @@ namespace Client {
                 std::vector<size_t> ids = messageData->getIDs();
                 std::vector<std::any> args = messageData->getArgs();
 
-                if (ids.size() != 1 || args.size() != 5)
+                if (ids.size() != 1 || !(args.size() == 6 || args.size() == 2))
                     return;
 
-                PlayerNumber number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
+                size_t entityId = 0;
                 EntityFactory  &factory = EntityFactory::getInstance();
-                Utils::Vect2 pos(static_cast<float>(std::any_cast<int>(args[1])) / 1000, static_cast<float>(std::any_cast<int>(args[2])) / 1000);
-                size_t entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, number);
-                componentsContainer.createEntity();
+                auto number = static_cast<PlayerNumber>(std::any_cast<int>(args[0]));
+                auto gameMode = static_cast<Utils::UserGameMode::State>(std::any_cast<int>(args[1]));
+                auto compUserGameMode = std::make_shared<Utils::UserGameMode>(gameMode);
+                if (number == PlayerNumber::Spectator) {
+                    entityId = componentsContainer.createEntity();
+                } else {
+                    Utils::Vect2 pos(static_cast<float>(std::any_cast<int>(args[1])) / 1000, static_cast<float>(std::any_cast<int>(args[2])) / 1000);
+                    entityId = factory.createNewPlayer(componentsContainer, eventHandler, pos, number);
+                }
+                componentsContainer.bindComponentToEntity(entityId, compUserGameMode);
                 auto gameState = std::make_shared<Utils::GameState>(Utils::GameState::State::WAITING);
                 componentsContainer.bindComponentToEntity(entityId, gameState);
                 factory.registerEntity(entityId, ids.front());
+                eventHandler.scheduleEvent("START_NOTIF_PLAY", 3, std::any(), 0);
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from NetworkServerAccept System " << e.what() << std::endl;
         }

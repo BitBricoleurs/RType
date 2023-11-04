@@ -1,11 +1,50 @@
 #include "Registry.hpp"
+#include "GameEngine.hpp"
 
 namespace GameEngine {
+
+    Registry::Registry(bool isMultiThreaded) : componentsContainer(), systemMap(), systemOrder(), systemsNeedSorting(true), isMultiThreaded(isMultiThreaded) {
+        GameEngine::registerCommand("clearRegistry", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 1) {
+                if (args[0] == "true") {
+                    this->clear();
+                    return "Registry cleared.\n";
+                } else {
+                    return "Argument must be true.\n";
+                }
+            } else {
+                return "Not enough arguments provided for clearRegistry command.\n";
+            }
+        });
+
+        GameEngine::registerCommand("changeSystemPriority", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 2) {
+                std::string systemName = args[0];
+                int priority = std::stoi(args[1]);
+                if (systemMap.find(systemName) != systemMap.end()) {
+                    systemMap[systemName].second = priority;
+                    systemsNeedSorting = true;
+                    return "System priority changed.\n";
+                } else {
+                    return "System not found.\n";
+                }
+            } else {
+                return "Not enough arguments provided for changeSystemPriority command.\n";
+            }
+        });
+    }
+
     Registry::~Registry() = default;
 
     void Registry::clear() {
         componentsContainer.clear();
-        systemMap.clear();
+        for (auto it = systemMap.begin(); it != systemMap.end(); ) {
+            if (persistentSystems.find(it->first) == persistentSystems.end()) {
+                it = systemMap.erase(it);
+            } else {
+                ++it;
+            }
+        }
         systemOrder.clear();
         systemsNeedSorting = true;
     }
@@ -37,21 +76,29 @@ namespace GameEngine {
     void Registry::deleteEntity(size_t entityID) {
         componentsContainer.deleteEntity(entityID);
     }
-    size_t Registry::createEntity() {
-        return componentsContainer.createEntity();
+    size_t Registry::createEntity(bool persistent) {
+        return componentsContainer.createEntity(persistent);
     }
-    size_t Registry::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
-        return componentsContainer.createEntity(components);
+    size_t Registry::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent) {
+        return componentsContainer.createEntity(components, persistent);
     }
 
-    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system) {
-        systemMap[systemName] = {system, 1};
-        systemsNeedSorting = true;
-    }
-    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority) {
+    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority, bool persistent) {
         systemMap[systemName] = {system, priority};
         systemsNeedSorting = true;
+        if (persistent) {
+            persistentSystems.insert(systemName);
+        }
     }
+
+    void Registry::setPersistent(const std::string& systemName, bool persistent) {
+        if (persistent) {
+            persistentSystems.insert(systemName);
+        } else {
+            persistentSystems.erase(systemName);
+        }
+    }
+
     void Registry::deleteSystem(const std::string& systemName) {
         systemMap.erase(systemName);
     }

@@ -7,19 +7,131 @@
 #include <utility>
 
 namespace GameEngine {
+    std::map<std::string, GameEngine::CommandFunction> GameEngine::commands;
+
     GameEngine::GameEngine(bool isMultiThreaded) : tickSpeed(1.0 / 60.0), isRunning(true), registry(isMultiThreaded) {
         eventHandler.addEvent("gameEngineStop", [this] { this->stop(); });
         eventHandler.addEvent("gameEngineChangeScene", [this](const std::any& sceneName) { this->changeScene(sceneName); });
+
+        registerCommand("print", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() > 0) {
+                return args[0] + "\n";
+            } else {
+                return "No argument provided for print command.\n";
+            }
+        });
+
+        registerCommand("add", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 2) {
+                int a = std::stoi(args[0]);
+                int b = std::stoi(args[1]);
+                return "Result: " + std::to_string(a + b) + "\n";
+            } else {
+                return "Not enough arguments provided for add command.\n";
+            }
+        });
+
+        registerCommand("subtract", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 2) {
+                int a = std::stoi(args[0]);
+                int b = std::stoi(args[1]);
+                return "Result: " + std::to_string(a - b) + "\n";
+            } else {
+                return "Not enough arguments provided for subtract command.\n";
+            }
+        });
+
+        registerCommand("changeTickSpeed", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 1) {
+                double newTickSpeed = std::stod(args[0]);
+                this->setTickSpeed(newTickSpeed);
+                return "Tick speed changed to " + std::to_string(newTickSpeed) + "\n";
+            } else {
+                return "Not enough arguments provided for changeTickSpeed command.\n";
+            }
+        });
+
+        registerCommand("changeScene", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 1) {
+                queueEvent("gameEngineChangeScene", args[0]);
+                return "Scene changed to " + args[0] + "\n";
+            } else {
+                return "Not enough arguments provided for changeScene command.\n";
+            }
+        });
+
+        registerCommand("listScenes", [this](const std::vector<std::string>& args) -> std::string {
+            std::string sceneList = "Scenes: ";
+            if (sceneMap.empty()) {
+                return "No scenes found.\n";
+            }
+            for (const auto& scene : sceneMap) {
+                sceneList += scene.first + ", ";
+            }
+            return sceneList + "\n";
+        });
+
+        registerCommand("scheduleEvent", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 3) {
+                std::string eventName = args[0];
+                size_t interval = std::stoi(args[1]);
+                std::string eventData = args[2];
+                if (args.size() >= 4) {
+                    size_t repeat = std::stoi(args[3]);
+                    this->scheduleEvent(eventName, interval, eventData, repeat);
+                    return "Event scheduled: " + eventName + " with repeat " + std::to_string(repeat) + "\n";
+                }
+                this->scheduleEvent(eventName, interval, eventData);
+                return "Event scheduled: " + eventName + "\n";
+            } else {
+                return "Not enough arguments provided for scheduleEvent command.\n";
+            }
+        });
+
+        registerCommand("unscheduleEvent", [this](const std::vector<std::string>& args) -> std::string {
+            if (args.size() >= 1) {
+                std::string eventName = args[0];
+                if (args.size() >= 2) {
+                    std::string eventData = args[1];
+                    this->unscheduleEvent(eventName, eventData);
+                    return "Event unscheduled: " + eventName + " with eventData " + eventData + "\n";
+                }
+                this->unscheduleEvent(eventName);
+                return "Event unscheduled: " + eventName + "\n";
+            } else {
+                return "Not enough arguments provided for unscheduleEvent command.\n";
+            }
+        });
+
+        registerCommand("listCommands", [this](const std::vector<std::string>& args) -> std::string {
+            std::string commandList = "Commands: ";
+            for (const auto& command : commands) {
+                commandList += command.first + ", ";
+            }
+            return commandList + "\n";
+        });
+
+        registerCommand("log", [this](const std::vector<std::string>& args) -> std::string {
+            bool actualState = Logger::wantsToReceiveLogs;
+            Logger::wantsToReceiveLogs = !actualState;
+            return "Logger state changed to " + std::to_string(!actualState) + "\n";
+        });
+
+        registerCommand("pause", [this](const std::vector<std::string>& args) -> std::string {
+            bool actualState = pause;
+            pause = !actualState;
+            return "Pause state changed to " + std::to_string(!actualState) + "\n";
+        });
     }
 
     GameEngine::~GameEngine() = default;
 
-    size_t GameEngine::createEntity() {
-        return registry.createEntity();
+    size_t GameEngine::createEntity(bool persistent) {
+        return registry.createEntity(persistent);
     }
 
-    size_t GameEngine::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
-        return registry.createEntity(std::move(components));
+    size_t GameEngine::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent) {
+        return registry.createEntity(std::move(components), persistent);
     }
 
     void GameEngine::bindComponentToEntity(size_t entityID, std::optional<std::shared_ptr<IComponent>> component) {
@@ -30,8 +142,8 @@ namespace GameEngine {
         registry.unbindComponentFromEntity(entityID, componentType);
     }
 
-    void GameEngine::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority) {
-        registry.addSystem(systemName, std::move(system), priority);
+    void GameEngine::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority, bool persistent) {
+        registry.addSystem(systemName, std::move(system), priority, persistent);
     }
 
     void GameEngine::bindSceneInitiation(const std::string& sceneName, std::function<void(GameEngine&)> sceneInitiation) {
@@ -73,9 +185,11 @@ namespace GameEngine {
         Timer timer;
         double lastTickTime = 0.0;
 
+        std::thread server_thread([]{ Logger::startServer(9192); });
+        server_thread.detach();
         while (isRunning) {
             double currentTime = timer.elapsedSeconds();
-            if (currentTime - lastTickTime >= tickSpeed) {
+            if ((currentTime - lastTickTime >= tickSpeed) && !pause) {
                 update();
                 lastTickTime = currentTime;
             } else {
@@ -122,5 +236,28 @@ namespace GameEngine {
 
     void GameEngine::queueEvent(const std::string& eventName, const std::any& eventData) {
         eventHandler.queueEvent(eventName, eventData);
+    }
+
+    std::string GameEngine::handleDevConsole(std::string inputCommand) {
+        std::istringstream iss(inputCommand);
+        std::string command;
+        std::vector<std::string> args;
+
+        iss >> command;
+
+        std::string arg;
+        while (iss >> arg) {
+            args.push_back(arg);
+        }
+        auto it = commands.find(command);
+        if (it != commands.end()) {
+            return it->second(args);
+        } else {
+            return "Command not found: " + command;
+        }
+    }
+
+    void GameEngine::registerCommand(const std::string& command, CommandFunction function) {
+        commands[command] = std::move(function);
     }
 }
