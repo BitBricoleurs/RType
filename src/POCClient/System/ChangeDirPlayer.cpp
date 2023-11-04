@@ -36,16 +36,8 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
 
         tryRemovingSmoothing(componentsContainer, id);
-        if (event.first == "LEFT_KEY_RELEASED" && velocity->velocity.x == 0 || event.first == "RIGHT_KEY_RELEASED" && velocity->velocity.x == 0) {
-            velocity->velocity.x = 0;
-        } else {
-            velocity->velocity.x += directionMap[event.first].first;
-        }
-        if (event.first == "UP_KEY_RELEASED" && velocity->velocity.y == 0 || event.first == "DOWN_KEY_RELEASED" && velocity->velocity.y == 0) {
-            velocity->velocity.y = 0;
-        } else {
-            velocity->velocity.y += directionMap[event.first].second;
-        }
+        velocity->velocity.x += directionMap[event.first].first;
+        velocity->velocity.y += directionMap[event.first].second;
 
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));

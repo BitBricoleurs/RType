@@ -3,7 +3,7 @@
 
 namespace GameEngine {
 
-    Registry::Registry(bool isMultiThreaded) {
+    Registry::Registry(bool isMultiThreaded) : componentsContainer(), systemMap(), systemOrder(), systemsNeedSorting(true), isMultiThreaded(isMultiThreaded) {
         GameEngine::registerCommand("clearRegistry", [this](const std::vector<std::string>& args) -> std::string {
             if (args.size() >= 1) {
                 if (args[0] == "true") {
