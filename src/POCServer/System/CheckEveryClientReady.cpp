@@ -25,7 +25,6 @@ void Server::CheckEveryClientReady::update(GameEngine::ComponentsContainer &comp
         for (auto &entity : isReadyEntities) {
             componentsContainer.unbindComponentFromEntity(entity, compTypeIsReady);
         }
-        std::cout << "Game is starting" << std::endl;
         std::vector<size_t> ids = {};
         std::vector<std::any> args = {};
         std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("START_GAME", ids, "", args);

@@ -17,6 +17,9 @@ namespace Server {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPowerUp.json");
 
             int size = data.getSize("/powers");
+            std::vector<size_t> ids = {};
+            std::vector<std::any> args = {};
+            size_t entityId = 0;
             for (int i = 0; i < size; i++) {
                 PowerUpType typeTab = static_cast<PowerUpType>(data.getInt("/powers/" + std::to_string(i) + "/type"));
                 if (typeTab == type) {
@@ -24,7 +27,7 @@ namespace Server {
                     int hitBoxWidth = data.getInt("/powers/" + std::to_string(i) + "/hitBoxWidth");
                     float scale = data.getFloat("/powers/" + std::to_string(i) + "/scale");
                     auto velocity = Utils::Vect2(0, 0);
-                    size_t entityId = createBaseEntity(
+                    entityId = createBaseEntity(
                         container,
                         hitBoxHeight,
                         hitBoxWidth,
@@ -34,19 +37,19 @@ namespace Server {
                     );
 
                     container.bindComponentToEntity(entityId, std::make_shared<IsPower>(type));
-                    std::vector<size_t> ids = {entityId};
-                    std::vector<std::any> args = {static_cast<int>(type)};
+                    ids.push_back(entityId);
+                    args.emplace_back(static_cast<int>(type));
                     args.emplace_back(static_cast<int>(pos.x * 1000));
                     args.emplace_back(static_cast<int>(pos.y * 1000));
                     args.emplace_back(static_cast<int>(velocity.x) * 1000);
                     args.emplace_back(static_cast<int>(velocity.y) * 1000);
-                    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_POWERUP", ids, "INT", args);
-                    std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
-                    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
-                return entityId;
+                    break;
                 }
             }
-            return 0;
+            std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_POWERUP", ids, "INT", args);
+            std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+            eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+            return entityId;
         } catch(const std::runtime_error& e) {
                 std::cerr << "Error in spawnPowerUp: " << e.what() << std::endl;
                 exit(1);
