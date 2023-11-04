@@ -54,5 +54,6 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AnimateWinNotification.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateWinNotification.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateBugSprite.cpp
         CACHE INTERNAL ""
 )

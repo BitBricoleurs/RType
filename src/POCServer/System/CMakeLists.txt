@@ -34,5 +34,11 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntityEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DeleteParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DeleteMobs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BossInScope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BounceBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LatchPodToBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LaunchBossPods.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BugDirectionChange.cpp
         CACHE INTERNAL ""
 )

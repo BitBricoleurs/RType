@@ -14,6 +14,8 @@
 #include <functional>
 #include <memory>
 #include <future>
+#include <mutex>
+#include <thread>
 
 #include "ComponentContainer.hpp"
 #include "IComponent.hpp"
@@ -24,7 +26,7 @@ namespace GameEngine {
 
     class Registry {
     public:
-        Registry();
+        Registry(bool isMultiThreaded = false);
         ~Registry();
 
         const ComponentsContainer& getComponentsContainer() const;
@@ -56,5 +58,6 @@ namespace GameEngine {
         std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
         std::unordered_set<std::string> persistentSystems;
+        bool isMultiThreaded;
     };
 }

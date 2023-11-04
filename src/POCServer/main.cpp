@@ -42,6 +42,12 @@
 #include "SpawnEntityEvent.hpp"
 #include "DeleteMobs.hpp"
 #include "DeleteParallax.hpp"
+#include "BugDirectionChange.hpp"
+#include "WiggleMob.hpp"
+#include "BounceBoss.hpp"
+#include "BossInScope.hpp"
+#include "LatchPodToBoss.hpp"
+#include "LaunchBossPods.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -113,6 +119,13 @@ void setup_engine(GameEngine::GameEngine& engine)
     auto MobHit1 = std::make_shared<Server::MobHit>();
     auto PlayerHitMob1 = std::make_shared<Server::PlayerHitMob>();
     auto Parallax = std::make_shared<Server::Parallax>();
+    auto wigglePata = std::make_shared<Server::WiggleMob>();
+    auto bounceBoss = std::make_shared<Server::BounceBoss>();
+    auto launchBossPods = std::make_shared<Server::LaunchBossPods>();
+    auto latchPodToBoss = std::make_shared<Server::LatchPodToBoss>();
+    auto bossInScope = std::make_shared<Server::BossInScope>();
+    auto bugSystem = std::make_shared<Server::BugDirectionChange>();
+
     auto spawnMob = std::make_shared<Server::SpawnEntity>("config/map");
     auto spawnEntityChangeLevel = std::make_shared<Server::SpawnEntityChangeLevel>(spawnMob);
     auto spawnEntityResetLevel = std::make_shared<Server::SpawnEntityResetLevel>(spawnMob);
@@ -137,6 +150,12 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("ForcePodFix", forcePodSpawn);
     engine.addSystem("CollisionSystem", collision);
     engine.addEvent("Collision", collisionHandler);
+    engine.addSystem("wiggleMob", wigglePata);
+    engine.addEvent("bounceBoss", bounceBoss);
+    engine.addEvent("launchBossPods", launchBossPods);
+    engine.addEvent("LatchPodToBoss", latchPodToBoss);
+    engine.addSystem("BossInScope", bossInScope);
+    engine.addEvent("BugSystem", bugSystem);
 }
 
 int main(void) {

@@ -29,6 +29,7 @@ set(POCCLIENT_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/LoseNotifAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WinNotifAnimation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IsSmoothableEntity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BossComponent.cpp
         CACHE INTERNAL ""
 
 )

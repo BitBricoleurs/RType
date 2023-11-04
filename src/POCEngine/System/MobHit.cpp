@@ -24,9 +24,11 @@ void MobHit::update(GameEngine::ComponentsContainer &componentsContainer, GameEn
               startMobDeath(componentsContainer, eventHandler, firstEntity);
             }
             auto isbullet = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
-            auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
-            if (isbulletcast->passingThrough == false)
-                componentsContainer.deleteEntity(secondEntity);
+            if (isbullet.has_value()) {
+                auto isbulletcast = std::dynamic_pointer_cast<IsBullet>(*isbullet);
+                if (isbulletcast->passingThrough == false)
+                    componentsContainer.deleteEntity(secondEntity);
+            }
         } else {
             auto hpComponent = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Health"));
             auto hpComponentCast = std::dynamic_pointer_cast<Health>(*hpComponent);

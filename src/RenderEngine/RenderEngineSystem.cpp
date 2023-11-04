@@ -16,7 +16,7 @@ namespace RenderEngine {
     RenderEngineSystem::RenderEngineSystem(const char *windowName, GameEngine::GameEngine &componentContainer)
     {
         renderEngine = std::make_unique<RenderEngine>();
-        windowInfo = std::make_shared<WindowInfoComponent>(getScreenWidth(), getScreenHeight());
+        resourceManager = std::make_shared<ResourceManager>();
         renderEngine->Initialize(windowName);
     }
 
@@ -113,10 +113,9 @@ namespace RenderEngine {
         for (const auto &button : sortedButtonComponents) {
             drawMap.emplace(button.second.layer, button.second);
         }
-
         for (const auto &[layer, component] : drawMap) {
             std::visit([this](auto&& arg) {
-                renderEngine->Draw(arg);
+                renderEngine->Draw(arg, resourceManager);
             }, component);
         }
         EndMode2D();
@@ -132,4 +131,33 @@ namespace RenderEngine {
         return renderEngine->getScreenWidth();
     }
 
+    void RenderEngineSystem::PreloadSceneAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->LoadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->UnloadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets() {
+        resourceManager->ClearAllTextures();
+    }
+
+    void RenderEngineSystem::LoadAssetsFromJSON(const std::string path) {
+        std::vector<std::string> assets;
+
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig(path);
+        int assetssize = config.getSize("/assets");
+
+        for (int i = 0; i < assetssize; i++) {
+            assets.push_back(config.getString("/assets/" + std::to_string(i)));
+        }
+        PreloadSceneAssets(assets);
+    }
+
 } // namespace GameEngine
+

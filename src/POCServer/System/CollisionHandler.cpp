@@ -27,6 +27,11 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
         auto firstEntityOptForcePod = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsForcePod"));
         auto secondEntityOptForcePod = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsForcePod"));
 
+        auto firstEntityOptBossPod = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("isBossPod"));
+        auto secondEntityOptBossPod = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("isBossPod"));
+
+        auto secondEntityOptBossCore = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("isBossCore"));
+        auto firstEntityOptBossCore = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("isBossCore"));
 
         // Player vs Bullet
         if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
@@ -92,6 +97,17 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             if (forcePodComp->entityId == 0 && playerComp->entityIdForcePod == 0) {
                 eventHandler.queueEvent("ForcePodFix", std::make_tuple(secondEntity, firstEntity));
             }
+        }
+
+        // BossPod vs BossCore
+        if (firstEntityOptBossCore.has_value() && secondEntityOptBossPod.has_value()) {
+            auto bossPod = std::dynamic_pointer_cast<isBossPod>(*secondEntityOptBossPod);
+            if (bossPod->launched == true && bossPod->bounces > 2)
+                eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
+        } else if (secondEntityOptBossCore.has_value() && firstEntityOptBossPod.has_value()) {
+            auto bossPod = std::dynamic_pointer_cast<isBossPod>(*firstEntityOptBossPod);
+            if (bossPod->launched == true && bossPod->bounces > 2)
+                eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
         }
 
     } catch (const std::exception& e) {

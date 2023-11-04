@@ -39,6 +39,10 @@
 #include "IsParallax.hpp"
 #include "Shooter.hpp"
 #include "PowerUpUtils.hpp"
+#include "BossComponent.hpp"
+#include "IsStarship.hpp"
+#include "LoadConfig.hpp"
+#include "PlayerUtils.hpp"
 
 namespace Client {
 
@@ -53,15 +57,15 @@ namespace Client {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 vel);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                           GameEngine::EventHandler &eventHandler,
@@ -97,6 +101,13 @@ namespace Client {
         size_t createWinNotification(GameEngine::ComponentsContainer &container,
                                     GameEngine::EventHandler &eventHandler);
 
+        size_t createBellmitePod(GameEngine::ComponentsContainer &container,
+                                GameEngine::EventHandler &eventHandler,
+                                Utils::Vect2 pos);
+
+       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+                                 GameEngine::EventHandler &eventHandler,
+                                 Utils::Vect2 pos);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;

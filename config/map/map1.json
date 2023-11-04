@@ -39,11 +39,11 @@
     },
     "mobs": [
         {
-            "tick": 45,
+            "tick": 13,
             "mobType": "pataPataMob",
             "position": {
                 "x": 2000.0,
-                "y": 433.7073914534043
+                "y": 575.0
             },
             "dropPowerup": false
         },

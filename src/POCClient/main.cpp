@@ -1,4 +1,3 @@
-
 #include "MainProgram.hpp"
 
 int main() {

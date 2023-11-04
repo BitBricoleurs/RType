@@ -46,6 +46,8 @@ namespace Server {
         auto mobTypeCompCancer = GameEngine::ComponentsType::getComponentType("Cancer");
         auto mobTypeCompPataPata = GameEngine::ComponentsType::getComponentType("PataPata");
         auto bossTypeComp = GameEngine::ComponentsType::getComponentType("Boss");
+        auto bellmitePodTypeComp = GameEngine::ComponentsType::getComponentType("BellmitePod");
+        auto bellmiteCoreTypeComp = GameEngine::ComponentsType::getComponentType("BellmiteCore");
 
         auto positionType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
         auto velocityType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
@@ -94,11 +96,11 @@ namespace Server {
                 typeMob = static_cast<int>(MobType::CANCER);
             } else if (componentsContainer.getComponent(mob, mobTypeCompPataPata).has_value()) {
                 typeMob = static_cast<int>(MobType::PATAPATA);
-            }
-            else if (componentsContainer.getComponent(mob, bossTypeComp).has_value()) {
-                typeMob = static_cast<int>(MobType::BOSS);
-            }
-            else {
+            } else if (componentsContainer.getComponent(mob, bellmiteCoreTypeComp).has_value()) {
+                typeMob = static_cast<int>(MobType::BELLMITECORE);
+            } else if (componentsContainer.getComponent(mob, bellmitePodTypeComp).has_value()) {
+                typeMob = static_cast<int>(MobType::BELLMITEPOD);
+            } else {
                 continue;
             }
             ids.push_back(mob);

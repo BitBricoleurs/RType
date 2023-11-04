@@ -39,11 +39,15 @@ namespace Client {
                      Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000);
 
                     if (typeMob == MobType::CANCER) {
-                        entityId = factory.spawnCancerMob(componentsContainer, eventHandler, pos, velocity, false);
+                        entityId = factory.spawnCancerMob(componentsContainer, eventHandler, pos, velocity);
                     } else if (typeMob == MobType::PATAPATA) {
-                        entityId = factory.spawnPataPataMob(componentsContainer, eventHandler, pos, velocity, false);
+                        entityId = factory.spawnPataPataMob(componentsContainer, eventHandler, pos, velocity);
+                     } else if (typeMob == MobType::BELLMITECORE) {
+                        entityId = factory.createBellmiteBoss(componentsContainer, eventHandler, pos);
+                     } else if (typeMob == MobType::BELLMITEPOD) {
+                        entityId = factory.createBellmitePod(componentsContainer, eventHandler, pos);
                     } else {
-                        entityId = factory.spawnBugMob(componentsContainer, eventHandler, pos, velocity, false);
+                        entityId = factory.spawnBugMob(componentsContainer, eventHandler, pos, velocity);
                     }
                     factory.registerEntity(entityId, id);
                     arg_index += 5;
