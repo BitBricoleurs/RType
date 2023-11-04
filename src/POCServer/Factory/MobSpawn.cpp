@@ -38,7 +38,7 @@ namespace Server {
             container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
             container.bindComponentToEntity(entityId, shooterComp);
 
-            auto IdCharge = std::make_tuple(entityId, 0);
+            std::tuple<unsigned long, int> IdCharge = std::make_tuple(entityId, 0);
             eventHandler.scheduleEvent("SHOOT", config.getInt("/shootDelay"), IdCharge);
 
             if (dropPowerup) {

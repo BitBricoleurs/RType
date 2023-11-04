@@ -24,7 +24,7 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
         auto powerUp = std::any_cast<int>(args[1]);
         auto &factory = EntityFactory::getInstance();
         size_t clientId = factory.getClientId(id);
-        auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+        auto player = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
         if (powerUp == 1) {
             return;
             try {
@@ -50,7 +50,7 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
         } else if (powerUp == 2) {
             // other
         }
-    } catch (std::exception &e) {
+    } catch (const std::bad_any_cast &e) {
         std::cout << "Error in ForcePodUpgrade : " << e.what() << std::endl;
     }
 }

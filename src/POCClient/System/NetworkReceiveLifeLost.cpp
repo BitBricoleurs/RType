@@ -40,7 +40,7 @@ void Client::NetworkReceiveLifeLost::update(GameEngine::ComponentsContainer &com
                 }
             }
         }
-    } catch (std::exception &e) {
+    } catch (const std::bad_any_cast &e) {
         std::cout << "Error in NetworkReceiveLifeLost : " << e.what() << std::endl;
     }
 }

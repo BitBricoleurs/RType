@@ -12,6 +12,7 @@ namespace Client {
         try {
             data = std::any_cast<std::tuple<std::string, size_t>>(eventHandler.getTriggeredEvent().second);
         } catch (std::bad_any_cast &e) {
+            std::cerr << "Cast error in updateEntitySprite::update" << std::endl;
             return;
         }
         std::string entityType = std::get<0>(data);

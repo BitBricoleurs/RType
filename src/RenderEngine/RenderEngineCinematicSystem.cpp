@@ -178,20 +178,24 @@ namespace RenderEngine {
 
 
     void RenderEngineCinematicSystem::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-        if (clock == 0) {
-            auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
+        try {
+            if (clock == 0) {
+                auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
 
-            if (jsonPath != "") {
-                loadJSON(jsonPath, componentsContainer);
-                isPlaying = true;
+                if (jsonPath != "") {
+                    loadJSON(jsonPath, componentsContainer);
+                    isPlaying = true;
+                }
+                eventHandler.scheduleEvent("Cinematic", 1);
             }
-            eventHandler.scheduleEvent("Cinematic", 1);
-        }
-        playCinematic(componentsContainer, eventHandler);
-        return;
+            playCinematic(componentsContainer, eventHandler);
+            return;
 
-        if (nextScene != "" && !isPlaying && !isPaused) {
-            endCinematic();
+            if (nextScene != "" && !isPlaying && !isPaused) {
+                endCinematic();
+            }
+        } catch (const std::bad_any_cast&) {
+        std::cerr << "Cast error in RenderEngineCinematicSystem::update" << std::endl;
         }
     }
 

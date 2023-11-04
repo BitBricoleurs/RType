@@ -15,7 +15,7 @@ void UpdateScore::update(GameEngine::ComponentsContainer &componentsContainer,
         scoreToAdd = std::any_cast<int>(eventHandler.getTriggeredEvent().second);
     } catch (std::bad_any_cast &e) {
         return;
-    }Ò
+    };
   auto scoreId = componentsContainer.getEntityWithUniqueComponent(
       GameEngine::ComponentsType::getComponentType("Score"));
 

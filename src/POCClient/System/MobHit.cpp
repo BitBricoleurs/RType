@@ -34,8 +34,8 @@ namespace Client {
                         }
                     }
                 }
-        } catch (std::exception &e) {
-
+        } catch (const std::bad_any_cast&) {
+            std::cerr << "Cast error in MobHit::update" << std::endl;
         }
     }
 
