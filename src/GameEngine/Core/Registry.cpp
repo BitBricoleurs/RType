@@ -38,7 +38,13 @@ namespace GameEngine {
 
     void Registry::clear() {
         componentsContainer.clear();
-        systemMap.clear();
+        for (auto it = systemMap.begin(); it != systemMap.end(); ) {
+            if (persistentSystems.find(it->first) == persistentSystems.end()) {
+                it = systemMap.erase(it);
+            } else {
+                ++it;
+            }
+        }
         systemOrder.clear();
         systemsNeedSorting = true;
     }
@@ -70,21 +76,29 @@ namespace GameEngine {
     void Registry::deleteEntity(size_t entityID) {
         componentsContainer.deleteEntity(entityID);
     }
-    size_t Registry::createEntity() {
-        return componentsContainer.createEntity();
+    size_t Registry::createEntity(bool persistent) {
+        return componentsContainer.createEntity(persistent);
     }
-    size_t Registry::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components) {
-        return componentsContainer.createEntity(components);
+    size_t Registry::createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent) {
+        return componentsContainer.createEntity(components, persistent);
     }
 
-    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system) {
-        systemMap[systemName] = {system, 1};
-        systemsNeedSorting = true;
-    }
-    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority) {
+    void Registry::addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority, bool persistent) {
         systemMap[systemName] = {system, priority};
         systemsNeedSorting = true;
+        if (persistent) {
+            persistentSystems.insert(systemName);
+        }
     }
+
+    void Registry::setPersistent(const std::string& systemName, bool persistent) {
+        if (persistent) {
+            persistentSystems.insert(systemName);
+        } else {
+            persistentSystems.erase(systemName);
+        }
+    }
+
     void Registry::deleteSystem(const std::string& systemName) {
         systemMap.erase(systemName);
     }

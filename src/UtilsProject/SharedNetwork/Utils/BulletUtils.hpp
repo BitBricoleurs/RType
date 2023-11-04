@@ -11,7 +11,11 @@ enum BulletOwner {
 
 enum BulletType {
     NORMAL,
-    CHARGED,
+    CHARGEDStage1,
+    CHARGEDStage2,
+    CHARGEDStage3,
+    CHARGEDStage4,
+    CHARGEDStage5,
 };
 
 enum BulletTypeEntity {

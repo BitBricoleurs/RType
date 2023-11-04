@@ -1,0 +1,37 @@
+{
+  "createLose": {
+    "scale": 1,
+    "layer": 12,
+    "spritePosX" : 415.0,
+    "spritePosY" : 200.0,
+    "hitboxHeight": 404,
+    "hitboxWidth": 1090,
+    "numberImages": 4,
+    "images" : [
+      {
+        "spriteSheetPath": "assets/HUD/LoseNotif1.png",
+        "spriteSheetHeight": 404,
+        "spriteSheetWidth": 7630,
+        "frame": 7
+      },
+      {
+        "spriteSheetPath": "assets/HUD/LoseNotif2.png",
+        "spriteSheetHeight": 404,
+        "spriteSheetWidth": 7630,
+        "frame": 7
+      },
+      {
+        "spriteSheetPath": "assets/HUD/LoseNotif3.png",
+        "spriteSheetHeight": 404,
+        "spriteSheetWidth": 7630,
+        "frame": 7
+      },
+      {
+        "spriteSheetPath": "assets/HUD/LoseNotif4.png",
+        "spriteSheetHeight": 404,
+        "spriteSheetWidth": 7630,
+        "frame": 7
+      }
+    ]
+  }
+}

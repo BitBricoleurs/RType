@@ -41,6 +41,7 @@
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
 #include "IsPower.hpp"
+#include "CooldownHit.hpp"
 
 namespace Server {
 
@@ -121,6 +122,7 @@ namespace Server {
                 return PlayerNumber::Player1;
             auto it = _playerMap.end();
             it--;
+            
             return static_cast<PlayerNumber>(static_cast<int>(it->second) + 1);
         }
 

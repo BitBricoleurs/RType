@@ -62,9 +62,9 @@ namespace Client {
             // Player vs Mob
 
             if (firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
-                eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             } else if (secondEntityOptPlayer.has_value() && firstEntityOptMob.has_value()) {
-                eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             }
 
             // Bullet vs Bullet

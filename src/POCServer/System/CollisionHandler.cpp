@@ -35,28 +35,16 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs Bullet
         if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
-            auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
-            if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptBullet.has_value()) {
-            auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
-            if (!bullet->playerBullet) {
-                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
         }
 
         // Mob vs Bullet
         if (firstEntityOptMob.has_value() && secondEntityOptBullet.has_value()) {
-            auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
-            if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), firstEntity) == bullet->alreadyHit.end()) {
-                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptMob.has_value() && firstEntityOptBullet.has_value()) {
-            auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
-            if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
-                eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
-            }
+            eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
         }
 
         // Player vs Mob
@@ -68,9 +56,9 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs PowerUp
         if (firstEntityOptPlayer.has_value() && secondEntityOptPowerUp.has_value()) {
-            auto playerComp = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+            auto playerComp = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
             if (playerComp->entityIdForcePod == 0) {
-                auto posCompPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto posCompPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
                 eventHandler.queueEvent("ForcePodSpawn", posCompPlayer->pos.y);
             } else {
                 std::cout << "Manage power up" << std::endl;

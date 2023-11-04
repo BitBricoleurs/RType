@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 #include <optional>
@@ -39,22 +40,24 @@ namespace GameEngine {
         void unbindComponentFromEntity(size_t entityID, size_t componentType);
 
         void deleteEntity(size_t entityID);
-        size_t createEntity();
-        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components);
+        size_t createEntity(bool persistent);
+        size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent);
 
-        void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system);
-        void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority);
+        void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1, bool persistent = false);
         void deleteSystem(const std::string& systemName);
 
         void updateSystems(EventHandler& eventHandler);
 
         void clear();
 
+        void setPersistent(const std::string& systemName, bool persistent);
+
     private:
         ComponentsContainer componentsContainer;
         std::unordered_map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
         std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
+        std::unordered_set<std::string> persistentSystems;
         bool isMultiThreaded;
     };
 }

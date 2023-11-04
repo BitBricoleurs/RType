@@ -91,6 +91,8 @@ void Network::Client::Impl::send(const std::shared_ptr<IMessage>& message) {
 
 void Network::Client::Impl::checkTimeout()
 {
+    if (_serverTimeout)
+        return;
     std::chrono::steady_clock::time_point lastPacketReceived = _interface->getLastPacketTime();
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if (std::chrono::duration_cast<std::chrono::seconds>(now - lastPacketReceived).count() > 30) {

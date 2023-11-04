@@ -99,18 +99,17 @@ namespace RenderEngine {
             return a.layer < b.layer;
         });
 
-
       renderEngine->ClearBackgroundRender(BLACK);
-      auto windowID = componentsContainer.getComponents(
-            GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+      auto windoInfoCompType = GameEngine::ComponentsType::getComponentType("WindowInfoComponent");
+      auto windowID = componentsContainer.getEntityWithUniqueComponent(
+            windoInfoCompType);
       std::shared_ptr<WindowInfoComponent> window;
-      if (windowID[0].has_value())
-        window = std::dynamic_pointer_cast<WindowInfoComponent>(
-            std::any_cast<std::shared_ptr<GameEngine::IComponent>>(windowID[0].value()));
-      if (window == nullptr)
-          return;
-      BeginDrawing();
-      BeginMode2D(window->camera);
+      auto windowInfoCompMay = componentsContainer.getComponent(windowID, windoInfoCompType);
+      if (windowInfoCompMay.has_value()) {
+          auto windowInfo = std::static_pointer_cast<WindowInfoComponent>(windowInfoCompMay.value());
+          BeginDrawing();
+        BeginMode2D(windowInfo->camera);
+      }
 
     std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
@@ -172,3 +171,4 @@ namespace RenderEngine {
     }
 
 } // namespace GameEngine
+

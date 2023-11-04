@@ -94,6 +94,15 @@ namespace Client {
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
 
+      size_t createPlayNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
+        size_t createLoseNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
+        size_t createWinNotification(GameEngine::ComponentsContainer &container,
+                                    GameEngine::EventHandler &eventHandler);
+
         size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
                                 Utils::Vect2 pos);
@@ -136,6 +145,18 @@ namespace Client {
             // std::cerr << "Error: EntityFactory: getClientId: serverEntityId not found" << std::endl;
             return 0;
         }
+
+        size_t createBackGroundConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createMenuConnect(GameEngine::ComponentsContainer &container);
+
+        size_t createConnectButton(GameEngine::ComponentsContainer &container);
+
+        size_t createInputIp(GameEngine::ComponentsContainer &container);
+
+        size_t createInputPort(GameEngine::ComponentsContainer &container);
+
+
         std::shared_ptr<SpriteAnimation> initAnimation(const std::string &spriteSheetPath, int frames, int width,int height, bool twoDirections, bool reverse, int direction, int player);
     private:
       EntityFactory() = default;

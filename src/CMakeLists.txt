@@ -12,4 +12,3 @@ add_subdirectory(POCCinematic)
 add_subdirectory(Hunter)
 add_subdirectory(MapCreator)
 add_subdirectory(DevConsole)
-

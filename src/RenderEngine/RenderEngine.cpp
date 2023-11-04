@@ -41,6 +41,8 @@ namespace RenderEngine {
             case ButtonComponent::DISABLED:
                 color = { 128, 128, 128, 255 };
                 break;
+            case ButtonComponent::CLICKED:
+                break;
         }
 
         SpriteComponent spriteComponent = static_cast<SpriteComponent>(buttonComponent);
@@ -105,16 +107,28 @@ void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vecto
            mousePosition.y <= button.pos.y * scaleY +
                                   button.rect1.h * button.scale * scaleY);
 
-      if (isHovering && button.state != ButtonComponent::HOVER) {
-        button.state = ButtonComponent::HOVER;
-        eventHandler.queueEvent(button.hoverEvent, id);
-      } else if (!isHovering && button.state == ButtonComponent::HOVER) {
-        button.state = ButtonComponent::NORMAL;
+      if (isHovering && button.state == ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
       }
-        if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            eventHandler.queueEvent(button.clickEvent, id);
-        }
+      if (!isHovering && button.state != ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
+      if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::CLICKED;
+          eventHandler.queueEvent(button.clickEvent, id);
+      }
+      if (isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
+      }
+      if (!isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
     }
+
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
     if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))

@@ -139,10 +139,6 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
-        for (auto id :IDs) {
-            if (id == 0)
-                std::cout << "MHHHHH" << std::endl;
-        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);
@@ -164,20 +160,38 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"UPDATE_POSITION", 0x09},
     {"MOVE", 0x10},
     {"CHARGE_SHOOT", 0x11},
-    {"CREATE_PARALLAX", 0x12},
-    {"DELETED_ENTITY", 0x13},
-    {"READY", 0x15},
-    {"START_GAME", 0x16},
-    {"ALIVE", 0x17},
-    {"CREATED_POWERUP", 0x18},
-    {"CREATED_FORCEPOD", 0x19},
-    {"SYNC_FORCE_POD_PLAYER", 0x20},
-    {"UPDATE_POS_FORCE_POD", 0x21},
-    {"CHARGE", 0x22},
-    {"BLOCK", 0x23},
-    {"CREATED_POWERUP_DUAL", 0x24},
-    {"FLASH_ENTITY", 0x25},
-     {"FORCE_POD_UPGRADE", 0x26}
+    {"DELETED_ENTITY", 0x12},
+    {"READY", 0x13},
+    {"START_GAME", 0x14},
+    {"ALIVE", 0x15},
+    {"CREATED_POWERUP", 0x16},
+    {"CREATED_FORCEPOD", 0x17},
+    {"SYNC_FORCE_POD_PLAYER", 0x18},
+    {"UPDATE_POS_FORCE_POD", 0x19},
+    {"FLASH_ENTITY", 0x20},
+    {"CHARGE", 0x21},
+    {"BLOCK", 0x22},
+    {"CHARGE", 0x23},
+    {"CREATED_PARALLAX", 0x24},
+    {"LIFE_LOST", 0x25},
+    {"DEATH", 0x26},
+    {"GAME_OVER", 0x27},
+    {"JOIN_LOBBY", 0x28},
+    {"REVIVE_PLAYER", 0x29},
+    {"CREATE_PARALLAX", 0x30},
+    {"DELETED_ENTITY", 0x31},
+    {"READY", 0x32},
+    {"START_GAME", 0x33},
+    {"ALIVE", 0x34},
+    {"CREATED_POWERUP", 0x35},
+    {"CREATED_FORCEPOD", 0x36},
+    {"SYNC_FORCE_POD_PLAYER", 0x37},
+    {"UPDATE_POS_FORCE_POD", 0x38},
+    {"CHARGE", 0x39},
+    {"BLOCK", 0x40},
+    {"CREATED_POWERUP_DUAL", 0x41},
+    {"FLASH_ENTITY", 0x42},
+    {"FORCE_POD_UPGRADE", 0x43}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

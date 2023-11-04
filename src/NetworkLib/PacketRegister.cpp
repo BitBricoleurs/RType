@@ -96,15 +96,17 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::sh
     _mutexOut.unlock();
 }
 
-std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
+std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, long packetId)
 {
     std::lock_guard<std::mutex> lock(_mutexIn);
 
+    if (remoteId < 0)
+        return nullptr;
     auto it = _packetRegisterOut.find(remoteId);
     if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         return nullptr;
     for (auto& packet : _packetRegisterOut[remoteId]) {
-         if (packet.second->header.sequenceNumber == packetId && packet.first)
+         if (packet.first && packet.second->header.sequenceNumber == packetId)
             return packet.second;
     }
     return nullptr;

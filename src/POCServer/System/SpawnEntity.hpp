@@ -6,6 +6,7 @@
 */
 
 #pragma once
+
 #include "ComponentsType.hpp"
 #include "EntityFactory.hpp"
 #include "LoadConfig.hpp"
@@ -25,11 +26,11 @@ namespace Server {
         public:
         explicit SpawnEntity(std::string path);
 
-        void changeLevel();
-
         void update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) override;
 
         int currentTick = 0;
+        void resetCurrentLevel();
+        void changeLevel();
         private:
             std::string directoryPath;
             std::vector<std::string> mapFiles;
@@ -39,5 +40,6 @@ namespace Server {
             void loadMapFiles(const std::string& path);
 
             bool loadMap(const std::string& filePath);
+            void winLevel(GameEngine::EventHandler &eventHandler);
     };
 }
