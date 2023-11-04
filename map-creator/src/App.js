@@ -173,8 +173,8 @@ function App() {
         return entity;
     }
 
-    const getEntityByNameParallax = (name) => {
-        const entity = parallax.find(entity => entity.name === name);
+    const getEntityByNameParallax = (id) => {
+        const entity = parallax.find(entity => entity.id === id);
 
         return entity;
     }
@@ -196,7 +196,7 @@ function App() {
 
         const parallaxWithBackground = selectedImages.map(image => ({
             tick: 1,
-            name: image.name,
+            type: image.id,
             layer: image.layer,
             isLooping: image.isLooping,
             velocity: {
@@ -204,21 +204,15 @@ function App() {
                 y: parseFloat(image.velocity.y).toFixed(1)
             },
             position: {
-                x: image.x,
-                y: image.y
+                x: Math.round(image.x),
+                y: Math.round(image.y)
             },
             isBackgroundEnabled: image.isBackgroundEnabled,
-            rect: {
-                width: image.rect.width,
-                height: image.rect.height
-            },
-            scale: image.scale,
-            path: image.path
         }));
 
         const otherParallaxItems = backgroundImages.filter(image => !image.isBackgroundEnabled).map(image => ({
             tick: image.velocity.x === 0 ? 1 : Math.round(image.x / Math.abs(image.velocity.x)),
-            name: image.name,
+            type: image.id,
             layer: image.layer,
             isLooping: image.isLooping,
             velocity : {
@@ -227,16 +221,9 @@ function App() {
             },
             position: {
                 x: 2000,
-                y: image.y
+                y: Math.round(image.y)
             },
             isBackgroundEnabled: image.isBackgroundEnabled,
-            rect: {
-                width: image.rect.width,
-                height: image.rect.height
-            },
-            scale: image.scale,
-            path: image.path
-
         }));
 
         const mobs = mapItems.map(item => ({
@@ -248,7 +235,7 @@ function App() {
             },
             position: {
                 x: 2000,
-                y: item.y
+                y: Math.round(item.y),
             },
 
             dropPowerUp: item.powerUp,
@@ -292,13 +279,15 @@ function App() {
 
 
             const backgroundImagesExtended = data.parallax.flatMap(image => {
-                const entity = getEntityByNameParallax(image.name);
+                const entity = getEntityByNameParallax(image.type);
 
                 if (image.isBackgroundEnabled && image.position.x === 0 && image.position.y === 0) {
                     return Array.from({ length: 100 }, (_, i) => ({
                         ...image,
-                        x: image.position.x + (i * image.rect.width),
+
+                        x: image.position.x + (i * entity.rect.width),
                         y: image.position.y,
+                        id : image.type,
                         path: entity ? entity.path : undefined,
                         rect: entity ? entity.rect : undefined,
                         scale: entity ? entity.scale : undefined,
@@ -308,6 +297,7 @@ function App() {
                         ...image,
                         x: Math.abs(image.velocity.x) * image.tick,
                         y: image.position.y,
+                        id : image.type,
                         path: entity ? entity.path : undefined,
                         rect: entity ? entity.rect : undefined,
                         scale: entity ? entity.scale : undefined,

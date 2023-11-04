@@ -80,11 +80,8 @@ namespace Server {
                 } else if (mobType == "bugGroup") {
                     EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 }
-                currentMapContent.eraseKey("/mobs", i);
-                mobsSize--;
-            } else {
-                i++;
             }
+            i++;
         }
         int parallaxSize = currentMapContent.getSize("/parallax");
         for (int i = 0; i < parallaxSize; i++) {
@@ -94,10 +91,10 @@ namespace Server {
                 int posY = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/position/y");
                 int layer = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/layer");
                 bool isLooping = currentMapContent.getBool("/parallax/" + std::to_string(i) + "/isLooping");
-                float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/speed");
+                float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/velocity/x");
                 Utils::Vect2 position(static_cast<float>(posX), static_cast<float>(posY));
                 ParallaxType type = static_cast<ParallaxType>(currentMapContent.getInt("/parallax/" + std::to_string(i) + "/type"));
-                EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, -speed, layer, type, isLooping);
+                EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, speed, layer, type, isLooping);
             }
         }
     }

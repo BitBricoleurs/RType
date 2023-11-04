@@ -1,0 +1,22 @@
+{
+  "parallax": [
+    {
+      "tick": 300,
+      "type": 5,
+      "layer": 1,
+      "isLooping": false,
+      "velocity": {
+        "x": -10.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 651
+      },
+
+      "isBackgroundEnabled": false
+    }
+  ],
+  "mobs": []
+}

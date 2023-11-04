@@ -14,7 +14,8 @@
     "react-dom": "^18.2.0",
     "react-file-manager": "^1.2.4",
     "react-router-dom": "^6.17.0",
-    "electron": "^27.0.2"
+    "electron": "^27.0.2",
+    "electron-packager": "^17.1.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -25,18 +26,18 @@
     "react-scripts": "5.0.1",
     "wait-on": "^7.0.1",
     "web-vitals": "^2.1.4",
-    "concurrently": "^8.2.2",
-    "electron-packager": "^17.1.2"
+    "concurrently": "^8.2.2"
   },
   "scripts": {
     "react-start": "react-scripts start",
     "electron-start": "electron ./src/electron/main.js",
     "electron-pack": "electron-builder",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "package-linux": "electron-packager . MapCreator --platform=linux --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n",
-    "package-win": "electron-packager . MapCreator --platform=win32 --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n",
-    "package-macos": "electron-packager . MapCreator --platform=darwin --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n"
+    "package-linux": "electron-packager . MapCreator --platform=linux --asar --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n",
+    "package-win": "electron-packager . MapCreator --platform=win32 --asar --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n",
+    "package-macos": "electron-packager . MapCreator --platform=darwin --asar --arch=x64 --icon=public/mapCreator.ico --overwrite --out=release-builds\n"
   },
   "eslintConfig": {
     "extends": [

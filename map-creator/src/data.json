@@ -7,7 +7,7 @@
         "width": 35,
         "height": 24
     },
-    "scale" : 2,
+    "scale" : 2.5,
     "powerUp": false,
     "velocity": {
       "x": -2,
@@ -22,7 +22,7 @@
         "width": 32,
         "height": 31
     },
-    "scale" : 2,
+    "scale" : 2.5,
     "powerUp": false,
     "velocity": {
         "x": -2,
@@ -38,7 +38,39 @@
       "width": 22,
       "height": 22
     },
-    "scale" : 2,
+    "scale" : 2.5,
+    "powerUp": false,
+    "velocity": {
+      "x": -2,
+      "y": 0
+    }
+
+  },
+  {
+    "id": 4,
+    "src": "/assets/Entities/bugMobGroup.png",
+    "name": "bugGroup",
+    "rect": {
+      "width": 244,
+      "height": 44
+    },
+    "scale" : 1,
+    "powerUp": false,
+    "velocity": {
+      "x": -2,
+      "y": 0
+    }
+
+  },
+  {
+    "id": 5,
+    "src": "/assets/Entities/bellmite.png",
+    "name": "bellmite",
+    "rect": {
+      "width": 504,
+      "height": 576
+    },
+    "scale" : 1,
     "powerUp": false,
     "velocity": {
       "x": -2,
