@@ -107,7 +107,7 @@ namespace Network {
 
         void sortQueue(std::function<bool(const T&, const T&)> compFunc) {
             std::scoped_lock lock(muxQueue);
-            std::sort(deqQueue.begin(), deqQueue.end(), compFunc);
+            std::stable_sort(deqQueue.begin(), deqQueue.end(), compFunc);
         }
 
     private:

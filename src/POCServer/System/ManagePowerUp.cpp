@@ -6,7 +6,6 @@
 
 void Server::ManagePowerUp::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
-    std::cout << "Pass here" << std::endl;
     int id = static_cast<int>(std::any_cast<size_t>(eventHandler.getTriggeredEvent().second));
 
     auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());

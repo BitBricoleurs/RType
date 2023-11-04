@@ -38,7 +38,7 @@ void Network::PacketIO::readPacket()
                     std::cout << "Error reading packet: magic number is not correct" << std::endl;
                     return;
                 }
-                if (_packetQueue.count() >= _packetQueue.getMaxSize()) {
+                if (_packetQueue.isQueueFull()) {
                     readPacket();
                     return;
                 }
@@ -122,7 +122,7 @@ void Network::PacketIO::processIncomingMessages() {
             unsigned int id = 0;
             std::uint16_t size = 0;
             while (index < _headerIn.bodySize) {
-                if (_inMessages.count() == _inMessages.getMaxSize() - 1) {
+                if (_inMessages.isQueueFull()) {
                     break;
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
@@ -141,7 +141,15 @@ void Network::PacketIO::processIncomingMessages() {
         }
         while (!_inMessages.empty()) {
             std::shared_ptr<OwnedMessage> message = _inMessages.getFront();
+            if (message == nullptr) {
+                if (_inMessages.empty())
+                    break;
+                _inMessages.popFront();
+                continue;
+            }
             _forwardMessages->pushBack(message);
+            if (_inMessages.empty())
+                break;
             _inMessages.popFront();
         }
     });
