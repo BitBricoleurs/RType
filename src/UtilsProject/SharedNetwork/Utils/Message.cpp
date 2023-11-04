@@ -177,7 +177,7 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"DEATH", 0x26},
     {"GAME_OVER", 0x27},
     {"JOIN_LOBBY", 0x28},
-    {"REVIVE_PLAYER", 0x29}
+    {"REVIVE_PLAYER", 0x29},
     {"CREATE_PARALLAX", 0x30},
     {"DELETED_ENTITY", 0x31},
     {"READY", 0x32},
