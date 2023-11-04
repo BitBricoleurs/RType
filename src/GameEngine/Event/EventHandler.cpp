@@ -141,7 +141,7 @@ namespace GameEngine {
                 if (eventData.type() == typeid(void)) {
                     return name == eventName;
                 }
-                return name == eventName && GameEngine::compareAny(data, eventData);
+                return name == eventName && compareAny(data, eventData);
             }),
         scheduledEvents.end());
     }

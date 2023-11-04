@@ -52,6 +52,7 @@
 #include <memory>
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
+#include "Logger.hpp"
 #include "PhysicsEngineGravitySystem.hpp"
 
 
@@ -281,7 +282,6 @@ int main() {
   std::string sceneName = "Scene1";
   engine.queueEvent("gameEngineChangeScene", sceneName);
   engine.run();
-
   return 0;
 }
 

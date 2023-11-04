@@ -25,7 +25,7 @@ namespace GameEngine {
 
     class Registry {
     public:
-        Registry(bool isMultiThreaded = false) : componentsContainer(), systemMap(), systemOrder(), systemsNeedSorting(true), isMultiThreaded(isMultiThreaded) {};
+        Registry(bool isMultiThreaded = false);
         ~Registry();
 
         const ComponentsContainer& getComponentsContainer() const;
