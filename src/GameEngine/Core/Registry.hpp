@@ -20,6 +20,7 @@
 #include "IComponent.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "DynamicLibraryHandler.hpp"
 
 namespace GameEngine {
 
@@ -44,6 +45,7 @@ namespace GameEngine {
 
         void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system);
         void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority);
+        void addSystem(const std::string& systemName, const std::string& libraryPath, int priority);
         void deleteSystem(const std::string& systemName);
 
         void updateSystems(EventHandler& eventHandler);
@@ -53,6 +55,7 @@ namespace GameEngine {
     private:
         ComponentsContainer componentsContainer;
         std::unordered_map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
+        std::unordered_map<std::string, std::unique_ptr<DynamicLibraryHandler>> libraryHandlers;
         std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
         bool isMultiThreaded;

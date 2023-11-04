@@ -40,7 +40,6 @@
 #include "CreatePowerUp.hpp"
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
-#include "BlockOutOfBounds.hpp"
 #include "NetworkReceiveFlash.hpp"
 #include "FlashWhenHit.hpp"
 
@@ -95,7 +94,6 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
     auto endSmoothing = std::make_shared<Client::EndSmoothing>();
     auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
-    auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -111,7 +109,6 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
     engine.addSystem("END_SMOOTHING", endSmoothing, 1);
     engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
-    engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {
