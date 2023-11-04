@@ -11,11 +11,10 @@ namespace Server {
 
     size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
-                                         Utils::Vect2 pos, bool dropPowerup) {
+                                         Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createCancerMob/velocity/x"), config.getFloat("/createCancerMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -63,11 +62,10 @@ namespace Server {
 
     size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                            GameEngine::EventHandler &eventHandler,
-                                           Utils::Vect2 pos, bool dropPowerup) {
+                                           Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createPatapataMob/velocity/x"), config.getFloat("/createPatapataMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -115,11 +113,10 @@ namespace Server {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup) {
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createBugMob/velocity/x"), config.getFloat("/createBugMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,

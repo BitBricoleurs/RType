@@ -45,18 +45,22 @@ namespace Server {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
-                float posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
-                float posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
-                Utils::Vect2 position(posX, posY);
+                int posX = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/x");
+                int posY = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/y");
+                Utils::Vect2 position(static_cast<float>(posX), static_cast<float>(posY));
 
-                bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
+                float velocityX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/x");
+                float velocityY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/y");
+
+                Utils::Vect2 velocity(static_cast<float>(velocityX), static_cast<float>(velocityY));
+
+                bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerUp");
 
                 std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
-
                 if (mobType == "cancerMob") {
-                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
+                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "pataPataMob") {
-                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 }
 
                 currentMapContent.eraseKey("/mobs", i);
@@ -74,7 +78,7 @@ namespace Server {
                 int layer = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/layer");
                 bool isLooping = currentMapContent.getBool("/parallax/" + std::to_string(i) + "/isLooping");
                 float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/speed");
-                Utils::Vect2 position(posX, posY);
+                Utils::Vect2 position(static_cast<float>(posX), static_cast<float>(posY));
                 ParallaxType type = static_cast<ParallaxType>(currentMapContent.getInt("/parallax/" + std::to_string(i) + "/type"));
                 EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, -speed, layer, type, isLooping);
             }

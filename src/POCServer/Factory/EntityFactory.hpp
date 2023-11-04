@@ -54,15 +54,15 @@ namespace Server {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup);
+                         Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,

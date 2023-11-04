@@ -1,0 +1,20 @@
+{
+  "parallax": [],
+  "mobs": [
+    {
+      "tick": 13,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": 2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 640
+      },
+
+      "dropPowerUp": false
+    }
+  ]
+}
