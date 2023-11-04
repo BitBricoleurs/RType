@@ -64,7 +64,6 @@ namespace Server {
 
                 auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
                 if (isPlayer->entityIdForcePod != 0) {
-                    std::cout << "ForcePod Move" << std::endl;
                     auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
                     auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("Shooter")).value());
                     auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());

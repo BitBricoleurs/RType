@@ -12,10 +12,11 @@ namespace Server {
 
     class IsPlayer : public GameEngine::AComponent {
     public:
-      IsPlayer(size_t entityIdChargeAnimation);
+      explicit IsPlayer(size_t entityIdChargeAnimation);
 
       size_t getComponentType() override;
       size_t entityIdForcePod = 0;
       size_t entityIdChargeAnimation = 0;
+      int PowerUp = 0;
     };
 }

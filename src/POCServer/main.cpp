@@ -33,6 +33,8 @@
 #include "ForcePodSpawn.hpp"
 #include "NetworkClientBlockWall.hpp"
 #include "NetworkClientCharge.hpp"
+#include "PowerUpDualShoot.hpp"
+#include "ManagePowerUp.hpp"
 #include "BugDirectionChange.hpp"
 #include "WiggleMob.hpp"
 #include "BounceBoss.hpp"
@@ -129,6 +131,16 @@ void setup_engine(GameEngine::GameEngine& engine)
     engine.addEvent("BugSystem", bugSystem);
 }
 
+void setup_game_power_up(GameEngine::GameEngine& engine)
+{
+
+    auto managePowerUp = std::make_shared<Server::ManagePowerUp>();
+    auto powerUpDualShoot = std::make_shared<Server::PowerUpDualShoot>();
+
+    engine.addEvent("ManagePowerUp", managePowerUp);
+    engine.addEvent("DualShoot", powerUpDualShoot);
+}
+
 int main(void) {
     GameEngine::GameEngine engine;
 
@@ -143,6 +155,7 @@ int main(void) {
         setup_network(engine, queue);
         setup_sync_systems(engine);
         setup_engine(engine);
+        setup_game_power_up(engine);
         auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();

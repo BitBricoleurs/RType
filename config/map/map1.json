@@ -63,15 +63,6 @@
             "dropPowerup": false
         },
         {
-            "tick": 90,
-            "mobType": "bugMob",
-            "position": {
-                "x": 2000.0,
-                "y": 575.0
-            },
-            "dropPowerup": false
-        },
-        {
             "tick": 300,
             "mobType": "bugGroup",
             "position": {

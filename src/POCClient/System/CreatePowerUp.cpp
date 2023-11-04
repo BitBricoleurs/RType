@@ -24,14 +24,12 @@ namespace Client {
                 if (ids.size() != 1 && (args.size() != (ids.size() * 5)))
                     return;
                 EntityFactory  &factory = EntityFactory::getInstance();
-                std::cout << "Args size: " << args.size() << std::endl;
                 size_t entityId = 0;
                 int arg_index = 0;
                 for (auto id : ids ) {
                     auto typePowerUp = static_cast<PowerUpType>(std::any_cast<int>(args[arg_index]));
                     Utils::Vect2 pos(static_cast<float>(std::any_cast<int>(args[arg_index + 1])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 2])) / 1000);
                     Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 4])) / 1000);
-                    std::cout << "CreatePowerUp: " << typePowerUp << std::endl;
                     entityId = Client::EntityFactory::getInstance().spawnPowerUp(componentsContainer, eventHandler, pos, velocity, typePowerUp);
                     factory.registerEntity(entityId, id);
                 }

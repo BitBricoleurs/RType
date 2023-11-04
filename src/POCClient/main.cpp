@@ -41,8 +41,10 @@
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
 #include "BlockOutOfBounds.hpp"
+#include "CreatePowerUpDual.hpp"
 #include "NetworkReceiveFlash.hpp"
 #include "FlashWhenHit.hpp"
+#include "ForcePodUpgrade.hpp"
 #include "UpdateBugSprite.hpp"
 
 void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue, Network::Endpoint endpoint) {
@@ -63,6 +65,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     auto imAlive = std::make_shared<Client::iAmAlive>();
     auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
     auto createForcePod = std::make_shared<Client::CreateForcePod>();
+    auto createPowerUpDual = std::make_shared<Client::CreatePowerUpDual>();
     auto receiveFlash = std::make_shared<Client::NetworkReceiveFlash>();
 
     engine.addSystem("NETWORK_INPUT", networkInput, 0);
@@ -82,6 +85,7 @@ void setup_network(GameEngine::GameEngine& engine, Network::TSQueue<std::shared_
     engine.queueEvent("NETWORK_CONNECT", std::make_any<Network::Endpoint>(endpoint));
     engine.addEvent("ENTER_KEY_PRESSED", networkSendReady);
     engine.addEvent("START_GAME", networkReceiveStartGame);
+    engine.addEvent("CREATED_POWERUP_DUAL", createPowerUpDual);
     engine.addEvent("ALIVE", imAlive);
     engine.addEvent("FLASH_ENTITY", receiveFlash);
     engine.scheduleEvent("ALIVE", 500, std::any(), 0);
@@ -97,6 +101,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     auto endSmoothing = std::make_shared<Client::EndSmoothing>();
     auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
     auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
+    auto forcePodUpgrade = std::make_shared<Client::ForcePodUpgrade>();
 
     engine.addEvent("UPDATE_POSITION", updatePosition);
     engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -113,6 +118,7 @@ void setup_sync_systems(GameEngine::GameEngine& engine) {
     engine.addSystem("END_SMOOTHING", endSmoothing, 1);
     engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
     engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
+    engine.addEvent("FORCE_POD_UPGRADE", forcePodUpgrade);
 }
 
 void setup_hud(GameEngine::GameEngine &engine) {

@@ -115,7 +115,7 @@ std::vector<std::shared_ptr<Network::Packet>> Network::PacketRegister::getPacket
     std::vector<std::shared_ptr<Network::Packet>> result;
     std::shared_ptr<Network::Packet> tmpPacket;
     long packetId = 0;
-    unsigned int lastPacketId = getLastPacketId(remoteId);
+    long lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {
         if (!(ackMask & (1 << i))) {

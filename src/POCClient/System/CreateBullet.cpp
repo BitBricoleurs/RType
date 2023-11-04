@@ -9,7 +9,7 @@ namespace Client {
     void CreateBullet::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         try {
-                std::shared_ptr<Network::OwnedMessage> message;
+                 std::shared_ptr<Network::OwnedMessage> message;
 
                 message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
                 std::shared_ptr<Network::IMessage> IMessage = message->message;
