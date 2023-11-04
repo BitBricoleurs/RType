@@ -35,12 +35,12 @@
         }
     ],
     "winCondition" :  {
-        "tick" : 100
+        "tick" : 10000
     },
     "mobs": [
         {
             "tick": 13,
-            "mobType": "pataPataMob",
+            "mobType": "bugGroup",
             "position": {
                 "x": 2000.0,
                 "y": 575.0

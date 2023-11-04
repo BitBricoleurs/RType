@@ -131,8 +131,6 @@ namespace Client {
         );
           container.bindComponentToEntity(entityId, std::make_shared<Bug>());
 
-          std::cout << "Bug created" << std::endl;
-
           return entityId;
         }  catch(const std::runtime_error& e) {
             std::cerr << "Error in createBugMob: " << e.what() << std::endl;
