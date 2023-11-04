@@ -46,50 +46,23 @@
     }
   },
   "healthBar": {
-    "healthBar" : {
       "tint": {
         "r": 255,
         "g": 255,
         "b": 255,
         "a": 255
       },
-        "rotation": 0.0,
-        "scale": 4.0,
-        "layer": 99,
-        "rect": {
-          "x": 0.0,
-          "y": 0.0,
-          "w": 24.0,
-          "h": 10.0
-        },
-        "pos": {
-          "x": 0.0,
-          "y": 990.0
-        },
-        "spritePath" : "assets/HUD/HealthBar.png"
-    },
-    "fullHealthBar": {
-      "tint": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
+      "rotation": 0.0,
+      "scale": 6.0,
+      "layer": 99,
+      "pos": {
+        "x": 0.0,
+        "y": 990.0
       },
-        "rotation": 0.0,
-        "scale": 4.0,
-        "layer": 100,
-        "rect": {
-          "x": 0.0,
-          "y": 0.0,
-          "w": 24.0,
-          "h": 10.0
-        },
-        "pos": {
-          "x": 0.0,
-          "y": 990.0
-        },
-        "spritePath" : "assets/HUD/FullHealthBar.png"
-      }
+      "spritePath" : "assets/life.png",
+      "spriteSheetHeight": 8,
+      "spriteSheetWidth": 540,
+      "frames": 20
     },
   "score": {
     "defaultScore": "S c o r e : 0",

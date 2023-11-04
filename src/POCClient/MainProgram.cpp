@@ -101,7 +101,6 @@ namespace Client {
         auto AnimWinNotif = std::make_shared<Client::AnimateWinNotification>();
         auto clearAnimWinNotif = std::make_shared<Client::ClearAnimateWinNotification>();
 
-
         engine.addEvent("InitEvent", initHud);
         engine.queueEvent("InitEvent");
         engine.addEvent("SPACE_KEY_PRESSED", chargingBar);

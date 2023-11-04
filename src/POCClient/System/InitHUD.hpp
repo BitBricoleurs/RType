@@ -14,6 +14,7 @@
 #include "Score.hpp"
 #include "isHealthBar.hpp"
 #include "LoadConfig.hpp"
+#include "EntityFactory.hpp"
 
     namespace Client {
 
