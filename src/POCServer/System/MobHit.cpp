@@ -55,6 +55,8 @@ namespace Server {
 
             auto isBulletOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
             auto hpComponentOpt = componentsContainer.getComponent(mobEntity, GameEngine::ComponentsType::getComponentType("Health"));
+            auto scoreEntity = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("Score"));
+            auto scoreComponentOpt = componentsContainer.getComponent(scoreEntity, GameEngine::ComponentsType::getComponentType("Score"));
             if (hpComponentOpt.has_value() && isBulletOpt.has_value()) {
                 auto isBullet = std::static_pointer_cast<IsBullet>(isBulletOpt.value());
                 if (!isBullet->playerBullet)
@@ -63,8 +65,14 @@ namespace Server {
 
                 applyDamage(hpComponent, otherEntity, componentsContainer);
 
-                if (hpComponent->currentHealth <= 0)
+                if (hpComponent->currentHealth <= 0) {
+                    if (scoreComponentOpt.has_value()) {
+                        auto scoreComponent = std::static_pointer_cast<Score>(scoreComponentOpt.value());
+                        scoreComponent->score += hpComponent->maxHealth;
+                        updateScoreNetwork(eventHandler, scoreComponent->score);
+                    }
                     handleDeath(mobEntity, componentsContainer, eventHandler);
+                }
                 else
                     flashMobNetwork(eventHandler, mobEntity);
             }
@@ -88,6 +96,15 @@ namespace Server {
     {
         std::vector<size_t> ids = {mobEntity};
         std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("FLASH_ENTITY", ids, "", std::vector<std::any>{});
+        std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allMessage);
+    }
+
+    void MobHit::updateScoreNetwork(GameEngine::EventHandler &eventHandler, size_t score)
+    {
+        std::vector<size_t> ids = {};
+        int scoreInt = score;
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_SCORE", ids, "INT", std::vector<std::any>{scoreInt});
         std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
         eventHandler.queueEvent("SEND_NETWORK", allMessage);
     }

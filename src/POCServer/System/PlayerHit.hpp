@@ -14,6 +14,7 @@
 #include "Message.hpp"
 #include "UserGameMode.hpp"
 #include "CooldownHit.hpp"
+#include "Score.hpp"
 
 namespace Server {
 
@@ -29,5 +30,6 @@ namespace Server {
         void lifeLostNetwork(GameEngine::EventHandler &eventHandler, std::vector<size_t> &players, std::vector<std::any> &args);
         void flashNetwork(GameEngine::EventHandler &eventHandler, size_t entity);
         void sendDeathMessage(GameEngine::EventHandler &eventHandler, size_t entity);
+        void updateScoreNetwork(GameEngine::EventHandler &eventHandler, size_t score);
     };
 }
