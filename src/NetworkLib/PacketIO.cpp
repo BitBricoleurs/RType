@@ -101,9 +101,17 @@ void Network::PacketIO::processIncomingMessages() {
             }
         );
         while (!_packetQueue.empty()) {
+            if (_packetQueue.getFront().second == nullptr) {
+                _packetQueue.popFront();
+                continue;
+            }
             std::shared_ptr<Network::Packet> rawData = _packetQueue.getFront().second;
             boost::asio::ip::udp::endpoint endpoint = _packetQueue.getFront().first;
+            try {
             _packetQueue.popFront();
+            } catch (const std::runtime_error& e) {
+                std::cerr << "Error in processIncomingMessages: " << e.what() << std::endl;
+            }
 
             if (rawData == nullptr)  {
                 continue;
@@ -141,6 +149,7 @@ void Network::PacketIO::processIncomingMessages() {
 
         }
         while (!_inMessages.empty()) {
+            try {
             std::shared_ptr<OwnedMessage> message = _inMessages.getFront();
             if (message == nullptr && !_inMessages.empty()) {
                 _inMessages.popFront();
@@ -149,6 +158,9 @@ void Network::PacketIO::processIncomingMessages() {
             _forwardMessages->pushBack(message);
             if (!_inMessages.empty()) {
                 _inMessages.popFront();
+            }
+            } catch (const std::runtime_error& e) {
+                std::cerr << "Error in processIncomingMessages: " << e.what() << std::endl;
             }
 
         }

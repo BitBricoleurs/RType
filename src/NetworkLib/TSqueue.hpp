@@ -29,11 +29,17 @@ namespace Network {
 
     public:
         const T &getFront() {
+            if (empty()) {
+                throw std::runtime_error("Queue is empty Front");
+            }
             std::scoped_lock lock(muxQueue);
             return deqQueue.front();
         }
 
         const T &getBack() {
+            if (empty()) {
+                throw std::runtime_error("Queue is empty Back");
+            }
             std::scoped_lock lock(muxQueue);
             return deqQueue.back();
         }
@@ -44,6 +50,9 @@ namespace Network {
         }
 
         T popFront() {
+            if (empty()) {
+                return T();
+            }
             std::scoped_lock lock(muxQueue);
             auto t = std::move(deqQueue.front());
             deqQueue.pop_front();
@@ -51,6 +60,9 @@ namespace Network {
         }
 
         T popBack() {
+            if (empty()) {
+                return T();
+            }
             std::scoped_lock lock(muxQueue);
             auto t = std::move(deqQueue.back());
             deqQueue.pop_back();
