@@ -167,25 +167,23 @@ namespace Server {
         }
     }
     
-    std::vector<size_t> EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+    size_t EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, bool dropPowerup) {
-
-        std::vector<size_t> bugGroup;
 
         auto pathPoints = generatePathPoints();
 
         float offset = 0;
-        
+        auto entityId = 0;
         for (int i = 0; i < 5; i++) {
             Utils::Vect2 newPos(pos.x + offset, pos.y);
             offset += 75;
             if (dropPowerup && i == 2) {
-                bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, true, pathPoints));
+                entityId = spawnBugMob(container, eventHandler, newPos, true, pathPoints);
                 continue;
             }
-            bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, false, pathPoints));
+            entityId = spawnBugMob(container, eventHandler, newPos, false, pathPoints);
         }
-        return bugGroup;
+        return entityId;
     }
 }

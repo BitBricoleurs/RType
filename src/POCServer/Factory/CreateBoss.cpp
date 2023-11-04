@@ -105,7 +105,7 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
   const float maxRadius = 800.0 / 2;
   const float radiusIncrement = podDiameter * 0.80;
 
-  createBellmiteBoss(container, eventHandler, pos);
+  auto entityId = createBellmiteBoss(container, eventHandler, pos);
 
   float currentRadius = 0;
   int podsInCurrentRadius = 1;
@@ -125,8 +125,6 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
     podsInCurrentRadius += 6;
   }
 
-  // eventHandler.scheduleEvent("bounceBoss", 2);
-
-  return 0;
+  return entityId;
 }
 } // namespace Server

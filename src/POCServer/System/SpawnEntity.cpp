@@ -53,7 +53,8 @@ namespace Server {
                 return;
             };
         }
-        for (int i = 0; i < mobsSize;) {
+        auto entityId = 0;
+        for (int i = 0; i < mobsSize; i++) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
@@ -62,24 +63,24 @@ namespace Server {
                 Utils::Vect2 position(posX, posY);
 
                 bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
-
                 std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
+                bool isLastMob = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/isLastMob");
 
                 if (mobType == "cancerMob") {
-                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
                 } else if (mobType == "pataPataMob") {
-                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
                 } else if (mobType == "bellmite") {
-                     EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position);
+                     entityId = EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position);
                 } else if (mobType == "bugMob") {
-                    EntityFactory::getInstance().spawnBugMob(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId= EntityFactory::getInstance().spawnBugMob(componentsContainer, eventHandler, position, dropPowerup);
                 } else if (mobType == "bugGroup") {
-                    EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId= EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, dropPowerup);
                 }
-                currentMapContent.eraseKey("/mobs", i);
-                mobsSize--;
-            } else {
-                i++;
+                if (isLastMob) {
+                    std::cout << "isLastMob" << std::endl;
+                    componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsLastMob>());
+                }
             }
         }
         int parallaxSize = currentMapContent.getSize("/parallax");

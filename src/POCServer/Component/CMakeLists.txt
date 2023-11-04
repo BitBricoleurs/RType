@@ -19,5 +19,6 @@ set(POCSERVER_COMPONENT_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/BulletComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BossComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Score.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IsLastMob.cpp
         CACHE INTERNAL ""
 )

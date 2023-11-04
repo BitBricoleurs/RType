@@ -66,7 +66,7 @@ namespace Server {
                          GameEngine::EventHandler &eventHandler,
                          Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
 
-      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+      size_t spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, bool dropPowerup);
 
