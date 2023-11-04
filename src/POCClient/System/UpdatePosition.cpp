@@ -136,7 +136,7 @@ void Client::UpdatePosition::smoothPosition(GameEngine::ComponentsContainer &com
     Utils::Vect2 normalizedDirection = directionToB.normalize();
     int speed = 2;
     velComp->velocity = normalizedDirection * speed;
-    }
+}
 
 bool Client::UpdatePosition::isEntityChangedPosition(GameEngine::ComponentsContainer &componentsContainer, size_t entity, Utils::Vect2 &targetPosition)
 {

@@ -178,6 +178,20 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"GAME_OVER", 0x27},
     {"JOIN_LOBBY", 0x28},
     {"REVIVE_PLAYER", 0x29}
+    {"CREATE_PARALLAX", 0x30},
+    {"DELETED_ENTITY", 0x31},
+    {"READY", 0x32},
+    {"START_GAME", 0x33},
+    {"ALIVE", 0x34},
+    {"CREATED_POWERUP", 0x35},
+    {"CREATED_FORCEPOD", 0x36},
+    {"SYNC_FORCE_POD_PLAYER", 0x37},
+    {"UPDATE_POS_FORCE_POD", 0x38},
+    {"CHARGE", 0x39},
+    {"BLOCK", 0x40},
+    {"CREATED_POWERUP_DUAL", 0x41},
+    {"FLASH_ENTITY", 0x42},
+    {"FORCE_POD_UPGRADE", 0x43}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

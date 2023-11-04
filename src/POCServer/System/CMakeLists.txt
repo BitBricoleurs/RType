@@ -34,6 +34,8 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntityEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DeleteParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DeleteMobs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ManagePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PowerUpDualShoot.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BossInScope.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BounceBoss.cpp

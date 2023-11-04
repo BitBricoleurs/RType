@@ -37,7 +37,6 @@ namespace Client {
                     return;
                 Utils::Vect2 newVelocity(std::any_cast<float>(args[0]), std::any_cast<float>(args[1]));
                 if (isEntitySmoothing(componentsContainer, entityToUpdate) && (newVelocity.x != 0 && newVelocity.y != 0)) {
-                    std::cout << "Stop Smoothing" << std::endl;
                     stopSmoothing(componentsContainer, entityToUpdate);
                 }
 

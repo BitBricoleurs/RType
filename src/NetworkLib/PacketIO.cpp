@@ -127,6 +127,9 @@ void Network::PacketIO::processIncomingMessages() {
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
                 size = ntohs(size);
+                if (size > _headerIn.bodySize || index > _headerIn.bodySize) {
+                    break;
+                }
                 std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
                 std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
                 id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);

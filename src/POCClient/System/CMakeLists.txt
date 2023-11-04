@@ -40,8 +40,6 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BlockOutOfBounds.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/InitNotification.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/FlashWhenHit.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveFlash.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveLifeLost.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DeathPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GameOverSystem.cpp
@@ -54,6 +52,10 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AnimateWinNotification.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateWinNotification.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUpDual.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlashWhenHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveFlash.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodUpgrade.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UpdateBugSprite.cpp
         CACHE INTERNAL ""
 )

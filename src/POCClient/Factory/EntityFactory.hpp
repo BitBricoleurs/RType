@@ -88,6 +88,8 @@ namespace Client {
                                       GameEngine::EventHandler &eventHandler,
                                       Utils::Vect2 pos, Utils::Vect2 velocity, size_t typeBullet);
 
+      std::vector<size_t> spawnPowerUpDualShoot(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler, PowerUpType type, Utils::Vect2 pos, Utils::Vect2 pos2);
+
       size_t createBaseEnemyBullet(GameEngine::ComponentsContainer &container,
                                    GameEngine::EventHandler &eventHandler,
                                    Utils::Vect2 pos, Utils::Vect2 velocity);
@@ -155,6 +157,7 @@ namespace Client {
         size_t createInputPort(GameEngine::ComponentsContainer &container);
 
 
+        std::shared_ptr<SpriteAnimation> initAnimation(const std::string &spriteSheetPath, int frames, int width,int height, bool twoDirections, bool reverse, int direction, int player);
     private:
       EntityFactory() = default;
       ~EntityFactory() = default;
@@ -224,11 +227,6 @@ namespace Client {
                               float rotation,
                               Utils::ColorR tint, int layer);
 
-      static std::shared_ptr<SpriteAnimation>
-      initAnimation(const std::string &spriteSheetPath, int frames, int width,
-                    int height, bool twoDirections, bool reverse, int direction,
-                    int player);
-
       static std::shared_ptr<DeathAnimation>
       initDeathAnimation(const std::string &deathSpriteSheetPath, int deathFrames,
                          int deathWidth, int deathHeight);
@@ -236,6 +234,6 @@ namespace Client {
             std::map<size_t, size_t> _entityIdMap;
             std::map<size_t, PlayerNumber> _playerMap;
             std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
-    };
+};
 
 }
