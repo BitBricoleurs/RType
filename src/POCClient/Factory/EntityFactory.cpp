@@ -185,7 +185,6 @@ namespace Client {
       auto velocityComponent =
           std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
-
       auto AABBComponent = std::make_shared<PhysicsEngine::AABBComponent2D>(pos, Utils::Vect2(pos.x + spriteAnimationComponent->frameWidth * scale, pos.y + spriteAnimationComponent->frameHeight * scale));
       auto rectangleCollider = std::make_shared<PhysicsEngine::RectangleColliderComponent2D>(Utils::rect(0, 0, spriteAnimationComponent->frameWidth * scale, spriteAnimationComponent->frameHeight * scale));
 
