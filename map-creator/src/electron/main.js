@@ -13,11 +13,14 @@ function createWindow() {
         },
     });
 
+    /*
     const url = isDev
         ? 'http://localhost:3000'
-        : `file://${__dirname}/../../build/index.html`;
+        : `file://${__dirname}/../../build/index.html`;*/
 
-    win.loadURL(url);
+    console.log(`file://${__dirname}/../../build/index.html`);
+    console.log(__dirname);
+    win.loadURL(`file://${__dirname}/../../build/index.html`);
 
     const menuTemplate = [
         {

@@ -180,14 +180,26 @@ function App() {
     }
 
     const handleSave = () => {
-        const enabledBackgroundImages = backgroundImages.filter(img => img.isBackgroundEnabled).slice(0, 2);
+        const groupedImages = backgroundImages.reduce((acc, img) => {
+            if (img.isBackgroundEnabled) {
+                if (!acc[img.id]) {
+                    acc[img.id] = [];
+                }
+                acc[img.id].push(img);
+            }
+            return acc;
+        }, {});
 
-        const parallaxWithBackground = enabledBackgroundImages.map(image => ({
+        const selectedImages = Object.values(groupedImages).reduce((acc, group) => {
+            return acc.concat(group.slice(0, 2));
+        }, []);
+
+        const parallaxWithBackground = selectedImages.map(image => ({
             tick: 1,
             name: image.name,
             layer: image.layer,
             isLooping: image.isLooping,
-            velocity : {
+            velocity: {
                 x: parseFloat(image.velocity.x).toFixed(1),
                 y: parseFloat(image.velocity.y).toFixed(1)
             },
