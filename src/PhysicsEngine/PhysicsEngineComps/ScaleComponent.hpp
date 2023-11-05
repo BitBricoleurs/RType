@@ -5,22 +5,18 @@
 #pragma once
 
 #include "AComponent.hpp"
-#include "src/UtilsProject/Utils.hpp"
+#include "Vect2.hpp"
 #include "ComponentsType.hpp"
 
 
-namespace GameEngine {
-    class ScaleComponent : public AComponent {
+namespace PhysicsEngine {
+    class ScaleComponent : public GameEngine::AComponent {
     public:
-        ScaleComponent() = default;
-        ScaleComponent(const Vect2& scale) : scale(scale) {}
+        ScaleComponent(const Utils::Vect2& scale) : scale(scale) {}
         ~ScaleComponent() override = default;
 
-        size_t getComponentType() override { return componentType; }
-        Vect2 getScale() const { return scale; }
-        void setScale(const Vect2& scale) { this->scale = scale; }
+        size_t componentType = GameEngine::ComponentsType::getNewComponentType("ScaleComponent");
+        Utils::Vect2 scale;
     private:
-        size_t componentType = ComponentsType::getNewComponentType("ScaleComponent");
-        Vect2 scale;
     };
 }

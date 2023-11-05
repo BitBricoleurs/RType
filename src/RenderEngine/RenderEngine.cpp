@@ -6,108 +6,153 @@
 */
 
 #include "RenderEngine.hpp"
+#include "ColorR.hpp"
 #include <filesystem>
-#if defined(__APPLE__)
-#include <mach-o/dyld.h>
-#elif defined(__linux__)
-#include <libgen.h>
-#include <limits.h>
-#include <unistd.h>
-#endif
 
-namespace GameEngine {
+namespace RenderEngine {
+    RenderEngine::~RenderEngine() {}
 
-std::string getExecutablePath() {
-#if defined(_WIN32) || defined(_WIN64)
-  return "";
-#elif defined(__APPLE__)
-  char path[1024];
-  uint32_t size = sizeof(path);
-  if (_NSGetExecutablePath(path, &size) == 0) {
-    std::string pathStr = std::string(path);
-    return (pathStr.substr(0, pathStr.find_last_of("/")) + "/");
-  } else {
-    return "";
-  }
-#else
-  char result[PATH_MAX];
-  ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
-  std::string path = std::string(dirname(result));
-  return path + "/";
-#endif
+
+    void RenderEngine::Initialize(const char *windowTitle) {
+        InitWindow(0, 0, windowTitle);
+        screenWidth = GetScreenWidth();
+        screenHeight = GetScreenHeight();
+        scaleX = (float)screenWidth / 1920.0f;
+        scaleY = (float)screenHeight / 1080.0f;
+        _baseAssetPath = LoadConfig::LoadConfig::getInstance().getExecutablePath();
+        if (_baseAssetPath.empty()) {
+            _baseAssetPath = "./";
+        }
+    }
+
+    void RenderEngine::Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
+        if (!buttonComponent.isVisible) {
+            return;
+        }
+
+        Utils::ColorR color;
+        switch (buttonComponent.state) {
+            case ButtonComponent::NORMAL:
+                color = buttonComponent.tint;
+                break;
+            case ButtonComponent::HOVER:
+                color = buttonComponent.hoverColor;
+                break;
+            case ButtonComponent::DISABLED:
+                color = { 128, 128, 128, 255 };
+                break;
+            case ButtonComponent::CLICKED:
+                break;
+        }
+
+        SpriteComponent spriteComponent = static_cast<SpriteComponent>(buttonComponent);
+        spriteComponent.tint = color;
+        Draw(spriteComponent, ResourceManager);
+    }
+
+
+    void RenderEngine::Draw(const TextComponent &textComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
+        Vector2 position = { textComponent.pos.x * scaleX, textComponent.pos.y * scaleY };
+        Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
+
+        if (textComponent.isVisible) {
+          DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
+      }
+    }
+
+
+    void RenderEngine::Draw(const SpriteComponent &spriteComponent, std::shared_ptr<ResourceManager>& resourceManager) {
+    if (spriteComponent.isVisible) {
+        std::string path = _baseAssetPath + spriteComponent.imagePath;
+        Texture2D texture = resourceManager->LoadTexture(path);
+
+        if (texture.id == 0) {
+            std::cerr << "Log: Failed to load texture: " << path << std::endl;
+            return;
+        }
+        DrawTexturePro(texture,
+                       { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h },
+                       {spriteComponent.pos.x * scaleX, spriteComponent.pos.y * scaleY, spriteComponent.rect1.w * spriteComponent.scale * scaleX, spriteComponent.rect1.h * spriteComponent.scale * scaleY},
+                       {spriteComponent.origin.x * scaleX, spriteComponent.origin.y * scaleY},
+                       spriteComponent.rotation,
+                       {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+    }
 }
 
-RenderEngine::~RenderEngine() {
-  for (auto &pair : textureCache) {
-    UnloadTexture(pair.second);
-  }
+
+    bool RenderEngine::fileExists(const std::string& path) {
+        std::ifstream file(path.c_str());
+        return file.good();
+    }
+
+
+void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::pair<size_t, ButtonComponent>> buttons) {
+    for (const auto& mapping : keyMappings) {
+        if (mapping.checkFunction(mapping.key)) {
+            eventHandler.queueEvent(mapping.eventName);
+        }
+    }
+
+        Vector2 mousePosition = GetMousePosition();
+        Utils::Vect2 mousePos;
+        mousePos.x = mousePosition.x;
+        mousePos.y = mousePosition.y;
+
+    for (auto [id, button] : buttons) {
+      bool isHovering =
+          (mousePosition.x >= button.pos.x * scaleX &&
+           mousePosition.x <= button.pos.x * scaleX +
+                                  button.rect1.w * button.scale * scaleX) &&
+          (mousePosition.y >= button.pos.y * scaleY &&
+           mousePosition.y <= button.pos.y * scaleY +
+                                  button.rect1.h * button.scale * scaleY);
+
+      if (isHovering && button.state == ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
+      }
+      if (!isHovering && button.state != ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
+      if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::CLICKED;
+          eventHandler.queueEvent(button.clickEvent, id);
+      }
+      if (isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
+      }
+      if (!isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
+    }
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
+    if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
+    if (WindowShouldClose()) {
+        eventHandler.queueEvent("gameEngineStop");
+    }
 }
 
-void RenderEngine::Initialize(int screenWidth, int screenHeight,
-                              const char *windowTitle) {
-  InitWindow(screenWidth, screenHeight, windowTitle);
-  _baseAssetPath = getExecutablePath();
-  this->screenWidth = screenWidth;
-  this->screenHeight = screenHeight;
-}
 
-void RenderEngine::Draw(const TextComponent &textComponent) {
-  DrawText(textComponent.getText().c_str(), textComponent.getPos().x,
-           textComponent.getPos().y, textComponent.getFontSize(),
-           {textComponent.getColor().r, textComponent.getColor().g,
-            textComponent.getColor().b, textComponent.getColor().a});
-}
+    void RenderEngine::ClearBackgroundRender(Color color) {
+      ClearBackground(color);
+    }
 
-void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-  std::string path = _baseAssetPath + spriteComponent.getImagePath();
+    void RenderEngine::Shutdown() { CloseWindow(); }
 
-  auto it = textureCache.find(path);
-  if (it == textureCache.end()) {
-    Texture2D texture = LoadTexture(path.c_str());
-    textureCache[path] = texture;
-  }
+    size_t RenderEngine::getScreenHeight() const
+    {
+        return screenHeight;
+    }
 
-  DrawTextureRec(textureCache[path],
-                 {spriteComponent.getRect().x, spriteComponent.getRect().y,
-                  spriteComponent.getRect().w, spriteComponent.getRect().h},
-                 {spriteComponent.getPos().x, spriteComponent.getPos().y},
-                 RAYWHITE);
-}
+    size_t RenderEngine::getScreenWidth() const
+    {
+        return screenWidth;
+    }
 
-void RenderEngine::PollEvents(GameEngine::EventHandler &eventHandler) {
-  if (IsKeyPressed(KEY_SPACE))
-    eventHandler.queueEvent("SPACE_KEY_PRESSED");
-  if (IsKeyPressed(KEY_UP))
-    eventHandler.queueEvent("UP_KEY_PRESSED");
-  if (IsKeyReleased(KEY_UP))
-    eventHandler.queueEvent("UP_KEY_RELEASED");
-  if (IsKeyPressed(KEY_DOWN))
-    eventHandler.queueEvent("DOWN_KEY_PRESSED");
-  if (IsKeyReleased(KEY_DOWN))
-    eventHandler.queueEvent("DOWN_KEY_RELEASED");
-  if (IsKeyPressed(KEY_LEFT))
-    eventHandler.queueEvent("LEFT_KEY_PRESSED");
-  if (IsKeyReleased(KEY_LEFT))
-    eventHandler.queueEvent("LEFT_KEY_RELEASED");
-  if (IsKeyPressed(KEY_RIGHT))
-    eventHandler.queueEvent("RIGHT_KEY_PRESSED");
-  if (IsKeyReleased(KEY_RIGHT))
-    eventHandler.queueEvent("RIGHT_KEY_RELEASED");
-  if (IsKeyPressed(KEY_ENTER))
-    eventHandler.queueEvent("ENTER_KEY_PRESSED");
-  if (IsKeyPressed(KEY_ESCAPE))
-    eventHandler.queueEvent("ESCAPE_KEY_PRESSED");
-  if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-    eventHandler.queueEvent("MouseLeftButtonPressed");
-  if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-    eventHandler.queueEvent("MouseRightButtonPressed");
-  if (IsKeyReleased(KEY_SPACE))
-    eventHandler.queueEvent("SPACE_KEY_RELEASED");
-}
-
-void RenderEngine::ClearBackgroundRender(Color color) {
-  ClearBackground(color);
-}
-
-void RenderEngine::Shutdown() { CloseWindow(); }
 } // namespace GameEngine

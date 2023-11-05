@@ -31,7 +31,7 @@ Precompiled installers (setup) are available for:
 Dive deeper into **Rtype** and its core mechanisms:
 
 - [🕹️ Game Engine Documentation](docs/GameEngineInstruction.md)
-- [📡 RFC Documentation](docs/rfc-rtype-ncp.md)
+- [📡 RFC Documentation](docs/rfc-rtype-ncp.txt)
 
 ## 🌟 **Contributors**
 

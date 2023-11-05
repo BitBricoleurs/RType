@@ -1,0 +1,25 @@
+{
+  "createBullet": {
+    "spriteSheetPath": "assets/mobBullet.png",
+    "pathSound": "assets/music/Shoot.wav",
+    "spriteSheetHeight": 6,
+    "spriteSheetWidth": 28,
+    "hitboxHeight": 6,
+    "hitboxWidth": 28,
+    "frames": 4,
+    "twoDirections": false,
+    "reverse": false,
+    "damageValue": 3,
+    "isPlayerBullet": false,
+    "playerA": 0,
+    "scale": 2.5,
+    "rotation": 0.0,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 7
+  }
+}

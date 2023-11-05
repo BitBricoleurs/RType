@@ -1,0 +1,23 @@
+.toolbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: var(--toolbar-height);
+    background-color: var(--primary-bg-color);
+    box-shadow: 0 -2px 10px var(--shadow-color);
+    z-index: 1500;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 var(--card-padding);
+}
+
+.Tab {
+    color: var(--card-text-color);
+    height: 10px;
+}
+
+.toolbar .bp3-tab[aria-selected="true"] {
+    color: var(--highlight-border-color);
+    border-bottom: 2px solid var(--highlight-border-color);
+}

@@ -1,0 +1,697 @@
+{
+    "types": [
+        {
+            "type": 1,
+            "path": "assets/map/map1/P0.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 2,
+            "path": "assets/map/map1/P1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 3,
+            "path": "assets/map/map1/P2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 4,
+            "path": "assets/map/map1/P3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 5,
+            "path": "assets/map/map2/atat.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 7097,
+                "height": 374
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 19,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 6,
+            "path": "assets/map/map2/P0.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 7,
+            "path": "assets/map/map2/P1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 8,
+            "path": "assets/map/map2/V1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 653,
+                "height": 230
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 9,
+            "path": "assets/map/map2/V2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 414,
+                "height": 497
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 10,
+            "path": "assets/map/map2/V3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 413,
+                "height": 191
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 11,
+            "path": "assets/map/map3/P0.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 12,
+            "path": "assets/map/map3/EB1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 102
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 13,
+            "path": "assets/map/map3/EB2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 103
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 14,
+            "path": "assets/map/map3/EB3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 420
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 15,
+            "path": "assets/map/map3/EB4.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 236
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 16,
+            "path": "assets/map/map3/EB5.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 900,
+                "height": 166
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 17,
+            "path": "assets/map/map3/EH1.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 102
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 18,
+            "path": "assets/map/map3/EH2.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 103
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 19,
+            "path": "assets/map/map3/EH3.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 420
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 20,
+            "path": "/assets/map/map3/EH4.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 300,
+                "height": 236
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 21,
+            "path": "assets/map/map3/EH5.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 900,
+                "height": 166
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 22,
+            "path": "assets/map/Planets/Desert.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 23,
+            "path": "assets/map/Planets/Furnace.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 24,
+            "path": "assets/map/Planets/Grave.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 25,
+            "path": "assets/map/Planets/Ice.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 26,
+            "path": "assets/map/Planets/Jovian.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 27,
+            "path": "assets/map/Planets/Jungle.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 28,
+            "path": "assets/map/Planets/Ocean.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 29,
+            "path": "assets/map/Planets/Rocky.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 30,
+            "path": "assets/map/Planets/Shattered.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 31,
+            "path": "assets/map/Planets/Tainted.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 32,
+            "path": "assets/map/Planets/Vital.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 33,
+            "path": "assets/map/map3/E6.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 39,
+                "height": 242
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        }
+    ]
+}

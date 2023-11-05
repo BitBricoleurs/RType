@@ -1,0 +1,51 @@
+//
+// Created by Bartosz on 10/9/23.
+//
+
+#include "PlayerHitMob.hpp"
+
+namespace Server {
+
+    void PlayerHitMob::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+        try {
+            auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+            auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
+            auto secondEntityOptMob = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
+
+            if (firstEntityOptPlayer.has_value()) {
+                eventHandler.queueEvent("DAMAGE", firstEntity);
+                eventHandler.queueEvent("PLAY_SOUND", firstEntity);
+                startMobDeath(componentsContainer, eventHandler, secondEntity);
+                componentsContainer.unbindComponentFromEntity(secondEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
+            } else if (secondEntityOptMob.has_value()) {
+                eventHandler.queueEvent("DAMAGE", secondEntity);
+                eventHandler.queueEvent("PLAY_SOUND", secondEntity);
+                startMobDeath(componentsContainer, eventHandler, firstEntity);
+                componentsContainer.unbindComponentFromEntity(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
+            }
+
+        } catch (const std::bad_any_cast&) {
+            std::cerr << "Cast error in MobHit::update" << std::endl;
+        }
+    }
+
+        void PlayerHitMob::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
+                               GameEngine::EventHandler &eventHandler, size_t id) {
+      auto velocityOpt = componentsContainer.getComponent(
+          id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+
+      if (!velocityOpt.has_value())
+        return;
+      auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
+          velocityOpt.value());
+      velocity->velocity.x = 0;
+      velocity->velocity.y = 0;
+      componentsContainer.unbindComponentFromEntity(
+          id, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));
+      componentsContainer.unbindComponentFromEntity(
+          id, GameEngine::ComponentsType::getComponentType("HeightVariation"));
+
+
+      eventHandler.scheduleEvent("MobDeath", 5, id);
+    }
+}

@@ -1,19 +1,14 @@
 add_subdirectory(GameEngine)
-add_subdirectory(AudioEngine)
+if(NOT WIN32)
+    add_subdirectory(AudioEngine)
+endif ()
 add_subdirectory(RenderEngine)
 add_subdirectory(PhysicsEngine)
-add_subdirectory(POCEngine)
-add_subdirectory(POCProgram)
-add_subdirectory(MobPoc)
-
-target_sources(
-        ${PROJECT_NAME_CLIENT}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
-)
-
-target_sources(
-        ${PROJECT_NAME_SERVER}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
-)
+add_subdirectory(UtilsProject)
+add_subdirectory(NetworkLib)
+add_subdirectory(Server)
+add_subdirectory(Client)
+add_subdirectory(LoadConfig)
+add_subdirectory(POCCinematic)
+add_subdirectory(Hunter)
+add_subdirectory(DevConsole)

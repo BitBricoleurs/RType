@@ -1,0 +1,23 @@
+.entity-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--card-margin);
+    overflow-x: auto;
+    background-color: var(--primary-bg-color);
+    padding: var(--card-padding);
+    scroll-snap-type: x mandatory;
+}
+
+.entity-list::-webkit-scrollbar {
+    height: 4px;
+}
+
+.entity-list::-webkit-scrollbar-thumb {
+    background: var(--shadow-color);
+    border-radius: 2px;
+}
+
+.entity-list::-webkit-scrollbar-track {
+    background: var(--primary-bg-color);
+}
