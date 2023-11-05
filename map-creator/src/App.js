@@ -240,6 +240,11 @@ function App() {
             dropPowerUp: item.powerUp,
         }));
 
+        mapItems.forEach(item => {
+            console.log('MobType after', item.name);
+        }
+        );
+
         const sortedMobs = mobs.sort((a, b) => a.tick - b.tick);
 
         const enhancedMobs = sortedMobs.map((mob, index, array) => {
@@ -247,6 +252,11 @@ function App() {
             return { ...mob, isLastMob };
         });
         const combinedParallaxItems = [...parallaxWithBackground, ...otherParallaxItems];
+
+        mapItems.forEach(item => {
+                console.log('MobType before', item.name);
+            }
+        );
 
         const formattedData = {
             parallax: combinedParallaxItems,
