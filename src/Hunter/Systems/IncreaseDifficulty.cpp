@@ -16,7 +16,7 @@ void IncreaseDifficulty::update(
   auto baseVelOpt = componentsContainer.getComponent(
       game, GameEngine::ComponentsType::getComponentType("BaseVelocity"));
   if (baseVelOpt.has_value()) {
-    auto baseVel = std::dynamic_pointer_cast<BaseVelocity>(baseVelOpt.value());
+    auto baseVel = std::static_pointer_cast<BaseVelocity>(baseVelOpt.value());
     if (baseVel->velocity.x < 16) {
       baseVel->velocity.x += 1;
     }

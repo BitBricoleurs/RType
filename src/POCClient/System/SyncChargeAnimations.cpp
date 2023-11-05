@@ -24,13 +24,13 @@ void Client::SyncChargeAnimations::update(GameEngine::ComponentsContainer &compo
         if (!starshipOpt.has_value() && !playerOpt.has_value())
             continue;
         if (playerOpt.has_value()) {
-            auto player = std::dynamic_pointer_cast<IsPlayer>(playerOpt.value());
+            auto player = std::static_pointer_cast<IsPlayer>(playerOpt.value());
             if (player->entityIdChargeAnimation == 0)
                 continue;
             updateAnimationPos(player->entityIdChargeAnimation, playerID, componentsContainer);
         }
         if (starshipOpt.has_value()) {
-            auto starship = std::dynamic_pointer_cast<IsStarship>(starshipOpt.value());
+            auto starship = std::static_pointer_cast<IsStarship>(starshipOpt.value());
             if (starship->entityIdChargeAnimation == 0)
                 continue;
             updateAnimationPos(starship->entityIdChargeAnimation, playerID, componentsContainer);
@@ -46,9 +46,9 @@ void Client::SyncChargeAnimations::updateAnimationPos(size_t chargeAnimationID, 
         if (!chargeAnimationOpt.has_value() || !shooterOpt.has_value() || !playerPosOpt.has_value())
             return;
 
-        auto chargeAnimation = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(chargeAnimationOpt.value());
-        auto shooter = std::dynamic_pointer_cast<Shooter>(shooterOpt.value());
-        auto playerPos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(playerPosOpt.value());
+        auto chargeAnimation = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(chargeAnimationOpt.value());
+        auto shooter = std::static_pointer_cast<Shooter>(shooterOpt.value());
+        auto playerPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(playerPosOpt.value());
 
         chargeAnimation->pos.x = playerPos->pos.x + shooter->shootPosition.x;
         chargeAnimation->pos.y = playerPos->pos.y + shooter->shootPosition.y - 25;

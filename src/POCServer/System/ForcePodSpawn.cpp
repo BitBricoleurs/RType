@@ -31,19 +31,42 @@ namespace Server {
                 auto Ids = std::any_cast<std::tuple<size_t, size_t>>(anyEvent.second);
                 auto playerId = std::get<0>(Ids);
                 auto forcePodId = std::get<1>(Ids);
-                auto isPlayer = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
-                auto shooter = std::static_pointer_cast<Shooter>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("Shooter")).value());
-                auto posPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-                auto posForcePod = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-                auto forcePod = std::static_pointer_cast<IsForcePod>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
-                auto forcePodVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(forcePodId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+
+                auto isPlayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+                auto shooterType = GameEngine::ComponentsType::getComponentType("Shooter");
+                auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+                auto forcePodType = GameEngine::ComponentsType::getComponentType("IsForcePod");
+                auto forcePodVelocityType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
+
+                auto playerOpt = componentsContainer.getComponent(playerId, isPlayerType);
+                auto shooterOpt = componentsContainer.getComponent(playerId, shooterType);
+                auto posPlayerOpt = componentsContainer.getComponent(playerId, posType);
+                auto posForcePodOpt = componentsContainer.getComponent(forcePodId, posType);
+                auto forcePodOpt = componentsContainer.getComponent(forcePodId, forcePodType);
+                auto forcePodVelocityOpt = componentsContainer.getComponent(forcePodId, forcePodVelocityType);
+
+                if (!playerOpt.has_value() || !shooterOpt.has_value() || !posPlayerOpt.has_value() || !posForcePodOpt.has_value() || !forcePodOpt.has_value() || !forcePodVelocityOpt.has_value())
+                    return;
+
+                auto isPlayer = std::static_pointer_cast<IsPlayer>(playerOpt.value());
+                auto shooter = std::static_pointer_cast<Shooter>(shooterOpt.value());
+                auto posPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posPlayerOpt.value());
+                auto posForcePod = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posForcePodOpt.value());
+                auto forcePod = std::static_pointer_cast<IsForcePod>(forcePodOpt.value());
+                auto forcePodVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(forcePodVelocityOpt.value());
                 if (isPlayer->entityIdForcePod == 0) {
 
                     isPlayer->entityIdForcePod = forcePodId;
                     forcePod->entityId = playerId;
                     shooter->shootPosition.x =  shooter->shootPosition.x + 45;
 
-                    auto netInterfaceId = std::static_pointer_cast<NetworkClientId>(componentsContainer.getComponent(playerId, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value())->id;
+                    auto networkType = GameEngine::ComponentsType::getComponentType("NetworkClientId");
+
+                    auto netowrkOpt = componentsContainer.getComponent(playerId, networkType);
+
+                    if (!netowrkOpt.has_value())
+                        return;
+                    auto netInterfaceId = std::static_pointer_cast<NetworkClientId>(netowrkOpt.value())->id;
                     std::vector<size_t> ids = {playerId};
                     std::vector<std::any> args = {static_cast<int>(playerId), static_cast<int>(forcePodId)};
                     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("SYNC_FORCE_POD_PLAYER", ids, "INT", args, true);

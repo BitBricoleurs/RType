@@ -79,7 +79,7 @@ std::pair<std::shared_ptr<Client::InputText>, std::shared_ptr<RenderEngine::Text
     // Get InputText comp
     auto inputCompType = GameEngine::ComponentsType::getComponentType("InputText");
     auto mayCompInput = componentsContainer.getComponent(entities[0], inputCompType);
-    if (!mayComp.has_value()) {
+    if (!mayCompInput.has_value()) {
         throw std::runtime_error("Error while trying to getStringInput on selectedEntities that not have InputText");
     }
     auto compInput = mayCompInput.value();

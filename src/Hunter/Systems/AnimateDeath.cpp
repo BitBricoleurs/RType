@@ -19,10 +19,10 @@ void AnimateDeath::update(GameEngine::ComponentsContainer &componentsContainer,
             GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
         if (deathOpt.has_value() && spriteOpt.has_value()) {
-            auto sprite = std::dynamic_pointer_cast<RenderEngine::ButtonComponent>(
+            auto sprite = std::static_pointer_cast<RenderEngine::ButtonComponent>(
                 spriteOpt.value());
             auto deathAnim =
-                std::dynamic_pointer_cast<DeathAnimation>(deathOpt.value());
+                std::static_pointer_cast<DeathAnimation>(deathOpt.value());
 
             if (sprite->imagePath != deathAnim->filepath) {
                 sprite->rect1.w = deathAnim->frameWidth;

@@ -33,7 +33,7 @@ void LaunchBossPods::update(
         bossPod, GameEngine::ComponentsType::getComponentType("isBossPod"));
     if (!bossPodOpt.has_value())
       continue;
-    auto bossPodComp = std::dynamic_pointer_cast<isBossPod>(bossPodOpt.value());
+    auto bossPodComp = std::static_pointer_cast<isBossPod>(bossPodOpt.value());
 
     if (bossPodComp->launched == true)
       continue;
@@ -53,7 +53,7 @@ void LaunchBossPods::update(
   auto podPositionOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
   if (!podPositionOpt.has_value())
     return;
-  auto podPositionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPositionOpt.value());
+  auto podPositionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(podPositionOpt.value());
 
   auto players = componentsContainer.getEntitiesWithComponent(
       GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -64,8 +64,10 @@ void LaunchBossPods::update(
     auto positionOpt = componentsContainer.getComponent(
         player,
         GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+    if (!positionOpt.has_value())
+      continue;
     auto positionComp =
-        std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
+        std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(
             positionOpt.value());
     if (positionComp) {
       Utils::Vect2 directionToPlayer = positionComp->pos - podPositionComp->pos;
@@ -80,8 +82,8 @@ void LaunchBossPods::update(
   auto positionOpt = componentsContainer.getComponent(podToLaunch, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
   if (!velocityOpt.has_value() || !positionOpt.has_value())
     return;
-  auto velocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOpt.value());
-  auto positionComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
+  auto velocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOpt.value());
+  auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
 
   if (closestDistance < std::numeric_limits<float>::max()) {
     float maxVal = std::max(std::abs(directionToClosestPlayer.x),

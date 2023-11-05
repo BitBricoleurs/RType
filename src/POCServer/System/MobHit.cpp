@@ -9,7 +9,7 @@ namespace Server {
     void MobHit::applyDamage(const std::shared_ptr<Health>& hpComponent, size_t damageEntity, GameEngine::ComponentsContainer &componentsContainer) {
         auto damageComponentOpt = componentsContainer.getComponent(damageEntity, GameEngine::ComponentsType::getComponentType("Damage"));
         if (damageComponentOpt.has_value()) {
-            auto damageComponent = std::dynamic_pointer_cast<Damage>(damageComponentOpt.value());
+            auto damageComponent = std::static_pointer_cast<Damage>(damageComponentOpt.value());
             if (damageComponent)
                 hpComponent->currentHealth -= damageComponent->damageValue;
         }
@@ -19,7 +19,7 @@ namespace Server {
         auto isPowerUp = componentsContainer.getComponent(deadEntity, GameEngine::ComponentsType::getComponentType("IsPowerUp"));
         auto posPowerUp = componentsContainer.getComponent(deadEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
         if (isPowerUp.has_value() && posPowerUp.has_value()) {
-            auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posPowerUp.value())->pos;
+            auto pos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posPowerUp.value())->pos;
 
             eventHandler.queueEvent("SpawnPowerUp", pos);
         }

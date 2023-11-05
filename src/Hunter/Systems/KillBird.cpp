@@ -17,7 +17,7 @@ void KillBird::update(GameEngine::ComponentsContainer &componentsContainer,
             GameEngine::ComponentsType::getComponentType("ButtonComponent"));
 
         if (buttonOpt.has_value()) {
-            auto button = std::dynamic_pointer_cast<RenderEngine::ButtonComponent>(
+            auto button = std::static_pointer_cast<RenderEngine::ButtonComponent>(
                 buttonOpt.value());
             button->clickEvent = "";
         }

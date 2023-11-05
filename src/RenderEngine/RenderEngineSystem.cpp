@@ -41,8 +41,12 @@ namespace RenderEngine {
 
       std::vector<std::pair<size_t, ButtonComponent>> sortedButtonComponents;
 
+      auto buttontype = GameEngine::ComponentsType::getComponentType("ButtonComponent");
       for (auto id : buttonsIDS) {
-        auto button = std::static_pointer_cast<ButtonComponent>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("ButtonComponent")).value());
+          auto buttonOpt = componentsContainer.getComponent(id, buttontype);
+          if (!buttonOpt.has_value())
+              continue;
+        auto button = std::static_pointer_cast<ButtonComponent>(buttonOpt.value());
         if (button) {
             sortedButtonComponents.push_back(std::make_pair(id, *button));
         }

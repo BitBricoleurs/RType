@@ -20,14 +20,14 @@ namespace PhysicsEngine {
             auto AABBComponentOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("AABBComponent2D"));
 
             if (positionOptional.has_value() && velocityOptional.has_value()) {
-                auto position = std::dynamic_pointer_cast<PositionComponent2D>(positionOptional.value());
-                auto velocity = std::dynamic_pointer_cast<VelocityComponent>(velocityOptional.value());
+                auto position = std::static_pointer_cast<PositionComponent2D>(positionOptional.value());
+                auto velocity = std::static_pointer_cast<VelocityComponent>(velocityOptional.value());
                 if (AABBComponentOpt.has_value()) {
-                    auto AABB = std::dynamic_pointer_cast<AABBComponent2D>(AABBComponentOpt.value());
+                    auto AABB = std::static_pointer_cast<AABBComponent2D>(AABBComponentOpt.value());
                     AABB->minExtents = position->pos;
                     auto RectangularCollider = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("AColliderComponent2D"));
                     if (RectangularCollider.has_value()) {
-                        auto collider = std::dynamic_pointer_cast<RectangleColliderComponent2D>(RectangularCollider.value());
+                        auto collider = std::static_pointer_cast<RectangleColliderComponent2D>(RectangularCollider.value());
                         AABB->maxExtents = Utils::Vect2(position->pos.x + collider->collider.w, position->pos.y + collider->collider.h);
                     }
                 }

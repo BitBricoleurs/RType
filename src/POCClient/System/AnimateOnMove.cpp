@@ -31,10 +31,10 @@ namespace Client {
                 !spriteOpt.has_value())
                 return;
             auto animation =
-                std::dynamic_pointer_cast<SpriteAnimation>(animationOpt.value());
+                std::static_pointer_cast<SpriteAnimation>(animationOpt.value());
             auto sprite =
-                std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
-            auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
+                std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
                 velocityOpt.value());
 
             int toAdd = 0;

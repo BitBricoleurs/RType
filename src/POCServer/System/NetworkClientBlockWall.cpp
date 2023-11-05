@@ -36,11 +36,22 @@ void Server::NetworkClientBlockWall::update(GameEngine::ComponentsContainer &com
         newPos.y = argsVel[3];
         auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
         auto entitiesPlayers = componentsContainer.getEntitiesWithComponent(networkComp);
+
+        auto velCompType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
+        auto posCompType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+
         for (auto &entity : entitiesPlayers) {
             auto netIdComp = std::static_pointer_cast<NetworkClientId>(componentsContainer.getComponent(entity, networkComp).value());
             if (netIdComp->id == networkId) {
-                auto velocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
-                auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+
+                auto velcOpt = componentsContainer.getComponent(entity, velCompType);
+                auto poscOpt = componentsContainer.getComponent(entity, posCompType);
+
+                if (!velcOpt.has_value() || !poscOpt.has_value())
+                    return;
+
+                auto velocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velcOpt.value());
+                auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(poscOpt.value());
                 velocityComp->velocity.x = newVel.x;
                 velocityComp->velocity.y = newVel.y;
                 positionComp->pos.x = newPos.x;

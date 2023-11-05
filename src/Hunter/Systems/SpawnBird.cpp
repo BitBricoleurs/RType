@@ -37,7 +37,7 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
     return 0;
 
   auto baseVelocity =
-      std::dynamic_pointer_cast<BaseVelocity>(baseVelocityOpt.value());
+      std::static_pointer_cast<BaseVelocity>(baseVelocityOpt.value());
 
   Utils::Vect2 birdPos = getRandomPosition();
   Utils::ColorR tint = {255, 255, 255, 255};
