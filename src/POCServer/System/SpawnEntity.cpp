@@ -113,6 +113,7 @@ namespace Server {
                 mapFiles.push_back(entry.path().string());
             }
         }
+        std::sort(mapFiles.begin(), mapFiles.end());
     }
 
     bool SpawnEntity::loadMap(const std::string &filePath)
