@@ -62,9 +62,11 @@ namespace Client {
             data.getInt("/createPlayer/layer"));
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
         eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
-        
+
+        #ifndef _WIN32
         std::shared_ptr<AudioEngine::AudioComponent> shootSound = std::make_shared<AudioEngine::AudioComponent>(data.getString("/createPlayer/pathSound"));
         container.bindComponentToEntity(entityId, shootSound);
+        #endif
         auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(data.getInt("/createPlayer/bulletStartX"), data.getInt("/createPlayer/bulletStartY")), data.getInt("/createPlayer/typeBullet"));
         container.bindComponentToEntity(entityId, shooterComp);
         auto IdCharge = std::make_tuple(entityId, 0);
@@ -137,9 +139,13 @@ namespace Client {
 
         eventHandler.scheduleEvent("animatePlayer", 15, entityId);
         eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("ChargeShoot"), chargeAnimationID));
+
+
+        #ifndef _WIN32
         std::shared_ptr<AudioEngine::AudioComponent> shootSound =
             std::make_shared<AudioEngine::AudioComponent>("assets/music/Shoot.wav");
         container.bindComponentToEntity(entityId, shootSound);
+        #endif
         auto IdCharge = std::make_tuple(entityId, 0);
         eventHandler.scheduleEvent("ShootSystem", 20, IdCharge);
         auto smoothable = std::make_shared<IsSmoothableEntity>();

@@ -25,13 +25,14 @@
 #include "Vect2.hpp"
 #include "ColorR.hpp"
 #include "VelocityComponent.hpp"
-#include "AudioComponent.hpp"
 #include <cstddef>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
+#ifndef _WIN32
 #include "AudioEngineSystem.hpp"
 #include "AudioComponent.hpp"
+#endif
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
@@ -233,7 +234,6 @@ namespace Client {
 
             std::map<size_t, size_t> _entityIdMap;
             std::map<size_t, PlayerNumber> _playerMap;
-            std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
 };
 
 }

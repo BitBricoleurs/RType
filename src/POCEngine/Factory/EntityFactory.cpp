@@ -103,8 +103,10 @@ size_t EntityFactory::createBullet(GameEngine::ComponentsContainer &container,
 
   auto damageComponent = std::make_shared<Damage>(damageValue);
   auto bulletComponent = std::make_shared<IsBullet>(isPlayerBullet);
+  #ifndef _WIN32
   auto shootSound = std::make_shared<AudioEngine::AudioComponent>(pathSound);
   container.bindComponentToEntity(entityId, shootSound);
+  #endif
   container.bindComponentToEntity(entityId, damageComponent);
   container.bindComponentToEntity(entityId, bulletComponent);
 

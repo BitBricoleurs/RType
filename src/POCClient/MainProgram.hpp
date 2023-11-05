@@ -33,7 +33,9 @@
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
+#ifndef _WIN32
 #include "InitAudioBackgroud.hpp"
+#endif
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
