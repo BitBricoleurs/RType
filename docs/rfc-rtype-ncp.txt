@@ -184,12 +184,13 @@ The disconnection process can be initiated by either the server or the client.
       The header contains metadata that describe the characteristics of
       the packet. Below is the updated layout of the header.
 
-         Field               | Size (Bytes) | Description
-         ------------------- | ------------ | --------------------------------
-         Sequence Number     | 4            | A unique identifier for this packet.
-         Ack Sequence Number | 4            | The sequence number of the last packet received.
-         Ack Mask            | 2            | Bitmask for the last 16 received packets.
-         Packet Size         | 2            | Size of the Body.
+       | Field               | Size (Bytes) | Type        | Description                                                            |
+       | ------------------- | ------------ | ----------- | ---------------------------------------------------------------------- |
+       | Sequence Number     | 4            | Integer     | A unique identifier for this packet.                                   |
+       | Ack Sequence Number | 4            | Integer     | The sequence number of the last packet received.                       |
+       | Ack Mask            | 2            | Short       | Bitmask for the last 16 received packets.                              |
+       | Packet Size         | 2            | Short       | Size of the Body.                                                      |
+
 
       Sequence Number:
          A 4-byte field that uniquely identifies this packet.
@@ -213,15 +214,16 @@ The disconnection process can be initiated by either the server or the client.
       
       Each message within the body is structured as follows:
 
-      | Field          | Size (Bytes) | Description                                                     |
-      | -------------- | ------------ | --------------------------------------------------------------- |
-      | Message Size   | 2            | Size of the message including the header and data.              |
-      | Action         | 1            | Describes the type of action (e.g., move, shoot, etc).          |
-      | Num IDs        | 2            | The number of IDs affected by this action.                      |
-      | IDs            | Variable     | The IDs affected by this action.                                |
-      | Num Args       | 1            | The number of arguments related to the action.                  |
-      | Type Arg       | 1            | Indicates the size/type of each argument.                       |
-      | Arguments      | Variable     | The arguments themselves (e.g., coordinates, velocities, etc.). |
+     | Field          | Size (Bytes) | Type        | Description                                                     |
+     | -------------- | ------------ | ----------- | --------------------------------------------------------------- |
+     | Message Size   | 2            | Short       | Size of the message including the header and data.              |
+     | Action         | 1            | Char        | Describes the type of action (e.g., move, shoot, etc).          |
+     | Num IDs        | 2            | Short       | The number of IDs affected by this action.                      |
+     | IDs            | Variable     | Array       | The IDs affected by this action.                                |
+     | Num Args       | 1            | Char        | The number of arguments related to the action.                  |
+     | Type Arg       | 1            | Char        | Indicates the size/type of each argument.                       |
+     | Arguments      | Variable     | Variable    | The arguments themselves (e.g., coordinates, velocities, etc.). |
+
 
       The body can contain multiple messages,
       each delineated by the 'Message Size' field which helps in parsing the messages.
@@ -275,18 +277,41 @@ The disconnection process can be initiated by either the server or the client.
 
       Action Code Table:
 
-         Action Name      | Byte Value | Argument Type(s)
-         -----------------|------------|------------------
-         CONNECT          | `0x01`     | None
-         ACCEPTED         | `0x02`     | int (EntityID)
-         CREATED_USER     | `0x03`     | int (EntityID)
-         CREATED_BULLET   | `0x04`     | int (BulletOwner), int (BulletType)
-         CREATED_MOB      | `0x05`     | int (MobType)
-         UPDATE_VELOCITY  | `0x06`     | float (velocity_x), float (velocity_y)
-         UPDATE_POSITION  | `0x07`     | float (position_x), float (position_y)
-         MOVE             | `0x08`     | float (velocity_x), float (velocity_y)
-         CHARGE_SHOOT     | `0x09`     | None
-         DELETED_ENTITY   | `0x0A`     | int (EntityID)
+         Action Name           | Byte Value | Argument Type(s)
+         -----------------------|------------|------------------
+         CONNECT               | `0x01`     | None
+         DISCONNECTING         | `0x02`     | None
+         DISCONNECT            | `0x03`     | None
+         ACCEPTED              | `0x04`     | int (EntityID)
+         CREATED_USER          | `0x05`     | int (EntityID), float (position_x), float (position_y), float (velocity_x), float (velocity_y)
+         CREATED_BULLET        | `0x06`     | int (BulletOwner), int (BulletType)
+         CREATED_MOB           | `0x07`     | int (MobType)
+         UPDATE_VELOCITY       | `0x08`     | float (velocity_x), float (velocity_y)
+         UPDATE_POSITION       | `0x09`     | float (position_x), float (position_y)
+         MOVE                  | `0x10`     | float (velocity_x), float (velocity_y)
+         CHARGE_SHOOT          | `0x11`     | None
+         DELETED_ENTITY        | `0x12`     | int (EntityID)
+         READY                 | `0x13`     | None
+         START_GAME            | `0x14`     | None
+         ALIVE                 | `0x15`     | None
+         CREATED_POWERUP       | `0x16`     | int (PowerUpType), float (position_x), float (position_y), float (velocity_x), float (velocity_y)
+         CREATED_FORCEPOD      | `0x17`     | int (ForcePodType), float (position_x), float (position_y), float (velocity_x), float (velocity_y)
+         SYNC_FORCE_POD_PLAYER | `0x18`     | int (PlayerID), int (ForcePodID)
+         UPDATE_POS_FORCE_POD  | `0x19`     | float (position_x), float (position_y)
+         FLASH_ENTITY          | `0x20`     | int (EntityID)
+         CHARGE                | `0x21`     | None
+         BLOCK                 | `0x22`     | None
+         CREATED_PARALLAX      | `0x23`     | int (ParallaxType), float (position_x), float (position_y), float (velocity_x), float (velocity_y)
+         LIFE_LOST             | `0x24`     | int (EntityID)
+         DEATH                 | `0x25`     | int (EntityID)
+         GAME_OVER             | `0x26`     | None
+         JOIN_LOBBY            | `0x27`     | None
+         REVIVE_PLAYER         | `0x28`     | int (EntityID)
+         CREATE_PARALLAX       | `0x29`     | int (ParallaxType)
+         CREATED_POWERUP_DUAL  | `0x30`     | int (PowerUpType)
+         FLASH_ENTITY          | `0x31`     | int (EntityID)
+         FORCE_POD_UPGRADE     | `0x32`     | int (UpgradeType)
+         UPDATE_SCORE          | `0x33`     | int (Score)
 
       Argument Type Tables:
 

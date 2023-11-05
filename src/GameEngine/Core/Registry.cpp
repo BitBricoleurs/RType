@@ -11,6 +11,7 @@
 namespace GameEngine {
 
     using CreateSystemFunc = std::shared_ptr<ISystem>(*)();
+    using DestroySystemFunc = void(*)(std::shared_ptr<ISystem>);
 
     Registry::Registry(bool isMultiThreaded) : componentsContainer(), systemMap(), systemOrder(), systemsNeedSorting(true), isMultiThreaded(isMultiThreaded) {
         GameEngine::registerCommand("clearRegistry", [this](const std::vector<std::string>& args) -> std::string {
@@ -43,7 +44,19 @@ namespace GameEngine {
         });
     }
 
-    Registry::~Registry() = default;
+    Registry::~Registry() {
+        for (auto& [name, libraryHandler] : libraryHandlers) {
+            auto destroyer = libraryHandler->getFunction("destroy");
+            if (!destroyer) {
+                continue;
+            }
+            auto systemDestroyer = reinterpret_cast<DestroySystemFunc>(destroyer.target<void*>());
+            if (!systemDestroyer) {
+                continue;
+            }
+            systemDestroyer(systemMap[name].first);
+        }
+    }
 
     void Registry::clear() {
         componentsContainer.clear();

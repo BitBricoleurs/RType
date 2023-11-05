@@ -97,7 +97,8 @@ std::vector<std::uint8_t> Network::Serializer::serializeItem(const std::any &ite
             throw std::runtime_error("Unsupported data type for serialization check Message.hpp file");
         }
     } catch (std::exception& e) {
-        throw std::runtime_error("Unsupported data type for serialization check Message.hpp file");
+        std::cerr << e.what() << std::endl;
+        return {};
     }
 
 
@@ -111,12 +112,12 @@ std::vector<std::any> Network::Serializer::deserialize(const std::vector<std::ui
 
     static const std::map<uint8_t, std::function<std::any(const std::vector<std::uint8_t>&, std::size_t)>> deserializers = {
         { 0x01, [](const std::vector<std::uint8_t>& data, std::size_t offset) -> std::any {
-            int value;
+            int value = 0;
             std::memcpy(&value, data.data() + offset, sizeof(int));
             return value;
         }},
         { 0x02, [](const std::vector<std::uint8_t>& data, std::size_t offset) -> std::any {
-            float value;
+            float value = 0;
             std::memcpy(&value, data.data() + offset, sizeof(float));
             return value;
         }},

@@ -286,6 +286,25 @@ engine.bindComponentToEntity(spaceshipID, ComponentsType::getNewComponentType("V
 
 - The `ISystem` interface serves as a blueprint for all the game systems within the GameEngine. Each system is expected to provide an implementation for the update method, which defines how the system processes and manipulates game entities.
 
+## Loading ISystem through a shared library
+
+```cpp
+#include "LibraryEndpoints.hpp"
+#include "SystemImpl.hpp"
+
+extern "C" {
+    std::shared_ptr<GameEngine::ISystem> createSystem() {
+      return std::make_shared<GameEngine::SystemImpl>();
+    }
+
+    void destroySystem(std::shared_ptr<GameEngine::ISystem> system) {
+        // Implementation to destroy the system
+    }
+}
+```
+
+Now the system can be added using the `addSystem` method from the `GameEngine` class.
+
 ### Attributes:
 
 - There are no attributes or member variables explicitly defined in the `ISystem` interface. Systems are free to have their internal state if required, but it should be added in the derived classes.
@@ -568,6 +587,7 @@ The Render Engine is responsible for drawing all visual components on the screen
 
 ## Components
 
+git 
 ### AnimationComponent
 Defines animation states and frames for entities that have animated graphics.
 

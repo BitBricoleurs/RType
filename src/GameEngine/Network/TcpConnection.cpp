@@ -18,7 +18,8 @@ namespace GameEngine {
     }
 
     void TcpConnection::stop() {
-        socket_.close();
+        isRunning = false;
+        //socket_.close();
     }
 
     void TcpConnection::sendLog(const std::string& message) {
@@ -29,6 +30,10 @@ namespace GameEngine {
     }
 
     TcpConnection::TcpConnection(boost::asio::io_service& io_service) : socket_(io_service) {
+    }
+
+    TcpConnection::~TcpConnection() {
+        stop();
     }
 
     void TcpConnection::handleWrite(const boost::system::error_code& error, size_t bytes_transferred) {
@@ -51,8 +56,9 @@ namespace GameEngine {
             std::istream is(&buffer_);
             std::string message;
             std::getline(is, message);
+            if (!this->isRunning)
+                return;
             sendLog(GameEngine::handleDevConsole(message));
-
             receiveMessage();
         } else {
             Logger::wantsToReceiveLogs = false;

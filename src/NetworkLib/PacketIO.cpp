@@ -71,7 +71,7 @@ void Network::PacketIO::sendWaitingPackets()
 
 void Network::PacketIO::serializePacket()
 {
-    if (_packetOut == nullptr) {
+    if (_packetOut == nullptr || _packetOut->body.empty() || _packetOut->header.bodySize == 0) {
         _serializedPacket.resize(0);
         return;
     }
@@ -97,12 +97,14 @@ void Network::PacketIO::writePacket()
 
 void Network::PacketIO::processIncomingMessages() {
     boost::asio::post(_context, [this]() {
+        /*
         _packetQueue.sortQueue(
             [](const std::pair<boost::asio::ip::udp::endpoint, std::shared_ptr<Network::Packet>>& a,
                const std::pair<boost::asio::ip::udp::endpoint, std::shared_ptr<Network::Packet>>& b) {
                 return a.second->header.sequenceNumber < b.second->header.sequenceNumber;
             }
         );
+        */
         while (!_packetQueue.empty()) {
             std::shared_ptr<Network::Packet> rawData = _packetQueue.getFront().second;
             boost::asio::ip::udp::endpoint endpoint = _packetQueue.getFront().first;
@@ -131,15 +133,19 @@ void Network::PacketIO::processIncomingMessages() {
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
                 size = ntohs(size);
-                if (size > _headerIn.bodySize || index > _headerIn.bodySize) {
+                if (size > _headerIn.bodySize || index > _headerIn.bodySize - sizeof(uint16_t) || index + size + sizeof(uint16_t) > _headerIn.bodySize) {
                     break;
                 }
-                std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
-                std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
-                id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
-                std::shared_ptr<Network::OwnedMessage> ownedMessage = std::make_shared<Network::OwnedMessage>(id, message);
-                _inMessages.pushBack(ownedMessage);
-                index += size + sizeof(uint16_t);
+                try {
+                    std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
+                    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
+                    id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
+                    std::shared_ptr<Network::OwnedMessage> ownedMessage = std::make_shared<Network::OwnedMessage>(id, message);
+                    _inMessages.pushBack(ownedMessage);
+                    index += size + sizeof(uint16_t);
+                } catch (std::length_error &e) {
+                    std::cout << "Error in processIncomingMessages : " << e.what() << std::endl;
+                }
             }
 
         }
@@ -195,9 +201,12 @@ void Network::PacketIO::processOutgoingMessages()
             }
             _packetOut->header.ackMask = 0;//_registerPacket.getAckMask(_id);
             _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
-            _registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
-
+            //_registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
+            
             _packetOut->body= _bodyOut.getData();
+            if (_packetOut->body.empty()) {
+                return;
+            }
             if (_packetOut->header.bodySize > 0) {
                 _packetOutQueue.pushBack(_packetOut);
                 sendWaitingPackets();
