@@ -29,35 +29,42 @@ void ConsoleClient::stop() {
 }
 
 void ConsoleClient::connect(const std::string& host, const std::string& port) {
-    boost::asio::ip::tcp::resolver resolver(io_service);
-    boost::asio::ip::tcp::resolver::query query(host, port);
-    boost::asio::connect(socket, resolver.resolve(query));
+    try {
+        boost::asio::ip::tcp::resolver resolver(io_service);
+        boost::asio::ip::tcp::resolver::query query(host, port);
+        auto endpoint_iterator = resolver.resolve(query);
+        boost::asio::connect(socket, endpoint_iterator);
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << "\n";
+        stop();
+    }
 }
 
 void ConsoleClient::read() {
-        boost::asio::async_read_until(socket, boost::asio::dynamic_buffer(input_buffer), '\n',
-            [this](const boost::system::error_code& error, std::size_t length) {
-                if (!error) {
-                    std::string line(input_buffer.substr(0, length));
-                    input_buffer.erase(0, length);
+    boost::asio::async_read_until(socket, boost::asio::dynamic_buffer(input_buffer), '\n',
+        [this](const boost::system::error_code& error, std::size_t length) {
+            if (!error) {
+                std::string line(input_buffer.substr(0, length));
+                input_buffer.erase(0, length);
 
-                    std::string user_input_copy;
-                    {
-                        std::lock_guard<std::mutex> lock(mutex);
-                        user_input_copy = user_input_buffer;
-                    }
-
-                    std::cout << "\r\033[2K"
-                              << line
-                              << user_input_copy
-                              << std::flush;
-                    read();
-                } else {
-                    stop();
+                std::string user_input_copy;
+                {
+                    std::lock_guard<std::mutex> lock(mutex);
+                    user_input_copy = user_input_buffer;
                 }
+
+                std::cout << "\r\033[2K" << line << user_input_copy << std::flush;
+                read();
+            } else if (error == boost::asio::error::eof) {
+                std::cerr << "Connection closed by server." << std::endl;
+                stop();
+            } else if (error) {
+                std::cerr << "Error on receive: " << error.message() << std::endl;
+                stop();
             }
-        );
-    }
+        }
+    );
+}
 
 void ConsoleClient::start_input_thread() {
     input_thread = std::thread([this] {
