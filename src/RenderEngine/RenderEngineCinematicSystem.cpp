@@ -179,36 +179,53 @@ namespace RenderEngine {
 
 
     void RenderEngineCinematicSystem::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-        if (clock == 0 && jsonPath == "" && !isPlaying) {
-            auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
-
-            if (jsonPath != "") {
-                loadJSON(jsonPath, componentsContainer);
-                isPlaying = true;
+        try {
+            if (clock == 0 && jsonPath == "" && !isPlaying) {
+            auto [json, scene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
+            jsonPath = json;
+            nextScene = scene;
+                if (jsonPath != "") {
+                    loadJSON(jsonPath, componentsContainer);
+                    isPlaying = true;
+                }
+                eventHandler.scheduleEvent("Cinematic", 1);
             }
-            eventHandler.scheduleEvent("Cinematic", 1);
-        }
-        playCinematic(componentsContainer, eventHandler);
-        return;
+            playCinematic(componentsContainer, eventHandler);
 
-        if (nextScene != "" && !isPlaying && !isPaused) {
-            endCinematic();
+            if (nextScene != "" && !isPlaying && !isPaused) {
+                eventHandler.queueEvent("gameEngineChangeScene", nextScene);
+                endCinematic();
+                auto windowID = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
+                auto windowOpt = componentsContainer.getComponent(windowID, GameEngine::ComponentsType::getComponentType("WindowInfoComponent"));
+                if (!windowOpt.has_value())
+                    return;
+                auto windowcast = std::static_pointer_cast<WindowInfoComponent>(windowOpt.value());
+                windowcast->camera.target = Vector2(windowcast->windowHeight / 2, windowcast->windowWidth / 2);
+                windowcast->camera.zoom = 1;
+                windowcast->camera.offset = Vector2(windowcast->windowHeight / 2, windowcast->windowWidth / 2);
+                windowcast->camera.rotation = 0;
+            }
+        } catch (const std::bad_any_cast&) {
+            std::cerr << "Cast error in RenderEngineCinematicSystem::update" << std::endl;
         }
     }
 
    void RenderEngineCinematicSystem::playCinematic(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     if (!isPaused) {
+        auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+        auto cinetype = GameEngine::ComponentsType::getComponentType("CinematicComponent");
         auto entitiesWithComponents = componentsContainer.getEntitiesWithComponent(
-            GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"),
-            GameEngine::ComponentsType::getNewComponentType("CinematicComponent")
+            posType,
+            cinetype
         );
         for (const auto& entity : entitiesWithComponents) {
-            auto cinematicComponent = std::dynamic_pointer_cast<CinematicComponent>(
-                componentsContainer.getComponent(entity, GameEngine::ComponentsType::getNewComponentType("CinematicComponent")).value()
-            );
-            auto positionComponent = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
-                componentsContainer.getComponent(entity, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D")).value()
-            );
+            auto cinematicOpt = componentsContainer.getComponent(entity, cinetype);
+            auto positionOpt = componentsContainer.getComponent(entity, posType);
+            auto spriteOpt = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
+            if (!cinematicOpt.has_value() || !positionOpt.has_value())
+                continue;
+            auto cinematicComponent = std::static_pointer_cast<CinematicComponent>(cinematicOpt.value());
+            auto positionComponent = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
 
             float elapsed = clock - cinematicComponent->inHowMuchTime;
             float completionRatio = elapsed / cinematicComponent->playDuration;
@@ -217,77 +234,80 @@ namespace RenderEngine {
                 Utils::Vect2 delta = cinematicComponent->endPosition - positionComponent->pos;
                 positionComponent->pos += delta * completionRatio;
             }
+            if (spriteOpt.has_value()) {
+                auto spriteComponent = std::static_pointer_cast<SpriteComponent>(spriteOpt.value());
+                spriteComponent->pos = positionComponent->pos;
+            }
         }
     }
-    auto eventsID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent"));
-    std::shared_ptr<CinematicEventComponent> eventComponent;
-    if (eventsID.empty()) {
+    auto cineTextComponent = GameEngine::ComponentsType::getComponentType("CinematicEventComponent");
+    auto windoType = GameEngine::ComponentsType::getComponentType("WindowInfoComponent");
+
+    auto eventsID = componentsContainer.getEntityWithUniqueComponent(cineTextComponent);
+
+    auto eventOpt = componentsContainer.getComponent(eventsID, cineTextComponent);
+    auto windowID = componentsContainer.getEntityWithUniqueComponent(windoType);
+
+    auto windowOpt = componentsContainer.getComponent(windowID, windoType);
+    if (!windowOpt.has_value())
         return;
-    } else {
-        auto eventComponent = std::dynamic_pointer_cast<CinematicEventComponent>(
-            componentsContainer.getComponent(eventsID[0], GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent")).value()
-        );
-        if (eventComponent->eventData.empty()) {
-            return;
+    auto windowcast = std::static_pointer_cast<WindowInfoComponent>(windowOpt.value());
+
+    if (eventOpt.has_value()) {
+        auto eventComponent = std::static_pointer_cast<CinematicEventComponent>(eventOpt.value());
+        for (size_t i = 0; i < eventComponent->eventData.size(); ++i) {
+            auto& event = eventComponent->eventData[i];
+            CinematicEventType eventType = eventComponent->eventTypes[i];
+
+            switch (eventType) {
+                case CinematicEventType::MoveCamera: {
+                    auto specificEvent = dynamic_cast<MoveCameraData*>(event.get());
+                    if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
+                        float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
+                        windowcast->camera.target.x = Lerp(windowcast->camera.target.x, specificEvent->targetPosition.x, progress);
+                        windowcast->camera.target.y = Lerp(windowcast->camera.target.y, specificEvent->targetPosition.y, progress);
+                        if (windowcast->camera.target.x == specificEvent->targetPosition.x && windowcast->camera.target.y == specificEvent->targetPosition.y) {
+                            eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                        }
+                    }
+                    break;
+                }
+
+                case CinematicEventType::ZoomCamera: {
+                    auto specificEvent = dynamic_cast<ZoomCameraData*>(event.get());
+                    if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
+                        float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
+                        windowcast->camera.zoom = Lerp(windowcast->camera.zoom, specificEvent->zoomLevel, progress);
+                        if (windowcast->camera.zoom == specificEvent->zoomLevel) {
+                            eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                        }
+                    }
+                    break;
+                }
+                case CinematicEventType::Pause: {
+                    auto specifcEvent = dynamic_cast<PauseData*>(event.get());
+                    if (specifcEvent) {
+                        if (specifcEvent->inHowMuchTime <= clockNonPausable) {
+                            isPaused = true;
+                            eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                        }
+                    }
+                }
+
+                case CinematicEventType::Resume: {
+                    auto specifcEvent = dynamic_cast<ResumeData*>(event.get());
+                    if (specifcEvent) {
+                        if (specifcEvent->inHowMuchTime <= clockNonPausable) {
+                            isPaused = false;
+                            eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
+                        }
+                    }
+                }
+                default:
+                    break;
+            }
         }
-    }
-    auto windowID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
-    auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(
-            componentsContainer.getComponent(windowID[0], GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent")).value()
-        );
-
-    for (size_t i = 0; i < eventComponent->eventData.size(); ++i) {
-        auto& event = eventComponent->eventData[i];
-        CinematicEventType eventType = eventComponent->eventTypes[i];
-
-        switch (eventType) {
-            case CinematicEventType::MoveCamera: {
-                auto specificEvent = dynamic_cast<MoveCameraData*>(event.get());
-                if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
-                    float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
-                    windowcast->camera.target.x = Lerp(windowcast->camera.target.x, specificEvent->targetPosition.x, progress);
-                    windowcast->camera.target.y = Lerp(windowcast->camera.target.y, specificEvent->targetPosition.y, progress);
-                    if (windowcast->camera.target.x == specificEvent->targetPosition.x && windowcast->camera.target.y == specificEvent->targetPosition.y) {
-                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
-                    }
-                }
-                break;
-            }
-
-            case CinematicEventType::ZoomCamera: {
-                auto specificEvent = dynamic_cast<ZoomCameraData*>(event.get());
-                if (specificEvent && clock >= specificEvent->inHowMuchTime && clock <= (specificEvent->inHowMuchTime + specificEvent->duration)) {
-                    float progress = (clock - specificEvent->inHowMuchTime) / specificEvent->duration;
-                    windowcast->camera.zoom = Lerp(windowcast->camera.zoom, specificEvent->zoomLevel, progress);
-                    if (windowcast->camera.zoom == specificEvent->zoomLevel) {
-                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
-                    }
-                }
-                break;
-            }
-            case CinematicEventType::Pause: {
-                auto specifcEvent = dynamic_cast<PauseData*>(event.get());
-                if (specifcEvent) {
-                    if (specifcEvent->inHowMuchTime <= clockNonPausable) {
-                        isPaused = true;
-                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
-                    }
-                }
-            }
-
-            case CinematicEventType::Resume: {
-                auto specifcEvent = dynamic_cast<ResumeData*>(event.get());
-                if (specifcEvent) {
-                    if (specifcEvent->inHowMuchTime <= clockNonPausable) {
-                        isPaused = false;
-                        eventComponent->eventData.erase(eventComponent->eventData.begin() + i);
-                    }
-                }
-            }
-            default:
-                break;
         }
-    }
     if (clock >= CinematicDuration) {
         isPlaying = false;
         eventHandler.unscheduleEvent("Cinematic");
@@ -301,6 +321,10 @@ namespace RenderEngine {
     void RenderEngineCinematicSystem::endCinematic() {
             isPlaying = false;
             clock = 0;
-            //change scene
+            clockNonPausable = 0;
+            jsonPath = "";
+            isPaused = false;
+            nextScene = "";
+            CinematicDuration = 0;
         }
     }

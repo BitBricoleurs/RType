@@ -36,6 +36,7 @@ void Client::CreateParallax::update(GameEngine::ComponentsContainer &componentsC
         for (auto id : ids ) {
             entityId = factory.spawnParallax(componentsContainer, eventHandler, typeMob, pos, velocity, layer);
             factory.registerEntity(entityId, id);
+            GameEngine::Logger::info("Created Parallax with id " + std::to_string(entityId) + "on layer " + std::to_string(layer));
         }
     } catch (std::bad_any_cast &e) {
         std::cerr << "Error from CreateParallax System " << e.what() << std::endl;

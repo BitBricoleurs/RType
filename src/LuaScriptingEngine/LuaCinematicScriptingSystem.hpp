@@ -15,15 +15,18 @@ extern "C" {
 }
 #include <stdexcept>
 #include "LuaBridge/LuaBridge.h"
+#include "EventHandler.hpp"
 
 
 namespace LuaScriptingEngine {
     class LuaCinematicScriptingSystem : public GameEngine::ISystem {
     public:
-        LuaCinematicScriptingSystem();
+        explicit LuaCinematicScriptingSystem(GameEngine::EventHandler& eventHandler);
         ~LuaCinematicScriptingSystem() = default;
 
         void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) override;
         std::unique_ptr<LuaScriptingEngine> luaScriptingEngine;
+        GameEngine::EventHandler& eventHandlerInstance;
     };
+
 }

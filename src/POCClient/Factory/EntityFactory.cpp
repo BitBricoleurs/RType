@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "MovementLimits.hpp"
 #include <cstddef>
 #include <math.h>
 #include <memory>
@@ -70,11 +71,19 @@ namespace Client {
           container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
           twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
+
+
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
       auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), 0);
 
+      Utils::Vect2 topLeft = Utils::Vect2(0, 0);
+      Utils::Vect2 bottomRight = Utils::Vect2(1820, 975);
+
+      auto movementLimitComponent = std::make_shared<PhysicsEngine::MovementLimits>(topLeft, bottomRight);
+
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
+        container.bindComponentToEntity(entityId, movementLimitComponent);
 
       return entityId;
     }
@@ -142,7 +151,7 @@ namespace Client {
           std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
       auto movementComp = std::make_shared<PhysicsEngine::MovementComponent>();
       auto chargeShootAnimation =
-          initAnimation(spriteSheetPath, frames, spriteSheetWidth,
+          EntityFactory::getInstance().initAnimation(spriteSheetPath, frames, spriteSheetWidth,
                         spriteSheetHeight, twoDirection, reverse, direction, 0);
       auto velocityComponent = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
 
@@ -169,6 +178,40 @@ namespace Client {
       return animationId;
     }
 
+    size_t EntityFactory::createHealthBar(GameEngine::ComponentsContainer &container,
+        const std::string &spriteSheetPath, int spriteSheetHeight,
+        int spriteSheetWidth, int frames, Utils::Vect2 pos, float scale, float rotation, Utils::ColorR tint, int layer) {
+
+      auto positionComponent =
+          std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
+
+      auto lifeAnimation = initAnimation(spriteSheetPath, frames, spriteSheetWidth,
+                        spriteSheetHeight, false, false, 0, 0);
+
+      Utils::rect spriteRect;
+      spriteRect.w = spriteSheetWidth / frames;
+      spriteRect.h = spriteSheetHeight;
+      spriteRect.x = 0;
+      spriteRect.y = 0;
+
+      Utils::Vect2 spritePos = {positionComponent->pos.x,
+                                     positionComponent->pos.y};
+
+      auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(
+          spriteSheetPath, spritePos, spriteRect, static_cast<size_t>(layer), scale,
+          rotation, tint);
+
+      auto velocity = Utils::Vect2(0, 0);
+      auto velocityComp = std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
+
+      size_t healthBarId = container.createEntity();
+      container.bindComponentToEntity(healthBarId, positionComponent);
+      container.bindComponentToEntity(healthBarId, spriteComponent);
+      container.bindComponentToEntity(healthBarId, lifeAnimation);
+      container.bindComponentToEntity(healthBarId, velocityComp);
+      return healthBarId;
+    }
+
     size_t EntityFactory::createBaseEntity(
         GameEngine::ComponentsContainer &container,
         const std::string &spriteSheetPath, int spriteSheetHeight,
@@ -184,7 +227,6 @@ namespace Client {
           std::make_shared<PhysicsEngine::PositionComponent2D>(pos);
       auto velocityComponent =
           std::make_shared<PhysicsEngine::VelocityComponent>(velocity);
-
 
       auto AABBComponent = std::make_shared<PhysicsEngine::AABBComponent2D>(pos, Utils::Vect2(pos.x + spriteAnimationComponent->frameWidth * scale, pos.y + spriteAnimationComponent->frameHeight * scale));
       auto rectangleCollider = std::make_shared<PhysicsEngine::RectangleColliderComponent2D>(Utils::rect(0, 0, spriteAnimationComponent->frameWidth * scale, spriteAnimationComponent->frameHeight * scale));

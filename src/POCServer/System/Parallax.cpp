@@ -18,10 +18,11 @@ namespace Server {
                 auto posOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"));
 
                 if (parallaxOpt.has_value() && posOpt.has_value()) {
-                    auto parallax = std::dynamic_pointer_cast<IsParallax>(parallaxOpt.value());
-                    auto pos = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
+                    auto parallax = std::static_pointer_cast<IsParallax>(parallaxOpt.value());
+                    auto pos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
                     if (pos->pos.x <= -1920 && parallax->isLooping) {
-                        pos->pos.x = 1920;
+                        pos->pos.x = pos->pos.x * -1;
+                        EntityFactory::getInstance().updateEntityNetworkWithPos(eventHandler, entityID, pos->pos);
                     }
                 }
             }

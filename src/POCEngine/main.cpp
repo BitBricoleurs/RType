@@ -1,7 +1,9 @@
 #include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
+#endif
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "Client.hpp"
@@ -52,6 +54,7 @@
 #include <memory>
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
+#include "Logger.hpp"
 #include "PhysicsEngineGravitySystem.hpp"
 
 
@@ -281,7 +284,6 @@ int main() {
   std::string sceneName = "Scene1";
   engine.queueEvent("gameEngineChangeScene", sceneName);
   engine.run();
-
   return 0;
 }
 

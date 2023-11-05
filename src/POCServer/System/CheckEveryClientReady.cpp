@@ -22,7 +22,9 @@ void Server::CheckEveryClientReady::update(GameEngine::ComponentsContainer &comp
     std::vector<size_t> networkClientIdEntities = componentsContainer.getEntitiesWithComponent(compTypeNetworkClientId);
     if (isReadyEntities.size() == networkClientIdEntities.size()) {
         gameStateComp->_state = Utils::GameState::State::RUNNING;
-        std::cout << "Game is starting" << std::endl;
+        for (auto &entity : isReadyEntities) {
+            componentsContainer.unbindComponentFromEntity(entity, compTypeIsReady);
+        }
         std::vector<size_t> ids = {};
         std::vector<std::any> args = {};
         std::shared_ptr<Network::IMessage> message = std::make_shared<Network::Message>("START_GAME", ids, "", args);

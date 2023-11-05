@@ -16,6 +16,7 @@ namespace RenderEngine {
     RenderEngineSystem::RenderEngineSystem(const char *windowName, GameEngine::GameEngine &componentContainer)
     {
         renderEngine = std::make_unique<RenderEngine>();
+        resourceManager = std::make_shared<ResourceManager>();
         renderEngine->Initialize(windowName);
         auto windowInfo = std::make_shared<WindowInfoComponent>(getScreenWidth(), getScreenHeight());
         auto entity = componentContainer.createEntity();
@@ -40,8 +41,12 @@ namespace RenderEngine {
 
       std::vector<std::pair<size_t, ButtonComponent>> sortedButtonComponents;
 
+      auto buttontype = GameEngine::ComponentsType::getComponentType("ButtonComponent");
       for (auto id : buttonsIDS) {
-        auto button = std::dynamic_pointer_cast<ButtonComponent>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("ButtonComponent")).value());
+          auto buttonOpt = componentsContainer.getComponent(id, buttontype);
+          if (!buttonOpt.has_value())
+              continue;
+        auto button = std::static_pointer_cast<ButtonComponent>(buttonOpt.value());
         if (button) {
             sortedButtonComponents.push_back(std::make_pair(id, *button));
         }
@@ -64,15 +69,20 @@ namespace RenderEngine {
       std::vector<TextComponent> sortedTextComponents;
       std::vector<SpriteComponent> sortedSpriteComponents;
 
+    try {
       for (const auto &component : textComponents) {
         if (component.has_value()) {
-          auto text = std::dynamic_pointer_cast<TextComponent>(
+          auto text = std::static_pointer_cast<TextComponent>(
               std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
           if (text) {
             sortedTextComponents.push_back(*text);
           }
         }
       }
+    } catch (const std::bad_any_cast&) {
+        std::cerr << "Cast error in RenderEngineSystem::update" << std::endl;
+    }
+
       std::stable_sort(sortedTextComponents.begin(), sortedTextComponents.end(),
         [](const TextComponent &a, const TextComponent &b) {
             if(a.layer == b.layer) {
@@ -81,15 +91,19 @@ namespace RenderEngine {
             return a.layer < b.layer;
         });
 
-      for (const auto &component : spriteComponents) {
-        if (component.has_value()) {
-          auto sprite = std::dynamic_pointer_cast<SpriteComponent>(
-              std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
-          if (sprite) {
-            sortedSpriteComponents.push_back(*sprite);
-          }
-        }
-      }
+        try {
+            for (const auto &component : spriteComponents) {
+                if (component.has_value()) {
+                auto sprite = std::static_pointer_cast<SpriteComponent>(
+                    std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
+                if (sprite) {
+                    sortedSpriteComponents.push_back(*sprite);
+                }
+                }
+            }
+            } catch (const std::bad_any_cast&) {
+                std::cerr << "Cast error in RenderEngineSystem::update" << std::endl;
+            }
       std::stable_sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
         [](const SpriteComponent &a, const SpriteComponent &b) {
             if(a.layer == b.layer) {
@@ -98,18 +112,17 @@ namespace RenderEngine {
             return a.layer < b.layer;
         });
 
-
       renderEngine->ClearBackgroundRender(BLACK);
-      auto windowID = componentsContainer.getComponents(
-            GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
+      auto windoInfoCompType = GameEngine::ComponentsType::getComponentType("WindowInfoComponent");
+      auto windowID = componentsContainer.getEntityWithUniqueComponent(
+            windoInfoCompType);
       std::shared_ptr<WindowInfoComponent> window;
-      if (windowID[0].has_value())
-        window = std::dynamic_pointer_cast<WindowInfoComponent>(
-            std::any_cast<std::shared_ptr<GameEngine::IComponent>>(windowID[0].value()));
-      if (window == nullptr)
-          return;
-      BeginDrawing();
-      BeginMode2D(window->camera);
+      auto windowInfoCompMay = componentsContainer.getComponent(windowID, windoInfoCompType);
+      if (windowInfoCompMay.has_value()) {
+          auto windowInfo = std::static_pointer_cast<WindowInfoComponent>(windowInfoCompMay.value());
+          BeginDrawing();
+        BeginMode2D(windowInfo->camera);
+      }
 
     std::multimap<size_t, std::variant<SpriteComponent, TextComponent, ButtonComponent>> drawMap;
 
@@ -124,10 +137,9 @@ namespace RenderEngine {
         for (const auto &button : sortedButtonComponents) {
             drawMap.emplace(button.second.layer, button.second);
         }
-
         for (const auto &[layer, component] : drawMap) {
             std::visit([this](auto&& arg) {
-                renderEngine->Draw(arg);
+                renderEngine->Draw(arg, resourceManager);
             }, component);
         }
         EndMode2D();
@@ -143,4 +155,33 @@ namespace RenderEngine {
         return renderEngine->getScreenWidth();
     }
 
+    void RenderEngineSystem::PreloadSceneAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->LoadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets(const std::vector<std::string>& assetList) {
+        for (const auto& asset : assetList) {
+            resourceManager->UnloadTexture(asset);
+        }
+    }
+
+    void RenderEngineSystem::UnloadAssets() {
+        resourceManager->ClearAllTextures();
+    }
+
+    void RenderEngineSystem::LoadAssetsFromJSON(const std::string path) {
+        std::vector<std::string> assets;
+
+        LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig(path);
+        int assetssize = config.getSize("/assets");
+
+        for (int i = 0; i < assetssize; i++) {
+            assets.push_back(config.getString("/assets/" + std::to_string(i)));
+        }
+        PreloadSceneAssets(assets);
+    }
+
 } // namespace GameEngine
+

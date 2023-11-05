@@ -11,7 +11,7 @@ namespace Client {
 
     size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
-                                         Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup) {
+                                         Utils::Vect2 pos, Utils::Vect2 vel) {
 
 
         try {
@@ -57,7 +57,7 @@ namespace Client {
     size_t
     EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                     GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup) {
+                                    Utils::Vect2 pos, Utils::Vect2 vel) {
         try {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
@@ -99,7 +99,7 @@ namespace Client {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, Utils::Vect2 vel, bool dropPowerup)
+                                      Utils::Vect2 pos, Utils::Vect2 vel)
                                       {
         try {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
@@ -130,6 +130,7 @@ namespace Client {
             data.getInt("/createBugMob/layer")
         );
           container.bindComponentToEntity(entityId, std::make_shared<Bug>());
+
           return entityId;
         }  catch(const std::runtime_error& e) {
             std::cerr << "Error in createBugMob: " << e.what() << std::endl;

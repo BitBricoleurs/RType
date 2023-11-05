@@ -22,6 +22,7 @@ namespace RenderEngine {
         enum ButtonState {
             NORMAL,
             HOVER,
+            CLICKED,
             DISABLED
         };
 
@@ -31,6 +32,7 @@ namespace RenderEngine {
 
         std::string hoverEvent;
         std::string clickEvent;
+        std::string normalEvent;
 
         Utils::ColorR hoverColor;
         private:

@@ -9,9 +9,14 @@
 namespace LuaScriptingEngine {
 
 
-    LuaCinematicScriptingSystem::LuaCinematicScriptingSystem() {
-        luaScriptingEngine = std::make_unique<LuaScriptingEngine>();
+    LuaCinematicScriptingSystem::LuaCinematicScriptingSystem(GameEngine::EventHandler& eventHandler)
+        : luaScriptingEngine(std::make_unique<LuaScriptingEngine>()),
+          eventHandlerInstance(eventHandler) {
         registerCinematicSystemWithLua(luaScriptingEngine->getState());
+        registerEventHandlerWithLua(luaScriptingEngine->getState());
+
+        luabridge::push(luaScriptingEngine->getState(), &eventHandlerInstance);
+        lua_setglobal(luaScriptingEngine->getState(), "engine");
     }
 
     void LuaCinematicScriptingSystem::update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) {

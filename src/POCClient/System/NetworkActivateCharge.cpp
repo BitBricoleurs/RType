@@ -25,19 +25,19 @@ void Client::ActivateCharge::update(GameEngine::ComponentsContainer &componentsC
         auto playerToUpdateServer = std::any_cast<int>(args[1]);
         
         size_t playerToUpdate = EntityFactory::getInstance().getClientId(playerToUpdateServer);
-
+        
         auto isPlayerOpt = componentsContainer.getComponent(playerToUpdate, GameEngine::ComponentsType::getComponentType("IsPlayer"));
         if (isPlayerOpt.has_value())
             return;
 
         auto starshipOpt = componentsContainer.getComponent(playerToUpdate, GameEngine::ComponentsType::getComponentType("IsStarship"));
         if (starshipOpt.has_value()) {
-            auto starship = std::dynamic_pointer_cast<IsStarship>(starshipOpt.value());
+            auto starship = std::static_pointer_cast<IsStarship>(starshipOpt.value());
             if (starship->entityIdChargeAnimation == 0)
                 return;
             auto spriteOpt = componentsContainer.getComponent(starship->entityIdChargeAnimation, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
             if (spriteOpt.has_value()) {
-                auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
+                auto sprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
                 if (charge == 1) {
                     sprite->isVisible = true;
                 } else {

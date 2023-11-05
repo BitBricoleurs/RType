@@ -6,16 +6,16 @@
 */
 
 #include "EntityFactory.hpp"
+#include <cstddef>
 
 namespace Server {
 
     size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
-                                         Utils::Vect2 pos, bool dropPowerup) {
+                                         Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createCancerMob/velocity/x"), config.getFloat("/createCancerMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -37,8 +37,8 @@ namespace Server {
             container.bindComponentToEntity(entityId, std::make_shared<Cancer>());
             container.bindComponentToEntity(entityId, shooterComp);
 
-            auto IdCharge = std::make_tuple(entityId, 0);
-            eventHandler.scheduleEvent("ShootSystem", config.getInt("/shootDelay"), IdCharge);
+            std::tuple<unsigned long, int> IdCharge = std::make_tuple(entityId, 0);
+            eventHandler.scheduleEvent("SHOOT", config.getInt("/shootDelay"), IdCharge);
 
             if (dropPowerup) {
                 auto powerUp = std::make_shared<IsPowerUp>();
@@ -47,11 +47,13 @@ namespace Server {
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::CANCER)};
+            args.emplace_back(static_cast<int>(pos.x * 1000));
+            args.emplace_back(static_cast<int>(pos.y * 1000));
+            args.emplace_back(static_cast<int>(velocity.x * 1000));
+            args.emplace_back(static_cast<int>(velocity.y * 1000));
             std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("CREATED_MOB", ids, "INT", args);
             std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
-            EntityFactory::updateEntityNetwork(eventHandler, entityId, pos, velocity);
-
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnCancerMob: " << e.what() << std::endl;
@@ -61,11 +63,10 @@ namespace Server {
 
     size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                            GameEngine::EventHandler &eventHandler,
-                                           Utils::Vect2 pos, bool dropPowerup) {
+                                           Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createPatapataMob/velocity/x"), config.getFloat("/createPatapataMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -113,11 +114,10 @@ namespace Server {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup) {
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup, std::vector<Utils::Vect2> pathPoints) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createBugMob/velocity/x"), config.getFloat("/createBugMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -130,7 +130,14 @@ namespace Server {
                 config.getFloat("/createBugMob/scale")
             );
 
-            container.bindComponentToEntity(entityId, std::make_shared<Bug>());
+            auto bug = std::make_shared<Bug>();
+            if (pathPoints.empty()) {
+                pathPoints = generatePathPoints();
+            }
+            bug->directionChangePoints = pathPoints;
+            bug->currentDestinationI = 0;
+
+            container.bindComponentToEntity(entityId, bug);
 
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {static_cast<int>(MobType::BUG)};
@@ -147,10 +154,33 @@ namespace Server {
                 container.bindComponentToEntity(entityId, powerUp);
             }
 
+            eventHandler.scheduleEvent("BugSystem", 1, entityId);
+
+
             return entityId;
             } catch(const std::runtime_error& e) {
             std::cerr << "Error in spawnBugMob: " << e.what() << std::endl;
             exit(1);
         }
+    }
+    
+    size_t EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+                                      GameEngine::EventHandler &eventHandler,
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
+
+        auto pathPoints = generatePathPoints();
+
+        float offset = 0;
+        auto entityId = 0;
+        for (int i = 0; i < 5; i++) {
+            Utils::Vect2 newPos(pos.x + offset, pos.y);
+            offset += 75;
+            if (dropPowerup && i == 2) {
+                entityId = spawnBugMob(container, eventHandler, newPos, velocity, true, pathPoints);
+                continue;
+            }
+            entityId = spawnBugMob(container, eventHandler, newPos, velocity, false, pathPoints);
+        }
+        return entityId;
     }
 }

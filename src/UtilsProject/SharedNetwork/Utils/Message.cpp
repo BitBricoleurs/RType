@@ -36,32 +36,53 @@ std::vector<std::uint8_t> Network::Serializer::decomposeUint32(uint32_t binValue
 
 std::map<std::type_index, void(*)(const std::any&, std::vector<std::uint8_t>&)> Network::Serializer::serializers = {
     { typeid(int), [](const std::any& item, std::vector<std::uint8_t>& result) {
-        int value = std::any_cast<int>(item);
-        uint32_t binValue;
-        std::memcpy(&binValue, &value, sizeof(int));
-        std::vector<std::uint8_t> bytes = decomposeUint32(binValue);
-        result.insert(result.end(), bytes.begin(), bytes.end());
+        try {
+            int value = std::any_cast<int>(item);
+            uint32_t binValue;
+            std::memcpy(&binValue, &value, sizeof(int));
+            std::vector<std::uint8_t> bytes = decomposeUint32(binValue);
+            result.insert(result.end(), bytes.begin(), bytes.end());
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Erreur lors de la sérialisation d'un int: " << e.what() << '\n';
+        }
     }},
     { typeid(float), [](const std::any& item, std::vector<std::uint8_t>& result) {
-        float value = std::any_cast<float>(item);
-        uint32_t binValue;
-        std::memcpy(&binValue, &value, sizeof(float));
-        std::vector<std::uint8_t> bytes = decomposeUint32(binValue);
-        result.insert(result.end(), bytes.begin(), bytes.end());
+        try {
+            float value = std::any_cast<float>(item);
+            uint32_t binValue;
+            std::memcpy(&binValue, &value, sizeof(float));
+            std::vector<std::uint8_t> bytes = decomposeUint32(binValue);
+            result.insert(result.end(), bytes.begin(), bytes.end());
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Erreur lors de la sérialisation d'un float: " << e.what() << '\n';
+        }
     }},
     { typeid(std::string), [](const std::any& item, std::vector<std::uint8_t>& result) {
-        std::string value = std::any_cast<std::string>(item);
-        result.insert(result.end(), value.begin(), value.end());
+        try {
+            std::string value = std::any_cast<std::string>(item);
+            result.insert(result.end(), value.begin(), value.end());
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Erreur lors de la sérialisation d'un std::string: " << e.what() << '\n';
+        }
     }},
     { typeid(const std::string&), [](const std::any& item, std::vector<std::uint8_t>& result) {
-        const std::string& value = std::any_cast<const std::string&>(item);
-        result.insert(result.end(), value.begin(), value.end());
+        try {
+            const std::string& value = std::any_cast<const std::string&>(item);
+            result.insert(result.end(), value.begin(), value.end());
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Erreur lors de la sérialisation d'un const std::string&: " << e.what() << '\n';
+        }
     }},
     { typeid(char), [](const std::any& item, std::vector<std::uint8_t>& result) {
-        char value = std::any_cast<char>(item);
-        result.push_back(static_cast<uint8_t>(value));
+        try {
+            char value = std::any_cast<char>(item);
+            result.push_back(static_cast<uint8_t>(value));
+        } catch (const std::bad_any_cast& e) {
+            std::cerr << "Erreur lors de la sérialisation d'un char: " << e.what() << '\n';
+        }
     }}
 };
+
 
 std::vector<std::uint8_t> Network::Serializer::serializeItem(const std::any &item)
 {
@@ -131,6 +152,15 @@ Network::Message::Message(std::vector <std::uint8_t> &message)
         getDataMessage();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
+        _messageSize = 0;
+        _action = "";
+        _ArgType = "";
+        _ArgTypeCode = 0;
+        _NbrArgs = 0;
+        _NbrId = 0;
+        _sizeArg = 0;
+        _IDs = {};
+        _args = {};
     }
 }
 
@@ -139,10 +169,6 @@ Network::Message::Message(const std::string &action, std::vector<size_t> IDs, co
 {
     std::vector<std::uint8_t> serializedArgs = {};
     try {
-        for (auto id :IDs) {
-            if (id == 0)
-                std::cout << "MHHHHH" << std::endl;
-        }
         if (getCodeByType(_ArgType) != 0x00)
             serializedArgs = Serializer::serialize(_args);
         initializeMessage(IDs, serializedArgs);
@@ -164,17 +190,28 @@ std::map<std::string, uint8_t> actionToCodeMap =
     {"UPDATE_POSITION", 0x09},
     {"MOVE", 0x10},
     {"CHARGE_SHOOT", 0x11},
-    {"CREATE_PARALLAX", 0x12},
-    {"DELETED_ENTITY", 0x13},
-    {"READY", 0x15},
-    {"START_GAME", 0x16},
-    {"ALIVE", 0x17},
-    {"CREATED_POWERUP", 0x18},
-    {"CREATED_FORCEPOD", 0x19},
-    {"SYNC_FORCE_POD_PLAYER", 0x20},
-    {"UPDATE_POS_FORCE_POD", 0x21},
-    {"CHARGE", 0x22},
-    {"BLOCK", 0x23},
+    {"DELETED_ENTITY", 0x12},
+    {"READY", 0x13},
+    {"START_GAME", 0x14},
+    {"ALIVE", 0x15},
+    {"CREATED_POWERUP", 0x16},
+    {"CREATED_FORCEPOD", 0x17},
+    {"SYNC_FORCE_POD_PLAYER", 0x18},
+    {"UPDATE_POS_FORCE_POD", 0x19},
+    {"FLASH_ENTITY", 0x20},
+    {"CHARGE", 0x21},
+    {"BLOCK", 0x22},
+    {"CREATED_PARALLAX", 0x23},
+    {"LIFE_LOST", 0x24},
+    {"DEATH", 0x25},
+    {"GAME_OVER", 0x26},
+    {"JOIN_LOBBY", 0x27},
+    {"REVIVE_PLAYER", 0x28},
+    {"CREATE_PARALLAX", 0x29},
+    {"CREATED_POWERUP_DUAL", 0x30},
+    {"FLASH_ENTITY", 0x31},
+    {"FORCE_POD_UPGRADE", 0x32},
+    {"UPDATE_SCORE", 0x33}
 };
 
 std::map<std::string, uint8_t> typeToCodeMap =

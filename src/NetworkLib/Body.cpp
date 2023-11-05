@@ -6,6 +6,7 @@
 
 void Network::Body::addData(std::vector <std::uint8_t> &data)
 {
+    this->_data.reserve(this->_data.size() + data.size());
     this->_data.insert(this->_data.end(), data.begin(), data.end());
 }
 

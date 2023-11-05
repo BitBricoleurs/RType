@@ -30,7 +30,6 @@ namespace Server {
                 velocity,
                 scale
             );
-            std::cout << "EntityId: " << entityId << std::endl;
             container.bindComponentToEntity(entityId, std::make_shared<IsForcePod>());
             std::vector<size_t> ids = {entityId};
             std::vector<std::any> args = {};

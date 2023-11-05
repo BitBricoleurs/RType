@@ -23,17 +23,22 @@ namespace Server {
             loadMap(mapFiles[mapIndex]);
             currentTick = 0;
         } else {
-            std::cout << "Last map reached!" << std::endl;
+            mapIndex = 0;
+            loadMap(mapFiles[mapIndex]);
+            currentTick = 0;
         }
+    }
+
+    void SpawnEntity::resetCurrentLevel() {
+        loadMap(mapFiles[mapIndex]);
+        currentTick = 0;
     }
 
     void SpawnEntity::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
         auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
-        std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
-        if (gameStateEntities.empty())
-            return;
-        auto compMay = componentsContainer.getComponent(gameStateEntities[0], compTypeGameState);
+        size_t gameStateEntity = componentsContainer.getEntityWithUniqueComponent(compTypeGameState);
+        auto compMay = componentsContainer.getComponent(gameStateEntity, compTypeGameState);
         if (!compMay.has_value())
             return;
         auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
@@ -41,28 +46,45 @@ namespace Server {
             return;
         currentTick++;
         int mobsSize = currentMapContent.getSize("/mobs");
-        for (int i = 0; i < mobsSize;) {
+        if (currentMapContent.keyExists("/winCondition/tick")) {
+            int winTick = currentMapContent.getInt("/winCondition/tick");
+            if (currentTick >= winTick) {
+                winLevel(eventHandler);
+                return;
+            };
+        }
+        auto entityId = 0;
+        for (int i = 0; i < mobsSize; i++) {
             int tick = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/tick");
 
             if (currentTick == tick) {
-                float posX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/x");
-                float posY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/position/y");
-                Utils::Vect2 position(posX, posY);
+                int posX = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/x");
+                int posY = currentMapContent.getInt("/mobs/" + std::to_string(i) + "/position/y");
+                Utils::Vect2 position(static_cast<float>(posX), static_cast<float>(posY));
 
-                bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerup");
+                float velocityX = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/x");
+                float velocityY = currentMapContent.getFloat("/mobs/" + std::to_string(i) + "/velocity/y");
+                Utils::Vect2 velocity(velocityX, velocityY);
 
+                bool dropPowerup = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/dropPowerUp");
                 std::string mobType = currentMapContent.getString("/mobs/" + std::to_string(i) + "/mobType");
+                bool isLastMob = currentMapContent.getBool("/mobs/" + std::to_string(i) + "/isLastMob");
 
                 if (mobType == "cancerMob") {
-                    EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnCancerMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 } else if (mobType == "pataPataMob") {
-                    EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, dropPowerup);
+                    entityId = EntityFactory::getInstance().spawnPataPataMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                } else if (mobType == "bellmite") {
+                     entityId = EntityFactory::getInstance().createBellmite(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                } else if (mobType == "bugMob") {
+                    entityId= EntityFactory::getInstance().spawnBugMob(componentsContainer, eventHandler, position, velocity, dropPowerup);
+                } else if (mobType == "bugGroup") {
+                    entityId= EntityFactory::getInstance().spawnBugGroup(componentsContainer, eventHandler, position, velocity, dropPowerup);
                 }
-
-                currentMapContent.eraseKey("/mobs", i);
-                mobsSize--;
-            } else {
-                i++;
+                if (isLastMob) {
+                    std::cout << "isLastMob" << std::endl;
+                    componentsContainer.bindComponentToEntity(entityId, std::make_shared<IsLastMob>());
+                }
             }
         }
         int parallaxSize = currentMapContent.getSize("/parallax");
@@ -73,10 +95,10 @@ namespace Server {
                 int posY = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/position/y");
                 int layer = currentMapContent.getInt("/parallax/" + std::to_string(i) + "/layer");
                 bool isLooping = currentMapContent.getBool("/parallax/" + std::to_string(i) + "/isLooping");
-                float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/speed");
-                Utils::Vect2 position(posX, posY);
+                float speed = currentMapContent.getFloat("/parallax/" + std::to_string(i) + "/velocity/x");
+                Utils::Vect2 position(static_cast<float>(posX), static_cast<float>(posY));
                 ParallaxType type = static_cast<ParallaxType>(currentMapContent.getInt("/parallax/" + std::to_string(i) + "/type"));
-                EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, -speed, layer, type, isLooping);
+                EntityFactory::getInstance().spawnParallax(componentsContainer, eventHandler, position, speed, layer, type, isLooping);
             }
         }
     }
@@ -102,5 +124,11 @@ namespace Server {
             std::cerr << "Error loading map: " << e.what() << std::endl;
             return false;
         }
+    }
+
+    void SpawnEntity::winLevel(GameEngine::EventHandler &eventHandler)
+    {
+        eventHandler.queueEvent("WIN_LEVEL");
+        std::cout << "Level won" << std::endl;
     }
 }

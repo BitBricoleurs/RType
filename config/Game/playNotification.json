@@ -1,0 +1,37 @@
+{
+  "createPlay": {
+    "scale": 1,
+    "layer": 12,
+    "spritePosX" : 618.0,
+    "spritePosY" : 800.0,
+    "hitboxHeight": 142,
+    "hitboxWidth": 684,
+    "numberImages": 4,
+    "images" : [
+      {
+        "spriteSheetPath": "assets/HUD/StartNotif1.png",
+        "spriteSheetHeight": 142,
+        "spriteSheetWidth": 6840,
+        "frame": 10
+      },
+      {
+        "spriteSheetPath": "assets/HUD/StartNotif2.png",
+        "spriteSheetHeight": 142,
+        "spriteSheetWidth": 6840,
+        "frame": 10
+      },
+      {
+        "spriteSheetPath": "assets/HUD/StartNotif3.png",
+        "spriteSheetHeight": 142,
+        "spriteSheetWidth": 4104,
+        "frame": 6
+      },
+      {
+        "spriteSheetPath": "assets/HUD/StartNotif4.png",
+        "spriteSheetHeight": 142,
+        "spriteSheetWidth": 684,
+        "frame": 1
+      }
+    ]
+  }
+}

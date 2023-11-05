@@ -22,7 +22,6 @@ void Network::PacketRegister::registerReceivedPacket(unsigned int remoteId, unsi
         _packetIdRegisterIn[remoteId].erase(_packetIdRegisterIn[remoteId].begin());
     }
     _packetIdRegisterIn[remoteId].push_back(packetId);
-    _mutexIn.unlock();
 }
 
 
@@ -85,6 +84,7 @@ unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
 
 void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet, bool secure)
 {
+    return;
     std::lock_guard<std::mutex> lock(_mutexOut);
     if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end())
         _packetRegisterOut[remoteId] = std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>();
@@ -93,18 +93,19 @@ void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::sh
         _packetRegisterOut[remoteId].erase(_packetRegisterOut[remoteId].begin());
     }
     _packetRegisterOut[remoteId].push_back(std::make_pair(secure, packet));
-    _mutexOut.unlock();
 }
 
-std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, unsigned int packetId)
+std::shared_ptr<Network::Packet> Network::PacketRegister::getPacket(unsigned int remoteId, long packetId)
 {
     std::lock_guard<std::mutex> lock(_mutexIn);
 
+    if (remoteId < 0)
+        return nullptr;
     auto it = _packetRegisterOut.find(remoteId);
     if (it == _packetRegisterOut.end() || _packetRegisterOut[remoteId].empty())
         return nullptr;
     for (auto& packet : _packetRegisterOut[remoteId]) {
-         if (packet.second->header.sequenceNumber == packetId && packet.first)
+         if (packet.first && packet.second->header.sequenceNumber == packetId)
             return packet.second;
     }
     return nullptr;
@@ -115,7 +116,7 @@ std::vector<std::shared_ptr<Network::Packet>> Network::PacketRegister::getPacket
     std::vector<std::shared_ptr<Network::Packet>> result;
     std::shared_ptr<Network::Packet> tmpPacket;
     long packetId = 0;
-    unsigned int lastPacketId = getLastPacketId(remoteId);
+    long lastPacketId = getLastPacketId(remoteId);
 
     for (unsigned int i = 0; i < _maxSize ; ++i) {
         if (!(ackMask & (1 << i))) {

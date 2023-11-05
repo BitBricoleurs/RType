@@ -9,3 +9,8 @@ enum PowerUpType {
     SPEED,
     SHIELD,
 };
+
+enum PowerType {
+    DUALSHOOT,
+
+};

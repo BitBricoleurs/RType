@@ -1,7 +1,7 @@
 {
   "cinematic": {
     "duration": {
-      "time": 10.0
+      "time": 2.7
     },
     "entities": [
       {
@@ -17,10 +17,10 @@
               "y": 540.0
             },
             "rect": {
-              "x": 0,
+              "x": 67,
               "y": 0,
-              "width": 33,
-              "height": 17
+              "width": 32,
+              "height": 15
             },
             "layer": 1,
             "scale": 3.0,
@@ -32,10 +32,48 @@
               "a": 255
             }
           },
+          "CinematicComponent": {
+            "playDuration": 10.0,
+            "inHowMuchTime": 0.0,
+            "endPosition": {
+              "x": 910.0,
+              "y": 540.0
+            }
+          }
+        }
+      },
+      {
+        "components": {
+          "SpriteComponent": {
+            "imagePath": "assets/Connect_Screen/background.png",
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 1920,
+              "height": 1080
+            },
+            "layer": 1,
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            }
+          }
+        }
+      },
+      {
+        "components": {
           "TextComponent": {
             "text": "Welcome to the game",
             "pos": {
-              "x": 910.0,
+              "x": 720.0,
               "y": 100.0
             },
             "fontSize": 50,
@@ -46,15 +84,28 @@
               "b": 255,
               "a": 255
             }
-          },
-          "CinematicComponent": {
-            "playDuration": 7.0,
-            "inHowMuchTime": 0.0,
-            "endPosition": {
-              "x": 910.0,
-              "y": 540.0
-            }
           }
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "MoveCamera",
+        "data": {
+          "targetPosition": {
+            "x": 915.0,
+            "y": 615.0
+          },
+          "duration": 0.5,
+          "inHowMuchTime": 2.0
+        }
+      },
+      {
+        "type": "ZoomCamera",
+        "data": {
+          "zoomLevel": 10.0,
+          "duration": 3.0,
+          "inHowMuchTime": 2.0
         }
       }
     ]

@@ -30,36 +30,64 @@ namespace Network {
     public:
         const T &getFront() {
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.front();
         }
 
         const T &getBack() {
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.back();
         }
 
-        T popFront() {
+        const T&getIndex(size_t index) {
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.front());
+            return deqQueue[index];
+        }
+
+        T popFront() {
+            static T basicT;
+            if (empty())
+                 return basicT;
+            std::scoped_lock lock(muxQueue);
+            auto t = deqQueue.front();
             deqQueue.pop_front();
             return t;
         }
 
         T popBack() {
+            static T basicT;
+            if (empty())
+                 return basicT;
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.back());
+            auto t = deqQueue.back();
             deqQueue.pop_back();
             return t;
         }
 
-        void pushBack(const T &item) {
+        bool isQueueFull() {
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_back(std::move(item));
+            return deqQueue.size() == deqQueue.max_size();
+        }
+
+        void pushBack(const T &item) {
+            if (isQueueFull()) {
+                popFront();
+            }
+            std::scoped_lock lock(muxQueue);
+            deqQueue.emplace_back(item);
         }
 
         void pushFront(const T &item) {
+            if (isQueueFull()) {
+                popBack();
+            }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_front(std::move(item));
+            deqQueue.emplace_front(item);
         }
 
         bool empty() {
@@ -91,7 +119,7 @@ namespace Network {
 
         void sortQueue(std::function<bool(const T&, const T&)> compFunc) {
             std::scoped_lock lock(muxQueue);
-            std::sort(deqQueue.begin(), deqQueue.end(), compFunc);
+            std::stable_sort(deqQueue.begin(), deqQueue.end(), compFunc);
         }
 
     private:

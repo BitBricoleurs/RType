@@ -9,7 +9,13 @@
 
 void UpdateScore::update(GameEngine::ComponentsContainer &componentsContainer,
                          GameEngine::EventHandler &eventHandler) {
-  int scoreToAdd = std::any_cast<int>(eventHandler.getTriggeredEvent().second);
+    int scoreToAdd = 0;
+
+    try {
+        scoreToAdd = std::any_cast<int>(eventHandler.getTriggeredEvent().second);
+    } catch (std::bad_any_cast &e) {
+        return;
+    };
   auto scoreId = componentsContainer.getEntityWithUniqueComponent(
       GameEngine::ComponentsType::getComponentType("Score"));
 
@@ -20,9 +26,9 @@ void UpdateScore::update(GameEngine::ComponentsContainer &componentsContainer,
       scoreId, GameEngine::ComponentsType::getComponentType("TextComponent"));
 
   if (scoreOpt.has_value() && textOpt.has_value()) {
-    auto score = std::dynamic_pointer_cast<Score>(scoreOpt.value());
+    auto score = std::static_pointer_cast<Score>(scoreOpt.value());
     auto text =
-        std::dynamic_pointer_cast<RenderEngine::TextComponent>(textOpt.value());
+        std::static_pointer_cast<RenderEngine::TextComponent>(textOpt.value());
     score->_score += scoreToAdd;
     text->text = "Score: " + std::to_string(score->_score);
   }
