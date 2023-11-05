@@ -55,6 +55,7 @@ namespace Server {
 
             auto isBulletOpt = componentsContainer.getComponent(otherEntity, GameEngine::ComponentsType::getComponentType("IsBullet"));
             auto hpComponentOpt = componentsContainer.getComponent(mobEntity, GameEngine::ComponentsType::getComponentType("Health"));
+            auto isLastMobOpt = componentsContainer.getComponent(mobEntity, GameEngine::ComponentsType::getComponentType("IsLastMob"));
             auto scoreEntity = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("Score"));
             auto scoreComponentOpt = componentsContainer.getComponent(scoreEntity, GameEngine::ComponentsType::getComponentType("Score"));
             if (hpComponentOpt.has_value() && isBulletOpt.has_value()) {
@@ -66,6 +67,9 @@ namespace Server {
                 applyDamage(hpComponent, otherEntity, componentsContainer);
 
                 if (hpComponent->currentHealth <= 0) {
+                    if (isLastMobOpt.has_value()) {
+                            eventHandler.queueEvent("WIN_LEVEL");
+                    }
                     if (scoreComponentOpt.has_value()) {
                         auto scoreComponent = std::static_pointer_cast<Score>(scoreComponentOpt.value());
                         scoreComponent->score += hpComponent->maxHealth;

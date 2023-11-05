@@ -173,8 +173,8 @@ namespace Client {
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
 
-      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
-                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
+      size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity, int frames, bool twoDirections, bool reverse);
 
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,
