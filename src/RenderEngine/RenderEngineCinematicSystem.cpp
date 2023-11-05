@@ -200,9 +200,12 @@ namespace RenderEngine {
                 if (!windowOpt.has_value())
                     return;
                 auto windowcast = std::static_pointer_cast<WindowInfoComponent>(windowOpt.value());
-                windowcast->camera.target = Vector2(windowcast->windowHeight / 2, windowcast->windowWidth / 2);
+                windowcast->camera.target.x = windowcast->windowWidth / 2;
+                windowcast->camera.target.y = windowcast->windowHeight / 2;
+
                 windowcast->camera.zoom = 1;
-                windowcast->camera.offset = Vector2(windowcast->windowHeight / 2, windowcast->windowWidth / 2);
+                windowcast->camera.offset.x = windowcast->windowHeight / 2;
+                windowcast->camera.offset.y = windowcast->windowWidth / 2;
                 windowcast->camera.rotation = 0;
             }
         } catch (const std::bad_any_cast&) {
