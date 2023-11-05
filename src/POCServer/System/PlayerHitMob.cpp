@@ -24,10 +24,10 @@ namespace Server {
                 componentsContainer.unbindComponentFromEntity(firstEntity, GameEngine::ComponentsType::getComponentType("IsMob"));
             }
 
-        } catch (std::exception &e) {
-
+        } catch (const std::bad_any_cast&) {
+            std::cerr << "Cast error in MobHit::update" << std::endl;
         }
-        }
+    }
 
         void PlayerHitMob::startMobDeath(GameEngine::ComponentsContainer &componentsContainer,
                                GameEngine::EventHandler &eventHandler, size_t id) {

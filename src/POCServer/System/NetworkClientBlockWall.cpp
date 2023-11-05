@@ -7,7 +7,6 @@
 void Server::NetworkClientBlockWall::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
 {
     std::shared_ptr<Network::OwnedMessage> message;
-    std::cout << "Received message from client" << std::endl;
         try {
             message = std::any_cast<std::shared_ptr<Network::OwnedMessage>>(eventHandler.getTriggeredEvent().second);
         } catch (std::bad_any_cast &e) {

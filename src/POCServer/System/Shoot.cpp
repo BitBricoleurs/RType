@@ -14,6 +14,7 @@ namespace Server {
 
     void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler)
     {
+        try {
         auto compTypeGameState = GameEngine::ComponentsType::getComponentType("GameState");
         std::vector<size_t> gameStateEntities = componentsContainer.getEntitiesWithComponent(compTypeGameState);
         if (gameStateEntities.empty())
@@ -24,7 +25,8 @@ namespace Server {
         auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
         if (gameStateComp->_state != Utils::GameState::State::RUNNING)
             return;
-       auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
+        std::tuple<unsigned long, int> tupleIdCharge(0, 0);
+        tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
        size_t entityID = std::get<0>(tupleIdCharge);
        auto charge = std::get<1>(tupleIdCharge);
      
@@ -85,5 +87,10 @@ namespace Server {
             }
             }
         }
+        } catch (const std::bad_any_cast &e) {
+            std::cout << "Error in Shoot : " << e.what() << std::endl;
+        } catch (... ) {
+            std::cerr << "Unknown exception caught in Shoot"  << std::endl;
+        }
     }
-}
+} // namespace Server

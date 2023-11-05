@@ -70,9 +70,9 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
             std::shared_ptr<Network::AllUsersMessage> allMessage = std::make_shared<Network::AllUsersMessage>(message);
             eventHandler.queueEvent("SEND_NETWORK", allMessage);
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptPowerUp.has_value()) {
-            auto playerComp = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+            auto playerComp = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
             if (playerComp->entityIdForcePod == 0) {
-                auto posCompPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto posCompPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
                 eventHandler.queueEvent("ForcePodSpawn", posCompPlayer->pos.y);
             } else {
                 eventHandler.queueEvent("ManagePowerUp", secondEntity);
@@ -86,14 +86,14 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // Player vs forcepod
         if (firstEntityOptPlayer.has_value() && secondEntityOptForcePod.has_value()) {
-            auto playerComp = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
-            auto forcePodComp = std::dynamic_pointer_cast<IsForcePod>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
+            auto playerComp = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+            auto forcePodComp = std::static_pointer_cast<IsForcePod>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
             if (forcePodComp->entityId == 0 && playerComp->entityIdForcePod == 0) {
                 eventHandler.queueEvent("ForcePodFix", std::make_tuple(firstEntity, secondEntity));
             }
         } else if (secondEntityOptPlayer.has_value() && firstEntityOptForcePod.has_value()) {
-            auto playerComp = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
-            auto forcePodComp = std::dynamic_pointer_cast<IsForcePod>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
+            auto playerComp = std::static_pointer_cast<IsPlayer>(componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+            auto forcePodComp = std::static_pointer_cast<IsForcePod>(componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsForcePod")).value());
             if (forcePodComp->entityId == 0 && playerComp->entityIdForcePod == 0) {
                 eventHandler.queueEvent("ForcePodFix", std::make_tuple(secondEntity, firstEntity));
             }
@@ -101,11 +101,11 @@ void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContain
 
         // BossPod vs BossCore
         if (firstEntityOptBossCore.has_value() && secondEntityOptBossPod.has_value()) {
-            auto bossPod = std::dynamic_pointer_cast<isBossPod>(*secondEntityOptBossPod);
+            auto bossPod = std::static_pointer_cast<isBossPod>(*secondEntityOptBossPod);
             if (bossPod->launched == true && bossPod->bounces > 2)
                 eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
         } else if (secondEntityOptBossCore.has_value() && firstEntityOptBossPod.has_value()) {
-            auto bossPod = std::dynamic_pointer_cast<isBossPod>(*firstEntityOptBossPod);
+            auto bossPod = std::static_pointer_cast<isBossPod>(*firstEntityOptBossPod);
             if (bossPod->launched == true && bossPod->bounces > 2)
                 eventHandler.queueEvent("LatchPodToBoss", std::make_pair(firstEntity, secondEntity));
         }

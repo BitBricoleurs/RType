@@ -8,7 +8,13 @@ namespace Client {
 
     void updateEntitySprite::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
 
-        auto data = std::any_cast<std::tuple<std::string, size_t>>(eventHandler.getTriggeredEvent().second);
+        std::tuple<std::string, size_t> data;
+        try {
+            data = std::any_cast<std::tuple<std::string, size_t>>(eventHandler.getTriggeredEvent().second);
+        } catch (std::bad_any_cast &e) {
+            std::cerr << "Cast error in updateEntitySprite::update" << std::endl;
+            return;
+        }
         std::string entityType = std::get<0>(data);
         size_t entityID = std::get<1>(data);
         auto animationOpt = componentsContainer.getComponent(entityID, GameEngine::ComponentsType::getComponentType("SpriteAnimation"));

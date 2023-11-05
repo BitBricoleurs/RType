@@ -26,6 +26,13 @@ namespace Server {
 
             auto &factory = EntityFactory::getInstance();
 
+            if (bug->currentDestinationI >= bug->directionChangePoints.size()) {
+                    //has no more destinations, move out of screen
+                    velocity->velocity = Utils::Vect2(-6, 0);
+                    factory.updateEntityNetwork(eventHandler, bugId, position->pos, velocity->velocity);
+                    return;
+            }
+
             if (position->pos.x > bug->directionChangePoints[bug->currentDestinationI].x - 5 && position->pos.x < bug->directionChangePoints[bug->currentDestinationI].x + 5 &&
                 position->pos.y > bug->directionChangePoints[bug->currentDestinationI].y - 5 && position->pos.y < bug->directionChangePoints[bug->currentDestinationI].y + 5) {
                 //reached  destination

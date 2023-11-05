@@ -8,7 +8,9 @@
 #include "Animate.hpp"
 #include "AnimateDeath.hpp"
 #include "AnimateShot.hpp"
-#include "AudioEngineSystem.hpp"
+#ifndef _WIN32
+    #include "AudioEngineSystem.hpp"
+#endif
 #include "BaseVelocity.hpp"
 #include "ColorR.hpp"
 #include "CurveDown.hpp"
@@ -96,10 +98,13 @@ void create_shooter(GameEngine::GameEngine &engine, float width, float height) {
                    1080 - spriteComponent->rect1.h + 20));
   spriteComponent->pos = positionComponent->pos;
   auto shooterComponent = std::make_shared<Shooter>();
+
+  #ifndef _WIN32
   auto audioComponent =
       std::make_shared<AudioEngine::AudioComponent>("assets/hunter/shoot.wav");
+    engine.bindComponentToEntity(shooterID, audioComponent);
+  #endif
 
-  engine.bindComponentToEntity(shooterID, audioComponent);
   engine.bindComponentToEntity(shooterID, animation);
   engine.bindComponentToEntity(shooterID, spriteComponent);
   engine.bindComponentToEntity(shooterID, positionComponent);
@@ -141,7 +146,7 @@ int main(int ac, char **av) {
   auto animateDeath = std::make_shared<AnimateDeath>();
   auto shoot = std::make_shared<Shoot>();
   auto animateShot = std::make_shared<AnimateShot>();
-  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
+
   auto scoreSys = std::make_shared<UpdateScore>();
   auto gameOver = std::make_shared<GameOver>();
   auto startNewGame = std::make_shared<StartNewGame>();
@@ -149,9 +154,13 @@ int main(int ac, char **av) {
   auto curveDown = std::make_shared<CurveDown>();
   auto increaseDiff = std::make_shared<IncreaseDifficulty>();
 
+
+
+  #ifndef _WIN32
+  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
   engine.addEvent("PLAY_SOUND", audioSys);
-  engine.scheduleEvent("UPDATE_SOUNDS", 1);
   engine.addEvent("UPDATE_SOUNDS", audioSys);
+  #endif
 
   engine.addEvent("spawnBird", spawnBirdSystem);
   engine.scheduleEvent("spawnBird", 75);

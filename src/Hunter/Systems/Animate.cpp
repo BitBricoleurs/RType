@@ -9,9 +9,13 @@
 
 void Animate::update(GameEngine::ComponentsContainer &componentsContainer,
                      GameEngine::EventHandler &eventHandler) {
-  size_t entityID =
+      size_t entityID = 0;
+    try {
+      entityID =
       std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
-
+    } catch (std::bad_any_cast &e) {
+        return;
+    }
   auto animationOpt = componentsContainer.getComponent(
       entityID, GameEngine::ComponentsType::getComponentType("Animation"));
   auto velocityOpt = componentsContainer.getComponent(
@@ -24,10 +28,10 @@ void Animate::update(GameEngine::ComponentsContainer &componentsContainer,
   if (animationOpt.has_value() && velocityOpt.has_value() &&
       spriteOpt.has_value()) {
 
-    auto animation = std::dynamic_pointer_cast<Animation>(animationOpt.value());
-    auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
+    auto animation = std::static_pointer_cast<Animation>(animationOpt.value());
+    auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
         velocityOpt.value());
-    auto sprite = std::dynamic_pointer_cast<RenderEngine::ButtonComponent>(
+    auto sprite = std::static_pointer_cast<RenderEngine::ButtonComponent>(
         spriteOpt.value());
     if (sprite->isVisible) {
       if (animation->twoDirections && velocity) {

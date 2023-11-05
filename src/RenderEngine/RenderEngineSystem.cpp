@@ -42,7 +42,7 @@ namespace RenderEngine {
       std::vector<std::pair<size_t, ButtonComponent>> sortedButtonComponents;
 
       for (auto id : buttonsIDS) {
-        auto button = std::dynamic_pointer_cast<ButtonComponent>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("ButtonComponent")).value());
+        auto button = std::static_pointer_cast<ButtonComponent>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("ButtonComponent")).value());
         if (button) {
             sortedButtonComponents.push_back(std::make_pair(id, *button));
         }
@@ -65,15 +65,20 @@ namespace RenderEngine {
       std::vector<TextComponent> sortedTextComponents;
       std::vector<SpriteComponent> sortedSpriteComponents;
 
+    try {
       for (const auto &component : textComponents) {
         if (component.has_value()) {
-          auto text = std::dynamic_pointer_cast<TextComponent>(
+          auto text = std::static_pointer_cast<TextComponent>(
               std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
           if (text) {
             sortedTextComponents.push_back(*text);
           }
         }
       }
+    } catch (const std::bad_any_cast&) {
+        std::cerr << "Cast error in RenderEngineSystem::update" << std::endl;
+    }
+
       std::stable_sort(sortedTextComponents.begin(), sortedTextComponents.end(),
         [](const TextComponent &a, const TextComponent &b) {
             if(a.layer == b.layer) {
@@ -82,15 +87,19 @@ namespace RenderEngine {
             return a.layer < b.layer;
         });
 
-      for (const auto &component : spriteComponents) {
-        if (component.has_value()) {
-          auto sprite = std::dynamic_pointer_cast<SpriteComponent>(
-              std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
-          if (sprite) {
-            sortedSpriteComponents.push_back(*sprite);
-          }
-        }
-      }
+        try {
+            for (const auto &component : spriteComponents) {
+                if (component.has_value()) {
+                auto sprite = std::static_pointer_cast<SpriteComponent>(
+                    std::any_cast<std::shared_ptr<GameEngine::IComponent>>(component.value()));
+                if (sprite) {
+                    sortedSpriteComponents.push_back(*sprite);
+                }
+                }
+            }
+            } catch (const std::bad_any_cast&) {
+                std::cerr << "Cast error in RenderEngineSystem::update" << std::endl;
+            }
       std::stable_sort(sortedSpriteComponents.begin(), sortedSpriteComponents.end(),
         [](const SpriteComponent &a, const SpriteComponent &b) {
             if(a.layer == b.layer) {

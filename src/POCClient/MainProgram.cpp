@@ -120,8 +120,10 @@ namespace Client {
         auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
         auto collisionHandler = std::make_shared<Client::CollisionHandler>();
         auto MobHit1 = std::make_shared<Client::MobHit>();
+        #ifndef _WIN32
         auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
         auto initAudio = std::make_shared<Client::InitAudioBackgroud>();
+        #endif
         auto activateCharge = std::make_shared<Client::ActivateCharge>();
         auto flashWhenHit = std::make_shared<Client::FlashWhenHit>();
         auto createPowerUp = std::make_shared<Client::CreatePowerUp>();
@@ -134,8 +136,10 @@ namespace Client {
         auto revivePlayer = std::make_shared<Client::RevivePlayer>();
         auto animateBugSprite = std::make_shared<Client::UpdateBugSprite>();
 
+        #ifndef _WIN32
         engine.addEvent("PLAY_SOUND", audioSys);
         engine.addEvent("Init", initAudio);
+        #endif
         engine.queueEvent("Init");
 
         engine.addEvent("MobHit", MobHit1);

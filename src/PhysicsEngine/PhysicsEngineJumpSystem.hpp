@@ -24,42 +24,50 @@ namespace PhysicsEngine {
 
         void update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler) override {
             while (!eventHandler.getTriggeredEvent().first.empty() && eventHandler.getTriggeredEvent().first == "Jump") {
-                auto entity = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
+                try {
+                    auto entity = std::any_cast<size_t>(eventHandler.getTriggeredEvent().second);
 
-                auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
-                auto isOnGround1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsOnGroundComponent"));
+                    auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
+                    auto isOnGround1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsOnGroundComponent"));
 
-                auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
-                auto isOnGround = std::dynamic_pointer_cast<IsOnGroundComponent>(*isOnGround1);
+                    auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
+                    auto isOnGround = std::dynamic_pointer_cast<IsOnGroundComponent>(*isOnGround1);
 
-                if (isOnGround->onGround && jump->canJump) {
+                    if (isOnGround->onGround && jump->canJump) {
 
-                    auto gravity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("GravityComponent"));
-                    auto gravity = std::dynamic_pointer_cast<GravityComponent>(*gravity1);
-                    size_t jumpDuration = calculateJumpDuration(gravity->baseGravity, jump->jumpStrength);
+                        auto gravity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("GravityComponent"));
+                        auto gravity = std::dynamic_pointer_cast<GravityComponent>(*gravity1);
+                        size_t jumpDuration = calculateJumpDuration(gravity->baseGravity, jump->jumpStrength);
 
-                    eventHandler.scheduleEvent("ContinueJump", 1, std::make_pair(entity, jumpDuration));
+                        eventHandler.scheduleEvent("ContinueJump", 1, std::make_pair(entity, jumpDuration));
 
-                    jump->isJumping = true;
-                    jump->canJump = false;
+                        jump->isJumping = true;
+                        jump->canJump = false;
+                    }
+                } catch (const std::bad_any_cast&) {
+                    std::cerr << "Cast error in JumpSystem::update - Jump" << std::endl;
                 }
             }
 
             while (!eventHandler.getTriggeredEvent().first.empty() && eventHandler.getTriggeredEvent().first == "ContinueJump") {
-                auto [entity, jumpDuration] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+                try {
+                    auto [entity, jumpDuration] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
 
-                auto velocity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
-                auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
+                    auto velocity1 = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
+                    auto jumpComp = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("JumpComponent"));
 
-                auto velocity = std::dynamic_pointer_cast<VelocityComponent>(*velocity1);
-                auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
+                    auto velocity = std::dynamic_pointer_cast<VelocityComponent>(*velocity1);
+                    auto jump = std::dynamic_pointer_cast<JumpComponent>(*jumpComp);
 
-                physicsEngine->applyJumpForce(*velocity, jump->jumpSpeed);
-                jumpDuration--;
-                if (jumpDuration == 0) {
-                    jump->isJumping = false;
-                    jump->canJump = true;
-                    eventHandler.unscheduleEvent("ContinueJump", std::make_pair(entity, jumpDuration));
+                    physicsEngine->applyJumpForce(*velocity, jump->jumpSpeed);
+                    jumpDuration--;
+                    if (jumpDuration == 0) {
+                        jump->isJumping = false;
+                        jump->canJump = true;
+                        eventHandler.unscheduleEvent("ContinueJump", std::make_pair(entity, jumpDuration));
+                    }
+                } catch (const std::bad_any_cast&) {
+                    std::cerr << "Cast error in JumpSystem::update - ContinueJump" << std::endl;
                 }
             }
         }
@@ -72,5 +80,3 @@ namespace PhysicsEngine {
         size_t jumpDuration = 0;
     };
 }
-
-
