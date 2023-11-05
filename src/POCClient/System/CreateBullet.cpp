@@ -3,6 +3,7 @@
 //
 
 #include "CreateBullet.hpp"
+#include "Logger.hpp"
 
 namespace Client {
 
@@ -39,6 +40,7 @@ namespace Client {
                 factory.registerEntity(entityId, id);
                 eventHandler.queueEvent("PLAY_SOUND", entityId);
                 arg_index += 6;
+                GameEngine::Logger::info("Created bullet with id " + std::to_string(entityId) + " and owner " + std::to_string(number) + " and type " + std::to_string(typeBull));
             }
         } catch (std::bad_any_cast &e) {
             std::cerr << "Error from CreateBulletSystem " << e.what() << std::endl;

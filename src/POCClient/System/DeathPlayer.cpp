@@ -48,6 +48,7 @@ void Client::DeathPlayer::update(GameEngine::ComponentsContainer &componentsCont
                         auto userGameModeComponent = std::static_pointer_cast<Utils::UserGameMode>(userGameModeComponentOpt.value());
                         userGameModeComponent->_state = Utils::UserGameMode::State::DEAD;
                         std::cout << "Player is dead" << std::endl;
+                        GameEngine::Logger::info("Player: " + std::to_string(id) + " is dead");
                     }
                 }
     } catch (std::bad_any_cast &e) {

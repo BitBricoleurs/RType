@@ -17,6 +17,7 @@ namespace GameEngine {
         static void warning(const std::string& message);
         static void error(const std::string& message);
         static void startServer(unsigned short port);
+        static void stopServer();
         static bool wantsToReceiveLogs;
         struct LoggerImpl;
 

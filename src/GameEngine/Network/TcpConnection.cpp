@@ -17,6 +17,10 @@ namespace GameEngine {
         return socket_;
     }
 
+    void TcpConnection::stop() {
+        socket_.close();
+    }
+
     void TcpConnection::sendLog(const std::string& message) {
         boost::asio::async_write(socket_, boost::asio::buffer(message),
                                  boost::bind(&TcpConnection::handleWrite, shared_from_this(),

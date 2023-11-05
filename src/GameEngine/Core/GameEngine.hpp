@@ -64,6 +64,8 @@ namespace GameEngine {
         EventHandler eventHandler;
         std::unordered_map<std::string, std::function<void(GameEngine&)>> sceneMap;
 
+        std::thread loggerThread;
+
         double tickSpeed;
         bool isRunning;
         static std::map<std::string, CommandFunction> commands;
