@@ -28,7 +28,7 @@ namespace Network {
 
         void connectToServer(const std::string &host, unsigned short port);
 
-        void send(const std::shared_ptr<IMessage>& message);
+        void send(const std::shared_ptr<IMessage> message);
 
         std::chrono::steady_clock::time_point getLastPacketTime() const { return _lastPacketReceived; }
         void updateLastPacketTime() { _lastPacketReceived = std::chrono::steady_clock::now(); }

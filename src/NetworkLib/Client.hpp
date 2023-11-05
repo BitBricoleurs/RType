@@ -13,7 +13,7 @@ namespace Network {
         void connect(const std::string &host, unsigned short port);
         void disconnect();
         bool isConnected() const;
-        void send(const std::shared_ptr<IMessage>& message);
+        void send(const std::shared_ptr<IMessage> message);
         bool isServerTimeout() const;
 
         ~Client();
