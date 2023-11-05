@@ -1,8 +1,0 @@
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-target_sources(${PROJECT_NAME_POCLUA} PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-        )
-
-target_link_libraries(${PROJECT_NAME_POCLUA}  ${LIBRARY_NAME_LUAENGINE} dl GameEngine RenderEngineLib PhysicsEngineLib NetworkLib LoadConfigLib ${LIBRARY_NAME_UTILS})
