@@ -41,7 +41,7 @@ void Network::Interface::connectToServer(const std::string &host, unsigned short
     getIO()->readPacket();
 }
 
-void Network::Interface::send(const std::shared_ptr<IMessage>& message)
+void Network::Interface::send(const std::shared_ptr<IMessage> message)
 {
     if (isConnected() && message != nullptr) {
         _outMessages.pushBack(message);

@@ -12,13 +12,20 @@
 namespace Network {
     struct PACK(PacketHeader {
         unsigned magicNumber = MAGIC_NUMBER;
-        int sequenceNumber;
-        int lastPacketSeq;
-        uint16_t ackMask;
-        uint16_t bodySize;
+        int sequenceNumber = 0;
+        int lastPacketSeq = 0;
+        uint16_t ackMask = 0;
+        uint16_t bodySize = 0;
     });
 
     struct Packet {
+        Packet() {
+            header.magicNumber = MAGIC_NUMBER;
+            header.sequenceNumber = 0;
+            header.lastPacketSeq = 0;
+            header.ackMask = 0;
+            header.bodySize = 0;
+        }
         PacketHeader header;
         std::vector<std::uint8_t> body;
     };

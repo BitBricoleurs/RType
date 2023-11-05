@@ -28,7 +28,7 @@ namespace Network {
         }
 
     public:
-        const T &getFront() {
+        T getFront() {
             std::scoped_lock lock(muxQueue);
             static T t;
             if (deqQueue.empty())
@@ -36,7 +36,7 @@ namespace Network {
             return deqQueue.front();
         }
 
-        const T &getBack() {
+        T getBack() {
             std::scoped_lock lock(muxQueue);
             static T t;
             if (deqQueue.empty())
@@ -50,20 +50,20 @@ namespace Network {
         }
 
         T popFront() {
-            static T basicT;
-            if (empty())
-                 return basicT;
             std::scoped_lock lock(muxQueue);
+            static T nullT;
+            if (deqQueue.empty())
+                return nullT;
             auto t = deqQueue.front();
             deqQueue.pop_front();
             return t;
         }
 
         T popBack() {
-            static T basicT;
-            if (empty())
-                 return basicT;
             std::scoped_lock lock(muxQueue);
+            static T nullT;
+            if (deqQueue.empty())
+                return nullT;
             auto t = deqQueue.back();
             deqQueue.pop_back();
             return t;
@@ -74,20 +74,20 @@ namespace Network {
             return deqQueue.size() == deqQueue.max_size();
         }
 
-        void pushBack(const T &item) {
+        void pushBack(const T item) {
             if (isQueueFull()) {
                 popFront();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_back(item);
+            deqQueue.emplace_back(std::move(item));
         }
 
-        void pushFront(const T &item) {
+        void pushFront(const T item) {
             if (isQueueFull()) {
                 popBack();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_front(item);
+            deqQueue.emplace_back(std::move(item));
         }
 
         bool empty() {

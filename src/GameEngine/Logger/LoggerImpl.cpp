@@ -52,7 +52,9 @@ namespace GameEngine {
     }
 
     void Logger::stopServer() {
-        LoggerImpl::connection->stop();
+        if (LoggerImpl::connection) {
+            LoggerImpl::connection->stop();
+        }
         LoggerImpl::io_service.stop();
     }
 

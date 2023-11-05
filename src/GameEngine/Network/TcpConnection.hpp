@@ -24,8 +24,9 @@ namespace GameEngine {
 
         void stop();
 
-    private:
         TcpConnection(boost::asio::io_service& io_service);
+        ~TcpConnection();
+            private:
 
         void handleWrite(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/);
 
@@ -34,5 +35,6 @@ namespace GameEngine {
         void handleRead(const boost::system::error_code& /*error*/, size_t  /*bytes_transferred*/);
 
         boost::asio::streambuf buffer_;
+        std::atomic_bool isRunning = true;
     };
 }

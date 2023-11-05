@@ -671,6 +671,27 @@
             "frames": 1,
             "twoDirections": false,
             "reverse": false
+        },
+        {
+            "type": 33,
+            "path": "assets/map/map3/E6.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 39,
+                "height": 242
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
         }
     ]
 }

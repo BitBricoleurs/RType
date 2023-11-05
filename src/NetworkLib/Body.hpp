@@ -20,6 +20,6 @@ namespace Network {
         void clear() { _data.clear(); }
 
     private:
-        std::vector<std::uint8_t> _data;
+        std::vector<std::uint8_t> _data = std::vector<std::uint8_t>();
     };
 }

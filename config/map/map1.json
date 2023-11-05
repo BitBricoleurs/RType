@@ -142,12 +142,31 @@
       },
 
       "isBackgroundEnabled": true
-    }
-  ],
-  "mobs": [
+    },
+
     {
-      "tick": 170,
-      "mobType": "pataPataMob",
+      "tick": 2608,
+      "type": 22,
+      "layer": 5,
+      "isLooping": false,
+      "velocity": {
+        "x": -0.5,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": -118
+      },
+
+      "isBackgroundEnabled": false
+    },
+
+    {
+      "tick": 1878,
+      "type": 23,
+      "layer": 5,
+      "isLooping": false,
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -155,35 +174,19 @@
 
       "position": {
         "x": 2000,
-        "y": 283
+        "y": 776
       },
 
-      "dropPowerUp": false,
-      "isLastMob": false
+      "isBackgroundEnabled": false
     },
 
     {
-      "tick": 216,
-      "mobType": "pataPataMob",
+      "tick": 968,
+      "type": 24,
+      "layer": 5,
+      "isLooping": false,
       "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 504
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 284,
-      "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
+        "x": -7.0,
         "y": 0.0
       },
 
@@ -192,12 +195,12 @@
         "y": 571
       },
 
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
+      "isBackgroundEnabled": false
+    }
+  ],
+  "mobs": [
     {
-      "tick": 386,
+      "tick": 322,
       "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
@@ -206,7 +209,7 @@
 
       "position": {
         "x": 2000,
-        "y": 433
+        "y": 373
       },
 
       "dropPowerUp": false,
@@ -214,7 +217,7 @@
     },
 
     {
-      "tick": 400,
+      "tick": 335,
       "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
@@ -223,15 +226,15 @@
 
       "position": {
         "x": 2000,
-        "y": 310
+        "y": 665
       },
 
-      "dropPowerUp": false,
+      "dropPowerUp": true,
       "isLastMob": false
     },
 
     {
-      "tick": 417,
+      "tick": 424,
       "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
@@ -240,7 +243,7 @@
 
       "position": {
         "x": 2000,
-        "y": 238
+        "y": 531
       },
 
       "dropPowerUp": false,
@@ -248,7 +251,7 @@
     },
 
     {
-      "tick": 483,
+      "tick": 600,
       "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
@@ -257,7 +260,7 @@
 
       "position": {
         "x": 2000,
-        "y": 675
+        "y": 341
       },
 
       "dropPowerUp": false,
@@ -265,161 +268,8 @@
     },
 
     {
-      "tick": 510,
+      "tick": 606,
       "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 542
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 620,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 258
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 681,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 490
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 723,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 620
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 775,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 681
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 831,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 708
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 905,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 708
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 936,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 655
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 952,
-      "mobType": "cancerMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 604
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 955,
-      "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -435,7 +285,109 @@
     },
 
     {
-      "tick": 958,
+      "tick": 610,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 454
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 611,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 626
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 612,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 800
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 614,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 527
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 614,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 846
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 618,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 709
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 856,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -444,7 +396,7 @@
 
       "position": {
         "x": 2000,
-        "y": 280
+        "y": 782
       },
 
       "dropPowerUp": false,
@@ -452,7 +404,7 @@
     },
 
     {
-      "tick": 967,
+      "tick": 874,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -461,7 +413,7 @@
 
       "position": {
         "x": 2000,
-        "y": 398
+        "y": 489
       },
 
       "dropPowerUp": false,
@@ -469,7 +421,7 @@
     },
 
     {
-      "tick": 968,
+      "tick": 875,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -478,7 +430,7 @@
 
       "position": {
         "x": 2000,
-        "y": 478
+        "y": 281
       },
 
       "dropPowerUp": false,
@@ -486,8 +438,8 @@
     },
 
     {
-      "tick": 1158,
-      "mobType": "bugMob",
+      "tick": 1000,
+      "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -495,7 +447,7 @@
 
       "position": {
         "x": 2000,
-        "y": 332
+        "y": 450
       },
 
       "dropPowerUp": false,
@@ -503,8 +455,8 @@
     },
 
     {
-      "tick": 1184,
-      "mobType": "bugMob",
+      "tick": 1002,
+      "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -512,7 +464,7 @@
 
       "position": {
         "x": 2000,
-        "y": 643
+        "y": 601
       },
 
       "dropPowerUp": false,
@@ -520,8 +472,8 @@
     },
 
     {
-      "tick": 1215,
-      "mobType": "bugMob",
+      "tick": 1064,
+      "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -529,7 +481,7 @@
 
       "position": {
         "x": 2000,
-        "y": 645
+        "y": 204
       },
 
       "dropPowerUp": false,
@@ -537,8 +489,8 @@
     },
 
     {
-      "tick": 1257,
-      "mobType": "bugMob",
+      "tick": 1081,
+      "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -546,7 +498,7 @@
 
       "position": {
         "x": 2000,
-        "y": 714
+        "y": 308
       },
 
       "dropPowerUp": false,
@@ -554,8 +506,8 @@
     },
 
     {
-      "tick": 1261,
-      "mobType": "bugMob",
+      "tick": 1121,
+      "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -563,7 +515,7 @@
 
       "position": {
         "x": 2000,
-        "y": 475
+        "y": 216
       },
 
       "dropPowerUp": false,
@@ -571,8 +523,212 @@
     },
 
     {
-      "tick": 1262,
-      "mobType": "bugMob",
+      "tick": 1125,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 954
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1156,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 641
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1219,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 271
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1267,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 889
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1273,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 314
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1335,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 432
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1343,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 552
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1626,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 187
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1642,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 838
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1675,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 838
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1712,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 815
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1716,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 259
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 1758,
+      "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
         "y": 0.0
@@ -588,24 +744,7 @@
     },
 
     {
-      "tick": 1299,
-      "mobType": "bugMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 337
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1321,
+      "tick": 1763,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -614,7 +753,7 @@
 
       "position": {
         "x": 2000,
-        "y": 607
+        "y": 329
       },
 
       "dropPowerUp": false,
@@ -622,7 +761,7 @@
     },
 
     {
-      "tick": 1364,
+      "tick": 1775,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -631,7 +770,7 @@
 
       "position": {
         "x": 2000,
-        "y": 515
+        "y": 441
       },
 
       "dropPowerUp": false,
@@ -639,7 +778,7 @@
     },
 
     {
-      "tick": 1375,
+      "tick": 1777,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -648,7 +787,7 @@
 
       "position": {
         "x": 2000,
-        "y": 760
+        "y": 593
       },
 
       "dropPowerUp": false,
@@ -656,7 +795,7 @@
     },
 
     {
-      "tick": 1397,
+      "tick": 2159,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -665,7 +804,7 @@
 
       "position": {
         "x": 2000,
-        "y": 319
+        "y": 882
       },
 
       "dropPowerUp": false,
@@ -673,24 +812,7 @@
     },
 
     {
-      "tick": 1445,
-      "mobType": "bugMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 493
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1459,
+      "tick": 2165,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -699,7 +821,7 @@
 
       "position": {
         "x": 2000,
-        "y": 671
+        "y": 203
       },
 
       "dropPowerUp": false,
@@ -707,7 +829,7 @@
     },
 
     {
-      "tick": 1496,
+      "tick": 2220,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -716,7 +838,7 @@
 
       "position": {
         "x": 2000,
-        "y": 769
+        "y": 863
       },
 
       "dropPowerUp": false,
@@ -724,7 +846,7 @@
     },
 
     {
-      "tick": 1496,
+      "tick": 2249,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -733,7 +855,7 @@
 
       "position": {
         "x": 2000,
-        "y": 163
+        "y": 245
       },
 
       "dropPowerUp": false,
@@ -741,7 +863,7 @@
     },
 
     {
-      "tick": 1502,
+      "tick": 2273,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -750,7 +872,7 @@
 
       "position": {
         "x": 2000,
-        "y": 767
+        "y": 833
       },
 
       "dropPowerUp": false,
@@ -758,7 +880,7 @@
     },
 
     {
-      "tick": 1553,
+      "tick": 2302,
       "mobType": "cancerMob",
       "velocity": {
         "x": -2.0,
@@ -767,7 +889,7 @@
 
       "position": {
         "x": 2000,
-        "y": 400
+        "y": 315
       },
 
       "dropPowerUp": false,
@@ -775,7 +897,262 @@
     },
 
     {
-      "tick": 1711,
+      "tick": 2309,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 763
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2324,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 451
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2331,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 621
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2653,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 172
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2685,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 887
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2746,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 878
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2750,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 209
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2802,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 814
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2818,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 315
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2834,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 690
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 2840,
+      "mobType": "cancerMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 495
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 3218,
+      "mobType": "bugGroup",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 843
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 3228,
+      "mobType": "bugGroup",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 622
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 3233,
+      "mobType": "bugGroup",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 353
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 3245,
+      "mobType": "bugGroup",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 227
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 4222,
       "mobType": "pataPataMob",
       "velocity": {
         "x": -2.0,
@@ -784,500 +1161,7 @@
 
       "position": {
         "x": 2000,
-        "y": 233
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1741,
-      "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 368
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1742,
-      "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 743
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1770,
-      "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 585
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 1785,
-      "mobType": "pataPataMob",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 666
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2049,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 313
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2062,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 446
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2067,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 751
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2069,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 76
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2069,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 168
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2073,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 604
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2590,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 586
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2591,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 93
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2592,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 673
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2593,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 410
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2595,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 249
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 2595,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 719
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3021,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 98
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3027,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 239
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3034,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 398
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3038,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 566
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3041,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 739
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3042,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 636
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3699,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 169
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3718,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 465
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3731,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 334
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3735,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 616
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3735,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 711
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 3739,
-      "mobType": "bugGroup",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 764
-      },
-
-      "dropPowerUp": false,
-      "isLastMob": false
-    },
-
-    {
-      "tick": 4120,
-      "mobType": "bellmite",
-      "velocity": {
-        "x": -2.0,
-        "y": 0.0
-      },
-
-      "position": {
-        "x": 2000,
-        "y": 249
+        "y": 575
       },
 
       "dropPowerUp": false,
