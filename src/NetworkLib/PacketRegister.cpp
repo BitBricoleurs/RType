@@ -74,6 +74,7 @@ void Network::PacketRegister::clear()
 
 unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
 {
+    return 0;
     std::lock_guard<std::mutex> lock(_mutexOut);
     std::sort(_packetIdRegisterIn[remoteId].begin(), _packetIdRegisterIn[remoteId].end());
     auto it = _packetIdRegisterIn.find(remoteId);

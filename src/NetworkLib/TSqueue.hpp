@@ -50,20 +50,20 @@ namespace Network {
         }
 
         T popFront() {
-            static T basicT;
-            if (empty())
-                 return basicT;
             std::scoped_lock lock(muxQueue);
+            static T nullT;
+            if (deqQueue.empty())
+                return nullT;
             auto t = deqQueue.front();
             deqQueue.pop_front();
             return t;
         }
 
         T popBack() {
-            static T basicT;
-            if (empty())
-                 return basicT;
             std::scoped_lock lock(muxQueue);
+            static T nullT;
+            if (deqQueue.empty())
+                return nullT;
             auto t = deqQueue.back();
             deqQueue.pop_back();
             return t;
