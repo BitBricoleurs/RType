@@ -182,7 +182,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -199,7 +199,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -216,7 +216,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -3,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -233,7 +233,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -250,7 +250,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -267,7 +267,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -284,7 +284,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -301,7 +301,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -318,7 +318,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -335,7 +335,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -352,7 +352,7 @@
     "scale": 1,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.4,
       "y": 0
     },
     "isLooping": false,
@@ -366,10 +366,10 @@
       "width": 560,
       "height": 560
     },
-    "scale": 1,
+    "scale": 0.3,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -0.5,
       "y": 0
     },
     "isLooping": false,
@@ -383,10 +383,10 @@
       "width": 560,
       "height": 560
     },
-    "scale": 1,
+    "scale": 3,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -2.0,
       "y": 0
     },
     "isLooping": false,
@@ -400,10 +400,10 @@
       "width": 560,
       "height": 560
     },
-    "scale": 1,
+    "scale": 10,
     "layer": 0,
     "velocity": {
-      "x": -0.1,
+      "x": -7.0,
       "y": 0
     },
     "isLooping": false,
@@ -535,6 +535,23 @@
     "rect": {
       "width": 560,
       "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 33,
+    "path": "/assets/map3/E6.png",
+    "name" : "map3 - E6",
+    "rect": {
+      "width": 39,
+      "height": 242
     },
     "scale": 1,
     "layer": 0,
