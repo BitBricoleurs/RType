@@ -71,7 +71,6 @@ namespace Client {
         auto changeDirPlayer = std::make_shared<Client::ChangeDirPlayer>();
         auto endSmoothing = std::make_shared<Client::EndSmoothing>();
         auto syncForcePodPlayer = std::make_shared<Client::SyncForcePodPlayer>();
-        auto blockOutOfBounds = std::make_shared<Client::BlockOutOfBounds>();
 
         engine.addEvent("UPDATE_POSITION", updatePosition);
         engine.addEvent("UPDATE_VELOCITY", updateVelocity);
@@ -87,7 +86,6 @@ namespace Client {
         engine.addEvent("RIGHT_KEY_RELEASED", changeDirPlayer);
         engine.addSystem("END_SMOOTHING", endSmoothing, 1);
         engine.addEvent("SYNC_FORCE_POD_PLAYER", syncForcePodPlayer);
-        engine.addSystem("BLOCK_OUT_OF_BOUNDS", blockOutOfBounds);
     }
 
     void MainProgram::setup_hud(GameEngine::GameEngine &engine) {

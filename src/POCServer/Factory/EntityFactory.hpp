@@ -40,9 +40,9 @@
 #include "IsParallax.hpp"
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
-#include "IsPower.hpp"x
+#include "IsPower.hpp"
 #include "MovementLimits.hpp"
-#include "CooldownHit.hpp"x
+#include "CooldownHit.hpp"
 
 namespace Server {
 
