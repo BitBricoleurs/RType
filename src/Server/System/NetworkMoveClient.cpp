@@ -62,17 +62,38 @@ namespace Server {
 
                 }
 
-                auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+                auto isPlayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+                auto compPlayer = componentsContainer.getComponent(entity, isPlayerType);
+                if (!compPlayer.has_value())
+                    continue;
+                auto isPlayer = std::static_pointer_cast<IsPlayer>(compPlayer.value());
                 if (isPlayer->entityIdForcePod != 0) {
-                    auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
-                    auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("Shooter")).value());
-                    auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-                    auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+
+                    auto velType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
+                    auto shooterType = GameEngine::ComponentsType::getComponentType("Shooter");
+                    auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+                    auto netType = GameEngine::ComponentsType::getComponentType("NetworkClientId");
+
+                    auto velOpt = componentsContainer.getComponent(entity, velType);
+                    auto shooterOpt = componentsContainer.getComponent(entity, shooterType);
+                    auto posPlayerOpt = componentsContainer.getComponent(entity, posType);
+                    auto posForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, posType);
+                    auto velForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, velType);
+                    auto netOpt = componentsContainer.getComponent(entity, netType);
+
+                    if (!velOpt.has_value() || !shooterOpt.has_value() || !posPlayerOpt.has_value() || !posForcePodOpt.has_value() || !netOpt.has_value())
+                        return;
+
+
+                    auto forcePodVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velForcePodOpt.value());
+                    auto shooter = std::static_pointer_cast<Shooter>(shooterOpt.value());
+                    auto posPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posPlayerOpt.value());
+                    auto posForcePod = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posForcePodOpt.value());
                     forcePodVelocity->velocity.x = newVel.x;
                     forcePodVelocity->velocity.y = newVel.y;
                     Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x - 45, posPlayer->pos.y + shooter->shootPosition.y - 13);
                     posForcePod->pos = shootingPosition;
-                    auto network = std::dynamic_pointer_cast<NetworkClientId>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("NetworkClientId")).value());
+                    auto network = std::static_pointer_cast<NetworkClientId>(netOpt.value());
                     std::vector<size_t> ids = {isPlayer->entityIdForcePod};
                     std::vector<std::any> args = {};
                     args.push_back(posForcePod->pos.x);

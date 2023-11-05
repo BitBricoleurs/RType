@@ -5,4 +5,9 @@ target_sources(${PROJECT_NAME_POCCinematic} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         )
 
-target_link_libraries(${PROJECT_NAME_POCCinematic} ${LIBRARY_NAME_GAMEENGINE} ${LIBRARY_NAME_RENDER} ${LIBRARY_NAME_AUDIO} PhysicsEngineLib ${LIBRARY_NAME_NETLIB} LoadConfigLib ${LIBRARY_NAME_UTILS})
+if(NOT WIN32)
+        target_link_libraries(${PROJECT_NAME_POCCinematic} ${LIBRARY_NAME_GAMEENGINE} ${LIBRARY_NAME_RENDER} ${LIBRARY_NAME_AUDIO} PhysicsEngineLib ${LIBRARY_NAME_NETLIB} LoadConfigLib ${LIBRARY_NAME_UTILS})
+endif ()
+if(WIN32)
+        target_link_libraries(${PROJECT_NAME_POCCinematic} ${LIBRARY_NAME_GAMEENGINE} ${LIBRARY_NAME_RENDER} PhysicsEngineLib ${LIBRARY_NAME_NETLIB} LoadConfigLib ${LIBRARY_NAME_UTILS})
+endif()

@@ -30,11 +30,17 @@ namespace Network {
     public:
         const T &getFront() {
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.front();
         }
 
         const T &getBack() {
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.back();
         }
 
@@ -44,15 +50,21 @@ namespace Network {
         }
 
         T popFront() {
+            static T basicT;
+            if (empty())
+                 return basicT;
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.front());
+            auto t = deqQueue.front();
             deqQueue.pop_front();
             return t;
         }
 
         T popBack() {
+            static T basicT;
+            if (empty())
+                 return basicT;
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.back());
+            auto t = deqQueue.back();
             deqQueue.pop_back();
             return t;
         }
@@ -67,7 +79,7 @@ namespace Network {
                 popFront();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_back(std::move(item));
+            deqQueue.emplace_back(item);
         }
 
         void pushFront(const T &item) {
@@ -75,7 +87,7 @@ namespace Network {
                 popBack();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_front(std::move(item));
+            deqQueue.emplace_front(item);
         }
 
         bool empty() {
@@ -107,7 +119,7 @@ namespace Network {
 
         void sortQueue(std::function<bool(const T&, const T&)> compFunc) {
             std::scoped_lock lock(muxQueue);
-            std::sort(deqQueue.begin(), deqQueue.end(), compFunc);
+            std::stable_sort(deqQueue.begin(), deqQueue.end(), compFunc);
         }
 
     private:

@@ -36,6 +36,7 @@ namespace Server {
                         scale
                     );
 
+
                     container.bindComponentToEntity(entityId, std::make_shared<IsPower>(type));
                     ids.push_back(entityId);
                     args.emplace_back(static_cast<int>(type));

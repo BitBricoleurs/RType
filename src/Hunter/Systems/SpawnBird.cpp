@@ -37,7 +37,7 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
     return 0;
 
   auto baseVelocity =
-      std::dynamic_pointer_cast<BaseVelocity>(baseVelocityOpt.value());
+      std::static_pointer_cast<BaseVelocity>(baseVelocityOpt.value());
 
   Utils::Vect2 birdPos = getRandomPosition();
   Utils::ColorR tint = {255, 255, 255, 255};
@@ -59,9 +59,6 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
   auto movementComponent = std::make_shared<PhysicsEngine::MovementComponent>();
   auto positionComponent =
       std::make_shared<PhysicsEngine::PositionComponent2D>(birdPos);
-
-  auto audioComponent =
-      std::make_shared<AudioEngine::AudioComponent>("assets/hunter/splat.wav");
 
   auto deathAnimation =
       initDeathAnimation("assets/hunter/blood.png", 6, 3072, 512);

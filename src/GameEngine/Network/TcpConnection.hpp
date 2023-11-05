@@ -22,6 +22,8 @@ namespace GameEngine {
 
         void receiveMessage();
 
+        void stop();
+
     private:
         TcpConnection(boost::asio::io_service& io_service);
 

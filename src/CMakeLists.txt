@@ -1,5 +1,7 @@
 add_subdirectory(GameEngine)
-add_subdirectory(AudioEngine)
+if(NOT WIN32)
+    add_subdirectory(AudioEngine)
+endif ()
 add_subdirectory(RenderEngine)
 add_subdirectory(PhysicsEngine)
 add_subdirectory(UtilsProject)

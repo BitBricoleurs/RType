@@ -8,7 +8,9 @@
 #pragma once
 
 #include "Animation.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
+#endif
 #include "Bird.hpp"
 #include "ButtonComponent.hpp"
 #include "ColorR.hpp"

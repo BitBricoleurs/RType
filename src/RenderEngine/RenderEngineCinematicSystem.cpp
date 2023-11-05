@@ -178,36 +178,42 @@ namespace RenderEngine {
 
 
     void RenderEngineCinematicSystem::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-        if (clock == 0) {
-            auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
+        try {
+            if (clock == 0) {
+                auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
 
-            if (jsonPath != "") {
-                loadJSON(jsonPath, componentsContainer);
-                isPlaying = true;
+                if (jsonPath != "") {
+                    loadJSON(jsonPath, componentsContainer);
+                    isPlaying = true;
+                }
+                eventHandler.scheduleEvent("Cinematic", 1);
             }
-            eventHandler.scheduleEvent("Cinematic", 1);
-        }
-        playCinematic(componentsContainer, eventHandler);
-        return;
+            playCinematic(componentsContainer, eventHandler);
+            return;
 
-        if (nextScene != "" && !isPlaying && !isPaused) {
-            endCinematic();
+            if (nextScene != "" && !isPlaying && !isPaused) {
+                endCinematic();
+            }
+        } catch (const std::bad_any_cast&) {
+        std::cerr << "Cast error in RenderEngineCinematicSystem::update" << std::endl;
         }
     }
 
    void RenderEngineCinematicSystem::playCinematic(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
     if (!isPaused) {
+        auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+        auto cinetype = GameEngine::ComponentsType::getComponentType("CinematicComponent");
         auto entitiesWithComponents = componentsContainer.getEntitiesWithComponent(
-            GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"),
-            GameEngine::ComponentsType::getNewComponentType("CinematicComponent")
+            posType,
+            cinetype
         );
         for (const auto& entity : entitiesWithComponents) {
-            auto cinematicComponent = std::dynamic_pointer_cast<CinematicComponent>(
-                componentsContainer.getComponent(entity, GameEngine::ComponentsType::getNewComponentType("CinematicComponent")).value()
-            );
-            auto positionComponent = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
-                componentsContainer.getComponent(entity, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D")).value()
-            );
+            auto cinematicOpt = componentsContainer.getComponent(entity, cinetype);
+            auto positionOpt = componentsContainer.getComponent(entity, posType);
+            if (!cinematicOpt.has_value() || !positionOpt.has_value())
+                continue;
+            auto cinematicComponent = std::static_pointer_cast<CinematicComponent>(cinematicOpt.value());
+            auto positionComponent = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
 
             float elapsed = clock - cinematicComponent->inHowMuchTime;
             float completionRatio = elapsed / cinematicComponent->playDuration;
@@ -218,14 +224,21 @@ namespace RenderEngine {
             }
         }
     }
-    auto eventsID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent"));
-    auto eventComponent = std::dynamic_pointer_cast<CinematicEventComponent>(
-            componentsContainer.getComponent(eventsID[0], GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent")).value()
-        );
-    auto windowID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
-    auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(
-            componentsContainer.getComponent(windowID[0], GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent")).value()
-        );
+    auto cineTextComponent = GameEngine::ComponentsType::getComponentType("CinematicTextComponent");
+    auto windoType = GameEngine::ComponentsType::getComponentType("WindowInfoComponent");
+
+    auto eventsID = componentsContainer.getEntityWithUniqueComponent(cineTextComponent);
+
+    auto eventOpt = componentsContainer.getComponent(eventsID, cineTextComponent);
+    if (!eventOpt.has_value())
+        return;
+    auto eventComponent = std::static_pointer_cast<CinematicEventComponent>(eventOpt.value());
+    auto windowID = componentsContainer.getEntityWithUniqueComponent(windoType);
+
+    auto windowOpt = componentsContainer.getComponent(windowID, windoType);
+    if (!windowOpt.has_value())
+        return;
+    auto windowcast = std::static_pointer_cast<WindowInfoComponent>(windowOpt.value());
 
     for (size_t i = 0; i < eventComponent->eventData.size(); ++i) {
         auto& event = eventComponent->eventData[i];

@@ -124,7 +124,12 @@ namespace GameEngine {
         });
     }
 
-    GameEngine::~GameEngine() = default;
+    GameEngine::~GameEngine() {
+        Logger::stopServer();
+        if (loggerThread.joinable()) {
+            loggerThread.join();
+        }
+    }
 
     size_t GameEngine::createEntity(bool persistent) {
         return registry.createEntity(persistent);
@@ -185,8 +190,7 @@ namespace GameEngine {
         Timer timer;
         double lastTickTime = 0.0;
 
-        std::thread server_thread([]{ Logger::startServer(0); });
-        server_thread.detach();
+        loggerThread = std::thread(([]{ Logger::startServer(0); }));
         while (isRunning) {
             double currentTime = timer.elapsedSeconds();
             if ((currentTime - lastTickTime >= tickSpeed) && !pause) {

@@ -1,7 +1,16 @@
 #include "Registry.hpp"
 #include "GameEngine.hpp"
 
+#ifdef _WIN32
+#include "WindowsDynamicLibraryHandler.hpp"
+#else
+#include "UnixDynamicLibraryHandler.hpp"
+#endif
+
+
 namespace GameEngine {
+
+    using CreateSystemFunc = std::shared_ptr<ISystem>(*)();
 
     Registry::Registry(bool isMultiThreaded) : componentsContainer(), systemMap(), systemOrder(), systemsNeedSorting(true), isMultiThreaded(isMultiThreaded) {
         GameEngine::registerCommand("clearRegistry", [this](const std::vector<std::string>& args) -> std::string {
@@ -90,7 +99,35 @@ namespace GameEngine {
             persistentSystems.insert(systemName);
         }
     }
+    void Registry::addSystem(const std::string &systemName, const std::string &libraryPath, int priority) {
+        std::unique_ptr<DynamicLibraryHandler> libraryHandler;
+        #ifdef _WIN32
+        libraryHandler = std::make_unique<WindowsDynamicLibraryHandler>();
+        #else
+        libraryHandler = std::make_unique<UnixDynamicLibraryHandler>();
+        #endif
 
+        if (!libraryHandler->loadLibrary(libraryPath)) {
+            return;
+        }
+
+        auto createSystem = libraryHandler->getFunction("createSystem");
+        if (!createSystem) {
+            return;
+        }
+        auto systemCreator = reinterpret_cast<CreateSystemFunc>(createSystem.target<void*>());
+        if (!systemCreator) {
+            return;
+        }
+
+        std::shared_ptr<ISystem> systemInstance = systemCreator();
+        if (!systemInstance) {
+            return;
+        }
+
+        addSystem(systemName, systemInstance, priority);
+        libraryHandlers[systemName] = std::move(libraryHandler);
+    }
     void Registry::setPersistent(const std::string& systemName, bool persistent) {
         if (persistent) {
             persistentSystems.insert(systemName);
