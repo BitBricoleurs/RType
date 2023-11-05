@@ -197,9 +197,12 @@ void Network::PacketIO::processOutgoingMessages()
             }
             _packetOut->header.ackMask = 0;//_registerPacket.getAckMask(_id);
             _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
-            _registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
-
+            //_registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
+            
             _packetOut->body= _bodyOut.getData();
+            if (_packetOut->body.empty()) {
+                return;
+            }
             if (_packetOut->header.bodySize > 0) {
                 _packetOutQueue.pushBack(_packetOut);
                 sendWaitingPackets();

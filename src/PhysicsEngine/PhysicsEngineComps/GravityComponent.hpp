@@ -20,7 +20,7 @@ namespace PhysicsEngine {
             return GameEngine::ComponentsType::getNewComponentType("GravityComponent");
         }
         Utils::Vect2 baseGravity;
-        float weight;
+        float weight = 0;
         int fallTime;
 
     private:

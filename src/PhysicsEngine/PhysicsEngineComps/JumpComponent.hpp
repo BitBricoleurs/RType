@@ -18,8 +18,8 @@ namespace PhysicsEngine {
         size_t componentType = GameEngine::ComponentsType::getNewComponentType("JumpComponent");
         bool canJump = true;
         bool isJumping = false;
-        float jumpStrength;
-        float jumpSpeed;
+        float jumpStrength = 0;
+        float jumpSpeed = 0;
     private:
     };
 }
