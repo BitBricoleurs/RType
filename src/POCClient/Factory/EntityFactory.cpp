@@ -6,6 +6,7 @@
 */
 
 #include "EntityFactory.hpp"
+#include "MovementLimits.hpp"
 #include <cstddef>
 #include <math.h>
 #include <memory>
@@ -70,11 +71,19 @@ namespace Client {
           container, spriteSheetPath, spriteSheetHeight, spriteSheetWidth, frames,
           twoDirections, reverse, pos, velocity, playerA, scale, rotation, tint, layer);
 
+
+
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
       auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), 0);
 
+      Utils::Vect2 topLeft = Utils::Vect2(0, 0);
+      Utils::Vect2 bottomRight = Utils::Vect2(1820, 975);
+
+      auto movementLimitComponent = std::make_shared<PhysicsEngine::MovementLimits>(topLeft, bottomRight);
+
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
+        container.bindComponentToEntity(entityId, movementLimitComponent);
 
       return entityId;
     }

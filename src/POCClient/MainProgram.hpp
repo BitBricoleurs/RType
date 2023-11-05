@@ -52,7 +52,6 @@
 #include "CreatePowerUp.hpp"
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
-#include "BlockOutOfBounds.hpp"
 #include "FlashWhenHit.hpp"
 #include "NetworkReceiveFlash.hpp"
 #include "NetworkReceiveLifeLost.hpp"

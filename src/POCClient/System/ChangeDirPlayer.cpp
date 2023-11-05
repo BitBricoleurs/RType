@@ -72,6 +72,5 @@ void Client::ChangeDirPlayer::tryRemovingSmoothing(GameEngine::ComponentsContain
         velComp->velocity.x = 0;
         velComp->velocity.y = 0;
         componentsContainer.unbindComponentFromEntity(entity, smoothingType);
-
     }
 }
