@@ -17,6 +17,6 @@ namespace Server {
 
       int maxHealth;
       int currentHealth;
-      int lives = 0;
+      int lives = 3;
     };
 }
