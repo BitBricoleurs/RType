@@ -38,7 +38,7 @@ void Network::PacketIO::readPacket()
                     std::cout << "Error reading packet: magic number is not correct" << std::endl;
                     return;
                 }
-                if (_packetQueue.count() >= _packetQueue.getMaxSize()) {
+                if (_packetQueue.isQueueFull()) {
                     readPacket();
                     return;
                 }
@@ -71,6 +71,10 @@ void Network::PacketIO::sendWaitingPackets()
 
 void Network::PacketIO::serializePacket()
 {
+    if (_packetOut == nullptr) {
+        _serializedPacket.resize(0);
+        return;
+    }
     _serializedPacket.resize(sizeof(PacketHeader) + _packetOut->body.size());
     memcpy(_serializedPacket.data(), &_packetOut->header, sizeof(PacketHeader));
     memcpy(_serializedPacket.data() + sizeof(PacketHeader), _packetOut->body.data(), _packetOut->body.size());
@@ -122,7 +126,7 @@ void Network::PacketIO::processIncomingMessages() {
             unsigned int id = 0;
             std::uint16_t size = 0;
             while (index < _headerIn.bodySize) {
-                if (_inMessages.count() == _inMessages.getMaxSize() - 1) {
+                if (_inMessages.isQueueFull()) {
                     break;
                 }
                 memcpy(&size, _bodyIn.getData().data() + index, sizeof(uint16_t));
@@ -141,7 +145,15 @@ void Network::PacketIO::processIncomingMessages() {
         }
         while (!_inMessages.empty()) {
             std::shared_ptr<OwnedMessage> message = _inMessages.getFront();
+            if (message == nullptr) {
+                if (_inMessages.empty())
+                    break;
+                _inMessages.popFront();
+                continue;
+            }
             _forwardMessages->pushBack(message);
+            if (_inMessages.empty())
+                break;
             _inMessages.popFront();
         }
     });
@@ -160,6 +172,8 @@ void Network::PacketIO::processOutgoingMessages()
             while (!_outMessages->empty()) {
                 std::shared_ptr<IMessage> message= _outMessages->getFront();
                 if (message == nullptr) {
+                    if (_outMessages->empty())
+                        break;
                     _outMessages->popFront();
                     continue;
                 }
@@ -179,7 +193,7 @@ void Network::PacketIO::processOutgoingMessages()
             if (_id == -1) {
                 _id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
             }
-            _packetOut->header.ackMask= _registerPacket.getAckMask(_id);
+            _packetOut->header.ackMask = 0;//_registerPacket.getAckMask(_id);
             _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
             _registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
 

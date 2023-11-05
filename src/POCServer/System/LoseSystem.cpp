@@ -25,4 +25,5 @@ void Server::LoseSystem::update(GameEngine::ComponentsContainer &componentsConta
     eventHandler.scheduleEvent("GO_BACK_TO_THE_LOBBY", 400, std::any(), 1);
     eventHandler.queueEvent("DELETE_MOBS");
     eventHandler.queueEvent("DELETE_PARALLAX");
+    eventHandler.queueEvent("DELETE_POWER_UP");
 }

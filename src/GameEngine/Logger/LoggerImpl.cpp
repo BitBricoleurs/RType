@@ -38,6 +38,8 @@ namespace GameEngine {
             boost::asio::ip::tcp::acceptor acceptor(LoggerImpl::io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
             TcpConnection::pointer new_connection = TcpConnection::create(LoggerImpl::io_service);
 
+            std::string INFO = "Console Endpoint available at: " + acceptor.local_endpoint().address().to_string() + ":" + std::to_string(acceptor.local_endpoint().port());
+            info(INFO);
             acceptor.async_accept(new_connection->socket(),
                                   boost::bind(&LoggerImpl::handleAccept, new_connection,
                                               boost::ref(acceptor),
@@ -47,6 +49,11 @@ namespace GameEngine {
         } catch (std::exception& e) {
             std::cerr << "Server Error: " << e.what() << std::endl;
         }
+    }
+
+    void Logger::stopServer() {
+        LoggerImpl::connection->stop();
+        LoggerImpl::io_service.stop();
     }
 
     void Logger::LoggerImpl::handleAccept(TcpConnection::pointer new_connection, boost::asio::ip::tcp::acceptor& acceptor, const boost::system::error_code& error) {

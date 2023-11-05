@@ -59,9 +59,15 @@ namespace Server {
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
       auto cooldownHitComponent = std::make_shared<CooldownHit>();
 
+      Utils::Vect2 topLeft = Utils::Vect2(0, 0);
+      Utils::Vect2 bottomRight = Utils::Vect2(1820, 975);
+
+      auto movementLimitComponent = std::make_shared<PhysicsEngine::MovementLimits>(topLeft, bottomRight);
+
       container.bindComponentToEntity(entityId, healthComponent);
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
+      container.bindComponentToEntity(entityId, movementLimitComponent);
       container.bindComponentToEntity(entityId, cooldownHitComponent);
 
       return entityId;

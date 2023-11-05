@@ -109,7 +109,10 @@ namespace Server {
         }
         // Updating Powers (position)
         for (auto &power:  powers) {
-            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(power, positionType).value());
+            auto mayComp = componentsContainer.getComponent(power, positionType);
+            if (!mayComp.has_value())
+                continue;
+            auto compPos = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(mayComp.value());
             args.emplace_back(compPos->pos.x);
             args.emplace_back(compPos->pos.y);
             ids.push_back(power);

@@ -1,7 +1,9 @@
 #include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
+#endif
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "Client.hpp"

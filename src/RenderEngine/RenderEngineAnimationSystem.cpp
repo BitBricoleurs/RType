@@ -7,11 +7,19 @@
 
 namespace RenderEngine {
     void RenderEngineAnimationSystem::update(GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler &eventHandler) {
-        auto entities = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getComponentType("AnimationComponent"));
+
+        auto animType = GameEngine::ComponentsType::getComponentType("AnimationComponent");
+        auto spriteType = GameEngine::ComponentsType::getComponentType("SpriteComponent");
+        auto entities = componentsContainer.getEntitiesWithComponent(animType);
 
         for (auto entity : entities) {
-            auto animationComponent = std::dynamic_pointer_cast<AnimationComponent>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("AnimationComponent")).value());
-            auto spriteComponent = std::dynamic_pointer_cast<SpriteComponent>(componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("SpriteComponent")).value());
+            auto mayComp = componentsContainer.getComponent(entity, animType);
+            auto mayComp2 = componentsContainer.getComponent(entity, spriteType);
+            if (!mayComp.has_value() || !mayComp2.has_value())
+                continue;
+
+            auto animationComponent = std::static_pointer_cast<AnimationComponent>(mayComp.value());
+            auto spriteComponent = std::static_pointer_cast<SpriteComponent>(mayComp2.value());
 
             if (animationComponent->currentFrame >= animationComponent->frames.size()) {
                 animationComponent->currentFrame = 0;

@@ -130,7 +130,7 @@ namespace Server {
                     handleLifeLoss(playerId, hpComponent, componentsContainer, eventHandler);
             }
             handleOtherEntity(otherEntity, componentsContainer, eventHandler);
-        } catch (std::exception &e) {
+        } catch (const std::bad_any_cast &e) {
             std::cerr << "Error in PlayerHit::update: " << e.what() << std::endl;
         }
     }

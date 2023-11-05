@@ -3,6 +3,7 @@
 //
 
 #include "WinSystem.hpp"
+#include "Logger.hpp"
 
 void Server::WinSystem::update(GameEngine::ComponentsContainer &componentsContainer,
                                 GameEngine::EventHandler &eventHandler)
@@ -16,7 +17,7 @@ void Server::WinSystem::update(GameEngine::ComponentsContainer &componentsContai
         return;
     auto gameStateComp = std::static_pointer_cast<Utils::GameState>(compMay.value());
     gameStateComp->_state = Utils::GameState::State::WIN;
-    std::cout << "Youhou Player have win" << std::endl;
+    GameEngine::Logger::warning("Game Over");
     std::vector<size_t> ids = {};
     std::vector<std::any> args = {static_cast<int>(Utils::GameState::State::WIN)};
     std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("GAME_OVER", ids, "INT", args);
@@ -25,4 +26,5 @@ void Server::WinSystem::update(GameEngine::ComponentsContainer &componentsContai
     eventHandler.scheduleEvent("GO_BACK_TO_THE_LOBBY", 400, std::any(), 1);
     eventHandler.queueEvent("DELETE_MOBS");
     eventHandler.queueEvent("DELETE_PARALLAX");
+    eventHandler.queueEvent("DELETE_POWER_UP");
 }

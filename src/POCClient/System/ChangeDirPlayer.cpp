@@ -24,7 +24,7 @@ Client::ChangeDirPlayer::ChangeDirPlayer()
 }
 
 void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-    size_t id = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getNewComponentType("IsPlayer"));
+    size_t id = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsPlayer"));
     if (id == 0)
         return;
     auto event = eventHandler.getTriggeredEvent();
@@ -32,8 +32,8 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
     auto isPlayerOptional = componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
     if (velocityOptional.has_value() && isPlayerOptional.has_value()) {
-        auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
-        auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOptional.value());
+        auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityOptional.value());
+        auto isPlayer = std::static_pointer_cast<IsPlayer>(isPlayerOptional.value());
 
         tryRemovingSmoothing(componentsContainer, id);
         velocity->velocity.x += directionMap[event.first].first;
@@ -42,10 +42,10 @@ void Client::ChangeDirPlayer::update(GameEngine::ComponentsContainer &components
         if (isPlayer->entityIdForcePod != 0) {
             auto velocityForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
             if (velocityForcePodOpt.has_value()) {
-                auto velocityForcePod = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
-                auto shooter = std::dynamic_pointer_cast<Shooter>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("Shooter")).value());
-                auto posPlayer = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-                auto posForcePod = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto velocityForcePod = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityForcePodOpt.value());
+                auto shooter = std::static_pointer_cast<Shooter>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("Shooter")).value());
+                auto posPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+                auto posForcePod = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(isPlayer->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
                 Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x, posPlayer->pos.y + shooter->shootPosition.y - 13);
                 posForcePod->pos = shootingPosition;
                 velocityForcePod->velocity.x = velocity->velocity.x;
@@ -72,6 +72,5 @@ void Client::ChangeDirPlayer::tryRemovingSmoothing(GameEngine::ComponentsContain
         velComp->velocity.x = 0;
         velComp->velocity.y = 0;
         componentsContainer.unbindComponentFromEntity(entity, smoothingType);
-
     }
 }

@@ -24,7 +24,14 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
         auto powerUp = std::any_cast<int>(args[1]);
         auto &factory = EntityFactory::getInstance();
         size_t clientId = factory.getClientId(id);
-        auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+
+        auto isPlayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+
+        auto playerOpt = componentsContainer.getComponent(clientId, isPlayerType);
+        if (!playerOpt.has_value())
+            return;
+
+        auto player = std::static_pointer_cast<IsPlayer>(playerOpt.value());
         if (powerUp == 1) {
             return;
             try {
@@ -41,7 +48,11 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
               spriteRect.x = spriteAnimationComponent->currentFrame.x;
               spriteRect.y = spriteAnimationComponent->currentFrame.y;
 
-            auto posComponent = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(player->entityIdForcePod, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
+            auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+            auto posOpt = componentsContainer.getComponent(player->entityIdForcePod, posType);
+            if (!posOpt.has_value())
+                return;
+            auto posComponent = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posOpt.value());
             auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(data.getString("/involve/0/path"), posComponent->pos, spriteRect, static_cast<size_t>(data.getInt("/involve/0/layer")), data.getFloat("/involve/0/scale"), data.getFloat("/involve/0/rotation"), Utils::ColorR(data.getInt("/involve/0/tint/r"), data.getInt("/involve/0/tint/g") ,data.getInt("/involve/0/tint/b"), data.getInt("/involve/0/tint/a")));
             componentsContainer.bindComponentToEntity(player->entityIdForcePod, spriteComponent);
         } catch (std::exception &e) {
@@ -50,7 +61,7 @@ void Client::ForcePodUpgrade::update(GameEngine::ComponentsContainer &components
         } else if (powerUp == 2) {
             // other
         }
-    } catch (std::exception &e) {
+    } catch (const std::bad_any_cast &e) {
         std::cout << "Error in ForcePodUpgrade : " << e.what() << std::endl;
     }
 }

@@ -51,6 +51,7 @@ namespace Client {
                     }
                     factory.registerEntity(entityId, id);
                     arg_index += 5;
+                    GameEngine::Logger::info("Created Mob with id " + std::to_string(entityId) + " and type " + std::to_string(typeMob));
                 }
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;

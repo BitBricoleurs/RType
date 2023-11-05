@@ -18,7 +18,7 @@ void Server::BossInScope::update(GameEngine::ComponentsContainer &componentsCont
     
     auto pos = componentsContainer.getComponent(bossCore, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
 
-    if (pos == nullptr)
+    if (!pos.has_value())
         return;
     auto posComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(pos.value());
     if (posComp->pos.x < 150 || posComp->pos.y < 150 ||

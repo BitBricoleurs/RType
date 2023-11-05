@@ -10,6 +10,7 @@
 #include "MovementComponent2D.hpp"
 #include "EventHandler.hpp"
 #include "RectangleColliderComponent2D.hpp"
+#include "MovementLimits.hpp"
 
 namespace PhysicsEngine {
 

@@ -159,9 +159,16 @@ namespace Server {
         for (auto &para : parallax) {
             if (!componentsContainer.getComponent(para, parallaxType).has_value())
                 continue;
-            auto compIsParallax = std::static_pointer_cast<IsParallax>(componentsContainer.getComponent(para, parallaxType).value());
-            auto posParallax = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("PositionComponent2D")).value());
-            auto velocityParallax = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(para, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+            auto paralaxOpt = componentsContainer.getComponent(para, parallaxType);
+            auto posParallaxOpt = componentsContainer.getComponent(para, positionType);
+            auto velocityParallaxOpt = componentsContainer.getComponent(para, velocityType);
+
+            if (!paralaxOpt.has_value() || !posParallaxOpt.has_value() || !velocityParallaxOpt.has_value())
+                continue;
+
+            auto compIsParallax = std::static_pointer_cast<IsParallax>(paralaxOpt.value());
+            auto posParallax = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posParallaxOpt.value());
+            auto velocityParallax = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velocityParallaxOpt.value());
             args.emplace_back(static_cast<int>(compIsParallax->type));
             args.emplace_back(static_cast<int>(posParallax->pos.x * 1000));
             args.emplace_back(static_cast<int>(posParallax->pos.y * 1000));
@@ -175,8 +182,13 @@ namespace Server {
             args.clear();
         }
         // Creating Powers
+        auto isPowerType = GameEngine::ComponentsType::getComponentType("IsPower");
         for(auto &power : powers) {
-            auto compIsPower = std::static_pointer_cast<IsPower>(componentsContainer.getComponent(power, powerType).value());
+
+            auto mayPower = componentsContainer.getComponent(power, isPowerType);
+            if (!mayPower.has_value())
+                continue;
+            auto compIsPower = std::static_pointer_cast<IsPower>(mayPower.value());
             args.push_back(static_cast<int>(compIsPower->type));
             ids.push_back(power);
             auto mayPosition = componentsContainer.getComponent(power, positionType);

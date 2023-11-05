@@ -30,7 +30,7 @@ namespace Client {
     auto isPlayerOpt = componentsContainer.getComponent(isPlayerId, GameEngine::ComponentsType::getComponentType("IsPlayer"));
 
     if (isPlayerOpt.has_value()) {
-        auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(isPlayerOpt.value());
+        auto isPlayer = std::static_pointer_cast<IsPlayer>(isPlayerOpt.value());
         auto spriteChargeOpt = componentsContainer.getComponent(isPlayer->entityIdChargeAnimation, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
         if (events.first == "SPACE_KEY_PRESSED") {
             _charge += 1;
@@ -40,7 +40,7 @@ namespace Client {
             if (!shoot) {
                 shoot = true;
                 if (spriteChargeOpt.has_value()) {
-                    auto spriteCharge = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteChargeOpt.value());
+                    auto spriteCharge = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteChargeOpt.value());
                     spriteCharge->isVisible = true;
                 }
                 size_t serverId = EntityFactory::getInstance().getServerId(isPlayerId);
@@ -61,7 +61,7 @@ namespace Client {
                 shoot = false;
                 endShoot = false;
                 if (spriteChargeOpt.has_value()) {
-                    auto spriteCharge = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteChargeOpt.value());
+                    auto spriteCharge = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteChargeOpt.value());
                     spriteCharge->isVisible = false;
                 }
                 size_t serverId = EntityFactory::getInstance().getServerId(isPlayerId);
@@ -80,10 +80,10 @@ namespace Client {
             }
         }
     }
-    auto entities = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getNewComponentType("IsChargingBar"));
+    auto entities = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsChargingBar"));
     auto spriteOpt = componentsContainer.getComponent(entities, GameEngine::ComponentsType::getComponentType("SpriteComponent"));
     if (spriteOpt.has_value()) {
-        auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
+        auto sprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(spriteOpt.value());
         auto currentRect = sprite->rect1;
         currentRect.w = _charge * 2;
         sprite->rect1 = currentRect;

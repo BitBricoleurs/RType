@@ -33,7 +33,9 @@
 #include "UpdateEntitySprite.hpp"
 #include "UpdatePosition.hpp"
 #include "UpdateVelocity.hpp"
+#ifndef _WIN32
 #include "InitAudioBackgroud.hpp"
+#endif
 #include "MobHit.hpp"
 #include "CollisionHandler.hpp"
 #include "PhysicsEngineCollisionSystem2D.hpp"
@@ -50,7 +52,6 @@
 #include "CreatePowerUp.hpp"
 #include "CreateForcePod.hpp"
 #include "SyncForcePodPlayer.hpp"
-#include "BlockOutOfBounds.hpp"
 #include "FlashWhenHit.hpp"
 #include "NetworkReceiveFlash.hpp"
 #include "NetworkReceiveLifeLost.hpp"
@@ -67,6 +68,7 @@
 #include "AnimateWinNotification.hpp"
 #include "ClearAnimateWinNotification.hpp"
 #include "UpdateScore.hpp"
+#include "UpdateBugSprite.hpp"
 
 namespace Client {
     class MainProgram {
