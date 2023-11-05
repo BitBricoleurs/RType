@@ -15,6 +15,7 @@
 #include "UserMessage.hpp"
 #include "PositionComponent2D.hpp"
 #include "NetworkClientId.hpp"
+#include "Score.hpp"
 
 namespace Server {
 
@@ -28,5 +29,6 @@ namespace Server {
         static void handleDeath(size_t deadEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
         static void handleBullet(size_t bulletEntity, GameEngine::ComponentsContainer& componentsContainer, GameEngine::EventHandler& eventHandler);
         static void flashMobNetwork(GameEngine::EventHandler &eventHandler, size_t mobEntity);
+        static void updateScoreNetwork(GameEngine::EventHandler &eventHandler, size_t score);
 };
 }

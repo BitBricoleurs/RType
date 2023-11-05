@@ -43,7 +43,6 @@ namespace Client {
           factory.unregisterEntity(entityID);
           componentsContainer.deleteEntity(entityID);
           eventHandler.unscheduleEvent("MobDeath", entityID);
-          eventHandler.queueEvent("UPDATE_SCORE", 100);
           return;
         }
         deathAnim->currentFrame =

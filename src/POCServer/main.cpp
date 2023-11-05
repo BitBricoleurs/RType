@@ -42,6 +42,7 @@
 #include "SpawnEntityEvent.hpp"
 #include "DeleteMobs.hpp"
 #include "DeleteParallax.hpp"
+#include "DeletePowerUp.hpp"
 #include "PowerUpDualShoot.hpp"
 #include "ManagePowerUp.hpp"
 #include "BugDirectionChange.hpp"
@@ -50,6 +51,7 @@
 #include "BossInScope.hpp"
 #include "LatchPodToBoss.hpp"
 #include "LaunchBossPods.hpp"
+#include "Score.hpp"
 
 void setup_network(GameEngine::GameEngine &engine, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &queue)
 {
@@ -94,6 +96,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto revivePlayer = std::make_shared<Server::RevivePlayer>();
     auto deleteParallax = std::make_shared<Server::DeleteParallax>();
     auto deleteMobs = std::make_shared<Server::DeleteMobs>();
+    auto deletePowerUp = std::make_shared<Server::DeletePowerUp>();
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
@@ -111,6 +114,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("REVIVE_PLAYER", revivePlayer);
     engine.addEvent("DELETE_PARALLAX", deleteParallax);
     engine.addEvent("DELETE_MOBS", deleteMobs);
+    engine.addEvent("DELETE_POWER_UP", deletePowerUp);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)
@@ -170,6 +174,13 @@ void setup_game_power_up(GameEngine::GameEngine& engine)
     engine.addEvent("DualShoot", powerUpDualShoot);
 }
 
+void setup_game_score(GameEngine::GameEngine& engine)
+{
+    auto score = engine.createEntity();
+    auto scoreComp = std::make_shared<Server::Score>();
+    engine.bindComponentToEntity(score, scoreComp);
+}
+
 int main(void) {
     GameEngine::GameEngine engine;
 
@@ -185,6 +196,7 @@ int main(void) {
         setup_sync_systems(engine);
         setup_engine(engine);
         setup_game_power_up(engine);
+        setup_game_score(engine);
         auto position = std::make_shared<Server::CheckPositionClient>();
         engine.addSystem("CHECK_POSITION_CLIENT", position, 0);
         auto physicMVT = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();

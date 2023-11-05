@@ -10,6 +10,7 @@
 #include "EventHandler.hpp"
 #include "ComponentsType.hpp"
 #include "ComponentContainer.hpp"
+#include "Message.hpp"
 
 namespace Client {
     class UpdateScore : public GameEngine::ISystem {

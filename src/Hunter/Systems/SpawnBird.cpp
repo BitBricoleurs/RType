@@ -60,9 +60,6 @@ SpawnBird::createBird(GameEngine::ComponentsContainer &componentsContainer,
   auto positionComponent =
       std::make_shared<PhysicsEngine::PositionComponent2D>(birdPos);
 
-  auto audioComponent =
-      std::make_shared<AudioEngine::AudioComponent>("assets/hunter/splat.wav");
-
   auto deathAnimation =
       initDeathAnimation("assets/hunter/blood.png", 6, 3072, 512);
 

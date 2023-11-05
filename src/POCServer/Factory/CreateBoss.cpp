@@ -17,15 +17,12 @@ namespace Server {
 size_t
 EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                   GameEngine::EventHandler &eventHandler,
-                                  Utils::Vect2 pos) {
+                                  Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
   LoadConfig::ConfigData data =
       LoadConfig::LoadConfig::getInstance().loadConfig(
           "config/Entity/createBellmite.json");
   std::string bossKey = "/createBellmiteBoss";
   std::string path = data.getString(bossKey + "/spriteSheetPath");
-
-  Utils::Vect2 velocity(data.getFloat(bossKey + "/velocity/x"),
-                        data.getFloat(bossKey + "/velocity/y"));
 
   size_t entityId = createBossMob(
       container, data.getInt(bossKey + "/spriteSheetHeight"),
@@ -35,10 +32,12 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
       data.getInt(bossKey + "/stageValue"), data.getFloat(bossKey + "/scale"));
 
   auto bossCore = std::make_shared<isBossCore>();
-  std::cout << "binding boss core" << std::endl;
-  std::cout << "entityId: " << entityId << std::endl;
   container.bindComponentToEntity(entityId, bossCore);
   container.unbindComponentFromEntity(entityId, GameEngine::ComponentsType::getComponentType("Health"));
+  if (dropPowerup) {
+      auto powerUp = std::make_shared<IsPowerUp>();
+      container.bindComponentToEntity(entityId, powerUp);
+  }
   std::vector<size_t> ids = {entityId};
   std::vector<std::any> args = {static_cast<int>(MobType::BELLMITECORE)};
   args.emplace_back(static_cast<int>(pos.x * 1000));
@@ -55,13 +54,10 @@ EntityFactory::createBellmiteBoss(GameEngine::ComponentsContainer &container,
 size_t
 EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
-                                 Utils::Vect2 pos) {
+                                 Utils::Vect2 pos, Utils::Vect2 velocity) {
   try {
   LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBellmite.json");
   std::string podKey = "/createBellmitePod";
-
-  Utils::Vect2 velocity(data.getFloat(podKey + "/velocity/x"),
-                        data.getFloat(podKey + "/velocity/y"));
 
   size_t entityId = createBossMob(
       container, data.getInt(podKey + "/spriteSheetHeight"),
@@ -96,7 +92,7 @@ EntityFactory::createBellmitePod(GameEngine::ComponentsContainer &container,
 
 size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
                                      GameEngine::EventHandler &eventHandler,
-                                     Utils::Vect2 pos) {
+                                     Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
 
   std::cout << "creating Bellmite" << std::endl;
 
@@ -105,7 +101,7 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
   const float maxRadius = 800.0 / 2;
   const float radiusIncrement = podDiameter * 0.80;
 
-  createBellmiteBoss(container, eventHandler, pos);
+  auto entityId = createBellmiteBoss(container, eventHandler, pos, velocity, dropPowerup);
 
   float currentRadius = 0;
   int podsInCurrentRadius = 1;
@@ -118,15 +114,13 @@ size_t EntityFactory::createBellmite(GameEngine::ComponentsContainer &container,
       podPos.x = pos.x + currentRadius * cos(j * angleIncrement);
       podPos.y = pos.y + currentRadius * sin(j * angleIncrement);
 
-      createBellmitePod(container, eventHandler, podPos);
+      createBellmitePod(container, eventHandler, podPos, velocity);
     }
 
     currentRadius += radiusIncrement;
     podsInCurrentRadius += 6;
   }
 
-  // eventHandler.scheduleEvent("bounceBoss", 2);
-
-  return 0;
+  return entityId;
 }
 } // namespace Server

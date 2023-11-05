@@ -19,6 +19,7 @@
 #include "EntityFactory.hpp"
 #include "ISystem.hpp"
 #include "GameState.hpp"
+#include "IsLastMob.hpp"
 
 namespace Server {
 

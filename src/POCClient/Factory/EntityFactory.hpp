@@ -25,13 +25,14 @@
 #include "Vect2.hpp"
 #include "ColorR.hpp"
 #include "VelocityComponent.hpp"
-#include "AudioComponent.hpp"
 #include <cstddef>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
+#ifndef _WIN32
 #include "AudioEngineSystem.hpp"
 #include "AudioComponent.hpp"
+#endif
 #include "PlayerUtils.hpp"
 #include "IsStarship.hpp"
 #include "LoadConfig.hpp"
@@ -107,9 +108,13 @@ namespace Client {
                                 GameEngine::EventHandler &eventHandler,
                                 Utils::Vect2 pos);
 
-       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
+        size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                  GameEngine::EventHandler &eventHandler,
                                  Utils::Vect2 pos);
+        
+        size_t createHealthBar(GameEngine::ComponentsContainer &container,
+            const std::string &spriteSheetPath, int spriteSheetHeight,
+            int spriteSheetWidth, int frames, Utils::Vect2 pos, float scale, float rotation, Utils::ColorR tint, int layer);
 
         void registerPlayer(size_t entityId, PlayerNumber numberPlayer) {
             _playerMap[entityId] = numberPlayer;
@@ -169,8 +174,8 @@ namespace Client {
                         Utils::Vect2 velocity, int player, float scale,
                         float rotation, Utils::ColorR tint, int layer);
 
-      static size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
-                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity);
+      size_t CreateParallax(GameEngine::ComponentsContainer &container, GameEngine::EventHandler &eventHandler,
+                                         const std::string &path, Utils::rect, size_t layer, float scale, float rotation, Utils::ColorR tint, Utils::Vect2 pos, Utils::Vect2 velocity, int frames, bool twoDirections, bool reverse);
 
       size_t createSharhips(GameEngine::ComponentsContainer &container,
                                        const std::string &spriteSheetPath,
@@ -233,7 +238,6 @@ namespace Client {
 
             std::map<size_t, size_t> _entityIdMap;
             std::map<size_t, PlayerNumber> _playerMap;
-            std::map<std::string, std::shared_ptr<AudioEngine::AudioComponent>> _audioMap;
 };
 
 }

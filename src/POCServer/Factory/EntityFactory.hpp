@@ -41,6 +41,7 @@
 #include "ParallaxUtils.hpp"
 #include "PowerUpUtils.hpp"
 #include "IsPower.hpp"
+#include "MovementLimits.hpp"
 #include "CooldownHit.hpp"
 
 namespace Server {
@@ -56,19 +57,20 @@ namespace Server {
 
       size_t spawnCancerMob(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos, bool dropPowerup);
+                            Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnPataPataMob(GameEngine::ComponentsContainer &container,
                               GameEngine::EventHandler &eventHandler,
-                              Utils::Vect2 pos, bool dropPowerup);
+                              Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnBugMob(GameEngine::ComponentsContainer &container,
                          GameEngine::EventHandler &eventHandler,
-                         Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
+                         Utils::Vect2 pos, Utils::Vect2 velocity,
+                         bool dropPowerup, std::vector<Utils::Vect2> pathPoints = {});
 
-      std::vector<size_t> spawnBugGroup(GameEngine::ComponentsContainer &container,
+      size_t spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup);
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnPowerUp(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
@@ -91,7 +93,7 @@ namespace Server {
 
       size_t createBellmite(GameEngine::ComponentsContainer &container,
                             GameEngine::EventHandler &eventHandler,
-                            Utils::Vect2 pos);
+                            Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t spawnParallax(GameEngine::ComponentsContainer &container,
                            GameEngine::EventHandler &eventHandler,
@@ -163,11 +165,11 @@ namespace Server {
 
       size_t createBellmiteBoss(GameEngine::ComponentsContainer &container,
                                 GameEngine::EventHandler &eventHandler,
-                                Utils::Vect2 pos);
+                                Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup);
 
       size_t createBellmitePod(GameEngine::ComponentsContainer &container,
                                GameEngine::EventHandler &eventHandler,
-                               Utils::Vect2 pos);
+                               Utils::Vect2 pos, Utils::Vect2 velocity);
 
       std::vector<Utils::Vect2> generatePathPoints();
       

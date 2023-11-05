@@ -21,6 +21,7 @@
 #include "IComponent.hpp"
 #include "ISystem.hpp"
 #include "EventHandler.hpp"
+#include "DynamicLibraryHandler.hpp"
 
 namespace GameEngine {
 
@@ -43,6 +44,7 @@ namespace GameEngine {
         size_t createEntity(bool persistent);
         size_t createEntity(std::vector<std::optional<std::shared_ptr<IComponent>>> components, bool persistent);
 
+        void addSystem(const std::string& systemName, const std::string& libraryPath, int priority);
         void addSystem(const std::string& systemName, std::shared_ptr<ISystem> system, int priority = 1, bool persistent = false);
         void deleteSystem(const std::string& systemName);
 
@@ -55,6 +57,7 @@ namespace GameEngine {
     private:
         ComponentsContainer componentsContainer;
         std::unordered_map<std::string, std::pair<std::shared_ptr<ISystem>, int>> systemMap;
+        std::unordered_map<std::string, std::unique_ptr<DynamicLibraryHandler>> libraryHandlers;
         std::vector<std::string> systemOrder;
         bool systemsNeedSorting = true;
         std::unordered_set<std::string> persistentSystems;

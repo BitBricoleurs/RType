@@ -12,11 +12,10 @@ namespace Server {
 
     size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
-                                         Utils::Vect2 pos, bool dropPowerup) {
+                                         Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createCancerMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createCancerMob/velocity/x"), config.getFloat("/createCancerMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -64,11 +63,10 @@ namespace Server {
 
     size_t EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                            GameEngine::EventHandler &eventHandler,
-                                           Utils::Vect2 pos, bool dropPowerup) {
+                                           Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createPatapataMob/velocity/x"), config.getFloat("/createPatapataMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -116,11 +114,10 @@ namespace Server {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup, std::vector<Utils::Vect2> pathPoints) {
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup, std::vector<Utils::Vect2> pathPoints) {
         try {
             LoadConfig::ConfigData config = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
 
-            Utils::Vect2 velocity(config.getFloat("/createBugMob/velocity/x"), config.getFloat("/createBugMob/velocity/y"));
 
             size_t entityId = createBaseMob(
                 container,
@@ -167,25 +164,23 @@ namespace Server {
         }
     }
     
-    std::vector<size_t> EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
+    size_t EntityFactory::spawnBugGroup(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup) {
-
-        std::vector<size_t> bugGroup;
+                                      Utils::Vect2 pos, Utils::Vect2 velocity, bool dropPowerup) {
 
         auto pathPoints = generatePathPoints();
 
         float offset = 0;
-        
+        auto entityId = 0;
         for (int i = 0; i < 5; i++) {
             Utils::Vect2 newPos(pos.x + offset, pos.y);
             offset += 75;
             if (dropPowerup && i == 2) {
-                bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, true, pathPoints));
+                entityId = spawnBugMob(container, eventHandler, newPos, velocity, true, pathPoints);
                 continue;
             }
-            bugGroup.push_back(spawnBugMob(container, eventHandler, newPos, false, pathPoints));
+            entityId = spawnBugMob(container, eventHandler, newPos, velocity, false, pathPoints);
         }
-        return bugGroup;
+        return entityId;
     }
 }

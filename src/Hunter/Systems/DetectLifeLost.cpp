@@ -46,7 +46,6 @@ void DetectLifeLost::update(
         birdVelocity->velocity.x < 0 && birdPos->pos.x < -100) {
       componentsContainer.deleteEntity(bird);
       score->missed += 1;
-      std::cout << "missed: " << score->missed << std::endl;
     }
     if (score->missed >= 5) {
       eventHandler.queueEvent("gameOver");

@@ -22,20 +22,19 @@ void Client::NetworkReceiveLifeLost::update(GameEngine::ComponentsContainer &com
 
         auto lives = std::any_cast<int>(args[0]);
 
-        std::cout << "Lives: " << lives << std::endl;
-
         EntityFactory &entityFactory = EntityFactory::getInstance();
         size_t clientId = 0;
         for (auto &id : ids) {
             clientId = entityFactory.getClientId(id);
+            auto isPlayerOpt = componentsContainer.getComponent(clientId, GameEngine::ComponentsType::getComponentType("IsPlayer"));
             auto HealthBarId = componentsContainer.getEntityWithUniqueComponent(GameEngine::ComponentsType::getComponentType("IsHealthBar"));
-            if (HealthBarId != 0) {
+            if (HealthBarId != 0 && isPlayerOpt.has_value()) {
                 auto HealthBarComponentOpt = (componentsContainer.getComponent(HealthBarId, GameEngine::ComponentsType::getComponentType("SpriteComponent")));
                 if (HealthBarComponentOpt.has_value()) {
                     auto HealthBarComponent = std::static_pointer_cast<RenderEngine::SpriteComponent>(HealthBarComponentOpt.value());
-                    HealthBarComponent->rect1.w = lives;
+                    HealthBarComponent->rect1.w = lives * 9;
                     if (lives == 3) {
-                        HealthBarComponent->rect1.w = 24;
+                        HealthBarComponent->rect1.w = 27;
                     }
                 }
             }

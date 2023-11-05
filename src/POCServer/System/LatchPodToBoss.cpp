@@ -13,7 +13,6 @@ namespace Server {
         GameEngine::ComponentsContainer &componentsContainer,
         GameEngine::EventHandler &eventHandler) {
       try {
-          std::cout << "latch to boss" << std::endl;
       auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(
           eventHandler.getTriggeredEvent().second);
       auto firstEntityOptBossCore = componentsContainer.getComponent(
@@ -46,7 +45,6 @@ namespace Server {
 
       bossPodComp->launched = false;
       bossPodComp->bounces = 0;
-      std::cout << "latched pod: " << secondEntity << std::endl;
       factory.updateEntityNetwork(eventHandler, bossPod, bossPodPosComp->pos, bossPodVelComp->velocity);
       factory.updateEntityNetwork(eventHandler, bossCore, bossCorePosComp->pos, bossCoreVelComp->velocity);
     } catch (const std::bad_any_cast&) {
