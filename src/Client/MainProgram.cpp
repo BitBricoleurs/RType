@@ -15,7 +15,7 @@ namespace Client {
 
         engine.queueEvent("gameEngineChangeScene", std::string("ConnectScreen"));
 
-        auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
+        auto render = std::make_shared<RenderEngine::RenderEngineSystem>("Rtype", engine);
         engine.addSystem("RENDER", render, 4, true);
         engine.run();
     }

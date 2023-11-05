@@ -229,7 +229,7 @@
         "y": 665
       },
 
-      "dropPowerUp": false,
+      "dropPowerUp": true,
       "isLastMob": false
     },
 
