@@ -440,6 +440,237 @@
             "frames": 1,
             "twoDirections": false,
             "reverse": false
+        },
+        {
+            "type": 22,
+            "path": "assets/map/Planets/Desert.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 23,
+            "path": "assets/map/Planets/Furnace.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 24,
+            "path": "assets/map/Planets/Grave.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 25,
+            "path": "assets/map/Planets/Ice.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 26,
+            "path": "assets/map/Planets/Jovian.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 27,
+            "path": "assets/map/Planets/Jungle.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 28,
+            "path": "assets/map/Planets/Ocean.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 29,
+            "path": "assets/map/Planets/Rocky.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 30,
+            "path": "assets/map/Planets/Shattered.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 31,
+            "path": "assets/map/Planets/Tainted.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
+        },
+        {
+            "type": 32,
+            "path": "assets/map/Planets/Vital.png",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 560,
+                "height": 560
+            },
+            "scale": 1.0,
+            "rotation": 0.0,
+            "tint" : {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 255
+            },
+            "frames": 1,
+            "twoDirections": false,
+            "reverse": false
         }
     ]
 }

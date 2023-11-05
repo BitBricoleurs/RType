@@ -357,5 +357,192 @@
     },
     "isLooping": false,
     "isBackgroundEnabled": false
+  },
+  {
+    "id": 22,
+    "path": "/assets/Planets/Desert.png",
+    "name" : "Planet - Desert",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 23,
+    "path": "/assets/Planets/Furnace.png",
+    "name" : "Planet - Furnace",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 24,
+    "path": "/assets/Planets/Grave.png",
+    "name" : "Planet - Grave",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 25,
+    "path": "/assets/Planets/Ice.png",
+    "name" : "Planets - Ice",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 26,
+    "path": "/assets/Planets/Jovian.png",
+    "name" : "Planets - Jovian",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 27,
+    "path": "/assets/Planets/Jungle.png",
+    "name" : "Planets - Jungle",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 28,
+    "path": "/assets/Planets/Ocean.png",
+    "name" : "Planets - EH5",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 29,
+    "path": "/assets/Planets/Rocky.png",
+    "name" : "Planets - Rocky",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 30,
+    "path": "/assets/Planets/Shattered.png",
+    "name" : "Planets - Shattered",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 31,
+    "path": "/assets/Planets/Tainted.png",
+    "name" : "Planets - Tainted",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
+  },
+  {
+    "id": 32,
+    "path": "/assets/Planets/Vital.png",
+    "name" : "Planets - Vital",
+    "rect": {
+      "width": 560,
+      "height": 560
+    },
+    "scale": 1,
+    "layer": 0,
+    "velocity": {
+      "x": -0.1,
+      "y": 0
+    },
+    "isLooping": false,
+    "isBackgroundEnabled": false
   }
 ]
