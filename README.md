@@ -32,6 +32,7 @@ Dive deeper into **Rtype** and its core mechanisms:
 
 - [🕹️ Game Engine Documentation](docs/GameEngineInstruction.md)
 - [📡 RFC Documentation](docs/rfc-rtype-ncp.txt)
+- [📡 NetworkLib Documentation](docs/NetworkLibraryDoc.md)
 
 ## 🌟 **Contributors**
 
