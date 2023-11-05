@@ -65,6 +65,8 @@ namespace Server {
                 Utils::Vect2 directionToClosestPlayer;
                 for (auto &player : players) {
                     auto positionOpt = componentsContainer.getComponent(player, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+                    if (!positionOpt.has_value())
+                        continue;
                     auto positionComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOpt.value());
                     auto userGameModeOpt = componentsContainer.getComponent(player, gameModeType);
                     if (!userGameModeOpt.has_value())

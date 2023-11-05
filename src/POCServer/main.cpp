@@ -42,6 +42,7 @@
 #include "SpawnEntityEvent.hpp"
 #include "DeleteMobs.hpp"
 #include "DeleteParallax.hpp"
+#include "DeletePowerUp.hpp"
 #include "PowerUpDualShoot.hpp"
 #include "ManagePowerUp.hpp"
 #include "BugDirectionChange.hpp"
@@ -95,6 +96,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     auto revivePlayer = std::make_shared<Server::RevivePlayer>();
     auto deleteParallax = std::make_shared<Server::DeleteParallax>();
     auto deleteMobs = std::make_shared<Server::DeleteMobs>();
+    auto deletePowerUp = std::make_shared<Server::DeletePowerUp>();
 
     engine.addEvent("CREATE_WORLD", createWorld);
     engine.addEvent("UPDATE_WORLD", updateWorld);
@@ -112,6 +114,7 @@ void setup_sync_systems(GameEngine::GameEngine &engine)
     engine.addEvent("REVIVE_PLAYER", revivePlayer);
     engine.addEvent("DELETE_PARALLAX", deleteParallax);
     engine.addEvent("DELETE_MOBS", deleteMobs);
+    engine.addEvent("DELETE_POWER_UP", deletePowerUp);
 }
 
 void setup_engine(GameEngine::GameEngine& engine)

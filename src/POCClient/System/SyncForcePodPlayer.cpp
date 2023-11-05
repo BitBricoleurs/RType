@@ -27,10 +27,22 @@ void Client::SyncForcePodPlayer::update(GameEngine::ComponentsContainer &compone
         int forcePodId = (std::any_cast<int>(args[1]));
         auto entityIdForcePod = EntityFactory::getInstance().getClientId(forcePodId);
         auto clientPlayerId = EntityFactory::getInstance().getClientId(playerId);
-        auto isPlayer = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(clientPlayerId, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+
+        auto isPlayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+        auto velType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
+
+        auto playerOpt = componentsContainer.getComponent(clientPlayerId, isPlayerType);
+        auto forcePodOpt = componentsContainer.getComponent(entityIdForcePod, velType);
+        auto velOpt = componentsContainer.getComponent(clientPlayerId, velType);
+
+        if (!playerOpt.has_value() || !forcePodOpt.has_value() || !velOpt.has_value())
+            return;
+
+
+        auto isPlayer = std::static_pointer_cast<IsPlayer>(playerOpt.value());
         isPlayer->entityIdForcePod = entityIdForcePod;
-        auto forcePodVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(entityIdForcePod, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
-        auto playerVelocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(componentsContainer.getComponent(clientPlayerId, GameEngine::ComponentsType::getComponentType("VelocityComponent")).value());
+        auto forcePodVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(forcePodOpt.value());
+        auto playerVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velOpt.value());
         forcePodVelocity->velocity = playerVelocity->velocity;
         }
         catch (std::bad_any_cast &e) {

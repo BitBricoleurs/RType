@@ -45,8 +45,8 @@ namespace Client {
                         spriteComponent->isVisible = false;
                     }
                 }
-
                 factory.registerEntity(entityId, ids.front());
+                GameEngine::Logger::info("Created Player with id " + std::to_string(entityId) + " and number " + std::to_string(number));
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
             }

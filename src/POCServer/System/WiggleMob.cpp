@@ -28,12 +28,12 @@ void Server::WiggleMob::update(GameEngine::ComponentsContainer &componentsContai
     if (!positionOpt.has_value() || !velocityOpt.has_value() ||
         !heightVarOpt.has_value())
       continue;
-    auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
+    auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(
         positionOpt.value());
-    auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
+    auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
         velocityOpt.value());
     auto heightVar =
-        std::dynamic_pointer_cast<Server::HeightVariation>(heightVarOpt.value());
+        std::static_pointer_cast<Server::HeightVariation>(heightVarOpt.value());
 
     if (heightVar->isGoingUp && position->pos.y > heightVar->baseY + heightVar->maxVar)
         heightVar->isGoingUp = false;

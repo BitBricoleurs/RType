@@ -20,7 +20,7 @@ void DetectLifeLost::update(
       scoreId, GameEngine::ComponentsType::getComponentType("Score"));
   if (!scoreOpt.has_value())
     return;
-  auto score = std::dynamic_pointer_cast<Score>(scoreOpt.value());
+  auto score = std::static_pointer_cast<Score>(scoreOpt.value());
 
   for (auto &bird : birds) {
 
@@ -36,10 +36,10 @@ void DetectLifeLost::update(
       continue;
 
     auto birdVelocity =
-        std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
+        std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
             birdVelocityOpt.value());
     auto birdPos =
-        std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(
+        std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(
             birdPosOpt.value());
 
     if (birdVelocity->velocity.x > 0 && birdPos->pos.x > 1920 ||

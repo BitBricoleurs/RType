@@ -17,7 +17,7 @@ void CurveDown::update(GameEngine::ComponentsContainer &componentsContainer,
             GameEngine::ComponentsType::getComponentType("VelocityComponent"));
 
         if (velocityOpt.has_value()) {
-            auto velocity = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(
+            auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
                 velocityOpt.value());
             if (velocity->velocity.y == 0) {
                 velocity->velocity.y = 0.1f;

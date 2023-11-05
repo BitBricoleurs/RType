@@ -18,9 +18,9 @@ void AnimateShot::update(GameEngine::ComponentsContainer &componentsContainer,
       GameEngine::ComponentsType::getComponentType("SpriteComponent"));
 
   if (animationOpt.has_value() && spriteOpt.has_value()) {
-    auto sprite = std::dynamic_pointer_cast<RenderEngine::SpriteComponent>(
+    auto sprite = std::static_pointer_cast<RenderEngine::SpriteComponent>(
         spriteOpt.value());
-    auto animation = std::dynamic_pointer_cast<Animation>(animationOpt.value());
+    auto animation = std::static_pointer_cast<Animation>(animationOpt.value());
 
     if (animation->currentFrameIndex == animation->frames) {
       animation->currentFrameIndex = 0;

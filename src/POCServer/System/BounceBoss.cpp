@@ -27,8 +27,8 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
   if (!bossVelOpt.has_value() || !bossPosOpt.has_value())
     return;
 
-  auto bossVelComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(bossVelOpt.value());
-  auto bossPosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(bossPosOpt.value());
+  auto bossVelComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(bossVelOpt.value());
+  auto bossPosComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(bossPosOpt.value());
   int i = 0;
   // check if boss pods is bouncing on the screen
   for (auto &bossPod : bossPods) {
@@ -39,9 +39,9 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
       if (!bossPodOpt.has_value() || !podPosCompOpt.has_value() || !podVelocityCompOpt.has_value())
           continue;
 
-    auto bossPodComp = std::dynamic_pointer_cast<isBossPod>(bossPodOpt.value());
-    auto podPosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(podPosCompOpt.value());
-    auto podVelocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(podVelocityCompOpt.value());
+    auto bossPodComp = std::static_pointer_cast<isBossPod>(bossPodOpt.value());
+    auto podPosComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(podPosCompOpt.value());
+    auto podVelocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(podVelocityCompOpt.value());
 
     if (podPosComp->pos.x < 0 || podPosComp->pos.y < 0 ||
         podPosComp->pos.y > 1080 - 150 || // one of the pods is bouncing
@@ -79,13 +79,13 @@ void BounceBoss::update(GameEngine::ComponentsContainer &componentsContainer,
           auto otherPodPosOpt = componentsContainer.getComponent(otherPod, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
           if (!otherPodOpt.has_value() || !otherPodVelocityCompOpt.has_value() || !otherPodPosOpt.has_value()) // check if the pod is detached from the core, and don't apply velocity if its detached
             continue;
-          auto otherPodComp = std::dynamic_pointer_cast<isBossPod>(otherPodOpt.value());
+          auto otherPodComp = std::static_pointer_cast<isBossPod>(otherPodOpt.value());
 
           if (otherPodComp->launched)
             continue;
 
-          auto otherPodVelocityComp = std::dynamic_pointer_cast<PhysicsEngine::VelocityComponent>(otherPodVelocityCompOpt.value());
-          auto otherPodPosComp = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(otherPodPosOpt.value());
+          auto otherPodVelocityComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(otherPodVelocityCompOpt.value());
+          auto otherPodPosComp = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(otherPodPosOpt.value());
 
           otherPodVelocityComp->velocity.x = bossVelComp->velocity.x;
           otherPodVelocityComp->velocity.y = bossVelComp->velocity.y;

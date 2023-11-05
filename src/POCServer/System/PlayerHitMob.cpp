@@ -34,6 +34,8 @@ namespace Server {
       auto velocityOpt = componentsContainer.getComponent(
           id, GameEngine::ComponentsType::getComponentType("VelocityComponent"));
 
+      if (!velocityOpt.has_value())
+        return;
       auto velocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(
           velocityOpt.value());
       velocity->velocity.x = 0;

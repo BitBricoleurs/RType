@@ -20,10 +20,10 @@ void Server::IndentifyOutOfBounds::update(GameEngine::ComponentsContainer & comp
         auto isParallaxOptional = componentsContainer.getComponent(positionComponentID, GameEngine::ComponentsType::getComponentType("IsParallax"));
 
         if (positionOptional.has_value()) {
-            auto position = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
+            auto position = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(positionOptional.value());
 
             if (isParallaxOptional.has_value()) {
-                auto isParallax = std::dynamic_pointer_cast<IsParallax>(isParallaxOptional.value());
+                auto isParallax = std::static_pointer_cast<IsParallax>(isParallaxOptional.value());
                 if (isParallax->isLooping) {
                     continue;
                 }

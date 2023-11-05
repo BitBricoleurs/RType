@@ -9,7 +9,13 @@ void Server::ManagePowerUp::update(GameEngine::ComponentsContainer &componentsCo
     try {
         int id = static_cast<int>(std::any_cast<size_t>(eventHandler.getTriggeredEvent().second));
 
-        auto player = std::dynamic_pointer_cast<IsPlayer>(componentsContainer.getComponent(id, GameEngine::ComponentsType::getComponentType("IsPlayer")).value());
+        auto playerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+
+        auto playerOpt = componentsContainer.getComponent(id, playerType);
+        if (!playerOpt.has_value())
+            return;
+
+        auto player = std::static_pointer_cast<IsPlayer>(playerOpt.value());
 
         try {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Game/powerUp.json");

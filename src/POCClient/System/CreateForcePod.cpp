@@ -32,6 +32,7 @@ namespace Client {
                     Utils::Vect2 velocity(static_cast<float>(std::any_cast<int>(args[arg_index + 2])) / 1000, static_cast<float>(std::any_cast<int>(args[arg_index + 3])) / 1000);
                     entityId = Client::EntityFactory::getInstance().spawnForcePod(componentsContainer, pos, velocity, eventHandler);
                     factory.registerEntity(entityId, id);
+                    GameEngine::Logger::info("Created ForcePod with id " + std::to_string(entityId));
                 }
             } catch (std::bad_any_cast &e) {
                 std::cerr << "Error from UpdatePosition System " << e.what() << std::endl;
