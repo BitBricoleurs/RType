@@ -56,7 +56,7 @@ namespace RenderEngine {
         Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
 
         if (textComponent.isVisible) {
-          DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 4, color);
+          DrawTextEx(GetFontDefault(), textComponent.text.c_str(), position, textComponent.fontSize, 0, color);
       }
     }
 
