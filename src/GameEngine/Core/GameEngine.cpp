@@ -264,4 +264,9 @@ namespace GameEngine {
     void GameEngine::registerCommand(const std::string& command, CommandFunction function) {
         commands[command] = std::move(function);
     }
+
+    EventHandler& GameEngine::getEventHandler() {
+        return eventHandler;
+    }
+
 }

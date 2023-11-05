@@ -69,6 +69,7 @@
 #include "ClearAnimateWinNotification.hpp"
 #include "UpdateScore.hpp"
 #include "UpdateBugSprite.hpp"
+#include "RenderEngineCinematicSystem.hpp"
 
 namespace Client {
     class MainProgram {

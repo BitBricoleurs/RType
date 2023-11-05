@@ -56,6 +56,8 @@ namespace GameEngine {
 
         static std::string handleDevConsole(std::string command);
         static void registerCommand(const std::string& command, CommandFunction function);
+
+        EventHandler& getEventHandler();
     private:
         void update();
         void stop();
