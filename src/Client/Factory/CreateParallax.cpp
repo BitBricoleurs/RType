@@ -41,7 +41,7 @@ namespace Client {
             auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(path, pos, spriteRect, static_cast<size_t>(layer), scale, rotation, tint);
             container.bindComponentToEntity(entityId, spriteComponent);
             container.bindComponentToEntity(entityId, spriteAnimationComponent);
-            eventHandler.scheduleEvent("animate", 2, std::make_tuple(std::string("SpriteAnime"), entityId));
+            eventHandler.scheduleEvent("animate", 5, std::make_tuple(std::string("SpriteAnime"), entityId));
         } else {
             auto spriteComponent = std::make_shared<RenderEngine::SpriteComponent>(path, pos, rect1, layer, scale, rotation, tint);
             container.bindComponentToEntity(entityId, spriteComponent);
