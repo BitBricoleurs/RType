@@ -152,6 +152,15 @@ Network::Message::Message(std::vector <std::uint8_t> &message)
         getDataMessage();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
+        _messageSize = 0;
+        _action = "";
+        _ArgType = "";
+        _ArgTypeCode = 0;
+        _NbrArgs = 0;
+        _NbrId = 0;
+        _sizeArg = 0;
+        _IDs = {};
+        _args = {};
     }
 }
 

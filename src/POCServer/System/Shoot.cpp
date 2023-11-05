@@ -26,11 +26,7 @@ namespace Server {
         if (gameStateComp->_state != Utils::GameState::State::RUNNING)
             return;
         std::tuple<unsigned long, int> tupleIdCharge(0, 0);
-        try {
-            tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
-       } catch (const std::bad_any_cast &e) {
-            std::cout << "Daaaaamn in Shoot : " << e.what() << std::endl;
-        }
+        tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(eventHandler.getTriggeredEvent().second);
        size_t entityID = std::get<0>(tupleIdCharge);
        auto charge = std::get<1>(tupleIdCharge);
      

@@ -36,10 +36,10 @@ namespace PhysicsEngine {
             }
         }
         for (const auto& pair : potentialCollisions) {
-            auto optCollider1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D"));
-            auto optPosition1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"));
-            auto optCollider2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getNewComponentType("AColliderComponent2D"));
-            auto optPosition2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getNewComponentType("PositionComponent2D"));
+            auto optCollider1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getComponentType("AColliderComponent2D"));
+            auto optPosition1 = componentsContainer.getComponent(pair.first, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
+            auto optCollider2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getComponentType("AColliderComponent2D"));
+            auto optPosition2 = componentsContainer.getComponent(pair.second, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
 
             if (!optCollider1.has_value() || !optPosition1.has_value() || !optCollider2.has_value() || !optPosition2.has_value()) continue;
 

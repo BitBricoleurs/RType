@@ -84,6 +84,7 @@ unsigned int Network::PacketRegister::getLastPacketId(unsigned int remoteId)
 
 void Network::PacketRegister::registerSentPacket(unsigned int remoteId,  std::shared_ptr<Network::Packet> packet, bool secure)
 {
+    return;
     std::lock_guard<std::mutex> lock(_mutexOut);
     if (_packetRegisterOut.find(remoteId) == _packetRegisterOut.end())
         _packetRegisterOut[remoteId] = std::vector<std::pair<bool, std::shared_ptr<Network::Packet>>>();

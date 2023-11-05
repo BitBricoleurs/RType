@@ -29,18 +29,18 @@ namespace Network {
 
     public:
         const T &getFront() {
-            static T t;
-            if (empty())
-                 return t;
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.front();
         }
 
         const T &getBack() {
-            static T t;
-            if (empty())
-                 return t;
             std::scoped_lock lock(muxQueue);
+            static T t;
+            if (deqQueue.empty())
+                return t;
             return deqQueue.back();
         }
 
@@ -54,7 +54,7 @@ namespace Network {
             if (empty())
                  return basicT;
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.front());
+            auto t = deqQueue.front();
             deqQueue.pop_front();
             return t;
         }
@@ -64,7 +64,7 @@ namespace Network {
             if (empty())
                  return basicT;
             std::scoped_lock lock(muxQueue);
-            auto t = std::move(deqQueue.back());
+            auto t = deqQueue.back();
             deqQueue.pop_back();
             return t;
         }
@@ -79,7 +79,7 @@ namespace Network {
                 popFront();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_back(std::move(item));
+            deqQueue.emplace_back(item);
         }
 
         void pushFront(const T &item) {
@@ -87,7 +87,7 @@ namespace Network {
                 popBack();
             }
             std::scoped_lock lock(muxQueue);
-            deqQueue.emplace_front(std::move(item));
+            deqQueue.emplace_front(item);
         }
 
         bool empty() {

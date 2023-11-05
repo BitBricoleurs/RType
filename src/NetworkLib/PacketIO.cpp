@@ -71,6 +71,10 @@ void Network::PacketIO::sendWaitingPackets()
 
 void Network::PacketIO::serializePacket()
 {
+    if (_packetOut == nullptr) {
+        _serializedPacket.resize(0);
+        return;
+    }
     _serializedPacket.resize(sizeof(PacketHeader) + _packetOut->body.size());
     memcpy(_serializedPacket.data(), &_packetOut->header, sizeof(PacketHeader));
     memcpy(_serializedPacket.data() + sizeof(PacketHeader), _packetOut->body.data(), _packetOut->body.size());
@@ -189,7 +193,7 @@ void Network::PacketIO::processOutgoingMessages()
             if (_id == -1) {
                 _id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
             }
-            _packetOut->header.ackMask= _registerPacket.getAckMask(_id);
+            _packetOut->header.ackMask = 0;//_registerPacket.getAckMask(_id);
             _packetOut->header.lastPacketSeq = _registerPacket.getLastPacketId(_id);
             _registerPacket.registerSentPacket(_id, _packetOut, isPacketSecure);
 
