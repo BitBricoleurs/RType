@@ -104,7 +104,7 @@ namespace Network {
         }
 
 
-        void sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
+        void sendClient(unsigned int id, const std::shared_ptr<IMessage> message)
         {
             for (auto &client : _clients) {
                 if (client && client->isConnected() && client->getId() == id) {
@@ -113,7 +113,7 @@ namespace Network {
             }
         }
 
-        void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message)
+        void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage> message)
         {
             for (auto id : ids) {
                 for (auto &client : _clients) {
@@ -124,7 +124,7 @@ namespace Network {
             }
         }
 
-        void sendAllClients(const std::shared_ptr<IMessage>& message)
+        void sendAllClients(const std::shared_ptr<IMessage> message)
         {
             for (auto &client : _clients) {
                 if (client && client->isConnected()) {
@@ -133,7 +133,7 @@ namespace Network {
             }
         }
 
-        void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message)
+        void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage> message)
         {
             for (auto &client : _clients) {
                 if (client && client->isConnected() && client->getId() != id) {
@@ -279,22 +279,22 @@ namespace Network {
         _isRunning = false;
     }
 
-    void Server::sendClient(unsigned int id, const std::shared_ptr<IMessage>& message)
+    void Server::sendClient(unsigned int id, const std::shared_ptr<IMessage> message)
     {
         pimpl->sendClient(id, message);
     }
 
-    void Server::sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message)
+    void Server::sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage> message)
     {
         pimpl->sendClients(ids, message);
     }
 
-    void Server::sendAllClients(const std::shared_ptr<IMessage>& message)
+    void Server::sendAllClients(const std::shared_ptr<IMessage> message)
     {
         pimpl->sendAllClients(message);
     }
 
-    void Server::sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message)
+    void Server::sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage> message)
     {
         pimpl->sendAllClientsExcept(id, message);
     }

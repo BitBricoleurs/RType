@@ -136,12 +136,16 @@ void Network::PacketIO::processIncomingMessages() {
                 if (size > _headerIn.bodySize || index > _headerIn.bodySize - sizeof(uint16_t) || index + size + sizeof(uint16_t) > _headerIn.bodySize) {
                     break;
                 }
-                std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
-                std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
-                id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
-                std::shared_ptr<Network::OwnedMessage> ownedMessage = std::make_shared<Network::OwnedMessage>(id, message);
-                _inMessages.pushBack(ownedMessage);
-                index += size + sizeof(uint16_t);
+                try {
+                    std::vector<std::uint8_t> subData(_bodyIn.getData().begin() + index, _bodyIn.getData().begin() + index + size + sizeof(uint16_t));
+                    std::shared_ptr<Network::IMessage> message = std::make_shared<Network::AMessage>(subData);
+                    id = EndpointGetter::getIdByEndpoint(_endpoint, _clients);
+                    std::shared_ptr<Network::OwnedMessage> ownedMessage = std::make_shared<Network::OwnedMessage>(id, message);
+                    _inMessages.pushBack(ownedMessage);
+                    index += size + sizeof(uint16_t);
+                } catch (std::length_error &e) {
+                    std::cout << "Error in processIncomingMessages : " << e.what() << std::endl;
+                }
             }
 
         }

@@ -15,10 +15,10 @@ namespace Network {
         void start();
         void stop();
 
-        void sendClient(unsigned int id, const std::shared_ptr<IMessage>& message);
-        void sendAllClients(const std::shared_ptr<IMessage>& message);
-        void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage>& message);
-        void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage>& message);
+        void sendClient(unsigned int id, const std::shared_ptr<IMessage> message);
+        void sendAllClients(const std::shared_ptr<IMessage> message);
+        void sendAllClientsExcept(unsigned int id, const std::shared_ptr<IMessage> message);
+        void sendClients(const std::vector<unsigned int> &ids, const std::shared_ptr<IMessage> message);
 
         void disconnectClient(unsigned int id);
 

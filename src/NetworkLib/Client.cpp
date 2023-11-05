@@ -20,7 +20,7 @@ public:
     void connect(const std::string &host, unsigned short port);
     void disconnect();
     bool isConnected() const;
-    void send(const std::shared_ptr<IMessage>& message);
+    void send(const std::shared_ptr<IMessage> message);
     void waitForOutMessagesAndDisconnect();
     bool isServerTimeout() const { return _serverTimeout; }
     void checkTimeout();
@@ -82,7 +82,7 @@ bool Network::Client::Impl::isConnected() const {
     return _interface->isConnected();
 }
 
-void Network::Client::Impl::send(const std::shared_ptr<IMessage>& message) {
+void Network::Client::Impl::send(const std::shared_ptr<IMessage> message) {
     if (!isConnected()) {
         return;
     }
@@ -123,7 +123,7 @@ bool Network::Client::isConnected() const {
     return pimpl->isConnected();
 }
 
-void Network::Client::send(const std::shared_ptr<IMessage>& message) {
+void Network::Client::send(const std::shared_ptr<IMessage> message) {
     pimpl->send(message);
 }
 
