@@ -108,76 +108,78 @@ namespace RenderEngine {
     }
     auto eventID = componentsContainer.createEntity();
     auto cinematicEventComponent = std::make_shared<RenderEngine::CinematicEventComponent>();
-    int eventsSize = config.getSize("/cinematic/events");
-    for (int j = 0; j < eventsSize; j++) {
-        std::string eventBasePath = "/cinematic/events/" + std::to_string(j) + "/";
-        std::string eventTypeString = config.getString(eventBasePath + "type");
-        RenderEngine::CinematicEventType eventType;
+    if (config.keyExists("/cinematic/events")) {
+        int eventsSize = config.getSize("/cinematic/events");
+        for (int j = 0; j < eventsSize; j++) {
+            std::string eventBasePath = "/cinematic/events/" + std::to_string(j) + "/";
+            std::string eventTypeString = config.getString(eventBasePath + "type");
+            RenderEngine::CinematicEventType eventType;
 
-        if (eventTypeString == "MoveCamera") {
-            float x = config.getFloat(eventBasePath + "data/targetPosition/x");
-            float y = config.getFloat(eventBasePath + "data/targetPosition/y");
-            float duration = config.getFloat(eventBasePath + "data/duration");
-            float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
+            if (eventTypeString == "MoveCamera") {
+                float x = config.getFloat(eventBasePath + "data/targetPosition/x");
+                float y = config.getFloat(eventBasePath + "data/targetPosition/y");
+                float duration = config.getFloat(eventBasePath + "data/duration");
+                float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
 
-            auto data = std::make_unique<RenderEngine::MoveCameraData>();
-            data->targetPosition = Utils::Vect2(x, y);
-            data->duration = duration;
-            data->inHowMuchTime = inHowMuchTime;
+                auto data = std::make_unique<RenderEngine::MoveCameraData>();
+                data->targetPosition = Utils::Vect2(x, y);
+                data->duration = duration;
+                data->inHowMuchTime = inHowMuchTime;
 
-            cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::MoveCamera, std::move(data));
+                cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::MoveCamera, std::move(data));
+            }
+
+            else if (eventTypeString == "ZoomCamera") {
+                float zoomLevel = config.getFloat(eventBasePath + "data/zoomLevel");
+                float duration = config.getFloat(eventBasePath + "data/duration");
+                float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
+
+                auto data = std::make_unique<RenderEngine::ZoomCameraData>();
+                data->zoomLevel = zoomLevel;
+                data->duration = duration;
+                data->inHowMuchTime = inHowMuchTime;
+
+                cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::ZoomCamera, std::move(data));
+            }
+
+            else if (eventTypeString == "PlaySound") {
+                std::string soundPath = config.getString(eventBasePath + "data/soundPath");
+                float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
+                float forHowMuchTime = config.getFloat(eventBasePath + "data/forHowMuchTime");
+
+                auto data = std::make_unique<RenderEngine::PlaySoundData>();
+                data->soundPath = soundPath;
+                data->inHowMuchTime = inHowMuchTime;
+                data->forHowMuchTime = forHowMuchTime;
+
+                cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::PlaySound, std::move(data));
+            }
+
+            else if (eventTypeString == "Pause") {
+                float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
+
+                auto data = std::make_unique<RenderEngine::PauseData>();
+                data->inHowMuchTime = inHowMuchTime;
+
+                cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::Pause, std::move(data));
+            }
+
+            else if (eventTypeString == "Resume") {
+                float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
+
+                auto data = std::make_unique<RenderEngine::ResumeData>();
+                data->inHowMuchTime = inHowMuchTime;
+
+                cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::Resume, std::move(data));
+            }
         }
-
-        else if (eventTypeString == "ZoomCamera") {
-            float zoomLevel = config.getFloat(eventBasePath + "data/zoomLevel");
-            float duration = config.getFloat(eventBasePath + "data/duration");
-            float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
-
-            auto data = std::make_unique<RenderEngine::ZoomCameraData>();
-            data->zoomLevel = zoomLevel;
-            data->duration = duration;
-            data->inHowMuchTime = inHowMuchTime;
-
-            cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::ZoomCamera, std::move(data));
-        }
-
-        else if (eventTypeString == "PlaySound") {
-            std::string soundPath = config.getString(eventBasePath + "data/soundPath");
-            float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
-            float forHowMuchTime = config.getFloat(eventBasePath + "data/forHowMuchTime");
-
-            auto data = std::make_unique<RenderEngine::PlaySoundData>();
-            data->soundPath = soundPath;
-            data->inHowMuchTime = inHowMuchTime;
-            data->forHowMuchTime = forHowMuchTime;
-
-            cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::PlaySound, std::move(data));
-        }
-
-        else if (eventTypeString == "Pause") {
-            float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
-
-            auto data = std::make_unique<RenderEngine::PauseData>();
-            data->inHowMuchTime = inHowMuchTime;
-
-            cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::Pause, std::move(data));
-        }
-
-        else if (eventTypeString == "Resume") {
-            float inHowMuchTime = config.getFloat(eventBasePath + "data/inHowMuchTime");
-
-            auto data = std::make_unique<RenderEngine::ResumeData>();
-            data->inHowMuchTime = inHowMuchTime;
-
-            cinematicEventComponent->addEvent(RenderEngine::CinematicEventType::Resume, std::move(data));
-        }
+        componentsContainer.bindComponentToEntity(eventID, cinematicEventComponent);
     }
-    componentsContainer.bindComponentToEntity(eventID, cinematicEventComponent);
 }
 
 
     void RenderEngineCinematicSystem::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
-        if (clock == 0) {
+        if (clock == 0 && jsonPath == "" && !isPlaying) {
             auto [jsonPath, nextScene] = std::any_cast<std::pair<std::string , std::string>>(eventHandler.getTriggeredEvent().second);
 
             if (jsonPath != "") {
@@ -218,9 +220,17 @@ namespace RenderEngine {
         }
     }
     auto eventsID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent"));
-    auto eventComponent = std::dynamic_pointer_cast<CinematicEventComponent>(
+    std::shared_ptr<CinematicEventComponent> eventComponent;
+    if (eventsID.empty()) {
+        return;
+    } else {
+        auto eventComponent = std::dynamic_pointer_cast<CinematicEventComponent>(
             componentsContainer.getComponent(eventsID[0], GameEngine::ComponentsType::getNewComponentType("CinematicEventComponent")).value()
         );
+        if (eventComponent->eventData.empty()) {
+            return;
+        }
+    }
     auto windowID = componentsContainer.getEntitiesWithComponent(GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent"));
     auto windowcast = std::dynamic_pointer_cast<WindowInfoComponent>(
             componentsContainer.getComponent(windowID[0], GameEngine::ComponentsType::getNewComponentType("WindowInfoComponent")).value()

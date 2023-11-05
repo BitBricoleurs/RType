@@ -5,41 +5,47 @@
 #pragma once
 
 #include <string>
-#include "lua.hpp"
-#include "luajit-2.0/lua.hpp"
+extern "C" {
+    #include "luajit-2.1/luajit.h"
+    #include "luajit-2.1/lualib.h"
+    #include "luajit-2.1/lauxlib.h"
+}
+#include <stdexcept>
+#include "LuaBridge/LuaBridge.h"
 
-class LuaScriptingEngine {
-public:
-    LuaScriptingEngine() {
-        L = luaL_newstate();
-        if (!L) throw std::runtime_error("Failed to create Lua state");
-        luaL_openlibs(L);
-    }
-
-    ~LuaScriptingEngine() {
-        if (L) {
-            lua_close(L);
-            L = nullptr;
+namespace LuaScriptingEngine {
+    class LuaScriptingEngine {
+    public:
+        LuaScriptingEngine() {
+            L = luaL_newstate();
+            if (!L) throw std::runtime_error("Failed to create Lua state");
+            luaL_openlibs(L);
         }
-    }
 
-    void runScript(const std::string& script) {
-        if (luaL_dostring(L, script.c_str()) != LUA_OK) {
-            const char* errorMessage = lua_tostring(L, -1);
-            throw std::runtime_error("Lua error: " + std::string(errorMessage));
+        ~LuaScriptingEngine() {
+            if (L) {
+                lua_close(L);
+                L = nullptr;
+            }
         }
-    }
 
-    // Function to expose C++ function to Lua
-    void exposeFunction(const char* name, lua_CFunction function) {
-        lua_pushcfunction(L, function);
-        lua_setglobal(L, name);
-    }
+        void runScript(const std::string& script) {
+            if (luaL_dostring(L, script.c_str()) != LUA_OK) {
+                const char* errorMessage = lua_tostring(L, -1);
+                throw std::runtime_error("Lua error: " + std::string(errorMessage));
+            }
+        }
 
-    lua_State* getState() const {
-        return L;
-    }
+        void exposeFunction(const char* name, lua_CFunction function) {
+            lua_pushcfunction(L, function);
+            lua_setglobal(L, name);
+        }
 
-private:
-    lua_State* L;
-};
+        [[nodiscard]] lua_State* getState() const {
+            return L;
+        }
+
+    private:
+        lua_State* L;
+    };
+}

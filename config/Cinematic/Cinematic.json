@@ -7,23 +7,23 @@
       {
         "components": {
           "PositionComponent2D": {
-            "x": 50.0,
-            "y": 70.0
+            "x": -50.0,
+            "y": 540.0
           },
           "SpriteComponent": {
-            "imagePath": "assets/11.png",
+            "imagePath": "assets/ships.gif",
             "pos": {
-              "x": 50.0,
-              "y": 70.0
+              "x": -50.0,
+              "y": 540.0
             },
             "rect": {
               "x": 0,
               "y": 0,
-              "width": 125,
-              "height": 72
+              "width": 33,
+              "height": 17
             },
             "layer": 1,
-            "scale": 1.0,
+            "scale": 3.0,
             "rotation": 0.0,
             "tint": {
               "r": 255,
@@ -33,12 +33,12 @@
             }
           },
           "TextComponent": {
-            "text": "Hello, World!",
+            "text": "Welcome to the game",
             "pos": {
-              "x": 50.0,
-              "y": 70.0
+              "x": 910.0,
+              "y": 100.0
             },
-            "fontSize": 14,
+            "fontSize": 50,
             "layer": 1,
             "color": {
               "r": 255,
@@ -48,46 +48,13 @@
             }
           },
           "CinematicComponent": {
-            "playDuration": 5.0,
-            "inHowMuchTime": 2.0,
+            "playDuration": 7.0,
+            "inHowMuchTime": 0.0,
             "endPosition": {
-              "x": 100.0,
-              "y": 140.0
+              "x": 910.0,
+              "y": 540.0
             }
           }
-        }
-      }
-    ],
-    "events": [
-      {
-        "type": "MoveCamera",
-        "data": {
-          "targetPosition": {
-            "x": 100.0,
-            "y": 100.0
-          },
-          "duration": 5.0,
-          "inHowMuchTime": 2.0
-        }
-      },
-      {
-        "type": "ZoomCamera",
-        "data": {
-          "zoomLevel": 2.0,
-          "duration": 5.0,
-          "inHowMuchTime": 2.0
-        }
-      },
-      {
-        "type": "Pause",
-        "data": {
-          "inHowMuchTime": 5.0
-        }
-      },
-      {
-        "type": "Resume",
-        "data": {
-          "inHowMuchTime": 7.0
         }
       }
     ]

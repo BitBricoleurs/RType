@@ -15,8 +15,9 @@ int main() {
     auto cinematic = std::make_shared<RenderEngine::RenderEngineCinematicSystem>();
     engine.addSystem("Render", render);
     engine.addEvent("Cinematic", cinematic);
+    std::pair<std::string, std::string> windowInfo = {"/config/Cinematic/Cinematic.json", "next"};
 
-    engine.queueEvent("Cinematic", "/config/Cinematic/Cinematic.json");
+    engine.queueEvent("Cinematic", windowInfo);
 
     engine.run();
 
