@@ -10,11 +10,7 @@
 #include <filesystem>
 
 namespace RenderEngine {
-    RenderEngine::~RenderEngine() {
-      for (auto &pair : textureCache) {
-        UnloadTexture(pair.second);
-      }
-    }
+    RenderEngine::~RenderEngine() {}
 
 
     void RenderEngine::Initialize(const char *windowTitle) {
@@ -29,7 +25,7 @@ namespace RenderEngine {
         }
     }
 
-    void RenderEngine::Draw(const ButtonComponent &buttonComponent) {
+    void RenderEngine::Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
         if (!buttonComponent.isVisible) {
             return;
         }
@@ -45,15 +41,17 @@ namespace RenderEngine {
             case ButtonComponent::DISABLED:
                 color = { 128, 128, 128, 255 };
                 break;
+            case ButtonComponent::CLICKED:
+                break;
         }
 
         SpriteComponent spriteComponent = static_cast<SpriteComponent>(buttonComponent);
         spriteComponent.tint = color;
-        Draw(spriteComponent);
+        Draw(spriteComponent, ResourceManager);
     }
 
 
-    void RenderEngine::Draw(const TextComponent &textComponent) const {
+    void RenderEngine::Draw(const TextComponent &textComponent, std::shared_ptr<ResourceManager>& ResourceManager) {
         Vector2 position = { textComponent.pos.x * scaleX, textComponent.pos.y * scaleY };
         Color color = { textComponent.color.r, textComponent.color.g, textComponent.color.b, textComponent.color.a };
 
@@ -63,33 +61,24 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::Draw(const SpriteComponent &spriteComponent) {
-        if (spriteComponent.isVisible) {
-            std::string path = _baseAssetPath + spriteComponent.imagePath;
+    void RenderEngine::Draw(const SpriteComponent &spriteComponent, std::shared_ptr<ResourceManager>& resourceManager) {
+    if (spriteComponent.isVisible) {
+        std::string path = _baseAssetPath + spriteComponent.imagePath;
+        Texture2D texture = resourceManager->LoadTexture(path);
 
-            auto it = textureCache.find(path);
-            if (it == textureCache.end()) {
-                if (fileExists(path)) {
-                    Texture2D texture = LoadTexture(path.c_str());
-                    if (texture.id != 0) {
-                        textureCache[path] = texture;
-                    } else {
-                        std::cout << "Log: texture not loaded: " << path.c_str() << std::endl;
-                        return;
-                    }
-                } else {
-                    std::cout << "Log: cannot find file: " << path.c_str() << std::endl;
-                    return;
-                }
-            }
-            DrawTexturePro(textureCache[path],
-                           { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h },
-                           {spriteComponent.pos.x * scaleX, spriteComponent.pos.y * scaleY, spriteComponent.rect1.w * spriteComponent.scale * scaleX, spriteComponent.rect1.h * spriteComponent.scale * scaleY},
-                           {spriteComponent.origin.x * scaleX, spriteComponent.origin.y * scaleY},
-                           spriteComponent.rotation,
-                           {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
+        if (texture.id == 0) {
+            std::cerr << "Log: Failed to load texture: " << path << std::endl;
+            return;
         }
+        DrawTexturePro(texture,
+                       { spriteComponent.rect1.x, spriteComponent.rect1.y, spriteComponent.rect1.w, spriteComponent.rect1.h },
+                       {spriteComponent.pos.x * scaleX, spriteComponent.pos.y * scaleY, spriteComponent.rect1.w * spriteComponent.scale * scaleX, spriteComponent.rect1.h * spriteComponent.scale * scaleY},
+                       {spriteComponent.origin.x * scaleX, spriteComponent.origin.y * scaleY},
+                       spriteComponent.rotation,
+                       {spriteComponent.tint.r, spriteComponent.tint.g, spriteComponent.tint.b, spriteComponent.tint.a});
     }
+}
+
 
     bool RenderEngine::fileExists(const std::string& path) {
         std::ifstream file(path.c_str());
@@ -97,40 +86,57 @@ namespace RenderEngine {
     }
 
 
-    void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::shared_ptr<ButtonComponent>> buttons) {
-        for (const auto& mapping : keyMappings) {
-            if (mapping.checkFunction(mapping.key)) {
-                eventHandler.queueEvent(mapping.eventName);
-            }
+void RenderEngine::PollEvents(GameEngine::EventHandler& eventHandler, std::vector<std::pair<size_t, ButtonComponent>> buttons) {
+    for (const auto& mapping : keyMappings) {
+        if (mapping.checkFunction(mapping.key)) {
+            eventHandler.queueEvent(mapping.eventName);
         }
+    }
 
         Vector2 mousePosition = GetMousePosition();
         Utils::Vect2 mousePos;
         mousePos.x = mousePosition.x;
         mousePos.y = mousePosition.y;
 
-        for (const auto& button : buttons) {
-            bool isHovering = (mousePosition.x >= button->pos.x && mousePosition.x <= button->pos.x + button->rect1.w * button->scale) &&
-                    (mousePosition.y >= button->pos.y && mousePosition.y <= button->pos.y + button->rect1.h * button->scale);
+    for (auto [id, button] : buttons) {
+      bool isHovering =
+          (mousePosition.x >= button.pos.x * scaleX &&
+           mousePosition.x <= button.pos.x * scaleX +
+                                  button.rect1.w * button.scale * scaleX) &&
+          (mousePosition.y >= button.pos.y * scaleY &&
+           mousePosition.y <= button.pos.y * scaleY +
+                                  button.rect1.h * button.scale * scaleY);
 
-            if (isHovering && button->state != ButtonComponent::HOVER && !button->hoverEvent.empty()) {
-                button->state = ButtonComponent::HOVER;
-                eventHandler.queueEvent(button->hoverEvent);
-            } else if (!isHovering && button->state == ButtonComponent::HOVER) {
-                button->state = ButtonComponent::NORMAL;
-            }
-            if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                eventHandler.queueEvent(button->clickEvent);
-            }
-        }
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-            eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
-        if (WindowShouldClose()) {
-            eventHandler.queueEvent("gameEngineStop");
-        }
+      if (isHovering && button.state == ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
+      }
+      if (!isHovering && button.state != ButtonComponent::NORMAL) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
+      if (isHovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::CLICKED;
+          eventHandler.queueEvent(button.clickEvent, id);
+      }
+      if (isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::HOVER;
+          eventHandler.queueEvent(button.hoverEvent, id);
+      }
+      if (!isHovering && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+          button.state = ButtonComponent::NORMAL;
+          eventHandler.queueEvent(button.normalEvent, id);
+      }
     }
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        eventHandler.queueEvent("MouseLeftButtonPressed", mousePos);
+    if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        eventHandler.queueEvent("MouseRightButtonPressed", mousePos);
+    if (WindowShouldClose()) {
+        eventHandler.queueEvent("gameEngineStop");
+    }
+}
 
 
     void RenderEngine::ClearBackgroundRender(Color color) {

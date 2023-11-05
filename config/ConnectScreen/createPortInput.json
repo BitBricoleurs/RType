@@ -1,0 +1,28 @@
+{
+  "port_input": {
+    "spritePath": "assets/Connect_Screen/port_txt.png",
+    "spritePosX": 1050,
+    "spritePosY": 500,
+    "frame" : 2,
+    "spriteSheetHeight": 128,
+    "spriteSheetWidth": 868,
+    "hitboxHeight": 128,
+    "hitboxWidth": 434,
+    "scale": 0.80,
+    "reverse": false,
+    "tint": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "layer": 9,
+    "delimiter": " ",
+    "nbrSection" : 1,
+    "maxSizeSection" : 5,
+    "maxSizeInput" : 5,
+    "relatixeTextPosX" : 175,
+    "relatixeTextPosY" : 32,
+    "padding" : 0.0
+  }
+}

@@ -38,8 +38,6 @@ namespace Server {
       auto stageComponent = std::make_shared<BossStage>(stageValue);
       auto bossComponent = std::make_shared<IsBoss>();
 
-      container.unbindComponentFromEntity(
-          entityId, GameEngine::ComponentsType::getComponentType("Mob"));
       container.bindComponentToEntity(entityId, bossComponent);
       container.bindComponentToEntity(entityId, stageComponent);
 
@@ -51,18 +49,26 @@ namespace Server {
                                        Utils::Vect2 pos,
                                        Utils::Vect2 velocity, int maxHealth,
                                        int damageValue, int bulletStartX, int bulletStartY, float scale, size_t entityCharge,
-                                       Utils::Vect2 bulletVelocity, int typeBullet) {
+                                       Utils::Vect2 bulletVelocity, int typeBullet, int nbrFrame) {
       size_t entityId = createBaseEntity(
-          container, hitboxHeight, hitboxWidth,
+          container, hitboxHeight / nbrFrame, hitboxWidth,
           pos, velocity, scale);
 
       auto healthComponent = std::make_shared<Health>(maxHealth);
       auto shooterComp = std::make_shared<Shooter>(Utils::Vect2(bulletStartX, bulletStartY), bulletVelocity, typeBullet);
       auto playerComponent = std::make_shared<IsPlayer>(entityCharge);
+      auto cooldownHitComponent = std::make_shared<CooldownHit>();
+
+      Utils::Vect2 topLeft = Utils::Vect2(0, 0);
+      Utils::Vect2 bottomRight = Utils::Vect2(1820, 975);
+
+      auto movementLimitComponent = std::make_shared<PhysicsEngine::MovementLimits>(topLeft, bottomRight);
 
       container.bindComponentToEntity(entityId, healthComponent);
       container.bindComponentToEntity(entityId, playerComponent);
       container.bindComponentToEntity(entityId, shooterComp);
+      container.bindComponentToEntity(entityId, movementLimitComponent);
+      container.bindComponentToEntity(entityId, cooldownHitComponent);
 
       return entityId;
     }
@@ -150,4 +156,46 @@ namespace Server {
         eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
     }
 
+    void EntityFactory::updateEntityNetworkWithPos(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &pos)
+    {
+        std::vector<size_t> ids = {entityId};
+        std::vector<std::any> args = {};
+        args.push_back(pos.x);
+        args.push_back(pos.y);
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+        std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+    }
+
+    void EntityFactory::updateEntityNetworkWithVelocity(GameEngine::EventHandler &eventHandler, size_t entityId, Utils::Vect2 &velocity)
+    {
+        std::vector<size_t> ids = {entityId};
+        std::vector<std::any> args = {};
+        args.push_back(velocity.x);
+        args.push_back(velocity.y);
+        std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+         std::shared_ptr<Network::AllUsersMessage> allUserMsg = std::make_shared<Network::AllUsersMessage>(message);
+        eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+    }
+
+    std::vector<Utils::Vect2> EntityFactory::generatePathPoints() {
+        std::vector<Utils::Vect2> pathPoints;
+        int numPoints = rand() % 3 + 5;
+
+        int screenWidth = 1920;
+        int sectionWidth = screenWidth / numPoints;
+
+        for (int i = 0; i < numPoints; ++i) {
+            Utils::Vect2 point;
+            point.x = rand() % sectionWidth + (i * sectionWidth); // Random point within the section
+            point.y = rand() % 1080;
+            pathPoints.push_back(point);
+        }
+        
+        std::sort(pathPoints.begin(), pathPoints.end(), [](const Utils::Vect2& a, const Utils::Vect2& b) {
+              return a.x > b.x;
+        });
+
+        return pathPoints;
+    }
 }

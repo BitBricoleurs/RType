@@ -10,7 +10,10 @@
 #include "IsBullet.hpp"
 #include "VelocityComponent.hpp"
 #include <cmath>
+#include "Logger.hpp"
+
 void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
+    GameEngine::Logger::info("Shoot system update");
     auto charge = 0;
     auto event = eventHandler.getTriggeredEvent().second;
    auto tupleIdCharge = std::any_cast<std::tuple<unsigned long, int>>(event);
@@ -55,7 +58,7 @@ void Shoot::update(GameEngine::ComponentsContainer &componentsContainer, GameEng
               bullet = EntityFactory::getInstance().createBaseEnemyBullet(componentsContainer, eventHandler, shootingPosition, velocity);
       }
         } else if (shooterComp->typeBullet == 2) {
-            bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(10,0), "assets/spritesheet-5.png", Utils::rect(0, 0, 64, 32), 2);
+            bullet = EntityFactory::getInstance().createPlayerBullet(componentsContainer, eventHandler, shootingPosition, Utils::Vect2(10,0), "assets/connect_button.png", Utils::rect(0, 0, 64, 32), 2);
         }
         eventHandler.queueEvent("PLAY_SOUND", bullet);
     }

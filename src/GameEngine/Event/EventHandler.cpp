@@ -11,29 +11,77 @@ namespace GameEngine {
 
         size_t typeHash = a.type().hash_code();
 
-        static const std::unordered_map<size_t, std::function<bool(const std::any&, const std::any&)>> comparators = {
-            { typeid(int).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<int>(a) == std::any_cast<int>(b); } },
-            { typeid(size_t).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<size_t>(a) == std::any_cast<size_t>(b); } },
-            { typeid(float).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<float>(a) == std::any_cast<float>(b); } },
-            { typeid(double).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<double>(a) == std::any_cast<double>(b); } },
-            { typeid(std::string).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<std::string>(a) == std::any_cast<std::string>(b); } },
-            { typeid(bool).hash_code(), [](const std::any& a, const std::any& b) { return std::any_cast<bool>(a) == std::any_cast<bool>(b); } },
-            {typeid(std::pair<size_t, size_t>).hash_code(), [](const std::any& a, const std::any& b) {
-                auto [a1, a2] = std::any_cast<std::pair<size_t, size_t>>(a);
-                auto [b1, b2] = std::any_cast<std::pair<size_t, size_t>>(b);
-                return a1 == b1 && a2 == b2;
-            } },
-            {typeid(std::pair<size_t, std::string>).hash_code(), [](const std::any& a, const std::any& b) {
-                auto [a1, a2] = std::any_cast<std::pair<size_t, std::string>>(a);
-                auto [b1, b2] = std::any_cast<std::pair<size_t, std::string>>(b);
-                return a1 == b1 && a2 == b2;
-            } },
-            {typeid(std::pair<std::string, std::string>).hash_code(), [](const std::any& a, const std::any& b) {
-                auto [a1, a2] = std::any_cast<std::pair<std::string, std::string>>(a);
-                auto [b1, b2] = std::any_cast<std::pair<std::string, std::string>>(b);
-                return a1 == b1 && a2 == b2;
-            } },
-        };
+static const std::unordered_map<size_t, std::function<bool(const std::any&, const std::any&)>> comparators = {
+    { typeid(int).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<int>(a) == std::any_cast<int>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    { typeid(size_t).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<size_t>(a) == std::any_cast<size_t>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    { typeid(float).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<float>(a) == std::any_cast<float>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    { typeid(double).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<double>(a) == std::any_cast<double>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    { typeid(std::string).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<std::string>(a) == std::any_cast<std::string>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    { typeid(bool).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            return std::any_cast<bool>(a) == std::any_cast<bool>(b);
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    {typeid(std::pair<size_t, size_t>).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            auto [a1, a2] = std::any_cast<std::pair<size_t, size_t>>(a);
+            auto [b1, b2] = std::any_cast<std::pair<size_t, size_t>>(b);
+            return a1 == b1 && a2 == b2;
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    {typeid(std::pair<size_t, std::string>).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            auto [a1, a2] = std::any_cast<std::pair<size_t, std::string>>(a);
+            auto [b1, b2] = std::any_cast<std::pair<size_t, std::string>>(b);
+            return a1 == b1 && a2 == b2;
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+    {typeid(std::pair<std::string, std::string>).hash_code(), [](const std::any& a, const std::any& b) {
+        try {
+            auto [a1, a2] = std::any_cast<std::pair<std::string, std::string>>(a);
+            auto [b1, b2] = std::any_cast<std::pair<std::string, std::string>>(b);
+            return a1 == b1 && a2 == b2;
+        } catch (const std::bad_any_cast&) {
+            return false;
+        }
+    } },
+};
 
         auto it = comparators.find(typeHash);
         if (it != comparators.end()) {
@@ -45,6 +93,17 @@ namespace GameEngine {
     EventHandler::EventHandler() = default;
     EventHandler::~EventHandler() = default;
 
+    void EventHandler::clear() {
+        std::lock_guard<std::mutex> lock(eventMutex);
+        eventMap.clear();
+        eventFunctionMap.clear();
+        eventFunctionMapWithAny.clear();
+        continuousEvents.clear();
+        activeContinuousEvents.clear();
+        eventQueue = std::queue<std::pair<std::string, std::any>>();
+        scheduledEvents.clear();
+    }
+
     void EventHandler::addEvent(const std::string& eventName, std::shared_ptr<GameEngine::ISystem> system) {
         std::lock_guard<std::mutex> lock(eventMutex);
         eventMap[eventName].push_back(system);
@@ -53,6 +112,12 @@ namespace GameEngine {
     void EventHandler::addEvent(const std::string& eventName, std::function<void()> function) {
         std::lock_guard<std::mutex> lock(eventMutex);
         eventFunctionMap[eventName] = function;
+    }
+
+
+    void EventHandler::addEvent(const std::string& eventName, std::function<void(const std::any&)> function) {
+        std::lock_guard<std::mutex> lock(eventMutex);
+        eventFunctionMapWithAny[eventName] = function;
     }
 
     void EventHandler::addEvent(const std::string& eventName, const std::vector<std::shared_ptr<ISystem>>& systems) {
@@ -78,7 +143,11 @@ namespace GameEngine {
         while (!eventQueue.empty()) {
             auto[eventName, eventData] = eventQueue.front();
             triggerEvent(eventName, componentsContainer);
-            eventQueue.pop();
+            if (eventName == eventQueue.front().first) {
+                eventQueue.pop();
+            } else {
+                break;
+            }
         }
 
         for (const auto& eventName : activeContinuousEvents) {
@@ -94,6 +163,15 @@ namespace GameEngine {
         }
         if (eventFunctionMap.find(eventName) != eventFunctionMap.end()) {
             eventFunctionMap[eventName]();
+        }
+        if (eventFunctionMapWithAny.find(eventName) != eventFunctionMapWithAny.end()) {
+            auto it = eventQueue.front();
+            if (it.second.type() == typeid(void)) {
+                std::any empty;
+                eventFunctionMapWithAny[eventName](empty);
+            } else {
+                eventFunctionMapWithAny[eventName](eventQueue.front().second);
+            }
         }
     }
 
@@ -113,7 +191,7 @@ namespace GameEngine {
                 if (eventData.type() == typeid(void)) {
                     return name == eventName;
                 }
-                return name == eventName && GameEngine::compareAny(data, eventData);
+                return name == eventName && compareAny(data, eventData);
             }),
         scheduledEvents.end());
     }

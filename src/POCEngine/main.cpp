@@ -1,7 +1,9 @@
 #include "AnimateDeath.hpp"
 #include "AnimateOnMove.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
 #include "AudioEngineSystem.hpp"
+#endif
 #include "ChangeDirPlayer.hpp"
 #include "ChargingBar.hpp"
 #include "Client.hpp"
@@ -52,10 +54,12 @@
 #include <memory>
 #include "SpawnPowerUp.hpp"
 #include "ButtonComponent.hpp"
+#include "Logger.hpp"
+#include "PhysicsEngineGravitySystem.hpp"
 
-int main() {
-  GameEngine::GameEngine engine;
-  auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
+
+void initScene(GameEngine::GameEngine &engine) {
+    auto collision = std::make_shared<PhysicsEngine::PhysicsEngineCollisionSystem2D>();
   auto movement = std::make_shared<PhysicsEngine::PhysicsEngineMovementSystem2D>();
   auto paralax = std::make_shared<Parallax>();
   auto paralaxPlanet = std::make_shared<ParallaxPlanet>();
@@ -93,7 +97,7 @@ int main() {
   auto animateOnMove = std::make_shared<AnimateOnMove>();
   auto forcePod = std::make_shared<ForcePodSpawn>();
   auto testInput = std::make_shared<TestInput>();
-  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine");
+  auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
   auto deleteShoot = std::make_shared<DeleteEntities>();
   auto initParallax = std::make_shared<InitParallax>();
   auto toggleFullScreen = std::make_shared<RenderEngine::ToggleFullScreen>();
@@ -102,9 +106,9 @@ int main() {
   auto PlayerHitMob1 = std::make_shared<PlayerHitMob>();
   auto borderStop = std::make_shared<RollBackBorder>();
   auto spawnPowerUp = std::make_shared<SpawnPowerUp>();
+  auto gravitySystem = std::make_shared<GameEngine::PhysicsEngineGravitySystem>();
 
   auto window = engine.createEntity();
-  engine.bindComponentToEntity(window, std::make_shared<RenderEngine::WindowInfoComponent>(render->getScreenWidth(), render->getScreenHeight()));
 
   engine.addEvent("SpawnPowerUp", spawnPowerUp);
   engine.addEvent("PlayerHit", PlayerHit1);
@@ -113,6 +117,7 @@ int main() {
   engine.addEvent("InitParallax", initParallax);
   engine.queueEvent("InitParallax");
   engine.addEvent("toggleFullScreen", toggleFullScreen);
+    engine.addSystem("GravitySystem", gravitySystem);
   engine.addSystem("CollisionSystem", collision);
   engine.addSystem("RollBackBorder", borderStop);
   engine.addSystem("MovementSystem", movement, 2);
@@ -209,17 +214,7 @@ Utils::Vect2 pos;
 
     engine.unscheduleEvent("UpdateScore", 100);
 
-  auto backgroundMusic = std::make_shared<AudioEngine::AudioComponent>("assets/music/RTYPE.wav", true);
-  auto backgroundMusicEntity = engine.createEntity();
 
-  auto audioSys = std::make_shared<AudioEngine::AudioEngineSystem>();
-
-  engine.bindComponentToEntity(backgroundMusicEntity, backgroundMusic);
-  engine.addEvent("PLAY_SOUND", audioSys);
-  engine.queueEvent("PLAY_SOUND", backgroundMusicEntity);
-
-  engine.scheduleEvent("UPDATE_SOUNDS", 1);
-  engine.addEvent("UPDATE_SOUNDS", audioSys);
   //   GameEngineUtils::Vect2 pos;
   //   pos.x = 100;
   //   pos.y = 100;
@@ -280,7 +275,16 @@ Utils::Vect2 pos;
   auto collisionHandler = std::make_shared<CollisionHandler>();
 
   engine.addEvent("Collision", collisionHandler);
+}
 
+
+int main() {
+  GameEngine::GameEngine engine;
+  engine.bindSceneInitiation("Scene1", initScene);
+  std::string sceneName = "Scene1";
+  engine.queueEvent("gameEngineChangeScene", sceneName);
   engine.run();
   return 0;
 }
+
+

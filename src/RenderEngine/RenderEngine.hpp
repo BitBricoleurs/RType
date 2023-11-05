@@ -18,6 +18,7 @@
 #include <string>
 #include <fstream>
 #include "LoadConfig.hpp"
+#include "ResourceManager.hpp"
 
 namespace RenderEngine {
     class RenderEngine {
@@ -26,27 +27,27 @@ namespace RenderEngine {
       ~RenderEngine();
 
       void Initialize(const char *windowTitle);
-      void Draw(const TextComponent &textComponent) const;
-      void Draw(const SpriteComponent &spriteComponent);
-      void Draw(const ButtonComponent &buttonComponent);
-      void PollEvents(GameEngine::EventHandler &eventHandler,
-                      std::vector<std::shared_ptr<ButtonComponent>> buttons);
-      static void Shutdown();
-      static void ClearBackgroundRender(Color color);
-
+      void Draw(const TextComponent &textComponent, std::shared_ptr<ResourceManager>& ResourceManager);
+      void Draw(const SpriteComponent &spriteComponent, std::shared_ptr<ResourceManager>& ResourceManager);
+      void Draw(const ButtonComponent &buttonComponent, std::shared_ptr<ResourceManager>& ResourceManager);
+      void PollEvents(
+          GameEngine::EventHandler &eventHandler,
+          std::vector<std::pair<size_t, ButtonComponent>>
+              buttons);
+      void Shutdown();
+      void ClearBackgroundRender(Color color);
       size_t getScreenWidth() const;
       size_t getScreenHeight() const;
 
     private:
         size_t screenWidth{};
         size_t screenHeight{};
-        std::unordered_map<std::string, Texture2D> textureCache;
         std::string _baseAssetPath;
         float scaleX{};
         float scaleY{};
 
 
-            std::vector<KeyMapping> keyMappings = {
+        std::vector<KeyMapping> keyMappings = {
         { KEY_SPACE, IsKeyPressed, "SPACE_KEY_PRESSED" },
         { KEY_SPACE, IsKeyReleased, "SPACE_KEY_RELEASED" },
         { KEY_UP, IsKeyPressed, "UP_KEY_PRESSED" },
@@ -58,8 +59,21 @@ namespace RenderEngine {
         { KEY_RIGHT, IsKeyPressed, "RIGHT_KEY_PRESSED" },
         { KEY_RIGHT, IsKeyReleased, "RIGHT_KEY_RELEASED" },
         { KEY_ENTER, IsKeyPressed, "ENTER_KEY_PRESSED" },
-        {KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
-        {KEY_F11, IsKeyPressed, "toggleFullScreen"}
+        { KEY_LEFT_CONTROL, IsKeyPressed, "CONTROL_KEY_PRESSED"},
+        { KEY_F11, IsKeyPressed, "toggleFullScreen"},
+        { KEY_S, IsKeyPressed, "S_KEY_PRESSED"},
+        { KEY_DELETE, IsKeyPressed, "DELETE_KEY_PRESSED"},
+        { KEY_ZERO, IsKeyPressed, "ZERO_KEY_PRESSED"},
+        { KEY_ONE, IsKeyPressed, "ONE_KEY_PRESSED"},
+        { KEY_TWO, IsKeyPressed, "TWO_KEY_PRESSED"},
+        { KEY_THREE, IsKeyPressed, "THREE_KEY_PRESSED"},
+        { KEY_FOUR, IsKeyPressed, "FOUR_KEY_PRESSED"},
+        { KEY_FIVE, IsKeyPressed, "FIVE_KEY_PRESSED"},
+        { KEY_SIX, IsKeyPressed, "SIX_KEY_PRESSED"},
+        { KEY_SEVEN, IsKeyPressed, "SEVEN_KEY_PRESSED"},
+        { KEY_EIGHT, IsKeyPressed, "EIGHT_KEY_PRESSED"},
+        { KEY_NINE, IsKeyPressed, "NINE_KEY_PRESSED"},
+
     };
 
     static bool fileExists(const std::string& path);

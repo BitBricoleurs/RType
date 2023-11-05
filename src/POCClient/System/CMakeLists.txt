@@ -12,9 +12,7 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SyncPosSprite.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ChangeDirPlayer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreatePlayer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/InitParallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ParallaxPlanet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateParallax.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CreateMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/KillEntity.cpp
@@ -24,5 +22,39 @@ set(POCCLIENT_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/InitAudioBackgroud.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkSendReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveStartGame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitScreenConnect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ActionButtonConnectClick.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ButtonConnectAnimation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InputTextSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MenuSelect.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MenuNavigate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncChargeAnimations.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkActivateCharge.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/iAmAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EndSmoothing.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreateForcePod.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SyncForcePodPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InitNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveLifeLost.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeathPlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GameOverSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GoBackToTheLobby.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RevivePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateStartNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateStartNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateLoseNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateLoseNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimateWinNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClearAnimateWinNotification.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateScore.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CreatePowerUpDual.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlashWhenHit.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkReceiveFlash.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodUpgrade.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UpdateBugSprite.cpp
         CACHE INTERNAL ""
 )

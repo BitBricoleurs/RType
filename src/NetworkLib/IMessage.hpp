@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <cstdint>
+#include <memory>
 
 namespace Network {
 
@@ -16,6 +17,7 @@ namespace Network {
 
         virtual std::vector<std::uint8_t> &getMessage() = 0;
         virtual unsigned int getSize() = 0;
+        virtual bool isSecure() = 0;
     };
 
     class Message;

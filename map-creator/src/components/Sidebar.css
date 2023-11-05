@@ -1,0 +1,63 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -200px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 2000;
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.sidebar.closed {
+    right: -200px;
+}
+
+.sidebar-toggle-button {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+
+.sidebar-controls {
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px 20px 10px;
+    margin-top: 20px;
+}
+
+.bp3-button-group {
+    display: flex;
+    justify-content: center;
+}
+
+.bp3-button {
+    margin: 0 10px;
+    color: white;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+}
+
+.bp3-button-play {
+    background-color: #0f9960;
+}
+
+.bp3-button-pause {
+    background-color: #d9822b;
+}
+
+.bp3-button-stop {
+    background-color: #db3737;
+}
+
+.bp3-icon {
+    width: 30px;
+    height: 30px;
+}

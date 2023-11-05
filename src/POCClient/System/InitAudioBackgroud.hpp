@@ -7,7 +7,9 @@
 #include "ISystem.hpp"
 #include "ComponentsType.hpp"
 #include "EventHandler.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
+#endif
 #include "LoadConfig.hpp"
 
 namespace Client {

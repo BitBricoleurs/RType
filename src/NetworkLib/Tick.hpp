@@ -22,6 +22,8 @@ namespace Network {
         void updateLastWriteTime();
         void setIncomingFunction(std::function<void()> func);
         void setOutgoingFunction(std::function<void()> func);
+        void setTimeoutFunction(std::function<void()> func);
+        void setEraseClientFunction(std::function<void()> func);
 
         size_t _tick;
         size_t _timeToWaitBetweenTick;
@@ -33,6 +35,8 @@ namespace Network {
     private:
         std::function<void()> processIncoming;
         std::function<void()> processOutgoing;
+        std::function<void()> processTimeout;
+        std::function<void()> processEraseClient;
         std::atomic_bool _running;
     };
 }

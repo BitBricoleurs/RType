@@ -38,13 +38,17 @@ namespace Utils {
         return *this;
     }
 
+    float Vect2::distanceTo(const Vect2& other) const {
+            float dx = other.x - x;
+            float dy = other.y - y;
+            return std::sqrt(dx * dx + dy * dy);
+        }
+
     float Vect2::magnitude() const { return std::sqrt(x * x + y * y); }
 
     Vect2 Vect2::normalize() const {
         float mag = magnitude();
-        if (mag == 0) {
-            return Vect2(0, 0);
-        }
-        return Vect2(x / mag, y / mag);
+        if (mag == 0) return { 0, 0 };
+        return { x / mag, y / mag };
     }
 }

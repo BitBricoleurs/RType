@@ -30,6 +30,8 @@ namespace Server {
                 return ;
             }
         }
+        if (argsVel.size() != 2)
+            return ;
         newVel.x = argsVel[0];
         newVel.y = argsVel[1];
         auto networkComp = GameEngine::ComponentsType::getComponentType("NetworkClientId");
@@ -46,16 +48,68 @@ namespace Server {
                 if (!mayComp2.has_value())
                     continue;
                 auto velComp = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(mayComp2.value());
-                velComp->velocity.x += newVel.x;
-                velComp->velocity.y += newVel.y;
+                velComp->velocity.x = newVel.x;
+                velComp->velocity.y = newVel.y;
                 newVel = velComp->velocity;
                 entityId = entity;
+                auto shooterTypes = GameEngine::ComponentsType::getComponentType("Shooter");
+                auto compShooter = componentsContainer.getComponent(entity, shooterTypes);
+                if (compShooter.has_value()) {
+                    auto IShooter = compShooter.value();
+                    auto shooterComp = std::static_pointer_cast<Shooter>(IShooter);
+                    shooterComp->velocity.x = newVel.x;
+                    shooterComp->velocity.y = newVel.y;
+
+                }
+
+                auto isPlayerType = GameEngine::ComponentsType::getComponentType("IsPlayer");
+                auto compPlayer = componentsContainer.getComponent(entity, isPlayerType);
+                if (!compPlayer.has_value())
+                    continue;
+                auto isPlayer = std::static_pointer_cast<IsPlayer>(compPlayer.value());
+                if (isPlayer->entityIdForcePod != 0) {
+
+                    auto velType = GameEngine::ComponentsType::getComponentType("VelocityComponent");
+                    auto shooterType = GameEngine::ComponentsType::getComponentType("Shooter");
+                    auto posType = GameEngine::ComponentsType::getComponentType("PositionComponent2D");
+                    auto netType = GameEngine::ComponentsType::getComponentType("NetworkClientId");
+
+                    auto velOpt = componentsContainer.getComponent(entity, velType);
+                    auto shooterOpt = componentsContainer.getComponent(entity, shooterType);
+                    auto posPlayerOpt = componentsContainer.getComponent(entity, posType);
+                    auto posForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, posType);
+                    auto velForcePodOpt = componentsContainer.getComponent(isPlayer->entityIdForcePod, velType);
+                    auto netOpt = componentsContainer.getComponent(entity, netType);
+
+                    if (!velOpt.has_value() || !shooterOpt.has_value() || !posPlayerOpt.has_value() || !posForcePodOpt.has_value() || !netOpt.has_value())
+                        return;
+
+
+                    auto forcePodVelocity = std::static_pointer_cast<PhysicsEngine::VelocityComponent>(velForcePodOpt.value());
+                    auto shooter = std::static_pointer_cast<Shooter>(shooterOpt.value());
+                    auto posPlayer = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posPlayerOpt.value());
+                    auto posForcePod = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(posForcePodOpt.value());
+                    forcePodVelocity->velocity.x = newVel.x;
+                    forcePodVelocity->velocity.y = newVel.y;
+                    Utils::Vect2 shootingPosition(posPlayer->pos.x + shooter->shootPosition.x - 45, posPlayer->pos.y + shooter->shootPosition.y - 13);
+                    posForcePod->pos = shootingPosition;
+                    auto network = std::static_pointer_cast<NetworkClientId>(netOpt.value());
+                    std::vector<size_t> ids = {isPlayer->entityIdForcePod};
+                    std::vector<std::any> args = {};
+                    args.push_back(posForcePod->pos.x);
+                    args.push_back(posForcePod->pos.y);
+                    std::shared_ptr<Network::Message> message = std::make_shared<Network::Message>("UPDATE_POSITION", ids, "FLOAT", args);
+                    std::shared_ptr<Network::NotUserMessage> allUserMsg = std::make_shared<Network::NotUserMessage>(network->id, message);
+                    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+                    args.clear();
+                    args.push_back(forcePodVelocity->velocity.x);
+                    args.push_back(forcePodVelocity->velocity.y);
+                    message = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
+                    allUserMsg = std::make_shared<Network::NotUserMessage>(network->id, message);
+                    eventHandler.queueEvent("SEND_NETWORK", allUserMsg);
+                }
+                 EntityFactory::getInstance().updateEntityNetworkWithVelocity(eventHandler, entityId, newVel);
             }
         }
-        std::vector<size_t> ids = {entityId};
-        std::vector<std::any> args = {newVel.x, newVel.y};
-        std::shared_ptr<Network::Message> messageOut = std::make_shared<Network::Message>("UPDATE_VELOCITY", ids, "FLOAT", args);
-        std::shared_ptr<Network::NotUserMessage> userMessage = std::make_shared<Network::NotUserMessage>(networkId, messageOut);
-        eventHandler.queueEvent("SEND_NETWORK", userMessage);
     }
 }

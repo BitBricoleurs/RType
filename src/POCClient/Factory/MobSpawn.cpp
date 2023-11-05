@@ -11,7 +11,7 @@ namespace Client {
 
     size_t EntityFactory::spawnCancerMob(GameEngine::ComponentsContainer &container,
                                          GameEngine::EventHandler &eventHandler,
-                                         Utils::Vect2 pos, bool dropPowerup) {
+                                         Utils::Vect2 pos, Utils::Vect2 vel) {
 
 
         try {
@@ -30,10 +30,7 @@ namespace Client {
                 data.getInt("/createCancerMob/deathSpriteSheetWidth"),
                 data.getInt("/createCancerMob/deathFrames"),
                 pos,
-                Utils::Vect2(
-                    data.getFloat("/createCancerMob/velocity/x"),
-                    data.getFloat("/createCancerMob/velocity/y")
-                ),
+                vel,
                 data.getInt("/createCancerMob/player"),
                 data.getFloat("/createCancerMob/scale"),
                 data.getFloat("/createCancerMob/rotation"),
@@ -60,7 +57,7 @@ namespace Client {
     size_t
     EntityFactory::spawnPataPataMob(GameEngine::ComponentsContainer &container,
                                     GameEngine::EventHandler &eventHandler,
-                                    Utils::Vect2 pos, bool dropPowerup) {
+                                    Utils::Vect2 pos, Utils::Vect2 vel) {
         try {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createPatapataMob.json");
 
@@ -77,10 +74,7 @@ namespace Client {
                 data.getInt("/createPatapataMob/deathSpriteSheetWidth"),
                 data.getInt("/createPatapataMob/deathFrames"),
                 pos,
-                Utils::Vect2(
-                    data.getFloat("/createPatapataMob/velocity/x"),
-                    data.getFloat("/createPatapataMob/velocity/y")
-                ),
+                vel,
                 data.getInt("/createPatapataMob/player"),
                 data.getFloat("/createPatapataMob/scale"),
                 data.getFloat("/createPatapataMob/rotation"),
@@ -105,7 +99,7 @@ namespace Client {
 
     size_t EntityFactory::spawnBugMob(GameEngine::ComponentsContainer &container,
                                       GameEngine::EventHandler &eventHandler,
-                                      Utils::Vect2 pos, bool dropPowerup)
+                                      Utils::Vect2 pos, Utils::Vect2 vel)
                                       {
         try {
             LoadConfig::ConfigData data = LoadConfig::LoadConfig::getInstance().loadConfig("config/Entity/createBugMob.json");
@@ -123,10 +117,7 @@ namespace Client {
             data.getInt("/createBugMob/deathSpriteSheetWidth"),
             data.getInt("/createBugMob/deathFrames"),
             pos,
-            Utils::Vect2(
-                data.getFloat("/createBugMob/velocity/x"),
-                data.getFloat("/createBugMob/velocity/y")
-            ),
+            vel,
             data.getInt("/createBugMob/player"),
             data.getFloat("/createBugMob/scale"),
             data.getFloat("/createBugMob/rotation"),
@@ -139,6 +130,7 @@ namespace Client {
             data.getInt("/createBugMob/layer")
         );
           container.bindComponentToEntity(entityId, std::make_shared<Bug>());
+
           return entityId;
         }  catch(const std::runtime_error& e) {
             std::cerr << "Error in createBugMob: " << e.what() << std::endl;

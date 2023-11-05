@@ -31,13 +31,15 @@
 #include "rect.hpp"
 #include "ColorR.hpp"
 #include "VelocityComponent.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
+#include "AudioEngineSystem.hpp"
+#include "AudioComponent.hpp"
+#endif
 #include <cstddef>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
-#include "AudioEngineSystem.hpp"
-#include "AudioComponent.hpp"
 
 class EntityFactory {
 public:

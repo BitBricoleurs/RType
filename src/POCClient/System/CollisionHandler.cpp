@@ -9,7 +9,16 @@ namespace Client {
 
     void CollisionHandler::update(GameEngine::ComponentsContainer &componentsContainer, GameEngine::EventHandler &eventHandler) {
         try {
-            auto [firstEntity, secondEntity] = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+            size_t firstEntity = 0;
+            size_t secondEntity = 0;
+            std::pair<size_t, size_t> data;
+            try {
+                data = std::any_cast<std::pair<size_t, size_t>>(eventHandler.getTriggeredEvent().second);
+                firstEntity = data.first;
+                secondEntity = data.second;
+            } catch (std::bad_any_cast &e) {
+                return;
+            }
 
             auto firstEntityOptPlayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
             auto secondEntityOptPlayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("IsPlayer"));
@@ -30,13 +39,13 @@ namespace Client {
             // Player vs Bullet
 
             if (firstEntityOptPlayer.has_value() && secondEntityOptBullet.has_value()) {
-                auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
+                auto bullet = std::static_pointer_cast<IsBullet>(*secondEntityOptBullet);
 
                 if (!bullet->playerBullet) {
                     eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
                 }
             } else if (secondEntityOptPlayer.has_value() && firstEntityOptBullet.has_value()) {
-                auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
+                auto bullet = std::static_pointer_cast<IsBullet>(*firstEntityOptBullet);
 
                 if (!bullet->playerBullet) {
                     eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
@@ -46,13 +55,13 @@ namespace Client {
             // Mob vs Bullet
 
             if (firstEntityOptMob.has_value() && secondEntityOptBullet.has_value()) {
-                auto bullet = std::dynamic_pointer_cast<IsBullet>(*secondEntityOptBullet);
+                auto bullet = std::static_pointer_cast<IsBullet>(*secondEntityOptBullet);
 
                 if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), firstEntity) == bullet->alreadyHit.end()) {
                     eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
                 }
             } else if (secondEntityOptMob.has_value() && firstEntityOptBullet.has_value()) {
-                auto bullet = std::dynamic_pointer_cast<IsBullet>(*firstEntityOptBullet);
+                auto bullet = std::static_pointer_cast<IsBullet>(*firstEntityOptBullet);
 
                 if (bullet->playerBullet && std::find(bullet->alreadyHit.begin(), bullet->alreadyHit.end(), secondEntity) == bullet->alreadyHit.end()) {
                     eventHandler.queueEvent("MobHit", std::make_pair(firstEntity, secondEntity));
@@ -62,9 +71,9 @@ namespace Client {
             // Player vs Mob
 
             if (firstEntityOptPlayer.has_value() && secondEntityOptMob.has_value()) {
-                eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             } else if (secondEntityOptPlayer.has_value() && firstEntityOptMob.has_value()) {
-                eventHandler.queueEvent("PlayerHitMob", std::make_pair(firstEntity, secondEntity));
+                eventHandler.queueEvent("PlayerHit", std::make_pair(firstEntity, secondEntity));
             }
 
             // Bullet vs Bullet
@@ -79,26 +88,26 @@ namespace Client {
 
             if (firstEntityOptPlayer.has_value() && secondEntityOptPowerUp.has_value()) {
                 auto poscompplayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                auto poscompplayercast = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
-                auto powerupcast = std::dynamic_pointer_cast<isPowerUpPickUp>(*secondEntityOptPowerUp);
+                auto poscompplayercast = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
+                auto powerupcast = std::static_pointer_cast<isPowerUpPickUp>(*secondEntityOptPowerUp);
                 if (powerupcast->powerUpType == 1)
                     eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);
                 if (powerupcast->powerUpType == 2) {
                     auto shootercompplayer = componentsContainer.getComponent(firstEntity, GameEngine::ComponentsType::getComponentType("Shooter"));
-                    auto shootercompplayercast = std::dynamic_pointer_cast<Shooter>(*shootercompplayer);
+                    auto shootercompplayercast = std::static_pointer_cast<Shooter>(*shootercompplayer);
                     shootercompplayercast->typeBullet = 2;
                 }
 
                 componentsContainer.deleteEntity(secondEntity);
             } else if (secondEntityOptPlayer.has_value() && firstEntityOptPowerUp.has_value()) {
                 auto poscompplayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("PositionComponent2D"));
-                auto poscompplayercast = std::dynamic_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
-                auto powerupcast = std::dynamic_pointer_cast<isPowerUpPickUp>(*firstEntityOptPowerUp);
+                auto poscompplayercast = std::static_pointer_cast<PhysicsEngine::PositionComponent2D>(*poscompplayer);
+                auto powerupcast = std::static_pointer_cast<isPowerUpPickUp>(*firstEntityOptPowerUp);
                 if (powerupcast->powerUpType == 1)
                     eventHandler.queueEvent("ForcePodSpawn", poscompplayercast->pos.y);
                 if (powerupcast->powerUpType == 2) {
                     auto shootercompplayer = componentsContainer.getComponent(secondEntity, GameEngine::ComponentsType::getComponentType("Shooter"));
-                    auto shootercompplayercast = std::dynamic_pointer_cast<Shooter>(*shootercompplayer);
+                    auto shootercompplayercast = std::static_pointer_cast<Shooter>(*shootercompplayer);
                     shootercompplayercast->typeBullet = 2;
                 }
                 componentsContainer.deleteEntity(firstEntity);

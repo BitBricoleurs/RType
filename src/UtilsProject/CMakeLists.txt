@@ -15,11 +15,11 @@ set(ALL_SOURCES
 
 message(STATUS "ALL SOURCES: ${ALL_SOURCES}")
 message(STATUS "GAME ENGINE UTILS SOURCES: ${GAME_ENGINE_UTILS_SOURCES}")
-add_library(UtilsLib STATIC ${ALL_SOURCES})
+target_sources(${LIBRARY_NAME_UTILS} PRIVATE ${ALL_SOURCES})
 
-target_link_libraries(UtilsLib PUBLIC GameEngine NetworkLib)
+target_link_libraries(${LIBRARY_NAME_UTILS} PRIVATE ${LIBRARY_NAME_GAMEENGINE} ${LIBRARY_NAME_NETLIB})
 
-target_include_directories(UtilsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/GameEngineUtils)
-target_include_directories(UtilsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/Component)
-target_include_directories(UtilsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/System)
-target_include_directories(UtilsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/Utils)
+target_include_directories(${LIBRARY_NAME_UTILS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/GameEngineUtils)
+target_include_directories(${LIBRARY_NAME_UTILS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/Component)
+target_include_directories(${LIBRARY_NAME_UTILS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/System)
+target_include_directories(${LIBRARY_NAME_UTILS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SharedNetwork/Utils)

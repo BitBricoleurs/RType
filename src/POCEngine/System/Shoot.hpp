@@ -17,7 +17,9 @@
 #include "EventHandler.hpp"
 #include "SpriteComponent.hpp"
 #include "VelocityComponent.hpp"
+#ifndef _WIN32
 #include "AudioComponent.hpp"
+#endif
 
 class Shoot : public GameEngine::ISystem {
 public:

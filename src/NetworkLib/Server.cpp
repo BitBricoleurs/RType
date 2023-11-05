@@ -6,6 +6,7 @@
 #include <thread>
 #include "Tick.hpp"
 #include "InterfaceNetwork.hpp"
+#include "PacketRegister.hpp"
 #include "Server.hpp"
 
 namespace Network {
@@ -13,14 +14,15 @@ namespace Network {
     class Server::Impl {
     public:
       Impl(unsigned short port, size_t maxClients, size_t Tick, Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &forwardQueue)
-          : _context(), _idleWork(std::make_unique<boost::asio::io_context::work>(_context)), _tick(Tick), _socket(_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)), _running(true), _port(port), _maxClients(maxClients), _inMessages(),
-            _tempPacket(), _tempBuffer(MAX_PACKET_SIZE + sizeof(Network::PacketHeader)), _indexId(0), _forwardQueue(forwardQueue)
+          : _context(), _idleWork(std::make_unique<boost::asio::io_context::work>(_context)), _tick(Tick), _socket(_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)), _port(port), _maxClients(maxClients), _inMessages(),
+          _indexId(0), _forwardQueue(forwardQueue)
       {
-
           _packetIO = std::make_shared<Network::PacketIO>(_context, _remoteEndpoint, _socket, _socket, _inMessages, _forwardQueue, _tick,
                                                           [this](boost::asio::ip::udp::endpoint &endpoint) {
                                                                 registerNewCon(endpoint);
-                                                          }, _clients);
+                                                          }, _clients, _packetRegister, [this](unsigned int id) {
+                                                                updateLastPacketTime(id);
+                                                          });
             int maxThreads = std::thread::hardware_concurrency();
             int ideaThread = 2 + 2 * maxClients;
             if (ideaThread > maxThreads) {
@@ -51,8 +53,32 @@ namespace Network {
                 }
             }
             });
+            _tick.setEraseClientFunction([this]() {
+                if (_disconnetingClients.empty()) {
+                    return;
+                }
+                while (!_disconnetingClients.empty()) {
+                    eraseClient(_disconnetingClients.getFront());
+                }
+            });
+            _tick.setTimeoutFunction([this]() {checkTimeout();});
             _packetIO->readPacket();
             _packetIO->processIncomingMessages();
+        }
+
+        void eraseClient(unsigned int id) {
+            int i = 0;
+            for (auto &client : _clients) {
+                if (client && client->isConnected() && client->getId() == id) {
+                    client->disconnect();
+                    client.reset();
+                    _clients.erase(_clients.begin() + i);
+                    _disconnectedClients.pushBack(id);
+                    _disconnetingClients.popFront();
+                    std::cout << "Client disconnected : " << id << std::endl;
+                }
+                i++;
+            }
         }
 
         void stop() {
@@ -123,23 +149,50 @@ namespace Network {
 
         Network::TSQueue<unsigned int>& getDisconnectedClients()
         {
-            return _disconnetingClients;
+            return _disconnectedClients;
+        }
+
+        Network::TSQueue<unsigned int> &getTimeOutClients()
+        {
+            return _timeoutClients;
         }
 
         void disconnectClient(unsigned int id) {
           int i = 0;
            for (auto &client : _clients) {
                if (client && client->isConnected() && client->getId() == id) {
-                   client->disconnect();
+                   client->getIO()->clearOutMessages();
                    _disconnetingClients.pushBack(id);
-                   client.reset();
-                   _clients.erase(_clients.begin() + i);
                }
                 i++;
            }
         }
 
     private:
+
+        void notifyTimeout(unsigned int id) {
+            _timeoutClients.pushBack(id);
+            std::cout << "Client timeout : " << id << std::endl;
+        }
+
+        void updateLastPacketTime(unsigned int id) {
+            for (auto &client : _clients) {
+                if (client && client->isConnected() && client->getId() == id) {
+                    client->updateLastPacketTime();
+                }
+            }
+        }
+
+        void checkTimeout() {
+            for (auto &client : _clients) {
+                std::chrono::steady_clock::time_point lastPacketReceived = client->getLastPacketTime();
+                std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+                if (std::chrono::duration_cast<std::chrono::seconds>(now - lastPacketReceived).count() > 30) {
+                    notifyTimeout(client->getId());
+                }
+            }
+        }
+
         std::shared_ptr<Interface> getInterfaceByEndpoint(const boost::asio::ip::udp::endpoint& endpoint) {
             for (const auto& client : _clients) {
                 if (client->getEndpoint() == endpoint) {
@@ -159,7 +212,7 @@ namespace Network {
             if ( !clientInterface) {
                 clientInterface = std::make_shared<
                     Network::Interface>(
-                    _context, _inMessages, _socket, _forwardQueue, _tick, _indexId, Network::Interface::Type::SERVER
+                    _context, _inMessages, _socket, _forwardQueue, _tick, _indexId, _packetRegister, Network::Interface::Type::SERVER
                 );
                 clientInterface->setEndpoint(remoteEndpoint);
                 _clients.push_back( clientInterface );
@@ -177,28 +230,27 @@ namespace Network {
 
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> &_forwardQueue;
         Network::TSQueue<std::shared_ptr<Network::OwnedMessage>> _inMessages;
+
         boost::asio::io_context _context;
         std::unique_ptr<boost::asio::io_context::work> _idleWork;
         Network::Tick _tick;
-
         std::thread _tickThread;
-
-        std::shared_ptr<Network::PacketIO> _packetIO;
-        Network::Packet _tempPacket;
-        std::vector<unsigned char> _tempBuffer;
-
-        boost::asio::ip::udp::socket _socket;
-        std::mutex _socketMutex;
-        boost::asio::ip::udp::endpoint _remoteEndpoint;
         std::vector<std::thread> _pool;
         std::vector<std::shared_ptr<Network::Interface> > _clients;
-        bool _running;
+
+        boost::asio::ip::udp::socket _socket;
+        std::shared_ptr<Network::PacketIO> _packetIO;
+        boost::asio::ip::udp::endpoint _remoteEndpoint;
+
         unsigned short _port;
         size_t _maxClients;
         size_t _indexId;
         std::mutex _queueMutex;
+        Network::TSQueue<unsigned int> _disconnectedClients;
         Network::TSQueue<unsigned int> _disconnetingClients;
         Network::TSQueue<unsigned int> _connectingClients;
+        Network::TSQueue<unsigned int> _timeoutClients;
+        Network::PacketRegister _packetRegister;
     };
 
     Server::Server() : _isRunning(false), pimpl(nullptr) {}
@@ -255,6 +307,11 @@ namespace Network {
     Network::TSQueue<unsigned int> &Server::getDisconnectedClients()
     {
         return pimpl->getDisconnectedClients();
+    }
+
+    Network::TSQueue<unsigned int> &Server::getTimeOutClients()
+    {
+        return pimpl->getTimeOutClients();
     }
 
     void Server::disconnectClient(unsigned int id) {

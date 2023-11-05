@@ -8,7 +8,7 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkCreateWorld.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMoveClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CheckPositionClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkShootClient.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Shoot.cpp
@@ -18,5 +18,30 @@ set(POCSERVER_SYSTEM_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/PlayerHitMob.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MobHit.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CollisionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Parallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckEveryClientReady.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientCharge.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientAlive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnPowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ForcePodSpawn.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkClientBlockWall.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CheckGameEnded.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RevivePlayer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WinSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoseSystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GoBackToTheLobbySystem.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpawnEntityEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeleteParallax.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeleteMobs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DeletePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ManagePowerUp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/PowerUpDualShoot.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WiggleMob.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BossInScope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BounceBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LatchPodToBoss.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LaunchBossPods.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BugDirectionChange.cpp
         CACHE INTERNAL ""
 )

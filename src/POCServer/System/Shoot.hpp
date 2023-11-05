@@ -17,6 +17,8 @@
 #include "EventHandler.hpp"
 #include "VelocityComponent.hpp"
 #include "Message.hpp"
+#include "GameState.hpp"
+#include "UserGameMode.hpp"
 
 namespace Server {
 

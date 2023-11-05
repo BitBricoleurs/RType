@@ -24,6 +24,16 @@ void Network::Tick::setOutgoingFunction(std::function<void()> outFunc)
     processOutgoing = std::move(outFunc);
 }
 
+void Network::Tick::setTimeoutFunction(std::function<void()> timeoutFunc)
+{
+    processTimeout = std::move(timeoutFunc);
+}
+
+void Network::Tick::setEraseClientFunction(std::function<void()> eraseClientFunc)
+{
+    processEraseClient = std::move(eraseClientFunc);
+}
+
 void Network::Tick::Start()
 {
     while (_running.load()) {
@@ -43,11 +53,17 @@ void Network::Tick::Start()
             std::this_thread::sleep_for(timeToWait);
         }
 
+        if (processEraseClient) {
+            processEraseClient();
+        }
         if (processIncoming) {
             processIncoming();
         }
         if (processOutgoing) {
             processOutgoing();
+        }
+        if (processTimeout) {
+            processTimeout();
         }
     }
 }
