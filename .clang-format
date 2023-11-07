@@ -16,7 +16,7 @@ BinPackArguments: true
 BinPackParameters: true
 AllowShortFunctionsOnASingleLine: Inline
 
-# Spaces
+#  Spaces    
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false
 SpaceAfterCStyleCast: false
