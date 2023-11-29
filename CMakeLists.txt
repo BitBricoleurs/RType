@@ -56,7 +56,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION .)
 file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION .)
 
-message(STATUS "Configured to compile the RType project.")
+message(STATUS "Configured to compil the RType project.")
 
 install(TARGETS ${PROJECT_NAME_POCSERVER} ${PROJECT_NAME_POCCLIENT} ${PROJECT_NAME_HUNTER} ${PROJECT_NAME_CONSOLE}
 
