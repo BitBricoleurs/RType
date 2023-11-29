@@ -21,6 +21,7 @@ Precompiled installers (setup) are available for:
 2. Run the script to build the project:
     ```bash
    ./build.sh
+    ```
 ## 📚 **Documentation**
 
 Dive deeper into **Rtype** and its core mechanisms:
