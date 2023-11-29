@@ -12,10 +12,12 @@ namespace Client {
         engine.bindSceneInitiation("ConnectScreen",  [this](GameEngine::GameEngine& engine) {
             setup_connect_screen(engine);
         });
+        std::pair<std::string, std::string> cinematicInfo = {"/config/Cinematic/Cinematic.json", "ConnectScreen"};
 
-        engine.queueEvent("gameEngineChangeScene", std::string("ConnectScreen"));
-
-        auto render = std::make_shared<RenderEngine::RenderEngineSystem>("Rtype", engine);
+        auto render = std::make_shared<RenderEngine::RenderEngineSystem>("POC Engine", engine);
+        auto renderCinematic = std::make_shared<RenderEngine::RenderEngineCinematicSystem>();
+        engine.queueEvent("Cinematic", cinematicInfo);
+        engine.addEvent("Cinematic", renderCinematic);
         engine.addSystem("RENDER", render, 4, true);
         engine.run();
     }

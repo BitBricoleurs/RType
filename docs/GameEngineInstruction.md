@@ -33,7 +33,12 @@
     - [Example Usage](#example-usage-2)
   - [Recommendations:](#recommendations)
   - [Advanced Usage](#advanced-usage)
-- [EventHandler](#eventhandler)
+  - [EventHandler](#eventhandler)
+- [RenderEngine Documentation](#renderengine-documentation)
+- [PhysicsEngine Documentation](#physicsengine-documentation)
+- [LuaScriptingEngine Documentation](#luascriptingengine-documentation)
+
+
 
 ## Introduction
 
@@ -411,6 +416,248 @@ In summary, the `EventHandler` class provides a robust mechanism for managing ev
 
 ---
 
-Thank you for choosing GameEngine! If you have any questions or need assistance, please [contact us](mailto:theophilus.homawoo@epitech.eu).
+# LuaScriptingEngine Documentation
+## Overview
+
+The LuaScriptingEngine is an integral part of the game engine, designed to facilitate scripting capabilities within the game. It provides the ability to run Lua scripts, allowing for dynamic and flexible game behavior. Integration with Lua is achieved through LuaBridge, a library that connects C++ code with Lua without the need for external dependencies.
+Scripting Engine Essentials
+
+The engine initializes and manages the Lua state, enabling the execution of Lua scripts and providing an interface for C++ functions to be called from Lua.
+Exposing Game Systems to Lua
+
+For game systems, such as the RenderEngineCinematicSystem, to be controlled via Lua, they must be registered within the Lua environment. This is done succinctly through LuaBridge with minimal code. For example:
+
+```cpp 
+
+void registerCinematicSystemWithLua(lua_State* L) {
+// LuaBridge namespace and class registration omitted for brevity
+}
+```
+The details of class methods and their usage in Lua are streamlined in the documentation, providing just enough information for developers to understand how to implement and use the exposed classes.
+Using the LuaScriptingEngine
+
+With the LuaScriptingEngine, Lua scripts can instantiate and interact with C++ systems, such as initiating and ending cinematic sequences through the RenderEngineCinematicSystem:
+
+```lua
+
+local cinematicSystem = RenderEngine.RenderEngineCinematicSystem()
+cinematicSystem:loadJSON('path/to/cinematic.json')
+cinematicSystem:playCinematic()
+-- ... Other interactions ...
+```
+# Conclusion
+
+By leveraging the LuaScriptingEngine, developers can script complex game behaviors and interactions, such as cinematic sequences, enriching the gaming experience with ease and flexibility. The engine's integration with LuaBridge ensures a seamless bridge between C++ and Lua, simplifying the scripting process within the game's architecture.
+
+# PhysicsEngine Documentation
+
+## Table of Contents
+- [PhysicsEngine Documentation](#physicsengine-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [PhysicsEngineMovementSystem2D](#physicsenginemovementsystem2d)
+    - [Initialization](#initialization)
+    - [Update Method](#update-method)
+  - [PhysicsEngine](#physicsengine)
+    - [Broad Phase Collision Detection](#broad-phase-collision-detection)
+    - [Narrow Phase Collision Detection](#narrow-phase-collision-detection)
+    - [Object Movement](#object-movement)
+    - [Gravity Application](#gravity-application)
+    - [Jump Force Application](#jump-force-application)
+  - [Examples](#examples)
+    - [Applying Gravity](#applying-gravity)
+    - [Executing a Jump](#executing-a-jump)
+
+## Introduction
+The `PhysicsEngine` is an entity-component system (ECS)-based module designed to handle physics simulation for 2D games. It manages movement, collision detection, and other physics-related functionalities for game entities.
+
+## Features
+- Efficient collision detection system that distinguishes between broad and narrow phase checks.
+- Support for Axis-Aligned Bounding Box (AABB) components for spatial queries and collision responses.
+- Movement system that updates entity positions based on velocity and applies constraints based on movement limits.
+- Gravity and jump mechanics that affect the velocity of entities with respective components.
+
+## PhysicsEngineMovementSystem2D
+
+### Initialization
+When the `PhysicsEngineMovementSystem2D` is initialized, it creates a new instance of the `PhysicsEngine`.
+
+### Update Method
+This method processes entities that have a `MovementComponent2D` and updates their positions. It also handles movement constraints and updates AABBs for collision detection.
+
+## PhysicsEngine
+
+### Broad Phase Collision Detection
+The `broadPhase` method is a quick check to determine if two entities could potentially collide, using their AABB components.
+
+### Narrow Phase Collision Detection
+The `narrowPhase` method performs a detailed check between two colliders to determine if a collision has occurred.
+
+### Object Movement
+The `moveObject` method updates the position of an entity based on its velocity.
+
+### Gravity Application
+The `applyGravity` method applies a gravity force to the velocity component of an entity, influenced by its weight and the time elapsed.
+
+### Jump Force Application
+The `applyJumpForce` method sets the upward velocity for an entity, simulating a jump.
+
+## Examples
+
+### Applying Gravity
+```cpp
+VelocityComponent velocityComponent;
+Utils::Vect2 gravity(0, -9.81);
+float weight = 1.0f;
+float fallTime = 1.0f;
+
+// Applying gravity to the velocity component
+physicsEngine.applyGravity(velocityComponent, gravity, weight, fallTime);
+```
+Executing a Jump
+
+```cpp
+
+VelocityComponent velocityComponent;
+float jumpSpeed = 5.0f;
+
+// Applying jump force to the velocity component
+physicsEngine.applyJumpForce(velocityComponent, jumpSpeed);
+```
+This documentation serves as a developer's guide for utilizing the Physics Engine's capabilities in a 2D game environment. It provides an overview of the system, outlines its key features, and gives examples of how to use the main functionalities provided by the engine.
+
+vbnet
+
+
+This documentation serves as a concise guide to the Physics Engine, providing developers with the necessary information to understand and utilize the engine's capabilities within their games.
+
+# Physics Engine Documentation
+
+## Introduction
+The Physics Engine provides a comprehensive suite of components and systems to simulate 2D physics in a game environment. It utilizes an Entity Component System (ECS) architecture for modularity and flexibility.
+
+## Components
+
+### AABBComponent2D
+Defines the axis-aligned bounding box for an entity, used in broad-phase collision detection.
+
+### Collider Components
+- `CircleColliderComponent2D`: Defines a circular area for collision detection.
+- `RectangleColliderComponent2D`: Defines a rectangular area for collision detection.
+- `PolygonColliderComponent2D`: Defines a polygonal area for collision detection.
+
+### GravityComponent
+Specifies the gravitational force applied to an entity.
+
+### JumpComponent
+Enables an entity to perform jump actions with specified force.
+
+### Movement Components
+- `MovementComponent2D`: Handles the 2D movement logic for an entity.
+- `MovementLimits`: Sets boundaries for an entity's movement.
+
+### VelocityComponent
+Stores the current velocity of an entity, used for movement and collision response.
+
+## Systems
+
+### Collision System
+Determines if entities collide with each other using the `PhysicsEngineCollisionSystem2D`.
+
+### Gravity System
+Applies gravity to entities with `GravityComponent` using the `PhysicsEngineGravitySystem`.
+
+### Jump System
+Manages the jump actions for entities with `JumpComponent` using the `PhysicsEngineJumpSystem`.
+
+### Movement System
+Updates the positions of entities based on their velocities and movement constraints in the `PhysicsEngineMovementSystem2D`.
+
+### Update Hitboxes System
+Updates the hitbox dimensions for entities based on their collider components using the `PhysicsEngineUpdateHitboxes`.
+
+## PhysicsEngine Class
+The `PhysicsEngine` class is the core of the physics simulation, providing methods for object movement, collision checks, gravity application, and jump force application.
+
+# Render Engine Documentation
+
+## Introduction
+The Render Engine is responsible for drawing all visual components on the screen and handling user input events. It uses `raylib` for rendering and supports different types of drawable components.
+
+## Components
+
+git 
+### AnimationComponent
+Defines animation states and frames for entities that have animated graphics.
+
+### ButtonComponent
+Represents a clickable button, handling its state and appearance.
+
+### CinematicComponent
+Manages cinematic sequences, including transitions and timed events.
+
+### TextComponent
+Handles the rendering of text elements on the screen, with support for different fonts and styles.
+
+### SpriteComponent
+Controls the rendering of static and animated sprites.
+
+## Systems
+
+### Animation System
+Updates and plays entity animations based on the current state and animation frames.
+
+### Cinematic System
+Controls the flow and display of cinematic sequences.
+
+## RenderEngine Class
+
+### Initialization
+`Initialize`: Sets up the rendering window and initializes necessary properties.
+
+### Drawing Components
+`Draw`: Overloaded functions for drawing text, sprites, and buttons.
+
+### Polling Events
+`PollEvents`: Checks for user input and updates the event handler accordingly.
+
+### Shutdown
+`Shutdown`: Cleans up resources and closes the rendering window.
+
+## Resource Management
+
+### ResourceManager
+Handles the loading and management of assets such as textures, fonts, and sounds.
+
+## Key Mapping and Events
+
+### KeyMapping
+Maps keyboard inputs to specific events in the game, facilitating input handling.
+
+## Initialization and Shutdown
+
+### Initialize
+Sets up the window, context, and any initial settings required for rendering.
+
+### Shutdown
+Properly closes and cleans up the rendering context and any allocated resources.
+
+## Drawing Components
+
+### Draw Methods
+Each component type has a specific `Draw` method tailored to render it according to its properties.
+
+## Polling Events
+
+### PollEvents
+Processes user input, updating the state based on key presses and translating them into game events.
+
+## Utility Functions
+
+### Screen Dimensions
+`getScreenWidth` and `getScreenHeight` provide access to the current window dimensions.
+
+
 
 

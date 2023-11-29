@@ -18,12 +18,7 @@ Precompiled installers (setup) are available for:
 ### **Compilation and installation on Linux & macOS**
 
 1. Ensure you've cloned the repository or downloaded the source code.
-2. Open a terminal in the project folder.
-3. Run the script to install the dependencies:
-   ```bash
-   ./dependencies.sh
-
-4. Run the script to build the project:
+2. Run the script to build the project:
     ```bash
    ./build.sh
 ## 📚 **Documentation**
@@ -32,6 +27,7 @@ Dive deeper into **Rtype** and its core mechanisms:
 
 - [🕹️ Game Engine Documentation](docs/GameEngineInstruction.md)
 - [📡 RFC Documentation](docs/rfc-rtype-ncp.txt)
+- [📡 Electron Doc](docs/electron.md)
 - [📡 NetworkLib Documentation](docs/NetworkLibraryDoc.md)
 
 ## 🌟 **Contributors**

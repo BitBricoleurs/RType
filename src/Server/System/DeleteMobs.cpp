@@ -11,6 +11,10 @@ void Server::DeleteMobs::update(GameEngine::ComponentsContainer &componentsConta
     auto entities = componentsContainer.getEntitiesWithComponent(paralaxCompType);
     std::vector<size_t> entitiesToDelete;
     for (auto &entity : entities) {
+        auto isLastMobOpt = componentsContainer.getComponent(entity, GameEngine::ComponentsType::getComponentType("IsLastMob"));
+        if (isLastMobOpt.has_value()) {
+            eventHandler.queueEvent("WIN_LEVEL");
+        }
         componentsContainer.deleteEntity(entity);
         entitiesToDelete.push_back(entity);
     }

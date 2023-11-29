@@ -1,0 +1,196 @@
+{
+  "parallax": [
+    {
+      "tick": 1,
+      "type": 1,
+      "layer": 1,
+      "isLooping": true,
+      "velocity": {
+        "x": -0.1,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+
+      "isBackgroundEnabled": true
+    },
+
+    {
+      "tick": 1,
+      "type": 1,
+      "layer": 1,
+      "isLooping": true,
+      "velocity": {
+        "x": -0.1,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 1920,
+        "y": 0
+      },
+
+      "isBackgroundEnabled": true
+    },
+
+    {
+      "tick": 1,
+      "type": 2,
+      "layer": 2,
+      "isLooping": true,
+      "velocity": {
+        "x": -0.2,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+
+      "isBackgroundEnabled": true
+    },
+
+    {
+      "tick": 1,
+      "type": 2,
+      "layer": 2,
+      "isLooping": true,
+      "velocity": {
+        "x": -0.2,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 1920,
+        "y": 0
+      },
+
+      "isBackgroundEnabled": true
+    },
+
+    {
+      "tick": 9095,
+      "type": 8,
+      "layer": 3,
+      "isLooping": false,
+      "velocity": {
+        "x": -0.1,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 387
+      },
+
+      "isBackgroundEnabled": false
+    }
+  ],
+  "mobs": [
+    {
+      "tick": 180,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 103
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 239,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 214
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 296,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 412
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 391,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 566
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 474,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 487
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": false
+    },
+
+    {
+      "tick": 476,
+      "mobType": "pataPataMob",
+      "velocity": {
+        "x": -2.0,
+        "y": 0.0
+      },
+
+      "position": {
+        "x": 2000,
+        "y": 342
+      },
+
+      "dropPowerUp": false,
+      "isLastMob": true
+    }
+  ]
+}
